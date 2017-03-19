@@ -14,24 +14,35 @@ The library is used in the projects:
 * SimBus
 * jowl
 
-## Installation
-Clone the repository.
+## Include in your project
 
-In the base folder of your local copy run
+Modify the pom file of you project to specify repository and dependency of the tensor library:
 
-    .../tensor/mvn install
-
-Subsequently, you can import the library in another maven project via
-
+	</repositories>
+		<repository>
+			<id>tensor-mvn-repo</id>
+			<url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	
+	<dependencies>
 		<dependency>
 			<groupId>ch.ethz.idsc</groupId>
 			<artifactId>tensor</artifactId>
 			<version>0.1.0</version>
 		</dependency>
+	</dependencies>
 
-		
-## Documentation
-The source code is attached to the jar file.
+The source code is attached to the jar file for your convenience.
+
+	
+## Optional
+
+Clone the repository.
 
 The javadoc API can be generated with
 
