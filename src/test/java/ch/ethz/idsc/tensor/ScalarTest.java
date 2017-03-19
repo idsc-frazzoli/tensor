@@ -1,0 +1,64 @@
+// code by jph
+package ch.ethz.idsc.tensor;
+
+import java.util.Collections;
+
+import ch.ethz.idsc.tensor.alg.Dimensions;
+import junit.framework.TestCase;
+
+public class ScalarTest extends TestCase {
+  public void testGet() {
+    Scalar s = RealScalar.of(3);
+    assertEquals(s, s.Get());
+  }
+
+  public void testUnmodifiable() {
+    Scalar s = RealScalar.of(3);
+    assertEquals(s.unmodifiable(), s);
+  }
+
+  public void testNumber() {
+    Scalar zero = ZeroScalar.get();
+    assertEquals(zero.number().getClass(), Integer.class);
+    long asd = (Integer) zero.number();
+    assertEquals(Double.valueOf(-1.9).intValue(), -1 + asd);
+    assertEquals(Double.valueOf(1.9).intValue(), 1);
+  }
+
+  public void testDimensions() {
+    Scalar a = DoubleScalar.of(3);
+    assertEquals(Dimensions.of(a), Collections.emptyList());
+    Scalar b = GaussScalar.of(3, 7);
+    assertEquals(Dimensions.of(b), Collections.emptyList());
+  }
+
+  public void testFails() {
+    Scalar a = DoubleScalar.of(3);
+    Scalar b = DoubleScalar.of(5);
+    try {
+      a.dot(b);
+      assertTrue(false);
+    } catch (Exception e) {
+      // ---
+    }
+  }
+
+  public void testNumber2() {
+    Scalar a = DoubleScalar.of(3);
+    Scalar b = DoubleScalar.of(5);
+    Number na = a.number();
+    Number nb = b.number();
+    Scalar c = a.plus(b);
+    Scalar d = DoubleScalar.of(na.doubleValue() + nb.doubleValue());
+    assertEquals(c, d);
+  }
+
+  public void testEquals() {
+    assertFalse(Tensors.empty().equals(null));
+    assertFalse(ZeroScalar.get().equals(null));
+    assertFalse(DoubleScalar.of(.3).equals(null));
+    assertFalse(RationalScalar.of(5, 3).equals(null));
+    assertFalse(ComplexScalar.of(RationalScalar.of(5, 3), RationalScalar.of(5, 3)).equals(null));
+    assertFalse(Integer.valueOf(1233).equals(null));
+  }
+}
