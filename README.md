@@ -19,22 +19,22 @@ The library is used in the projects:
 Modify the pom file of you project to specify repository and dependency of the tensor library:
 
 	</repositories>
-		<repository>
-			<id>tensor-mvn-repo</id>
-			<url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
+	  <repository>
+	    <id>tensor-mvn-repo</id>
+	    <url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>
+	    <snapshots>
+	      <enabled>true</enabled>
+	      <updatePolicy>always</updatePolicy>
+	    </snapshots>
+	  </repository>
 	</repositories>
 	
 	<dependencies>
-		<dependency>
-			<groupId>ch.ethz.idsc</groupId>
-			<artifactId>tensor</artifactId>
-			<version>0.1.0</version>
-		</dependency>
+	  <dependency>
+	    <groupId>ch.ethz.idsc</groupId>
+	    <artifactId>tensor</artifactId>
+	    <version>0.1.0</version>
+	  </dependency>
 	</dependencies>
 
 The source code is attached to the jar file for your convenience.
