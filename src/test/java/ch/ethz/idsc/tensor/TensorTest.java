@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Arrays;
+import java.util.List;
+
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Numel;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -172,6 +175,12 @@ public class TensorTest extends TestCase {
     Tensor d = DoubleScalar.of(3.14);
     assertEquals(c, d);
     assertEquals(c.hashCode(), d.hashCode());
+  }
+
+  public void testScalarStream() {
+    List<Scalar> asd = Arrays.asList(ZeroScalar.get(), RealScalar.of(3));
+    Tensor a = Tensor.of(asd.stream());
+    assertEquals(a.length(), 2);
   }
 
   public void testEquals() {

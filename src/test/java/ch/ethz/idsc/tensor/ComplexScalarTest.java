@@ -53,6 +53,15 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(c4, Scalars.fromString("-5/8*I"));
   }
 
+  public void testEquals() {
+    Scalar c1 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
+    Scalar c2 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
+    Scalar s1 = RationalScalar.of(3, 2);
+    assertFalse(c1.equals(s1));
+    assertFalse(s1.equals(c1));
+    assertEquals(c1.hashCode(), c2.hashCode());
+  }
+
   public void testConjugate() {
     Scalar s = ComplexScalar.of(RationalScalar.of(-2, 3), RationalScalar.of(-5, 100));
     assertEquals(s.absSquared(), RationalScalar.of(1609, 3600));

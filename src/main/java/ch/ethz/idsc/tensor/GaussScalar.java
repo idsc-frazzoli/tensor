@@ -80,6 +80,11 @@ public class GaussScalar extends Scalar implements ExactPrecision {
   }
 
   @Override
+  public Number number() {
+    return value;
+  }
+
+  @Override
   public int hashCode() {
     return Objects.hash(value, prime);
   }

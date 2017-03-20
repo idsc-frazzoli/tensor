@@ -1,22 +1,24 @@
 # ch.ethz.idsc.tensor
 Library for tensor computation in Java 8.
 
-The naming of functions is inspired by Mathematica.
+Version `0.1.1`
 
 Features:
-* multi-dimensional arrays: scalars, vectors, matrices, trilinear forms, Lie algebra ad-tensor, ... 
+* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
 * scalars are numeric values, as well as exact fractions
-* other projects can customize the scalars for instance to attach physical units such as javax.measure.Unit
+* other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
+
+The naming of functions is inspired by `Mathematica`.
 
 The library is used in the projects:
-* matsim-av-eth
-* SwissTrolley+
-* SimBus
-* jowl
+* `matsim-av-eth`
+* `SwissTrolley+`
+* `SimBus`
+* `owly`
 
 ## Include in your project
 
-Modify the pom file of you project to specify repository and dependency of the tensor library:
+Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:
 
 	</repositories>
 	  <repository>
@@ -33,18 +35,18 @@ Modify the pom file of you project to specify repository and dependency of the t
 	  <dependency>
 	    <groupId>ch.ethz.idsc</groupId>
 	    <artifactId>tensor</artifactId>
-	    <version>0.1.0</version>
+	    <version>0.1.1</version>
 	  </dependency>
 	</dependencies>
 
-The source code is attached to the jar file for your convenience.
+The source code is attached to the `jar` file for your convenience.
 
 	
 ## Optional
 
 Clone the repository.
 
-The javadoc API can be generated with
+The `javadoc` API can be generated with
 
     .../tensor/mvn javadoc:javadoc
 

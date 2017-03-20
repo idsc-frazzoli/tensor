@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -11,12 +13,8 @@ import java.util.stream.Stream;
  * which cannot be inverted.
  * <br/>
  * derived classes are immutable */
-public abstract class Scalar extends Tensor {
+public abstract class Scalar implements Tensor {
   public static final int LENGTH = -1;
-
-  protected Scalar() {
-    super(null);
-  }
 
   @Override // from Tensor
   public final Scalar copy() {
@@ -26,6 +24,27 @@ public abstract class Scalar extends Tensor {
   @Override // from Tensor
   public final Scalar unmodifiable() {
     return this; // Scalar instances are immutable
+  }
+
+  @Override
+  public final Scalar get(Integer... index) {
+    if (0 < index.length)
+      throw new IllegalArgumentException();
+    return this;
+  }
+
+  @Override
+  public final Scalar Get(Integer... index) {
+    if (0 < index.length)
+      throw new IllegalArgumentException();
+    return this;
+  }
+
+  @Override
+  public final Tensor get(List<Integer> index) {
+    if (0 < index.size())
+      throw new IllegalArgumentException();
+    return this;
   }
 
   @Override // from Tensor
@@ -123,4 +142,35 @@ public abstract class Scalar extends Tensor {
 
   @Override // from Tensor
   public abstract String toString();
+
+  /***************************************************/
+  @Override
+  public final void set(Tensor tensor, Integer... index) {
+    throw new UnsupportedOperationException("set " + getClass());
+  }
+
+  @Override
+  public final void set(Function<Tensor, Tensor> function, Integer... index) {
+    throw new UnsupportedOperationException("set " + getClass());
+  }
+
+  @Override
+  public final void append(Tensor tensor) {
+    throw new UnsupportedOperationException("append " + getClass());
+  }
+
+  @Override
+  public final Iterator<Tensor> iterator() {
+    throw new UnsupportedOperationException("iterator " + getClass());
+  }
+
+  @Override
+  public final Tensor extract(int fromIndex, int toIndex) {
+    throw new UnsupportedOperationException("extract " + getClass());
+  }
+
+  @Override
+  public final Tensor dot(Tensor tensor) {
+    throw new UnsupportedOperationException("dot " + getClass());
+  }
 }

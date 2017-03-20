@@ -76,50 +76,52 @@ public class TensorsTest extends TestCase {
   }
 
   public void testNorm() {
-    {
-      Tensor a = Tensors.vectorLong(2, 3, 4, 5);
-      Scalar s = (Scalar) a.dot(a);
-      assertEquals(s, RationalScalar.of(4 + 9 + 16 + 25, 1));
-    }
-    {
-      Tensor a = Tensors.of( //
-          RationalScalar.of(2, 3), //
-          RationalScalar.of(4, 5));
-      Scalar s = (Scalar) a.dot(a);
-      assertEquals(s, RationalScalar.of(244, 225));
-    }
-    {
-      Tensor a = Tensors.vectorLong(2, -3, 4, -1);
-      double ods = a.flatten(0) //
-          .map(s -> (Scalar) s) //
-          .map(Scalar::abs) //
-          .map(Scalar::number) //
-          .map(Number::doubleValue) //
-          .reduce(Double::max) //
-          .orElse(0.);
-      assertEquals(ods, 4.0);
-    }
-    {
-      Tensor a = Tensors.vectorLong(2, -3, 4, -1);
-      double ods = a.flatten(0) //
-          .map(s -> (Scalar) s) //
-          .map(Scalar::abs) //
-          .map(Scalar::number) //
-          .map(Number::doubleValue) //
-          .reduce(Double::sum) //
-          .orElse(0.);
-      assertEquals(ods, 10.0);
-    }
-    {
-      int n = 6;
-      int m = 12;
-      Random random = new Random();
-      Tensor A = Tensors.matrix((i, j) -> //
-      RationalScalar.of( //
-          random.nextInt(100) - 50, //
-          random.nextInt(100) + 1), n, m);
-      Tensor c = Tensors.vector(i -> RationalScalar.of(1, 1), n);
-      assertEquals(Total.of(A), c.dot(A));
-    }
+    Tensor a = Tensors.vectorLong(2, 3, 4, 5);
+    Scalar s = (Scalar) a.dot(a);
+    assertEquals(s, RationalScalar.of(4 + 9 + 16 + 25, 1));
+  }
+
+  public void testNorm2() {
+    Tensor a = Tensors.of( //
+        RationalScalar.of(2, 3), //
+        RationalScalar.of(4, 5));
+    Scalar s = (Scalar) a.dot(a);
+    assertEquals(s, RationalScalar.of(244, 225));
+  }
+
+  public void testNorm3() {
+    Tensor a = Tensors.vectorLong(2, -3, 4, -1);
+    double ods = a.flatten(0) //
+        .map(s -> (Scalar) s) //
+        .map(Scalar::abs) //
+        .map(Scalar::number) //
+        .map(Number::doubleValue) //
+        .reduce(Double::max) //
+        .orElse(0.);
+    assertEquals(ods, 4.0);
+  }
+
+  public void testNorm4() {
+    Tensor a = Tensors.vectorLong(2, -3, 4, -1);
+    double ods = a.flatten(0) //
+        .map(s -> (Scalar) s) //
+        .map(Scalar::abs) //
+        .map(Scalar::number) //
+        .map(Number::doubleValue) //
+        .reduce(Double::sum) //
+        .orElse(0.);
+    assertEquals(ods, 10.0);
+  }
+
+  public void testNorm5() {
+    int n = 6;
+    int m = 12;
+    Random random = new Random();
+    Tensor A = Tensors.matrix((i, j) -> //
+    RationalScalar.of( //
+        random.nextInt(100) - 50, //
+        random.nextInt(100) + 1), n, m);
+    Tensor c = Tensors.vector(i -> RationalScalar.of(1, 1), n);
+    assertEquals(Total.of(A), c.dot(A));
   }
 }
