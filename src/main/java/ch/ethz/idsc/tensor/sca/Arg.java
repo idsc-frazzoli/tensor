@@ -30,7 +30,7 @@ public enum Arg implements Function<Scalar, Scalar> {
         return DoubleScalar.of(Math.PI);
       return ZeroScalar.get();
     }
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("arg " + scalar.getClass());
   }
 
   /** @param tensor

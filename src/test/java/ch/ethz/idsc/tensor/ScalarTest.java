@@ -8,8 +8,9 @@ import junit.framework.TestCase;
 
 public class ScalarTest extends TestCase {
   public void testGet() {
-    Scalar s = RealScalar.of(3);
-    assertEquals(s, s.Get());
+    Tensor t = RealScalar.of(3);
+    Scalar s = t.Get(); 
+    assertEquals(t, s);
   }
 
   public void testUnmodifiable() {
