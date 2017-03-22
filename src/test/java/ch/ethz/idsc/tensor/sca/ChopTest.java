@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
@@ -13,5 +14,9 @@ public class ChopTest extends TestCase {
     assertFalse(c.get(0).equals(ZeroScalar.get()));
     assertTrue(c.get(1).equals(ZeroScalar.get()));
     assertTrue(c.get(2).equals(ZeroScalar.get()));
+  }
+
+  public void testExclusive() {
+    assertFalse(Chop.of(RealScalar.of(Chop.THRESHOLD)).equals(ZeroScalar.get()));
   }
 }

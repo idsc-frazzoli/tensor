@@ -15,7 +15,7 @@ public class Partition {
    * 
    * @param tensor
    * @param size has to divide length()
-   * @return */
+   * @return a tensor of rank one higher than input tensor */
   public static Tensor of(Tensor tensor, int size) {
     List<Tensor> parts = new ArrayList<>();
     for (int index = 0; index < tensor.length(); index += size)

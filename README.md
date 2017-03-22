@@ -20,7 +20,7 @@ The library is used in the projects:
 
 Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:
 
-	</repositories>
+	<repositories>
 	  <repository>
 	    <id>tensor-mvn-repo</id>
 	    <url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>

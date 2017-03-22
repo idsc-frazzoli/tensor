@@ -95,7 +95,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override
   public void append(Tensor tensor) {
-    list.add(tensor);
+    list.add(tensor.copy());
   }
 
   @Override
@@ -143,8 +143,6 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
         .map(index -> list.get(index).add(impl.list.get(index))));
   }
 
-  // TODO definition!?
-  // at the moment this has to be smaller or equal compared to tensor
   @Override
   public Tensor pmul(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;

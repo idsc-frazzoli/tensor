@@ -2,40 +2,40 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Scalars {
   private static final Pattern PATTERN_INTEGER = Pattern.compile("-?\\d+");
   private static final Pattern PATTERN_RATIONAL = Pattern.compile("-?\\d+/\\d+");
   private static final Pattern PATTERN_DOUBLE = Pattern.compile(StaticHelper.fpRegex);
+  private static final Pattern PATTERN_SEPARATOR = Pattern.compile("[^E][+-]");
 
   /** @param string
    * @return instance of Scalar for which toString().equals(string) */
   // TODO this does not work for gaussScalar
-  // TODO if the real and imag part of complex cannot be parsed to scalar -> return stringScalar
   public static Scalar fromString(String string) {
     try {
       // check complex scalar
       if (string.endsWith(ComplexScalar.IMAGINARY)) {
-        int sep;
-        sep = string.indexOf('+', 1);
-        if (0 < sep)
-          return ComplexScalar.of( //
-              fromString(string.substring(0, sep)), //
-              fromString(string.substring(sep + 1, string.length() - 2)) //
-          );
-        // TODO this check is generally not sufficient -2E-10-2*I
-        // ... have to check if E is before -
-        sep = string.indexOf('-', 1);
-        if (0 < sep)
-          return ComplexScalar.of( //
-              fromString(string.substring(0, sep)), //
-              fromString(string.substring(sep + 1, string.length() - 2)).negate() //
-          );
-        return ComplexScalar.of( //
-            ZeroScalar.get(), //
-            fromString(string.substring(0, string.length() - 2)) //
-        );
+        Matcher matcher = PATTERN_SEPARATOR.matcher(string);
+        matcher.find();
+        int sep = matcher.start() + 1;
+        if (sep == 1) {
+          // 0-3*I, 1-3*I, -3+1*I
+          if (string.charAt(0) == '-') { // + should never be at the first place
+            System.out.println("can be 1");
+            matcher.find();
+            sep = matcher.start() + 1;
+          }
+        }
+        Scalar re = fromString(string.substring(0, sep));
+        if (string.charAt(sep) == '+')
+          ++sep;
+        Scalar im = fromString(string.substring(sep, string.length() - 2));
+        if (re instanceof StringScalar || im instanceof StringScalar)
+          throw new RuntimeException();
+        return ComplexScalar.of(re, im);
       }
       // check rational scalar
       if (PATTERN_RATIONAL.matcher(string).matches()) {

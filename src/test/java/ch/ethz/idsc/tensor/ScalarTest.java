@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 public class ScalarTest extends TestCase {
   public void testGet() {
     Tensor t = RealScalar.of(3);
-    Scalar s = t.Get(); 
+    Scalar s = t.Get();
     assertEquals(t, s);
   }
 

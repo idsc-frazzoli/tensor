@@ -4,7 +4,9 @@ package ch.ethz.idsc.tensor;
 import java.math.BigInteger;
 import java.util.Comparator;
 
-/** instances of RealScalar implement number() */
+/** instances of RealScalar implement number()
+ * <p>
+ * abs() returns this or this.negate() */
 public abstract class RealScalar extends Scalar implements Comparable<RealScalar> {
   /** @param number
    * @return scalar with best possible accuracy to describe number */

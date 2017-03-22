@@ -77,6 +77,17 @@ public class TensorTest extends TestCase {
     assertEquals(b.pmul(a), c);
   }
 
+  public void testPMul3() {
+    Tensor a = Tensors.of( //
+        Tensors.vectorLong(1, 2, 3), //
+        Tensors.vectorLong(3, -1, -1));
+    Tensor c = Tensors.of( //
+        Tensors.vectorLong(3, 4, 6), //
+        Tensors.vectorLong(-9, -2, -2));
+    Tensor r = Tensors.fromString("[[3, 8, 18], [-27, 2, 2]]");
+    assertEquals(a.pmul(c), r);
+  }
+
   public void testAppend() {
     Tensor a0 = RealScalar.of(3);
     Tensor a1 = Tensors.empty();
