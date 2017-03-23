@@ -19,6 +19,6 @@ public enum Abs implements Function<Scalar, Scalar> {
   /** @param tensor
    * @return tensor with all scalars replaced with their absolute value */
   public static Tensor of(Tensor tensor) {
-    return tensor.map(Scalar::abs);
+    return tensor.map(Abs.function);
   }
 }

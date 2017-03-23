@@ -2,12 +2,14 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
-import java.util.Comparator;
 
 /** instances of RealScalar implement number()
  * <p>
  * abs() returns this or this.negate() */
 public abstract class RealScalar extends Scalar implements Comparable<RealScalar> {
+  public static final RealScalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
+  public static final RealScalar NEGATIVE_INFINITY = of(Double.NEGATIVE_INFINITY);
+
   /** @param number
    * @return scalar with best possible accuracy to describe number */
   public static RealScalar of(Number number) {
@@ -21,21 +23,6 @@ public abstract class RealScalar extends Scalar implements Comparable<RealScalar
   }
 
   /***************************************************/
-  // TODO public static not final design...
-  public static final Comparator<RealScalar> comparatorDescending = new Comparator<RealScalar>() {
-    @Override
-    public int compare(RealScalar a, RealScalar b) {
-      return b.compareTo(a);
-    }
-  };
-  // TODO public static not final design...
-  public static final Comparator<RealScalar> comparatorAscending = new Comparator<RealScalar>() {
-    @Override
-    public int compare(RealScalar a, RealScalar b) {
-      return a.compareTo(b);
-    }
-  };
-
   public static RealScalar min(RealScalar a, RealScalar b) {
     return a.compareTo(b) > 0 ? b : a;
   }

@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** inspired by
@@ -22,12 +23,12 @@ public enum Imag implements Function<Scalar, Scalar> {
       ComplexScalar complexScalar = (ComplexScalar) scalar;
       return complexScalar.imag();
     }
-    throw new UnsupportedOperationException("imag " + scalar.getClass().getName());
+    throw TensorRuntimeException.of(scalar);
   }
 
   /** @param tensor
    * @return tensor with all scalars replaced with their imaginary part */
   public static Tensor of(Tensor tensor) {
-    return tensor.map(Imag.function::apply);
+    return tensor.map(Imag.function);
   }
 }

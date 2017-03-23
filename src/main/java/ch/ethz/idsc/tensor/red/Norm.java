@@ -49,6 +49,7 @@ public enum Norm {
 
     @Override
     public RealScalar ofMatrix(Tensor matrix) {
+      // return w.flatten(0).map(RealScalar.class::cast).reduce(RealScalar::max).orElse(ZeroScalar.get());
       throw new UnsupportedOperationException();
     }
   }), //

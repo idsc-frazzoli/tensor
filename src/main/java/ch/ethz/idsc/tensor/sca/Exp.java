@@ -8,8 +8,11 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** gives the exponential
+ * 
+ * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Exp.html">Exp</a> */
 public enum Exp implements Function<Scalar, Scalar> {
   function;
@@ -20,11 +23,15 @@ public enum Exp implements Function<Scalar, Scalar> {
       return DoubleScalar.of(Math.exp(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {
       ComplexScalar complexScalar = (ComplexScalar) scalar;
-      return ComplexScalar.fromPolar(apply(complexScalar.real()), complexScalar.imag());
+      return ComplexScalar.fromPolar( // construct in polar coordinates
+          apply(complexScalar.real()), //
+          complexScalar.imag());
     }
-    throw new UnsupportedOperationException("exp " + scalar.getClass());
+    throw TensorRuntimeException.of(scalar);
   }
 
+  /** @param tensor
+   * @return tensor with all scalars replaced with their exponential */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Exp.function);
   }

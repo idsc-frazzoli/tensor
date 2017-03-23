@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Re.html">Re</a> */
@@ -21,12 +22,12 @@ public enum Real implements Function<Scalar, Scalar> {
       ComplexScalar complexScalar = (ComplexScalar) scalar;
       return complexScalar.real();
     }
-    throw new UnsupportedOperationException("real " + scalar.getClass().getName());
+    throw TensorRuntimeException.of(scalar);
   }
 
   /** @param tensor
    * @return tensor with all scalars replaced with their real part */
   public static Tensor of(Tensor tensor) {
-    return tensor.map(Real.function::apply);
+    return tensor.map(Real.function);
   }
 }

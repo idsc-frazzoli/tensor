@@ -2,13 +2,11 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.Dimensions;
 
 public class ExtractPrimitives {
   public static Stream<Number> vectorToStreamNumber(Tensor tensor) {
@@ -61,12 +59,5 @@ public class ExtractPrimitives {
   public static int[] vectorToArrayInt(Tensor tensor) {
     return vectorToStreamNumber(tensor) //
         .mapToInt(Number::intValue).toArray();
-  }
-
-  public static void matrixFill(Tensor tensor, BiFunction<Integer, Integer, Void> biFunction) {
-    List<Integer> list = Dimensions.of(tensor);
-    list.get(0);
-    list.get(1);
-    // TODO
   }
 }

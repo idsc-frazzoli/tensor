@@ -92,4 +92,8 @@ public class Tensors {
     }
     return Scalars.fromString(string);
   }
+
+  // class cannot be instantiated
+  private Tensors() {
+  }
 }

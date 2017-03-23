@@ -12,16 +12,24 @@ import ch.ethz.idsc.tensor.Tensor;
 public class CsvFormat {
   private static final String COMMA = ",";
 
-  public static Stream<String> ofMatrix(Tensor tensor) {
-    // does tensor have to be 2d array?
-    return tensor.flatten(0).parallel() //
-        .map(vector -> String.join(COMMA, //
+  // does tensor have to be 2d array?
+  public static Stream<String> ofMatrix(Tensor matrix) {
+    return ofMatrix(matrix, COMMA);
+  }
+
+  public static Stream<String> ofMatrix(Tensor matrix, CharSequence delimiter) {
+    return matrix.flatten(0).parallel() //
+        .map(vector -> String.join(delimiter, //
             vector.flatten(0).map(Tensor::toString).collect(Collectors.toList())));
   }
 
   public static Tensor parse(Stream<String> stream) {
+    return parse(stream, COMMA);
+  }
+
+  public static Tensor parse(Stream<String> stream, String regex) {
     return Tensor.of(stream.parallel() //
         .filter(line -> !line.isEmpty()) //
-        .map(line -> Tensor.of(Stream.of(line.split(COMMA)).map(Scalars::fromString))));
+        .map(line -> Tensor.of(Stream.of(line.split(regex)).map(Scalars::fromString))));
   }
 }

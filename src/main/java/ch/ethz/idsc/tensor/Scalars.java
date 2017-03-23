@@ -56,4 +56,8 @@ public class Scalars {
     // return as string
     return StringScalar.of(string);
   }
+
+  // class cannot be instantiated
+  private Scalars() {
+  }
 }

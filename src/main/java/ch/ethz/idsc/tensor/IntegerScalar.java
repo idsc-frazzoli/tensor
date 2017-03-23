@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.math.BigInteger;
 
 // test
+@Deprecated
 class IntegerScalar extends RealScalar {
   public static RealScalar of(BigInteger value) {
     return value.equals(BigInteger.ZERO) ? ZeroScalar.get() : new IntegerScalar(value);
@@ -17,7 +18,6 @@ class IntegerScalar extends RealScalar {
 
   @Override
   public int compareTo(RealScalar o) {
-    // TODO Auto-generated method stub
     return 0;
   }
 
@@ -33,25 +33,22 @@ class IntegerScalar extends RealScalar {
 
   @Override
   public Number number() {
-    return value; // TODO
+    throw new UnsupportedOperationException();
   }
 
   @Override
   protected Scalar plus(Scalar scalar) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public Scalar multiply(Scalar scalar) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public Scalar invert() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -61,8 +58,7 @@ class IntegerScalar extends RealScalar {
 
   @Override
   public boolean equals(Object object) {
-    // TODO Auto-generated method stub
-    return false;
+    throw new UnsupportedOperationException();
   }
 
   @Override

@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
@@ -41,5 +42,15 @@ public class FloorTest extends TestCase {
     Scalar s = Floor.function.apply(v.Get(1));
     RealScalar rs = (RealScalar) s;
     assertEquals(rs.number().doubleValue(), 5.0);
+  }
+
+  public void testComplex() {
+    Scalar c = Scalars.fromString("3-3*I");
+    try {
+      Floor.of(c);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
