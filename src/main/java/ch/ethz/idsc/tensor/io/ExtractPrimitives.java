@@ -60,4 +60,8 @@ public class ExtractPrimitives {
     return vectorToStreamNumber(tensor) //
         .mapToInt(Number::intValue).toArray();
   }
+
+  // class cannot be instantiated
+  private ExtractPrimitives() {
+  }
 }

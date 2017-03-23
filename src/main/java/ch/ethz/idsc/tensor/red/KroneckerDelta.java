@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.alg;
+package ch.ethz.idsc.tensor.red;
 
 import java.util.Arrays;
 import java.util.List;

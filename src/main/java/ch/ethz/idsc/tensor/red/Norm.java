@@ -44,6 +44,7 @@ public enum Norm {
 
     @Override
     public RealScalar ofVector(Tensor vector) {
+      // TODO use hypot if 2 doubles
       return (RealScalar) Sqrt.of(_2squared.of(vector));
     }
 

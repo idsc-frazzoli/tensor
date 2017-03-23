@@ -24,4 +24,8 @@ public class MathematicaFormat {
         .map(s -> s.replace('}', ']')) //
         .collect(Collectors.joining("")));
   }
+
+  // class cannot be instantiated
+  private MathematicaFormat() {
+  }
 }

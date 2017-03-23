@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ZeroScalar;
+import ch.ethz.idsc.tensor.red.KroneckerDelta;
 import junit.framework.TestCase;
 
 public class KroneckerDeltaTest extends TestCase {

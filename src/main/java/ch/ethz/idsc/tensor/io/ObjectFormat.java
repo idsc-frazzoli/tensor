@@ -46,4 +46,8 @@ public class ObjectFormat {
     }
     return null;
   }
+
+  // class cannot be instantiated
+  private ObjectFormat() {
+  }
 }

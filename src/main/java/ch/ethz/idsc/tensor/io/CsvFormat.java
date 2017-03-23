@@ -13,11 +13,15 @@ public class CsvFormat {
   private static final String COMMA = ",";
 
   // does tensor have to be 2d array?
-  public static Stream<String> ofMatrix(Tensor matrix) {
-    return ofMatrix(matrix, COMMA);
+  /** @param tensor of depth no greater than 2
+   * @return */
+  public static Stream<String> of(Tensor matrix) {
+    return of(matrix, COMMA);
   }
 
-  public static Stream<String> ofMatrix(Tensor matrix, CharSequence delimiter) {
+  /** @param tensor of depth no greater than 2
+   * @return */
+  public static Stream<String> of(Tensor matrix, CharSequence delimiter) {
     return matrix.flatten(0).parallel() //
         .map(vector -> String.join(delimiter, //
             vector.flatten(0).map(Tensor::toString).collect(Collectors.toList())));
@@ -31,5 +35,9 @@ public class CsvFormat {
     return Tensor.of(stream.parallel() //
         .filter(line -> !line.isEmpty()) //
         .map(line -> Tensor.of(Stream.of(line.split(regex)).map(Scalars::fromString))));
+  }
+
+  // class cannot be instantiated
+  private CsvFormat() {
   }
 }
