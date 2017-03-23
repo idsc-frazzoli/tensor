@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor;
 
 import java.util.Objects;
 
+import ch.ethz.idsc.tensor.red.Hypot;
+
 /** complex numbers
  * <br/>
  * number() or Comparable interface is not supported */
@@ -68,9 +70,7 @@ public class ComplexScalar extends Scalar {
 
   @Override // from Scalar
   public RealScalar abs() {
-    return DoubleScalar.of(Math.hypot( //
-        re.abs().number().doubleValue(), //
-        im.abs().number().doubleValue()));
+    return (RealScalar) Hypot.bifunction.apply(re, im);
   }
 
   @Override // from Scalar

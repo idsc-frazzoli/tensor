@@ -10,31 +10,31 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Log.html">Log</a> */
-public enum Log implements Function<Scalar, Scalar> {
+/** http://www.milefoot.com/math/complex/functionsofi.htm
+ *
+ * inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Cos.html">Cos</a> */
+public enum Cos implements Function<Scalar, Scalar> {
   function;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RealScalar) {
       double value = scalar.number().doubleValue();
-      if (0 <= value)
-        return DoubleScalar.of(Math.log(value));
-      return ComplexScalar.of(Math.log(-value), Math.PI);
+      return DoubleScalar.of(Math.cos(value));
     }
     if (scalar instanceof ComplexScalar) {
       ComplexScalar complexScalar = (ComplexScalar) scalar;
-      Scalar abs = Log.function.apply(complexScalar.abs());
-      Scalar arg = Arg.function.apply(complexScalar);
-      return ComplexScalar.of(abs, arg);
+      double re = complexScalar.real().number().doubleValue();
+      double im = complexScalar.imag().number().doubleValue();
+      return ComplexScalar.of( //
+          Math.cos(re) * Math.cosh(im), //
+          -Math.sin(re) * Math.sinh(im));
     }
     throw TensorRuntimeException.of(scalar);
   }
 
-  /** @param tensor
-   * @return */
   public static Tensor of(Tensor tensor) {
-    return tensor.map(Log.function);
+    return tensor.map(Cos.function);
   }
 }

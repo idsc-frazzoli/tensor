@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArcCos.html">ArcCos</a> */
-public enum ArcCos implements Function<Scalar, Scalar> {
+public enum ArcSin implements Function<Scalar, Scalar> {
   function;
   // ---
   private static Scalar I = ComplexScalar.of(0, 1);
@@ -23,13 +23,13 @@ public enum ArcCos implements Function<Scalar, Scalar> {
     if (scalar instanceof RealScalar) {
       double value = scalar.number().doubleValue();
       if (-1 <= value && value <= 1)
-        return DoubleScalar.of(Math.acos(value));
+        return DoubleScalar.of(Math.asin(value));
     }
     Scalar o_x2 = Sqrt.function.apply(RealScalar.of(1).subtract(scalar.multiply(scalar)));
-    return I.negate().multiply(Log.function.apply(scalar.add(I.multiply(o_x2))));
+    return I.negate().multiply(Log.function.apply(I.multiply(scalar).add(o_x2)));
   }
 
   public static Tensor of(Tensor tensor) {
-    return tensor.map(ArcCos.function);
+    return tensor.map(ArcSin.function);
   }
 }

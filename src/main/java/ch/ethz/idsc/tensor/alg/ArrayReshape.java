@@ -15,13 +15,14 @@ public class ArrayReshape {
    * @param size
    * @return tensor with {@link Scalar} entries from stream and {@link Dimensions} size */
   public static Tensor of(Stream<? extends Tensor> stream, int[] size) { // TODO make Integer...
+    // TODO check if count != prod size
     Tensor transpose = Tensor.of(stream);
     for (int index = size.length - 1; 0 < index; --index)
       transpose = Partition.of(transpose, size[index]);
     return transpose;
   }
 
-  public static Tensor of(Tensor tensor, int[] size) {
+  public static Tensor of(Tensor tensor, int... size) {
     return of(tensor.flatten(-1), size);
   }
 }
