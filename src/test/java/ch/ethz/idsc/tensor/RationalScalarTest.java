@@ -7,19 +7,15 @@ import junit.framework.TestCase;
 
 public class RationalScalarTest extends TestCase {
   public void testAdd() {
-    {
-      Scalar a = RationalScalar.of(3, 17);
-      Scalar b = RationalScalar.of(4, 21);
-      Scalar c = RationalScalar.of(131, 357);
-      assertEquals(a.add(b), c);
-      Tensor d = Tensors.of(a, b);
-      assertEquals(Total.of(d), c);
-    }
-    {
-      Tensor v = Tensors.of(DoubleScalar.of(2), RationalScalar.of(3, 2));
-      Scalar s = RationalScalar.of(3 + 2 * 2, 2);
-      assertEquals(Total.of(v), DoubleScalar.of(s.number().doubleValue()));
-    }
+    Scalar a = RationalScalar.of(3, 17);
+    Scalar b = RationalScalar.of(4, 21);
+    Scalar c = RationalScalar.of(131, 357);
+    assertEquals(a.add(b), c);
+    Tensor d = Tensors.of(a, b);
+    assertEquals(Total.of(d), c);
+    Tensor v = Tensors.of(DoubleScalar.of(2), RationalScalar.of(3, 2));
+    Scalar s = RationalScalar.of(3 + 2 * 2, 2);
+    assertEquals(Total.of(v), DoubleScalar.of(s.number().doubleValue()));
   }
 
   public void testInvert() {
@@ -82,6 +78,7 @@ public class RationalScalarTest extends TestCase {
     assertEquals(RationalScalar.of(0, 1), DoubleScalar.of(0));
     assertEquals(ZeroScalar.get(), RationalScalar.of(0, 1));
     assertEquals(DoubleScalar.of(0), RationalScalar.of(0, 1));
+    assertEquals(DoubleScalar.of(123), RationalScalar.of(123, 1));
   }
 
   public void testNumber() {

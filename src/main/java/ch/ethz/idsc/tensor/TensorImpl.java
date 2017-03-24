@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
-/** implementation of tensor interface */
+/** implementation of tensor interface
+ * parallel stream processing is used for add() and dot() */
 /* package */ class TensorImpl implements Tensor {
   private final List<Tensor> list;
 
@@ -87,15 +88,14 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
       return;
     int head = index.get(0);
     if (index.size() == 1)
-      list.set(head, function.apply(get(index.get(0))));
+      list.set(head, function.apply(get(head)));
     else
-      // TODO check what this does
       ((TensorImpl) list.get(head))._set(function, index.subList(1, index.size()));
   }
 
   @Override
   public void append(Tensor tensor) {
-    list.add(tensor);
+    list.add(tensor.copy());
   }
 
   @Override
@@ -140,11 +140,10 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   public Tensor add(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
     return Tensor.of(IntStream.range(0, list.size()).boxed() //
+        // .parallel() //
         .map(index -> list.get(index).add(impl.list.get(index))));
   }
 
-  // TODO definition!?
-  // at the moment this has to be smaller or equal compared to tensor
   @Override
   public Tensor pmul(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;

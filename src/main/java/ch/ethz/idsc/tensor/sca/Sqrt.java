@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** inspired by
@@ -27,7 +28,7 @@ public enum Sqrt implements Function<Scalar, Scalar> {
       return ComplexScalar.fromPolar( //
           Sqrt.function.apply(scalar.abs()), //
           Arg.function.apply(scalar).divide(RealScalar.of(2)));
-    throw new UnsupportedOperationException();
+    throw TensorRuntimeException.of(scalar);
   }
 
   /** @param tensor

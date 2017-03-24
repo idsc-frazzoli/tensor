@@ -6,7 +6,8 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.red.Total;
 
-public class BianchiIdentity {
+public enum BianchiIdentity {
+  ;
   public static Tensor of(Tensor rie) {
     return Total.of(Tensors.of( //
         Transpose.of(rie, 0, 1, 2, 3), // identity

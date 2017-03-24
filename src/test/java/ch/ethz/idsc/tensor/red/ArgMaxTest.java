@@ -2,7 +2,11 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.RealScalarComparators;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class ArgMaxTest extends TestCase {
@@ -17,7 +21,14 @@ public class ArgMaxTest extends TestCase {
   }
 
   public void testMaxComparator() {
-    assertEquals(4, ArgMax.of(Tensors.vectorDouble(3., .6, 8, .6, 100), RealScalar.comparatorAscending));
-    assertEquals(3, ArgMax.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 0, 8), RealScalar.comparatorAscending));
+    assertEquals(4, ArgMax.of(Tensors.vectorDouble(3., .6, 8, .6, 100), RealScalarComparators.ASCENDING));
+    assertEquals(3, ArgMax.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 0, 8), RealScalarComparators.ASCENDING));
+  }
+
+  public void testInf() {
+    Scalar inf = RealScalar.of(Double.POSITIVE_INFINITY);
+    Tensor vec = Tensors.of(ZeroScalar.get(), inf, inf);
+    int pos = ArgMax.of(vec);
+    assertEquals(pos, 1);
   }
 }

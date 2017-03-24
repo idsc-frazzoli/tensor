@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.Tensors;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Dot.html">Dot</a> */
-public class Dot {
+public enum Dot {
+  ;
   /** @param m
    * @param v
    * @return m.v[0].v[1]...v[end] */

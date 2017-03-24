@@ -6,6 +6,10 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
+import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.Abs;
+import ch.ethz.idsc.tensor.sca.Imag;
+import ch.ethz.idsc.tensor.sca.Real;
 import junit.framework.TestCase;
 
 public class ComplexScalarTest extends TestCase {
@@ -16,7 +20,12 @@ public class ComplexScalarTest extends TestCase {
 
   public void testMultiply() {
     Scalar c = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
+    assertEquals(Real.of(c), RealScalar.of(2));
+    assertEquals(Imag.of(c), RationalScalar.of(5, 8));
+    assertEquals(Abs.of(c), Norm._2.of(Tensors.of(RealScalar.of(2), RationalScalar.of(5, 8))));
     Scalar r = RealScalar.of(-6);
+    assertEquals(Real.of(r), r);
+    assertEquals(Imag.of(r), ZeroScalar.get());
     Scalar r2 = RealScalar.of(6);
     assertEquals(r.multiply(c).toString(), "-12-15/4*I");
     assertEquals(c.multiply(r).toString(), "-12-15/4*I");
@@ -49,8 +58,8 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(c2, Scalars.fromString(c2.toString()));
     assertEquals(c3, Scalars.fromString(c3.toString()));
     assertEquals(c4, Scalars.fromString(c4.toString()));
-    assertEquals(c2, Scalars.fromString("5/8*I"));
-    assertEquals(c4, Scalars.fromString("-5/8*I"));
+    assertEquals(c2, Scalars.fromString("0+5/8*I"));
+    assertEquals(c4, Scalars.fromString("0-5/8*I"));
   }
 
   public void testEquals() {
@@ -78,7 +87,7 @@ public class ComplexScalarTest extends TestCase {
   }
 
   public void testTensor() {
-    Tensor u = Tensors.fromString("[1*I,3/4-5*I]");
+    Tensor u = Tensors.fromString("[0+1*I,3/4-5*I]");
     Tensor uc = u.conjugate();
     assertEquals(uc.toString(), "[0-1*I, 3/4+5*I]");
   }

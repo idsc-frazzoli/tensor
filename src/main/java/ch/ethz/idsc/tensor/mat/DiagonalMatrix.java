@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiagonalMatrix.html">DiagonalMatrix</a> */
-public class DiagonalMatrix {
+public enum DiagonalMatrix {
+  ;
   /** @param d vector with scalars to appear on the diagonal
    * @return */
   public static Tensor of(Tensor d) { // <- temporary, requires d to be a vector

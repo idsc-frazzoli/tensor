@@ -5,7 +5,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Inverse.html">Inverse</a> */
-public class Inverse {
+public enum Inverse {
+  ;
   /** @param m square matrix
    * @return inverse of m */
   public static final Tensor of(Tensor m) {

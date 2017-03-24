@@ -7,6 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.alg.Dimensions;
+
 /** a tensor is a multi-dimensional array with the dot product */
 public interface Tensor extends Iterable<Tensor>, Serializable {
   /** the constant ALL is used in the function get(...)
@@ -41,7 +43,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
   Tensor copy();
 
   /** @param index
-   * @return copy to this[index[0],index[1],...,All] */
+   * @return copy of this[index[0],index[1],...,All] */
   Tensor get(Integer... index);
 
   /** same as function get(...) except that return type is cast to {@link Scalar}.
@@ -52,11 +54,14 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
   Scalar Get(Integer... index);
 
   /** @param index
-   * @return copy to this[index[0],index[1],...,All] */
+   * @return copy of this[index[0],index[1],...,All] */
   Tensor get(List<Integer> index);
 
-  /** @param index
-   * @param tensor */
+  /** set tensor as element at location this[index].
+   * The operation is invalid if this tensor has been cast as unmodifiable.
+   * 
+   * @param tensor
+   * @param index */
   void set(Tensor tensor, Integer... index);
 
   /** replaces element x at index with
@@ -70,7 +75,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @param index */
   void set(Function<Tensor, Tensor> function, Integer... index);
 
-  /** appends input tensor to this instance.
+  /** appends a copy of input tensor to this instance.
    * The length() is incremented by 1.
    * <br/>
    * the operation does not succeed for an unmodifiable instance of this.
@@ -113,10 +118,17 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return this minus input tensor */
   Tensor subtract(Tensor tensor);
 
-  /** @param tensor
-   * @return this point-wise multiply input tensor? */
-  // TODO definition!?
-  // at the moment this has to be smaller or equal compared to tensor
+  /** point-wise multiplication of this with tensor.
+   * {@link Dimensions} of this have to match the <b>onset</b> of
+   * dimensions of tensor. For instance,
+   * Dimensions.of(this) = [4, 3], then
+   * Dimensions.of(tensor) = [4, 3, 5, 2] is a possibility
+   * In particular that means the operation is valid for tensors of equal dimensions.
+   * 
+   * @param tensor
+   * @return this element-wise multiply input tensor.
+   * Tensor::multiply is used on remaining entries in dimensions of tensors exceeding
+   * dimensions of this. */
   Tensor pmul(Tensor tensor);
 
   /** @param scalar

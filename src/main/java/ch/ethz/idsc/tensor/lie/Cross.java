@@ -5,7 +5,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Cross.html">Cross</a> */
-public class Cross {
+public enum Cross {
+  ;
   private static final Tensor SO3AD = LieAlgebras.so3();
 
   /** @param a vector with 3 entries

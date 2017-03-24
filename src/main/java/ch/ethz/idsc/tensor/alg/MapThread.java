@@ -10,7 +10,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/MapThread.html">MapThread</a> */
-public class MapThread {
+public enum MapThread {
+  ;
   /** @param function
    * @param list
    * @param level

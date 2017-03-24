@@ -1,7 +1,7 @@
 # ch.ethz.idsc.tensor
 Library for tensor computation in Java 8.
 
-Version `0.1.1`
+Version `0.1.2`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
@@ -20,7 +20,7 @@ The library is used in the projects:
 
 Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:
 
-	</repositories>
+	<repositories>
 	  <repository>
 	    <id>tensor-mvn-repo</id>
 	    <url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>
@@ -35,7 +35,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
 	  <dependency>
 	    <groupId>ch.ethz.idsc</groupId>
 	    <artifactId>tensor</artifactId>
-	    <version>0.1.1</version>
+	    <version>0.1.2</version>
 	  </dependency>
 	</dependencies>
 

@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArgMin.html">ArgMin</a> */
-public class ArgMin {
+public enum ArgMin {
+  ;
   /** @param tensor
    * @return index of minimum entry in tensor */
   @SuppressWarnings("unchecked")

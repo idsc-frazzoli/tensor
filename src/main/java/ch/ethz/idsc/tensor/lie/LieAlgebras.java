@@ -14,7 +14,8 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 
-class LieAlgebras {
+public enum LieAlgebras {
+  ;
   /** @param x matrix
    * @param y matrix
    * @return */

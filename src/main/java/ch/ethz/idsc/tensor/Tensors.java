@@ -10,8 +10,9 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-public class Tensors {
-  /** @return new tensor instance with no entries */
+public enum Tensors {
+  ;
+  /** @return new modifiable tensor instance with no entries, i.e. length() == 0 */
   public static Tensor empty() {
     return Tensor.of(Stream.empty());
   }
@@ -80,7 +81,7 @@ public class Tensors {
             beg = index + 1;
         }
         if (level == 1 && (chr == ',' || chr == ']')) {
-          String entry = string.substring(beg, index).trim();
+          String entry = string.substring(beg, index).trim(); // <- TODO not sure if trim is good
           if (!entry.isEmpty())
             list.add(fromString(entry));
           beg = index + 1;

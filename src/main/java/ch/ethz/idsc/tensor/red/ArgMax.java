@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArgMax.html">ArgMax</a> */
-public class ArgMax {
+public enum ArgMax {
+  ;
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> int of(Tensor tensor, Comparator<T> comparator) {
     if (tensor.length() == 0)

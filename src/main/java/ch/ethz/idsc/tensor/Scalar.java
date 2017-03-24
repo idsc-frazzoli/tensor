@@ -72,6 +72,7 @@ public abstract class Scalar implements Tensor {
 
   @Override // from Tensor
   public final Tensor pmul(Tensor tensor) {
+    // Tensor::pmul delegates pointwise multiplication to Scalar::pmul
     return tensor.multiply(this);
   }
 

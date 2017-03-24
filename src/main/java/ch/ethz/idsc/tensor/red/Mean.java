@@ -6,7 +6,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Mean.html">Mean</a> */
-public class Mean {
+public enum Mean {
+  ;
   /** @param tensor
    * @return average of entries in tensor */
   public static Tensor of(Tensor tensor) {

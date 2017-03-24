@@ -15,19 +15,24 @@ public class DoubleScalarTest extends TestCase {
   }
 
   public void testChop() {
-    {
-      Scalar s = DoubleScalar.of(3.14);
-      assertEquals(Chop.of(s), s);
-    }
-    {
-      Scalar s = DoubleScalar.of(1e-14);
-      assertEquals(Chop.of(s), ZeroScalar.get());
-      assertEquals(Chop.of(ZeroScalar.get()), ZeroScalar.get());
-    }
+    Scalar s = DoubleScalar.of(3.14);
+    assertEquals(Chop.of(s), s);
+    Scalar r = DoubleScalar.of(1e-14);
+    assertEquals(Chop.of(r), ZeroScalar.get());
+    assertEquals(Chop.of(ZeroScalar.get()), ZeroScalar.get());
   }
 
   public void testEquality() {
     assertEquals(RealScalar.of(1), DoubleScalar.of(1));
     assertEquals(DoubleScalar.of(1), RationalScalar.of(1, 1));
+  }
+
+  public void testInf() {
+    Scalar inf = DoubleScalar.of(Double.POSITIVE_INFINITY);
+    Scalar c = RealScalar.of(-2);
+    assertEquals(inf.multiply(c), inf.negate());
+    assertEquals(c.multiply(inf), inf.negate());
+    Scalar nan = inf.multiply(ZeroScalar.get());
+    assertTrue(Double.isNaN(nan.number().doubleValue()));
   }
 }

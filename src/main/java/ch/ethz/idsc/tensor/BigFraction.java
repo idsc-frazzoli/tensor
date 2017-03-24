@@ -1,11 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Objects;
 
 /** integer fraction in normal form non-degenerate, i.e. denominator != 0 immutable */
-/* package */ final class BigFraction {
+/* package */ final class BigFraction implements Serializable {
   public static BigFraction of(long num, long den) {
     return of(BigInteger.valueOf(num), BigInteger.valueOf(den));
   }

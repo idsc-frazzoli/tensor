@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** Transpose is consistent with Mathematica::Transpose
@@ -13,7 +14,8 @@ import ch.ethz.idsc.tensor.Tensor;
  * <br/>
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Transpose.html">Transpose</a> */
-public class Transpose {
+public enum Transpose {
+  ;
   /** @param matrix
    * @return matrix transposed */
   public static Tensor of(Tensor matrix) {
@@ -44,12 +46,9 @@ public class Transpose {
     int[] inverse = new int[sigma.length];
     for (int index = 0; index < sigma.length; ++index)
       inverse[sigma[index]] = index;
-    List<Tensor> list = new ArrayList<>();
+    List<Scalar> list = new ArrayList<>();
     for (MultiIndex src : myTensorSize)
       list.add(data.Get(mySize.indexOf(src.permute(inverse))));
-    Tensor transpose = Tensor.of(list.stream());
-    for (int index = myTensorSize.size.length - 1; 0 < index; --index)
-      transpose = Partition.of(transpose, myTensorSize.size[index]);
-    return transpose;
+    return ArrayReshape.of(list.stream(), myTensorSize.size);
   }
 }

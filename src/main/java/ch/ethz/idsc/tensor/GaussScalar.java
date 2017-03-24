@@ -100,6 +100,6 @@ public class GaussScalar extends Scalar implements ExactPrecision {
 
   @Override
   public String toString() {
-    return String.format("(%d,%d)", value, prime);
+    return String.format("(%d'%d)", value, prime);
   }
 }

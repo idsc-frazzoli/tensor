@@ -6,6 +6,8 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Abs.html">Abs</a> */
 public enum Abs implements Function<Scalar, Scalar> {
   function;
   // ---
@@ -17,6 +19,6 @@ public enum Abs implements Function<Scalar, Scalar> {
   /** @param tensor
    * @return tensor with all scalars replaced with their absolute value */
   public static Tensor of(Tensor tensor) {
-    return tensor.map(Scalar::abs);
+    return tensor.map(Abs.function);
   }
 }

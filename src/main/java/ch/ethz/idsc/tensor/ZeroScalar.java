@@ -2,11 +2,12 @@
 package ch.ethz.idsc.tensor;
 
 /** ZeroScalar represents the exact number 0
+ * <p>
  * all fields implemented using {@link Scalar}
- * are required to not encode 0, but use ZeroScalar.get().
- * 
- * For instance, there are no DoubleScalar instance
- * with double value 0.0, and no RationalScalar instance of 0/1. */
+ * are required to encode 0 as ZeroScalar.get().
+ * <p>
+ * For instance, there are no {@link DoubleScalar} instance
+ * with double value 0.0, and no {@link RationalScalar} instance of 0/1. */
 public final class ZeroScalar extends RealScalar implements ExactPrecision {
   private static final ZeroScalar INSTANCE = new ZeroScalar();
 

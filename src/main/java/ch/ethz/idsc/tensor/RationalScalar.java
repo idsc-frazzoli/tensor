@@ -79,12 +79,12 @@ public final class RationalScalar extends RealScalar implements ExactPrecision {
       BigInteger bigInteger = getNumerator();
       try {
         return bigInteger.intValueExact();
-      } catch (Exception e) {
+      } catch (Exception exception) {
         // ---
       }
       try {
         return bigInteger.longValueExact();
-      } catch (Exception e) {
+      } catch (Exception exception) {
         // ---
       }
       return bigInteger;

@@ -42,4 +42,29 @@ public class ScalarsTest extends TestCase {
     assertTrue(pattern.matcher(n2).matches());
     assertFalse(pattern.matcher(n3).matches());
   }
+
+  public void testStringScalar() {
+    checkInvariant("123123*I", StringScalar.class);
+    checkInvariant("123-1A23*I", StringScalar.class);
+    checkInvariant("123E-123*I", StringScalar.class);
+  }
+
+  public void testParseComplex() {
+    checkInvariant(ComplexScalar.of(-1e-14, -1e-15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(+1e-14, -1e-15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(-1e+14, -1e-15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(+1e+14, -1e-15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(-1e-14, -1e+15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(+1e-14, -1e+15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(-1e+14, -1e+15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(+1e+14, -1e+15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(-1e-14, +1e-15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(+1e-14, +1e-15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(-1e+14, +1e-15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(+1e+14, +1e-15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(-1e-14, +1e+15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(+1e-14, +1e+15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(-1e+14, +1e+15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(+1e+14, +1e+15).toString(), ComplexScalar.class);
+  }
 }
