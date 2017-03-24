@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sort.html">Sort</a> */
-public class Sort {
+public enum Sort {
+  ;
   /** @param tensor
    * @return tensor with entries sorted according to canonic ordering */
   public static Tensor of(Tensor tensor) {

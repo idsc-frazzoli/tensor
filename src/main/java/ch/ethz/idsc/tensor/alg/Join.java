@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Join.html">Join</a> */
-public class Join {
+public enum Join {
+  ;
   /** @param tensors
    * @return joins elements of all tensors along their first dimension */
   public static Tensor of(Tensor... tensors) {

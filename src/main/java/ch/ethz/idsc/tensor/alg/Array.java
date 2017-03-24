@@ -10,7 +10,8 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Array.html">Array</a> */
-public class Array {
+public enum Array {
+  ;
   /** @param dimensions
    * @return tensor of {@link ZeroScalar} with given dimensions */
   public static Tensor zeros(List<Integer> dimensions) {

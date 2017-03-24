@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.Tensors;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/HilbertMatrix.html">HilbertMatrix</a> */
-public class HilbertMatrix {
+public enum HilbertMatrix {
+  ;
   public static Tensor of(int n, int m) {
     return Tensors.matrix((i, j) -> RationalScalar.of(1, i + j + 1), n, m);
   }

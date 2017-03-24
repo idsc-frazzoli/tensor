@@ -9,7 +9,8 @@ import ch.ethz.idsc.tensor.red.KroneckerDelta;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/IdentityMatrix.html">IdentityMatrix</a> */
-public class IdentityMatrix {
+public enum IdentityMatrix {
+  ;
   /** @param n
    * @return identity matrix of dimensions n x n */
   public static Tensor of(int n) {

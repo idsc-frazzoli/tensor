@@ -9,7 +9,8 @@ import java.io.Serializable;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-public class ObjectFormat {
+public enum ObjectFormat {
+  ;
   /** encodes {@link Serializable} input {@link Object} as array of bytes.
    * since {@link Tensor}s implement {@link Serializable},
    * function can be used to encode tensor as byte array.
@@ -45,9 +46,5 @@ public class ObjectFormat {
       exception.printStackTrace();
     }
     return null;
-  }
-
-  // class cannot be instantiated
-  private ObjectFormat() {
   }
 }

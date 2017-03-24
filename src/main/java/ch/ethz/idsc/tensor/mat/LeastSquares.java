@@ -6,7 +6,8 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/LeastSquares.html">LeastSquares</a> */
-public class LeastSquares { // <- under development
+public enum LeastSquares { // <- under development
+  ;
   /** @param m is matrix with rows >= cols, and maximum rank
    * @param b
    * @return x with m.x ~ b */

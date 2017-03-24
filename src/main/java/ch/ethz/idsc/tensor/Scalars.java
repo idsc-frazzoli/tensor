@@ -5,7 +5,8 @@ import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Scalars {
+public enum Scalars {
+  ;
   private static final Pattern PATTERN_INTEGER = Pattern.compile("-?\\d+");
   private static final Pattern PATTERN_RATIONAL = Pattern.compile("-?\\d+/\\d+");
   private static final Pattern PATTERN_DOUBLE = Pattern.compile(StaticHelper.fpRegex);
@@ -55,9 +56,5 @@ public class Scalars {
     }
     // return as string
     return StringScalar.of(string);
-  }
-
-  // class cannot be instantiated
-  private Scalars() {
   }
 }

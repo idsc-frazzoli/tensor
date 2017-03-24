@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Variance.html">Variance</a> */
-public class Variance {
+public enum Variance {
+  ;
   /** @param vector
    * @return */
   // in Mathematica Variance[{1}] of a list of length 1 is not defined

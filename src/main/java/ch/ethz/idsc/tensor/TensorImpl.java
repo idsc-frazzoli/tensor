@@ -140,7 +140,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   public Tensor add(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
     return Tensor.of(IntStream.range(0, list.size()).boxed() //
-        .parallel() //
+        // .parallel() //
         .map(index -> list.get(index).add(impl.list.get(index))));
   }
 

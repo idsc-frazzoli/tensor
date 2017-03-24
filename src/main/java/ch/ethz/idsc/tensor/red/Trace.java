@@ -9,7 +9,8 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
-public class Trace {
+public enum Trace {
+  ;
   public static Stream<Tensor> stream(Tensor tensor, int d0, int d1) {
     List<Integer> dims = Dimensions.of(tensor);
     final int length = dims.get(d0);

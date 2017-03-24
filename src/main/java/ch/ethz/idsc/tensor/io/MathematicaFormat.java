@@ -9,7 +9,8 @@ import ch.ethz.idsc.tensor.Tensors;
 
 /** Files.lines(Paths.get("filePath"))
  * Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator); */
-public class MathematicaFormat {
+public enum MathematicaFormat {
+  ;
   public static Stream<String> of(Tensor tensor) {
     String string = tensor.toString() //
         .replace('[', '{') //
@@ -23,9 +24,5 @@ public class MathematicaFormat {
         .map(s -> s.replace('{', '[')) //
         .map(s -> s.replace('}', ']')) //
         .collect(Collectors.joining("")));
-  }
-
-  // class cannot be instantiated
-  private MathematicaFormat() {
   }
 }

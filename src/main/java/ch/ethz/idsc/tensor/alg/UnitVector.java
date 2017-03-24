@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.red.KroneckerDelta;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/UnitVector.html">UnitVector</a> */
-public class UnitVector {
+public enum UnitVector {
+  ;
   /** @param k_th
    * @param length
    * @return vector with n entries all zero, except for k-th element as 1 */

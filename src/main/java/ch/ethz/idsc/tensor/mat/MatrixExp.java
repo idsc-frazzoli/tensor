@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.red.Norm;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixExp.html">MatrixExp</a> */
-public class MatrixExp {
+public enum MatrixExp {
+  ;
   public static final int MAXITER = 100;
   public static final double TENSOR_EPS = 1E-40;
 

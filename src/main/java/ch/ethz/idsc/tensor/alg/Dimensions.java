@@ -11,7 +11,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Dimensions.html">Dimensions</a> */
-public class Dimensions {
+public enum Dimensions {
+  ;
   private static List<Set<Integer>> _sets(Tensor tensor, int level, List<Set<Integer>> sets) {
     if (sets.size() <= level)
       sets.add(new HashSet<>());

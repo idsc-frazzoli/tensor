@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/LinearSolve.html">LinearSolve</a> */
-public class LinearSolve {
+public enum LinearSolve {
+  ;
   private static interface Pivot {
     /** @param c0 row and column offset
      * @param ind permutation

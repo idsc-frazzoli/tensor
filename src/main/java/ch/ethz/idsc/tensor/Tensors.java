@@ -10,7 +10,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-public class Tensors {
+public enum Tensors {
+  ;
   /** @return new modifiable tensor instance with no entries, i.e. length() == 0 */
   public static Tensor empty() {
     return Tensor.of(Stream.empty());
@@ -91,9 +92,5 @@ public class Tensors {
       return Tensor.of(list.stream());
     }
     return Scalars.fromString(string);
-  }
-
-  // class cannot be instantiated
-  private Tensors() {
   }
 }

@@ -4,7 +4,8 @@ package ch.ethz.idsc.tensor.lie;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Trace;
 
-public class KillingForm {
+public enum KillingForm {
+  ;
   /** @param ad tensor of lie algebra
    * @return killing form of lie algebra */
   public static Tensor of(Tensor ad) {

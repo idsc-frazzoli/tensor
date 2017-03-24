@@ -9,7 +9,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** Files.lines(Paths.get("filePath"))
  * Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator); */
-public class CsvFormat {
+public enum CsvFormat {
+  ;
   private static final String COMMA = ",";
 
   // does tensor have to be 2d array?
@@ -35,9 +36,5 @@ public class CsvFormat {
     return Tensor.of(stream.parallel() //
         .filter(line -> !line.isEmpty()) //
         .map(line -> Tensor.of(Stream.of(line.split(regex)).map(Scalars::fromString))));
-  }
-
-  // class cannot be instantiated
-  private CsvFormat() {
   }
 }

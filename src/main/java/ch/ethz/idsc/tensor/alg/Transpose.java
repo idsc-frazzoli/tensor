@@ -14,7 +14,8 @@ import ch.ethz.idsc.tensor.Tensor;
  * <br/>
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Transpose.html">Transpose</a> */
-public class Transpose {
+public enum Transpose {
+  ;
   /** @param matrix
    * @return matrix transposed */
   public static Tensor of(Tensor matrix) {

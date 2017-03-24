@@ -8,7 +8,8 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-public class ExtractPrimitives {
+public enum ExtractPrimitives {
+  ;
   public static Stream<Number> vectorToStreamNumber(Tensor tensor) {
     return tensor.flatten(0) //
         .map(RealScalar.class::cast) //
@@ -59,9 +60,5 @@ public class ExtractPrimitives {
   public static int[] vectorToArrayInt(Tensor tensor) {
     return vectorToStreamNumber(tensor) //
         .mapToInt(Number::intValue).toArray();
-  }
-
-  // class cannot be instantiated
-  private ExtractPrimitives() {
   }
 }

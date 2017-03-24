@@ -10,7 +10,8 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Partition.html">Partition</a> */
-public class Partition {
+public enum Partition {
+  ;
   /** Mathematica's Partition[{a, b, c, d, e, f}, 2] == {{a, b}, {c, d}, {e, f}}
    * 
    * @param tensor
