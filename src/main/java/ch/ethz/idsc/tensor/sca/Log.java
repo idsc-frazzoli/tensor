@@ -5,12 +5,15 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactPrecision;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** Log.of(1.0) returns {@link ExactPrecision}
+ * 
+ * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Log.html">Log</a> */
 public enum Log implements Function<Scalar, Scalar> {
   function;
@@ -33,7 +36,7 @@ public enum Log implements Function<Scalar, Scalar> {
   }
 
   /** @param tensor
-   * @return */
+   * @return tensor with all scalars replaced with their logarithm */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Log.function);
   }

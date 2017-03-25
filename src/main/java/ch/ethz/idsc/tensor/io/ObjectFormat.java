@@ -12,7 +12,8 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ObjectFormat {
   ;
   /** encodes {@link Serializable} input {@link Object} as array of bytes.
-   * since {@link Tensor}s implement {@link Serializable},
+   * 
+   * <p>since {@link Tensor}s implement {@link Serializable},
    * function can be used to encode tensor as byte array.
    * 
    * @param object
@@ -32,7 +33,9 @@ public enum ObjectFormat {
     return bytes;
   }
 
-  /** @param bytes
+  /** decodes {@link Serializable} object from array of bytes
+   * 
+   * @param bytes
    * @return {@link Serializable} object encoded in input bytes */
   public static <T extends Serializable> T from(byte[] bytes) {
     try {

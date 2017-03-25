@@ -61,7 +61,8 @@ public final class ZeroScalar extends RealScalar implements ExactPrecision {
 
   @Override // from Object
   public boolean equals(Object object) {
-    return object instanceof ZeroScalar; // Serializable
+    // multiple instance are possible due to serialization
+    return object instanceof ZeroScalar;
   }
 
   @Override // from Object

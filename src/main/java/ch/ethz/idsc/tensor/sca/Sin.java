@@ -34,6 +34,8 @@ public enum Sin implements Function<Scalar, Scalar> {
     throw TensorRuntimeException.of(scalar);
   }
 
+  /** @param tensor
+   * @return tensor with all scalars replaced with their sin */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Sin.function);
   }

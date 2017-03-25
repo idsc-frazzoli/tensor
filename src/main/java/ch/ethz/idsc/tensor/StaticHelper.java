@@ -2,7 +2,8 @@
 // https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#valueOf(java.lang.String)
 package ch.ethz.idsc.tensor;
 
-class StaticHelper {
+enum StaticHelper {
+  ;
   /** code from java.lang.Double */
   private static final String Digits = "(\\p{Digit}+)";
   private static final String HexDigits = "(\\p{XDigit}+)";

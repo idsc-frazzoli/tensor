@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 class Size implements Iterable<MultiIndex> {
   // private static int static_numel(int[] dims) {
@@ -38,6 +39,10 @@ class Size implements Iterable<MultiIndex> {
   //
   public Size permute(int... sigma) {
     return new Size(new MultiIndex(size).permute(sigma).size);
+  }
+
+  public Size permute(Integer... sigma) {
+    return permute(Stream.of(sigma).mapToInt(i -> i).toArray());
   }
 
   public int indexOf(MultiIndex multiIndex) {

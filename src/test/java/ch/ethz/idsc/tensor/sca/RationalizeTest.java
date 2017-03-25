@@ -45,7 +45,7 @@ public class RationalizeTest extends TestCase {
     assertEquals(ratio, Round.of(s));
   }
 
-  private void denCheck(RealScalar realScalar, long max) {
+  private static void denCheck(RealScalar realScalar, long max) {
     final Tensor re = Rationalize.of(realScalar, max);
     if (re instanceof RationalScalar) {
       RationalScalar rs = (RationalScalar) re;
