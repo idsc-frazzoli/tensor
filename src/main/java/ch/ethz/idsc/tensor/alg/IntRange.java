@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /* package */ class IntRange implements Comparable<IntRange>, Iterable<Integer>, Serializable {
-  public static final IntRange coverAll = new IntRange(Integer.MIN_VALUE, Integer.MAX_VALUE);
+  // public static final IntRange coverAll = new IntRange(Integer.MIN_VALUE, Integer.MAX_VALUE);
   /** inclusive */
   public final int min;
   /** exclusive */

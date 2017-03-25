@@ -135,13 +135,13 @@ public abstract class Scalar implements Tensor {
   }
 
   /***************************************************/
-  @Override // from Tensor
+  @Override // from Object
   public abstract int hashCode();
 
-  @Override // from Tensor
+  @Override // from Object
   public abstract boolean equals(Object object);
 
-  @Override // from Tensor
+  @Override // from Object
   public abstract String toString();
 
   /***************************************************/

@@ -6,10 +6,10 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.red.Hypot;
 
 /** complex numbers
- * <br/>
+ * <p>
  * number() or Comparable interface is not supported */
 public class ComplexScalar extends Scalar {
-  static final String IMAGINARY = "*I";
+  static final String IMAGINARY_UNIT = "*I";
 
   /** @param re
    * @param im
@@ -98,12 +98,12 @@ public class ComplexScalar extends Scalar {
     return of(re.multiply(scalar), im.multiply(scalar));
   }
 
-  @Override
+  @Override // from Scalar
   public int hashCode() {
     return Objects.hash(re, im);
   }
 
-  @Override
+  @Override // from Scalar
   public boolean equals(Object object) {
     // null check not required
     if (object instanceof ComplexScalar) {
@@ -113,7 +113,7 @@ public class ComplexScalar extends Scalar {
     return re.equals(object) && im.equals(ZeroScalar.get());
   }
 
-  @Override
+  @Override // from Scalar
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(re);
@@ -121,7 +121,7 @@ public class ComplexScalar extends Scalar {
     if (!imag.startsWith("-"))
       stringBuilder.append('+');
     stringBuilder.append(im);
-    stringBuilder.append(IMAGINARY);
+    stringBuilder.append(IMAGINARY_UNIT);
     return stringBuilder.toString();
   }
 }

@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+/** utility class that provides constructors of tensors for convenience */
 public enum Tensors {
   ;
   /** @return new modifiable tensor instance with no entries, i.e. length() == 0 */
@@ -41,29 +42,44 @@ public enum Tensors {
     return Tensor.of(DoubleStream.of(values).boxed().map(DoubleScalar::of));
   }
 
+  /** @param function
+   * @param length
+   * @return vector of length with i-th entry == function.apply(i) */
   public static Tensor vector(Function<Integer, Scalar> function, int length) {
     return Tensor.of(IntStream.range(0, length).boxed().map(function::apply));
   }
 
+  /** @param biFunction
+   * @param n
+   * @param m
+   * @return (n x m)-matrix with (i,j)-entry == bifunction.apply(i,j) */
   public static Tensor matrix(BiFunction<Integer, Integer, Scalar> biFunction, int n, int m) {
     return Tensor.of(IntStream.range(0, n).boxed().map( //
         i -> Tensor.of(IntStream.range(0, m).boxed().map(j -> biFunction.apply(i, j)))));
   }
 
-  public static Tensor matrixInt(int[][] mat) {
-    return matrix((i, j) -> RealScalar.of(mat[i][j]), mat.length, mat[0].length);
+  /** @param data
+   * @return matrix with dimensions and {@link RationalScalar} entries as array data */
+  public static Tensor matrixInt(int[][] data) {
+    return matrix((i, j) -> RealScalar.of(data[i][j]), data.length, data[0].length);
   }
 
-  public static Tensor matrixLong(long[][] mat) {
-    return matrix((i, j) -> RealScalar.of(mat[i][j]), mat.length, mat[0].length);
+  /** @param data
+   * @return matrix with dimensions and {@link RationalScalar} entries as array data */
+  public static Tensor matrixLong(long[][] data) {
+    return matrix((i, j) -> RealScalar.of(data[i][j]), data.length, data[0].length);
   }
 
-  public static Tensor matrixDouble(double[][] mat) {
-    return matrix((i, j) -> DoubleScalar.of(mat[i][j]), mat.length, mat[0].length);
+  /** @param data
+   * @return matrix with dimensions and {@link DoubleScalar} entries as array data */
+  public static Tensor matrixDouble(double[][] data) {
+    return matrix((i, j) -> DoubleScalar.of(data[i][j]), data.length, data[0].length);
   }
 
-  public static Tensor matrix(Scalar[][] mat) {
-    return matrix((i, j) -> mat[i][j], mat.length, mat[0].length);
+  /** @param data
+   * @return matrix with dimensions and {@link Scalar} entries as array data */
+  public static Tensor matrix(Scalar[][] data) {
+    return matrix((i, j) -> data[i][j], data.length, data[0].length);
   }
 
   /** @param string

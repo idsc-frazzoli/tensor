@@ -11,36 +11,37 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
-public class FloorTest extends TestCase {
-  public void testFloor() {
-    assertEquals(Floor.of(ZeroScalar.get()), ZeroScalar.get());
-    assertEquals(Floor.of(RationalScalar.of(-5, 2)), RationalScalar.of(-3, 1));
-    assertEquals(Floor.of(RationalScalar.of(5, 2)), RationalScalar.of(2, 1));
-    assertEquals(Floor.of(DoubleScalar.of(.123)), ZeroScalar.get());
-    assertEquals(Floor.of(RealScalar.of(1)), RealScalar.of(1));
-    assertEquals(Floor.of(DoubleScalar.of(-.123)), RationalScalar.of(-1, 1));
+public class CeilingTest extends TestCase {
+  public void testCeiling() {
+    assertEquals(Ceiling.of(ZeroScalar.get()), ZeroScalar.get());
+    assertEquals(Ceiling.of(RationalScalar.of(-5, 2)), RationalScalar.of(-2, 1));
+    assertEquals(Ceiling.of(RationalScalar.of(5, 2)), RationalScalar.of(3, 1));
+    assertEquals(Ceiling.of(DoubleScalar.of(.123)), RealScalar.of(1));
+    assertEquals(Ceiling.of(RealScalar.of(1)), RealScalar.of(1));
+    assertEquals(Ceiling.of(DoubleScalar.of(-.123)), RationalScalar.of(0, 1));
   }
 
   public void testHash() {
     Tensor a = Tensors.of( //
         DoubleScalar.of(.123), DoubleScalar.of(3.343), DoubleScalar.of(-.123));
-    Tensor b = a.map(Floor.function);
-    Tensor c = a.map(Floor.function);
+    Tensor b = a.map(Ceiling.function);
+    Tensor c = a.map(Ceiling.function);
     assertEquals(b, c);
     assertEquals(b.hashCode(), c.hashCode());
   }
 
-  public void testGetFloor() {
+  @SuppressWarnings("cast")
+  public void testGetCeiling() {
     Tensor v = Tensors.vectorDouble(3.5, 5.6, 9.12);
-    Scalar s = Floor.function.apply(v.Get(1));
+    Scalar s = Ceiling.function.apply(v.Get(1));
     RealScalar rs = (RealScalar) s;
-    assertEquals(rs.number().doubleValue(), 5.0);
+    assertEquals((Integer) rs.number(), (Integer) 6);
   }
 
   public void testComplex() {
     Scalar c = Scalars.fromString("3-3*I");
     try {
-      Floor.of(c);
+      Ceiling.of(c);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

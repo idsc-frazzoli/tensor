@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
   public static final int RANK_VECTOR = 1;
   public static final int RANK_MATRIX = 2;
 
+  @SuppressWarnings("incomplete-switch")
   public final Type of(Tensor tensor) {
     if (Dimensions.isArray(tensor))
       switch (TensorRank.of(tensor)) {

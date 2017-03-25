@@ -32,7 +32,7 @@ public enum Sqrt implements Function<Scalar, Scalar> {
   }
 
   /** @param tensor
-   * @return */
+   * @return tensor with all scalars replaced with their square root */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Sqrt.function);
   }

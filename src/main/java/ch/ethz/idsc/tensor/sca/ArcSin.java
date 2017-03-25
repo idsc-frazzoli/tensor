@@ -29,6 +29,8 @@ public enum ArcSin implements Function<Scalar, Scalar> {
     return I.negate().multiply(Log.function.apply(I.multiply(scalar).add(o_x2)));
   }
 
+  /** @param tensor
+   * @return tensor with all scalars replaced with their arc sin */
   public static Tensor of(Tensor tensor) {
     return tensor.map(ArcSin.function);
   }

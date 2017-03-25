@@ -21,4 +21,8 @@ public class MathematicaFormatTest extends TestCase {
     assertEquals(MathematicaFormat.of(a).count(), n); // count rows
     assertEquals(a, MathematicaFormat.parse(MathematicaFormat.of(a))); // full circle
   }
+  // public void testComplex() {
+  // Scalar s = ComplexScalar.of(3, 5);
+  // MathematicaFormat.of(s).forEach(System.out::println);
+  // }
 }

@@ -33,7 +33,7 @@ public enum Log implements Function<Scalar, Scalar> {
   }
 
   /** @param tensor
-   * @return */
+   * @return tensor with all scalars replaced with their logarithm */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Log.function);
   }
