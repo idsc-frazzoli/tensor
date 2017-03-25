@@ -18,7 +18,7 @@ public enum Scalars {
   public static Scalar fromString(String string) {
     try {
       // check complex scalar
-      if (string.endsWith(ComplexScalar.IMAGINARY_UNIT)) {
+      if (string.endsWith(ComplexScalar.IMAGINARY_SUFFIX)) {
         Matcher matcher = PATTERN_SEPARATOR.matcher(string);
         matcher.find();
         int sep = matcher.start() + 1;

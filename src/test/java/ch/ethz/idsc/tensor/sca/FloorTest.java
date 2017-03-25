@@ -17,7 +17,7 @@ public class FloorTest extends TestCase {
     assertEquals(Floor.of(RationalScalar.of(-5, 2)), RationalScalar.of(-3, 1));
     assertEquals(Floor.of(RationalScalar.of(5, 2)), RationalScalar.of(2, 1));
     assertEquals(Floor.of(DoubleScalar.of(.123)), ZeroScalar.get());
-    assertEquals(Floor.of(RealScalar.of(1)), RealScalar.of(1));
+    assertEquals(Floor.of(RealScalar.ONE), RealScalar.ONE);
     assertEquals(Floor.of(DoubleScalar.of(-.123)), RationalScalar.of(-1, 1));
   }
 

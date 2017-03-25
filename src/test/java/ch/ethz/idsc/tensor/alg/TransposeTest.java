@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.alg;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -57,5 +58,12 @@ public class TransposeTest extends TestCase {
 
   public void testZeros() {
     assertEquals(Array.zeros(2, 10), Transpose.of(Array.zeros(10, 2)));
+  }
+
+  public void testRep() {
+    Integer[] input = new Integer[] { 3, 2, 6, 0 };
+    int[] copy = Stream.of(input).mapToInt(i -> i).toArray();
+    assertEquals(copy[0], 3);
+    assertEquals(copy[2], 6);
   }
 }

@@ -30,7 +30,7 @@ public enum Transpose {
    * @param tensor with array structure
    * @param sigma is permutation with rank of tensor == sigma.length
    * @return */
-  public static Tensor of(Tensor tensor, int... sigma) { // TODO consider making Integer...
+  public static Tensor of(Tensor tensor, Integer... sigma) {
     if (!Dimensions.isArray(tensor))
       throw new IllegalArgumentException();
     if (TensorRank.of(tensor) != sigma.length)

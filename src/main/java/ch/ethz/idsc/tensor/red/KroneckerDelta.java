@@ -18,6 +18,6 @@ public enum KroneckerDelta {
   }
 
   public static Scalar of(List<Object> list) {
-    return list.stream().distinct().count() <= 1 ? RealScalar.of(1) : ZeroScalar.get();
+    return list.stream().distinct().count() <= 1 ? RealScalar.ONE : ZeroScalar.get();
   }
 }

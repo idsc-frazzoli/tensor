@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -27,5 +28,13 @@ public class BasisTransformTest extends TestCase {
       Tensor d = t.subtract(Transpose.of(t));
       assertEquals(d, Array.zeros(cols, cols));
     }
+  }
+
+  public void testStream() {
+    int n = 5;
+    Integer[] asd = new Integer[n];
+    IntStream.range(0, n).forEach(i -> asd[i] = (i + 1) % n);
+    assertEquals(asd[0].intValue(), 1);
+    assertEquals(asd[n - 1].intValue(), 0);
   }
 }

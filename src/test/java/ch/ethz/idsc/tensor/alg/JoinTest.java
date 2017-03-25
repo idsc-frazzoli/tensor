@@ -53,14 +53,9 @@ public class JoinTest extends TestCase {
             { 1, 2 }, //
             { 0, 5 }, //
             { 9, 8 } }));
-    // System.out.println(t1.dimensions());
     Tensor j2 = Join.of(0, t1, t1, t1, t1);
     assertEquals(Dimensions.of(j2), Arrays.asList(4, 3, 2));
-    // System.out.println(j2.dimensions());
-    // assertEquals(j2.dimensions(), Arrays.asList(3, 4));
-    // // System.out.println(Pretty.of(j2));
     Tensor j3 = Join.of(2, j2, j2, j2);
     assertEquals(Dimensions.of(j3), Arrays.asList(4, 3, 6));
-    // System.out.println(Pretty.of(j3));
   }
 }

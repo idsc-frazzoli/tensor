@@ -23,7 +23,7 @@ public class DoubleScalarTest extends TestCase {
   }
 
   public void testEquality() {
-    assertEquals(RealScalar.of(1), DoubleScalar.of(1));
+    assertEquals(RealScalar.ONE, DoubleScalar.of(1));
     assertEquals(DoubleScalar.of(1), RationalScalar.of(1, 1));
   }
 

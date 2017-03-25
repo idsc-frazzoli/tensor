@@ -85,6 +85,7 @@ public enum Tensors {
   /** @param string
    * @return */
   public static Tensor fromString(final String string) {
+    // TODO implement using stack
     if (string.startsWith("[")) {
       List<Tensor> list = new ArrayList<>();
       int level = 0;

@@ -25,7 +25,7 @@ public class McScalarTest extends TestCase {
   public void testInvert() {
     Scalar s1 = McScalar.of(RationalScalar.of(2, 9), RealScalar.of(-3));
     Scalar s3 = s1.invert();
-    assertEquals(s3.multiply(s1), RealScalar.of(1));
+    assertEquals(s3.multiply(s1), RealScalar.ONE);
   }
 
   public void testLinearSolve() {

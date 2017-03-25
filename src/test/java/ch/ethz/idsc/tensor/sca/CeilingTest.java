@@ -16,8 +16,8 @@ public class CeilingTest extends TestCase {
     assertEquals(Ceiling.of(ZeroScalar.get()), ZeroScalar.get());
     assertEquals(Ceiling.of(RationalScalar.of(-5, 2)), RationalScalar.of(-2, 1));
     assertEquals(Ceiling.of(RationalScalar.of(5, 2)), RationalScalar.of(3, 1));
-    assertEquals(Ceiling.of(DoubleScalar.of(.123)), RealScalar.of(1));
-    assertEquals(Ceiling.of(RealScalar.of(1)), RealScalar.of(1));
+    assertEquals(Ceiling.of(DoubleScalar.of(.123)), RealScalar.ONE);
+    assertEquals(Ceiling.of(RealScalar.ONE), RealScalar.ONE);
     assertEquals(Ceiling.of(DoubleScalar.of(-.123)), RationalScalar.of(0, 1));
   }
 

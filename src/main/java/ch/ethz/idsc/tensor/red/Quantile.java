@@ -18,8 +18,6 @@ import ch.ethz.idsc.tensor.sca.Ceiling;
  * <a href="https://reference.wolfram.com/language/ref/Quantile.html">Quantile</a> */
 public enum Quantile {
   ;
-  private static final Scalar ONE = RealScalar.of(1);
-
   /** Quantile[{0, 1, 2, 3, 4}, {0, 1/5, 2/5, 1}] == {0, 0, 1, 4}
    * 
    * @param vector unsorted
@@ -33,7 +31,7 @@ public enum Quantile {
   private static Scalar _of(Tensor sorted, Scalar scalar) {
     Scalar length = RealScalar.of(sorted.length());
     int index = scalar.equals(ZeroScalar.get()) ? //
-        0 : (Integer) Ceiling.function.apply(scalar.multiply(length)).subtract(ONE).number();
+        0 : (Integer) Ceiling.function.apply(scalar.multiply(length)).subtract(RealScalar.ONE).number();
     return sorted.Get(index);
   }
 }

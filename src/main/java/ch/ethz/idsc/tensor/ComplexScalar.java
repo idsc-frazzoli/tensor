@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.red.Hypot;
  * <p>
  * number() or Comparable interface is not supported */
 public class ComplexScalar extends Scalar {
-  static final String IMAGINARY_UNIT = "*I";
+  static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re
    * @param im
@@ -115,13 +115,13 @@ public class ComplexScalar extends Scalar {
 
   @Override // from Scalar
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
+    StringBuilder stringBuilder = new StringBuilder(32); // initial capacity
     stringBuilder.append(re);
     String imag = im.toString();
     if (!imag.startsWith("-"))
       stringBuilder.append('+');
     stringBuilder.append(im);
-    stringBuilder.append(IMAGINARY_UNIT);
+    stringBuilder.append(IMAGINARY_SUFFIX);
     return stringBuilder.toString();
   }
 }
