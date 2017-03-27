@@ -17,8 +17,22 @@ public class QuantileTest extends TestCase {
   public void testScalar() {
     Tensor vector = Tensors.vectorInt(0, 2, 1, 4, 3);
     Tensor q = Quantile.of(vector, RealScalar.of(.71233));
-    Tensor r = Tensors.fromString("[0, 0, 1, 2, 3, 4]");
-    // System.out.println(q);
     assertEquals(q, RealScalar.of(3));
+  }
+  
+  public void testBounds() {
+    Tensor vector = Tensors.vectorInt(0, 2, 1, 4, 3);
+    try {
+      Quantile.ofSorted(vector, RealScalar.of(1.01));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Quantile.ofSorted(vector, RealScalar.of(-0.01));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

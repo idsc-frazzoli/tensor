@@ -10,38 +10,50 @@ Features:
 
 The naming of functions is inspired by `Mathematica`.
 
-The library is used in the projects:
-* `matsim-av-eth`
-* `SwissTrolley+`
-* `SimBus`
-* `owly`
+Example:
+
+    Tensor matrix = Tensors.matrixInt(new int[][] { { 4, 3 }, { 8, 2 } });
+    System.out.println(Pretty.of(matrix));
+    System.out.println(Pretty.of(Inverse.of(matrix)));
+    
+gives
+
+    [
+     [ 4  3 ]
+     [ 8  2 ]
+    ]
+    [
+     [ -1/8  3/16 ]
+     [  1/2  -1/4 ]
+    ]
+
 
 ## Include in your project
 
 Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:
 
-	<repositories>
-	  <repository>
-	    <id>tensor-mvn-repo</id>
-	    <url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>
-	    <snapshots>
-	      <enabled>true</enabled>
-	      <updatePolicy>always</updatePolicy>
-	    </snapshots>
-	  </repository>
-	</repositories>
-	
-	<dependencies>
-	  <dependency>
-	    <groupId>ch.ethz.idsc</groupId>
-	    <artifactId>tensor</artifactId>
-	    <version>0.1.2</version>
-	  </dependency>
-	</dependencies>
+    <repositories>
+      <repository>
+        <id>tensor-mvn-repo</id>
+        <url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>
+        <snapshots>
+          <enabled>true</enabled>
+          <updatePolicy>always</updatePolicy>
+        </snapshots>
+      </repository>
+    </repositories>
+    
+    <dependencies>
+      <dependency>
+        <groupId>ch.ethz.idsc</groupId>
+        <artifactId>tensor</artifactId>
+        <version>0.1.2</version>
+      </dependency>
+    </dependencies>
 
 The source code is attached to the `jar` file for your convenience.
 
-	
+    
 ## Optional
 
 Clone the repository.
@@ -53,3 +65,12 @@ The `javadoc` API can be generated with
 Subsequently, the documentation is accessible through the file
 
     .../tensor/target/site/apidocs/index.html
+    
+## References
+ 
+The library is used in the projects:
+* `matsim-av-eth`
+* `SwissTrolley+`
+* `SimBus`
+* `owly`
+

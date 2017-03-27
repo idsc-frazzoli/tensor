@@ -3,13 +3,14 @@ package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
 /* package */ class RankAdapter<Type> {
-  public static final int RANK_SCALAR = 0;
-  public static final int RANK_VECTOR = 1;
-  public static final int RANK_MATRIX = 2;
+  static final int RANK_SCALAR = 0;
+  static final int RANK_VECTOR = 1;
+  static final int RANK_MATRIX = 2;
 
   @SuppressWarnings("incomplete-switch")
   public final Type of(Tensor tensor) {
@@ -38,6 +39,6 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
   }
 
   public Type ofOther(Tensor tensor) {
-    throw new UnsupportedOperationException();
+    throw TensorRuntimeException.of(tensor);
   }
 }
