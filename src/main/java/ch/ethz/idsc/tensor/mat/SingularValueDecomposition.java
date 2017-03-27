@@ -1,4 +1,4 @@
-// code adapted by jph
+// code by jph
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Tensor;

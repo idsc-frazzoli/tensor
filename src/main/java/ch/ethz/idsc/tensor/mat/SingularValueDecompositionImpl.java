@@ -103,7 +103,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       if (!scale.equals(ZeroScalar.get())) {
         Scalar fi = scale.invert();
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(fi), k, i));
-        Scalar s = Norm._2squared.of(u.extract(i, rows).get(Tensor.ALL, i));
+        Scalar s = Norm._2Squared.of(u.extract(i, rows).get(Tensor.ALL, i));
         Scalar f = u.Get(i, i);
         p = FortranSign.bifunction.apply(Sqrt.function.apply(s), f).negate();
         Scalar h = f.multiply(p).subtract(s);
@@ -128,7 +128,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
         Scalar si = scale.invert();
         IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.multiply(si), i, k));
         {
-          Scalar s = Norm._2squared.of(u.get(i).extract(ip1, cols));
+          Scalar s = Norm._2Squared.of(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
           p = FortranSign.bifunction.apply(Sqrt.function.apply(s), f).negate();
           Scalar h = f.multiply(p).subtract(s);
