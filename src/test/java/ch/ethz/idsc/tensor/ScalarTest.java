@@ -39,7 +39,7 @@ public class ScalarTest extends TestCase {
     try {
       a.dot(b);
       assertTrue(false);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       // ---
     }
   }

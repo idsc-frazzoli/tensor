@@ -9,8 +9,8 @@ import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 
 /** Quantile does not average as {@link Median}:
- * Quantile[{1,2}, 0.5] == 1
- * Median[{1,2}] == 3/2
+ * <code>Quantile[{1,2}, 0.5] == 1</code>
+ * <code>Median[{1,2}] == 3/2</code>
  * 
  * implementation is compliant to Mathematica
  * 
@@ -18,13 +18,19 @@ import ch.ethz.idsc.tensor.sca.Ceiling;
  * <a href="https://reference.wolfram.com/language/ref/Quantile.html">Quantile</a> */
 public enum Quantile {
   ;
-  /** Quantile[{0, 1, 2, 3, 4}, {0, 1/5, 2/5, 1}] == {0, 0, 1, 4}
+  /** <code>Quantile[{0, 1, 2, 3, 4}, {0, 1/5, 2/5, 1}] == {0, 0, 1, 4}</code>
    * 
    * @param vector unsorted
    * @param param is scalar or tensor with elements in interval [0, 1]
    * @return tensor with same dimensions as param */
   public static Tensor of(Tensor vector, Tensor param) {
-    Tensor sorted = Sort.of(vector);
+    return ofSorted(Sort.of(vector), param);
+  }
+
+  /** @param sorted vector
+   * @param param is scalar or tensor with elements in interval [0, 1]
+   * @return tensor with same dimensions as param */
+  public static Tensor ofSorted(Tensor sorted, Tensor param) {
     return param.map(scalar -> _of(sorted, scalar));
   }
 

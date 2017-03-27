@@ -19,4 +19,12 @@ public class NumelTest extends TestCase {
     assertEquals(Numel.of(d), 4);
     assertEquals(Numel.of(Array.zeros(3, 5, 4)), 3 * 4 * 5);
   }
+
+  public void testFlatten() {
+    Tensor a = DoubleScalar.of(1.23);
+    Tensor b = Tensors.vectorLong(3, 2, 3, 5);
+    Tensor c = Tensors.vectorLong(3, 2, 5);
+    Tensor f = Tensors.of(a, b, c);
+    assertEquals(Numel.of(f), 8);
+  }
 }

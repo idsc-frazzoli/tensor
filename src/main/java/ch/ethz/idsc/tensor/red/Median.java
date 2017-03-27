@@ -8,13 +8,16 @@ import ch.ethz.idsc.tensor.alg.Sort;
  * <a href="https://reference.wolfram.com/language/ref/Median.html">Median</a> */
 public enum Median {
   ;
-  /** Median[{1, 2, 3, 4, 5, 6, 7}] == 4
-   * Median[{1, 2, 3, 4, 5, 6, 7, 8}] == 9/2
+  /** <code>Median[{1, 2, 3, 4, 5, 6, 7}] == 4</code>
+   * <code>Median[{1, 2, 3, 4, 5, 6, 7, 8}] == 9/2</code>
    * 
    * @param tensor unsorted
    * @return */
   public static Tensor of(Tensor tensor) {
-    Tensor sorted = Sort.of(tensor);
+    return ofSorted(Sort.of(tensor));
+  }
+
+  public static Tensor ofSorted(Tensor sorted) {
     int length = sorted.length();
     if (length % 2 == 0) {
       int index = length / 2;

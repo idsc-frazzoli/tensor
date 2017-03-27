@@ -26,7 +26,7 @@ public class MedianTest extends TestCase {
     try {
       Median.of(Tensors.empty());
       assertTrue(false);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       // ---
     }
   }

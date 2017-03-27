@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.alg.Numel;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -33,14 +32,6 @@ public class TensorTest extends TestCase {
     assertEquals(a.get(2), Tensors.fromString("[9, 8]"));
     assertEquals(a.get(-1, 0), Tensors.fromString("[3, 1, 9]"));
     assertEquals(a.get(-1, 1), Tensors.fromString("[4, 2, 8]"));
-  }
-
-  public void testFlatten() {
-    Tensor a = DoubleScalar.of(1.23);
-    Tensor b = Tensors.vectorLong(3, 2, 3, 5);
-    Tensor c = Tensors.vectorLong(3, 2, 5);
-    Tensor f = Tensors.of(a, b, c);
-    assertEquals(Numel.of(f), 8);
   }
 
   public void testFlattenN() {
@@ -105,13 +96,13 @@ public class TensorTest extends TestCase {
     try {
       unmodi.set(DoubleScalar.of(.3), 2);
       assertTrue(false);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       // ---
     }
     try {
       unmodi.append(Tensors.empty());
       assertTrue(false);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       // ---
     }
     Tensor dot = unmodi.dot(unmodi);
@@ -134,47 +125,50 @@ public class TensorTest extends TestCase {
     assertTrue(c.add(d).equals(e));
   }
 
-  public void testDot() {
-    {
-      Tensor a = Tensors.empty().dot(Tensors.empty());
-      assertTrue(a instanceof Scalar);
-      assertEquals(a, ZeroScalar.get());
-      assertEquals(a, DoubleScalar.of(0));
-      assertEquals(ZeroScalar.get(), a);
-      assertEquals(DoubleScalar.of(0), a);
-    }
-    {
-      Tensor tensor = Tensors.of(Tensors.empty());
-      Tensor sca = tensor.dot(Tensors.empty());
-      assertEquals(sca, Tensors.vectorLong(0));
-    }
-    {
-      Tensor tensor = Tensors.of(Tensors.empty(), Tensors.empty());
-      Tensor sca = tensor.dot(Tensors.empty());
-      assertEquals(sca, Tensors.vectorLong(0, 0));
-    }
-    {
-      Tensor c = Tensors.vectorLong(1, 2, 6);
-      Tensor d = Tensors.vectorLong(3, 4, 5);
-      assertTrue(c.dot(d) instanceof RationalScalar);
-      assertEquals(c.dot(d), RationalScalar.of(3 + 8 + 30, 1));
-    }
-    {
-      Tensor c = Tensors.vectorDouble(1, 2, 6.);
-      Tensor d = Tensors.vectorLong(3, 4, 5);
-      assertTrue(c.dot(d) instanceof DoubleScalar);
-      assertEquals(c.dot(d), DoubleScalar.of(3 + 8 + 30));
-    }
-    {
-      Tensor a = Tensors.vectorLong(7, 2);
-      Tensor b = Tensors.vectorLong(3, 4);
-      Tensor c = Tensors.vectorLong(2, 2);
-      Tensor d = Tensors.of(a, b, c);
-      Tensor e = Tensors.vectorLong(-1, 1);
-      Tensor f = d.dot(e);
-      Tensor g = Tensors.vectorLong(-7 + 2, -3 + 4, -2 + 2);
-      assertEquals(f, g);
-    }
+  public void testDotEmpty() {
+    Tensor a = Tensors.empty().dot(Tensors.empty());
+    assertTrue(a instanceof Scalar);
+    assertEquals(a, ZeroScalar.get());
+    assertEquals(a, DoubleScalar.of(0));
+    assertEquals(ZeroScalar.get(), a);
+    assertEquals(DoubleScalar.of(0), a);
+  }
+
+  public void testDot2() {
+    Tensor tensor = Tensors.of(Tensors.empty());
+    Tensor sca = tensor.dot(Tensors.empty());
+    assertEquals(sca, Tensors.vectorDouble(0));
+  }
+
+  public void testDot3() {
+    Tensor tensor = Tensors.of(Tensors.empty(), Tensors.empty());
+    Tensor sca = tensor.dot(Tensors.empty());
+    assertEquals(sca, Tensors.vectorLong(0, 0));
+  }
+
+  public void testDot4() {
+    Tensor c = Tensors.vectorLong(1, 2, 6);
+    Tensor d = Tensors.vectorLong(3, 4, 5);
+    assertTrue(c.dot(d) instanceof RationalScalar);
+    assertEquals(c.dot(d), RationalScalar.of(3 + 8 + 30, 1));
+  }
+
+  public void testDot5() {
+    Tensor c = Tensors.vectorDouble(1, 2, 6.);
+    Tensor d = Tensors.vectorLong(3, 4, 5);
+    assertTrue(c.dot(d) instanceof DoubleScalar);
+    assertEquals(c.dot(d), RationalScalar.of(3 + 8 + 30, 1));
+  }
+
+  public void testDot6() {
+    Tensor a = Tensors.vectorLong(7, 2);
+    Tensor b = Tensors.vectorLong(3, 4);
+    Tensor c = Tensors.vectorLong(2, 2);
+    Tensor d = Tensors.of(a, b, c);
+    Tensor e = Tensors.vectorLong(-1, 1);
+    Tensor f = d.dot(e);
+    Tensor g = Tensors.vectorLong(-7 + 2, -3 + 4, -2 + 2);
+    assertEquals(f, g);
   }
 
   public void testHash() {
@@ -223,7 +217,7 @@ public class TensorTest extends TestCase {
 
   public void testMap() {
     Tensor a = Tensors.of(DoubleScalar.of(1e-20), Tensors.of(DoubleScalar.of(3e-19)));
-    Tensor b = Chop.of(a);
+    Tensor b = a.map(Chop.function);
     assertEquals(b, Tensors.of(ZeroScalar.get(), Tensors.of(ZeroScalar.get())));
   }
 }

@@ -44,13 +44,13 @@ public class GaussScalarTest extends TestCase {
     try {
       GaussScalar.of(2, 20001);
       assertTrue(false);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       // empty
     }
     try {
       GaussScalar.of(2, 100101);
       assertTrue(false);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       // empty
     }
   }
@@ -61,13 +61,13 @@ public class GaussScalarTest extends TestCase {
     try {
       a.plus(b);
       assertTrue(false);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       // ---
     }
     try {
       a.multiply(b);
       assertTrue(false);
-    } catch (Exception e) {
+    } catch (Exception exception) {
       // ---
     }
   }
