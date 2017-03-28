@@ -1,40 +1,41 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 
-/** Files.lines(Paths.get("filePath"))
- * Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator); */
+/** comma separated values format */
 public enum CsvFormat {
   ;
-  private static final String COMMA = ",";
-
-  // does tensor have to be 2d array?
-  /** @param tensor of depth no greater than 2
+  /** The stream of strings can be written to a file using
+   * <code>Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator);</code>
+   * 
+   * @param tensor
    * @return */
-  public static Stream<String> of(Tensor matrix) {
-    return of(matrix, COMMA);
+  public static Stream<String> of(Tensor tensor) {
+    return tensor.flatten(0).parallel() //
+        .map(Tensor::toString) //
+        .map(string -> string.substring(1, string.length() - 1)); // remove first and last bracket
   }
 
-  /** @param tensor of depth no greater than 2
-   * @return */
-  public static Stream<String> of(Tensor matrix, CharSequence delimiter) {
-    return matrix.flatten(0).parallel() //
-        .map(vector -> String.join(delimiter, //
-            vector.flatten(0).map(Tensor::toString).collect(Collectors.toList())));
-  }
-
+  /** The strings can be read from a file using
+   * <code>Files.lines(Paths.get("filePath"));</code>
+   * 
+   * <p>Example: The stream of the following strings
+   * <pre>
+   * "10, 200, 3"
+   * "78"
+   * "-3, 2.3"
+   * </pre>
+   * results in the tensor [[10, 200, 3], [78], [-3, 2.3]]
+   * 
+   * @param stream
+   * @return tensor with rows defined by the entries of the input stream */
   public static Tensor parse(Stream<String> stream) {
-    return parse(stream, COMMA);
-  }
-
-  public static Tensor parse(Stream<String> stream, String regex) {
     return Tensor.of(stream.parallel() //
-        .filter(line -> !line.isEmpty()) //
-        .map(line -> Tensor.of(Stream.of(line.split(regex)).map(Scalars::fromString))));
+        .map(line -> "[" + line + "]") // insert first and last bracket
+        .map(Tensors::fromString));
   }
 }

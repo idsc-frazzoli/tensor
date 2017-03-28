@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
@@ -14,8 +15,15 @@ public class ScalarsTest extends TestCase {
     assertEquals(t.getClass(), myclass);
   }
 
+  public void testRegex() {
+    Pattern pattern = Pattern.compile(StaticHelper.fpRegex);
+    Matcher matcher = pattern.matcher("  123");
+    assertTrue(matcher.matches()); // TODO this is not entirely consistent
+  }
+
   public void testParse() {
     checkInvariant("123", RationalScalar.class);
+    checkInvariant(" 123", DoubleScalar.class); // TODO this is a bit strange behavior
     checkInvariant("3/4", RationalScalar.class);
     checkInvariant("34.23123", DoubleScalar.class);
     checkInvariant("0", ZeroScalar.class);

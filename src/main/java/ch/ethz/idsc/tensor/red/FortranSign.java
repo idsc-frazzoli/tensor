@@ -6,6 +6,9 @@ import java.util.function.BiFunction;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 
+/** Function returns a or a.negate() depending on sign of a and b.
+ * 
+ * The function appears in the Fortran language and old literature. */
 public enum FortranSign implements BiFunction<Scalar, Scalar, Scalar> {
   bifunction;
   // ---

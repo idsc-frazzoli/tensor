@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -38,5 +39,19 @@ public class CsvFormatTest extends TestCase {
     assertEquals(r, p);
     Tensor ten = ObjectFormat.from(ObjectFormat.of(s));
     assertEquals(s, ten);
+  }
+
+  public void testParse() {
+    Tensor t = CsvFormat.parse(Arrays.asList("10, 200, 3","", "78", "-3, 2.3").stream());
+    Tensor r = Tensors.fromString("[[10, 200, 3], [], [78], [-3, 2.3]]");
+    assertEquals(t, r);
+    assertEquals(t.toString(), r.toString());
+  }
+
+  public void testParse2() {
+    Tensor t = CsvFormat.parse(Arrays.asList("10, [200, 3]", "78", "-3, 2.3").stream());
+    Tensor r = Tensors.fromString("[[10, [200, 3]], [78], [-3, 2.3]]");
+    assertEquals(t, r);
+    assertEquals(t.toString(), r.toString());
   }
 }
