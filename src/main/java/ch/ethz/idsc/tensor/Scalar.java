@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-/** on top of the capabilities of a {@link Tensor}
- * a scalar can be inverted
- * <br/>
- * The scalar 0 in any field is represented by {@link ZeroScalar},
+/** on top of the capabilities of a {@link Tensor} a scalar can be inverted
+ * 
+ * <p>The scalar 0 in any field is represented by {@link ZeroScalar},
  * which cannot be inverted.
- * <br/>
- * derived classes are immutable */
+ * 
+ * <p>derived classes are immutable */
 public abstract class Scalar implements Tensor {
   public static final int LENGTH = -1;
 
@@ -26,6 +25,7 @@ public abstract class Scalar implements Tensor {
     return this; // Scalar instances are immutable
   }
 
+  /** when using get() on {@link Scalar} the list of arguments has to be empty */
   @Override
   public final Scalar get(Integer... index) {
     if (0 < index.length)
@@ -33,6 +33,7 @@ public abstract class Scalar implements Tensor {
     return this;
   }
 
+  /** when using Get() on {@link Scalar} the list of arguments has to be empty */
   @Override
   public final Scalar Get(Integer... index) {
     if (0 < index.length)
@@ -40,6 +41,7 @@ public abstract class Scalar implements Tensor {
     return this;
   }
 
+  /** when using get() on {@link Scalar} the list of arguments has to be empty */
   @Override
   public final Tensor get(List<Integer> index) {
     if (0 < index.size())

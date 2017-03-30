@@ -6,6 +6,7 @@ import java.util.List;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** Transpose is consistent with Mathematica::Transpose
  * Transpose is consistent with MATALB::permute
@@ -31,10 +32,12 @@ public enum Transpose {
    * @param sigma is permutation with rank of tensor == sigma.length
    * @return */
   public static Tensor of(Tensor tensor, Integer... sigma) {
+    if (tensor instanceof Scalar)
+      throw TensorRuntimeException.of(tensor);
     if (!Dimensions.isArray(tensor))
-      throw new IllegalArgumentException();
+      throw TensorRuntimeException.of(tensor);
     if (TensorRank.of(tensor) != sigma.length)
-      throw new IllegalArgumentException();
+      throw TensorRuntimeException.of(tensor);
     // ---
     List<Integer> dims = Dimensions.of(tensor);
     int[] size = new int[dims.size()];

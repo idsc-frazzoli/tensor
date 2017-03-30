@@ -24,11 +24,10 @@ public enum N implements Function<Scalar, Scalar> {
     }
     return null;
   }
-  
+
   /** @param tensor
    * @return tensor with all scalars replaced with their decimal numerical */
   public static Tensor of(Tensor tensor) {
     return tensor.map(N.function);
   }
-
 }
