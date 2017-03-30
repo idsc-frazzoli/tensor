@@ -5,10 +5,10 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
 
-/** complex numbers
- * <p>
- * number() or Comparable interface is not supported */
-public class ComplexScalar extends Scalar {
+/** complex number
+ * 
+ * <p>number() or Comparable interface is not supported */
+public class ComplexScalar extends AbstractScalar {
   static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re
@@ -54,7 +54,7 @@ public class ComplexScalar extends Scalar {
 
   @Override // from Scalar
   public Scalar invert() {
-    Scalar mag = re.multiply(re).plus(im.multiply(im)).invert();
+    Scalar mag = re.multiply(re).add(im.multiply(im)).invert();
     return of(re.multiply(mag), im.negate().multiply(mag));
   }
 
@@ -82,9 +82,9 @@ public class ComplexScalar extends Scalar {
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof ComplexScalar) {
       ComplexScalar complexScalar = (ComplexScalar) scalar;
-      return of(re.plus(complexScalar.real()), im.plus(complexScalar.imag()));
+      return of(re.add(complexScalar.real()), im.add(complexScalar.imag()));
     }
-    return of(re.plus(scalar), im);
+    return of(re.add(scalar), im);
   }
 
   @Override // from Scalar
@@ -93,7 +93,7 @@ public class ComplexScalar extends Scalar {
       ComplexScalar cmp = (ComplexScalar) scalar;
       return of( //
           re.multiply(cmp.real()).subtract(im.multiply(cmp.imag())), //
-          re.multiply(cmp.imag()).plus(im.multiply(cmp.real())));
+          re.multiply(cmp.imag()).add(im.multiply(cmp.real())));
     }
     return of(re.multiply(scalar), im.multiply(scalar));
   }

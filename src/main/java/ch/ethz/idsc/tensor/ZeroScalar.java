@@ -35,7 +35,7 @@ public final class ZeroScalar extends RealScalar implements ExactPrecision {
   }
 
   @Override // from Scalar
-  public Scalar plus(Scalar scalar) {
+  protected Scalar plus(Scalar scalar) {
     return scalar;
   }
 

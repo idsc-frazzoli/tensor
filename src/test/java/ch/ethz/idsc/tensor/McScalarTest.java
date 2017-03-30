@@ -9,9 +9,9 @@ public class McScalarTest extends TestCase {
   public void testPlus() {
     Scalar s1 = McScalar.of(RealScalar.of(2), RealScalar.of(4));
     Scalar s2 = McScalar.of(RationalScalar.of(2, 9), RealScalar.of(-3));
-    assertEquals(s1.plus(s2), s2.plus(s1));
+    assertEquals(s1.add(s2), s2.add(s1));
     Scalar r = RealScalar.of(5);
-    assertEquals(s1.plus(r), r.plus(s1));
+    assertEquals(s1.add(r), r.add(s1));
   }
 
   public void testMultiply() {

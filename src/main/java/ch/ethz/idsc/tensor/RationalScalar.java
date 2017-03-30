@@ -63,7 +63,7 @@ public final class RationalScalar extends RealScalar implements ExactPrecision {
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof RationalScalar)
       return _of(bigFraction.add(((RationalScalar) scalar).bigFraction));
-    return scalar.plus(this);
+    return scalar.add(this);
   }
 
   @Override // from Tensor

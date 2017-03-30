@@ -9,7 +9,7 @@ import java.util.Set;
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 // class may be a misnomer
-public class GaussScalar extends Scalar implements ExactPrecision {
+public class GaussScalar extends AbstractScalar implements ExactPrecision {
   private static final Set<Long> primes = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
@@ -66,7 +66,7 @@ public class GaussScalar extends Scalar implements ExactPrecision {
       return of(value + gaussScalar.value, prime);
     }
     assertInstanceOfZeroScalar(scalar);
-    return scalar.plus(this);
+    return scalar.add(this);
   }
 
   @Override

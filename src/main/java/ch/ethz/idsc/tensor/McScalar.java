@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.red.Norm;
 
 // experimental towards a Quaternion scalar
-class McScalar extends Scalar {
+class McScalar extends AbstractScalar {
   public static Scalar of(Scalar re, Scalar im) {
     if (im.equals(ZeroScalar.get()))
       return re;

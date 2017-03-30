@@ -59,7 +59,7 @@ public class GaussScalarTest extends TestCase {
     Scalar a = GaussScalar.of(4, 7);
     Scalar b = DoubleScalar.of(4.33);
     try {
-      a.plus(b);
+      a.add(b);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

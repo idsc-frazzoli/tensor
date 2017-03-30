@@ -49,7 +49,7 @@ public class ScalarTest extends TestCase {
     Scalar b = DoubleScalar.of(5);
     Number na = a.number();
     Number nb = b.number();
-    Scalar c = a.plus(b);
+    Scalar c = a.add(b);
     Scalar d = DoubleScalar.of(na.doubleValue() + nb.doubleValue());
     assertEquals(c, d);
   }

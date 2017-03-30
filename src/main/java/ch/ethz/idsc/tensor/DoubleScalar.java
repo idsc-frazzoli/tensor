@@ -37,7 +37,7 @@ public final class DoubleScalar extends RealScalar {
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof RealScalar)
       return of(value + scalar.number().doubleValue());
-    return scalar.plus(this);
+    return scalar.add(this);
   }
 
   @Override // from Scalar

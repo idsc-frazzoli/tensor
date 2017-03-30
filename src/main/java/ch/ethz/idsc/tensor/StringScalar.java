@@ -5,7 +5,7 @@ package ch.ethz.idsc.tensor;
  * <br/>
  * for instance the first line of a csv file may contain column
  * headers which are imported as StringScalars */
-public final class StringScalar extends Scalar {
+public final class StringScalar extends AbstractScalar {
   /** @param string
    * @return new instance of {@link StringScalar} representing string */
   public static Scalar of(String string) {
@@ -22,22 +22,22 @@ public final class StringScalar extends Scalar {
 
   @Override // from Scalar
   public Scalar invert() {
-    throw new UnsupportedOperationException();
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
-    throw new UnsupportedOperationException();
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from Scalar
   protected Scalar plus(Scalar scalar) {
-    throw new UnsupportedOperationException();
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from Scalar
   public Scalar negate() {
-    throw new UnsupportedOperationException();
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from Scalar
