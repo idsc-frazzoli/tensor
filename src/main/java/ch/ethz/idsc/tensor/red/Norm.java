@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** Each norm is defined for scalars, vectors, and matrices.
+/** Each norm is defined at least for scalars, vectors, and matrices.
  * The return value is of type {@link RealScalar}.
  * 
  * inspired by

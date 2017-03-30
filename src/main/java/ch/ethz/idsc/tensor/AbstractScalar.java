@@ -98,8 +98,6 @@ public abstract class AbstractScalar implements Scalar {
     return add(tensor.negate());
   }
 
-  /** @param scalar
-   * @return this divided by input scalar */
   @Override // from Scalar
   public final Scalar divide(Scalar scalar) {
     return multiply(scalar.invert());
@@ -112,19 +110,14 @@ public abstract class AbstractScalar implements Scalar {
 
   /***************************************************/
   @Override // from Scalar
-  public Scalar abs() {
-    throw TensorRuntimeException.of(this);
-  }
-
-  @Override // from Scalar
   public Scalar conjugate() {
     throw TensorRuntimeException.of(this);
   }
 
-  /***************************************************/
-  /** @param scalar
-   * @return this plus input scalar */
-  protected abstract Scalar plus(Scalar scalar);
+  @Override // from Scalar
+  public Scalar abs() {
+    throw TensorRuntimeException.of(this);
+  }
 
   @Override // from Scalar
   public Scalar absSquared() {
@@ -136,18 +129,15 @@ public abstract class AbstractScalar implements Scalar {
     throw TensorRuntimeException.of(this);
   }
 
-  /** classes should only override this if consistency is possible
-   * for instance:
-   * {@link ComplexScalar} would require two numbers, therefore
-   * a single number is not implemented.
-   * two scalars that are equal should return the same number()
-   * 
-   * @return this representation as {@link Number}
-   * @throws UnsupportedOperationException */
   @Override // from Scalar
   public Number number() {
     throw TensorRuntimeException.of(this);
   }
+
+  /***************************************************/
+  /** @param scalar
+   * @return this plus input scalar */
+  protected abstract Scalar plus(Scalar scalar);
 
   /***************************************************/
   @Override // from Object

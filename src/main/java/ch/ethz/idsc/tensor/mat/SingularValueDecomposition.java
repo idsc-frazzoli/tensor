@@ -21,14 +21,18 @@ public interface SingularValueDecomposition {
     return new SingularValueDecompositionImpl(A, 1e-17, 25);
   }
 
-  public Tensor getU();
+  /** @return matrix of dimensions A, rows x cols */
+  Tensor getU();
 
-  public Tensor getW();
+  /** @return vector of non-negative singular values */
+  Tensor getW();
 
-  public Tensor getV();
+  /** @return square matrix of dimensions cols x cols */
+  Tensor getV();
 
-  public void setThreshold(double w_threshold);
+  /** @param w_threshold strictly below which singular values are clipped to zero */
+  void setThreshold(double w_threshold);
 
   /** @return threshold strictly below which singular values are considered to be zero */
-  public double getThreshold();
+  double getThreshold();
 }
