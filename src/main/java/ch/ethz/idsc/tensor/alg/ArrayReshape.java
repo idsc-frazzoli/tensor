@@ -15,7 +15,7 @@ public enum ArrayReshape {
    * @param stream of {@link Scalar}s
    * @param size
    * @return tensor with {@link Scalar} entries from stream and {@link Dimensions} size */
-  public static Tensor of(Stream<? extends Tensor> stream, int... size) { // TODO make Integer...
+  public static Tensor of(Stream<? extends Tensor> stream, Integer... size) {
     // TODO check if count != prod size
     Tensor transpose = Tensor.of(stream);
     for (int index = size.length - 1; 0 < index; --index)
@@ -23,7 +23,7 @@ public enum ArrayReshape {
     return transpose;
   }
 
-  public static Tensor of(Tensor tensor, int... size) {
+  public static Tensor of(Tensor tensor, Integer... size) {
     return of(tensor.flatten(-1), size);
   }
 }

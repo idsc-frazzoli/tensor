@@ -36,8 +36,8 @@ public enum Floor implements Function<Scalar, Scalar> {
     return bi;
   }
 
-  /** @param scalar instance if {@link RealScalar}
-   * @return best integer scalar approximation to floor of scalar */
+  /** @param tensor
+   * @return tensor with all entries replaced by their floor */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Floor.function);
   }

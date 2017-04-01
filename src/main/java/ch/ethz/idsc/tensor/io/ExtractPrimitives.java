@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 
+/** only works for {@link Tensor}s with entries as {@link RealScalar} */
 public enum ExtractPrimitives {
   ;
   public static Stream<Number> vectorToStreamNumber(Tensor tensor) {

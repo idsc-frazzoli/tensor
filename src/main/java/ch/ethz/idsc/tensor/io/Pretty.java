@@ -1,11 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
-// doesn't do anything special for non-arrays yet
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/MatrixForm.html">MatrixForm</a> */
 public class Pretty {
   /** @param tensor
    * @return string expression of tensor for use in System.out.println */
@@ -16,6 +18,7 @@ public class Pretty {
   final StringBuilder stringBuilder = new StringBuilder();
   final String format;
   private int level = 0;
+  final int rank;
 
   private Pretty(Tensor tensor) {
     final int max = tensor.flatten(-1) //
@@ -23,31 +26,46 @@ public class Pretty {
         .mapToInt(String::length) //
         .max().orElse(0);
     format = " %" + max + "s ";
-    recur(tensor);
+    rank = TensorRank.of(tensor);
+    if (Dimensions.isArray(tensor))
+      recurArray(tensor);
+    else
+      recur(tensor);
   }
 
   private void recur(Tensor tensor) {
-    if (!Dimensions.isArray(tensor))
-      stringBuilder.append(tensor.toString());
-    else
-      switch (TensorRank.of(tensor)) {
-      case 0:
-        stringBuilder.append(String.format(format, tensor.toString()));
-        break;
-      case 1:
-        stringBuilder.append(Utils.spaces(level) + "[");
-        for (Tensor s : tensor)
-          recur(s);
-        stringBuilder.append("]\n");
-        break;
-      default:
-        stringBuilder.append(Utils.spaces(level) + "[\n");
-        ++level;
-        for (Tensor s : tensor)
-          recur(s);
-        --level;
-        stringBuilder.append(Utils.spaces(level) + "]\n");
+    stringBuilder.append(Utils.spaces(level) + "[\n");
+    ++level;
+    for (Tensor entry : tensor)
+      if (Dimensions.isArray(entry))
+        recurArray(entry);
+      else
+        recur(entry);
+    --level;
+    stringBuilder.append(Utils.spaces(level) + "]\n");
+  }
+
+  private void recurArray(Tensor tensor) {
+    switch (TensorRank.of(tensor)) {
+    case 0: // scalar
+      stringBuilder.append(String.format(format, tensor.toString()));
+      break;
+    case 1: // vector
+      stringBuilder.append(Utils.spaces(level) + "[");
+      for (Tensor entry : tensor) {
+        Scalar scalar = (Scalar) entry;
+        recurArray(scalar);
       }
+      stringBuilder.append("]\n");
+      break;
+    default:
+      stringBuilder.append(Utils.spaces(level) + "[\n");
+      ++level;
+      for (Tensor entry : tensor)
+        recurArray(entry);
+      --level;
+      stringBuilder.append(Utils.spaces(level) + "]\n");
+    }
   }
 
   @Override

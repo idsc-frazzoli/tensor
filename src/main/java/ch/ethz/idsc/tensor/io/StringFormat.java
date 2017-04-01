@@ -1,3 +1,4 @@
+// code by jph
 package ch.ethz.idsc.tensor.io;
 
 import java.util.Stack;

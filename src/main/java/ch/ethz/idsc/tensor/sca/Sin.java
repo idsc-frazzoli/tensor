@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** http://www.milefoot.com/math/complex/functionsofi.htm
  *
  * inspired by
- * <a href="https://reference.wolfram.com/language/ref/Cos.html">Cos</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Sin.html">Sin</a> */
 public enum Sin implements Function<Scalar, Scalar> {
   function;
   // ---

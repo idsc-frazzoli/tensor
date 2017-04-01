@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * 
  * If possible, only use {@link CsvFormat} for export of
  * vectors or matrices to other applications such as MATLAB.
- * {@link MatlabExport} preserves dimensions of multi-dimensional arrays. 
+ * {@link MatlabExport} preserves dimensions of multi-dimensional arrays.
  * 
  * Do not use csv format to store and reload tensors.
  * For that purpose {@link ObjectFormat} is preferred. */

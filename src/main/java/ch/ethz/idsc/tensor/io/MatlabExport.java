@@ -19,12 +19,13 @@ public enum MatlabExport {
    * <code>Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator);</code>
    * 
    * @param tensor must not be {@link Scalar}. For scalars, use Tensors.of(scalar);
-   * @return */
+   * @return lines of MATLAB function that returns tensor */
   public static Stream<String> of(Tensor tensor) {
     if (tensor instanceof Scalar)
       throw TensorRuntimeException.of(tensor);
     List<String> list = new LinkedList<>();
     list.add("function a=anonymous");
+    list.add("% auto-generated code. do not modify.");
     list.add("I=i;");
     List<Integer> dims = Dimensions.of(tensor);
     Integer[] sigma = new Integer[dims.size()];

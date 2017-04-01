@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -13,11 +13,15 @@ import ch.ethz.idsc.tensor.ZeroScalar;
  * Mathematica::KroneckerDelta[1] == 0 (inconsistent) */
 public enum KroneckerDelta {
   ;
+  /** @param objects
+   * @return RealScalar.ONE if there are no two objects are distinct */
   public static Scalar of(Object... objects) {
     return of(Arrays.asList(objects));
   }
 
-  public static Scalar of(List<Object> list) {
-    return list.stream().distinct().count() <= 1 ? RealScalar.ONE : ZeroScalar.get();
+  /** @param collection
+   * @return RealScalar.ONE if there are no two objects in the collection that are distinct */
+  public static Scalar of(Collection<Object> collection) {
+    return collection.stream().distinct().count() <= 1 ? RealScalar.ONE : ZeroScalar.get();
   }
 }

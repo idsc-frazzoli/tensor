@@ -13,30 +13,30 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** http://www.milefoot.com/math/complex/functionsofi.htm
  *
  * inspired by
- * <a href="https://reference.wolfram.com/language/ref/Cos.html">Cos</a> */
-public enum Cos implements Function<Scalar, Scalar> {
+ * <a href="https://reference.wolfram.com/language/ref/Cosh.html">Cosh</a> */
+public enum Cosh implements Function<Scalar, Scalar> {
   function;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RealScalar) {
       double value = scalar.number().doubleValue();
-      return DoubleScalar.of(Math.cos(value));
+      return DoubleScalar.of(Math.cosh(value));
     }
     if (scalar instanceof ComplexScalar) {
       ComplexScalar complexScalar = (ComplexScalar) scalar;
       double re = complexScalar.real().number().doubleValue();
       double im = complexScalar.imag().number().doubleValue();
       return ComplexScalar.of( //
-          Math.cos(re) * Math.cosh(im), //
-          -Math.sin(re) * Math.sinh(im));
+          Math.cosh(re) * Math.cos(im), //
+          Math.sinh(re) * Math.sin(im));
     }
     throw TensorRuntimeException.of(scalar);
   }
 
   /** @param tensor
-   * @return tensor with all entries replaced by their cos */
+   * @return tensor with all entries replaced by their cosh */
   public static Tensor of(Tensor tensor) {
-    return tensor.map(Cos.function);
+    return tensor.map(Cosh.function);
   }
 }
