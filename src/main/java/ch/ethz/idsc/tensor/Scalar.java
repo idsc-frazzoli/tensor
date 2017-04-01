@@ -74,14 +74,4 @@ public interface Scalar extends Tensor {
    * @return this representation as {@link Number}
    * @throws UnsupportedOperationException */
   Number number();
-
-  /***************************************************/
-  @Override // from Object
-  int hashCode();
-
-  @Override // from Object
-  boolean equals(Object object);
-
-  @Override // from Object
-  String toString();
 }

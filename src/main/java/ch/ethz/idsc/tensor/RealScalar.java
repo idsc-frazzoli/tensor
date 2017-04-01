@@ -41,14 +41,25 @@ public abstract class RealScalar extends AbstractScalar implements Comparable<Re
     return a.compareTo(b) < 0 ? b : a;
   }
 
-  /***************************************************/
-  /** @return true if this scalar is strictly greater zero, false otherwise */
-  protected abstract boolean isPositive();
-
   @Override // from Scalar
-  public abstract RealScalar negate();
+  public abstract RealScalar negate(); // used by abs()
 
-  @Override // from Scalar
+  @Override // from AbstractScalar
+  public final RealScalar abs() {
+    return isPositive() ? this : negate();
+  }
+
+  @Override // from AbstractScalar
+  public final Scalar absSquared() {
+    return multiply(this);
+  }
+
+  @Override // from AbstractScalar
+  public final Scalar conjugate() {
+    return this;
+  }
+
+  @Override // from AbstractScalar
   public abstract Number number();
 
   /***************************************************/
@@ -57,18 +68,6 @@ public abstract class RealScalar extends AbstractScalar implements Comparable<Re
     return this instanceof ZeroScalar ? 0 : (isPositive() ? 1 : -1);
   }
 
-  @Override // from Scalar
-  public final RealScalar abs() {
-    return isPositive() ? this : negate();
-  }
-
-  @Override // from Scalar
-  public final Scalar absSquared() {
-    return multiply(this);
-  }
-
-  @Override // from Scalar
-  public final Scalar conjugate() {
-    return this;
-  }
+  /** @return true if this scalar is strictly greater zero, false otherwise */
+  protected abstract boolean isPositive();
 }

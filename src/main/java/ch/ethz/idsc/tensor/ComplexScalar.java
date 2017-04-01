@@ -58,7 +58,7 @@ public class ComplexScalar extends AbstractScalar {
     return of(re.multiply(mag), im.negate().multiply(mag));
   }
 
-  @Override // from Tensor
+  @Override // from Scalar
   public Scalar negate() {
     return of(re.negate(), im.negate());
   }
@@ -79,15 +79,6 @@ public class ComplexScalar extends AbstractScalar {
   }
 
   @Override // from Scalar
-  protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof ComplexScalar) {
-      ComplexScalar complexScalar = (ComplexScalar) scalar;
-      return of(re.add(complexScalar.real()), im.add(complexScalar.imag()));
-    }
-    return of(re.add(scalar), im);
-  }
-
-  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof ComplexScalar) {
       ComplexScalar cmp = (ComplexScalar) scalar;
@@ -96,6 +87,15 @@ public class ComplexScalar extends AbstractScalar {
           re.multiply(cmp.imag()).add(im.multiply(cmp.real())));
     }
     return of(re.multiply(scalar), im.multiply(scalar));
+  }
+
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    if (scalar instanceof ComplexScalar) {
+      ComplexScalar complexScalar = (ComplexScalar) scalar;
+      return of(re.add(complexScalar.real()), im.add(complexScalar.imag()));
+    }
+    return of(re.add(scalar), im);
   }
 
   @Override // from Scalar
@@ -115,7 +115,7 @@ public class ComplexScalar extends AbstractScalar {
 
   @Override // from Scalar
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder(32); // initial capacity
+    StringBuilder stringBuilder = new StringBuilder(48); // initial capacity
     stringBuilder.append(re);
     String imag = im.toString();
     if (!imag.startsWith("-"))

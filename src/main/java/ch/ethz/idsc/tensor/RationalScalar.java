@@ -49,31 +49,19 @@ public final class RationalScalar extends RealScalar implements ExactPrecision {
     return _of(bigFraction.invert());
   }
 
-  @Override
-  protected boolean isPositive() {
-    return 0 < bigFraction.num.signum();
-  }
-
-  @Override // from Tensor
+  @Override // from Scalar
   public RealScalar negate() {
     return _of(bigFraction.negate());
   }
 
-  @Override // from Tensor
-  protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof RationalScalar)
-      return _of(bigFraction.add(((RationalScalar) scalar).bigFraction));
-    return scalar.add(this);
-  }
-
-  @Override // from Tensor
+  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof RationalScalar)
       return _of(bigFraction.multiply(((RationalScalar) scalar).bigFraction));
     return scalar.multiply(this);
   }
 
-  @Override
+  @Override // from Scalar
   public Number number() {
     if (getDenominator().equals(BigInteger.ONE)) {
       BigInteger bigInteger = getNumerator();
@@ -92,7 +80,19 @@ public final class RationalScalar extends RealScalar implements ExactPrecision {
     return bigFraction.doubleValue();
   }
 
-  @Override
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    if (scalar instanceof RationalScalar)
+      return _of(bigFraction.add(((RationalScalar) scalar).bigFraction));
+    return scalar.add(this);
+  }
+
+  @Override // from RealScalar
+  protected boolean isPositive() {
+    return 0 < bigFraction.num.signum();
+  }
+
+  @Override // from RealScalar
   public int compareTo(RealScalar realScalar) {
     if (realScalar instanceof RationalScalar) {
       RationalScalar rationalScalar = (RationalScalar) realScalar;

@@ -19,25 +19,8 @@ public final class DoubleScalar extends RealScalar {
   }
 
   @Override // from Scalar
-  public RealScalar invert() {
+  public Scalar invert() {
     return of(1 / value);
-  }
-
-  @Override // from Scalar
-  protected boolean isPositive() {
-    return 0 < value;
-  }
-
-  @Override // from Tensor
-  public RealScalar negate() {
-    return of(-value);
-  }
-
-  @Override // from Scalar
-  protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return of(value + scalar.number().doubleValue());
-    return scalar.add(this);
   }
 
   @Override // from Scalar
@@ -47,12 +30,29 @@ public final class DoubleScalar extends RealScalar {
     return scalar.multiply(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return of(value + scalar.number().doubleValue());
+    return scalar.add(this);
+  }
+
+  @Override // from RealScalar
+  public RealScalar negate() {
+    return of(-value);
+  }
+
+  @Override // from RealScalar
+  protected boolean isPositive() {
+    return 0 < value;
+  }
+
+  @Override // from RealScalar
   public Number number() {
     return value;
   }
 
-  @Override // from Comparable<RealScalar>
+  @Override // from RealScalar
   public int compareTo(RealScalar realScalar) {
     return Double.compare(number().doubleValue(), realScalar.number().doubleValue());
   }

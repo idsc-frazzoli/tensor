@@ -52,7 +52,7 @@ public enum LinearSolve {
       ind[c0] = swap;
       final Scalar piv = lhs.Get(ind[c0], c0);
       if (piv.equals(ZeroScalar.get()))
-        // TODO treat case if, because there is still hope
+        // TODO there might be still hope depending on rhs...?
         throw TensorRuntimeException.of(m);
       final Scalar den = piv.invert();
       for (int c1 = c0 + 1; c1 < n; ++c1) {
