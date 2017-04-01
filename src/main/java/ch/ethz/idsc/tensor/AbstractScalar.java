@@ -109,32 +109,6 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   /***************************************************/
-  @Override // from Scalar
-  public Scalar conjugate() {
-    throw TensorRuntimeException.of(this);
-  }
-
-  @Override // from Scalar
-  public Scalar abs() {
-    throw TensorRuntimeException.of(this);
-  }
-
-  @Override // from Scalar
-  public Scalar absSquared() {
-    // possible default implementation:
-    // Scalar abs = abs(); // <-
-    // return abs.multiply(abs);
-    // possible default implementation:
-    // return multiply(conjugate()); // <- this may be inconsistent with implementation of abs()
-    throw TensorRuntimeException.of(this);
-  }
-
-  @Override // from Scalar
-  public Number number() {
-    throw TensorRuntimeException.of(this);
-  }
-
-  /***************************************************/
   /** @param scalar
    * @return this plus input scalar */
   protected abstract Scalar plus(Scalar scalar);

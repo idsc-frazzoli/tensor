@@ -3,10 +3,8 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
-/** instances of RealScalar implement number()
- * 
- * <p>abs() returns this or this.negate() depending on whichever is non-negative */
-public abstract class RealScalar extends AbstractScalar implements Comparable<RealScalar> {
+/** abs() returns this or this.negate() depending on whichever is non-negative */
+public interface RealScalar extends Scalar, Comparable<RealScalar> {
   /** real scalar 1 in {@link ExactPrecision} */
   public static final RealScalar ONE = RealScalar.of(1);
   /** real scalar that encodes Infinity. value is backed by Double.POSITIVE_INFINITY */
@@ -41,33 +39,20 @@ public abstract class RealScalar extends AbstractScalar implements Comparable<Re
     return a.compareTo(b) < 0 ? b : a;
   }
 
+  /***************************************************/
   @Override // from Scalar
-  public abstract RealScalar negate(); // used by abs()
+  RealScalar negate(); // used by abs()
 
-  @Override // from AbstractScalar
-  public final RealScalar abs() {
-    return isPositive() ? this : negate();
-  }
+  @Override // from Scalar
+  RealScalar abs();
 
-  @Override // from AbstractScalar
-  public final Scalar absSquared() {
-    return multiply(this);
-  }
+  @Override // from Scalar
+  RealScalar absSquared();
 
-  @Override // from AbstractScalar
-  public final Scalar conjugate() {
-    return this;
-  }
-
-  @Override // from AbstractScalar
-  public abstract Number number();
+  @Override // from Scalar
+  RealScalar conjugate();
 
   /***************************************************/
   /** @return gives -1, 0, or 1 depending on whether this is negative, zero, or positive. */
-  public final int getSignInt() {
-    return this instanceof ZeroScalar ? 0 : (isPositive() ? 1 : -1);
-  }
-
-  /** @return true if this scalar is strictly greater zero, false otherwise */
-  protected abstract boolean isPositive();
+  int getSignInt();
 }

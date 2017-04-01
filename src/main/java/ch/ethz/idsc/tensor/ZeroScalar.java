@@ -8,7 +8,7 @@ package ch.ethz.idsc.tensor;
  * 
  * <p>For instance, there are no {@link DoubleScalar} instance
  * with double value 0.0, and no {@link RationalScalar} instance of 0/1. */
-public final class ZeroScalar extends RealScalar implements ExactPrecision {
+public final class ZeroScalar extends AbstractRealScalar implements ExactPrecision {
   private static final ZeroScalar INSTANCE = new ZeroScalar();
 
   /** @return instance representing 0 */
@@ -39,7 +39,7 @@ public final class ZeroScalar extends RealScalar implements ExactPrecision {
     return scalar;
   }
 
-  @Override // from RealScalar
+  @Override // from AbstractRealScalar
   protected boolean isPositive() {
     return false;
   }

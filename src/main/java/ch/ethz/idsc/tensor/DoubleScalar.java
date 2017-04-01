@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 /** scalar with double precision, 64-bit, MATLAB style */
-public final class DoubleScalar extends RealScalar {
+public final class DoubleScalar extends AbstractRealScalar {
   /** @param value
    * @return new instance of {@link DoubleScalar}, or {@link ZeroScalar} if value == 0 */
   public static RealScalar of(double value) {
@@ -30,11 +30,9 @@ public final class DoubleScalar extends RealScalar {
     return scalar.multiply(this);
   }
 
-  @Override // from AbstractScalar
-  protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return of(value + scalar.number().doubleValue());
-    return scalar.add(this);
+  @Override // from Scalar
+  public Number number() {
+    return value;
   }
 
   @Override // from RealScalar
@@ -43,18 +41,20 @@ public final class DoubleScalar extends RealScalar {
   }
 
   @Override // from RealScalar
-  protected boolean isPositive() {
-    return 0 < value;
-  }
-
-  @Override // from RealScalar
-  public Number number() {
-    return value;
-  }
-
-  @Override // from RealScalar
   public int compareTo(RealScalar realScalar) {
     return Double.compare(number().doubleValue(), realScalar.number().doubleValue());
+  }
+
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return of(value + scalar.number().doubleValue());
+    return scalar.add(this);
+  }
+
+  @Override // from AbstractRealScalar
+  protected boolean isPositive() {
+    return 0 < value;
   }
 
   @Override // from Object

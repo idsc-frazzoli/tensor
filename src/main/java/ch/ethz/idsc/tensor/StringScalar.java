@@ -6,7 +6,7 @@ package ch.ethz.idsc.tensor;
  * 
  * <p>for instance the first line of a csv file may contain column
  * headers which are imported as {@link StringScalar}s */
-public final class StringScalar extends AbstractScalar {
+public final class StringScalar extends BasicScalar {
   /** @param string
    * @return new instance of {@link StringScalar} representing string */
   public static Scalar of(String string) {

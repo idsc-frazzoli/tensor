@@ -5,7 +5,8 @@ import java.util.Comparator;
 
 import ch.ethz.idsc.tensor.alg.Sort;
 
-public class RealScalarComparators {
+public enum RealScalarComparators {
+  ;
   /** ascending is default ordering when using {@link Sort} */
   public static final Comparator<RealScalar> ASCENDING = new Comparator<RealScalar>() {
     @Override
@@ -19,8 +20,4 @@ public class RealScalarComparators {
       return b.compareTo(a);
     }
   };
-
-  // class cannot be instantiated
-  private RealScalarComparators() {
-  }
 }
