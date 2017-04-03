@@ -43,6 +43,7 @@ public enum LieAlgebras {
     return ad;
   }
 
+  @Deprecated
   public static Tensor from(Tensor c) {
     // System.out.println(Tensor.of(a.flatten(1)).dimensions());
     Tensor a = TensorMap.of(t -> Tensor.of(t.flatten(1)), c, 1);

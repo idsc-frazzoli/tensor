@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.sca.Chop;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/PseudoInverse.html">PseudoInverse</a> */
-public class PseudoInverse {
+public enum PseudoInverse {
+  ;
   // TODO what if rows<cols?
   /** @param m
    * @return pseudoinverse of m */

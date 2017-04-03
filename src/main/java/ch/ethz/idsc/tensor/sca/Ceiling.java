@@ -36,8 +36,8 @@ public enum Ceiling implements Function<Scalar, Scalar> {
     return bi;
   }
 
-  /** @param scalar instance if {@link RealScalar}
-   * @return best integer scalar approximation to ceiling of scalar */
+  /** @param tensor
+   * @return */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Ceiling.function);
   }

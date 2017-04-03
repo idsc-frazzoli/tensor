@@ -6,23 +6,25 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
+/** only works for {@link Tensor}s with entries as {@link RealScalar} */
 public enum ExtractPrimitives {
   ;
-  public static Stream<Number> vectorToStreamNumber(Tensor tensor) {
-    return tensor.flatten(0) //
-        .map(RealScalar.class::cast) //
-        .map(RealScalar::number);
+  public static Stream<Number> toStreamNumber(Tensor tensor) {
+    return tensor.flatten(-1) //
+        .map(Scalar.class::cast) //
+        .map(Scalar::number);
   }
 
-  public static List<Double> vectorToListDouble(Tensor tensor) {
-    return vectorToStreamNumber(tensor) //
+  public static List<Double> toListDouble(Tensor tensor) {
+    return toStreamNumber(tensor) //
         .map(Number::doubleValue).collect(Collectors.toList());
   }
 
-  public static double[] vectorToArrayDouble(Tensor tensor) {
-    return vectorToStreamNumber(tensor) //
+  public static double[] toArrayDouble(Tensor tensor) {
+    return toStreamNumber(tensor) //
         .mapToDouble(Number::doubleValue).toArray();
   }
 
@@ -30,8 +32,8 @@ public enum ExtractPrimitives {
    * 
    * @param tensor
    * @return */
-  public static List<Long> vectorToListLong(Tensor tensor) {
-    return vectorToStreamNumber(tensor) //
+  public static List<Long> toListLong(Tensor tensor) {
+    return toStreamNumber(tensor) //
         .map(Number::longValue).collect(Collectors.toList());
   }
 
@@ -39,8 +41,8 @@ public enum ExtractPrimitives {
    * 
    * @param tensor
    * @return */
-  public static long[] vectorToArrayLong(Tensor tensor) {
-    return vectorToStreamNumber(tensor) //
+  public static long[] toArrayLong(Tensor tensor) {
+    return toStreamNumber(tensor) //
         .mapToLong(Number::longValue).toArray();
   }
 
@@ -48,8 +50,8 @@ public enum ExtractPrimitives {
    * 
    * @param tensor
    * @return */
-  public static List<Integer> vectorToListInteger(Tensor tensor) {
-    return vectorToStreamNumber(tensor) //
+  public static List<Integer> toListInteger(Tensor tensor) {
+    return toStreamNumber(tensor) //
         .map(Number::intValue).collect(Collectors.toList());
   }
 
@@ -57,8 +59,8 @@ public enum ExtractPrimitives {
    * 
    * @param tensor
    * @return */
-  public static int[] vectorToArrayInt(Tensor tensor) {
-    return vectorToStreamNumber(tensor) //
+  public static int[] toArrayInt(Tensor tensor) {
+    return toStreamNumber(tensor) //
         .mapToInt(Number::intValue).toArray();
   }
 }

@@ -2,13 +2,13 @@
 package ch.ethz.idsc.tensor;
 
 /** ZeroScalar represents the exact number 0
- * <p>
- * all fields implemented using {@link Scalar}
+ * 
+ * <p>all fields implemented using {@link Scalar}
  * are required to encode 0 as ZeroScalar.get().
- * <p>
- * For instance, there are no {@link DoubleScalar} instance
+ * 
+ * <p>For instance, there are no {@link DoubleScalar} instance
  * with double value 0.0, and no {@link RationalScalar} instance of 0/1. */
-public final class ZeroScalar extends RealScalar implements ExactPrecision {
+public final class ZeroScalar extends AbstractRealScalar implements ExactPrecision {
   private static final ZeroScalar INSTANCE = new ZeroScalar();
 
   /** @return instance representing 0 */
@@ -19,7 +19,7 @@ public final class ZeroScalar extends RealScalar implements ExactPrecision {
   private ZeroScalar() {
   }
 
-  @Override // from Tensor
+  @Override // from Scalar
   public ZeroScalar negate() {
     return this;
   }
@@ -29,29 +29,29 @@ public final class ZeroScalar extends RealScalar implements ExactPrecision {
     throw new ArithmeticException();
   }
 
-  @Override
-  protected boolean isPositive() {
-    return false;
-  }
-
-  @Override // from Scalar
-  public Scalar plus(Scalar scalar) {
-    return scalar;
-  }
-
   @Override // from Scalar
   public ZeroScalar multiply(Scalar scalar) {
     return this;
   }
 
-  @Override
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    return scalar;
+  }
+
+  @Override // from AbstractRealScalar
+  protected boolean isPositive() {
+    return false;
+  }
+
+  @Override // from RealScalar
   public Number number() {
     return Integer.valueOf(0);
   }
 
-  @Override // from Comparable<RealScalar>
+  @Override // from RealScalar
   public int compareTo(RealScalar realScalar) {
-    return -realScalar.getSignInt();
+    return -realScalar.signInt();
   }
 
   @Override // from Object

@@ -12,8 +12,8 @@ public class ExtractPrimitivesTest extends TestCase {
   public void testToLong() {
     Tensor a = Tensors.vectorLong(-2, -3, 4, 5, 6, 11);
     Tensor b = Tensors.vectorDouble(-2.5, -3.7, 4.3, 5.4, 6.2, 11.5);
-    List<Long> listA = ExtractPrimitives.vectorToListLong(a);
-    List<Long> listB = ExtractPrimitives.vectorToListLong(b);
+    List<Long> listA = ExtractPrimitives.toListLong(a);
+    List<Long> listB = ExtractPrimitives.toListLong(b);
     assertEquals(a.toString(), listA.toString());
     assertEquals(a.toString(), listB.toString());
   }
@@ -21,19 +21,19 @@ public class ExtractPrimitivesTest extends TestCase {
   public void testToInteger() {
     Tensor a = Tensors.vectorInt(-2, -3, 4, 5, 6, 11);
     Tensor b = Tensors.vectorDouble(-2.5, -3.7, 4.3, 5.4, 6.2, 11.5);
-    List<Integer> listA = ExtractPrimitives.vectorToListInteger(a);
-    List<Integer> listB = ExtractPrimitives.vectorToListInteger(b);
+    List<Integer> listA = ExtractPrimitives.toListInteger(a);
+    List<Integer> listB = ExtractPrimitives.toListInteger(b);
     assertEquals(a.toString(), listA.toString());
     assertEquals(a.toString(), listB.toString());
-    assertTrue(Arrays.equals(ExtractPrimitives.vectorToArrayInt(a), //
+    assertTrue(Arrays.equals(ExtractPrimitives.toArrayInt(a), //
         new int[] { -2, -3, 4, 5, 6, 11 }));
-    assertTrue(Arrays.equals(ExtractPrimitives.vectorToArrayInt(b), //
+    assertTrue(Arrays.equals(ExtractPrimitives.toArrayInt(b), //
         new int[] { -2, -3, 4, 5, 6, 11 }));
   }
 
   public void testConvert1() {
     Tensor a = Tensors.vectorDouble(-2.5, -2.7, 4.3, 5.4, 6.2, 10.5);
-    List<Double> listA = ExtractPrimitives.vectorToListDouble(a);
+    List<Double> listA = ExtractPrimitives.toListDouble(a);
     assertEquals(a.toString(), listA.toString());
   }
 }

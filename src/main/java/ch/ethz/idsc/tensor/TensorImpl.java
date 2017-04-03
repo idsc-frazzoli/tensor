@@ -52,7 +52,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override
   public Tensor get(List<Integer> index) {
-    return index.isEmpty() ? this : _get(index).copy();
+    // _get(...).copy prevents the possibility getting references to sub tensor and then modifying it...
+    return index.isEmpty() ? copy() : _get(index).copy();
   }
 
   private Tensor _get(List<Integer> index) {

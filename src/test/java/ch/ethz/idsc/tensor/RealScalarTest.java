@@ -7,13 +7,13 @@ import junit.framework.TestCase;
 
 public class RealScalarTest extends TestCase {
   public void testSign() {
-    assertEquals(ZeroScalar.get().getSignInt(), 0);
-    assertEquals(RealScalar.of(+5).getSignInt(), 1);
-    assertEquals(RealScalar.of(-5).getSignInt(), -1);
+    assertEquals(ZeroScalar.get().signInt(), 0);
+    assertEquals(RealScalar.of(+5).signInt(), 1);
+    assertEquals(RealScalar.of(-5).signInt(), -1);
     RealScalar r1 = RationalScalar.of(1927365481254298736L, 1927365481254298737L);
     RealScalar r2 = RationalScalar.of(1927365481254298741L, -1927365481254298739L);
-    assertEquals(r1.getSignInt(), 1);
-    assertEquals(r2.getSignInt(), -1);
+    assertEquals(r1.signInt(), 1);
+    assertEquals(r2.signInt(), -1);
   }
 
   public void testCompare() {

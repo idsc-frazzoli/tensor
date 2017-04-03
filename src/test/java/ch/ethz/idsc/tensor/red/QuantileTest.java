@@ -19,7 +19,7 @@ public class QuantileTest extends TestCase {
     Tensor q = Quantile.of(vector, RealScalar.of(.71233));
     assertEquals(q, RealScalar.of(3));
   }
-  
+
   public void testBounds() {
     Tensor vector = Tensors.vectorInt(0, 2, 1, 4, 3);
     try {

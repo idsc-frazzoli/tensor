@@ -34,6 +34,8 @@ public enum Cos implements Function<Scalar, Scalar> {
     throw TensorRuntimeException.of(scalar);
   }
 
+  /** @param tensor
+   * @return tensor with all entries replaced by their cos */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Cos.function);
   }

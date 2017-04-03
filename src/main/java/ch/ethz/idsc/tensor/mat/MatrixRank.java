@@ -6,7 +6,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixRank.html">MatrixRank</a> */
-public class MatrixRank {
+public enum MatrixRank {
+  ;
   /** @return rank of matrix m */
   public static int of(Tensor m) {
     return of(SingularValueDecomposition.of(m));

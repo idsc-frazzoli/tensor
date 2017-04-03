@@ -9,7 +9,7 @@ import java.util.Set;
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 // class may be a misnomer
-public class GaussScalar extends Scalar implements ExactPrecision {
+public class GaussScalar extends AbstractScalar implements ExactPrecision {
   private static final Set<Long> primes = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
@@ -49,7 +49,37 @@ public class GaussScalar extends Scalar implements ExactPrecision {
     return prime;
   }
 
-  @Override
+  @Override // from Scalar
+  public Scalar negate() {
+    return of(-value, prime);
+  }
+
+  @Override // from Scalar
+  public Scalar invert() {
+    return of(new ExtendedGcd(value, prime).x, prime);
+  }
+
+  @Override // from Scalar
+  public Number number() {
+    return value;
+  }
+
+  @Override // from Scalar
+  public Scalar conjugate() {
+    return this;
+  }
+
+  @Override // from Scalar
+  public Scalar abs() {
+    return this;
+  }
+
+  @Override // from Scalar
+  public Scalar absSquared() {
+    return multiply(this);
+  }
+
+  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
@@ -59,37 +89,22 @@ public class GaussScalar extends Scalar implements ExactPrecision {
     return scalar.multiply(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value + gaussScalar.value, prime);
     }
     assertInstanceOfZeroScalar(scalar);
-    return scalar.plus(this);
+    return scalar.add(this);
   }
 
-  @Override
-  public Scalar negate() {
-    return of(-value, prime);
-  }
-
-  @Override
-  public Scalar invert() {
-    return of(new ExtendedGcd(value, prime).x, prime);
-  }
-
-  @Override
-  public Number number() {
-    return value;
-  }
-
-  @Override
+  @Override // from AbstractScalar
   public int hashCode() {
     return Objects.hash(value, prime);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) object;
@@ -98,7 +113,7 @@ public class GaussScalar extends Scalar implements ExactPrecision {
     return object == null ? false : object.equals(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public String toString() {
     return String.format("(%d'%d)", value, prime);
   }

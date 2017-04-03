@@ -5,8 +5,8 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.red.Norm;
 
-// experimental towards a Quaternion scalar
-class McScalar extends Scalar {
+// experiment towards a Quaternion scalar
+class McScalar extends AbstractScalar {
   public static Scalar of(Scalar re, Scalar im) {
     if (im.equals(ZeroScalar.get()))
       return re;
@@ -38,13 +38,23 @@ class McScalar extends Scalar {
   }
 
   @Override
+  public Scalar conjugate() {
+    return of(real(), imag().negate());
+  }
+
+  @Override
   public Scalar abs() {
     return Norm._2.of(skew);
   }
 
   @Override
-  public Scalar conjugate() {
-    return of(real(), imag().negate());
+  public Scalar absSquared() {
+    return Norm._2Squared.of(skew);
+  }
+
+  @Override
+  public Number number() {
+    throw TensorRuntimeException.of(this);
   }
 
   @Override
@@ -82,8 +92,6 @@ class McScalar extends Scalar {
 
   @Override
   public boolean equals(Object object) {
-    if (object == null)
-      return false;
     if (object instanceof McScalar) {
       McScalar complexScalar = (McScalar) object;
       return skew.equals(complexScalar.skew);

@@ -95,7 +95,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return number of entries on the first level; -1 for {@link Scalar}s */
   int length();
 
-  /** @param level
+  /** stream access to the entries at given level of this tensor.
+   * entries at given level can be tensors or scalars.
+   * 
+   * @param level
    * @return non-parallel stream, the user should consider invoking .parallel() */
   Stream<Tensor> flatten(int level);
 
@@ -136,7 +139,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * <code>Dimensions.of(this) = [4, 3]</code>, and
    * <code>Dimensions.of(tensor) = [4, 3, 5, 2]</code> is feasible.
    * 
-   * <p>In particular that means the operation is valid for tensors of equal dimensions.
+   * <p>The operation is valid for tensors of equal dimensions.
    * 
    * @param tensor
    * @return this element-wise multiply input tensor. */

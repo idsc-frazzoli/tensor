@@ -5,17 +5,37 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class TransposeTest extends TestCase {
-  public void testTranspose() {
+  public void testScalar() {
+    Tensor v = RealScalar.NEGATIVE_INFINITY;
+    try {
+      Transpose.of(v, new Integer[] {});
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testVector() {
+    Tensor v = Tensors.vectorInt(2, 3, 4, 5);
+    Tensor r = Transpose.of(v, 0);
+    // System.out.println(r);
+    assertEquals(v, r);
+  }
+
+  public void testMatrix() {
     // [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]]
     Tensor m = Tensors.matrix((i, j) -> RationalScalar.of(i * 4 + j, 1), 3, 4);
     Tensor t = Transpose.of(m, 1, 0);
     assertEquals(t.toString(), "[[0, 4, 8], [1, 5, 9], [2, 6, 10], [3, 7, 11]]");
+    Tensor r = Transpose.of(m);
+    assertEquals(r.toString(), "[[0, 4, 8], [1, 5, 9], [2, 6, 10], [3, 7, 11]]");
   }
 
   public void testTranspose2() {

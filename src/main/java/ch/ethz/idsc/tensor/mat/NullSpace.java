@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NullSpace.html">NullSpace</a> */
-public class NullSpace {
+public enum NullSpace {
+  ;
   /** @param m
    * @return (cols - rank()) x cols matrix */
   public static Tensor of(Tensor m) {

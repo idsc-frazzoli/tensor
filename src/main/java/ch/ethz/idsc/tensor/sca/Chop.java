@@ -9,11 +9,11 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** function to modify {@link Scalar}s that do not have {@link ExactPrecision}
- * <p>
- * consistent with Mathematica
+ * 
+ * <p>consistent with Mathematica
  * Chop[1/1000000000000000] != 0, but
  * Chop[1/1000000000000000.] == 0
- * <p>
+ * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Chop.html">Chop</a> */
 public enum Chop implements Function<Scalar, Scalar> {

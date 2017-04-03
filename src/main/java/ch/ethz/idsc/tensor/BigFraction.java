@@ -83,9 +83,10 @@ import java.util.Objects;
 
   @Override
   public boolean equals(Object object) {
-    if (object == null)
-      return false;
-    BigFraction bigFraction = (BigFraction) object;
-    return num.equals(bigFraction.num) && den.equals(bigFraction.den); // sufficient since in normal form
+    if (object instanceof BigFraction) {
+      BigFraction bigFraction = (BigFraction) object;
+      return num.equals(bigFraction.num) && den.equals(bigFraction.den); // sufficient since in normal form
+    }
+    return false;
   }
 }
