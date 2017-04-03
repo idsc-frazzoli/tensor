@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** only works for {@link Tensor}s with entries as {@link RealScalar} */
@@ -13,8 +14,8 @@ public enum ExtractPrimitives {
   ;
   public static Stream<Number> toStreamNumber(Tensor tensor) {
     return tensor.flatten(-1) //
-        .map(RealScalar.class::cast) //
-        .map(RealScalar::number);
+        .map(Scalar.class::cast) //
+        .map(Scalar::number);
   }
 
   public static List<Double> toListDouble(Tensor tensor) {

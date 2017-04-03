@@ -58,11 +58,11 @@ public interface Scalar extends Tensor {
   Scalar divide(Scalar scalar);
 
   /** @return distance from zero as {@link RealScalar} or
-   * @throws UnsupportedOperationException */
+   * @throws TensorRuntimeException */
   Scalar abs();
 
   /** @return |this| ^ 2 as {@link RealScalar} or
-   * @throws UnsupportedOperationException */
+   * @throws TensorRuntimeException */
   Scalar absSquared();
 
   /** classes should only override this if consistency is possible
@@ -72,6 +72,6 @@ public interface Scalar extends Tensor {
    * two scalars that are equal should return the same number()
    * 
    * @return this representation as {@link Number}
-   * @throws UnsupportedOperationException */
+   * @throws TensorRuntimeException */
   Number number();
 }

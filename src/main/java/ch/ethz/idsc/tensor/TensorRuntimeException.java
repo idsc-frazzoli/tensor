@@ -4,7 +4,11 @@ package ch.ethz.idsc.tensor;
 public class TensorRuntimeException extends RuntimeException {
   public static final int MAX_LENGTH = 32;
 
+  /** @param tensor
+   * @return */
   public static TensorRuntimeException of(Tensor tensor) {
+    if (tensor == null)
+      return new TensorRuntimeException("null");
     String string = tensor.toString();
     int length = string.length();
     if (MAX_LENGTH < length)
@@ -12,7 +16,11 @@ public class TensorRuntimeException extends RuntimeException {
     return new TensorRuntimeException(tensor, string);
   }
 
+  private TensorRuntimeException(String string) {
+    super(string);
+  }
+
   private TensorRuntimeException(Tensor tensor, String string) {
-    super(tensor.getClass().getName() + "=" + string);
+    this(tensor.getClass().getName() + "=" + string);
   }
 }

@@ -8,7 +8,6 @@ import java.util.List;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorMap;
@@ -44,23 +43,24 @@ public enum ImageFormat {
         bufferedImage.getWidth(), bufferedImage.getHeight());
   }
 
-  /** this has been tested with PNG format
-   * but with export to JPG there are somehow discrepancy !?
+  /** image export works with PNG format.
+   * 
+   * <p>do not export to JPG, because the color channels are not compatible!
    * 
    * @param tensor
-   * @return */
+   * @return image of type BufferedImage.TYPE_BYTE_GRAY or BufferedImage.TYPE_INT_ARGB */
   public static BufferedImage of(Tensor tensor) {
     List<Integer> dims = Dimensions.of(tensor);
     if (dims.size() == 2) {
       BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_BYTE_GRAY);
       int[] array = ExtractPrimitives.toArrayInt(Transpose.of(tensor));
-      for (int c = 0; c < array.length; ++c)
-        array[c] = (array[c] << 16) | (array[c] << 8) | (array[c] << 0);
+      for (int index = 0; index < array.length; ++index)
+        array[index] = (array[index] << 16) | (array[index] << 8) | (array[index] << 0);
       bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
       return bufferedImage;
     }
     BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_INT_ARGB);
-    Tensor res = TensorMap.of(t -> RealScalar.of(asARGB(t)), tensor, 2);
+    Tensor res = TensorMap.of(vector -> RealScalar.of(asARGB(vector)), tensor, 2);
     int[] array = ExtractPrimitives.toArrayInt(Transpose.of(res));
     bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
     return bufferedImage;
@@ -74,8 +74,6 @@ public enum ImageFormat {
 
   // helper function
   private static int asARGB(Tensor vector) {
-    if (vector.length() != 4)
-      throw TensorRuntimeException.of(vector);
     int[] rgba = ExtractPrimitives.toArrayInt(vector);
     return new Color(rgba[0], rgba[1], rgba[2], rgba[3]).getRGB();
   }

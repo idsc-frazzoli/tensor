@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.red.Hypot;
 /** complex number
  * 
  * <p>number() or Comparable interface is not supported */
-public class ComplexScalar extends BasicScalar {
+public class ComplexScalar extends AbstractScalar {
   static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re
@@ -87,6 +87,11 @@ public class ComplexScalar extends BasicScalar {
           re.multiply(cmp.imag()).add(im.multiply(cmp.real())));
     }
     return of(re.multiply(scalar), im.multiply(scalar));
+  }
+
+  @Override // from Scalar
+  public Number number() {
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from AbstractScalar

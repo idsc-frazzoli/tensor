@@ -19,7 +19,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   }
 
   @Override // from RealScalar
-  public final int getSignInt() {
+  public final int signInt() {
     return this instanceof ZeroScalar ? 0 : (isPositive() ? 1 : -1);
   }
 

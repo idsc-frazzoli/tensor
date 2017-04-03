@@ -54,5 +54,5 @@ public interface RealScalar extends Scalar, Comparable<RealScalar> {
 
   /***************************************************/
   /** @return gives -1, 0, or 1 depending on whether this is negative, zero, or positive. */
-  int getSignInt();
+  int signInt();
 }

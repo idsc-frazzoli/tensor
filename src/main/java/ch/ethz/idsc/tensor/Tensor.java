@@ -95,7 +95,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return number of entries on the first level; -1 for {@link Scalar}s */
   int length();
 
-  /** @param level
+  /** stream access to the entries at given level of this tensor.
+   * entries at given level can be tensors or scalars.
+   * 
+   * @param level
    * @return non-parallel stream, the user should consider invoking .parallel() */
   Stream<Tensor> flatten(int level);
 

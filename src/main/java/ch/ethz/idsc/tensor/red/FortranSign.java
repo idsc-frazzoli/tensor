@@ -14,8 +14,8 @@ public enum FortranSign implements BiFunction<Scalar, Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar a, Scalar b) {
-    int sa = ((RealScalar) a).getSignInt();
-    int sb = ((RealScalar) b).getSignInt();
+    int sa = ((RealScalar) a).signInt();
+    int sb = ((RealScalar) b).signInt();
     return 0 <= sb ? (0 <= sa ? a : a.negate()) : (0 <= sa ? a.negate() : a);
   }
 }

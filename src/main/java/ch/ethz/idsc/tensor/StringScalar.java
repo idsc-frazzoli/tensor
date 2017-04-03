@@ -6,7 +6,7 @@ package ch.ethz.idsc.tensor;
  * 
  * <p>for instance the first line of a csv file may contain column
  * headers which are imported as {@link StringScalar}s */
-public final class StringScalar extends BasicScalar {
+public final class StringScalar extends AbstractScalar {
   /** @param string
    * @return new instance of {@link StringScalar} representing string */
   public static Scalar of(String string) {
@@ -33,6 +33,26 @@ public final class StringScalar extends BasicScalar {
 
   @Override // from Scalar
   public Scalar negate() {
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override
+  public Scalar conjugate() {
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override
+  public Scalar abs() {
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override
+  public Scalar absSquared() {
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override
+  public Number number() {
     throw TensorRuntimeException.of(this);
   }
 
