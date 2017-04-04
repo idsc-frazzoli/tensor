@@ -16,6 +16,9 @@ public interface Scalar extends Tensor {
   @Override // from Tensor
   Scalar copy();
 
+  /** an instance of {@link Scalar} is immutable by convention.
+   * 
+   * @return this */
   @Override // from Tensor
   Scalar unmodifiable();
 
@@ -46,11 +49,16 @@ public interface Scalar extends Tensor {
   @Override // from Tensor
   Scalar conjugate();
 
+  /** function evaluation of this scalar
+   * 
+   * @return function.apply(this); */
   @Override // from Tensor
   Scalar map(Function<Scalar, Scalar> function);
 
   /***************************************************/
-  /** @return multiplicative inverse of this scalar */
+  /** multiplicative inverse except for {@link ZeroScalar}
+   * 
+   * @return multiplicative inverse of this scalar */
   Scalar invert();
 
   /** @param scalar

@@ -111,12 +111,13 @@ public class SingularValueDecompositionTest extends TestCase {
     assertEquals(Chop.of(nul), Array.zeros(n));
   }
 
+  // test may occasionally fail, depends on the numerical precision using in Chop
   public void testSvd4() {
     int n = 11;
     Random rnd = new Random();
     Tensor mat = Tensors.matrix((r, c) -> DoubleScalar.of(rnd.nextGaussian()), n, n);
     SingularValueDecomposition svd = specialOps(mat);
-    Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop.below(1e-10));
+    Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop.below(1e-9));
     assertEquals(dif, Array.zeros(Dimensions.of(dif)));
     assertEquals(MatrixRank.of(svd), n);
     Tensor res = Chop.of(PseudoInverse.of(svd).dot(mat).subtract(IdentityMatrix.of(n)));
