@@ -9,15 +9,20 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
-/** not compliant with Mathematica
+/** implementation compliant to Java convention:
+ * java.lang.Math.pow(0, 0) == 1
  * 
- * Mathematica: 0^0 -> indeterminate
- * Java: Math.pow(0, 0) == 1
+ * <p>not compliant with Mathematica
+ * Mathematica::Power[0, 0] == 0^0 -> indeterminate
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Power.html">Power</a> */
-public class Power implements Function<Scalar, Scalar> {
-  /** @param scalar
+public class Power {
+  /** function attempts to give power as accurately as possible
+   * and ultimately makes use of the identity
+   * <code>x^y == Exp(y * Log(x))</code>
+   * 
+   * @param scalar
    * @param exponent
    * @return scalar ^ exponent */
   public static Scalar of(Scalar scalar, Scalar exponent) {
@@ -37,8 +42,9 @@ public class Power implements Function<Scalar, Scalar> {
             rational.numerator().pow(-expInt));
       }
     }
-    // TODO complex scalars
-    return RealScalar.of(Math.pow(scalar.number().doubleValue(), exponent.number().doubleValue()));
+    if (scalar instanceof RealScalar && exponent instanceof RealScalar)
+      return RealScalar.of(Math.pow(scalar.number().doubleValue(), exponent.number().doubleValue()));
+    return Exp.function.apply(exponent.multiply(Log.function.apply(scalar)));
   }
 
   /** @param scalar
@@ -55,18 +61,20 @@ public class Power implements Function<Scalar, Scalar> {
     return of(RealScalar.of(scalar), RealScalar.of(exponent));
   }
 
-  public static Function<Scalar, Scalar> of(Scalar exponent) {
-    return new Power(exponent);
+  /** @param exponent
+   * @return function that maps a scalar to scalar ^ exponent */
+  public static Function<Scalar, Scalar> function(Scalar exponent) {
+    return new Function<Scalar, Scalar>() {
+      @Override
+      public Scalar apply(Scalar scalar) {
+        return of(scalar, exponent);
+      }
+    };
   }
 
-  private final Scalar exponent;
-
-  private Power(Scalar exponent) {
-    this.exponent = exponent;
-  }
-
-  @Override
-  public Scalar apply(Scalar scalar) {
-    return of(scalar, exponent);
+  /** @param exponent
+   * @return function that maps a scalar to scalar ^ exponent */
+  public static Function<Scalar, Scalar> function(Number exponent) {
+    return function(RealScalar.of(exponent));
   }
 }

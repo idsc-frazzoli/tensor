@@ -10,7 +10,9 @@ Features:
 
 The naming of functions is inspired by `Mathematica`.
 
-Example:
+## Examples 
+
+Solving systems of linear equations
 
     Tensor matrix = Tensors.matrixInt(new int[][] { { 4, 3 }, { 8, 2 } });
     System.out.println(Pretty.of(matrix));
@@ -27,6 +29,17 @@ gives
      [  1/2  -1/4 ]
     ]
 
+Linear programming
+
+    Tensor x = LinearProgramming.maxLessEquals( //
+        Tensors.fromString("[1, 1]"), // cost
+        Tensors.fromString("[[4, -1], [2, 1], [-5, 2]]"), // matrix
+        Tensors.fromString("[8, 7, 2]")); // rhs
+    System.out.println(x);
+
+gives
+
+    [4/3, 13/3]
 
 ## Include in your project
 
@@ -69,8 +82,9 @@ Subsequently, the documentation is accessible through the file
 ## References
  
 The library is used in the projects:
-* `matsim-av-eth`
+* `matsim-av`
 * `SwissTrolley+`
 * `SimBus`
+* `subare`
 * `owly`
 

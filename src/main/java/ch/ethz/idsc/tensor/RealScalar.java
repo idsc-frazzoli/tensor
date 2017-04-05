@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
-/** abs() returns this or this.negate() depending on whichever is non-negative */
 public interface RealScalar extends Scalar, Comparable<RealScalar> {
   /** real scalar 1 in {@link ExactPrecision} */
   public static final RealScalar ONE = RealScalar.of(1);
@@ -43,6 +42,7 @@ public interface RealScalar extends Scalar, Comparable<RealScalar> {
   @Override // from Scalar
   RealScalar negate(); // used by abs()
 
+  /** abs() returns this or this.negate() depending on whichever is non-negative */
   @Override // from Scalar
   RealScalar abs();
 

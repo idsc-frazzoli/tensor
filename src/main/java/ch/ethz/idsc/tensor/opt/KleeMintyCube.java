@@ -32,19 +32,22 @@ import ch.ethz.idsc.tensor.sca.Power;
     return i == j ? RealScalar.ONE : Power.of(2, i - j + 1);
   }
 
-  final Tensor c; // cost
-  final Tensor m; // matrix
-  final Tensor b; // vector
+  public final Tensor c; // cost
+  public final Tensor m; // matrix
+  public final Tensor b; // vector of rhs
+  public final Tensor x; // solution
 
   public KleeMintyCube(int n) {
-    c = Tensors.vector(i -> Power.of(2, n - i - 1), n);
-    m = Tensors.matrix(KleeMintyCube::coefficient, n, n);
-    b = Tensors.vector(i -> Power.of(5, i + 1), n);
+    c = Tensors.vector(i -> Power.of(2, n - i - 1), n).unmodifiable();
+    m = Tensors.matrix(KleeMintyCube::coefficient, n, n).unmodifiable();
+    b = Tensors.vector(i -> Power.of(5, i + 1), n).unmodifiable();
+    x = Tensors.vector(i -> i < n - 1 ? ZeroScalar.get() : Power.of(5, n), n).unmodifiable();
   }
 
   public void show() {
     System.out.println("c=" + c);
-    System.out.println(Pretty.of(m));
+    System.out.println("m=" + Pretty.of(m));
     System.out.println("b=" + b);
+    System.out.println("x=" + x);
   }
 }

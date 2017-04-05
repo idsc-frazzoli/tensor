@@ -14,7 +14,9 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 
 /** linear optimization
  * 
- * <p>see also MATLAB::linprog
+ * <p>implementation uses traditional simplex algorithm that performs poorly on Klee-Minty cube
+ * 
+ * <p>syntax mostly compatible to MATLAB::linprog
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/LinearProgramming.html">LinearProgramming</a> */
@@ -24,9 +26,18 @@ public enum LinearProgramming {
   /** @param c
    * @param m
    * @param b
+   * @param simplexPivot used for decent
+   * @return x >= 0 that minimizes c.x subject to m.x == b */
+  public static Tensor minEquals(Tensor c, Tensor m, Tensor b, SimplexPivot simplexPivot) {
+    return SimplexMethod.of(c.unmodifiable(), m.unmodifiable(), b.unmodifiable(), simplexPivot);
+  }
+
+  /** @param c
+   * @param m
+   * @param b
    * @return x >= 0 that minimizes c.x subject to m.x == b */
   public static Tensor minEquals(Tensor c, Tensor m, Tensor b) {
-    return TableauImpl.of(c.unmodifiable(), m.unmodifiable(), b.unmodifiable());
+    return minEquals(c, m, b, SimplexPivot.STEEPEST);
   }
 
   /** @param c

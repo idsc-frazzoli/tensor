@@ -89,7 +89,8 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     return tab;
   }
 
-  // TODO this methodology is complete trash but it is required for now!
+  // this methodology is surprisingly robust, but still bad style
+  // therefore the alternative implementation SimplexImpl was created
   private static Tensor get_current_x(Tensor tab) {
     List<Integer> dims = Dimensions.of(tab);
     int m = dims.get(0) - 1;
