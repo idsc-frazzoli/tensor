@@ -65,19 +65,16 @@ public interface Scalar extends Tensor {
    * @return this divided by input scalar */
   Scalar divide(Scalar scalar);
 
-  /** @return distance from zero as {@link RealScalar} or
+  /** @return typically distance from zero as {@link RealScalar},
+   * generally non-negative version of this.
    * @throws TensorRuntimeException */
   Scalar abs();
-
-  /** @return |this| ^ 2 as {@link RealScalar} or
-   * @throws TensorRuntimeException */
-  Scalar absSquared();
 
   /** classes should only override this if consistency is possible
    * for instance:
    * {@link ComplexScalar} would require two numbers, therefore
-   * a single number is not implemented.
-   * two scalars that are equal should return the same number()
+   * returning a single number is not implemented.
+   * two scalars that are equal should return the same number() // TODO test
    * 
    * @return this representation as {@link Number}
    * @throws TensorRuntimeException */

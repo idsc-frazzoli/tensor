@@ -6,10 +6,17 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import ch.ethz.idsc.tensor.sca.PowerInterface;
+import ch.ethz.idsc.tensor.sca.SqrtInterface;
+
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 // class may be a misnomer
-public class GaussScalar extends AbstractScalar implements ExactPrecision {
+public class GaussScalar extends AbstractScalar implements //
+    ExactPrecision, //
+    SqrtInterface, // TODO implementation is slow
+    PowerInterface, //
+    Comparable<Scalar> {
   private static final Set<Long> primes = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
@@ -75,11 +82,6 @@ public class GaussScalar extends AbstractScalar implements ExactPrecision {
   }
 
   @Override // from Scalar
-  public Scalar absSquared() {
-    return multiply(this);
-  }
-
-  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
@@ -97,6 +99,46 @@ public class GaussScalar extends AbstractScalar implements ExactPrecision {
     }
     assertInstanceOfZeroScalar(scalar);
     return scalar.add(this);
+  }
+
+  @Override // from SqrtInterface
+  public Scalar sqrt() {
+    for (long index = 1; index < prime; ++index) {
+      GaussScalar candidate = (GaussScalar) of(index, prime);
+      GaussScalar square = (GaussScalar) candidate.multiply(candidate);
+      if (value == square.value)
+        return candidate;
+    }
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override
+  public Scalar power(Scalar exponent) {
+    if (exponent instanceof ZeroScalar)
+      return of(1, prime);
+    if (exponent instanceof RationalScalar) {
+      RationalScalar ratio = (RationalScalar) exponent;
+      if (ratio.denominator().equals(BigInteger.ONE)) {
+        @SuppressWarnings("unused")
+        int exp = ratio.numerator().intValueExact();
+        // for (int count = 0:)
+        // FIXME implement fast for loop strategy...
+      }
+    }
+    throw TensorRuntimeException.of(exponent);
+  }
+
+  @Override // from Comparable<Scalar>
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof ZeroScalar)
+      return Long.compare(value, 0);
+    if (scalar instanceof GaussScalar) {
+      GaussScalar gaussScalar = (GaussScalar) scalar;
+      if (prime != gaussScalar.prime)
+        throw TensorRuntimeException.of(this);
+      return Long.compare(value, gaussScalar.value);
+    }
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from AbstractScalar

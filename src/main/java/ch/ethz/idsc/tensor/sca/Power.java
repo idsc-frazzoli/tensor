@@ -26,6 +26,8 @@ public class Power {
    * @param exponent
    * @return scalar ^ exponent */
   public static Scalar of(Scalar scalar, Scalar exponent) {
+    if (scalar instanceof PowerInterface)
+      return ((PowerInterface) scalar).power(exponent);
     if (exponent instanceof ZeroScalar)
       return RealScalar.ONE;
     if (scalar instanceof RationalScalar && exponent instanceof RationalScalar) {

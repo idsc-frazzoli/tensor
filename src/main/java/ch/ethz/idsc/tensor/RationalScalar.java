@@ -93,14 +93,18 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
   }
 
   @Override // from RealScalar
-  public int compareTo(RealScalar realScalar) {
-    if (realScalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) realScalar;
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
       BigInteger lhs = numerator().multiply(rationalScalar.denominator());
       BigInteger rhs = rationalScalar.numerator().multiply(denominator());
       return lhs.compareTo(rhs);
     }
-    return -realScalar.compareTo(this);
+    if (scalar instanceof ZeroScalar)
+      return signInt();
+    @SuppressWarnings("unchecked")
+    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
+    return -comparable.compareTo(this);
   }
 
   @Override // from Object

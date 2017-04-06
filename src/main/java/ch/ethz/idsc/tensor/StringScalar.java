@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor;
 /** StringScalar represents a string
  * no mathematical operations are possible
  * 
- * <p>for instance the first line of a csv file may contain column
+ * <p>for instance, the first line of a csv file may contain column
  * headers which are imported as {@link StringScalar}s */
 public final class StringScalar extends AbstractScalar {
   /** @param string
@@ -43,11 +43,6 @@ public final class StringScalar extends AbstractScalar {
 
   @Override
   public Scalar abs() {
-    throw TensorRuntimeException.of(this);
-  }
-
-  @Override
-  public Scalar absSquared() {
     throw TensorRuntimeException.of(this);
   }
 

@@ -22,6 +22,8 @@ public enum N implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
+    if (scalar instanceof NInterface)
+      return ((NInterface) scalar).n();
     if (scalar instanceof RealScalar)
       return DoubleScalar.of(scalar.number().doubleValue());
     if (scalar instanceof ComplexScalar) {

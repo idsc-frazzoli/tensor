@@ -25,6 +25,8 @@ public enum Chop implements Function<Scalar, Scalar> {
 
   public static Function<Scalar, Scalar> below(double threshold) {
     return scalar -> {
+      if (scalar instanceof ChopInterface)
+        return ((ChopInterface) scalar).chop();
       if (scalar instanceof ExactPrecision) // TODO how to treat ComplexScalar?
         return scalar;
       if (scalar.abs().number().doubleValue() < threshold)

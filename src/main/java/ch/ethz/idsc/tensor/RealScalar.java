@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
-public interface RealScalar extends Scalar, Comparable<RealScalar> {
+public interface RealScalar extends Scalar, Comparable<Scalar> {
   /** real scalar 1 in {@link ExactPrecision} */
   public static final RealScalar ONE = RealScalar.of(1);
   /** real scalar that encodes Infinity. value is backed by Double.POSITIVE_INFINITY */
@@ -24,30 +24,12 @@ public interface RealScalar extends Scalar, Comparable<RealScalar> {
   }
 
   /***************************************************/
-  /** @param a
-   * @param b
-   * @return the smaller one among a and b */
-  public static RealScalar min(RealScalar a, RealScalar b) {
-    return a.compareTo(b) > 0 ? b : a;
-  }
-
-  /** @param a
-   * @param b
-   * @return the greater one among a and b */
-  public static RealScalar max(RealScalar a, RealScalar b) {
-    return a.compareTo(b) < 0 ? b : a;
-  }
-
-  /***************************************************/
   @Override // from Scalar
   RealScalar negate(); // used by abs()
 
   /** abs() returns this or this.negate() depending on whichever is non-negative */
   @Override // from Scalar
   RealScalar abs();
-
-  @Override // from Scalar
-  RealScalar absSquared();
 
   @Override // from Scalar
   RealScalar conjugate();

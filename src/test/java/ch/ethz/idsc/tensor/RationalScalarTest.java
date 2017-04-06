@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
@@ -71,6 +72,13 @@ public class RationalScalarTest extends TestCase {
         RationalScalar.of(-2335, 396) //
     );
     assertEquals(sol, x);
+  }
+
+  public void testSort() {
+    Tensor v = Tensors.of(RationalScalar.of(3, 4), RationalScalar.of(-1, 7), ZeroScalar.get());
+    Tensor s = Sort.of(v);
+    Tensor r = Tensors.fromString("[-1/7, 0, 3/4]");
+    assertEquals(s, r);
   }
 
   public void testEquals() {

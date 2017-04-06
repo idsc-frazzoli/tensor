@@ -75,4 +75,10 @@ public class ScalarsTest extends TestCase {
     checkInvariant(ComplexScalar.of(-1e+14, +1e+15).toString(), ComplexScalar.class);
     checkInvariant(ComplexScalar.of(+1e+14, +1e+15).toString(), ComplexScalar.class);
   }
+
+  public void testNumber() {
+    Number a = 123;
+    Number b = 123.0;
+    assertFalse(a.equals(b));
+  }
 }

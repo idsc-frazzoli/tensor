@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** Each norm is defined at least for scalars, vectors, and matrices.
@@ -20,9 +21,9 @@ public enum Norm {
   Infinity(new NormInfinity()), //
   ;
   // ---
-  private final RankAdapter<RealScalar> rankAdapter;
+  private final RankAdapter<Scalar> rankAdapter;
 
-  private Norm(RankAdapter<RealScalar> rankAdapter) {
+  private Norm(RankAdapter<Scalar> rankAdapter) {
     this.rankAdapter = rankAdapter;
   }
 
@@ -30,7 +31,7 @@ public enum Norm {
    * 
    * @param tensor is scalar, vector, or matrix
    * @return norm of given tensor */
-  public RealScalar of(Tensor tensor) {
+  public Scalar of(Tensor tensor) {
     return rankAdapter.of(tensor);
   }
 }

@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Dimensions {
   ;
   /** @return dimensions of this tensor */
-  public static final List<Integer> of(Tensor tensor) {
+  public static List<Integer> of(Tensor tensor) {
     List<Integer> ret = new ArrayList<>();
     for (Set<Integer> set : complete(tensor))
       if (set.size() == 1) {
@@ -29,11 +29,18 @@ public enum Dimensions {
 
   /** @return true if tensor structure is identical at all levels, else false.
    * true for {@link Scalar}s */
-  public static final boolean isArray(Tensor tensor) {
+  public static boolean isArray(Tensor tensor) {
     return !complete(tensor).stream() //
         .map(Set::size) //
         .filter(size -> !size.equals(1)) //
         .findAny().isPresent();
+  }
+
+  /** @param tensor
+   * @return true if tensor.length() == 0, and
+   * false if tensor contains entries or is a {@link Scalar} */
+  public static boolean isEmpty(Tensor tensor) { // Marc's function
+    return tensor.length() == 0;
   }
 
   /** @param tensor

@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.red.Max;
+import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -34,5 +36,40 @@ public class DoubleScalarTest extends TestCase {
     assertEquals(c.multiply(inf), inf.negate());
     Scalar nan = inf.multiply(ZeroScalar.get());
     assertTrue(Double.isNaN(nan.number().doubleValue()));
+  }
+
+  public void testMin() {
+    Scalar a = RealScalar.of(3);
+    Scalar b = RealScalar.of(7.2);
+    assertEquals(Min.of(a, b), a);
+  }
+
+  public void testMax1() {
+    Scalar a = RealScalar.of(3);
+    Scalar b = RealScalar.of(7.2);
+    assertEquals(Max.of(a, b), b);
+  }
+
+  public void testMax2() {
+    Scalar a = RealScalar.of(0);
+    Scalar b = RealScalar.of(7.2);
+    assertEquals(Max.of(a, b), b);
+  }
+
+  public void testCompareFail() {
+    Scalar a = RealScalar.of(7.2);
+    Scalar b = GaussScalar.of(3, 5);
+    try {
+      Max.of(a, b);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Max.of(b, a);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
