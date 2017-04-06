@@ -3,8 +3,6 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.ComplexScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -16,12 +14,8 @@ public enum Real implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return scalar;
-    if (scalar instanceof ComplexScalar) {
-      ComplexScalar complexScalar = (ComplexScalar) scalar;
-      return complexScalar.real();
-    }
+    if (scalar instanceof RealInterface)
+      return ((RealInterface) scalar).real();
     throw TensorRuntimeException.of(scalar);
   }
 

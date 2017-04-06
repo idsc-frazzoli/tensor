@@ -61,21 +61,29 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return copy of this[index[0],index[1],...,All] */
   Tensor get(List<Integer> index);
 
-  /** set tensor as element at location this[index].
+  /** set tensor as element at location this[index[0], index[1], ...].
    * The operation is invalid if this tensor has been cast as unmodifiable.
+   * 
+   * <p>For instance,
+   * <ul>
+   * <li>matrix.set(scalar, 3, 4) represents the assignment matrix[3, 4]=scalar
+   * <li>matrix.set(row, 6) represents the assignment matrix[6, :]=row
+   * </ul>
    * 
    * @param tensor
    * @param index */
   void set(Tensor tensor, Integer... index);
 
   /** replaces element x at index with <code>function.apply(x)</code>
+   * The operation is invalid if this tensor has been cast as unmodifiable.
    * 
    * <p>set(...) allows to implement in-place operations such as <code>a += 3;</code>
    * 
    * <p>if set() is invoked on an instance of {@link Scalar}, an exception is thrown.
    * 
    * @param function
-   * @param index */
+   * @param index
+   * @see Tensor#set(Tensor, Integer...) */
   void set(Function<Tensor, Tensor> function, Integer... index);
 
   /** appends a copy of input tensor to this instance.
@@ -99,7 +107,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * entries at given level can be tensors or scalars.
    * 
    * @param level
-   * @return non-parallel stream, the user should consider invoking .parallel() */
+   * @return non-parallel stream, the user may invoke .parallel() */
   Stream<Tensor> flatten(int level);
 
   /** @param fromIndex

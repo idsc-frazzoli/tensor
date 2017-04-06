@@ -3,7 +3,10 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
-public interface RealScalar extends Scalar, Comparable<Scalar> {
+import ch.ethz.idsc.tensor.sca.ImagInterface;
+import ch.ethz.idsc.tensor.sca.RealInterface;
+
+public interface RealScalar extends Scalar, RealInterface, ImagInterface, Comparable<Scalar> {
   /** real scalar 1 in {@link ExactPrecision} */
   public static final RealScalar ONE = RealScalar.of(1);
   /** real scalar that encodes Infinity. value is backed by Double.POSITIVE_INFINITY */

@@ -4,11 +4,13 @@ package ch.ethz.idsc.tensor;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
+import ch.ethz.idsc.tensor.sca.ImagInterface;
+import ch.ethz.idsc.tensor.sca.RealInterface;
 
 /** complex number
  * 
  * <p>number() or Comparable interface is not supported */
-public class ComplexScalar extends AbstractScalar {
+public class ComplexScalar extends AbstractScalar implements RealInterface, ImagInterface {
   static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re
@@ -42,12 +44,12 @@ public class ComplexScalar extends AbstractScalar {
     this.im = im;
   }
 
-  /** @return real part */
+  @Override // from RealInterface
   public Scalar real() {
     return re;
   }
 
-  /** @return imaginary part */
+  @Override // from ImagInterface
   public Scalar imag() {
     return im;
   }

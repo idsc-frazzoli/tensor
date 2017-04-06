@@ -1,17 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.Arrays;
-
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
-import ch.ethz.idsc.tensor.alg.MapThread;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
+// TODO for problems without unique solution only test for value of cost function
 public class LinearProgrammingTest extends TestCase {
   public void testCase4() {
     Tensor c = Tensors.fromString("[-3,-5,0,0,0]");
@@ -42,7 +40,7 @@ public class LinearProgrammingTest extends TestCase {
   public void testMatlab2() {
     Tensor c = Tensors.fromString("[-1,-1/3,0,0,0,0,0,0]");
     Tensor Ap = Tensors.fromString("[[1,1],[1,1/4],[1,-1],[-1/4,-1],[-1,-1],[-1,1]]");
-    Tensor m = MapThread.of(Join::of, Arrays.asList(Ap, IdentityMatrix.of(6)), 1);
+    Tensor m = Join.of(1, Ap, IdentityMatrix.of(6));
     m.append(Tensors.fromString("[1, 1/4,0,0,0,0,0,0]"));
     Tensor b = Tensors.fromString("[2,1,2,1,-1,2,1/2]");
     Tensor x = LinearProgramming.minEquals(c, m, b);

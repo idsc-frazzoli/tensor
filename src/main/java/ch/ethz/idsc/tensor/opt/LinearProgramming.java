@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -9,7 +8,6 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
-import ch.ethz.idsc.tensor.alg.MapThread;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 
 /** linear optimization
@@ -56,7 +54,7 @@ public enum LinearProgramming {
    * @return x >= 0 that minimizes c.x subject to m.x <= b */
   public static Tensor minLessEquals(Tensor c, Tensor m, Tensor b) {
     Tensor ceq = Join.of(c, Array.zeros(m.length()));
-    Tensor meq = MapThread.of(Join::of, Arrays.asList(m, IdentityMatrix.of(m.length())), 1);
+    Tensor meq = Join.of(1, m, IdentityMatrix.of(m.length()));
     Tensor xeq = minEquals(ceq, meq, b);
     Tensor x = xeq.extract(0, c.length());
     if (!isFeasible(m, x, b))

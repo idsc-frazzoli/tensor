@@ -18,6 +18,16 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return this instanceof ZeroScalar ? 0 : (isPositive() ? 1 : -1);
   }
 
+  @Override // from RealInterface
+  public final Scalar real() {
+    return this;
+  }
+
+  @Override // from ImagInterface
+  public final Scalar imag() {
+    return ZeroScalar.get();
+  }
+
   /** @return true if this scalar is strictly greater zero, false otherwise */
   protected abstract boolean isPositive();
 }

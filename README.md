@@ -1,7 +1,7 @@
 # ch.ethz.idsc.tensor
 Library for tensor computation in Java 8.
 
-Version `0.1.4`
+Version `0.1.5`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
@@ -60,7 +60,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.1.4</version>
+        <version>0.1.5</version>
       </dependency>
     </dependencies>
 
