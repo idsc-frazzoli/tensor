@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Set;
 
 import ch.ethz.idsc.tensor.alg.Sort;
+import ch.ethz.idsc.tensor.io.ObjectFormat;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.ArgMax;
 import ch.ethz.idsc.tensor.red.Norm;
@@ -117,6 +118,11 @@ public class GaussScalarTest extends TestCase {
     Scalar res = Power.of(GaussScalar.of(4, 7), 0);
     assertEquals(res, GaussScalar.of(1, 7));
     // TODO more tests once power is implemented correctly
+  }
+
+  public void testSerializable() {
+    Scalar a = GaussScalar.of(4, 7);
+    assertEquals(a, ObjectFormat.from(ObjectFormat.of(a)));
   }
 
   public void testHash() {

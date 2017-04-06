@@ -34,7 +34,15 @@ public class ArcSinTest extends TestCase {
     Scalar r = ArcSin.function.apply(s);
     // System.out.println(r);
     assertEquals(r, ArcSin.of(s));
-    // 0.6170642966759935225 - 2.8462888282083865345 I
     assertEquals(r, Scalars.fromString("0.6170642966759935-2.8462888282083867*I"));
+  }
+
+  public void testArcSinh() {
+    Scalar s = ComplexScalar.of(5, -7);
+    Scalar r = ArcSinh.function.apply(s);
+    // 2.8441 - 0.947341 I
+    Scalar a = Scalars.fromString("2.8440976626506527-0.9473406443130488*I");
+    assertEquals(a, r);
+    assertEquals(a, ArcSinh.of(s));
   }
 }

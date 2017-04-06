@@ -5,6 +5,7 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.io.ObjectFormat;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Abs;
@@ -70,6 +71,11 @@ public class ComplexScalarTest extends TestCase {
     assertFalse(c1.equals(s1));
     assertFalse(s1.equals(c1));
     assertEquals(c1.hashCode(), c2.hashCode());
+  }
+
+  public void testSerializable() {
+    Scalar a = ComplexScalar.of(3, 5.2345);
+    assertEquals(a, ObjectFormat.from(ObjectFormat.of(a)));
   }
 
   public void testConjugate() {

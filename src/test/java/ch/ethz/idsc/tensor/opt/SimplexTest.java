@@ -1,11 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.stream.Stream;
+
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.red.KroneckerDelta;
 import junit.framework.TestCase;
 
 public class SimplexTest extends TestCase {
@@ -24,7 +27,7 @@ public class SimplexTest extends TestCase {
         Tensors.fromString("[[3, -1], [-3, 2], [1,-1]]"), //
         Tensors.vectorInt(-1, 2, -1));
     // System.out.println(x);
-    assertEquals(x, Tensors.fromString("[0,1]"));
+    assertEquals(x, Tensors.fromString("[0, 1]"));
   }
 
   public void testUnique2() {
@@ -37,6 +40,47 @@ public class SimplexTest extends TestCase {
         Tensors.vectorInt(-1, 2, -1));
     // System.out.println(x);
     assertEquals(x, Tensors.fromString("[0, 1, 0, 0, 0]"));
+  }
+
+  private static Tensor fromString(String... string) {
+    return Tensor.of(Stream.of(string).map(Tensors::fromString));
+  }
+
+  /** problem taken from
+   * An Additive Eigenvalue Problem of Physics
+   * Related to Linear Programming
+   * by WEIREN CHOU and R. J. DUFFIN */
+  public void testAEV() {
+    Tensor m = fromString( //
+        "[1, 0, 0, 0, 0]", //
+        "[1, 1,-1, 0, 0]", //
+        "[1, 1, 0,-1, 0]", //
+        "[1, 1, 0, 0,-1]", //
+        // ---
+        "[1,-1, 1, 0, 0]", //
+        "[1, 0, 0, 0, 0]", //
+        "[1, 0, 1,-1, 0]", //
+        "[1, 0, 1, 0,-1]", //
+        // ---
+        "[1,-1, 0, 1, 0]", //
+        "[1, 0,-1, 1, 0]", //
+        "[1, 0, 0, 0, 0]", //
+        "[1, 0, 0, 1,-1]", //
+        // ---
+        "[1,-1, 0, 0, 1]", //
+        "[1, 0,-1, 0, 1]", //
+        "[1, 0, 0,-1, 1]", //
+        "[1, 0, 0, 0, 0]" //
+    );
+    Tensor b = Tensors.vectorInt(8, 7, 9, 13, 6, 10, 5, 12, 14, 15, 9, 11, 9, 8, 4, 7); //
+    Tensor c = Tensors.vector(i -> KroneckerDelta.of(i, 0), 5);
+    Tensor x = LinearProgramming.maxLessEquals(c, m, b);
+    Tensor X51 = Tensors.fromString("[6.5, 0.5, 0, 2.5, 0]");
+    Tensor X52 = Tensors.fromString("[13/2, 1/2, 0, 6, 3/2]");
+    assertEquals(c.dot(x), c.dot(X51));
+    assertEquals(c.dot(x), c.dot(X52));
+    assertTrue(LinearProgramming.isFeasible(m, X51, b));
+    assertTrue(LinearProgramming.isFeasible(m, X52, b));
   }
 
   public void testVoid() {
