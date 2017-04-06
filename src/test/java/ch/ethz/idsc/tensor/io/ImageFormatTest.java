@@ -22,7 +22,7 @@ public class ImageFormatTest extends TestCase {
       BufferedImage bi = ImageIO.read(new File(f));
       Tensor tensor = ImageFormat.from(bi);
       System.out.println(Dimensions.of(tensor));
-      Tensor red = tensor.get(-1, -1, 0);
+      // Tensor red = tensor.get(-1, -1, 0);
       // System.out.println(Pretty.of(red));
       {
         ImageIO.write(ImageFormat.of(tensor.get(-1, -1)), "png", new File("/home/datahaki/testOrig.png"));

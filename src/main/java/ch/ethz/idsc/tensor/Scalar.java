@@ -16,6 +16,9 @@ public interface Scalar extends Tensor {
   @Override // from Tensor
   Scalar copy();
 
+  /** an instance of {@link Scalar} is immutable by convention.
+   * 
+   * @return this */
   @Override // from Tensor
   Scalar unmodifiable();
 
@@ -46,30 +49,32 @@ public interface Scalar extends Tensor {
   @Override // from Tensor
   Scalar conjugate();
 
+  /** function evaluation of this scalar
+   * 
+   * @return function.apply(this); */
   @Override // from Tensor
   Scalar map(Function<Scalar, Scalar> function);
 
   /***************************************************/
-  /** @return multiplicative inverse of this scalar */
+  /** multiplicative inverse except for {@link ZeroScalar}
+   * 
+   * @return multiplicative inverse of this scalar */
   Scalar invert();
 
   /** @param scalar
    * @return this divided by input scalar */
   Scalar divide(Scalar scalar);
 
-  /** @return distance from zero as {@link RealScalar} or
+  /** @return typically distance from zero as {@link RealScalar},
+   * generally non-negative version of this.
    * @throws TensorRuntimeException */
   Scalar abs();
-
-  /** @return |this| ^ 2 as {@link RealScalar} or
-   * @throws TensorRuntimeException */
-  Scalar absSquared();
 
   /** classes should only override this if consistency is possible
    * for instance:
    * {@link ComplexScalar} would require two numbers, therefore
-   * a single number is not implemented.
-   * two scalars that are equal should return the same number()
+   * returning a single number is not implemented.
+   * two scalars that are equal should return the same number() // TODO test
    * 
    * @return this representation as {@link Number}
    * @throws TensorRuntimeException */

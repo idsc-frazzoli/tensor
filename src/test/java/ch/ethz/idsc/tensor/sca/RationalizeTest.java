@@ -49,7 +49,7 @@ public class RationalizeTest extends TestCase {
     final Tensor re = Rationalize.of(realScalar, max);
     if (re instanceof RationalScalar) {
       RationalScalar rs = (RationalScalar) re;
-      assertTrue(rs.getDenominator().longValue() <= max);
+      assertTrue(rs.denominator().longValue() <= max);
     }
   }
 

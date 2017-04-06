@@ -50,8 +50,12 @@ public final class ZeroScalar extends AbstractRealScalar implements ExactPrecisi
   }
 
   @Override // from RealScalar
-  public int compareTo(RealScalar realScalar) {
-    return -realScalar.signInt();
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof ZeroScalar)
+      return 0;
+    @SuppressWarnings("unchecked")
+    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
+    return -comparable.compareTo(this);
   }
 
   @Override // from Object

@@ -7,4 +7,8 @@ public class ZeroScalarTest extends TestCase {
   public void testPositive() {
     assertFalse(ZeroScalar.get().isPositive());
   }
+
+  public void testCompare() {
+    assertEquals(ZeroScalar.get().compareTo(ZeroScalar.get()), 0);
+  }
 }

@@ -11,19 +11,19 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** maps scalars that implement {@link ExactPrecision}
- * to their numerical approximation.
+/** maps scalars that implement {@link ExactPrecision} to their numerical approximation.
  * 
- * For instance, N converts a {@link RationalScalar}
- * to a {@link DoubleScalar}.
+ * <p>For instance, N converts a {@link RationalScalar} to a {@link DoubleScalar}.
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/N.html">N</a> */
 public enum N implements Function<Scalar, Scalar> {
   function;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
+    if (scalar instanceof NInterface)
+      return ((NInterface) scalar).n();
     if (scalar instanceof RealScalar)
       return DoubleScalar.of(scalar.number().doubleValue());
     if (scalar instanceof ComplexScalar) {
@@ -32,7 +32,7 @@ public enum N implements Function<Scalar, Scalar> {
           apply(complexScalar.real()), //
           apply(complexScalar.imag()));
     }
-    return null;
+    return scalar;
   }
 
   /** @param tensor

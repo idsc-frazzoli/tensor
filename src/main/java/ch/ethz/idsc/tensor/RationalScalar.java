@@ -35,12 +35,12 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
     this.bigFraction = bigFraction;
   }
 
-  public BigInteger getNumerator() {
+  public BigInteger numerator() {
     return bigFraction.num;
   }
 
   /** @return positive number */
-  public BigInteger getDenominator() {
+  public BigInteger denominator() {
     return bigFraction.den;
   }
 
@@ -63,8 +63,8 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
 
   @Override // from Scalar
   public Number number() {
-    if (getDenominator().equals(BigInteger.ONE)) {
-      BigInteger bigInteger = getNumerator();
+    if (denominator().equals(BigInteger.ONE)) {
+      BigInteger bigInteger = numerator();
       try {
         return bigInteger.intValueExact();
       } catch (Exception exception) {
@@ -93,14 +93,18 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
   }
 
   @Override // from RealScalar
-  public int compareTo(RealScalar realScalar) {
-    if (realScalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) realScalar;
-      BigInteger lhs = getNumerator().multiply(rationalScalar.getDenominator());
-      BigInteger rhs = rationalScalar.getNumerator().multiply(getDenominator());
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      BigInteger lhs = numerator().multiply(rationalScalar.denominator());
+      BigInteger rhs = rationalScalar.numerator().multiply(denominator());
       return lhs.compareTo(rhs);
     }
-    return -realScalar.compareTo(this);
+    if (scalar instanceof ZeroScalar)
+      return signInt();
+    @SuppressWarnings("unchecked")
+    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
+    return -comparable.compareTo(this);
   }
 
   @Override // from Object

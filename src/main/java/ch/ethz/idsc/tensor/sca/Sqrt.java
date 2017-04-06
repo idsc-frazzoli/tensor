@@ -18,6 +18,8 @@ public enum Sqrt implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
+    if (scalar instanceof SqrtInterface)
+      return ((SqrtInterface) scalar).sqrt();
     if (scalar instanceof RealScalar) {
       double value = scalar.number().doubleValue();
       if (0 <= value)

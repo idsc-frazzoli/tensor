@@ -41,8 +41,12 @@ public final class DoubleScalar extends AbstractRealScalar {
   }
 
   @Override // from RealScalar
-  public int compareTo(RealScalar realScalar) {
-    return Double.compare(number().doubleValue(), realScalar.number().doubleValue());
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return Double.compare(number().doubleValue(), scalar.number().doubleValue());
+    @SuppressWarnings("unchecked")
+    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
+    return -comparable.compareTo(this);
   }
 
   @Override // from AbstractScalar

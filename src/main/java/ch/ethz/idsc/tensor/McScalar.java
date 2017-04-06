@@ -48,11 +48,6 @@ class McScalar extends AbstractScalar {
   }
 
   @Override
-  public Scalar absSquared() {
-    return Norm._2Squared.of(skew);
-  }
-
-  @Override
   public Number number() {
     throw TensorRuntimeException.of(this);
   }

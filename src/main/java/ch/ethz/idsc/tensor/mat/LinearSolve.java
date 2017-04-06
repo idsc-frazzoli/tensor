@@ -13,7 +13,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * <a href="https://reference.wolfram.com/language/ref/LinearSolve.html">LinearSolve</a> */
 public enum LinearSolve {
   ;
-  /** @param m square matrix of {@link Scalar} that implement absolute value abs()
+  /** gives solution to linear system of equations.
+   * scalar entries are required to implement
+   * Comparable<Scalar> for pivoting.
+   * 
+   * @param m square matrix of {@link Scalar} that implement absolute value abs()
    * @param b tensor with first dimension identical to size of matrix
    * @return x with m.dot(x) == b
    * throws an exception if inversion of m fails */

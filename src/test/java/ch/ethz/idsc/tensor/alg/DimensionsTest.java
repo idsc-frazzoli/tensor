@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -54,5 +55,11 @@ public class DimensionsTest extends TestCase {
     Tensor b = Tensors.vectorLong(3, 2);
     Tensor c = Tensors.of(a, b);
     assertFalse(Dimensions.isArray(c));
+  }
+
+  public void testIsEmpty() {
+    assertTrue(Dimensions.isEmpty(Tensors.empty()));
+    assertFalse(Dimensions.isEmpty(RealScalar.ONE));
+    assertFalse(Dimensions.isEmpty(Tensors.vectorInt(3, 4)));
   }
 }

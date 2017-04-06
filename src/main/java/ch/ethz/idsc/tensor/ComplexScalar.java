@@ -74,11 +74,6 @@ public class ComplexScalar extends AbstractScalar {
   }
 
   @Override // from Scalar
-  public Scalar absSquared() {
-    return multiply(conjugate()); // preserves precision
-  }
-
-  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof ComplexScalar) {
       ComplexScalar cmp = (ComplexScalar) scalar;

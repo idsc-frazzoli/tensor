@@ -5,7 +5,12 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
+import ch.ethz.idsc.tensor.red.ArgMax;
+import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class GaussScalarTest extends TestCase {
@@ -19,7 +24,7 @@ public class GaussScalarTest extends TestCase {
     }
   }
 
-  public void testMatrix() {
+  public void testMatrix1() {
     Tensor m = Tensors.matrix(new Scalar[][] { //
         { GaussScalar.of(0, 7), GaussScalar.of(3, 7) }, //
         { GaussScalar.of(1, 7), GaussScalar.of(3, 7) } //
@@ -29,6 +34,19 @@ public class GaussScalarTest extends TestCase {
         { GaussScalar.of(5, 7), GaussScalar.of(0, 7) } //
     });
     Tensor a = LinearSolve.withoutAbs(m, b);
+    assertEquals(m.dot(a), b);
+  }
+
+  public void testMatrix2() {
+    Tensor m = Tensors.matrix(new Scalar[][] { //
+        { GaussScalar.of(0, 7), GaussScalar.of(3, 7) }, //
+        { GaussScalar.of(1, 7), GaussScalar.of(3, 7) } //
+    });
+    Tensor b = Tensors.matrix(new Scalar[][] { //
+        { GaussScalar.of(6, 7), GaussScalar.of(4, 7) }, //
+        { GaussScalar.of(5, 7), GaussScalar.of(0, 7) } //
+    });
+    Tensor a = LinearSolve.of(m, b);
     assertEquals(m.dot(a), b);
   }
 
@@ -70,6 +88,35 @@ public class GaussScalarTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testSqrt() {
+    Scalar a = GaussScalar.of(4, 7);
+    Scalar s = GaussScalar.of(2, 7);
+    assertEquals(Sqrt.of(a), s);
+    Scalar n2 = Norm._2.of(Tensors.of(s));
+    Scalar n2s = Norm._2Squared.of(Tensors.of(s));
+    assertEquals(n2, s);
+    assertEquals(n2s, a);
+  }
+
+  public void testSort() {
+    Tensor v = Tensors.of(GaussScalar.of(4, 7), GaussScalar.of(1, 7), GaussScalar.of(2, 7), ZeroScalar.get());
+    Tensor r = Tensors.of(ZeroScalar.get(), GaussScalar.of(1, 7), GaussScalar.of(2, 7), GaussScalar.of(4, 7));
+    Tensor s = Sort.of(v);
+    assertEquals(s, r);
+  }
+
+  public void testArgMax() {
+    Tensor v = Tensors.of(GaussScalar.of(1, 7), GaussScalar.of(4, 7), GaussScalar.of(2, 7), ZeroScalar.get());
+    int i = ArgMax.of(v);
+    assertEquals(i, 1);
+  }
+
+  public void testPower() {
+    Scalar res = Power.of(GaussScalar.of(4, 7), 0);
+    assertEquals(res, GaussScalar.of(1, 7));
+    // TODO more tests once power is implemented correctly
   }
 
   public void testHash() {

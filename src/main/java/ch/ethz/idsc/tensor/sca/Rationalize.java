@@ -5,6 +5,7 @@ package ch.ethz.idsc.tensor.sca;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.red.Max;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Rationalize.html">Rationalize</a> */
@@ -65,7 +66,7 @@ public enum Rationalize {
     final double err0 = sol0.subtract(realScalar).abs().number().doubleValue();
     final double err1 = sol1.subtract(realScalar).abs().number().doubleValue();
     if (err0 == err1)
-      return RealScalar.max(sol0, sol1); // ties rounding to positive infinity
+      return Max.of(sol0, sol1); // ties rounding to positive infinity
     return err0 < err1 ? sol0 : sol1; // choose the one with less error
   }
 

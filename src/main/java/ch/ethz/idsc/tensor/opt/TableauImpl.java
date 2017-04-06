@@ -1,5 +1,5 @@
 // MATLAB code by Nasser M. Abbasi
-// TODO link
+// http://12000.org/my_notes/simplex/index.htm
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
@@ -22,8 +22,8 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.red.ArgMax;
 import ch.ethz.idsc.tensor.red.ArgMin;
 
-/* package */ class SimplexImpl {
-  public static Tensor of(Tensor A, Tensor b, Tensor c) {
+/* package */ class TableauImpl {
+  public static Tensor of(Tensor c, Tensor A, Tensor b) {
     List<Integer> dims = Dimensions.of(A);
     int m = dims.get(0);
     int n = dims.get(1);
@@ -52,6 +52,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     List<Integer> dims = Dimensions.of(tab);
     int m = dims.get(0) - 1;
     int n = dims.get(1) - 1;
+    // int count = 0;
     while (true) {
       // System.out.println("********************************");
       // System.out.println("current tableau");
@@ -80,13 +81,16 @@ import ch.ethz.idsc.tensor.red.ArgMin;
             tab.set(tab.get(i).subtract(tab.get(pivot).multiply(tab.Get(i, j))), i);
         // System.out.println("current basic feasible sol");
         // System.out.println(get_current_x(tab));
+        // ++count;
       } else
         break;
     }
+    // System.out.println(count);
     return tab;
   }
 
-  // TODO this methodology is complete trash
+  // this methodology is surprisingly robust, but still bad style
+  // therefore the alternative implementation SimplexImpl was created
   private static Tensor get_current_x(Tensor tab) {
     List<Integer> dims = Dimensions.of(tab);
     int m = dims.get(0) - 1;

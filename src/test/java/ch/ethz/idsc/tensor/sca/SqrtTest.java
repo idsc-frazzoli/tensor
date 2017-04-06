@@ -11,7 +11,7 @@ public class SqrtTest extends TestCase {
   public void testNegative() {
     RealScalar n2 = RealScalar.of(-2);
     Scalar sr = Sqrt.function.apply(n2);
-    assertEquals(Rationalize.of(sr.absSquared(), 10000), RealScalar.of(2));
+    assertEquals(Rationalize.of(AbsSquared.function.apply(sr), 10000), RealScalar.of(2));
     assertEquals(Rationalize.of(sr.multiply(sr), 10000), n2);
   }
 

@@ -9,11 +9,6 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   }
 
   @Override // from RealScalar
-  public final RealScalar absSquared() {
-    return (RealScalar) multiply(this);
-  }
-
-  @Override // from RealScalar
   public final RealScalar conjugate() {
     return this;
   }

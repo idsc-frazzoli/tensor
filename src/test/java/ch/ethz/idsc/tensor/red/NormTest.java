@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -15,7 +16,7 @@ public class NormTest extends TestCase {
     assertEquals(Norm._2.of(Scalars.fromString("0")), ZeroScalar.get());
     assertEquals(Norm._2.of(Scalars.fromString("-3.90512")), Scalars.fromString("3.90512"));
     assertEquals(Norm._2.of(Scalars.fromString("-3/7")), Scalars.fromString("3/7"));
-    RealScalar rs = Norm._2.of(ComplexScalar.of(RealScalar.ONE, RealScalar.of(2))); // <- sqrt(5)
+    Scalar rs = Norm._2.of(ComplexScalar.of(RealScalar.ONE, RealScalar.of(2))); // <- sqrt(5)
     assertEquals(rs, Scalars.fromString("2.23606797749979"));
     assertEquals(Norm._2Squared.of(Scalars.fromString("-3/7")), Scalars.fromString("9/49"));
   }
