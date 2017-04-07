@@ -19,15 +19,15 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   /** when using get() on {@link AbstractScalar} the list of arguments has to be empty */
-  @Override // from Scalar
-  public final Scalar get(Integer... index) {
+  @Override // from Tensor
+  public final Tensor get(Integer... index) {
     if (0 < index.length)
       throw new IllegalArgumentException();
     return this;
   }
 
   /** when using Get() on {@link AbstractScalar} the list of arguments has to be empty */
-  @Override // from Scalar
+  @Override // from Tensor
   public final Scalar Get(Integer... index) {
     if (0 < index.length)
       throw new IllegalArgumentException();
@@ -35,8 +35,8 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   /** when using get() on {@link AbstractScalar} the list of arguments has to be empty */
-  @Override // from Scalar
-  public final Scalar get(List<Integer> index) {
+  @Override // from Tensor
+  public final Tensor get(List<Integer> index) {
     if (0 < index.size())
       throw new IllegalArgumentException();
     return this;
