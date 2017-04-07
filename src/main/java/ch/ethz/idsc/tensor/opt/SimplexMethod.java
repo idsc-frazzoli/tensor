@@ -35,7 +35,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
       simplexImpl = new SimplexMethod(tab, Range.of(n, n + m), simplexPivot); // phase 1
     }
     Tensor tab = Join.of(1, //
-        TensorMap.of(t -> t.extract(0, n), simplexImpl.tab.extract(0, m), 1), //
+        TensorMap.of(row -> row.extract(0, n), simplexImpl.tab.extract(0, m), 1), //
         Partition.of(simplexImpl.tab.get(-1, n + m).extract(0, m), 1));
     tab.append(Join.of(c, Tensors.of(ZeroScalar.get()))); // set bottom corner to 0
     return new SimplexMethod(tab, simplexImpl.ind, simplexPivot).getX(); // phase 2

@@ -14,18 +14,18 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.alg.Transpose;
 
 /** The {@link Dimensions} of tensors that represent images are
- * WIDTH x HEIGHT x 4
+ * <code>WIDTH x HEIGHT x 4</code>
  * 
- * The 4 entries in the last dimension are RGBA.
+ * <p>The 4 entries in the last dimension are RGBA.
  * 
- * This convention is consistent with Java
+ * <p>This convention is consistent with Java
  * {@link Graphics2D}, {@link BufferedImage}, ...
  * 
- * Tensor::get(x,y)
+ * <p><code>Tensor::get(x, y)</code>
  * refers to the same pixel as
- * BufferedImage::getRGB(x,y)
+ * <code>BufferedImage::getRGB(x, y)</code>
  * 
- * Consistent also with the screen size, for instance 1280 x 720. */
+ * <p>Consistent also with the screen size, for instance 1280 x 720. */
 public enum ImageFormat {
   ;
   // ---

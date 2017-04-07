@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /** serves as the algorithm for OuterProduct */
 class OuterProductInteger implements Iterator<List<Integer>>, Iterable<List<Integer>> {
@@ -13,6 +14,16 @@ class OuterProductInteger implements Iterator<List<Integer>>, Iterable<List<Inte
   int count = 0;
   final int total;
 
+  public static OuterProductInteger forward(Integer... dimensions) {
+    return forward(Arrays.asList(dimensions));
+  }
+
+  public static OuterProductInteger forward(List<Integer> dimensions) {
+    int[] ints = IntStream.range(0, dimensions.size()).map(i -> dimensions.get(i)).toArray();
+    return new OuterProductInteger(ints, true);
+  }
+
+  // TODO not final class design
   public OuterProductInteger(int[] myInt, boolean forward) {
     int total = 1;
     myInteger = new Integer[myInt.length];

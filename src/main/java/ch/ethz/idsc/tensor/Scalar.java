@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.List;
-import java.util.function.Function;
 
 /** on top of the capabilities of a {@link Tensor} a scalar can be inverted
  * 
@@ -48,12 +47,6 @@ public interface Scalar extends Tensor {
 
   @Override // from Tensor
   Scalar conjugate();
-
-  /** function evaluation of this scalar
-   * 
-   * @return function.apply(this); */
-  @Override // from Tensor
-  Scalar map(Function<Scalar, Scalar> function);
 
   /***************************************************/
   /** multiplicative inverse except for {@link ZeroScalar}

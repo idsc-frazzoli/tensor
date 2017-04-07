@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
 /** Each norm is defined at least for scalars, vectors, and matrices.
  * The return value is of type {@link RealScalar}.
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Norm.html">Norm</a> */
 public enum Norm {
   /** 1-norm, for vectors |a_1| + ... + |a_n| also known as ManhattanDistance */

@@ -73,7 +73,7 @@ public enum Rationalize {
   /** Returns the closest {@link RationalScalar} to the argument, with ties
    * rounding to positive infinity.
    * 
-   * @param realScalar for instance Math.PI, or 2./3.
+   * @param tensor for instance Math.PI, or 2./3.
    * @param max denominator
    * @return approximation of realScalar as RationalScalar with denominator bounded by max */
   public static Tensor of(Tensor tensor, long max) {

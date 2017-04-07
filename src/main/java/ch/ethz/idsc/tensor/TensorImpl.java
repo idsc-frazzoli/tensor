@@ -181,7 +181,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
-  public Tensor map(Function<Scalar, Scalar> function) {
+  public Tensor map(Function<Scalar, ? extends Tensor> function) {
     return Tensor.of(flatten(0).map(tensor -> tensor.map(function)));
   }
 

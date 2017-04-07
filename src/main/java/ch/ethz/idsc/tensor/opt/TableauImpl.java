@@ -37,7 +37,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     }
     // phase 2
     tab = Join.of(1, //
-        TensorMap.of(t -> t.extract(0, n), tab.extract(0, m), 1), //
+        TensorMap.of(row -> row.extract(0, n), tab.extract(0, m), 1), //
         Partition.of(tab.get(-1, n + m).extract(0, m), 1));
     tab.append(Join.of(c, Tensors.of(ZeroScalar.get())));
     tab = simplex(tab);

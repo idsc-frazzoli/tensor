@@ -173,5 +173,5 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @param function
    * @return new tensor with {@link Scalar} entries replaced by
    * function evaluation of {@link Scalar} entries */
-  Tensor map(Function<Scalar, Scalar> function);
+  Tensor map(Function<Scalar, ? extends Tensor> function);
 }
