@@ -1,8 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.sca.ChopInterface;
+
 /** scalar with double precision, 64-bit, MATLAB style */
-public final class DoubleScalar extends AbstractRealScalar {
+public final class DoubleScalar extends AbstractRealScalar implements ChopInterface {
   /** @param value
    * @return new instance of {@link DoubleScalar}, or {@link ZeroScalar} if value == 0 */
   public static RealScalar of(double value) {
@@ -59,6 +61,11 @@ public final class DoubleScalar extends AbstractRealScalar {
   @Override // from AbstractRealScalar
   protected boolean isPositive() {
     return 0 < value;
+  }
+
+  @Override // from ChopInterface
+  public Scalar chop(double threshold) {
+    return abs().number().doubleValue() < threshold ? ZeroScalar.get() : this;
   }
 
   @Override // from Object

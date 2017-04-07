@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
-import java.io.File;
-
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Pretty;
@@ -11,12 +9,7 @@ import ch.ethz.idsc.tensor.opt.LinearProgramming;
 import junit.framework.TestCase;
 
 public class DemoTest extends TestCase {
-  public void testEmpty() {
-    String asd = getClass().getResource("/io/test.csv").getFile();
-    File csvf = new File(asd);
-    assertTrue(csvf.isFile());
-    File csv = new File("src/test/resources/io/test.csv");
-    assertTrue(csv.isFile());
+  public void testDummy() {
     // ---
   }
 

@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.stream.IntStream;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -27,7 +25,10 @@ public enum LinearProgramming {
    * @param simplexPivot used for decent
    * @return x >= 0 that minimizes c.x subject to m.x == b */
   public static Tensor minEquals(Tensor c, Tensor m, Tensor b, SimplexPivot simplexPivot) {
-    return SimplexMethod.of(c.unmodifiable(), m.unmodifiable(), b.unmodifiable(), simplexPivot);
+    Tensor x = SimplexMethod.of(c.unmodifiable(), m.unmodifiable(), b.unmodifiable(), simplexPivot);
+    if (!isFeasible(m, x, b))
+      throw TensorRuntimeException.of(x);
+    return x;
   }
 
   /** @param c
@@ -35,7 +36,7 @@ public enum LinearProgramming {
    * @param b
    * @return x >= 0 that minimizes c.x subject to m.x == b */
   public static Tensor minEquals(Tensor c, Tensor m, Tensor b) {
-    return minEquals(c, m, b, SimplexPivot.STEEPEST);
+    return minEquals(c, m, b, SimplexPivot.NONBASIC_GRADIENT);
   }
 
   /** @param c
@@ -73,11 +74,17 @@ public enum LinearProgramming {
   /** @param m
    * @param x
    * @param b
-   * @return true if m.x <= b */
+   * @return true if x >= 0 and m.x <= b */
   public static boolean isFeasible(Tensor m, Tensor x, Tensor b) {
-    Tensor delta = m.dot(x).subtract(b);
-    return !IntStream.range(0, delta.length()) //
-        .filter(i -> 0 < ((RealScalar) delta.Get(i)).signInt()) //
+    boolean status = true;
+    status &= !x.flatten(0) // all x >= 0
+        .map(RealScalar.class::cast) //
+        .filter(v -> 0 > v.signInt()) //
         .findAny().isPresent();
+    status &= !m.dot(x).subtract(b).flatten(0) // all A.x <= b
+        .map(RealScalar.class::cast) //
+        .filter(v -> 0 < v.signInt()) //
+        .findAny().isPresent();
+    return status;
   }
 }

@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +15,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Partition;
 import junit.framework.TestCase;
 
@@ -80,5 +83,23 @@ public class CsvFormatTest extends TestCase {
     List<String> list = CsvFormat.of(r).collect(Collectors.toList());
     Tensor s = CsvFormat.parse(list.stream());
     assertEquals(Tensors.of(Tensors.of(r)), s);
+  }
+
+  public void testLibreofficeCalcFile() throws Exception {
+    String string = getClass().getResource("/io/libreoffice_calc.csv").getPath();
+    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    assertEquals(Dimensions.of(table), Arrays.asList(4, 2));
+  }
+
+  public void testMatlabFile() throws Exception {
+    String string = getClass().getResource("/io/matlab_3x5.csv").getPath();
+    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    assertEquals(Dimensions.of(table), Arrays.asList(3, 5));
+  }
+
+  public void testGeditFile() throws Exception {
+    String string = getClass().getResource("/io/gedit_mixed.csv").getPath();
+    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    assertEquals(table, Tensors.fromString("[[hello, blub], [1, 4.22], [-3, 0.323, asdf], [2, 1.223], [3+8*I, 12, 33]]"));
   }
 }

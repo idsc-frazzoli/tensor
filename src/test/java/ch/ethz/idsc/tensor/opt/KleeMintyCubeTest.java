@@ -9,8 +9,8 @@ public class KleeMintyCubeTest extends TestCase {
   public void callKlee(int n) {
     KleeMintyCube kmc = new KleeMintyCube(n);
     Tensor x = LinearProgramming.maxLessEquals(kmc.c, kmc.m, kmc.b);
-    System.out.println("---");
-    kmc.show();
+    // System.out.println("---");
+    // kmc.show();
     assertEquals(x, kmc.x);
   }
 
