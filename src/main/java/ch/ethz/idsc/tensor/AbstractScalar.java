@@ -8,13 +8,13 @@ import java.util.stream.Stream;
 
 /** suggested base class for implementations of {@link Scalar} */
 public abstract class AbstractScalar implements Scalar {
-  @Override // from Scalar
-  public final Scalar copy() {
+  @Override // from Tensor
+  public final Tensor copy() {
     return this; // Scalar instances are immutable
   }
 
-  @Override // from Scalar
-  public final Scalar unmodifiable() {
+  @Override // from Tensor
+  public final Tensor unmodifiable() {
     return this; // Scalar instances are immutable
   }
 

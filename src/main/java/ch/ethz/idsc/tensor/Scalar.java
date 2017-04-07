@@ -13,15 +13,6 @@ public interface Scalar extends Tensor {
   public static final int LENGTH = -1;
 
   @Override // from Tensor
-  Scalar copy();
-
-  /** an instance of {@link Scalar} is immutable by convention.
-   * 
-   * @return this */
-  @Override // from Tensor
-  Scalar unmodifiable();
-
-  @Override // from Tensor
   Scalar add(Tensor tensor);
 
   @Override // from Tensor

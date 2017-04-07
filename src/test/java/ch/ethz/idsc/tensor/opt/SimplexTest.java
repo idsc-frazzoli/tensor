@@ -83,7 +83,39 @@ public class SimplexTest extends TestCase {
     assertTrue(LinearProgramming.isFeasible(m, X52, b));
   }
 
-  public void testVoid() {
-    // ---
+  /** problem taken from
+   * Combinatorial Optimization
+   * by Papadimitriou and Steiglitz
+   * pp. 30 */
+  public void testP30() {
+    Tensor m = fromString( //
+        "[1,1,1,1,0,0,0]", //
+        "[1,0,0,0,1,0,0]", //
+        "[0,0,1,0,0,1,0]", //
+        "[0,3,1,0,0,0,1]" //
+    );
+    Tensor b = Tensors.vectorInt(4, 2, 3, 6);
+    Tensor c = Tensors.vectorInt(0, 2, 0, 1, 0, 0, 5);
+    Tensor x = LinearProgramming.minEquals(c, m, b);
+    // System.out.println(x);
+    Tensor X = Tensors.vectorInt(0, 1, 3, 0, 2, 0, 0);
+    assertEquals(x, X);
+  }
+
+  /** problem taken from
+   * Combinatorial Optimization
+   * by Papadimitriou and Steiglitz
+   * pp. 51 */
+  public void testCyclingP51() {
+    Tensor m = fromString( //
+        "[1/4, -8,-1  , 9]", //
+        "[1/2,-12,-1/2, 3]", //
+        "[0  ,  0, 1  , 0]" //
+    );
+    Tensor b = Tensors.vectorInt(0, 0, 1);
+    Tensor c = Tensors.fromString("[-3/4, 20, -1/2, 6]");
+    Tensor x = LinearProgramming.minLessEquals(c, m, b);
+    Tensor X = Tensors.vectorInt(1, 0, 1, 0);
+    assertEquals(x, X);
   }
 }
