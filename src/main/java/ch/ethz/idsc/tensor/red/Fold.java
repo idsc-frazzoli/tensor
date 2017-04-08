@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Fold.html">Fold</a> */
-public enum Fold {
+/* package */ enum Fold {
   ;
   /** @param binaryOperator
    * @param tensor

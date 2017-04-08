@@ -28,20 +28,26 @@ public class TotalTest extends TestCase {
 
   public void testPmulEmpty() {
     Tensor a = Tensors.of(Tensors.empty());
-    Tensor b = Total.pmul(a);
+    Tensor b = Total.prod(a);
     assertEquals(b, Tensors.empty());
-    assertEquals(RealScalar.of(1), Total.pmul(Tensors.empty()));
+    assertEquals(RealScalar.of(1), Total.prod(Tensors.empty()));
   }
 
   public void testPmul1() {
     Tensor a = Tensors.vectorLong(1, 2, 2, 5, 1);
-    Tensor r = Total.pmul(a);
+    Tensor r = Total.prod(a);
     assertEquals(r, RealScalar.of(20));
   }
 
   public void testPmul2() {
     Tensor a = Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-    Tensor r = Total.pmul(a);
+    Tensor r = Total.prod(a);
     assertEquals(r, Tensors.vectorInt(15, 48));
+  }
+
+  public void testPmul3() {
+    Tensor a = Tensors.matrixInt(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+    Tensor r = Total.prod(a);
+    assertEquals(r, Tensors.vectorInt(4, 10, 18));
   }
 }

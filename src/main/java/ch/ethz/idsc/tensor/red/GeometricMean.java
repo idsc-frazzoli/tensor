@@ -31,6 +31,6 @@ public enum GeometricMean {
    * @return average of entries in tensor
    * @throws ArithmeticException if tensor is empty */
   public static Tensor of(Tensor tensor) {
-    return Total.pmul(tensor).map(Power.function(RationalScalar.of(1, tensor.length())));
+    return Total.prod(tensor).map(Power.function(RationalScalar.of(1, tensor.length())));
   }
 }
