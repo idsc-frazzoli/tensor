@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.TensorMap;
@@ -23,5 +25,20 @@ public class VarianceTest extends TestCase {
     // System.out.println(b);
     Tensor c = Tensors.fromString("[91/12,13/3]");
     assertEquals(b, c);
+  }
+
+  public void testComplex() {
+    Tensor vector = Tensors.of(ComplexScalar.of(1, 7), ComplexScalar.of(2, -3), ComplexScalar.of(3, 2));
+    Tensor v = Variance.ofVector(vector);
+    assertEquals(v, RealScalar.of(26));
+  }
+
+  public void testLength1() {
+    try {
+      Variance.ofVector(Tensors.vectorInt(3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

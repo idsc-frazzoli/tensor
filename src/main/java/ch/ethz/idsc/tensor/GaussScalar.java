@@ -71,10 +71,6 @@ public class GaussScalar extends AbstractScalar implements //
     return value;
   }
 
-  // @Override // from Scalar
-  // public Scalar conjugate() {
-  // return this;
-  // }
   @Override // from Scalar
   public Scalar abs() {
     return this;

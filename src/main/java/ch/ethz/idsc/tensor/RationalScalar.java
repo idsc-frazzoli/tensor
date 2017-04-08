@@ -92,6 +92,11 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
     return 0 < bigFraction.num.signum();
   }
 
+  @Override // from NInterface
+  public Scalar n() {
+    return DoubleScalar.of(bigFraction.doubleValue());
+  }
+
   @Override // from RealScalar
   public int compareTo(Scalar scalar) {
     if (scalar instanceof RationalScalar) {

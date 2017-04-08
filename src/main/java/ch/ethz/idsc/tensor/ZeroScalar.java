@@ -49,6 +49,11 @@ public final class ZeroScalar extends AbstractRealScalar implements ExactPrecisi
     return Integer.valueOf(0);
   }
 
+  @Override
+  public Scalar n() {
+    return this;
+  }
+
   @Override // from RealScalar
   public int compareTo(Scalar scalar) {
     if (scalar instanceof ZeroScalar)

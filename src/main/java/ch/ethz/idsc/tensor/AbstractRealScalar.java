@@ -1,9 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-/** abs() returns this or this.negate() depending on whichever is non-negative */
 public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
-  @Override // from RealScalar
+  /** @return this or this.negate() depending on whichever is non-negative */
+  @Override // from Scalar
   public final Scalar abs() {
     return isPositive() ? this : negate();
   }
@@ -28,6 +28,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return ZeroScalar.get();
   }
 
+  /***************************************************/
   /** @return true if this scalar is strictly greater zero, false otherwise */
   protected abstract boolean isPositive();
 }

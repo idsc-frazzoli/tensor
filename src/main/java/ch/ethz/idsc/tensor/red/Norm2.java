@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-class Norm2 extends RankAdapter<Scalar> {
+/* package */ class Norm2 extends RankAdapter<Scalar> {
   @Override
   public Scalar ofScalar(Scalar scalar) {
     return scalar.abs();

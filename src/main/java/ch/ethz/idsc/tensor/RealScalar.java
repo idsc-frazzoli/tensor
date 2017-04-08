@@ -5,15 +5,12 @@ import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ImagInterface;
+import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
 
 public interface RealScalar extends //
-    Scalar, //
-    RealInterface, //
-    ImagInterface, //
-    ConjugateInterface, //
-    Comparable<Scalar> {
-  /** real scalar 1 in {@link ExactPrecision} */
+    Scalar, NInterface, RealInterface, ImagInterface, ConjugateInterface, Comparable<Scalar> {
+  /** real scalar 1 as a {@link RationalScalar} */
   public static final RealScalar ONE = RealScalar.of(1);
   /** real scalar that encodes Infinity. value is backed by Double.POSITIVE_INFINITY */
   public static final RealScalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);

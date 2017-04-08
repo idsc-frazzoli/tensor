@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
-class NormInfinity extends RankAdapter<Scalar> {
+/* package */ class NormInfinity extends RankAdapter<Scalar> {
   @Override
   public Scalar ofScalar(Scalar scalar) {
     return scalar.abs();

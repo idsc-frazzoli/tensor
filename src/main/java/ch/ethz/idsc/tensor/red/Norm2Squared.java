@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 
-class Norm2Squared extends RankAdapter<Scalar> {
+/* package */ class Norm2Squared extends RankAdapter<Scalar> {
   @Override
   public Scalar ofScalar(Scalar scalar) {
     return AbsSquared.function.apply(scalar);

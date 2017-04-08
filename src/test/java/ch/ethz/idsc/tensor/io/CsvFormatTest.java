@@ -100,6 +100,6 @@ public class CsvFormatTest extends TestCase {
   public void testGeditFile() throws Exception {
     String string = getClass().getResource("/io/gedit_mixed.csv").getPath();
     Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
-    assertEquals(table, Tensors.fromString("[[hello, blub], [1, 4.22], [-3, 0.323, asdf], [2, 1.223], [3+8*I, 12, 33]]"));
+    assertEquals(table, Tensors.fromString("[[hello, blub], [1, 4.22], [-3, 0.323, asdf], [], [2, 1.223], [3+8*I, 12, 33]]"));
   }
 }

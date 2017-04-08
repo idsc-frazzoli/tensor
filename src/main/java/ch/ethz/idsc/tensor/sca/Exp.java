@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.ExactPrecision;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -14,7 +13,7 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** gives the exponential
  * 
- * <p>Exp.of(0) returns {@link ExactPrecision}
+ * <p>Exp.of(0) returns <code>RealScalar.ONE</code>
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Exp.html">Exp</a> */

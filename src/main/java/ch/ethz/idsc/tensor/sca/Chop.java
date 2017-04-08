@@ -3,13 +3,10 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.ExactPrecision;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** function to modify {@link Scalar}s that do not have {@link ExactPrecision}
- * 
- * <p>consistent with Mathematica
+/** consistent with Mathematica
  * Chop[1/1000000000000000] != 0, but
  * Chop[1/1000000000000000.] == 0
  * 

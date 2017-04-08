@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
-import ch.ethz.idsc.tensor.ExactPrecision;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ZeroScalar;
@@ -16,7 +16,7 @@ public class ExpTest extends TestCase {
   }
 
   public void testExpZero() {
-    assertTrue(Exp.of(ZeroScalar.get()) instanceof ExactPrecision);
-    assertTrue(Log.of(RealScalar.ONE) instanceof ExactPrecision);
+    assertTrue(Exp.of(ZeroScalar.get()) instanceof RationalScalar);
+    assertTrue(Log.of(RealScalar.ONE) instanceof ZeroScalar);
   }
 }

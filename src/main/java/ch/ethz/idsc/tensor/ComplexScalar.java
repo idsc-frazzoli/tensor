@@ -8,13 +8,15 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ImagInterface;
+import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
 
 /** complex number
  * 
  * <p>number() or Comparable interface is not supported */
 public class ComplexScalar extends AbstractScalar implements //
-    RealInterface, ImagInterface, ConjugateInterface, ChopInterface {
+    NInterface, RealInterface, ImagInterface, ConjugateInterface, ChopInterface {
   static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re
@@ -107,6 +109,11 @@ public class ComplexScalar extends AbstractScalar implements //
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
     return of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
+  }
+
+  @Override
+  public Scalar n() {
+    return ComplexScalar.of(N.function.apply(re), N.function.apply(im));
   }
 
   @Override // from Scalar

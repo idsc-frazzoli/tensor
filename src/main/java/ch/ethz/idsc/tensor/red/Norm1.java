@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Transpose;
 
-class Norm1 extends RankAdapter<Scalar> {
+/* package */ class Norm1 extends RankAdapter<Scalar> {
   @Override
   public Scalar ofScalar(Scalar scalar) {
     return scalar.abs();
