@@ -120,11 +120,6 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return tensor with all entries negated */
   Tensor negate();
 
-  /** conjugation of entries
-   * 
-   * @return tensor with all entries conjugated */
-  Tensor conjugate();
-
   /** tensor addition
    * 
    * @param tensor

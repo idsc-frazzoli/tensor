@@ -6,6 +6,7 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ImagInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
 
@@ -13,7 +14,7 @@ import ch.ethz.idsc.tensor.sca.RealInterface;
  * 
  * <p>number() or Comparable interface is not supported */
 public class ComplexScalar extends AbstractScalar implements //
-    RealInterface, ImagInterface, ChopInterface {
+    RealInterface, ImagInterface, ConjugateInterface, ChopInterface {
   static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re
@@ -68,7 +69,7 @@ public class ComplexScalar extends AbstractScalar implements //
     return of(re.negate(), im.negate());
   }
 
-  @Override // from Scalar
+  @Override // from ConjugateInterface
   public Scalar conjugate() {
     return of(re, im.negate());
   }

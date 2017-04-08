@@ -4,12 +4,12 @@ package ch.ethz.idsc.tensor;
 /** abs() returns this or this.negate() depending on whichever is non-negative */
 public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
   @Override // from RealScalar
-  public final RealScalar abs() {
+  public final Scalar abs() {
     return isPositive() ? this : negate();
   }
 
-  @Override // from RealScalar
-  public final RealScalar conjugate() {
+  @Override // from ConjugateInterface
+  public final Scalar conjugate() {
     return this;
   }
 

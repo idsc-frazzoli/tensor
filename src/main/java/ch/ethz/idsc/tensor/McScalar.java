@@ -4,15 +4,17 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 
 // experiment towards a Quaternion scalar
-class McScalar extends AbstractScalar {
+class McScalar extends AbstractScalar implements ConjugateInterface {
   public static Scalar of(Scalar re, Scalar im) {
     if (im.equals(ZeroScalar.get()))
       return re;
     return _of(Tensors.matrix(new Scalar[][] { //
         { re /*                */, im }, //
-        { im.conjugate().negate(), re.conjugate() } }));
+        { (Scalar) Conjugate.of(im).negate(), (Scalar) Conjugate.of(re) } }));
   }
 
   private static Scalar _of(Tensor skew) {
@@ -37,7 +39,7 @@ class McScalar extends AbstractScalar {
     return skew.Get(0, 1);
   }
 
-  @Override
+  @Override // from ConjugateInterface
   public Scalar conjugate() {
     return of(real(), imag().negate());
   }

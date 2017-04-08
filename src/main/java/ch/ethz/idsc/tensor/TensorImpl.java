@@ -133,11 +133,6 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
-  public Tensor conjugate() {
-    return Tensor.of(list.stream().map(Tensor::conjugate));
-  }
-
-  @Override
   public Tensor add(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
     return Tensor.of(IntStream.range(0, list.size()).boxed() //

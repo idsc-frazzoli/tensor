@@ -10,4 +10,13 @@ public class MeanTest extends TestCase {
     assertEquals(Mean.of(Tensors.vectorInt(3, 5)), RealScalar.of(4));
     assertEquals(Mean.of(Tensors.vectorDouble(3., 5., 0., 0.)), RealScalar.of(2));
   }
+
+  public void testEmpty() {
+    try {
+      Mean.of(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

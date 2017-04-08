@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Real;
 import junit.framework.TestCase;
@@ -83,7 +84,7 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(AbsSquared.of(s), RationalScalar.of(1609, 3600));
     ComplexScalar c = (ComplexScalar) ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
     Scalar ra = RationalScalar.of(5, 8);
-    assertEquals(ra.conjugate(), RationalScalar.of(5, 8));
+    assertEquals(Conjugate.of(ra), RationalScalar.of(5, 8));
     Scalar s1 = c.conjugate();
     Scalar s2 = ComplexScalar.of(RealScalar.of(2), ra.negate());
     assertEquals(s1.toString(), s2.toString());
@@ -95,7 +96,7 @@ public class ComplexScalarTest extends TestCase {
 
   public void testTensor() {
     Tensor u = Tensors.fromString("[0+1*I,3/4-5*I]");
-    Tensor uc = u.conjugate();
+    Tensor uc = Conjugate.of(u);
     assertEquals(uc.toString(), "[0-1*I, 3/4+5*I]");
   }
 }

@@ -24,9 +24,6 @@ public interface Scalar extends Tensor {
   @Override // from Tensor
   Scalar negate();
 
-  @Override // from Tensor
-  Scalar conjugate();
-
   /***************************************************/
   /** multiplicative inverse except for {@link ZeroScalar}
    * 

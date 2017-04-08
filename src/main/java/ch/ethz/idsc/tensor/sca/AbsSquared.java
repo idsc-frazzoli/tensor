@@ -12,7 +12,10 @@ public enum AbsSquared implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return scalar.multiply(scalar.conjugate());
+    if (scalar instanceof ConjugateInterface)
+      return scalar.multiply(Conjugate.function.apply(scalar));
+    Scalar abs = scalar.abs();
+    return abs.multiply(abs);
   }
 
   /** @param tensor
