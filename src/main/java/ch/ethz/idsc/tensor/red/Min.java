@@ -1,9 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.util.function.BinaryOperator;
+
 public enum Min {
   ;
-  /** @param a
+  /** function is a {@link BinaryOperator} that can be used in reduce()
+   * 
+   * @param a
    * @param b
    * @return the smaller one among a and b */
   public static <T> T of(T a, T b) {

@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
+import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
@@ -11,12 +12,15 @@ import ch.ethz.idsc.tensor.sca.ImagInterface;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
+import ch.ethz.idsc.tensor.sca.Sqrt;
+import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** complex number
  * 
  * <p>number() or Comparable interface is not supported */
 public class ComplexScalar extends AbstractScalar implements //
-    NInterface, RealInterface, ImagInterface, ConjugateInterface, ChopInterface {
+    ArgInterface, ConjugateInterface, ChopInterface, ImagInterface, NInterface, //
+    RealInterface, SqrtInterface {
   static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re
@@ -103,7 +107,24 @@ public class ComplexScalar extends AbstractScalar implements //
       ComplexScalar complexScalar = (ComplexScalar) scalar;
       return of(re.add(complexScalar.real()), im.add(complexScalar.imag()));
     }
-    return of(re.add(scalar), im);
+    if (scalar instanceof RealScalar)
+      return of(re.add(scalar), im);
+    throw TensorRuntimeException.of(scalar);
+  }
+
+  @Override // from SqrtInterface
+  public Scalar sqrt() {
+    return ComplexScalar.fromPolar( //
+        Sqrt.function.apply(abs()), //
+        arg().divide(RealScalar.of(2)));
+  }
+
+  @Override // from ArgInterface
+  public Scalar arg() {
+    return DoubleScalar.of(Math.atan2( //
+        imag().number().doubleValue(), //
+        real().number().doubleValue() //
+    ));
   }
 
   @Override // from ChopInterface
@@ -111,7 +132,7 @@ public class ComplexScalar extends AbstractScalar implements //
     return of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
   }
 
-  @Override
+  @Override // from NInterface
   public Scalar n() {
     return ComplexScalar.of(N.function.apply(re), N.function.apply(im));
   }

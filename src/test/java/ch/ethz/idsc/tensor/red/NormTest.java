@@ -79,4 +79,11 @@ public class NormTest extends TestCase {
       assertEquals(Norm.Infinity.of(v), z);
     }
   }
+
+  public void testOdd() {
+    Tensor tensor = Tensors.vectorDouble(2.3, 1.0, 3.2);
+    Scalar n = Norm.ofVector(tensor, 1.5);
+    // 4.7071
+    assertEquals(n, RealScalar.of(4.707100665786122));
+  }
 }

@@ -25,7 +25,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 
   @Override
   public Scalar ofMatrix(Tensor matrix) {
-    return Transpose.of(matrix).flatten(0) //
+    return Transpose.of(matrix).flatten(0) // TODO this can be done more efficiently!
         .map(this::ofVector) //
         .map(Scalar.class::cast) //
         .reduce(Max::of) //

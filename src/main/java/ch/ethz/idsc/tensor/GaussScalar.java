@@ -13,10 +13,10 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * 0, 1, 2, ..., prime - 1 */
 // class may be a misnomer
 public class GaussScalar extends AbstractScalar implements //
-    ExactPrecision, //
-    SqrtInterface, // TODO implementation is slow
+    Comparable<Scalar>, //
     PowerInterface, //
-    Comparable<Scalar> {
+    SqrtInterface //
+{
   private static final Set<Long> primes = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
@@ -98,6 +98,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
+    // TODO implementation is slow
     for (long index = 1; index < prime; ++index) {
       GaussScalar candidate = (GaussScalar) of(index, prime);
       GaussScalar square = (GaussScalar) candidate.multiply(candidate);

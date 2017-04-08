@@ -3,13 +3,16 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ImagInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
+import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
-public interface RealScalar extends //
-    Scalar, NInterface, RealInterface, ImagInterface, ConjugateInterface, Comparable<Scalar> {
+public interface RealScalar extends Scalar, //
+    ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, NInterface, //
+    RealInterface, SqrtInterface {
   /** real scalar 1 as a {@link RationalScalar} */
   public static final RealScalar ONE = RealScalar.of(1);
   /** real scalar that encodes Infinity. value is backed by Double.POSITIVE_INFINITY */

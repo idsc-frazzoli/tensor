@@ -5,7 +5,7 @@ import java.math.BigInteger;
 
 /** an implementation is not required to support the representation of
  * Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, and Double.NaN */
-public final class RationalScalar extends AbstractRealScalar implements ExactPrecision {
+public final class RationalScalar extends AbstractRealScalar {
   // private because BigFraction has package visibility
   private static RealScalar _of(BigFraction bigFraction) {
     return bigFraction.num.equals(BigInteger.ZERO) ? //
@@ -88,8 +88,8 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
   }
 
   @Override // from AbstractRealScalar
-  protected boolean isPositive() {
-    return 0 < bigFraction.num.signum();
+  protected boolean isNonNegative() {
+    return 0 <= bigFraction.num.signum();
   }
 
   @Override // from NInterface
@@ -112,19 +112,19 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
     return -comparable.compareTo(this);
   }
 
-  @Override // from Object
+  @Override // from AbstractScalar
   public int hashCode() {
     return bigFraction.hashCode();
   }
 
-  @Override // from Object
+  @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof RationalScalar)
       return bigFraction.equals(((RationalScalar) object).bigFraction);
     return object == null ? false : object.equals(this);
   }
 
-  @Override // from Object
+  @Override // from AbstractScalar
   public String toString() {
     return bigFraction.toCompactString();
   }
