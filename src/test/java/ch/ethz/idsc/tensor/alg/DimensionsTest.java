@@ -58,8 +58,8 @@ public class DimensionsTest extends TestCase {
   }
 
   public void testIsEmpty() {
-    assertTrue(Dimensions.isEmpty(Tensors.empty()));
-    assertFalse(Dimensions.isEmpty(RealScalar.ONE));
-    assertFalse(Dimensions.isEmpty(Tensors.vectorInt(3, 4)));
+    assertTrue(Dimensions.isEmptyTensor(Tensors.empty()));
+    assertFalse(Dimensions.isEmptyTensor(RealScalar.ONE));
+    assertFalse(Dimensions.isEmptyTensor(Tensors.vectorInt(3, 4)));
   }
 }

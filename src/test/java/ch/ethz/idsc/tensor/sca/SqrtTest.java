@@ -1,9 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.math.BigInteger;
+
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
@@ -24,5 +28,28 @@ public class SqrtTest extends TestCase {
 
   public void testZero() {
     assertEquals(ZeroScalar.get(), Sqrt.function.apply(ZeroScalar.get()));
+  }
+
+  public void testRational() {
+    assertEquals(RationalScalar.of(16, 25).sqrt().toString(), "4/5");
+    assertEquals(RationalScalar.of(-16, 25).sqrt().toString(), "0+4/5*I");
+  }
+
+  public void testReal() {
+    assertEquals(RealScalar.of(16 / 25.).sqrt(), Scalars.fromString("4/5"));
+    assertEquals(RealScalar.of(-16 / 25.).sqrt(), Scalars.fromString("0+4/5*I"));
+  }
+
+  public void testBigInteger() {
+    BigInteger r = Sqrt.exact(new BigInteger("21065681101554527729739161805139578084"));
+    assertEquals(r, new BigInteger("4589736495873649578"));
+    assertEquals(Sqrt.exact(BigInteger.ONE), BigInteger.ONE);
+    assertEquals(Sqrt.exact(BigInteger.ZERO), BigInteger.ZERO);
+    try {
+      Sqrt.exact(new BigInteger("21065681101554527729739161805139578083"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

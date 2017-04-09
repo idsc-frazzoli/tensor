@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.sca.Sqrt;
+
 /** an implementation is not required to support the representation of
  * Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, and Double.NaN */
 public final class RationalScalar extends AbstractRealScalar {
@@ -13,16 +15,10 @@ public final class RationalScalar extends AbstractRealScalar {
   }
 
   public static RealScalar of(BigInteger num, BigInteger den) {
-    // if (den.signum() == 0)
-    // return DoubleScalar.of(num.signum() == 0 ? Double.NaN : //
-    // (0 < num.signum() ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY));
     return _of(BigFraction.of(num, den));
   }
 
   public static RealScalar of(long num, long den) {
-    // if (den == 0)
-    // return DoubleScalar.of(num == 0 ? Double.NaN : //
-    // (0 < num ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY));
     return _of(BigFraction.of(num, den));
   }
 
@@ -90,6 +86,22 @@ public final class RationalScalar extends AbstractRealScalar {
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
     return 0 <= bigFraction.num.signum();
+  }
+
+  /** Example: sqrt(16/25) == 4/5
+   * 
+   * @return {@link RationalScalar} precision if numerator and denominator are both squares */
+  @Override
+  public Scalar sqrt() {
+    try {
+      BigInteger sqrtden = Sqrt.exact(bigFraction.den);
+      boolean pos = isNonNegative();
+      BigInteger sqrtnum = Sqrt.exact(pos ? bigFraction.num : bigFraction.num.negate());
+      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZeroScalar.get(), of(sqrtnum, sqrtden));
+    } catch (Exception exception) {
+      // ---
+    }
+    return super.sqrt();
   }
 
   @Override // from NInterface

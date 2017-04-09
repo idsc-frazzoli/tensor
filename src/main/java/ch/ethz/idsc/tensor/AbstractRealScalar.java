@@ -30,6 +30,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   /***************************************************/
   // methods are non-final because other RealScalars may support better precision
+  /** @return {@link ComplexScalar} if negative */
   @Override // from SqrtInterface
   public Scalar sqrt() {
     if (isNonNegative())
