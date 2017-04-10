@@ -41,6 +41,16 @@ gives
 
     [4/3, 13/3]
 
+Scalar ops
+
+    Scalar fraction = RationalScalar.of(-9, 16);
+    System.out.println(Sqrt.of(fraction));
+
+gives
+
+    0+3/4*I
+	
+
 ## Include in your project
 
 Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:

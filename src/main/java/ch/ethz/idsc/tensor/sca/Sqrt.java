@@ -26,11 +26,20 @@ public enum Sqrt implements Function<Scalar, Scalar> {
     return tensor.map(Sqrt.function);
   }
 
-  /** https://gist.github.com/JochemKuijpers/cd1ad9ec23d6d90959c549de5892d6cb
-   * 
-   * @param value
+  /** @param value
+   * @return exact root of value
+   * @throws Exception if value is not a square number */
+  public static BigInteger of(BigInteger value) {
+    BigInteger root = approximation(value);
+    if (root.multiply(root).equals(value))
+      return root;
+    throw new IllegalArgumentException(value.toString()); // value is not square
+  }
+
+  /** @param value
    * @return approximation to sqrt of value, exact root if input value is square number */
-  public static BigInteger approximation(BigInteger value) {
+  // https://gist.github.com/JochemKuijpers/cd1ad9ec23d6d90959c549de5892d6cb
+  private static BigInteger approximation(BigInteger value) {
     BigInteger a = BigInteger.ONE;
     BigInteger b = value.shiftRight(5).add(BigInteger.valueOf(8));
     while (0 <= b.compareTo(a)) {
@@ -41,15 +50,5 @@ public enum Sqrt implements Function<Scalar, Scalar> {
         a = mid.add(BigInteger.ONE);
     }
     return a.subtract(BigInteger.ONE);
-  }
-
-  /** @param value
-   * @return exact root of value
-   * @throws Exception if value is not a square number */
-  public static BigInteger exact(BigInteger value) {
-    BigInteger root = approximation(value);
-    if (root.multiply(root).equals(value))
-      return root;
-    throw new IllegalArgumentException(value.toString()); // value is not square
   }
 }

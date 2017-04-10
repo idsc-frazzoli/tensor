@@ -26,4 +26,8 @@ public class ArrayTest extends TestCase {
     Tensor table = Array.of(l -> ZeroScalar.get(), 3, 5, 2, 7);
     assertEquals(zeros, table);
   }
+
+  public void testEmpty() {
+    assertEquals(Array.zeros(0), Tensors.empty());
+  }
 }

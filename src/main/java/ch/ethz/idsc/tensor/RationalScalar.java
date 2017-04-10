@@ -94,9 +94,9 @@ public final class RationalScalar extends AbstractRealScalar {
   @Override
   public Scalar sqrt() {
     try {
-      BigInteger sqrtden = Sqrt.exact(bigFraction.den);
       boolean pos = isNonNegative();
-      BigInteger sqrtnum = Sqrt.exact(pos ? bigFraction.num : bigFraction.num.negate());
+      BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
+      BigInteger sqrtden = Sqrt.of(bigFraction.den);
       return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZeroScalar.get(), of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---

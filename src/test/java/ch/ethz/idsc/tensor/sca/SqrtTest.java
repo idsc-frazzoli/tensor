@@ -41,12 +41,18 @@ public class SqrtTest extends TestCase {
   }
 
   public void testBigInteger() {
-    BigInteger r = Sqrt.exact(new BigInteger("21065681101554527729739161805139578084"));
+    BigInteger r = Sqrt.of(new BigInteger("21065681101554527729739161805139578084"));
     assertEquals(r, new BigInteger("4589736495873649578"));
-    assertEquals(Sqrt.exact(BigInteger.ONE), BigInteger.ONE);
-    assertEquals(Sqrt.exact(BigInteger.ZERO), BigInteger.ZERO);
+    assertEquals(Sqrt.of(BigInteger.ONE), BigInteger.ONE);
+    assertEquals(Sqrt.of(BigInteger.ZERO), BigInteger.ZERO);
     try {
-      Sqrt.exact(new BigInteger("21065681101554527729739161805139578083"));
+      Sqrt.of(new BigInteger("21065681101554527729739161805139578083"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Sqrt.of(new BigInteger("-16"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

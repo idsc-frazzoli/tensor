@@ -58,4 +58,10 @@ public class JoinTest extends TestCase {
     Tensor j3 = Join.of(2, j2, j2, j2);
     assertEquals(Dimensions.of(j3), Arrays.asList(4, 3, 6));
   }
+
+  public void testEmpty() {
+    Tensor v1 = Tensors.vectorInt(2, 3, 4);
+    Tensor ap = Join.of(Tensors.empty(), v1);
+    assertEquals(ap, v1);
+  }
 }
