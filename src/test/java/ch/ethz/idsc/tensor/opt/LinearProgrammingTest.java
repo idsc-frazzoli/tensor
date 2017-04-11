@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
+import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
@@ -28,12 +29,25 @@ public class LinearProgrammingTest extends TestCase {
   }
 
   // MATLAB linprog example
-  public void testMatlab1() {
+  public void testMatlab1() { // min c.x == -10/9
     Tensor c = Tensors.fromString("[-1,-1/3]");
     Tensor m = Tensors.fromString("[[1,1],[1,1/4],[1,-1],[-1/4,-1],[-1,-1],[-1,1]]");
     Tensor b = Tensors.fromString("[2,1,2,1,-1,2]");
     Tensor x = LinearProgramming.minLessEquals(c, m, b);
     assertEquals(x, Tensors.fromString("[2/3,4/3]"));
+    // System.out.println(c.dot(x));
+  }
+
+  // MATLAB linprog example dual
+  public void testMatlab1Dual() { // min c.x == -10/9
+    Tensor c = Tensors.fromString("[2,1,2,1,-1,2]");
+    Tensor m = Transpose.of(Tensors.fromString("[[1,1],[1,1/4],[1,-1],[-1/4,-1],[-1,-1],[-1,1]]")).negate();
+    Tensor b = Tensors.fromString("[-1,-1/3]").negate();
+    Tensor x = LinearProgramming.minLessEquals(c, m, b);
+    // FIXME
+    // assertEquals(x, Tensors.fromString("[2/3,4/3]"));
+    // System.out.println(x);
+    // System.out.println(c.dot(x));
   }
 
   // MATLAB linprog example
@@ -47,7 +61,7 @@ public class LinearProgrammingTest extends TestCase {
     assertEquals(x.extract(0, 2), Tensors.fromString("[0,2]"));
   }
 
-  public void testClrsP846() {
+  public void testClrsP846() { // max cost = 8
     Tensor c = Tensors.fromString("[1,1]");
     Tensor m = Tensors.fromString("[[4,-1],[2,1],[-5,2]]");
     Tensor b = Tensors.fromString("[8,10,2]");
@@ -58,6 +72,16 @@ public class LinearProgrammingTest extends TestCase {
     assertTrue(LinearProgramming.isFeasible(m, Tensors.fromString("[1,3]"), b));
     assertTrue(LinearProgramming.isFeasible(m, Tensors.fromString("[2,0]"), b));
     assertFalse(LinearProgramming.isFeasible(m, Tensors.fromString("[3,3]"), b));
+  }
+
+  // FIXME
+  public void testClrsP846Dual() {
+    Tensor c = Tensors.fromString("[8,10,2]");
+    Tensor m = Transpose.of(Tensors.fromString("[[4,-1],[2,1],[-5,2]]")).negate();
+    Tensor b = Tensors.fromString("[1,1]").negate();
+    // Tensor x = LinearProgramming.minLessEquals(c, m, b);
+    // System.out.println(x);
+    // System.out.println("cost "+c.dot(x));
   }
 
   // same as p846 except that (0,0) is not feasible
@@ -106,6 +130,18 @@ public class LinearProgrammingTest extends TestCase {
     Tensor b = Tensors.fromString("[20,12,16]");
     Tensor x = LinearProgramming.maxLessEquals(c, m, b);
     assertEquals(x, Tensors.fromString("[12,8]")); // confirmed with linprog
+  }
+
+  // FIXME
+  public void testClrsP879_5Dual() {
+    Tensor c = Tensors.fromString("[20,12,16]");
+    Tensor m = Transpose.of(Tensors.fromString("[[1, 1],[1,0],[0,1]]")).negate();
+    Tensor b = Tensors.fromString("[18,12.5]").negate();
+    // System.out.println(Pretty.of(m));
+    // System.out.println(Pretty.of(b));
+    // Tensor x = LinearProgramming.minLessEquals(c, m, b);
+    // assertEquals(x, Tensors.fromString("[12,8]")); // confirmed with linprog
+    // System.out.println(x);
   }
 
   public void testClrsP879_6() {

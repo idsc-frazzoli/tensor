@@ -21,6 +21,17 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(s.abs(), RealScalar.of(Math.sqrt(1609. / 3600)));
   }
 
+  public void testFalseConstruct() {
+    Scalar c1 = ComplexScalar.of(3, -4);
+    Scalar c2 = ComplexScalar.of(-2, 9);
+    try {
+      ComplexScalar.of(c1, c2);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testMultiply() {
     Scalar c = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
     assertEquals(Real.of(c), RealScalar.of(2));

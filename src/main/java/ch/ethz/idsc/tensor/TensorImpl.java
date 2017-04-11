@@ -29,7 +29,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
       }
 
       @Override
-      void _set(Function<Tensor, Tensor> function, List<Integer> index) {
+      <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
         throw new UnsupportedOperationException("unmodifiable");
       }
     };
@@ -79,17 +79,18 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
-  public void set(Function<Tensor, Tensor> function, Integer... index) {
+  public <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index) {
     _set(function, Arrays.asList(index));
   }
 
+  @SuppressWarnings("unchecked")
   // package visibility in order to override in unmodifiable()
-  /* package */ void _set(Function<Tensor, Tensor> function, List<Integer> index) {
+  /* package */ <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
     if (index.isEmpty())
       return;
     int head = index.get(0);
     if (index.size() == 1)
-      list.set(head, function.apply(get(head)));
+      list.set(head, function.apply((T) get(head)));
     else
       ((TensorImpl) list.get(head))._set(function, index.subList(1, index.size()));
   }

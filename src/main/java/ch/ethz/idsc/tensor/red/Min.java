@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 
 public enum Min {
   ;
@@ -14,5 +15,9 @@ public enum Min {
     @SuppressWarnings("unchecked")
     Comparable<T> comparable = (Comparable<T>) a;
     return comparable.compareTo(b) > 0 ? b : a;
+  }
+
+  public static <T> Function<T, T> with(T a) {
+    return b -> of(a, b);
   }
 }

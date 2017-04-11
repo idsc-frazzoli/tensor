@@ -71,7 +71,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * </ul>
    * 
    * @param tensor
-   * @param index */
+   * @param index
+   * @throws Exception if set() is invoked on an instance of {@link Scalar} */
   void set(Tensor tensor, Integer... index);
 
   /** replaces element x at index with <code>function.apply(x)</code>
@@ -79,12 +80,11 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * 
    * <p>set(...) allows to implement in-place operations such as <code>a += 3;</code>
    * 
-   * <p>if set() is invoked on an instance of {@link Scalar}, an exception is thrown.
-   * 
    * @param function
    * @param index
+   * @throws Exception if set() is invoked on an instance of {@link Scalar}
    * @see Tensor#set(Tensor, Integer...) */
-  void set(Function<Tensor, Tensor> function, Integer... index);
+  <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index);
 
   /** appends a copy of input tensor to this instance.
    * The length() is incremented by 1.

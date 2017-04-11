@@ -64,7 +64,7 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   @Override // from Tensor
-  public final void set(Function<Tensor, Tensor> function, Integer... index) {
+  public final <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index) {
     throw TensorRuntimeException.of(this);
   }
 
@@ -100,6 +100,7 @@ public abstract class AbstractScalar implements Scalar {
 
   @Override // from Scalar
   public final Scalar divide(Scalar scalar) {
+    // return scalar.invert().multiply(this); // also possible when commuting
     return multiply(scalar.invert());
   }
 

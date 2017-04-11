@@ -11,8 +11,6 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.alg.Dimensions;
-import ch.ethz.idsc.tensor.red.FortranSign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Sqrt;
@@ -177,6 +175,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       }
       IntStream.range(i, rows).forEach(j -> u.set(x -> x.multiply(gi), j, i));
     }
+    // u.set(Increment.one , i,i);
     u.set(x -> x.add(RealScalar.ONE), i, i);
   }
 

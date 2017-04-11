@@ -25,7 +25,8 @@ public class ComplexScalar extends AbstractScalar implements //
 
   /** @param re
    * @param im
-   * @return scalar with re as real part and im as imaginary part */
+   * @return scalar with re as real part and im as imaginary part
+   * @throws Exception if re or im are {@link ComplexScalar} */
   public static Scalar of(Scalar re, Scalar im) {
     return im.equals(ZeroScalar.get()) ? re : new ComplexScalar(re, im);
   }
@@ -38,9 +39,8 @@ public class ComplexScalar extends AbstractScalar implements //
   }
 
   public static Scalar fromPolar(Scalar abs, Scalar arg) {
-    RealScalar radius = (RealScalar) abs;
     double alpha = arg.number().doubleValue();
-    return radius.multiply(of( //
+    return abs.multiply(of( //
         DoubleScalar.of(Math.cos(alpha)), //
         DoubleScalar.of(Math.sin(alpha)) //
     ));
@@ -50,6 +50,8 @@ public class ComplexScalar extends AbstractScalar implements //
   private final Scalar im;
 
   private ComplexScalar(Scalar re, Scalar im) {
+    if (re instanceof ComplexScalar || im instanceof ComplexScalar)
+      throw TensorRuntimeException.of(re);
     this.re = re;
     this.im = im;
   }

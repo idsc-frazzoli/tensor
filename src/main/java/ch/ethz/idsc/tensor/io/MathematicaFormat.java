@@ -9,6 +9,8 @@ import ch.ethz.idsc.tensor.Tensors;
 
 /** utility to exchange data with Wolfram Mathematica
  * 
+ * <p>String expressions may also be compatible with Java.
+ * 
  * Files.lines(Paths.get("filePath"))
  * Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator); */
 public enum MathematicaFormat {

@@ -1,10 +1,26 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-// TODO work in progress
-class QuaternionScalar extends AbstractScalar {
+import java.util.Objects;
+
+import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.ConjugateInterface;
+import ch.ethz.idsc.tensor.sca.Sqrt;
+
+class QuaternionScalar extends AbstractScalar implements //
+    ConjugateInterface {
+  public static Scalar of(Number re, Number im, Number jm, Number km) {
+    return of( //
+        RealScalar.of(re), //
+        RealScalar.of(im), //
+        RealScalar.of(jm), //
+        RealScalar.of(km));
+  }
+
+  // TODO probably better to represent quaternion as 2 complex scalars!
   public static Scalar of(Scalar re, Scalar im, Scalar jm, Scalar km) {
-    // if (re instanceof ZeroScalar)
+    if (im.equals(ZeroScalar.get()) && jm.equals(ZeroScalar.get()) && km.equals(ZeroScalar.get()))
+      return re;
     return new QuaternionScalar(re, im, jm, km);
   }
 
@@ -20,7 +36,7 @@ class QuaternionScalar extends AbstractScalar {
     this.km = km;
   }
 
-  @Override
+  @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof QuaternionScalar) {
       QuaternionScalar quaternionScalar = (QuaternionScalar) scalar;
@@ -30,6 +46,12 @@ class QuaternionScalar extends AbstractScalar {
           jm.add(quaternionScalar.jm), //
           km.add(quaternionScalar.km));
     }
+    if (scalar instanceof ComplexScalar) {
+      ComplexScalar complexScalar = (ComplexScalar) scalar;
+      return of(re.add(complexScalar.real()), im.add(complexScalar.imag()), jm, km);
+    }
+    if (scalar instanceof RealScalar)
+      return of(re.add(scalar), im, jm, km);
     return null;
   }
 
@@ -59,7 +81,13 @@ class QuaternionScalar extends AbstractScalar {
               .add(km.multiply(quaternionScalar.re)) //
       );
     }
-    return null;
+    if (scalar instanceof RealScalar)
+      return of( //
+          re.multiply(scalar), //
+          im.multiply(scalar), //
+          jm.multiply(scalar), //
+          km.multiply(scalar));
+    throw TensorRuntimeException.of(scalar);
   }
 
   @Override
@@ -73,12 +101,12 @@ class QuaternionScalar extends AbstractScalar {
 
   @Override
   public Scalar invert() {
-    return null;
+    return conjugate().divide(AbsSquared.function.apply(this));
   }
 
   @Override
   public Scalar abs() {
-    return null;
+    return Sqrt.function.apply(AbsSquared.function.apply(this));
   }
 
   @Override
@@ -87,17 +115,33 @@ class QuaternionScalar extends AbstractScalar {
   }
 
   @Override
+  public Scalar conjugate() {
+    return of(re, im.negate(), jm.negate(), km.negate());
+  }
+
+  @Override
   public int hashCode() {
-    return 0;
+    return Objects.hash(re, im, jm, km);
   }
 
   @Override
   public boolean equals(Object object) {
+    if (object instanceof QuaternionScalar) {
+      QuaternionScalar quaternionScalar = (QuaternionScalar) object;
+      return re.equals(quaternionScalar.re) && //
+          im.equals(quaternionScalar.im) && //
+          jm.equals(quaternionScalar.jm) && //
+          km.equals(quaternionScalar.km);
+    }
     return false;
   }
 
   @Override
   public String toString() {
-    return null;
+    return String.format("%s'%s'%s'%s", //
+        re.toString(), //
+        im.toString(), //
+        jm.toString(), //
+        km.toString());
   }
 }

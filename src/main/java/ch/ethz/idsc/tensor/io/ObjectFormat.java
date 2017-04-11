@@ -16,6 +16,8 @@ public enum ObjectFormat {
    * <p>since {@link Tensor}s implement {@link Serializable},
    * function can be used to encode tensor as byte array.
    * 
+   * <code>Files.write(Paths.get("filePath"), bytes)</code>
+   * 
    * @param object
    * @return */
   public static <T extends Serializable> byte[] of(T object) {
@@ -34,6 +36,8 @@ public enum ObjectFormat {
   }
 
   /** decodes {@link Serializable} object from array of bytes
+   * 
+   * <code>Files.readAllBytes(Paths.get("filePath"))</code>
    * 
    * @param bytes
    * @return {@link Serializable} object encoded in input bytes */

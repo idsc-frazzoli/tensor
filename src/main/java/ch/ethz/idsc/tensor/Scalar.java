@@ -30,7 +30,10 @@ public interface Scalar extends Tensor {
    * @return multiplicative inverse of this scalar */
   Scalar invert();
 
-  /** @param scalar
+  /** implemented as
+   * <code>multiply(scalar.invert())</code>
+   * 
+   * @param scalar
    * @return this divided by input scalar */
   Scalar divide(Scalar scalar);
 
