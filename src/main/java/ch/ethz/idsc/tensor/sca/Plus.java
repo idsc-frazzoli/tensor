@@ -6,7 +6,10 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 
-public enum Increment implements Function<Scalar, Scalar> {
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Increment.html">Increment</a> */
+public enum Plus implements Function<Scalar, Scalar> {
+  /** increments a given {@link Scalar} by RealScalar.ONE */
   ONE;
   // ---
   @Override
