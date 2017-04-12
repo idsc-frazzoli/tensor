@@ -32,7 +32,7 @@ public class CsvFormatTest extends TestCase {
     convertCheck(Tensors.matrix((i, j) -> DoubleScalar.of(r.nextGaussian() * 1e+50), 20, 10));
   }
 
-  public void testNonRect() {
+  public void testNonRect() throws Exception {
     Tensor s = Tensors.empty();
     s.append(Tensors.of(StringScalar.of("ksah   g d fkhjg")));
     s.append(Tensors.vectorInt(1, 2, 3));
@@ -44,7 +44,7 @@ public class CsvFormatTest extends TestCase {
     assertEquals(s, r);
     Tensor p = Tensors.fromString(s.toString());
     assertEquals(r, p);
-    Tensor ten = ObjectFormat.from(ObjectFormat.of(s));
+    Tensor ten = Serialization.parse(Serialization.of(s));
     assertEquals(s, ten);
   }
 

@@ -17,6 +17,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor m = Tensors.fromString("[[1,5,1,0,0],[2,1,0,1,0],[1,1,0,0,1]]");
     Tensor b = Tensors.fromString("[40,20,12]");
     Tensor x = LinearProgramming.minEquals(c, m, b);
+    // mathematica {5, 7, 0, 3, 0}
     assertEquals(x, Tensors.fromString("[5, 7, 0, 3, 0]"));
   }
 
@@ -38,13 +39,25 @@ public class LinearProgrammingTest extends TestCase {
     // System.out.println(c.dot(x));
   }
 
+  // MATLAB linprog example
+  public void testMatlab1max() { // max c.x == min -c.x == -10/9
+    Tensor c = Tensors.fromString("[1,1/3]");
+    Tensor m = Tensors.fromString("[[1,1],[1,1/4],[1,-1],[-1/4,-1],[-1,-1],[-1,1]]");
+    Tensor b = Tensors.fromString("[2,1,2,1,-1,2]");
+    Tensor x = LinearProgramming.maxLessEquals(c, m, b);
+    assertEquals(x, Tensors.fromString("[2/3,4/3]"));
+    // System.out.println(c.dot(x).negate());
+  }
+
   // MATLAB linprog example dual
-  public void testMatlab1Dual() { // min c.x == -10/9
+  public void testMatlab1maxDual() {
     Tensor c = Tensors.fromString("[2,1,2,1,-1,2]");
-    Tensor m = Transpose.of(Tensors.fromString("[[1,1],[1,1/4],[1,-1],[-1/4,-1],[-1,-1],[-1,1]]")).negate();
-    Tensor b = Tensors.fromString("[-1,-1/3]").negate();
-    Tensor x = LinearProgramming.minLessEquals(c, m, b);
+    Tensor m = Transpose.of(Tensors.fromString("[[1,1],[1,1/4],[1,-1],[-1/4,-1],[-1,-1],[-1,1]]"));
+    Tensor b = Tensors.fromString("[1,1/3]");
+    // Tensor y = LinearProgramming.minLessEquals(c, m.negate(), b.negate());
     // FIXME
+    // System.out.println(y);
+    // System.out.println(c.dot(y));
     // assertEquals(x, Tensors.fromString("[2/3,4/3]"));
     // System.out.println(x);
     // System.out.println(c.dot(x));
@@ -90,6 +103,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor m = Tensors.fromString("[[4,-1],[2,1],[-5,2],[-1,-1]]");
     Tensor b = Tensors.fromString("[8,10,2,-1]");
     Tensor x = LinearProgramming.minLessEquals(c, m, b);
+    // mathematica {2, 6}
     assertEquals(x, Tensors.fromString("[2,6]")); // see page 847
     assertFalse(LinearProgramming.isFeasible(m, Array.zeros(2), b));
     assertTrue(LinearProgramming.isFeasible(m, Tensors.fromString("[3,4]"), b));

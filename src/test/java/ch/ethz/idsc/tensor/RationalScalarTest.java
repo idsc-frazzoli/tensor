@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.alg.Sort;
-import ch.ethz.idsc.tensor.io.ObjectFormat;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
@@ -75,9 +75,9 @@ public class RationalScalarTest extends TestCase {
     assertEquals(sol, x);
   }
 
-  public void testSerializable() {
+  public void testSerializable() throws Exception {
     Scalar a = RationalScalar.of(3, 5);
-    assertEquals(a, ObjectFormat.from(ObjectFormat.of(a)));
+    assertEquals(a, Serialization.parse(Serialization.of(a)));
   }
 
   public void testSort() {

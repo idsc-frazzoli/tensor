@@ -55,6 +55,8 @@ public enum LinearProgramming {
    * @return x >= 0 that minimizes c.x subject to m.x <= b */
   public static Tensor minLessEquals(Tensor c, Tensor m, Tensor b) {
     Tensor ceq = Join.of(c, Array.zeros(m.length()));
+    // Tensor D = DiagonalMatrix.of(b.map(UnitStep.function));
+    // IdentityMatrix.of(m.length())
     Tensor meq = Join.of(1, m, IdentityMatrix.of(m.length()));
     Tensor xeq = minEquals(ceq, meq, b);
     Tensor x = xeq.extract(0, c.length());
@@ -81,6 +83,10 @@ public enum LinearProgramming {
         .map(RealScalar.class::cast) //
         .filter(v -> 0 > v.signInt()) //
         .findAny().isPresent();
+    // if (!status) {
+    // System.out.println(x);
+    // System.out.println("negative");
+    // }
     status &= !m.dot(x).subtract(b).flatten(0) // all A.x <= b
         .map(RealScalar.class::cast) //
         .filter(v -> 0 < v.signInt()) //

@@ -24,8 +24,11 @@ import ch.ethz.idsc.tensor.red.ArgMin;
   static Tensor of(Tensor c, Tensor A, Tensor b, SimplexPivot simplexPivot) {
     final int m = b.length();
     final int n = c.length();
+    // System.out.println(m + " x " + n);
     SimplexMethod simplexImpl;
     {
+      // Tensor D = DiagonalMatrix.of(b.map(UnitStep.function));
+      // IdentityMatrix.of(m)
       Tensor tab = Join.of(1, A, IdentityMatrix.of(m), Partition.of(b, 1));
       Tensor row = Tensors.vector(i -> n <= i && i < n + m ? RealScalar.ONE : ZeroScalar.get(), n + m + 1);
       for (int index = 0; index < m; ++index) // make all entries in bottom row zero
@@ -54,6 +57,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     if (isOutsideRange(ind, n))
       throw TensorRuntimeException.of(ind);
     while (true) {
+      // System.out.println(Pretty.of(tab));
       Tensor c = tab.get(m).extract(0, n);
       final int j = ArgMin.of(c);
       if (((RealScalar) c.Get(j)).signInt() == -1) {
@@ -64,6 +68,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
         }
         int p = simplexPivot.get(tab, j, n);
         ind.set(RealScalar.of(j), p);
+        // System.out.println(ind);
         tab.set(tab.get(p).multiply(tab.Get(p, j).invert()), p); // normalize
         for (int i = 0; i < tab.length(); ++i)
           if (i != p)

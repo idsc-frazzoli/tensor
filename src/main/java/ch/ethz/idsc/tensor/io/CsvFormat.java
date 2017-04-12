@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * {@link MatlabExport} preserves dimensions of multi-dimensional arrays.
  * 
  * Do not use csv format to store and reload tensors.
- * For that purpose {@link ObjectFormat} is preferred. */
+ * For that purpose {@link Serialization} is preferred. */
 public enum CsvFormat {
   ;
   /** The stream of strings can be written to a file using

@@ -1,57 +1,28 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.zip.DataFormatException;
 
-import ch.ethz.idsc.tensor.Tensor;
-
+/** ObjectFormat is the serialization of objects in deflated form.
+ * 
+ * <p>The motivation to compress the byte arrays stems from the fact that
+ * Java native serialization is not space efficient.
+ * Compression factors of up to 10 are expected. */
 public enum ObjectFormat {
   ;
-  /** encodes {@link Serializable} input {@link Object} as array of bytes.
-   * 
-   * <p>since {@link Tensor}s implement {@link Serializable},
-   * function can be used to encode tensor as byte array.
-   * 
-   * <code>Files.write(Paths.get("filePath"), bytes)</code>
-   * 
-   * @param object
-   * @return */
-  public static <T extends Serializable> byte[] of(T object) {
-    byte[] bytes = null;
-    try {
-      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-      ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-      objectOutputStream.writeObject(object);
-      objectOutputStream.flush();
-      bytes = byteArrayOutputStream.toByteArray();
-      objectOutputStream.close();
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
-    return bytes;
+  // ---
+  /** @param object
+   * @return deflated serialization of object
+   * @throws Exception */
+  public static <T extends Serializable> byte[] of(T object) throws Exception {
+    return Compression.deflate(Serialization.of(object));
   }
 
-  /** decodes {@link Serializable} object from array of bytes
-   * 
-   * <code>Files.readAllBytes(Paths.get("filePath"))</code>
-   * 
-   * @param bytes
-   * @return {@link Serializable} object encoded in input bytes */
-  public static <T extends Serializable> T from(byte[] bytes) {
-    try {
-      ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-      ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-      @SuppressWarnings("unchecked")
-      T tensor = (T) objectInputStream.readObject();
-      objectInputStream.close();
-      return tensor;
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
-    return null;
+  /** @param bytes containing the deflated serialization of object
+   * @return object prior to serialization
+   * @throws DataFormatException */
+  public static <T extends Serializable> T parse(byte[] bytes) throws Exception {
+    return Serialization.parse(Compression.inflate(bytes));
   }
 }
