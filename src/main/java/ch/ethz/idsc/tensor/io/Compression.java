@@ -25,7 +25,7 @@ public enum Compression {
     while (!deflater.finished()) {
       int length = deflater.deflate(buffer);
       byteArrayOutputStream.write(buffer, 0, length);
-    }    
+    }
     deflater.end();
     return byteArrayOutputStream.toByteArray();
   }

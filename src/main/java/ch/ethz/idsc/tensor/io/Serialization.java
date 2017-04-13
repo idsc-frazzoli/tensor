@@ -19,7 +19,7 @@ public enum Serialization {
    * <code>Files.write(Paths.get("filePath"), bytes)</code>
    * 
    * @param object
-   * @return serialization of object 
+   * @return serialization of object
    * @throws Exception */
   public static <T extends Serializable> byte[] of(T object) throws Exception {
     byte[] bytes = null;

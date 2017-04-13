@@ -34,4 +34,10 @@ public enum MathematicaFormat {
         .map(s -> s.replace('}', ']')) //
         .collect(Collectors.joining("")));
   }
+
+  /** @param string of Mathematica encoded tensor
+   * @return tensor */
+  public static Tensor parse(String string) {
+    return parse(Stream.of(string));
+  }
 }

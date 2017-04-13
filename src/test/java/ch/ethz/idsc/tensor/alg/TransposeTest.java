@@ -25,7 +25,6 @@ public class TransposeTest extends TestCase {
   public void testVector() {
     Tensor v = Tensors.vectorInt(2, 3, 4, 5);
     Tensor r = Transpose.of(v, 0);
-    // System.out.println(r);
     assertEquals(v, r);
   }
 
