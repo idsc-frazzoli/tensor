@@ -7,7 +7,10 @@ import ch.ethz.idsc.tensor.alg.Sort;
 
 public enum Comparators {
   ;
-  /** ascending is default ordering when using {@link Sort} */
+  /** ascending is default ordering when using {@link Sort}
+   * @see Comparator#naturalOrder
+   * 
+   * @return comparator that performs canonic ordering */
   public static final <T> Comparator<T> ascending() {
     return new Comparator<T>() {
       @Override
@@ -19,7 +22,7 @@ public enum Comparators {
     };
   }
 
-  /** @return comparator */
+  /** @return comparator that performs reversed canonic ordering */
   public static final <T> Comparator<T> descending() {
     return new Comparator<T>() {
       @Override
