@@ -30,7 +30,7 @@ public class NormTest extends TestCase {
     Tensor A = Tensors.of(ComplexScalar.of( //
         RealScalar.ONE, RealScalar.of(2)), DoubleScalar.of(1.5));
     assertEquals(Norm._2.of(A), Scalars.fromString("2.692582403567252"));
-    Tensor a = Tensors.vectorInt(2, 3, 4);
+    Tensor a = Tensors.vector(2, 3, 4);
     assertEquals(Norm._2Squared.of(a), a.dot(a));
   }
 

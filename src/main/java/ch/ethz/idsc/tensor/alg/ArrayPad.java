@@ -15,6 +15,7 @@ public enum ArrayPad {
 
   // TODO implementation
   public static Tensor of(Tensor tensor, List<Integer> pads) {
+    // return tensor.flatten(0).map(t->Join.);
     return null;
   }
 }

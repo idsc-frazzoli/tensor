@@ -49,12 +49,12 @@ public class QRDecompositionTest extends TestCase {
   }
 
   public void testDiag() {
-    Tensor A = DiagonalMatrix.of(Tensors.vectorInt(2, 3, 4));
+    Tensor A = DiagonalMatrix.of(Tensors.vector(2, 3, 4));
     specialOps(A);
   }
 
   public void testDiag2() {
-    Tensor A = DiagonalMatrix.of(Tensors.vectorDouble(2, -3, 0, 0, -1e-10, 0, 4e20));
+    Tensor A = DiagonalMatrix.of(Tensors.vector(2, -3, 0, 0, -1e-10, 0, 4e20));
     specialOps(A);
   }
 

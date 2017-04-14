@@ -10,8 +10,8 @@ import junit.framework.TestCase;
 
 public class ExtractPrimitivesTest extends TestCase {
   public void testToLong() {
-    Tensor a = Tensors.vectorLong(-2, -3, 4, 5, 6, 11);
-    Tensor b = Tensors.vectorDouble(-2.5, -3.7, 4.3, 5.4, 6.2, 11.5);
+    Tensor a = Tensors.vector(-2, -3, 4, 5, 6, 11);
+    Tensor b = Tensors.vector(-2.5, -3.7, 4.3, 5.4, 6.2, 11.5);
     List<Long> listA = ExtractPrimitives.toListLong(a);
     List<Long> listB = ExtractPrimitives.toListLong(b);
     assertEquals(a.toString(), listA.toString());
@@ -19,8 +19,8 @@ public class ExtractPrimitivesTest extends TestCase {
   }
 
   public void testToInteger() {
-    Tensor a = Tensors.vectorInt(-2, -3, 4, 5, 6, 11);
-    Tensor b = Tensors.vectorDouble(-2.5, -3.7, 4.3, 5.4, 6.2, 11.5);
+    Tensor a = Tensors.vector(-2, -3, 4, 5, 6, 11);
+    Tensor b = Tensors.vector(-2.5, -3.7, 4.3, 5.4, 6.2, 11.5);
     List<Integer> listA = ExtractPrimitives.toListInteger(a);
     List<Integer> listB = ExtractPrimitives.toListInteger(b);
     assertEquals(a.toString(), listA.toString());
@@ -32,7 +32,7 @@ public class ExtractPrimitivesTest extends TestCase {
   }
 
   public void testConvert1() {
-    Tensor a = Tensors.vectorDouble(-2.5, -2.7, 4.3, 5.4, 6.2, 10.5);
+    Tensor a = Tensors.vector(-2.5, -2.7, 4.3, 5.4, 6.2, 10.5);
     List<Double> listA = ExtractPrimitives.toListDouble(a);
     assertEquals(a.toString(), listA.toString());
   }

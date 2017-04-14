@@ -8,9 +8,9 @@ import junit.framework.TestCase;
 
 public class HarmonicMeanTest extends TestCase {
   public void testGeo1() {
-    Tensor a = HarmonicMean.of(Tensors.vectorInt(8, 27, 525));
+    Tensor a = HarmonicMean.of(Tensors.vector(8, 27, 525));
     assertEquals(a, RationalScalar.of(113400, 6197));
-    Tensor b = HarmonicMean.of(Tensors.vectorInt(8, -27, 3));
+    Tensor b = HarmonicMean.of(Tensors.vector(8, -27, 3));
     assertEquals(b, RationalScalar.of(648, 91));
   }
 
@@ -25,7 +25,7 @@ public class HarmonicMeanTest extends TestCase {
 
   public void testZero() {
     try {
-      HarmonicMean.of(Tensors.vectorInt(3, 0, 2));
+      HarmonicMean.of(Tensors.vector(3, 0, 2));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -35,10 +35,10 @@ public class CsvFormatTest extends TestCase {
   public void testNonRect() throws Exception {
     Tensor s = Tensors.empty();
     s.append(Tensors.of(StringScalar.of("ksah   g d fkhjg")));
-    s.append(Tensors.vectorInt(1, 2, 3));
-    s.append(Tensors.vectorInt(7));
+    s.append(Tensors.vector(1, 2, 3));
+    s.append(Tensors.vector(7));
     s.append(Tensors.of(StringScalar.of("kddd")));
-    s.append(Tensors.vectorInt(5, 6));
+    s.append(Tensors.vector(5, 6));
     Stream<String> stream = CsvFormat.of(s);
     Tensor r = CsvFormat.parse(stream);
     assertEquals(s, r);

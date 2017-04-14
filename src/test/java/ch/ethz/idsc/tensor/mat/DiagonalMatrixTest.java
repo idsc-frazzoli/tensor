@@ -11,7 +11,7 @@ public class DiagonalMatrixTest extends TestCase {
     Tensor m = IdentityMatrix.of(10);
     Tensor d = Dot.of(m, m, m, m);
     assertEquals(m, d);
-    Tensor e = DiagonalMatrix.of(Tensors.vectorInt(1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+    Tensor e = DiagonalMatrix.of(Tensors.vector(1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
     assertEquals(m, e);
   }
 }

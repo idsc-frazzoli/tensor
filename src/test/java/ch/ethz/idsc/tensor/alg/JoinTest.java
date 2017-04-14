@@ -9,10 +9,10 @@ import junit.framework.TestCase;
 
 public class JoinTest extends TestCase {
   public void testVectors() {
-    Tensor v1 = Tensors.vectorInt(2, 3, 4);
-    Tensor v2 = Tensors.vectorInt(0, -3);
-    Tensor v3 = Tensors.vectorInt();
-    Tensor v4 = Tensors.vectorInt(8, 99);
+    Tensor v1 = Tensors.vector(2, 3, 4);
+    Tensor v2 = Tensors.vector(0, -3);
+    Tensor v3 = Tensors.vector();
+    Tensor v4 = Tensors.vector(8, 99);
     Tensor j1 = Join.of(v1, v2, v3, v4);
     Tensor re = Tensors.fromString("[2,3,4,0,-3,8,99]");
     assertEquals(j1, re);
@@ -23,7 +23,7 @@ public class JoinTest extends TestCase {
   public void testMatrices() {
     Tensor m1 = Tensors.matrixInt(new int[][] { //
         { 1, 2 }, { 0, 5 }, { 9, 8 } });
-    Tensor v2 = Tensors.vectorInt(0, -3);
+    Tensor v2 = Tensors.vector(0, -3);
     Tensor j1 = Tensors.fromString("[[1,2],[0,5],[9 ,8],0,-3]");
     assertEquals(Join.of(m1, v2), j1);
     Tensor m2 = Tensors.matrixDouble(new double[][] { //
@@ -60,7 +60,7 @@ public class JoinTest extends TestCase {
   }
 
   public void testEmpty() {
-    Tensor v1 = Tensors.vectorInt(2, 3, 4);
+    Tensor v1 = Tensors.vector(2, 3, 4);
     Tensor ap = Join.of(Tensors.empty(), v1);
     assertEquals(ap, v1);
   }

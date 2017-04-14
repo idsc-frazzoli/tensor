@@ -104,7 +104,7 @@ public class TensorTest extends TestCase {
   }
 
   public void testUnmodifiable() {
-    Tensor tensor = Tensors.vectorInt(3, 4, 5, 6, -2);
+    Tensor tensor = Tensors.vector(3, 4, 5, 6, -2);
     tensor.set(DoubleScalar.of(.3), 2);
     Tensor unmodi = tensor.unmodifiable();
     assertEquals(tensor, unmodi);

@@ -11,9 +11,9 @@ import junit.framework.TestCase;
 
 public class ReverseTest extends TestCase {
   public void testRev() {
-    Tensor tensor = Tensors.vectorInt(3, 2, 6, 5);
+    Tensor tensor = Tensors.vector(3, 2, 6, 5);
     Tensor rev = Reverse.of(tensor);
-    Tensor res = Tensors.vectorInt(5, 6, 2, 3);
+    Tensor res = Tensors.vector(5, 6, 2, 3);
     assertEquals(rev, res);
   }
 
@@ -24,6 +24,8 @@ public class ReverseTest extends TestCase {
     Tensor v = Reverse.of(IdentityMatrix.of(n));
     Tensor t1 = BasisTransform.ofForm(m, v);
     Tensor t2 = Transpose.apply(m, Reverse::of);
+    Tensor t3 = Reverse.all(m);
     assertEquals(t1, t2);
+    assertEquals(t1, t3);
   }
 }

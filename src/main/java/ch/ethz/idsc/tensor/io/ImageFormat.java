@@ -69,7 +69,7 @@ public enum ImageFormat {
   // helper function
   private static Tensor asVector(int rgba) {
     Color color = new Color(rgba, true);
-    return Tensors.vectorInt(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+    return Tensors.vector(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
   }
 
   // helper function

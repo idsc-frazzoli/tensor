@@ -18,6 +18,6 @@ public enum ListConvolve {
    * @param tensor
    * @return convolution of kernel with tensor */
   public static Tensor of(Tensor kernel, Tensor tensor) {
-    return ListCorrelate.of(Transpose.apply(kernel, Reverse::of), tensor);
+    return ListCorrelate.of(Reverse.all(kernel), tensor);
   }
 }

@@ -11,15 +11,15 @@ import junit.framework.TestCase;
 
 public class VarianceTest extends TestCase {
   public void testVariance() {
-    Tensor A = Tensors.vectorInt(1, 2, 5, 7);
+    Tensor A = Tensors.vector(1, 2, 5, 7);
     assertEquals(Mean.of(A), RationalScalar.of(15, 4));
     assertEquals(Variance.ofVector(A), RationalScalar.of(91, 12));
   }
 
   public void testVariance2() {
     Tensor A = Tensors.of( //
-        Tensors.vectorInt(1, 2, 5, 7), //
-        Tensors.vectorInt(1, 2, 5) //
+        Tensors.vector(1, 2, 5, 7), //
+        Tensors.vector(1, 2, 5) //
     );
     Tensor b = TensorMap.of(Variance::ofVector, A, 1);
     // System.out.println(b);
@@ -35,7 +35,7 @@ public class VarianceTest extends TestCase {
 
   public void testLength1() {
     try {
-      Variance.ofVector(Tensors.vectorInt(3));
+      Variance.ofVector(Tensors.vector(3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

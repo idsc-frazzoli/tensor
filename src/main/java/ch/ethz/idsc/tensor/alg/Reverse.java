@@ -15,4 +15,10 @@ public enum Reverse {
     return Tensor.of(IntStream.range(0, tensor.length()).boxed() //
         .map(index -> tensor.get(tensor.length() - index - 1)));
   }
+
+  /* package */ static Tensor all(Tensor tensor) {
+    if (tensor.length() == -1)
+      return tensor;
+    return of(Tensor.of(tensor.flatten(0).map(Reverse::all)));
+  }
 }

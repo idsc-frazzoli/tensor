@@ -8,18 +8,18 @@ import junit.framework.TestCase;
 
 public class ListCorrelateTest extends TestCase {
   public void testVector1() {
-    Tensor kernel = Tensors.vectorInt(2, 1, 3);
-    Tensor tensor = Tensors.vectorInt(0, 0, 1, 0, 0, 0);
+    Tensor kernel = Tensors.vector(2, 1, 3);
+    Tensor tensor = Tensors.vector(0, 0, 1, 0, 0, 0);
     Tensor result = ListCorrelate.of(kernel, tensor);
-    Tensor actual = Tensors.vectorInt(3, 1, 2, 0);
+    Tensor actual = Tensors.vector(3, 1, 2, 0);
     assertEquals(result, actual);
   }
 
   public void testVector2() {
-    Tensor kernel = Tensors.vectorInt(2, 1, 3);
-    Tensor tensor = Tensors.vectorInt(0, 0, 1, 0, -2, 1, 2);
+    Tensor kernel = Tensors.vector(2, 1, 3);
+    Tensor tensor = Tensors.vector(0, 0, 1, 0, -2, 1, 2);
     Tensor result = ListCorrelate.of(kernel, tensor);
-    Tensor actual = Tensors.vectorInt(3, 1, -4, 1, 3);
+    Tensor actual = Tensors.vector(3, 1, -4, 1, 3);
     assertEquals(result, actual);
   }
 

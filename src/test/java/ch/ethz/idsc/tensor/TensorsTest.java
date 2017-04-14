@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -12,9 +13,9 @@ import junit.framework.TestCase;
 public class TensorsTest extends TestCase {
   public void testFromString() {
     assertEquals(Tensors.fromString("[   ]"), Tensors.empty());
-    assertEquals(Tensors.fromString("[ 2 ,-3   , 4]"), Tensors.vectorInt(2, -3, 4));
+    assertEquals(Tensors.fromString("[ 2 ,-3   , 4]"), Tensors.vector(2, -3, 4));
     assertEquals(Tensors.fromString("[   [2, -3, 4  ], [2.3,-.2   ], [  ]   ]"), //
-        Tensors.of(Tensors.vectorInt(2, -3, 4), Tensors.vectorDouble(2.3, -.2), Tensors.empty()));
+        Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(2.3, -.2), Tensors.empty()));
   }
 
   public void testUnmodifiableSet() {
@@ -123,6 +124,40 @@ public class TensorsTest extends TestCase {
         random.nextInt(100) + 1), n, m);
     Tensor c = Tensors.vector(i -> RationalScalar.of(1, 1), n);
     assertEquals(Total.of(A), c.dot(A));
+  }
+
+  public void testInteger() {
+    Tensor p = Tensors.vector(Arrays.asList(3, 4, -5, 6));
+    Tensor q = Tensors.vector(3, 4, -5, 6);
+    Tensor r = Tensors.vector(3.0, 4.0, -5.0, 6.0);
+    assertTrue(p.Get(0) instanceof RationalScalar);
+    assertTrue(p.Get(1) instanceof RationalScalar);
+    assertTrue(p.Get(2) instanceof RationalScalar);
+    assertTrue(p.Get(3) instanceof RationalScalar);
+    assertTrue(q.Get(0) instanceof RationalScalar);
+    assertTrue(q.Get(1) instanceof RationalScalar);
+    assertTrue(q.Get(2) instanceof RationalScalar);
+    assertTrue(q.Get(3) instanceof RationalScalar);
+    assertEquals(p, q);
+    assertEquals(p, r);
+  }
+
+  public void testDoubleArray() {
+    double[] asd = new double[] { 3.2, -0.3, 1.0 };
+    Tensors.vectorDouble(asd);
+  }
+
+  public void testDouble() {
+    Tensor p = Tensors.vector(Arrays.asList(3.3, 4., 5.3, 6.));
+    Tensor q = Tensors.vector(3.3, 4., 5.3, 6.);
+    assertEquals(p, q);
+  }
+
+  public void testNumber() {
+    Tensor p = Tensors.vector(Arrays.asList(3, 4, 5.3, 6));
+    Tensor q = Tensors.vector(3, 4, 5.3, 6);
+    assertTrue(p.Get(0) instanceof RationalScalar);
+    assertEquals(p, q);
   }
   // public void testString() {
   // Tensor asd2 = ArrayReshape.of(Tensors.vector(i -> RealScalar.of(i), 3 * 2 * 4), 3, 2, 4);

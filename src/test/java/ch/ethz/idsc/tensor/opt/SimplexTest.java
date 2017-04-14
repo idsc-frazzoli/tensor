@@ -25,7 +25,7 @@ public class SimplexTest extends TestCase {
     Tensor x = LinearProgramming.maxLessEquals( //
         Array.zeros(2), //
         Tensors.fromString("[[3, -1], [-3, 2], [1,-1]]"), //
-        Tensors.vectorInt(-1, 2, -1));
+        Tensors.vector(-1, 2, -1));
     // System.out.println(x);
     assertEquals(x, Tensors.fromString("[0, 1]"));
   }
@@ -37,7 +37,7 @@ public class SimplexTest extends TestCase {
     Tensor x = LinearProgramming.minEquals( //
         Array.zeros(5), //
         B, //
-        Tensors.vectorInt(-1, 2, -1));
+        Tensors.vector(-1, 2, -1));
     // System.out.println(x);
     assertEquals(x, Tensors.fromString("[0, 1, 0, 0, 0]"));
   }
@@ -72,7 +72,7 @@ public class SimplexTest extends TestCase {
         "[1, 0, 0,-1, 1]", //
         "[1, 0, 0, 0, 0]" //
     );
-    Tensor b = Tensors.vectorInt(8, 7, 9, 13, 6, 10, 5, 12, 14, 15, 9, 11, 9, 8, 4, 7); //
+    Tensor b = Tensors.vector(8, 7, 9, 13, 6, 10, 5, 12, 14, 15, 9, 11, 9, 8, 4, 7); //
     Tensor c = Tensors.vector(i -> KroneckerDelta.of(i, 0), 5);
     Tensor x = LinearProgramming.maxLessEquals(c, m, b);
     Tensor X51 = Tensors.fromString("[6.5, 0.5, 0, 2.5, 0]");
@@ -94,11 +94,11 @@ public class SimplexTest extends TestCase {
         "[0,0,1,0,0,1,0]", //
         "[0,3,1,0,0,0,1]" //
     );
-    Tensor b = Tensors.vectorInt(4, 2, 3, 6);
-    Tensor c = Tensors.vectorInt(0, 2, 0, 1, 0, 0, 5);
+    Tensor b = Tensors.vector(4, 2, 3, 6);
+    Tensor c = Tensors.vector(0, 2, 0, 1, 0, 0, 5);
     Tensor x = LinearProgramming.minEquals(c, m, b);
     // System.out.println(x);
-    Tensor X = Tensors.vectorInt(0, 1, 3, 0, 2, 0, 0);
+    Tensor X = Tensors.vector(0, 1, 3, 0, 2, 0, 0);
     assertEquals(x, X);
   }
 
@@ -112,10 +112,10 @@ public class SimplexTest extends TestCase {
         "[1/2,-12,-1/2, 3]", //
         "[0  ,  0, 1  , 0]" //
     );
-    Tensor b = Tensors.vectorInt(0, 0, 1);
+    Tensor b = Tensors.vector(0, 0, 1);
     Tensor c = Tensors.fromString("[-3/4, 20, -1/2, 6]");
     Tensor x = LinearProgramming.minLessEquals(c, m, b);
-    Tensor X = Tensors.vectorInt(1, 0, 1, 0);
+    Tensor X = Tensors.vector(1, 0, 1, 0);
     assertEquals(x, X);
   }
 }
