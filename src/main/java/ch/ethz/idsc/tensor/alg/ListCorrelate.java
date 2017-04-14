@@ -12,6 +12,12 @@ import ch.ethz.idsc.tensor.red.Total;
 public enum ListCorrelate {
   ;
   // ---
+  /** ListCorrelate[{x, y}, {a, b, c, d, e, f}] ==
+   * {a x + b y, b x + c y, c x + d y, d x + e y, e x + f y}
+   * 
+   * @param kernel
+   * @param tensor
+   * @return correlation of kernel with tensor */
   public static Tensor of(Tensor kernel, Tensor tensor) {
     List<Integer> mask = Dimensions.of(kernel);
     List<Integer> size = Dimensions.of(tensor);

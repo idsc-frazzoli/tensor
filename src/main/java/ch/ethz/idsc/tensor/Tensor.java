@@ -117,7 +117,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
 
   /** extract block of this tensor located at offset with dimensions
    * 
-   * @param fromIndex
+   * @param fromIndex location of return tensor in this tensor
    * @param dimensions of return tensor
    * @return copy of block located at fromIndex of this tensor with given dimensions */
   Tensor block(List<Integer> fromIndex, List<Integer> dimensions);

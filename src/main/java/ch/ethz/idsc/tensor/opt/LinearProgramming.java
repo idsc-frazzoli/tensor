@@ -8,7 +8,9 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 
-/** linear optimization
+/** !!! EXPERIMENTAL !!!
+ * 
+ * <p>linear optimization
  * 
  * <p>implementation uses traditional simplex algorithm that performs poorly on Klee-Minty cube
  * 
