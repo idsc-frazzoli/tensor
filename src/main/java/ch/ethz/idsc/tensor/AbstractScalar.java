@@ -84,6 +84,11 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   @Override // from Tensor
+  public final Tensor block(List<Integer> fromIndex, List<Integer> dimensions) {
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override // from Tensor
   public final Tensor dot(Tensor tensor) {
     throw TensorRuntimeException.of(this);
   }

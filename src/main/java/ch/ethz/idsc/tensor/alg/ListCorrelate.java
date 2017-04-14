@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Total;
@@ -19,7 +18,6 @@ public enum ListCorrelate {
     List<Integer> dims = new ArrayList<>();
     for (int index = 0; index < mask.size(); ++index)
       dims.add(size.get(index) - mask.get(index) + 1);
-    return Array.of(ofs -> Total.of(Flatten.of( //
-        kernel.pmul(ListConvolve._extract(Function.identity(), tensor, ofs, mask)), -1)), dims);
+    return Array.of(index -> Total.of(Flatten.of(kernel.pmul(tensor.block(index, mask)), -1)), dims);
   }
 }

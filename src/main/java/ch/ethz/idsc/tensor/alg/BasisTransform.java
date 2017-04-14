@@ -15,7 +15,7 @@ public enum BasisTransform {
     Integer[] sigma = new Integer[rank]; // [1, 2, ..., r, 0]
     IntStream.range(0, rank).forEach(i -> sigma[i] = (i + 1) % rank);
     for (int index = 0; index < rank; ++index)
-      form = Transpose.of(form, sigma).dot(v);
+      form = Transpose.of(form.dot(v), sigma);
     return form;
   }
 }

@@ -115,6 +115,13 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return copy of sub tensor fromIndex inclusive to toIndex exclusive */
   Tensor extract(int fromIndex, int toIndex);
 
+  /** extract block of this tensor located at offset with dimensions
+   * 
+   * @param fromIndex
+   * @param dimensions of return tensor
+   * @return copy of block located at fromIndex of this tensor with given dimensions */
+  Tensor block(List<Integer> fromIndex, List<Integer> dimensions);
+
   /** negation of entries
    * 
    * @return tensor with all entries negated */

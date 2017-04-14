@@ -129,6 +129,21 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
+  public Tensor block(List<Integer> fromIndex, List<Integer> dimensions) {
+    return fromIndex.isEmpty() ? copy() : _block(fromIndex, dimensions);
+  }
+
+  // helper function
+  private Tensor _block(List<Integer> fromIndex, List<Integer> dimensions) {
+    int toIndex = fromIndex.get(0) + dimensions.get(0);
+    if (fromIndex.size() == 1)
+      return extract(fromIndex.get(0), toIndex);
+    return Tensor.of(list.subList(fromIndex.get(0), toIndex).stream() //
+        .map(tensor -> ((TensorImpl) tensor)._block( //
+            fromIndex.subList(1, fromIndex.size()), dimensions.subList(1, dimensions.size()))));
+  }
+
+  @Override
   public Tensor negate() {
     return Tensor.of(list.stream().map(Tensor::negate));
   }
