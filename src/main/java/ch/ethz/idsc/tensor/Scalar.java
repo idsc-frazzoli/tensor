@@ -37,9 +37,12 @@ public interface Scalar extends Tensor {
    * @return this divided by input scalar */
   Scalar divide(Scalar scalar);
 
-  /** @return typically distance from zero as {@link RealScalar},
+  /** absolute value
+   * 
+   * @return typically distance from zero as {@link RealScalar},
    * generally non-negative version of this.
-   * @throws TensorRuntimeException */
+   * @throws TensorRuntimeException if absolute value is not defined
+   * in the case of {@link StringScalar} for instance */
   Scalar abs();
 
   /** classes should only override this if consistency is possible
