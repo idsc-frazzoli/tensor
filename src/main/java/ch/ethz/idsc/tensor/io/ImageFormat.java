@@ -51,14 +51,23 @@ public enum ImageFormat {
    * @return image of type BufferedImage.TYPE_BYTE_GRAY or BufferedImage.TYPE_INT_ARGB */
   public static BufferedImage of(Tensor tensor) {
     List<Integer> dims = Dimensions.of(tensor);
-    if (dims.size() == 2) {
-      BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_BYTE_GRAY);
-      int[] array = ExtractPrimitives.toArrayInt(Transpose.of(tensor));
-      for (int index = 0; index < array.length; ++index)
-        array[index] = (array[index] << 16) | (array[index] << 8) | (array[index] << 0);
-      bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
-      return bufferedImage;
-    }
+    if (dims.size() == 2)
+      return toTYPE_BYTE_GRAY(tensor, dims);
+    return toTYPE_INT_ARGB(tensor, dims);
+  }
+
+  // helper function
+  private static BufferedImage toTYPE_BYTE_GRAY(Tensor tensor, List<Integer> dims) {
+    BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_BYTE_GRAY);
+    int[] array = ExtractPrimitives.toArrayInt(Transpose.of(tensor));
+    for (int index = 0; index < array.length; ++index)
+      array[index] = (array[index] << 16) | (array[index] << 8) | (array[index] << 0);
+    bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
+    return bufferedImage;
+  }
+
+  // helper function
+  private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, List<Integer> dims) {
     BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_INT_ARGB);
     Tensor res = TensorMap.of(vector -> RealScalar.of(asARGB(vector)), tensor, 2);
     int[] array = ExtractPrimitives.toArrayInt(Transpose.of(res));

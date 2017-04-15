@@ -7,10 +7,13 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.ListConvolve;
 import junit.framework.TestCase;
 
 public class ImageFormatTest extends TestCase {
@@ -31,5 +34,35 @@ public class ImageFormatTest extends TestCase {
     Tensor tensor = ImageFormat.fromGrayscale(bufferedImage);
     assertEquals(tensor.Get(2, 0), RealScalar.of(216));
     assertEquals(Dimensions.of(tensor), Arrays.asList(15, 9));
+  }
+
+  public void testRGBAConvert() throws Exception {
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor tensor = ImageFormat.from(bufferedImage);
+    assertEquals(tensor, ImageFormat.from(ImageFormat.of(tensor)));
+  }
+
+  public void testRGBASmooth() throws Exception {
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor tensor = ImageFormat.from(bufferedImage);
+    Tensor kernel = Array.of(l -> RationalScalar.of(1, 6), 3, 2, 1);
+    Tensor array = ListConvolve.of(kernel, tensor);
+    ImageFormat.of(array); // succeeds
+  }
+
+  public void testRGBAInvalid() throws Exception {
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor tensor = ImageFormat.from(bufferedImage);
+    Tensor kernel = Array.of(l -> RationalScalar.of(1, 1), 3, 5, 1);
+    Tensor array = ListConvolve.of(kernel, tensor);
+    try {
+      ImageFormat.of(array);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
