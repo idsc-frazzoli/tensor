@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
-import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.sca.Abs;
 
 /* package */ class Norm1 extends RankAdapter<Scalar> {
   @Override
@@ -25,8 +25,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 
   @Override
   public Scalar ofMatrix(Tensor matrix) {
-    return Transpose.of(matrix).flatten(0) // TODO this can be done more efficiently!
-        .map(this::ofVector) //
+    return Total.of(Abs.of(matrix)).flatten(0) //
         .map(Scalar.class::cast) //
         .reduce(Max::of) //
         .orElse(ZeroScalar.get());

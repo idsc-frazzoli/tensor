@@ -21,6 +21,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar a, Scalar b) {
+    // return ofVector(Tensors.of(a,b));
     Scalar ax = a.abs();
     Scalar ay = b.abs();
     Scalar min = Min.of(ax, ay);
@@ -29,11 +30,17 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
       return max; // if minimum == 0 return maximum
     // else 0 < t <= max
     min = min.divide(max);
+    // TODO because of RealScalar.ONE this is not sufficiently generic
     return max.multiply(Sqrt.function.apply(RealScalar.ONE.add(min.multiply(min))));
+    // Scalar one = min.divide(min);
+    // Scalar res = one.add(min.multiply(min));
+    // return max.multiply(Sqrt.function.apply(res));
   }
 
   /** function computes the 2-Norm of a vector
    * without intermediate overflow or underflow
+   * 
+   * <p>by convention the empty vector evaluates to Hypot[{}] == 0
    * 
    * @param vector
    * @return */
@@ -45,6 +52,6 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
     if (max.equals(ZeroScalar.get()))
       return ZeroScalar.get();
     abs = abs.multiply(max.invert());
-    return (Scalar) Sqrt.of(abs.dot(abs)).multiply(max);
+    return max.multiply(Sqrt.function.apply((Scalar) abs.dot(abs)));
   }
 }

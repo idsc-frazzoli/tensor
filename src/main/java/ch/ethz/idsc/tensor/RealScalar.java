@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.sca.ArgInterface;
@@ -29,6 +30,8 @@ public interface RealScalar extends Scalar, //
       return DoubleScalar.of(number.doubleValue());
     if (number instanceof BigInteger)
       return RationalScalar.of((BigInteger) number, BigInteger.ONE);
+    if (number instanceof BigDecimal)
+      return DecimalScalar.of((BigDecimal) number);
     throw new IllegalArgumentException("" + number);
   }
 

@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
   @Override
   public Scalar ofVector(Tensor vector) {
     return Hypot.ofVector(vector);
-    // an alternative implementation is
+    // rejected implementation is
     // return (Scalar) Sqrt.of(Norm._2Squared.of(vector));
     // which evaluates incorrectly: Norm_2[ {1e-300, 1e-300} ] == 0
   }
@@ -23,7 +23,7 @@ import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
   @Override
   public Scalar ofMatrix(Tensor matrix) {
     return SingularValueDecomposition.of(matrix) //
-        .getW().flatten(0) //
+        .getW().flatten(0) // values are non-negative
         .map(Scalar.class::cast) //
         .reduce(Max::of) //
         .orElse(ZeroScalar.get());

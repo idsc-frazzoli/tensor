@@ -16,14 +16,18 @@ public class ScalarsTest extends TestCase {
   }
 
   public void testRegex() {
+    String string = "  123  ";
     Pattern pattern = Pattern.compile(StaticHelper.fpRegex);
-    Matcher matcher = pattern.matcher("  123");
+    Matcher matcher = pattern.matcher(string);
     assertTrue(matcher.matches()); // TODO this is not entirely consistent
+    // double value = Double.valueOf(" 123");
+    Double.valueOf(string);
+    // System.out.println(value);
   }
 
   public void testParse() {
     checkInvariant("123", RationalScalar.class);
-    checkInvariant(" 123", DoubleScalar.class); // TODO this is a bit strange behavior
+    checkInvariant("  123  ", DoubleScalar.class); // TODO this is a bit strange behavior
     checkInvariant("3/4", RationalScalar.class);
     checkInvariant("34.23123", DoubleScalar.class);
     checkInvariant("0", ZeroScalar.class);

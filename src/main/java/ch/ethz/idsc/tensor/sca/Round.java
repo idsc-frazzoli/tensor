@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -15,9 +17,10 @@ public enum Round implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      // TODO use bigInteger!?
-      return RealScalar.of(Math.round(scalar.number().doubleValue()));
+    if (scalar instanceof RealScalar) {
+      BigDecimal bigDecimal = BigDecimal.valueOf(scalar.number().doubleValue());
+      return RealScalar.of(bigDecimal.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact());
+    }
     throw TensorRuntimeException.of(scalar);
   }
 

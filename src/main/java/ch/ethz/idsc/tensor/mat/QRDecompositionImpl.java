@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.mat;
 
 import java.util.List;
+import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -11,9 +12,12 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /* package */ class QRDecompositionImpl implements QRDecomposition {
+  private static final Function<Scalar, Scalar> CHOP = Chop.below(1e-12);
+  // ---
   private Tensor Qinv;
   private Tensor R;
 
@@ -27,6 +31,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
       Tensor H = reflect(R, k);
       Qinv = H.dot(Qinv);
       R = H.dot(R);
+      for (int j = k; j < n; ++j)
+        R.set(CHOP, j, k);
     }
   }
 

@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -67,5 +68,17 @@ public class QRDecompositionTest extends TestCase {
     Random rnd = new Random();
     Tensor A = Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 5, 3);
     specialOps(A);
+  }
+
+  public void testHilbert() {
+    Tensor matrix = HilbertMatrix.of(4, 7);
+    specialOps(matrix);
+    QRDecomposition qr = QRDecomposition.of(matrix);
+    assertEquals(qr.getR().get(1, 0), ZeroScalar.get());
+    assertEquals(qr.getR().get(2, 0), ZeroScalar.get());
+    assertEquals(qr.getR().get(2, 1), ZeroScalar.get());
+    assertEquals(qr.getR().get(3, 0), ZeroScalar.get());
+    assertEquals(qr.getR().get(3, 1), ZeroScalar.get());
+    assertEquals(qr.getR().get(3, 2), ZeroScalar.get());
   }
 }

@@ -2,11 +2,22 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
-//TODO work in progress, use {@link DoubleScalar} instead
+// EXPERIMENTAL
+// work in progress, use {@link DoubleScalar} instead
 class DecimalScalar extends AbstractRealScalar {
-  public static Scalar of(BigDecimal value) {
+  // perhaps make this member
+  private static final MathContext CONTEXT = MathContext.DECIMAL128;
+
+  public static RealScalar of(BigDecimal value) {
     return value.compareTo(BigDecimal.ZERO) == 0 ? ZeroScalar.get() : new DecimalScalar(value);
+  }
+
+  static BigDecimal approx(RationalScalar rationalScalar) {
+    BigDecimal num = new BigDecimal(rationalScalar.numerator());
+    BigDecimal den = new BigDecimal(rationalScalar.denominator());
+    return num.divide(den, CONTEXT);
   }
 
   private final BigDecimal value;
@@ -22,7 +33,7 @@ class DecimalScalar extends AbstractRealScalar {
 
   @Override
   public Scalar invert() {
-    return of(BigDecimal.ONE.divide(value));
+    return of(BigDecimal.ONE.divide(value, CONTEXT));
   }
 
   @Override
@@ -31,7 +42,11 @@ class DecimalScalar extends AbstractRealScalar {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
       return of(value.add(decimalScalar.value));
     }
-    return null; // FIXME
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return of(value.add(approx(rationalScalar)));
+    }
+    return scalar.add(this);
   }
 
   @Override
@@ -40,7 +55,11 @@ class DecimalScalar extends AbstractRealScalar {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
       return of(value.multiply(decimalScalar.value));
     }
-    return null; // FIXME
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return of(value.multiply(approx(rationalScalar)));
+    }
+    return scalar.multiply(this);
   }
 
   @Override
@@ -64,19 +83,27 @@ class DecimalScalar extends AbstractRealScalar {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
       return value.compareTo(decimalScalar.value);
     }
-    // FIXME
-    return 0;
+    @SuppressWarnings("unchecked")
+    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
+    return -comparable.compareTo(this);
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (object instanceof DecimalScalar) {
+      DecimalScalar decimalScalar = (DecimalScalar) object;
+      return value.equals(decimalScalar.value); // TODO check
+    }
+    if (object instanceof RealScalar) {
+      RealScalar realScalar = (RealScalar) object;
+      return number().doubleValue() == realScalar.number().doubleValue();
+    }
+    return false;
   }
 
   @Override
   public int hashCode() {
     return value.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object object) {
-    // FIXME
-    return false;
   }
 
   @Override

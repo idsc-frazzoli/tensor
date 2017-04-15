@@ -49,7 +49,8 @@ public interface Scalar extends Tensor {
    * for instance:
    * {@link ComplexScalar} would require two numbers, therefore
    * returning a single number is not implemented.
-   * two scalars that are equal should return the same number() // TODO test
+   * 
+   * <p>two scalars that are equal should return the same number().doubleValue()
    * 
    * @return this representation as {@link Number}
    * @throws TensorRuntimeException */

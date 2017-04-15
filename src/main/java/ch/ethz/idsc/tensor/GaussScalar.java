@@ -11,7 +11,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
-// class may be a misnomer
+// TODO class may be a misnomer: better ring of p-adic integers ?
+// TODO Lubin–Tate formal group law
 public class GaussScalar extends AbstractScalar implements //
     Comparable<Scalar>, //
     PowerInterface, //
