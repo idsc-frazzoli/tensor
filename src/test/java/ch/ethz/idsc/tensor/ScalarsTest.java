@@ -85,4 +85,34 @@ public class ScalarsTest extends TestCase {
     Number b = 123.0;
     assertFalse(a.equals(b));
   }
+
+  private static void checkCmp(double d1, double d2) {
+    assertEquals(Double.compare(d1, d2), Scalars.compare(RealScalar.of(d1), RealScalar.of(d2)));
+  }
+
+  public void testCompare() {
+    checkCmp(0, 0);
+    checkCmp(1, 0);
+    checkCmp(1.1, 1.1);
+    checkCmp(1, 5);
+    checkCmp(-1e10, 5);
+    checkCmp(Double.POSITIVE_INFINITY, 5);
+    checkCmp(Double.NEGATIVE_INFINITY, 5);
+    checkCmp(0, Double.POSITIVE_INFINITY);
+    checkCmp(0, Double.NEGATIVE_INFINITY);
+    checkCmp(-10, Double.POSITIVE_INFINITY);
+    checkCmp(-30, Double.NEGATIVE_INFINITY);
+  }
+
+  public void testLessThan() {
+    assertFalse(Scalars.lessThan(RealScalar.of(2), RealScalar.of(2)));
+    assertTrue(Scalars.lessThan(RealScalar.of(2), RealScalar.of(3)));
+    assertTrue(Scalars.lessThan(RealScalar.of(-3), ZeroScalar.get()));
+  }
+
+  public void testLessEquals() {
+    assertTrue(Scalars.lessEquals(RealScalar.of(2), RealScalar.of(2)));
+    assertTrue(Scalars.lessEquals(RealScalar.of(2), RealScalar.of(3)));
+    assertTrue(Scalars.lessEquals(RealScalar.of(-3), ZeroScalar.get()));
+  }
 }

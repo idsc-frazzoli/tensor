@@ -57,4 +57,29 @@ public enum Scalars {
     // return as string
     return StringScalar.of(string);
   }
+
+  /** @param s1
+   * @param s2
+   * @return
+   * @see Double#compare(double, double)
+   * @see Integer#compare(int, int) */
+  public static int compare(Scalar s1, Scalar s2) {
+    @SuppressWarnings("unchecked")
+    Comparable<Scalar> comparable = (Comparable<Scalar>) s1;
+    return comparable.compareTo(s2);
+  }
+
+  /** @param s1
+   * @param s2
+   * @return true if s1 < s2 */
+  public static boolean lessThan(Scalar s1, Scalar s2) {
+    return compare(s1, s2) == -1;
+  }
+
+  /** @param s1
+   * @param s2
+   * @return true if s1 <= s2 */
+  public static boolean lessEquals(Scalar s1, Scalar s2) {
+    return compare(s1, s2) <= 0;
+  }
 }

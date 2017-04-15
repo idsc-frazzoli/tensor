@@ -8,8 +8,11 @@ package ch.ethz.idsc.tensor;
  * 
  * <p>When invoking get() on {@link Scalar} the list of arguments has to be empty.
  * 
- * <p>Derived classes are immutable. */
+ * <p>Derived classes are immutable, i.e. contents of an instance of {@link Scalar}
+ * do not change during the lifetime of the instance.
+ * All setter functions throw an exception when invoked on a {@link Scalar}. */
 public interface Scalar extends Tensor {
+  /** Scalar::length returns LENGTH */
   public static final int LENGTH = -1;
 
   @Override // from Tensor

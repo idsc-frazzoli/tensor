@@ -10,8 +10,7 @@ public enum Inverse {
   /** @param m square matrix
    * @return inverse of m */
   public static final Tensor of(Tensor m) {
-    final int n = m.length();
-    return LinearSolve.of(m, IdentityMatrix.of(n));
+    return LinearSolve.of(m, IdentityMatrix.of(m.length()));
   }
 
   /** doesn't require Scalar::abs
