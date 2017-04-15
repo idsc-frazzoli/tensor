@@ -50,7 +50,10 @@ public class CompressionTest extends TestCase {
     byte[] bytes = createBytes(1000);
     try {
       byte[] comp = Compression.deflate(bytes);
-      comp[comp.length - 3] = (byte) (comp[comp.length - 10] - 3);
+      comp[comp.length - 6] = (byte) (comp[comp.length - 6] - 23);
+      comp[comp.length - 5] = (byte) (comp[comp.length - 5] - 23);
+      comp[comp.length - 4] = (byte) (comp[comp.length - 4] - 23);
+      comp[comp.length - 3] = (byte) (comp[comp.length - 3] - 23);
       Compression.inflate(comp);
       assertTrue(false);
     } catch (Exception exception) {

@@ -1,8 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.ArgMin;
 import ch.ethz.idsc.tensor.red.Mean;
@@ -21,13 +23,16 @@ import ch.ethz.idsc.tensor.sca.N;
 public class FermatWeberProblem {
   private final Tensor tensor;
   private Tensor point;
+  private Tensor weights;
   private double tolerance = 1e-10;
   private int iteration = 0;
+  private int iteration_max = Integer.MAX_VALUE;
 
   /** @param tensor of anchor points */
   public FermatWeberProblem(Tensor tensor) {
     this.tensor = tensor.unmodifiable();
     point = N.of(Mean.of(tensor)); // initial value
+    weights = Tensors.vector(i -> RealScalar.ONE, tensor.length());
   }
 
   /** @param tolerance below which iteration aborts */
@@ -41,27 +46,39 @@ public class FermatWeberProblem {
     this.point = point.copy();
   }
 
+  /** @param weights */
+  public void setWeights(Tensor weights) {
+    this.weights = weights;
+  }
+
   /** iteration based on Endre Vaszonyi Weiszfeld
    * 
    * @return point that minimizes total distance to anchor points */
   public Tensor weiszfeld() {
-    while (true) {
+    while (iteration < iteration_max) {
       Tensor next = weiszfeldStep();
       ++iteration;
       double delta = Norm._2.of(point.subtract(next)).number().doubleValue();
       point = next;
       if (delta <= tolerance)
-        return point;
+        break;
     }
+    return point;
   }
 
   private Tensor weiszfeldStep() {
     Tensor dist = Tensor.of(tensor.flatten(0).map(anchor -> Norm._2.of(anchor.subtract(point))));
     int index = ArgMin.of(dist);
-    if (dist.Get(index).equals(ZeroScalar.get()))
+    if (dist.get(index).equals(ZeroScalar.get()))
       return point.copy();
-    Tensor distinv = dist.map(Scalar::invert);
+    Tensor distinv = weights.pmul(dist.map(Scalar::invert));
     return distinv.dot(tensor).multiply(Total.of(distinv).Get().invert());
+  }
+
+  /** @param max_iterations beyond which optimization method stops
+   * regardless of tolerance */
+  public void setMaxIterations(int max_iterations) {
+    this.iteration_max = max_iterations;
   }
 
   /** @return number of iterations performed by weiszfeld method until tolerance was reached */

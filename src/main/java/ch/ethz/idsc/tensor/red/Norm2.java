@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
-import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class Norm2 extends RankAdapter<Scalar> {
   @Override
@@ -15,7 +14,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override
   public Scalar ofVector(Tensor vector) {
-    return (Scalar) Sqrt.of(Norm._2Squared.of(vector));
+    return Hypot.ofVector(vector);
+    // an alternative implementation is
+    // return (Scalar) Sqrt.of(Norm._2Squared.of(vector));
+    // which evaluates incorrectly: Norm_2[ {1e-300, 1e-300} ] == 0
   }
 
   @Override

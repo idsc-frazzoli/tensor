@@ -83,8 +83,8 @@ public class ComplexScalar extends AbstractScalar implements //
   }
 
   @Override // from Scalar
-  public RealScalar abs() {
-    return (RealScalar) Hypot.bifunction.apply(re, im);
+  public Scalar abs() {
+    return Hypot.bifunction.apply(re, im);
   }
 
   @Override // from Scalar
