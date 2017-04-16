@@ -10,7 +10,15 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** consistent with Mathematica:
+ * <pre>
+ * Round[+11.5] == +12
+ * Round[-11.5] == -12
+ * </pre>
+ * 
+ * not consistent with java.lang.Math::round which rounds -11.5 to -11.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Round.html">Round</a> */
 public enum Round implements Function<Scalar, Scalar> {
   function;

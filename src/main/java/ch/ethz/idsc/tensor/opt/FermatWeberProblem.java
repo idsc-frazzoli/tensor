@@ -12,7 +12,9 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.N;
 
-/** result of optimization problem is typically
+/** iterative method to find solution to Fermat-Weber Problem
+ * 
+ * result of optimization is typically
  * 1) approximate, and
  * 2) available only in numerical precision
  * 3) non-optimal for rare special inputs
@@ -31,8 +33,7 @@ public class FermatWeberProblem {
   /** @param tensor of anchor points */
   public FermatWeberProblem(Tensor tensor) {
     this.tensor = tensor.unmodifiable();
-    point = N.of(Mean.of(tensor)); // initial value
-    weights = Tensors.vector(i -> RealScalar.ONE, tensor.length());
+    setWeights(Tensors.vector(i -> RealScalar.ONE, tensor.length()));
   }
 
   /** @param tolerance below which iteration aborts */
@@ -46,9 +47,13 @@ public class FermatWeberProblem {
     this.point = point.copy();
   }
 
-  /** @param weights */
+  /** function defines weight corresponding to each anchor point.
+   * function defines starting point of iteration as weighted average of anchor points.
+   * 
+   * @param weights */
   public void setWeights(Tensor weights) {
     this.weights = weights;
+    point = N.of(Mean.of(weights.pmul(tensor))); // initial value
   }
 
   /** iteration based on Endre Vaszonyi Weiszfeld

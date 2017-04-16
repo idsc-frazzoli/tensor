@@ -28,13 +28,14 @@ public enum MathematicaFormat {
     return Stream.of(string.split("\n"));
   }
 
-  // TODO implementation cannot parse "3 + I", but only "3 + 1*I"
   /** @param strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
     return Tensors.fromString(stream //
         .map(String::trim) //
-        .map(string -> string.replace(" - ", "-")) // <- depends on implementation of Scalars::fromString
+        .map(string -> string.replace(" I", "1*I")) // TODO still cannot parse 1*I, but only 0+1*I
+        .map(string -> string.replace("-I", "-1*I")) //
+        .map(string -> string.replace(" ", "")) // <- depends on implementation of Scalars::fromString
         .map(string -> string.replace('{', '[')) //
         .map(string -> string.replace('}', ']')) //
         .collect(Collectors.joining("")));

@@ -45,6 +45,21 @@ public class FermatWeberProblemTest extends TestCase {
     fwp.setTolerance(1e-2);
     Tensor sol = fwp.weiszfeld();
     assertTrue(fwp.getIterationCount() < 15);
-    assertTrue(Norm._2.of(sol).Get().number().doubleValue() < 2e-2);
+    assertTrue(Norm._2.of(sol.subtract(tensor.get(1))).Get().number().doubleValue() < 2e-2);
+  }
+
+  public void testWeighted() {
+    Tensor tensor = Tensors.of( //
+        Tensors.vector(-1, 0), //
+        Tensors.vector(0, 0), //
+        Tensors.vector(2, 10), //
+        Tensors.vector(2, -10) //
+    );
+    FermatWeberProblem fwp = new FermatWeberProblem(tensor);
+    fwp.setTolerance(1e-10);
+    fwp.setWeights(Tensors.vector(10, 1, 1, 1));
+    Tensor sol = fwp.weiszfeld();
+    assertTrue(fwp.getIterationCount() < 15);
+    assertTrue(Norm._2.of(sol.subtract(tensor.get(0))).Get().number().doubleValue() < 2e-2);
   }
 }

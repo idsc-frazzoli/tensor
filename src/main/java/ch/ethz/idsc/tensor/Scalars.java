@@ -58,9 +58,21 @@ public enum Scalars {
     return StringScalar.of(string);
   }
 
+  /** @param scalar
+   * @return true if input scalar is not an instance of {@link StringScalar} */
+  public static boolean isNonStringScalar(Scalar scalar) {
+    return !(scalar instanceof StringScalar);
+  }
+
+  /** @param scalar
+   * @return true if input scalar is an instance of {@link StringScalar} */
+  public static boolean isStringScalar(Scalar scalar) {
+    return scalar instanceof StringScalar;
+  }
+
   /** @param s1
    * @param s2
-   * @return
+   * @return canonic/native comparison of input scalars
    * @see Double#compare(double, double)
    * @see Integer#compare(int, int) */
   public static int compare(Scalar s1, Scalar s2) {
