@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
-class NormInfinity extends RankAdapter<Scalar> {
+/* package */ class NormInfinity extends RankAdapter<Scalar> {
   @Override
   public Scalar ofScalar(Scalar scalar) {
     return scalar.abs();
@@ -21,8 +21,10 @@ class NormInfinity extends RankAdapter<Scalar> {
         .orElse(ZeroScalar.get());
   }
 
+  private static final Norm1 norm1 = new Norm1();
+
   @Override
   public Scalar ofMatrix(Tensor matrix) {
-    return ofVector(Tensor.of(matrix.flatten(0).map(Norm._1::of)));
+    return ofVector(Tensor.of(matrix.flatten(0).map(norm1::ofVector)));
   }
 }

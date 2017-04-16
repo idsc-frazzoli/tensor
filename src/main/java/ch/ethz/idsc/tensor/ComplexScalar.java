@@ -4,16 +4,29 @@ package ch.ethz.idsc.tensor;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
+import ch.ethz.idsc.tensor.sca.ArgInterface;
+import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.ConjugateInterface;
+import ch.ethz.idsc.tensor.sca.ImagInterface;
+import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.NInterface;
+import ch.ethz.idsc.tensor.sca.RealInterface;
+import ch.ethz.idsc.tensor.sca.Sqrt;
+import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** complex number
  * 
  * <p>number() or Comparable interface is not supported */
-public class ComplexScalar extends AbstractScalar {
+public class ComplexScalar extends AbstractScalar implements //
+    ArgInterface, ConjugateInterface, ChopInterface, ImagInterface, NInterface, //
+    RealInterface, SqrtInterface {
   static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re
    * @param im
-   * @return scalar with re as real part and im as imaginary part */
+   * @return scalar with re as real part and im as imaginary part
+   * @throws Exception if re or im are {@link ComplexScalar} */
   public static Scalar of(Scalar re, Scalar im) {
     return im.equals(ZeroScalar.get()) ? re : new ComplexScalar(re, im);
   }
@@ -26,9 +39,8 @@ public class ComplexScalar extends AbstractScalar {
   }
 
   public static Scalar fromPolar(Scalar abs, Scalar arg) {
-    RealScalar radius = (RealScalar) abs;
     double alpha = arg.number().doubleValue();
-    return radius.multiply(of( //
+    return abs.multiply(of( //
         DoubleScalar.of(Math.cos(alpha)), //
         DoubleScalar.of(Math.sin(alpha)) //
     ));
@@ -38,16 +50,18 @@ public class ComplexScalar extends AbstractScalar {
   private final Scalar im;
 
   private ComplexScalar(Scalar re, Scalar im) {
+    if (re instanceof ComplexScalar || im instanceof ComplexScalar)
+      throw TensorRuntimeException.of(re);
     this.re = re;
     this.im = im;
   }
 
-  /** @return real part */
+  @Override // from RealInterface
   public Scalar real() {
     return re;
   }
 
-  /** @return imaginary part */
+  @Override // from ImagInterface
   public Scalar imag() {
     return im;
   }
@@ -63,14 +77,14 @@ public class ComplexScalar extends AbstractScalar {
     return of(re.negate(), im.negate());
   }
 
-  @Override // from Scalar
+  @Override // from ConjugateInterface
   public Scalar conjugate() {
     return of(re, im.negate());
   }
 
   @Override // from Scalar
-  public RealScalar abs() {
-    return (RealScalar) Hypot.bifunction.apply(re, im);
+  public Scalar abs() {
+    return Hypot.bifunction.apply(re, im);
   }
 
   @Override // from Scalar
@@ -95,7 +109,34 @@ public class ComplexScalar extends AbstractScalar {
       ComplexScalar complexScalar = (ComplexScalar) scalar;
       return of(re.add(complexScalar.real()), im.add(complexScalar.imag()));
     }
-    return of(re.add(scalar), im);
+    if (scalar instanceof RealScalar)
+      return of(re.add(scalar), im);
+    throw TensorRuntimeException.of(scalar);
+  }
+
+  @Override // from SqrtInterface
+  public Scalar sqrt() {
+    return ComplexScalar.fromPolar( //
+        Sqrt.function.apply(abs()), //
+        arg().divide(RealScalar.of(2)));
+  }
+
+  @Override // from ArgInterface
+  public Scalar arg() {
+    return DoubleScalar.of(Math.atan2( //
+        imag().number().doubleValue(), //
+        real().number().doubleValue() //
+    ));
+  }
+
+  @Override // from ChopInterface
+  public Scalar chop(double threshold) {
+    return of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
+  }
+
+  @Override // from NInterface
+  public Scalar n() {
+    return ComplexScalar.of(N.function.apply(re), N.function.apply(im));
   }
 
   @Override // from Scalar

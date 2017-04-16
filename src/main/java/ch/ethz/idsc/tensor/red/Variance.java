@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
  * <a href="https://reference.wolfram.com/language/ref/Variance.html">Variance</a> */
 public enum Variance {
   ;
-  /** @param vector
+  /** @param vector with length() of at least 2
    * @return */
   // in Mathematica Variance[{1}] of a list of length 1 is not defined
   public static Tensor ofVector(Tensor vector) {

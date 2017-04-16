@@ -5,9 +5,11 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 public interface SimplexPivot {
-  /** pivot designed by Dantzig that works decent for most practical problems
+  /** nonbasic gradient method, or "steepest decent policy"
+   * 
+   * <p>pivot designed by G. B. Dantzig that works decent for most practical problems
    * but performs poorly on the Klee-Minty cube */
-  static final SimplexPivot STEEPEST = new SimplexPivot() {
+  static final SimplexPivot NONBASIC_GRADIENT = new SimplexPivot() {
     @Override
     public int get(Tensor tab, int j, int n) {
       Integer pivot = null;
@@ -28,7 +30,7 @@ public interface SimplexPivot {
   };
   /** first viable index
    * for experimentation only, does not work on all problems yet */
-  static final SimplexPivot first = new SimplexPivot() {
+  static final SimplexPivot FIRST = new SimplexPivot() {
     @Override
     public int get(Tensor tab, int j, int n) {
       int m = tab.length() - 1;
@@ -40,7 +42,10 @@ public interface SimplexPivot {
       throw new RuntimeException();
     }
   };
+  /** p.50 greatest increment method NOT YET IMPLEMENTED */
 
+  /** p.50 all variable gradient method NOT YET IMPLEMENTED */
+  // ---
   /** @param tab simplex tableau with n + 1 columns
    * @param j < n
    * @param n

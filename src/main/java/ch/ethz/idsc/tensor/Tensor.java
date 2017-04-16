@@ -61,22 +61,30 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return copy of this[index[0],index[1],...,All] */
   Tensor get(List<Integer> index);
 
-  /** set tensor as element at location this[index].
+  /** set tensor as element at location this[index[0], index[1], ...].
    * The operation is invalid if this tensor has been cast as unmodifiable.
    * 
+   * <p>For instance,
+   * <ul>
+   * <li>matrix.set(scalar, 3, 4) represents the assignment matrix[3, 4]=scalar
+   * <li>matrix.set(row, 6) represents the assignment matrix[6, :]=row
+   * </ul>
+   * 
    * @param tensor
-   * @param index */
+   * @param index
+   * @throws Exception if set() is invoked on an instance of {@link Scalar} */
   void set(Tensor tensor, Integer... index);
 
   /** replaces element x at index with <code>function.apply(x)</code>
+   * The operation is invalid if this tensor has been cast as unmodifiable.
    * 
    * <p>set(...) allows to implement in-place operations such as <code>a += 3;</code>
    * 
-   * <p>if set() is invoked on an instance of {@link Scalar}, an exception is thrown.
-   * 
    * @param function
-   * @param index */
-  void set(Function<Tensor, Tensor> function, Integer... index);
+   * @param index
+   * @throws Exception if set() is invoked on an instance of {@link Scalar}
+   * @see Tensor#set(Tensor, Integer...) */
+  <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index);
 
   /** appends a copy of input tensor to this instance.
    * The length() is incremented by 1.
@@ -99,7 +107,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * entries at given level can be tensors or scalars.
    * 
    * @param level
-   * @return non-parallel stream, the user should consider invoking .parallel() */
+   * @return non-parallel stream, the user may invoke .parallel() */
   Stream<Tensor> flatten(int level);
 
   /** @param fromIndex
@@ -107,15 +115,17 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return copy of sub tensor fromIndex inclusive to toIndex exclusive */
   Tensor extract(int fromIndex, int toIndex);
 
+  /** extract block of this tensor located at offset with dimensions
+   * 
+   * @param fromIndex location of return tensor in this tensor
+   * @param dimensions of return tensor
+   * @return copy of block located at fromIndex of this tensor with given dimensions */
+  Tensor block(List<Integer> fromIndex, List<Integer> dimensions);
+
   /** negation of entries
    * 
    * @return tensor with all entries negated */
   Tensor negate();
-
-  /** conjugation of entries
-   * 
-   * @return tensor with all entries conjugated */
-  Tensor conjugate();
 
   /** tensor addition
    * 
@@ -165,5 +175,5 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @param function
    * @return new tensor with {@link Scalar} entries replaced by
    * function evaluation of {@link Scalar} entries */
-  Tensor map(Function<Scalar, Scalar> function);
+  Tensor map(Function<Scalar, ? extends Tensor> function);
 }

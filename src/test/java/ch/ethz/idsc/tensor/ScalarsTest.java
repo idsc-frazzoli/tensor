@@ -16,14 +16,18 @@ public class ScalarsTest extends TestCase {
   }
 
   public void testRegex() {
+    String string = "  123  ";
     Pattern pattern = Pattern.compile(StaticHelper.fpRegex);
-    Matcher matcher = pattern.matcher("  123");
+    Matcher matcher = pattern.matcher(string);
     assertTrue(matcher.matches()); // TODO this is not entirely consistent
+    // double value = Double.valueOf(" 123");
+    Double.valueOf(string);
+    // System.out.println(value);
   }
 
   public void testParse() {
     checkInvariant("123", RationalScalar.class);
-    checkInvariant(" 123", DoubleScalar.class); // TODO this is a bit strange behavior
+    checkInvariant("  123  ", DoubleScalar.class); // TODO this is a bit strange behavior
     checkInvariant("3/4", RationalScalar.class);
     checkInvariant("34.23123", DoubleScalar.class);
     checkInvariant("0", ZeroScalar.class);
@@ -31,6 +35,12 @@ public class ScalarsTest extends TestCase {
     checkInvariant("1.0E-50+1.0E50*I", ComplexScalar.class);
     checkInvariant("asndbvf", StringScalar.class);
     checkInvariant("asn.dbv.f", StringScalar.class);
+  }
+
+  public void testSpacing() {
+    checkInvariant("-1.0348772853950305  +  0.042973906265653894*I", ComplexScalar.class);
+    // there must not be spaces surrouding the middle '-'
+    checkInvariant("-1.0348772853950305-0.042973906265653894*I", ComplexScalar.class);
   }
 
   public void testIntegerPattern() {
@@ -80,5 +90,35 @@ public class ScalarsTest extends TestCase {
     Number a = 123;
     Number b = 123.0;
     assertFalse(a.equals(b));
+  }
+
+  private static void checkCmp(double d1, double d2) {
+    assertEquals(Double.compare(d1, d2), Scalars.compare(RealScalar.of(d1), RealScalar.of(d2)));
+  }
+
+  public void testCompare() {
+    checkCmp(0, 0);
+    checkCmp(1, 0);
+    checkCmp(1.1, 1.1);
+    checkCmp(1, 5);
+    checkCmp(-1e10, 5);
+    checkCmp(Double.POSITIVE_INFINITY, 5);
+    checkCmp(Double.NEGATIVE_INFINITY, 5);
+    checkCmp(0, Double.POSITIVE_INFINITY);
+    checkCmp(0, Double.NEGATIVE_INFINITY);
+    checkCmp(-10, Double.POSITIVE_INFINITY);
+    checkCmp(-30, Double.NEGATIVE_INFINITY);
+  }
+
+  public void testLessThan() {
+    assertFalse(Scalars.lessThan(RealScalar.of(2), RealScalar.of(2)));
+    assertTrue(Scalars.lessThan(RealScalar.of(2), RealScalar.of(3)));
+    assertTrue(Scalars.lessThan(RealScalar.of(-3), ZeroScalar.get()));
+  }
+
+  public void testLessEquals() {
+    assertTrue(Scalars.lessEquals(RealScalar.of(2), RealScalar.of(2)));
+    assertTrue(Scalars.lessEquals(RealScalar.of(2), RealScalar.of(3)));
+    assertTrue(Scalars.lessEquals(RealScalar.of(-3), ZeroScalar.get()));
   }
 }

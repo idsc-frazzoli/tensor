@@ -3,43 +3,66 @@ package ch.ethz.idsc.tensor.io;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.ListConvolve;
 import junit.framework.TestCase;
 
 public class ImageFormatTest extends TestCase {
-  public void testImage() {
-    // ---
+  public void testRGBAFile() throws Exception {
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    assertTrue(file.isFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor tensor = ImageFormat.from(bufferedImage);
+    assertEquals(tensor.get(12, 19), Tensors.fromString("[118, 130, 146, 200]"));
+    assertEquals(tensor.get(14, 0), Tensors.fromString("[254, 0, 0, 255]")); // almost red, fe0000
+    assertEquals(Dimensions.of(tensor), Arrays.asList(15, 33, 4));
   }
 
-  public static void main(String[] args) {
-    String f = "/home/datahaki/3rdparty/GHEAT-JAVA/JavaHeatMaps/heatmaps/src/main/resources/res/etc/color-schemes/classic.png";
-    f = "/home/datahaki/image.jpg";
+  public void testGrayFile() throws Exception {
+    File file = new File(getClass().getResource("/io/gray15x9.png").getFile());
+    assertTrue(file.isFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor tensor = ImageFormat.fromGrayscale(bufferedImage);
+    assertEquals(tensor.Get(2, 0), RealScalar.of(216));
+    assertEquals(Dimensions.of(tensor), Arrays.asList(15, 9));
+  }
+
+  public void testRGBAConvert() throws Exception {
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor tensor = ImageFormat.from(bufferedImage);
+    assertEquals(tensor, ImageFormat.from(ImageFormat.of(tensor)));
+  }
+
+  public void testRGBASmooth() throws Exception {
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor tensor = ImageFormat.from(bufferedImage);
+    Tensor kernel = Array.of(l -> RationalScalar.of(1, 6), 3, 2, 1);
+    Tensor array = ListConvolve.of(kernel, tensor);
+    ImageFormat.of(array); // succeeds
+  }
+
+  public void testRGBAInvalid() throws Exception {
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor tensor = ImageFormat.from(bufferedImage);
+    Tensor kernel = Array.of(l -> RationalScalar.of(1, 1), 3, 5, 1);
+    Tensor array = ListConvolve.of(kernel, tensor);
     try {
-      BufferedImage bi = ImageIO.read(new File(f));
-      Tensor tensor = ImageFormat.from(bi);
-      System.out.println(Dimensions.of(tensor));
-      // Tensor red = tensor.get(-1, -1, 0);
-      // System.out.println(Pretty.of(red));
-      {
-        ImageIO.write(ImageFormat.of(tensor.get(-1, -1)), "png", new File("/home/datahaki/testOrig.png"));
-        ImageIO.write(ImageFormat.of(tensor.get(-1, -1)), "jpg", new File("/home/datahaki/testOrig.jpg"));
-      }
-      {
-        ImageIO.write(ImageFormat.of(tensor.get(-1, -1, 0)), "jpg", new File("/home/datahaki/testR.jpg"));
-        ImageIO.write(ImageFormat.of(tensor.get(-1, -1, 1)), "jpg", new File("/home/datahaki/testG.jpg"));
-        ImageIO.write(ImageFormat.of(tensor.get(-1, -1, 2)), "jpg", new File("/home/datahaki/testB.jpg"));
-      }
-      // System.out.println(Pretty.of(tensor.get(-1, 0, 0)));
-      BufferedImage bi2 = ImageFormat.of(tensor);
-      Tensor t2 = ImageFormat.from(bi2);
-      System.out.println(tensor.equals(t2));
-      System.out.println(Pretty.of(t2.get(0)));
+      ImageFormat.of(array);
+      assertTrue(false);
     } catch (Exception exception) {
-      exception.printStackTrace();
+      // ---
     }
   }
 }

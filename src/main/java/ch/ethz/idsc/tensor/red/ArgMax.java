@@ -9,6 +9,10 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/ArgMax.html">ArgMax</a> */
 public enum ArgMax {
   ;
+  /** @param tensor
+   * @param comparator
+   * @return index of maximum entry in tensor according to comparator,
+   * or -1 if tensor is empty */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> int of(Tensor tensor, Comparator<T> comparator) {
     if (tensor.length() == 0)
@@ -26,7 +30,7 @@ public enum ArgMax {
   }
 
   /** @param tensor
-   * @return index of maximum entry in tensor */
+   * @return index of maximum entry in tensor, or -1 if tensor is empty */
   @SuppressWarnings("unchecked")
   public static <T extends Comparable<T>> int of(Tensor tensor) {
     if (tensor.length() == 0)

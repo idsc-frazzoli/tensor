@@ -37,11 +37,6 @@ public final class StringScalar extends AbstractScalar {
   }
 
   @Override
-  public Scalar conjugate() {
-    throw TensorRuntimeException.of(this);
-  }
-
-  @Override
   public Scalar abs() {
     throw TensorRuntimeException.of(this);
   }

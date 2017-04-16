@@ -23,15 +23,14 @@ public class TransposeTest extends TestCase {
   }
 
   public void testVector() {
-    Tensor v = Tensors.vectorInt(2, 3, 4, 5);
+    Tensor v = Tensors.vector(2, 3, 4, 5);
     Tensor r = Transpose.of(v, 0);
-    // System.out.println(r);
     assertEquals(v, r);
   }
 
   public void testMatrix() {
     // [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]]
-    Tensor m = Tensors.matrix((i, j) -> RationalScalar.of(i * 4 + j, 1), 3, 4);
+    Tensor m = Tensors.matrix((i, j) -> RealScalar.of(i * 4 + j), 3, 4);
     Tensor t = Transpose.of(m, 1, 0);
     assertEquals(t.toString(), "[[0, 4, 8], [1, 5, 9], [2, 6, 10], [3, 7, 11]]");
     Tensor r = Transpose.of(m);
@@ -40,7 +39,7 @@ public class TransposeTest extends TestCase {
 
   public void testTranspose2() {
     // [[[0, 1, 2], [3, 4, 5]], [[6, 7, 8], [9, 10, 11]]]
-    Tensor m = Partition.of(Tensors.matrix((i, j) -> RationalScalar.of(i * 3 + j, 1), 4, 3), 2);
+    Tensor m = Partition.of(Tensors.matrix((i, j) -> RealScalar.of(i * 3 + j), 4, 3), 2);
     Tensor t = Transpose.of(m, 0, 1, 2);
     assertEquals(t.toString(), "[[[0, 1, 2], [3, 4, 5]], [[6, 7, 8], [9, 10, 11]]]");
   }

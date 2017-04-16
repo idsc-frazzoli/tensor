@@ -12,9 +12,10 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
-import ch.ethz.idsc.tensor.red.FortranSign;
+import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.Plus;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 class SingularValueDecompositionImpl implements SingularValueDecomposition {
@@ -105,7 +106,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(fi), k, i));
         Scalar s = Norm._2Squared.of(u.extract(i, rows).get(Tensor.ALL, i));
         Scalar f = u.Get(i, i);
-        p = FortranSign.bifunction.apply(Sqrt.function.apply(s), f).negate();
+        p = CopySign.bifunction.apply(Sqrt.function.apply(s), f).negate();
         Scalar h = f.multiply(p).subtract(s);
         u.set(f.subtract(p), i, i);
         Scalar fs = scale;
@@ -130,7 +131,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
         {
           Scalar s = Norm._2Squared.of(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
-          p = FortranSign.bifunction.apply(Sqrt.function.apply(s), f).negate();
+          p = CopySign.bifunction.apply(Sqrt.function.apply(s), f).negate();
           Scalar h = f.multiply(p).subtract(s);
           u.set(f.subtract(p), i, ip1);
           IntStream.range(ip1, cols).forEach(k -> r.set(u.Get(i, k).divide(h), k));
@@ -177,7 +178,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       }
       IntStream.range(i, rows).forEach(j -> u.set(x -> x.multiply(gi), j, i));
     }
-    u.set(x -> x.add(RealScalar.ONE), i, i);
+    u.set(Plus.ONE, i, i);
   }
 
   private int levelW(int k, double eps) {
@@ -217,7 +218,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
     Scalar hy = h.multiply(y);
     Scalar f = y.subtract(z).multiply(y.add(z)).add(p.subtract(h).multiply(p.add(h))).divide(hy.add(hy));
     p = Hypot.bifunction.apply(f, RealScalar.ONE);
-    f = x.subtract(z).multiply(x.add(z)).add(h.multiply(y.divide(f.add(FortranSign.bifunction.apply(p, f))).subtract(h))).divide(x);
+    f = x.subtract(z).multiply(x.add(z)).add(h.multiply(y.divide(f.add(CopySign.bifunction.apply(p, f))).subtract(h))).divide(x);
     Scalar s = RealScalar.ONE;
     Scalar c = RealScalar.ONE;
     for (int j = l; j < i; ++j) {

@@ -7,10 +7,11 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
-/** @return scalar == zero ? zero : scalar.invert() */
 public enum InvertUnlessZero implements Function<Scalar, Scalar> {
   function;
   // ---
+  /** @param scalar
+   * @return scalar == zero ? zero : scalar.invert() */
   @Override
   public Scalar apply(Scalar scalar) {
     return scalar.equals(ZeroScalar.get()) ? ZeroScalar.get() : scalar.invert();

@@ -3,7 +3,6 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.Arrays;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -15,7 +14,6 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Join;
-import ch.ethz.idsc.tensor.alg.MapThread;
 import ch.ethz.idsc.tensor.alg.Partition;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
@@ -29,7 +27,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     int n = dims.get(1);
     Tensor tab;
     {
-      tab = MapThread.of(Join::of, Arrays.asList(A, IdentityMatrix.of(m), Partition.of(b, 1)), 1);
+      tab = Join.of(1, A, IdentityMatrix.of(m), Partition.of(b, 1));
       Tensor row = Tensors.vector(i -> n <= i && i < n + m ? RealScalar.ONE : ZeroScalar.get(), n + m + 1);
       for (int index = 0; index < m; ++index) // make all entries in bottom row zero
         row = row.subtract(tab.get(index));
@@ -38,11 +36,9 @@ import ch.ethz.idsc.tensor.red.ArgMin;
       tab = simplex(tab); // make phase 1
     }
     // phase 2
-    tab = MapThread.of(Join::of,
-        Arrays.asList( //
-            TensorMap.of(t -> t.extract(0, n), tab.extract(0, m), 1), //
-            Partition.of(tab.get(-1, n + m).extract(0, m), 1)),
-        1);
+    tab = Join.of(1, //
+        TensorMap.of(row -> row.extract(0, n), tab.extract(0, m), 1), //
+        Partition.of(tab.get(-1, n + m).extract(0, m), 1));
     tab.append(Join.of(c, Tensors.of(ZeroScalar.get())));
     tab = simplex(tab);
     return get_current_x(tab);

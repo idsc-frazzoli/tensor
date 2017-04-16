@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Scalar;
@@ -55,5 +56,17 @@ public enum Transpose {
     Integer[] tsize = new Integer[sigma.length]; // int[] to Integer[]
     IntStream.range(0, sigma.length).forEach(index -> tsize[index] = tensorSize.size[index]);
     return ArrayReshape.of(list.stream(), tsize);
+  }
+
+  /** @param tensor
+   * @param function
+   * @return function applied along each dimension of tensor */
+  /* package */ static Tensor apply(Tensor tensor, Function<Tensor, Tensor> function) {
+    final int rank = TensorRank.of(tensor);
+    Integer[] sigma = new Integer[rank]; // [1, 2, ..., r, 0]
+    IntStream.range(0, rank).forEach(i -> sigma[i] = (i + 1) % rank);
+    for (int index = 0; index < rank; ++index)
+      tensor = of(function.apply(tensor), sigma);
+    return tensor;
   }
 }

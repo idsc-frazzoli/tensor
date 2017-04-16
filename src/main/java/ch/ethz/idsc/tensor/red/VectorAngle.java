@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.ArcCos;
+import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/VectorAngle.html">VectorAngle</a> */
@@ -12,7 +13,7 @@ public enum VectorAngle {
   ;
   public static RealScalar of(Tensor u, Tensor v) {
     return (RealScalar) ArcCos.function.apply( //
-        ((Scalar) u.dot(v.conjugate())) //
+        ((Scalar) u.dot(Conjugate.of(v))) //
             .divide(Norm._2.of(u).multiply(Norm._2.of(u))));
   }
 }

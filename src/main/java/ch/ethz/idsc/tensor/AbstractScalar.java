@@ -8,26 +8,26 @@ import java.util.stream.Stream;
 
 /** suggested base class for implementations of {@link Scalar} */
 public abstract class AbstractScalar implements Scalar {
-  @Override // from Scalar
-  public final Scalar copy() {
+  @Override // from Tensor
+  public final Tensor copy() {
     return this; // Scalar instances are immutable
   }
 
-  @Override // from Scalar
-  public final Scalar unmodifiable() {
+  @Override // from Tensor
+  public final Tensor unmodifiable() {
     return this; // Scalar instances are immutable
   }
 
   /** when using get() on {@link AbstractScalar} the list of arguments has to be empty */
-  @Override // from Scalar
-  public final Scalar get(Integer... index) {
+  @Override // from Tensor
+  public final Tensor get(Integer... index) {
     if (0 < index.length)
       throw new IllegalArgumentException();
     return this;
   }
 
   /** when using Get() on {@link AbstractScalar} the list of arguments has to be empty */
-  @Override // from Scalar
+  @Override // from Tensor
   public final Scalar Get(Integer... index) {
     if (0 < index.length)
       throw new IllegalArgumentException();
@@ -35,8 +35,8 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   /** when using get() on {@link AbstractScalar} the list of arguments has to be empty */
-  @Override // from Scalar
-  public final Scalar get(List<Integer> index) {
+  @Override // from Tensor
+  public final Tensor get(List<Integer> index) {
     if (0 < index.size())
       throw new IllegalArgumentException();
     return this;
@@ -64,7 +64,7 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   @Override // from Tensor
-  public final void set(Function<Tensor, Tensor> function, Integer... index) {
+  public final <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index) {
     throw TensorRuntimeException.of(this);
   }
 
@@ -80,6 +80,11 @@ public abstract class AbstractScalar implements Scalar {
 
   @Override // from Tensor
   public final Tensor extract(int fromIndex, int toIndex) {
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override // from Tensor
+  public final Tensor block(List<Integer> fromIndex, List<Integer> dimensions) {
     throw TensorRuntimeException.of(this);
   }
 
@@ -100,11 +105,12 @@ public abstract class AbstractScalar implements Scalar {
 
   @Override // from Scalar
   public final Scalar divide(Scalar scalar) {
+    // return scalar.invert().multiply(this); // also possible when commuting
     return multiply(scalar.invert());
   }
 
   @Override // from Scalar
-  public final Scalar map(Function<Scalar, Scalar> function) {
+  public final Tensor map(Function<Scalar, ? extends Tensor> function) {
     return function.apply(this);
   }
 

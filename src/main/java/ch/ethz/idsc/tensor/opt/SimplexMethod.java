@@ -3,8 +3,6 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.Arrays;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -14,7 +12,6 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Join;
-import ch.ethz.idsc.tensor.alg.MapThread;
 import ch.ethz.idsc.tensor.alg.Partition;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.alg.TensorMap;
@@ -27,9 +24,12 @@ import ch.ethz.idsc.tensor.red.ArgMin;
   static Tensor of(Tensor c, Tensor A, Tensor b, SimplexPivot simplexPivot) {
     final int m = b.length();
     final int n = c.length();
+    // System.out.println(m + " x " + n);
     SimplexMethod simplexImpl;
     {
-      Tensor tab = MapThread.of(Join::of, Arrays.asList(A, IdentityMatrix.of(m), Partition.of(b, 1)), 1);
+      // Tensor D = DiagonalMatrix.of(b.map(UnitStep.function));
+      // IdentityMatrix.of(m)
+      Tensor tab = Join.of(1, A, IdentityMatrix.of(m), Partition.of(b, 1));
       Tensor row = Tensors.vector(i -> n <= i && i < n + m ? RealScalar.ONE : ZeroScalar.get(), n + m + 1);
       for (int index = 0; index < m; ++index) // make all entries in bottom row zero
         row = row.subtract(tab.get(index));
@@ -37,11 +37,9 @@ import ch.ethz.idsc.tensor.red.ArgMin;
       tab.append(row);
       simplexImpl = new SimplexMethod(tab, Range.of(n, n + m), simplexPivot); // phase 1
     }
-    Tensor tab = MapThread.of(Join::of,
-        Arrays.asList( //
-            TensorMap.of(t -> t.extract(0, n), simplexImpl.tab.extract(0, m), 1), //
-            Partition.of(simplexImpl.tab.get(-1, n + m).extract(0, m), 1)),
-        1);
+    Tensor tab = Join.of(1, //
+        TensorMap.of(row -> row.extract(0, n), simplexImpl.tab.extract(0, m), 1), //
+        Partition.of(simplexImpl.tab.get(-1, n + m).extract(0, m), 1));
     tab.append(Join.of(c, Tensors.of(ZeroScalar.get()))); // set bottom corner to 0
     return new SimplexMethod(tab, simplexImpl.ind, simplexPivot).getX(); // phase 2
   }
@@ -59,6 +57,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     if (isOutsideRange(ind, n))
       throw TensorRuntimeException.of(ind);
     while (true) {
+      // System.out.println(Pretty.of(tab));
       Tensor c = tab.get(m).extract(0, n);
       final int j = ArgMin.of(c);
       if (((RealScalar) c.Get(j)).signInt() == -1) {
@@ -69,6 +68,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
         }
         int p = simplexPivot.get(tab, j, n);
         ind.set(RealScalar.of(j), p);
+        // System.out.println(ind);
         tab.set(tab.get(p).multiply(tab.Get(p, j).invert()), p); // normalize
         for (int i = 0; i < tab.length(); ++i)
           if (i != p)

@@ -3,9 +3,11 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.sca.Sqrt;
+
 /** an implementation is not required to support the representation of
  * Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, and Double.NaN */
-public final class RationalScalar extends AbstractRealScalar implements ExactPrecision {
+public final class RationalScalar extends AbstractRealScalar {
   // private because BigFraction has package visibility
   private static RealScalar _of(BigFraction bigFraction) {
     return bigFraction.num.equals(BigInteger.ZERO) ? //
@@ -13,16 +15,10 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
   }
 
   public static RealScalar of(BigInteger num, BigInteger den) {
-    // if (den.signum() == 0)
-    // return DoubleScalar.of(num.signum() == 0 ? Double.NaN : //
-    // (0 < num.signum() ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY));
     return _of(BigFraction.of(num, den));
   }
 
   public static RealScalar of(long num, long den) {
-    // if (den == 0)
-    // return DoubleScalar.of(num == 0 ? Double.NaN : //
-    // (0 < num ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY));
     return _of(BigFraction.of(num, den));
   }
 
@@ -88,8 +84,29 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
   }
 
   @Override // from AbstractRealScalar
-  protected boolean isPositive() {
-    return 0 < bigFraction.num.signum();
+  protected boolean isNonNegative() {
+    return 0 <= bigFraction.num.signum();
+  }
+
+  /** Example: sqrt(16/25) == 4/5
+   * 
+   * @return {@link RationalScalar} precision if numerator and denominator are both squares */
+  @Override
+  public Scalar sqrt() {
+    try {
+      boolean pos = isNonNegative();
+      BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
+      BigInteger sqrtden = Sqrt.of(bigFraction.den);
+      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZeroScalar.get(), of(sqrtnum, sqrtden));
+    } catch (Exception exception) {
+      // ---
+    }
+    return super.sqrt();
+  }
+
+  @Override // from NInterface
+  public Scalar n() {
+    return DoubleScalar.of(bigFraction.doubleValue());
   }
 
   @Override // from RealScalar
@@ -107,19 +124,19 @@ public final class RationalScalar extends AbstractRealScalar implements ExactPre
     return -comparable.compareTo(this);
   }
 
-  @Override // from Object
+  @Override // from AbstractScalar
   public int hashCode() {
     return bigFraction.hashCode();
   }
 
-  @Override // from Object
+  @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof RationalScalar)
       return bigFraction.equals(((RationalScalar) object).bigFraction);
     return object == null ? false : object.equals(this);
   }
 
-  @Override // from Object
+  @Override // from AbstractScalar
   public String toString() {
     return bigFraction.toCompactString();
   }

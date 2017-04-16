@@ -37,6 +37,14 @@ public class FloorTest extends TestCase {
     assertEquals(rs.number().doubleValue(), 5.0);
   }
 
+  public void testLarge() {
+    Scalar scalar = DoubleScalar.of(1e30);
+    Scalar r = Round.function.apply(scalar);
+    Scalar f = Floor.function.apply(scalar);
+    assertEquals(r, f);
+    assertEquals(r.toString(), "1000000000000000000000000000000");
+  }
+
   public void testComplex() {
     Scalar c = Scalars.fromString("3-3*I");
     try {

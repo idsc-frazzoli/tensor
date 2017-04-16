@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>{@link Flatten} undoes the work of {@link Partition}.
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Flatten.html">Flatten</a> */
 public enum Flatten {
   ;

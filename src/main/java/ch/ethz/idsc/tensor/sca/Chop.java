@@ -3,14 +3,10 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.ExactPrecision;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
-/** function to modify {@link Scalar}s that do not have {@link ExactPrecision}
- * 
- * <p>consistent with Mathematica
+/** consistent with Mathematica
  * Chop[1/1000000000000000] != 0, but
  * Chop[1/1000000000000000.] == 0
  * 
@@ -26,11 +22,7 @@ public enum Chop implements Function<Scalar, Scalar> {
   public static Function<Scalar, Scalar> below(double threshold) {
     return scalar -> {
       if (scalar instanceof ChopInterface)
-        return ((ChopInterface) scalar).chop();
-      if (scalar instanceof ExactPrecision) // TODO how to treat ComplexScalar?
-        return scalar;
-      if (scalar.abs().number().doubleValue() < threshold)
-        return ZeroScalar.get();
+        return ((ChopInterface) scalar).chop(threshold);
       return scalar;
     };
   }

@@ -39,7 +39,7 @@ public enum Dimensions {
   /** @param tensor
    * @return true if tensor.length() == 0, and
    * false if tensor contains entries or is a {@link Scalar} */
-  public static boolean isEmpty(Tensor tensor) { // Marc's function
+  public static boolean isEmptyTensor(Tensor tensor) { // Marc's function
     return tensor.length() == 0;
   }
 

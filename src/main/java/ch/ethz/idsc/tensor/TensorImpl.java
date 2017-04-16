@@ -29,7 +29,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
       }
 
       @Override
-      void _set(Function<Tensor, Tensor> function, List<Integer> index) {
+      <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
         throw new UnsupportedOperationException("unmodifiable");
       }
     };
@@ -79,17 +79,18 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
-  public void set(Function<Tensor, Tensor> function, Integer... index) {
+  public <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index) {
     _set(function, Arrays.asList(index));
   }
 
+  @SuppressWarnings("unchecked")
   // package visibility in order to override in unmodifiable()
-  /* package */ void _set(Function<Tensor, Tensor> function, List<Integer> index) {
+  /* package */ <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
     if (index.isEmpty())
       return;
     int head = index.get(0);
     if (index.size() == 1)
-      list.set(head, function.apply(get(head)));
+      list.set(head, function.apply((T) get(head)));
     else
       ((TensorImpl) list.get(head))._set(function, index.subList(1, index.size()));
   }
@@ -128,13 +129,23 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
-  public Tensor negate() {
-    return Tensor.of(list.stream().map(Tensor::negate));
+  public Tensor block(List<Integer> fromIndex, List<Integer> dimensions) {
+    return fromIndex.isEmpty() ? copy() : _block(fromIndex, dimensions);
+  }
+
+  // helper function
+  private Tensor _block(List<Integer> fromIndex, List<Integer> dimensions) {
+    int toIndex = fromIndex.get(0) + dimensions.get(0);
+    if (fromIndex.size() == 1)
+      return extract(fromIndex.get(0), toIndex);
+    return Tensor.of(list.subList(fromIndex.get(0), toIndex).stream() //
+        .map(tensor -> ((TensorImpl) tensor)._block( //
+            fromIndex.subList(1, fromIndex.size()), dimensions.subList(1, dimensions.size()))));
   }
 
   @Override
-  public Tensor conjugate() {
-    return Tensor.of(list.stream().map(Tensor::conjugate));
+  public Tensor negate() {
+    return Tensor.of(list.stream().map(Tensor::negate));
   }
 
   @Override
@@ -181,7 +192,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
-  public Tensor map(Function<Scalar, Scalar> function) {
+  public Tensor map(Function<Scalar, ? extends Tensor> function) {
     return Tensor.of(flatten(0).map(tensor -> tensor.map(function)));
   }
 

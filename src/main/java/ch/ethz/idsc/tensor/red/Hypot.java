@@ -3,9 +3,11 @@ package ch.ethz.idsc.tensor.red;
 
 import java.util.function.BiFunction;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.ZeroScalar;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** Hypot computes
@@ -19,6 +21,37 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar a, Scalar b) {
-    return DoubleScalar.of(Math.hypot(a.number().doubleValue(), b.number().doubleValue()));
+    // return ofVector(Tensors.of(a,b));
+    Scalar ax = a.abs();
+    Scalar ay = b.abs();
+    Scalar min = Min.of(ax, ay);
+    Scalar max = Max.of(ax, ay);
+    if (min.equals(ZeroScalar.get()))
+      return max; // if minimum == 0 return maximum
+    // else 0 < t <= max
+    min = min.divide(max);
+    // TODO because of RealScalar.ONE this is not sufficiently generic
+    return max.multiply(Sqrt.function.apply(RealScalar.ONE.add(min.multiply(min))));
+    // Scalar one = min.divide(min);
+    // Scalar res = one.add(min.multiply(min));
+    // return max.multiply(Sqrt.function.apply(res));
+  }
+
+  /** function computes the 2-Norm of a vector
+   * without intermediate overflow or underflow
+   * 
+   * <p>by convention the empty vector evaluates to Hypot[{}] == 0
+   * 
+   * @param vector
+   * @return */
+  public static Scalar ofVector(Tensor vector) {
+    if (vector.length() == 0) // <- condition not compliant with Mathematica
+      return ZeroScalar.get();
+    Tensor abs = vector.map(Scalar::abs);
+    Scalar max = (Scalar) abs.flatten(0).reduce(Max::of).get();
+    if (max.equals(ZeroScalar.get()))
+      return ZeroScalar.get();
+    abs = abs.multiply(max.invert());
+    return max.multiply(Sqrt.function.apply((Scalar) abs.dot(abs)));
   }
 }

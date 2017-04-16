@@ -1,38 +1,19 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-import java.util.List;
-import java.util.function.Function;
-
 /** on top of the capabilities of a {@link Tensor} a scalar can be inverted
  * 
  * <p>The scalar 0 in any field is represented by {@link ZeroScalar},
  * which cannot be inverted.
  * 
- * <p>derived classes are immutable */
+ * <p>When invoking get() on {@link Scalar} the list of arguments has to be empty.
+ * 
+ * <p>Derived classes are immutable, i.e. contents of an instance of {@link Scalar}
+ * do not change during the lifetime of the instance.
+ * All setter functions throw an exception when invoked on a {@link Scalar}. */
 public interface Scalar extends Tensor {
+  /** Scalar::length returns LENGTH */
   public static final int LENGTH = -1;
-
-  @Override // from Tensor
-  Scalar copy();
-
-  /** an instance of {@link Scalar} is immutable by convention.
-   * 
-   * @return this */
-  @Override // from Tensor
-  Scalar unmodifiable();
-
-  /** when using get() on {@link Scalar} the list of arguments has to be empty */
-  @Override // from Tensor
-  Scalar get(Integer... index);
-
-  /** when using Get() on {@link Scalar} the list of arguments has to be empty */
-  @Override // from Tensor
-  Scalar Get(Integer... index);
-
-  /** when using get() on {@link Scalar} the list of arguments has to be empty */
-  @Override // from Tensor
-  Scalar get(List<Integer> index);
 
   @Override // from Tensor
   Scalar add(Tensor tensor);
@@ -46,35 +27,33 @@ public interface Scalar extends Tensor {
   @Override // from Tensor
   Scalar negate();
 
-  @Override // from Tensor
-  Scalar conjugate();
-
-  /** function evaluation of this scalar
-   * 
-   * @return function.apply(this); */
-  @Override // from Tensor
-  Scalar map(Function<Scalar, Scalar> function);
-
   /***************************************************/
   /** multiplicative inverse except for {@link ZeroScalar}
    * 
    * @return multiplicative inverse of this scalar */
   Scalar invert();
 
-  /** @param scalar
+  /** implemented as
+   * <code>multiply(scalar.invert())</code>
+   * 
+   * @param scalar
    * @return this divided by input scalar */
   Scalar divide(Scalar scalar);
 
-  /** @return typically distance from zero as {@link RealScalar},
+  /** absolute value
+   * 
+   * @return typically distance from zero as {@link RealScalar},
    * generally non-negative version of this.
-   * @throws TensorRuntimeException */
+   * @throws TensorRuntimeException if absolute value is not defined
+   * in the case of {@link StringScalar} for instance */
   Scalar abs();
 
   /** classes should only override this if consistency is possible
    * for instance:
    * {@link ComplexScalar} would require two numbers, therefore
    * returning a single number is not implemented.
-   * two scalars that are equal should return the same number() // TODO test
+   * 
+   * <p>two scalars that are equal should return the same number().doubleValue()
    * 
    * @return this representation as {@link Number}
    * @throws TensorRuntimeException */

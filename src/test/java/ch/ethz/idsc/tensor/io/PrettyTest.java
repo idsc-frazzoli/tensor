@@ -16,8 +16,8 @@ public class PrettyTest extends TestCase {
     // Tensor m = Tensors.of(Tensors.vectorInt(2, -3, 4), Tensors.vectorDouble(2.3, -.2), Tensors.empty());
     {
       Tensor m = Tensors.of( //
-          Tensors.vectorInt(1, 2, 3), //
-          Tensors.vectorInt(4, 5) //
+          Tensors.vector(1, 2, 3), //
+          Tensors.vector(4, 5) //
       );
       System.out.println(Pretty.of(m));
     }
@@ -29,23 +29,23 @@ public class PrettyTest extends TestCase {
     System.out.println("---");
     {
       Tensor m = Tensors.of( //
-          Tensors.of(Tensors.vectorInt(2, -3, 4), Tensors.vectorDouble(2.3, .3, -.2)), //
-          Tensors.of(Tensors.vectorInt(2, -3, 4), Tensors.vectorDouble(-2.3, .3, -.2)));
+          Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(2.3, .3, -.2)), //
+          Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(-2.3, .3, -.2)));
       System.out.println(Pretty.of(m));
     }
     System.out.println("---");
     {
       Tensor m = Tensors.of( //
-          Tensors.of(RationalScalar.of(3, 2), Tensors.vectorDouble(2.3, .3, -.2)), //
-          Tensors.of(Tensors.vectorInt(2, -3, 4), Tensors.vectorDouble(-2.3, .3, -.2)));
+          Tensors.of(RationalScalar.of(3, 2), Tensors.vector(2.3, .3, -.2)), //
+          Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(-2.3, .3, -.2)));
       // System.out.println(m.isArray());
       System.out.println(Pretty.of(m));
     }
     System.out.println("---");
     {
       Tensor m = Tensors.of( //
-          Tensors.of(Tensors.vectorDouble(33.2), RationalScalar.of(3, 2), Tensors.vectorDouble(2.3, .3, -.2)), //
-          Tensors.of(Tensors.vectorInt(2, -3, 4), Tensors.vectorDouble(-2.3, .3, -.2)));
+          Tensors.of(Tensors.vector(33.2), RationalScalar.of(3, 2), Tensors.vector(2.3, .3, -.2)), //
+          Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(-2.3, .3, -.2)));
       // System.out.println(m.isArray());
       System.out.println(Pretty.of(m));
     }

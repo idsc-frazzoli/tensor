@@ -34,6 +34,21 @@ public class TensorTest extends TestCase {
     assertEquals(a.get(-1, 1), Tensors.fromString("[4, 2, 8]"));
   }
 
+  private static Scalar incr(Scalar a) {
+    return a.add(RealScalar.ONE);
+  }
+
+  public void testSet() {
+    Tensor a = Tensors.matrixInt( //
+        new int[][] { { 3, 4 }, { 1, 2 }, { 9, 8 } });
+    a.set(TensorTest::incr, 0, 0);
+    a.set(TensorTest::incr, 1, 0);
+    a.set(TensorTest::incr, 2, 1);
+    Tensor b = Tensors.matrixInt( //
+        new int[][] { { 4, 4 }, { 2, 2 }, { 9, 9 } });
+    assertEquals(a, b);
+  }
+
   public void testFlattenN() {
     Tensor a = Tensors.vectorLong(1, 2);
     Tensor b = Tensors.vectorLong(3, 4, 5);
@@ -89,7 +104,7 @@ public class TensorTest extends TestCase {
   }
 
   public void testUnmodifiable() {
-    Tensor tensor = Tensors.vectorInt(3, 4, 5, 6, -2);
+    Tensor tensor = Tensors.vector(3, 4, 5, 6, -2);
     tensor.set(DoubleScalar.of(.3), 2);
     Tensor unmodi = tensor.unmodifiable();
     assertEquals(tensor, unmodi);

@@ -15,9 +15,9 @@ public class LeastSquaresTest extends TestCase {
   public void testEasy() {
     Tensor m = Tensors.matrix( //
         (i, j) -> i.equals(j) ? RationalScalar.of(1, 1) : ZeroScalar.get(), 4, 3);
-    Tensor b = Tensors.vectorInt(1, 1, 1, 1);
+    Tensor b = Tensors.vector(1, 1, 1, 1);
     Tensor x1 = LeastSquares.of(m, b);
-    assertEquals(x1, Tensors.vectorInt(1, 1, 1));
+    assertEquals(x1, Tensors.vector(1, 1, 1));
     // Tensor x2 = LeastSquares.usingSvd(m, b);
     // assertEquals(x1, x2);
   }
@@ -25,7 +25,7 @@ public class LeastSquaresTest extends TestCase {
   public void testFullRank() {
     Tensor m = Tensors.matrix( //
         (i, j) -> RationalScalar.of(2 * i + 2 + j, 1 + 9 * i + j), 4, 3);
-    Tensor b = Tensors.vectorInt(1, 1, 1, 1);
+    Tensor b = Tensors.vector(1, 1, 1, 1);
     Tensor x1 = LeastSquares.of(m, b);
     Tensor x2 = LeastSquares.usingSvd(m, b);
     Tensor d1 = Chop.of(x1.subtract(x2), 1e-10);
@@ -35,7 +35,7 @@ public class LeastSquaresTest extends TestCase {
   public void testLowRank() {
     Tensor m = Tensors.matrix( //
         (i, j) -> RationalScalar.of(2 * i + j, 9 + j), 4, 3);
-    Tensor b = Tensors.vectorInt(1, 1, 1, 1);
+    Tensor b = Tensors.vector(1, 1, 1, 1);
     Tensor x2 = LeastSquares.usingSvd(m, b);
     assertEquals(Chop.of(m.dot(x2).subtract(b)), b.multiply(ZeroScalar.get()));
   }
@@ -45,7 +45,7 @@ public class LeastSquaresTest extends TestCase {
         (i, j) -> ComplexScalar.of( //
             RealScalar.of(i), RationalScalar.of(2 * i + 2 + j, 1 + 9 * i + j)),
         4, 3);
-    Tensor b = Tensors.vectorInt(1, 1, 1, 1);
+    Tensor b = Tensors.vector(1, 1, 1, 1);
     Tensor x1 = LeastSquares.of(m, b);
     Tensor d1 = m.dot(x1).subtract(b);
     Tensor s1 = Tensors.fromString(

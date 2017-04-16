@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -17,5 +18,36 @@ public class TotalTest extends TestCase {
     assertEquals(Total.of(e), DoubleScalar.of(2 + 6));
     assertEquals(Total.of(Tensors.empty()), DoubleScalar.of(0));
     assertEquals(DoubleScalar.of(0), Total.of(Tensors.empty()));
+  }
+
+  public void testAddEmpty() {
+    Tensor a = Tensors.of(Tensors.empty());
+    Tensor b = Total.of(a);
+    assertEquals(b, Tensors.empty());
+  }
+
+  public void testPmulEmpty() {
+    Tensor a = Tensors.of(Tensors.empty());
+    Tensor b = Total.prod(a);
+    assertEquals(b, Tensors.empty());
+    assertEquals(RealScalar.of(1), Total.prod(Tensors.empty()));
+  }
+
+  public void testPmul1() {
+    Tensor a = Tensors.vectorLong(1, 2, 2, 5, 1);
+    Tensor r = Total.prod(a);
+    assertEquals(r, RealScalar.of(20));
+  }
+
+  public void testPmul2() {
+    Tensor a = Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+    Tensor r = Total.prod(a);
+    assertEquals(r, Tensors.vector(15, 48));
+  }
+
+  public void testPmul3() {
+    Tensor a = Tensors.matrixInt(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+    Tensor r = Total.prod(a);
+    assertEquals(r, Tensors.vector(4, 10, 18));
   }
 }

@@ -24,22 +24,16 @@ public enum Tensors {
     return Tensor.of(Stream.of(tensors));
   }
 
-  /** @param values
-   * @return tensor of {@link RationalScalar} with given values */
-  public static Tensor vectorInt(int... values) {
-    return Tensor.of(IntStream.of(values).boxed().map(i -> RationalScalar.of(i, 1)));
+  /** @param numbers
+   * @return */
+  public static Tensor vector(Number... numbers) {
+    return Tensor.of(Stream.of(numbers).map(RealScalar::of));
   }
 
-  /** @param values
-   * @return tensor of {@link RationalScalar} with given values */
-  public static Tensor vectorLong(long... values) {
-    return Tensor.of(LongStream.of(values).boxed().map(i -> RationalScalar.of(i, 1)));
-  }
-
-  /** @param values
-   * @return tensor of {@link DoubleScalar} with given values */
-  public static Tensor vectorDouble(double... values) {
-    return Tensor.of(DoubleStream.of(values).boxed().map(DoubleScalar::of));
+  /** @param list
+   * @return */
+  public static Tensor vector(List<? extends Number> list) {
+    return Tensor.of(list.stream().map(RealScalar::of));
   }
 
   /** @param function
@@ -47,6 +41,24 @@ public enum Tensors {
    * @return vector of length with i-th entry == function.apply(i) */
   public static Tensor vector(Function<Integer, ? extends Tensor> function, int length) {
     return Tensor.of(IntStream.range(0, length).boxed().map(function::apply));
+  }
+
+  /** @param values
+   * @return tensor of {@link RationalScalar} with given values */
+  public static Tensor vectorInt(int... values) {
+    return Tensor.of(IntStream.of(values).boxed().map(IntegerScalar::of));
+  }
+
+  /** @param values
+   * @return tensor of {@link RationalScalar} with given values */
+  public static Tensor vectorLong(long... values) {
+    return Tensor.of(LongStream.of(values).boxed().map(IntegerScalar::of));
+  }
+
+  /** @param values
+   * @return tensor of {@link DoubleScalar} with given values */
+  public static Tensor vectorDouble(double... values) {
+    return Tensor.of(DoubleStream.of(values).boxed().map(DoubleScalar::of));
   }
 
   /** @param biFunction

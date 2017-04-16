@@ -158,7 +158,7 @@ public class SingularValueDecompositionTest extends TestCase {
 
   public void testSo3() {
     Tensor ad = LieAlgebras.so3();
-    Tensor sk = ad.dot(Tensors.vectorInt(1, 1, 1));
+    Tensor sk = ad.dot(Tensors.vector(1, 1, 1));
     SingularValueDecomposition svd = specialOps(sk);
     assertEquals(MatrixRank.of(svd), 2);
   }
@@ -182,14 +182,14 @@ public class SingularValueDecompositionTest extends TestCase {
   }
 
   public void testJordan1() {
-    Tensor d = DiagonalMatrix.of(Tensors.vectorDouble(1e-10, 1, 1, 1, 1e-10));
+    Tensor d = DiagonalMatrix.of(Tensors.vector(1e-10, 1, 1, 1, 1e-10));
     IntStream.range(0, 4).forEach(j -> d.set(RealScalar.of(1e-10), j, j + 1));
     SingularValueDecomposition svd = specialOps(d);
     assertEquals(MatrixRank.of(svd), 5);
   }
 
   public void testJordan2() {
-    Tensor d = DiagonalMatrix.of(Tensors.vectorInt(1, 1, 1, 1, 1));
+    Tensor d = DiagonalMatrix.of(Tensors.vector(1, 1, 1, 1, 1));
     IntStream.range(0, 4).forEach(j -> d.set(RealScalar.of(1e-10), j + 1, j));
     specialOps(d);
   }
@@ -207,6 +207,6 @@ public class SingularValueDecompositionTest extends TestCase {
 
   public void testEye() {
     assertEquals(MatrixRank.of(IdentityMatrix.of(10)), 10);
-    assertEquals(MatrixRank.of(DiagonalMatrix.of(Tensors.vectorInt(1, 1, 1, 1, 0, 0))), 4);
+    assertEquals(MatrixRank.of(DiagonalMatrix.of(Tensors.vector(1, 1, 1, 1, 0, 0))), 4);
   }
 }
