@@ -9,10 +9,13 @@ import ch.ethz.idsc.tensor.Tensors;
 
 /** utility to exchange data with Wolfram Mathematica
  * 
- * <p>String expressions may also be compatible with Java.
+ * <p>Mathematica::Put stores an expression to a file
+ * <code>Put[{1,2,3}, "filePath"]</code>
  * 
- * Files.lines(Paths.get("filePath"))
- * Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator); */
+ * <p>Mathematica::Get retrieves an expression from a file
+ * <code>expr = Get["filePath"]</code>
+ * 
+ * <p>String expressions may also be compatible with Java. */
 public enum MathematicaFormat {
   ;
   /** @param tensor
@@ -25,13 +28,15 @@ public enum MathematicaFormat {
     return Stream.of(string.split("\n"));
   }
 
+  // TODO implementation cannot parse "3 + I", but only "3 + 1*I"
   /** @param strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
     return Tensors.fromString(stream //
         .map(String::trim) //
-        .map(s -> s.replace('{', '[')) //
-        .map(s -> s.replace('}', ']')) //
+        .map(string -> string.replace(" - ", "-")) // <- depends on implementation of Scalars::fromString
+        .map(string -> string.replace('{', '[')) //
+        .map(string -> string.replace('}', ']')) //
         .collect(Collectors.joining("")));
   }
 

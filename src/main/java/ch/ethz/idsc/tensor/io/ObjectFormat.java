@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.zip.DataFormatException;
 
@@ -14,15 +15,18 @@ public enum ObjectFormat {
   // ---
   /** @param object
    * @return deflated serialization of object
-   * @throws Exception */
-  public static <T extends Serializable> byte[] of(T object) throws Exception {
+   * @throws IOException */
+  public static <T extends Serializable> byte[] of(T object) throws IOException {
     return Compression.deflate(Serialization.of(object));
   }
 
   /** @param bytes containing the deflated serialization of object
    * @return object prior to serialization
-   * @throws DataFormatException */
-  public static <T extends Serializable> T parse(byte[] bytes) throws Exception {
+   * @throws ClassNotFoundException
+   * @throws DataFormatException
+   * @throws IOException */
+  public static <T extends Serializable> T parse(byte[] bytes) //
+      throws ClassNotFoundException, DataFormatException, IOException {
     return Serialization.parse(Compression.inflate(bytes));
   }
 }

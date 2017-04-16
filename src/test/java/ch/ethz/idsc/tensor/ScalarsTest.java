@@ -37,6 +37,12 @@ public class ScalarsTest extends TestCase {
     checkInvariant("asn.dbv.f", StringScalar.class);
   }
 
+  public void testSpacing() {
+    checkInvariant("-1.0348772853950305  +  0.042973906265653894*I", ComplexScalar.class);
+    // there must not be spaces surrouding the middle '-'
+    checkInvariant("-1.0348772853950305-0.042973906265653894*I", ComplexScalar.class);
+  }
+
   public void testIntegerPattern() {
     String n1 = "-123123";
     String n2 = "123123";

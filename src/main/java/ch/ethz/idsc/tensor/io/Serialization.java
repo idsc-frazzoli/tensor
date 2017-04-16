@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -20,8 +21,8 @@ public enum Serialization {
    * 
    * @param object
    * @return serialization of object
-   * @throws Exception */
-  public static <T extends Serializable> byte[] of(T object) throws Exception {
+   * @throws IOException */
+  public static <T extends Serializable> byte[] of(T object) throws IOException {
     byte[] bytes = null;
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -39,8 +40,10 @@ public enum Serialization {
    * 
    * @param bytes
    * @return {@link Serializable} object encoded in input bytes
-   * @throws Exception */
-  public static <T extends Serializable> T parse(byte[] bytes) throws Exception {
+   * @throws ClassNotFoundException
+   * @throws IOException */
+  public static <T extends Serializable> T parse(byte[] bytes) //
+      throws ClassNotFoundException, IOException {
     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
     ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
     @SuppressWarnings("unchecked")
