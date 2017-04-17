@@ -40,13 +40,13 @@ public class TotalTest extends TestCase {
   }
 
   public void testPmul2() {
-    Tensor a = Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+    Tensor a = Tensors.matrix(new Number[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
     Tensor r = Total.prod(a);
     assertEquals(r, Tensors.vector(15, 48));
   }
 
   public void testPmul3() {
-    Tensor a = Tensors.matrixInt(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+    Tensor a = Tensors.matrix(new Number[][] { { 1., 2, 3 }, { 4, 5., 6 } });
     Tensor r = Total.prod(a);
     assertEquals(r, Tensors.vector(4, 10, 18));
   }

@@ -14,7 +14,7 @@ The naming of functions is inspired by `Mathematica`.
 
 Solving systems of linear equations
 
-    Tensor matrix = Tensors.matrixInt(new int[][] { { 4, 3 }, { 8, 2 } });
+    Tensor matrix = Tensors.matrix(new Number[][] { { 4, 3 }, { 8, 2 } });
     System.out.println(Pretty.of(Inverse.of(matrix)));
     
 gives

@@ -16,16 +16,14 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ArcTan implements Function<Scalar, Scalar> {
   function;
   // ---
-  private static Scalar I = ComplexScalar.of(0, 1);
-
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RealScalar) {
       double value = scalar.number().doubleValue();
       return DoubleScalar.of(Math.atan(value));
     }
-    return I.divide(RealScalar.of(2)).multiply( //
-        Log.function.apply(I.add(scalar).divide(I.subtract(scalar))));
+    return ComplexScalar.I.divide(RealScalar.of(2)).multiply( //
+        Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
   }
 
   /** @param tensor

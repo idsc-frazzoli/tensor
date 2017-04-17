@@ -181,6 +181,13 @@ public class TensorsTest extends TestCase {
     assertEquals(expected, actual);
   }
 
+  public void testNumberArrays() {
+    Number[][] data = new Number[][] { { 1, -2, 3 }, { 4, 9 }, { 0, 0, 0, 0, 0 }, {} };
+    Tensor actual = Tensors.matrix(data);
+    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9},{0,0,0,0,0},{}}");
+    assertEquals(expected, actual);
+  }
+
   public void testScalarArrays() {
     Scalar[][] data = new Scalar[][] { { ZeroScalar.get(), RealScalar.ONE }, {}, { ComplexScalar.of(2, 3) } };
     Tensor actual = Tensors.matrix(data);

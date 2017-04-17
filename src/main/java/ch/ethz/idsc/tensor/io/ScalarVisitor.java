@@ -8,8 +8,8 @@ import java.util.List;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-public interface ScalarVisitor {
-  public static void apply(ScalarVisitor scalarVisitor, Tensor tensor) {
+/* package */ interface ScalarVisitor {
+  static void apply(ScalarVisitor scalarVisitor, Tensor tensor) {
     recur(scalarVisitor, new ArrayList<>(), 0, tensor);
   }
 

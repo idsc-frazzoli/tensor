@@ -21,6 +21,9 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 public class ComplexScalar extends AbstractScalar implements //
     ArgInterface, ConjugateInterface, ChopInterface, ImagInterface, NInterface, //
     RealInterface, SqrtInterface {
+  /** complex number I == 0+1*I */
+  public static final Scalar I = of(0, 1);
+  /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */
   static final String IMAGINARY_SUFFIX = "*I";
 
   /** @param re

@@ -16,8 +16,6 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ArcCos implements Function<Scalar, Scalar> {
   function;
   // ---
-  private static Scalar I = ComplexScalar.of(0, 1);
-
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RealScalar) {
@@ -26,7 +24,7 @@ public enum ArcCos implements Function<Scalar, Scalar> {
         return DoubleScalar.of(Math.acos(value));
     }
     Scalar o_x2 = Sqrt.function.apply(RealScalar.ONE.subtract(scalar.multiply(scalar)));
-    return I.negate().multiply(Log.function.apply(scalar.add(I.multiply(o_x2))));
+    return ComplexScalar.I.negate().multiply(Log.function.apply(scalar.add(ComplexScalar.I.multiply(o_x2))));
   }
 
   /** @param tensor

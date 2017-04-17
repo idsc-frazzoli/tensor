@@ -17,7 +17,7 @@ public interface SingularValueDecomposition {
    * @param A is rows x cols matrix with rows >= cols
    * @return singular value decomposition of matrix A
    * @throws if decomposition cannot be established */
-  public static SingularValueDecomposition of(Tensor A) {
+  static SingularValueDecomposition of(Tensor A) {
     return new SingularValueDecompositionImpl(A.unmodifiable(), 1e-17, 25);
   }
 

@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public interface QRDecomposition {
   /** @param matrix
    * @return qr-decomposition of matrix */
-  public static QRDecomposition of(Tensor matrix) {
+  static QRDecomposition of(Tensor matrix) {
     return new QRDecompositionImpl(matrix.unmodifiable());
   }
 

@@ -71,6 +71,18 @@ public enum Tensors {
   }
 
   /** @param data
+   * @return matrix with dimensions and {@link Tensor} entries as array data */
+  public static Tensor matrix(Tensor[][] data) {
+    return Tensor.of(Stream.of(data).map(Tensors::of));
+  }
+
+  /** @param data
+   * @return matrix with dimensions and {@link RealScalar} entries */
+  public static Tensor matrix(Number[][] data) {
+    return Tensor.of(Stream.of(data).map(Tensors::vector));
+  }
+
+  /** @param data
    * @return matrix with dimensions and {@link RationalScalar} entries as array data */
   public static Tensor matrixInt(int[][] data) {
     return Tensor.of(Stream.of(data).map(Tensors::vectorInt));
@@ -88,12 +100,6 @@ public enum Tensors {
     return Tensor.of(Stream.of(data).map(Tensors::vectorDouble));
   }
 
-  /** @param data
-   * @return matrix with dimensions and {@link Scalar} entries as array data */
-  public static Tensor matrix(Scalar[][] data) {
-    return Tensor.of(Stream.of(data).map(Tensors::of));
-  }
-  
   private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
 
   /** @param string

@@ -24,9 +24,9 @@ public enum Sin implements Function<Scalar, Scalar> {
       return DoubleScalar.of(Math.sin(value));
     }
     if (scalar instanceof ComplexScalar) {
-      ComplexScalar complexScalar = (ComplexScalar) scalar;
-      double re = complexScalar.real().number().doubleValue();
-      double im = complexScalar.imag().number().doubleValue();
+      ComplexScalar z = (ComplexScalar) scalar;
+      double re = z.real().number().doubleValue();
+      double im = z.imag().number().doubleValue();
       return ComplexScalar.of( //
           Math.sin(re) * Math.cosh(im), //
           Math.cos(re) * Math.sinh(im));

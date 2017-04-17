@@ -27,10 +27,8 @@ public enum Exp implements Function<Scalar, Scalar> {
     if (scalar instanceof RealScalar)
       return DoubleScalar.of(Math.exp(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {
-      ComplexScalar complexScalar = (ComplexScalar) scalar;
-      return ComplexScalar.fromPolar( // construct in polar coordinates
-          apply(complexScalar.real()), //
-          complexScalar.imag());
+      ComplexScalar z = (ComplexScalar) scalar;
+      return ComplexScalar.fromPolar(apply(z.real()), z.imag()); // construct in polar coordinates
     }
     throw TensorRuntimeException.of(scalar);
   }

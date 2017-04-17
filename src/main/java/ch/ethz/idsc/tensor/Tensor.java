@@ -13,11 +13,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function get(...)
    * to extract <em>all</em> elements from the respective dimension */
-  public static final int ALL = -1;
+  static final int ALL = -1;
   /** opening bracket of vector */
-  public static final char OPENING_BRACKET = '{';
+  static final char OPENING_BRACKET = '{';
   /** closing bracket of vector */
-  public static final char CLOSING_BRACKET = '}';
+  static final char CLOSING_BRACKET = '}';
 
   /** constructs a tensor that holds the tensors of the input stream.
    * 
@@ -31,7 +31,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * 
    * @param stream of tensors to form the first level of the return value
    * @return tensor that holds the tensors of the input stream */
-  public static Tensor of(Stream<? extends Tensor> stream) {
+  static Tensor of(Stream<? extends Tensor> stream) {
     return new TensorImpl(stream.collect(Collectors.toList()));
   }
 
