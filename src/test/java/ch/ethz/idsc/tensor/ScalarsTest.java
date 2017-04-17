@@ -31,16 +31,16 @@ public class ScalarsTest extends TestCase {
     checkInvariant("3/4", RationalScalar.class);
     checkInvariant("34.23123", DoubleScalar.class);
     checkInvariant("0", ZeroScalar.class);
-    checkInvariant("12+15/4*I", ComplexScalar.class);
-    checkInvariant("1.0E-50+1.0E50*I", ComplexScalar.class);
+    checkInvariant("12+15/4*I", ComplexScalarImpl.class);
+    checkInvariant("1.0E-50+1.0E50*I", ComplexScalarImpl.class);
     checkInvariant("asndbvf", StringScalar.class);
     checkInvariant("asn.dbv.f", StringScalar.class);
   }
 
   public void testSpacing() {
-    checkInvariant("-1.0348772853950305  +  0.042973906265653894*I", ComplexScalar.class);
+    checkInvariant("-1.0348772853950305  +  0.042973906265653894*I", ComplexScalarImpl.class);
     // there must not be spaces surrouding the middle '-'
-    checkInvariant("-1.0348772853950305-0.042973906265653894*I", ComplexScalar.class);
+    checkInvariant("-1.0348772853950305-0.042973906265653894*I", ComplexScalarImpl.class);
   }
 
   public void testIntegerPattern() {
@@ -68,22 +68,22 @@ public class ScalarsTest extends TestCase {
   }
 
   public void testParseComplex() {
-    checkInvariant(ComplexScalar.of(-1e-14, -1e-15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(+1e-14, -1e-15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(-1e+14, -1e-15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(+1e+14, -1e-15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(-1e-14, -1e+15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(+1e-14, -1e+15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(-1e+14, -1e+15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(+1e+14, -1e+15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(-1e-14, +1e-15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(+1e-14, +1e-15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(-1e+14, +1e-15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(+1e+14, +1e-15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(-1e-14, +1e+15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(+1e-14, +1e+15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(-1e+14, +1e+15).toString(), ComplexScalar.class);
-    checkInvariant(ComplexScalar.of(+1e+14, +1e+15).toString(), ComplexScalar.class);
+    checkInvariant(ComplexScalar.of(-1e-14, -1e-15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(+1e-14, -1e-15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(-1e+14, -1e-15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(+1e+14, -1e-15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(-1e-14, -1e+15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(+1e-14, -1e+15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(-1e+14, -1e+15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(+1e+14, -1e+15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(-1e-14, +1e-15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(+1e-14, +1e-15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(-1e+14, +1e-15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(+1e+14, +1e-15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(-1e-14, +1e+15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(+1e-14, +1e+15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(-1e+14, +1e+15).toString(), ComplexScalarImpl.class);
+    checkInvariant(ComplexScalar.of(+1e+14, +1e+15).toString(), ComplexScalarImpl.class);
   }
 
   public void testNumber() {
