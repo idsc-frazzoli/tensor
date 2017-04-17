@@ -16,6 +16,8 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ArcSin implements Function<Scalar, Scalar> {
   function;
   // ---
+  private static final Scalar I_NEGATE = ComplexScalar.I.negate();
+
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RealScalar) {
@@ -24,7 +26,7 @@ public enum ArcSin implements Function<Scalar, Scalar> {
         return DoubleScalar.of(Math.asin(value));
     }
     Scalar o_x2 = Sqrt.function.apply(RealScalar.ONE.subtract(scalar.multiply(scalar)));
-    return ComplexScalar.I.negate().multiply(Log.function.apply(ComplexScalar.I.multiply(scalar).add(o_x2)));
+    return I_NEGATE.multiply(Log.function.apply(ComplexScalar.I.multiply(scalar).add(o_x2)));
   }
 
   /** @param tensor

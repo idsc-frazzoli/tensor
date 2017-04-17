@@ -24,10 +24,8 @@ public enum Tanh implements Function<Scalar, Scalar> {
   function;
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar) {
-      double value = scalar.number().doubleValue();
-      return DoubleScalar.of(Math.tanh(value));
-    }
+    if (scalar instanceof RealScalar)
+      return DoubleScalar.of(Math.tanh(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {
       ComplexScalar z = (ComplexScalar) scalar;
       return Sinh.function.apply(z).divide(Cosh.function.apply(z));

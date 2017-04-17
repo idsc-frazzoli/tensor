@@ -19,10 +19,8 @@ public enum Sin implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar) {
-      double value = scalar.number().doubleValue();
-      return DoubleScalar.of(Math.sin(value));
-    }
+    if (scalar instanceof RealScalar)
+      return DoubleScalar.of(Math.sin(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {
       ComplexScalar z = (ComplexScalar) scalar;
       double re = z.real().number().doubleValue();

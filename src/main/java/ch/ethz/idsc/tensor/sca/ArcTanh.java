@@ -15,16 +15,17 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ArcTanh implements Function<Scalar, Scalar> {
   function;
   // ---
-  private static final Scalar HALF = RationalScalar.of(1, 2);
+  private static final Scalar ONE_HALF = RationalScalar.of(1, 2);
 
   @Override
   public Scalar apply(Scalar scalar) {
-    return HALF.multiply( //
-        Log.function.apply(RealScalar.ONE.add(scalar)).subtract(Log.function.apply(RealScalar.ONE.subtract(scalar))));
+    return ONE_HALF.multiply( //
+        Log.function.apply(RealScalar.ONE.add(scalar)).subtract( //
+            Log.function.apply(RealScalar.ONE.subtract(scalar))));
   }
 
   /** @param tensor
-   * @return tensor with all scalars replaced with their arc tan */
+   * @return tensor with all scalars replaced with their arc tanh */
   public static Tensor of(Tensor tensor) {
     return tensor.map(ArcTanh.function);
   }
