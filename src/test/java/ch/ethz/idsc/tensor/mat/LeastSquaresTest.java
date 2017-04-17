@@ -49,7 +49,7 @@ public class LeastSquaresTest extends TestCase {
     Tensor x1 = LeastSquares.of(m, b);
     Tensor d1 = m.dot(x1).subtract(b);
     Tensor s1 = Tensors.fromString(
-        "[726086997/5793115330933+44069346/5793115330933*I, 67991764500/5793115330933+4521379500/5793115330933*I,-22367102670/827587904419-1672185060/827587904419*I, 11662258824/827587904419+1019978082/827587904419*I]");
+        "{726086997/5793115330933+44069346/5793115330933*I, 67991764500/5793115330933+4521379500/5793115330933*I,-22367102670/827587904419-1672185060/827587904419*I, 11662258824/827587904419+1019978082/827587904419*I}");
     assertEquals(d1, s1);
   }
 
@@ -58,7 +58,7 @@ public class LeastSquaresTest extends TestCase {
         (i, j) -> ComplexScalar.of( //
             RealScalar.of(18 * i + j * 100), RationalScalar.of(2 * i + 2 + j, 1 + 9 * i + j)),
         4, 3);
-    Tensor b = Tensors.fromString("[2+3*I, 1-8*I, 99-100*I, 2/5]");
+    Tensor b = Tensors.fromString("{2+3*I, 1-8*I, 99-100*I, 2/5}");
     Tensor x1 = LeastSquares.of(m, b);
     @SuppressWarnings("unused")
     Tensor d1 = m.dot(x1).subtract(b);

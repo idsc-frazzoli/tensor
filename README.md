@@ -1,7 +1,7 @@
 # ch.ethz.idsc.tensor
 Library for tensor computation in Java 8.
 
-Version `0.1.5`
+Version `0.1.6`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
@@ -15,31 +15,30 @@ The naming of functions is inspired by `Mathematica`.
 Solving systems of linear equations
 
     Tensor matrix = Tensors.matrixInt(new int[][] { { 4, 3 }, { 8, 2 } });
-    System.out.println(Pretty.of(matrix));
     System.out.println(Pretty.of(Inverse.of(matrix)));
     
 gives
 
     [
-     [ 4  3 ]
-     [ 8  2 ]
-    ]
-    [
      [ -1/8  3/16 ]
      [  1/2  -1/4 ]
     ]
 
+---
+
 Linear programming
 
     Tensor x = LinearProgramming.maxLessEquals( //
-        Tensors.fromString("[1, 1]"), // cost
-        Tensors.fromString("[[4, -1], [2, 1], [-5, 2]]"), // matrix
-        Tensors.fromString("[8, 7, 2]")); // rhs
+        Tensors.vector(1, 1), // cost
+        Tensors.fromString("{{4, -1}, {2, 1}, {-5, 2}}"), // matrix
+        Tensors.vector(8, 7, 2)); // rhs
     System.out.println(x);
 
 gives
 
-    [4/3, 13/3]
+    {4/3, 13/3}
+
+---
 
 Scalar ops
 
@@ -49,7 +48,7 @@ Scalar ops
 gives
 
     0+3/4*I
-	
+
 
 ## Include in your project
 
@@ -70,7 +69,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.1.5</version>
+        <version>0.1.6</version>
       </dependency>
     </dependencies>
 

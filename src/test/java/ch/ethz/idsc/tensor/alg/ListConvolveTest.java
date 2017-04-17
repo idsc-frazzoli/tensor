@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class ListConvolveTest extends TestCase {
   public void testVector1() {
     Tensor kernel = Tensors.vector(0, -1, 3);
-    Tensor tensor = ArrayPad.of(Tensors.vector(1, 6, 0, 0, -1), // 
+    Tensor tensor = ArrayPad.of(Tensors.vector(1, 6, 0, 0, -1), //
         Arrays.asList(kernel.length() - 1), Arrays.asList(kernel.length() - 1));
     Tensor result = ListConvolve.of(kernel, tensor);
     Tensor actual = Tensors.vector(0, -1, -3, 18, 0, 1, -3);

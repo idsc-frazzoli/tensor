@@ -15,16 +15,14 @@ import ch.ethz.idsc.tensor.Tensors;
  * <p>Mathematica::Get retrieves an expression from a file
  * <code>expr = Get["filePath"]</code>
  * 
- * <p>String expressions may also be compatible with Java. */
+ * <p>String expressions may also be compatible with Java,
+ * for instance to define an array of type int[][], or double[][] */
 public enum MathematicaFormat {
   ;
   /** @param tensor
    * @return strings parsed by Mathematica as tensor */
   public static Stream<String> of(Tensor tensor) {
-    String string = tensor.toString() //
-        .replace('[', '{') //
-        .replace(']', '}') //
-        .replace("}, {", "},\n{"); // <- introduce new line
+    String string = tensor.toString().replace("}, {", "},\n{"); // <- introduce new line
     return Stream.of(string.split("\n"));
   }
 
@@ -36,8 +34,6 @@ public enum MathematicaFormat {
         .map(string -> string.replace(" I", "1*I")) // TODO still cannot parse 1*I, but only 0+1*I
         .map(string -> string.replace("-I", "-1*I")) //
         .map(string -> string.replace(" ", "")) // <- depends on implementation of Scalars::fromString
-        .map(string -> string.replace('{', '[')) //
-        .map(string -> string.replace('}', ']')) //
         .collect(Collectors.joining("")));
   }
 

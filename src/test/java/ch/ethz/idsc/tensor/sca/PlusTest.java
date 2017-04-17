@@ -10,7 +10,7 @@ public class PlusTest extends TestCase {
     Tensor matrix = Tensors.matrixInt(new int[][] { { -8, 3, -3 }, { 2, -2, 7 } });
     matrix.set(Plus.ONE, 0, 0);
     Tensor result = matrix.map(Plus.ONE);
-    Tensor check = Tensors.fromString("[[-6, 4, -2], [3, -1, 8]]");
+    Tensor check = Tensors.matrixInt(new int[][] { { -6, 4, -2 }, { 3, -1, 8 } });
     assertEquals(result, check);
   }
 }

@@ -22,8 +22,8 @@ public class ImageFormatTest extends TestCase {
     assertTrue(file.isFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor tensor = ImageFormat.from(bufferedImage);
-    assertEquals(tensor.get(12, 19), Tensors.fromString("[118, 130, 146, 200]"));
-    assertEquals(tensor.get(14, 0), Tensors.fromString("[254, 0, 0, 255]")); // almost red, fe0000
+    assertEquals(tensor.get(12, 19), Tensors.vector(118, 130, 146, 200));
+    assertEquals(tensor.get(14, 0), Tensors.vector(254, 0, 0, 255)); // almost red, fe0000
     assertEquals(Dimensions.of(tensor), Arrays.asList(15, 33, 4));
   }
 

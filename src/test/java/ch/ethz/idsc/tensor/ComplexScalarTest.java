@@ -111,8 +111,8 @@ public class ComplexScalarTest extends TestCase {
   }
 
   public void testTensor() {
-    Tensor u = Tensors.fromString("[0+1*I,3/4-5*I]");
+    Tensor u = Tensors.fromString("{0+1*I,3/4-5*I}");
     Tensor uc = Conjugate.of(u);
-    assertEquals(uc.toString(), "[0-1*I, 3/4+5*I]");
+    assertEquals(uc.toString(), "{0-1*I, 3/4+5*I}");
   }
 }

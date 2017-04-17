@@ -32,7 +32,7 @@ public class MaxTest extends TestCase {
   public void testElementWise() {
     Tensor matrix = Tensors.matrixInt(new int[][] { { -8, 3, -3 }, { 2, -2, 7 } });
     Tensor capped = matrix.map(Max.with(ZeroScalar.get()));
-    Tensor blub = Tensors.fromString("[[0, 3, 0], [2, 0, 7]]");
+    Tensor blub = Tensors.matrixInt(new int[][] { { 0, 3, 0 }, { 2, 0, 7 } });
     assertEquals(capped, blub);
   }
 }

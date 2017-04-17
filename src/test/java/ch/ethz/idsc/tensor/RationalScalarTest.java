@@ -83,7 +83,7 @@ public class RationalScalarTest extends TestCase {
   public void testSort() {
     Tensor v = Tensors.of(RationalScalar.of(3, 4), RationalScalar.of(-1, 7), ZeroScalar.get());
     Tensor s = Sort.of(v);
-    Tensor r = Tensors.fromString("[-1/7, 0, 3/4]");
+    Tensor r = Tensors.fromString("{-1/7, 0, 3/4}");
     assertEquals(s, r);
   }
 
