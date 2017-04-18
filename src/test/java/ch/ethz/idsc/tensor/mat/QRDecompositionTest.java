@@ -19,7 +19,7 @@ public class QRDecompositionTest extends TestCase {
     Tensor Q = qr.getQ();
     Tensor Qi = qr.getInverseQ();
     Tensor R = qr.getR();
-    // System.out.println(Pretty.of(Chop.of(R)));
+    // System.out.println(Pretty.of(R));
     // System.out.println(Pretty.of(Q));
     assertEquals(Chop.of(A.subtract(Q.dot(R))), Array.zeros(Dimensions.of(A)));
     Tensor err = Q.dot(Qi).subtract(IdentityMatrix.of(A.length()));
@@ -29,12 +29,15 @@ public class QRDecompositionTest extends TestCase {
   }
 
   public void testExampleP32() {
-    Tensor A = Tensors.matrixInt(new int[][] { //
+    Tensor A = Tensors.matrix(new Number[][] { //
         { -1, -1, 1 }, //
         { 1, 3, 3 }, //
         { -1, -1, 5 }, //
         { 1, 3, 7 } });
     specialOps(A);
+    // QRDecomposition qr = QRDecomposition.of(A);
+    // System.out.println(Pretty.of(qr.getQ()));
+    // System.out.println(Pretty.of(qr.getR()));
   }
 
   public void testRandomReal() {

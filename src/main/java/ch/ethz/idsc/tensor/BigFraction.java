@@ -71,9 +71,13 @@ import java.util.Objects;
 
   public String toCompactString() {
     StringBuilder stringBuilder = new StringBuilder(num.toString());
-    if (!den.equals(BigInteger.ONE))
+    if (!isInteger())
       stringBuilder.append("/" + den.toString());
     return stringBuilder.toString();
+  }
+
+  public boolean isInteger() {
+    return den.equals(BigInteger.ONE);
   }
 
   @Override

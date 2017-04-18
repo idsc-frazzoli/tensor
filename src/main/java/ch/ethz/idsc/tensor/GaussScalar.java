@@ -11,8 +11,6 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
-// TODO class may be a misnomer: better ring of p-adic integers ?
-// TODO Lubin–Tate formal group law
 public class GaussScalar extends AbstractScalar implements //
     Comparable<Scalar>, //
     PowerInterface, //
@@ -115,7 +113,7 @@ public class GaussScalar extends AbstractScalar implements //
       return of(1, prime);
     if (exponent instanceof RationalScalar) {
       RationalScalar ratio = (RationalScalar) exponent;
-      if (ratio.denominator().equals(BigInteger.ONE)) {
+      if (ratio.isInteger()) {
         @SuppressWarnings("unused")
         int exp = ratio.numerator().intValueExact();
         // for (int count = 0:)

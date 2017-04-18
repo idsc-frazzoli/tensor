@@ -59,7 +59,7 @@ public final class RationalScalar extends AbstractRealScalar {
 
   @Override // from Scalar
   public Number number() {
-    if (denominator().equals(BigInteger.ONE)) {
+    if (isInteger()) {
       BigInteger bigInteger = numerator();
       try {
         return bigInteger.intValueExact();
@@ -122,6 +122,11 @@ public final class RationalScalar extends AbstractRealScalar {
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
     return -comparable.compareTo(this);
+  }
+
+  /** @return true if denominator equals 1 */
+  public boolean isInteger() {
+    return bigFraction.isInteger();
   }
 
   @Override // from AbstractScalar

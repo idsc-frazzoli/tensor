@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.math.BigInteger;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -32,7 +31,7 @@ public class Power {
       return RealScalar.ONE;
     if (scalar instanceof RationalScalar && exponent instanceof RationalScalar) {
       RationalScalar exp = (RationalScalar) exponent;
-      if (exp.denominator().equals(BigInteger.ONE)) {
+      if (exp.isInteger()) {
         RationalScalar rational = (RationalScalar) scalar;
         int expInt = exp.numerator().intValue();
         if (0 < expInt)
