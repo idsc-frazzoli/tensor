@@ -44,6 +44,15 @@ public enum Dimensions {
   }
 
   /** @param tensor
+   * @return true if tensor is a square matrix */
+  // private static boolean isSquareMatrix(Tensor tensor) {
+  // if (isArray(tensor)) {
+  // List<Integer> list = of(tensor);
+  // return list.size() == 2 && list.get(0).equals(list.get(1));
+  // }
+  // return false;
+  // }
+  /** @param tensor
    * @return list of set of lengths on all levels
    * also includes length of scalars as Scalar.LENGTH == -1 */
   private static List<Set<Integer>> complete(Tensor tensor) {

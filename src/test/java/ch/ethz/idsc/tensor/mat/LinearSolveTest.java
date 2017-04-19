@@ -92,4 +92,15 @@ public class LinearSolveTest extends TestCase {
     assertEquals(A.dot(X), b);
     // System.out.println(X);
   }
+
+  public void testEmpty() {
+    try {
+      Tensor m = Tensors.matrix(new Number[][] { {} });
+      Tensor b = Tensors.vector(new Number[] {});
+      LinearSolve.of(m, b);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

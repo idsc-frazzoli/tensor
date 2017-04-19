@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
@@ -20,4 +21,8 @@ public interface QRDecomposition {
 
   /** @return orthogonal matrix */
   Tensor getQ();
+
+  /** @return determinant of matrix */
+  @Deprecated
+  Scalar det();
 }

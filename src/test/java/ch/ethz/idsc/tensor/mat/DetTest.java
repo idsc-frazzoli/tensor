@@ -1,13 +1,25 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.ZeroScalar;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Reverse;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class DetTest extends TestCase {
+  public void testEmpty() {
+    Tensor m = Tensors.matrix(new Number[][] { {} });
+    // this is not consistent with Mathematica
+    // Mathematica throws an exception
+    assertEquals(Det.of(m), ZeroScalar.get());
+  }
+
   public void testDet1() {
     Tensor m = Tensors.matrix(new Number[][] { //
         { +2, 3, 4 }, //
@@ -38,7 +50,7 @@ public class DetTest extends TestCase {
   }
 
   public void testReversedId() {
-    Tensor actual = Tensors.vector(7, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1);
+    Tensor actual = Tensors.vector(0, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1);
     for (int n = 1; n < 10; ++n)
       assertEquals(Det.of(Reverse.of(IdentityMatrix.of(n))), actual.Get(n));
   }
@@ -53,5 +65,103 @@ public class DetTest extends TestCase {
     assertEquals(Det.of(m), RealScalar.of(-66));
     m.set(RealScalar.of(9), 3, 0);
     assertEquals(Det.of(m), RealScalar.of(33));
+  }
+
+  public void testNonSquare() {
+    Tensor m = Tensors.matrix(new Number[][] { //
+        { -2, 3, +4, 0 }, //
+        { +0, 2, -1, 2 }, //
+    });
+    // System.out.println(Det.of(m));
+    assertEquals(Det.of(m), RealScalar.of(0));
+  }
+
+  public void testNonSquare2() {
+    Tensor m = Tensors.matrix(new Number[][] { //
+        { -2, 3, +4 }, //
+        { +0, 2, -1 }, //
+        { -5, 3, +4 }, //
+        { +0, 2, -1 } //
+    });
+    // System.out.println(Det.of(m));
+    assertEquals(Det.of(m), RealScalar.of(0));
+  }
+
+  public void testComplex1() {
+    Tensor re = Tensors.matrix(new Number[][] { //
+        { 0, 0, 3 }, //
+        { -2, 0, 0 }, //
+        { -3, 0, 2 } //
+    });
+    Tensor im = Tensors.matrix(new Number[][] { //
+        { 0, 0, -2 }, //
+        { -1, 9, 0 }, //
+        { 8, 0, 1 } //
+    });
+    Tensor m = re.add(im.multiply(ComplexScalar.I));
+    assertEquals(Det.of(m), ComplexScalar.of(270, -63));
+  }
+
+  public void testComplex2() {
+    Tensor re = Tensors.matrix(new Number[][] { //
+        { 5, 0, 3 }, //
+        { -2, 0, 0 }, //
+        { -3, 0, 2 } //
+    });
+    Tensor im = Tensors.matrix(new Number[][] { //
+        { -9, 0, -2 }, //
+        { -1, 9, 0 }, //
+        { 8, 0, 1 } //
+    });
+    Tensor m = re.add(im.multiply(ComplexScalar.I));
+    assertEquals(Det.of(m), ComplexScalar.of(387, 108));
+  }
+
+  public void testComplex3() {
+    Tensor re = Tensors.matrix(new Number[][] { //
+        { 5, 0, 3 }, //
+        { -2, 0, 0 }, //
+        { -3, -4, 2 } //
+    });
+    Tensor im = Tensors.matrix(new Number[][] { //
+        { -9, 0, -2 }, //
+        { -1, 9, 0 }, //
+        { 8, -2, 1 } //
+    });
+    Tensor m = re.add(im.multiply(ComplexScalar.I));
+    assertEquals(Det.of(m), ComplexScalar.of(421, 120));
+  }
+
+  public void testSingular() {
+    Tensor m = Array.zeros(5, 5);
+    assertEquals(Det.of(m), ZeroScalar.get());
+  }
+
+  // https://ch.mathworks.com/help/matlab/ref/det.html
+  public void testMatlabEx() {
+    Tensor m = Tensors.matrix(new Number[][] { //
+        { 24, -13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //
+        { -24, 46, -24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //
+        { 0, -33, 64, -33, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //
+        { 0, 0, -40, 78, -40, 0, 0, 0, 0, 0, 0, 0, 0 }, //
+        { 0, 0, 0, -45, 88, -45, 0, 0, 0, 0, 0, 0, 0 }, //
+        { 0, 0, 0, 0, -48, 94, -48, 0, 0, 0, 0, 0, 0 }, //
+        { 0, 0, 0, 0, 0, -49, 96, -49, 0, 0, 0, 0, 0 }, //
+        { 0, 0, 0, 0, 0, 0, -48, 94, -48, 0, 0, 0, 0 }, //
+        { 0, 0, 0, 0, 0, 0, 0, -45, 88, -45, 0, 0, 0 }, //
+        { 0, 0, 0, 0, 0, 0, 0, 0, -40, 78, -40, 0, 0 }, //
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, -33, 64, -33, 0 }, //
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -24, 46, -24 }, //
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -13, 24 }//
+    });
+    Scalar det = Det.of(m);
+    assertEquals(det, ZeroScalar.get());
+    // ---
+    // Matlab gives num == 1.0597e+05 !
+    // Mathematica gives num == 44934.8 !
+    Scalar num = Det.of(N.of(m)); // indeed, our algo is no different:
+    // System.out.println(num);
+    // num == 105968.67122221774
+    num.toString(); // to eliminate warning
   }
 }

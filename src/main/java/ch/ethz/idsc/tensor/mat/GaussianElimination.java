@@ -15,6 +15,10 @@ import ch.ethz.idsc.tensor.ZeroScalar;
   final Tensor rhs;
   int transpositions = 0;
 
+  /** @param m square matrix
+   * @param b tensor with first dimension identical to size of matrix
+   * @param pivot
+   * @throws TensorRuntimeException if matrix m is singular */
   GaussianElimination(Tensor m, Tensor b, Pivot pivot) {
     lhs = m.copy();
     int n = lhs.length();
@@ -55,8 +59,8 @@ import ch.ethz.idsc.tensor.ZeroScalar;
   Tensor solution() {
     Tensor sol = rhs.map(scalar -> ZeroScalar.get()); // all-zeros copy of rhs
     for (int c0 = ind.length - 1; 0 <= c0; --c0) {
-      Scalar fac = lhs.Get(ind[c0], c0).invert();
-      sol.set(rhs.get(ind[c0]).subtract(lhs.get(ind[c0]).dot(sol)).multiply(fac), c0);
+      Scalar factor = lhs.Get(ind[c0], c0).invert();
+      sol.set(rhs.get(ind[c0]).subtract(lhs.get(ind[c0]).dot(sol)).multiply(factor), c0);
     }
     return sol;
   }

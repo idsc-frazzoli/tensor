@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -18,17 +19,19 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 /* package */ class QRDecompositionImpl implements QRDecomposition {
   private static final Function<Scalar, Scalar> CHOP = Chop.below(1e-12);
   // ---
+  private final int n;
+  private final int m;
   private Tensor Qinv;
   private Tensor R;
 
   QRDecompositionImpl(Tensor A) {
     List<Integer> dims = Dimensions.of(A);
-    int n = dims.get(0);
-    int m = dims.get(1);
+    n = dims.get(0);
+    m = dims.get(1);
     Qinv = IdentityMatrix.of(n);
     R = A;
     for (int k = 0; k < m; ++k) {
-      Tensor H = reflect(R, k);
+      Tensor H = reflect(k);
       Qinv = H.dot(Qinv);
       R = H.dot(R);
       for (int j = k; j < n; ++j)
@@ -36,8 +39,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     }
   }
 
-  private static Tensor reflect(Tensor R, int k) {
-    int n = R.length();
+  private Tensor reflect(int k) {
     Tensor y = Tensors.vector(i -> i < k ? ZeroScalar.get() : R.Get(i, k), n);
     Scalar yn = Norm._2.of(y);
     if (yn instanceof ZeroScalar)
@@ -55,6 +57,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     return IdentityMatrix.of(n).subtract(wcwt(w, cw.multiply(cwy.invert())));
   }
 
+  // outer product: product of all pairs
   private static Tensor wcwt(Tensor w, Tensor cw) {
     return Tensors.matrix((i, j) -> w.Get(i).multiply(cw.Get(j)), w.length(), cw.length());
   }
@@ -72,5 +75,17 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   @Override
   public Tensor getQ() {
     return ConjugateTranspose.of(Qinv);
+  }
+
+  @Override
+  public Scalar det() {
+    if (n != m)
+      return ZeroScalar.get();
+    // FIXME formula is wrong especially for complex input
+    Scalar scalar = IntStream.range(0, R.length()).boxed() //
+        .map(c0 -> R.Get(c0, c0)) //
+        .reduce(Scalar::multiply) //
+        .orElse(ZeroScalar.get());
+    return scalar;
   }
 }
