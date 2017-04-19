@@ -5,7 +5,7 @@ Version `0.1.6`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
-* scalars are real or complex numbers
+* scalars are real, or complex numbers, or from finite fields, etc.
 * values are encoded as exact fractions, or in double precision
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
 
@@ -38,6 +38,21 @@ Linear programming
 gives
 
     {4/3, 13/3}
+
+---
+
+Tensors of rank 3
+
+    Tensor ad = LieAlgebras.so3();
+    Tensor x = Tensors.vector(7, 2, -4);
+    Tensor y = Tensors.vector(-3, 5, 2);
+    System.out.println(ad);
+    System.out.println(ad.dot(x).dot(y)); // cross product of x and y
+
+gives
+
+    {{{0, 0, 0}, {0, 0, -1}, {0, 1, 0}}, {{0, 0, 1}, {0, 0, 0}, {-1, 0, 0}}, {{0, -1, 0}, {1, 0, 0}, {0, 0, 0}}}
+    {24, -2, 41}
 
 ---
 

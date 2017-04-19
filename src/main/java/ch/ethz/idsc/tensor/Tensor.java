@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.alg.Dimensions;
-// TODO readme needs example with rank==3
+
 /** a tensor is a multi-dimensional array with the dot product */
 public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function get(...)
