@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -32,7 +31,7 @@ public enum ImageFormat {
   /** @param bufferedImage with dimensions [width x height]
    * @return tensor with dimensions [width x height x 4] */
   public static Tensor from(BufferedImage bufferedImage) {
-    return Tensors.matrix((i, j) -> asVector(bufferedImage.getRGB(i, j)), //
+    return Tensors.matrix((i, j) -> ColorFormat.toVector(bufferedImage.getRGB(i, j)), //
         bufferedImage.getWidth(), bufferedImage.getHeight());
   }
 
@@ -69,21 +68,9 @@ public enum ImageFormat {
   // helper function
   private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, List<Integer> dims) {
     BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_INT_ARGB);
-    Tensor res = TensorMap.of(vector -> RealScalar.of(asARGB(vector)), tensor, 2);
+    Tensor res = TensorMap.of(vector -> RealScalar.of(ColorFormat.toInt(vector)), tensor, 2);
     int[] array = ExtractPrimitives.toArrayInt(Transpose.of(res));
     bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
     return bufferedImage;
-  }
-
-  // helper function
-  private static Tensor asVector(int rgba) {
-    Color color = new Color(rgba, true);
-    return Tensors.vector(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-  }
-
-  // helper function
-  private static int asARGB(Tensor vector) {
-    int[] rgba = ExtractPrimitives.toArrayInt(vector);
-    return new Color(rgba[0], rgba[1], rgba[2], rgba[3]).getRGB();
   }
 }

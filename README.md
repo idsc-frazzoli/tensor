@@ -5,7 +5,8 @@ Version `0.1.6`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
-* scalars are numeric values, as well as exact fractions
+* scalars are real or complex numbers
+* values are encoded as exact fractions, or in double precision
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
 
 The naming of functions is inspired by `Mathematica`.
@@ -49,6 +50,15 @@ gives
 
     0+3/4*I
 
+---
+
+High precision
+
+    System.out.println(Det.of(HilbertMatrix.of(8)));
+
+gives
+
+    1/365356847125734485878112256000000
 
 ## Include in your project
 

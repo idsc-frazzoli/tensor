@@ -1,7 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import java.math.BigInteger;
+
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -163,5 +166,11 @@ public class DetTest extends TestCase {
     // System.out.println(num);
     // num == 105968.67122221774
     num.toString(); // to eliminate warning
+  }
+
+  public void testHilbert() {
+    Scalar det = Det.of(HilbertMatrix.of(8));
+    assertEquals(det, RationalScalar.of( //
+        BigInteger.ONE, new BigInteger("365356847125734485878112256000000")));
   }
 }

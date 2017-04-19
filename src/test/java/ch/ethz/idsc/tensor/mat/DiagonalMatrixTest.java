@@ -29,7 +29,8 @@ public class DiagonalMatrixTest extends TestCase {
 
   public void testMisc3() {
     try {
-      DiagonalMatrix.of((Tensor) RealScalar.of(-2));
+      Tensor tensor = RealScalar.of(-2);
+      DiagonalMatrix.of(tensor);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
