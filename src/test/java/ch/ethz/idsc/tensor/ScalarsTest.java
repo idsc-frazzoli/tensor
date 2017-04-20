@@ -22,10 +22,12 @@ public class ScalarsTest extends TestCase {
     checkInvariant("0", ZeroScalar.class);
     checkInvariant("12+15 /4*I", ComplexScalarImpl.class);
     checkInvariant("1.0E-50 + 1.0E50*I", ComplexScalarImpl.class);
-    checkInvariant("asndbvf", StringScalar.class);
-    checkInvariant("asn.dbv.f", StringScalar.class);
+    checkInvariant("I", ComplexScalarImpl.class);
     checkInvariant("123123*I", ComplexScalarImpl.class);
     checkInvariant("123E-123*I", ComplexScalarImpl.class);
+    checkInvariant("asndbvf", StringScalar.class);
+    checkInvariant("asn.dbv.f", StringScalar.class);
+    checkInvariant("123-1A23*I", StringScalar.class);
   }
 
   public void testSpacing() {
@@ -51,10 +53,6 @@ public class ScalarsTest extends TestCase {
     assertFalse(pattern.matcher(n3).matches());
   }
 
-  public void testStringScalar() {
-    checkInvariant("123-1A23*I", StringScalar.class);
-  }
-
   public void testParseComplex() {
     checkInvariant(ComplexScalar.of(-1e-14, -1e-15).toString(), ComplexScalarImpl.class);
     checkInvariant(ComplexScalar.of(+1e-14, -1e-15).toString(), ComplexScalarImpl.class);
@@ -72,6 +70,20 @@ public class ScalarsTest extends TestCase {
     checkInvariant(ComplexScalar.of(+1e-14, +1e+15).toString(), ComplexScalarImpl.class);
     checkInvariant(ComplexScalar.of(-1e+14, +1e+15).toString(), ComplexScalarImpl.class);
     checkInvariant(ComplexScalar.of(+1e+14, +1e+15).toString(), ComplexScalarImpl.class);
+  }
+
+  public void testImagUnit() {
+    assertEquals("I", ComplexScalar.I.toString());
+    assertEquals("-I", ComplexScalar.I.negate().toString());
+    assertEquals("2+I", RealScalar.of(2).add(ComplexScalar.I).toString());
+    assertEquals("2-I", RealScalar.of(2).subtract(ComplexScalar.I).toString());
+    // ---
+    assertEquals("3*I", ComplexScalar.of(0, 3).toString());
+    assertEquals("3-3*I", ComplexScalar.of(3, -3).toString());
+    assertEquals("3+3*I", ComplexScalar.of(3, 3).toString());
+    assertEquals("-3*I", ComplexScalar.of(0, -3).toString());
+    assertEquals("-3-3*I", ComplexScalar.of(-3, -3).toString());
+    assertEquals("-3+3*I", ComplexScalar.of(-3, 3).toString());
   }
 
   public void testNumber() {
@@ -113,5 +125,11 @@ public class ScalarsTest extends TestCase {
     assertTrue(Scalars.lessEquals(RealScalar.of(2), RealScalar.of(2)));
     assertTrue(Scalars.lessEquals(RealScalar.of(2), RealScalar.of(3)));
     assertTrue(Scalars.lessEquals(RealScalar.of(-3), ZeroScalar.get()));
+  }
+
+  public void testExample() {
+    Scalar s = Scalars.fromString("(3+2)*I/(-1+4)+8-I");
+    // System.out.println(s);
+    assertEquals(s, ComplexScalar.of(8, 2 / 3.));
   }
 }

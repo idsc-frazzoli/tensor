@@ -3,8 +3,13 @@ package ch.ethz.idsc.tensor;
 
 public enum Scalars {
   ;
-  /** @param string
-   * @return instance of Scalar for which toString().equals(string) */
+  /** parses string to scalar
+   * 
+   * Example:
+   * "(3+2)*I/(-1+4)+8-I" -> ComplexScalar.of(8, 2/3) == "8+2/3*I"
+   * 
+   * @param string
+   * @return scalar */
   // TODO this does not work for gaussScalar
   public static Scalar fromString(String string) {
     try {

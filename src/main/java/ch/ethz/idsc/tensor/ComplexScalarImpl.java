@@ -9,9 +9,6 @@ import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar {
-  /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */
-  private static final String IMAGINARY_SUFFIX = "*I";
-  // ---
   private final Scalar re;
   private final Scalar im;
 
@@ -120,20 +117,26 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return re.equals(object) && im.equals(ZeroScalar.get());
   }
 
+  // helper function that formats imaginary part to a String
+  private String _imagToString() {
+    String imag = im.toString();
+    if (imag.equals("1"))
+      return I_SYMBOL;
+    if (imag.equals("-1"))
+      return '-' + I_SYMBOL;
+    return imag + '*' + I_SYMBOL;
+  }
+
   @Override // from AbstractScalar
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder(48); // initial capacity
-    if (re.equals(ZeroScalar.get())) {
-      stringBuilder.append(im);
-      stringBuilder.append(IMAGINARY_SUFFIX);
-    } else {
+    String imag = _imagToString();
+    if (!re.equals(ZeroScalar.get())) {
       stringBuilder.append(re);
-      String imag = im.toString();
       if (!imag.startsWith("-"))
         stringBuilder.append('+');
-      stringBuilder.append(im);
-      stringBuilder.append(IMAGINARY_SUFFIX);
     }
+    stringBuilder.append(imag);
     return stringBuilder.toString();
   }
 }
