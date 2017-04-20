@@ -63,7 +63,7 @@ Scalar ops
 
 gives
 
-    0+3/4*I
+    3/4*I
 
 ---
 

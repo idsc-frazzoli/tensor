@@ -11,10 +11,10 @@ public class ColorFormatTest extends TestCase {
   public void testRandom() {
     Random random = new Random();
     for (int index = 0; index < 100; ++index) {
-      int red = random.nextInt(255);
-      int green = random.nextInt(255);
-      int blue = random.nextInt(255);
-      int alpha = random.nextInt(255);
+      int red = random.nextInt(256);
+      int green = random.nextInt(256);
+      int blue = random.nextInt(256);
+      int alpha = random.nextInt(256);
       Color color = new Color(red, green, blue, alpha);
       Tensor vector = ColorFormat.toVector(color);
       assertEquals(red, vector.Get(0).number());

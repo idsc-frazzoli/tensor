@@ -73,12 +73,16 @@ public class ComplexScalarTest extends TestCase {
     Scalar c2 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(5, 8));
     Scalar c3 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(-5, 8));
     Scalar c4 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(-5, 8));
+    assertEquals("2+5/8*I", c1.toString());
+    assertEquals("5/8*I", c2.toString());
+    assertEquals("2-5/8*I", c3.toString());
+    assertEquals("-5/8*I", c4.toString());
     assertEquals(c1, Scalars.fromString(c1.toString()));
     assertEquals(c2, Scalars.fromString(c2.toString()));
     assertEquals(c3, Scalars.fromString(c3.toString()));
     assertEquals(c4, Scalars.fromString(c4.toString()));
-    assertEquals(c2, Scalars.fromString("0+5/8*I"));
-    assertEquals(c4, Scalars.fromString("0-5/8*I"));
+    assertEquals(c2, Scalars.fromString("5/8*I"));
+    assertEquals(c4, Scalars.fromString("-5/8*I"));
   }
 
   public void testEquals() {
@@ -110,9 +114,14 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(c.imag(), ra);
   }
 
+  public void testToString() {
+    // Scalar c1 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
+    // Scalar c2 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(5, 8));
+  }
+
   public void testTensor() {
-    Tensor u = Tensors.fromString("{0+1*I,3/4-5*I}");
+    Tensor u = Tensors.fromString("{+1*I,3/4-5*I}");
     Tensor uc = Conjugate.of(u);
-    assertEquals(uc.toString(), "{0-1*I, 3/4+5*I}");
+    assertEquals(uc.toString(), "{-1*I, 3/4+5*I}");
   }
 }

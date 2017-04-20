@@ -29,17 +29,6 @@ public enum MathematicaFormat {
   /** @param strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
-    return Tensors.fromString(stream //
-        .map(String::trim) //
-        .map(string -> string.replace(" I", "1*I")) // TODO still cannot parse 1*I, but only 0+1*I
-        .map(string -> string.replace("-I", "-1*I")) //
-        .map(string -> string.replace(" ", "")) // <- depends on implementation of Scalars::fromString
-        .collect(Collectors.joining("")));
-  }
-
-  /** @param string of Mathematica encoded tensor
-   * @return tensor */
-  public static Tensor parse(String string) {
-    return parse(Stream.of(string));
+    return Tensors.fromString(stream.map(String::trim).collect(Collectors.joining("")));
   }
 }
