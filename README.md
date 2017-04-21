@@ -9,7 +9,7 @@ Features:
 * values are encoded as exact fractions, or in double precision
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
 
-The naming of functions is inspired by `Mathematica`.
+The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
 
 ## Examples 
 

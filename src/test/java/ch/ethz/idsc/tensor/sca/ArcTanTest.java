@@ -22,6 +22,6 @@ public class ArcTanTest extends TestCase {
     Scalar r = ArcTan.function.apply(s);
     assertEquals(r, ArcTan.of(s));
     // 1.50273 - 0.0944406 I
-    assertEquals(r, Scalars.fromString("1.5027268463683263-0.09444062638970714*I"));
+    assertEquals(r, Scalars.fromString("1.502726846368326-0.09444062638970714*I"));
   }
 }

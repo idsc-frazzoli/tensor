@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 import ch.ethz.idsc.tensor.sca.Sqrt;
@@ -75,12 +76,16 @@ public final class RationalScalar extends AbstractRealScalar {
       }
       return bigInteger;
     }
-    return bigFraction.doubleValue();
+    return toBigDecimal(MathContext.DECIMAL64).doubleValue();
   }
 
   // EXPERIMENTAL
   public BigDecimal toBigDecimal(int scale, RoundingMode roundingMode) {
     return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), scale, roundingMode);
+  }
+
+  public BigDecimal toBigDecimal(MathContext mathContext) {
+    return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), mathContext);
   }
 
   @Override // from AbstractScalar
@@ -113,7 +118,7 @@ public final class RationalScalar extends AbstractRealScalar {
 
   @Override // from NInterface
   public Scalar n() {
-    return DoubleScalar.of(bigFraction.doubleValue());
+    return DoubleScalar.of(toBigDecimal(MathContext.DECIMAL64).doubleValue());
   }
 
   @Override // from RealScalar

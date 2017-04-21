@@ -33,7 +33,7 @@ public class PowerTest extends TestCase {
     Scalar b = ComplexScalar.of(4, -2);
     Scalar c = Power.of(a, b);
     // Mathematica: 245.099 + 1181.35 I
-    assertEquals(c, Scalars.fromString("245.09854196562995+1181.3509801973055*I"));
+    assertEquals(c, Scalars.fromString("245.09854196562927+1181.3509801973048*I"));
   }
 
   public void testFunction() {

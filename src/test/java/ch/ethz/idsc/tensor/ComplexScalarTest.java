@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Real;
@@ -18,7 +19,7 @@ import junit.framework.TestCase;
 public class ComplexScalarTest extends TestCase {
   public void testAbs() {
     ComplexScalar s = (ComplexScalar) ComplexScalar.of(RationalScalar.of(-2, 3), RationalScalar.of(-5, 100));
-    assertEquals(s.abs(), RealScalar.of(Math.sqrt(1609. / 3600)));
+    assertEquals(Chop.of(s.abs().subtract(RealScalar.of(Math.sqrt(1609. / 3600)))), ZeroScalar.get());
   }
 
   public void testAbs2() {

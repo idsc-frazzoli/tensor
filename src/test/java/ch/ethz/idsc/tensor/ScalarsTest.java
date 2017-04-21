@@ -129,8 +129,9 @@ public class ScalarsTest extends TestCase {
 
   public void testExample() {
     Scalar s = Scalars.fromString("(3+2)*I/(-1+4)+8-I");
-    // System.out.println(s);
-    assertEquals(s, ComplexScalar.of(8, 2 / 3.));
+    Scalar c = ComplexScalar.of(RealScalar.of(8), RationalScalar.of(2, 3));
+    assertEquals(c, s);
+    assertEquals(s, c);
   }
 
   public void testParseFail() {

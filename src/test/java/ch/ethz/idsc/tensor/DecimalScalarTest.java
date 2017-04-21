@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
 
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class DecimalScalarTest extends TestCase {
@@ -63,10 +64,13 @@ public class DecimalScalarTest extends TestCase {
     Scalar sc3 = sc2.add(sc1);
     Scalar s23 = sc2.divide(sc3);
     Scalar r23 = RationalScalar.of(2, 3);
-    Scalar d23 = DoubleScalar.of(2. / 3);
-    assertEquals(r23, s23);
-    assertEquals(s23, r23);
-    assertEquals(d23, s23);
-    assertEquals(s23, d23);
+    Scalar d23 = DoubleScalar.of(Math.nextUp(2. / 3));
+    assertEquals(Chop.of(r23.subtract(s23)), ZeroScalar.get());
+    assertEquals(Chop.of(s23.subtract(r23)), ZeroScalar.get());
+    // assertEquals(s23, r23);
+    assertEquals(Chop.of(d23.subtract(s23)), ZeroScalar.get());
+    assertEquals(Chop.of(s23.subtract(d23)), ZeroScalar.get());
+    // assertEquals(d23, s23);
+    // assertEquals(s23, d23);
   }
 }

@@ -4,9 +4,11 @@ package ch.ethz.idsc.tensor;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+import ch.ethz.idsc.tensor.sca.ChopInterface;
+
 // EXPERIMENTAL
 // work in progress, use {@link DoubleScalar} instead
-class DecimalScalar extends AbstractRealScalar {
+class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   // perhaps make this member
   private static final MathContext CONTEXT = MathContext.DECIMAL128;
 
@@ -75,6 +77,12 @@ class DecimalScalar extends AbstractRealScalar {
   @Override
   protected boolean isNonNegative() {
     return 0 <= value.signum();
+  }
+
+  @Override
+  public Scalar chop(double threshold) {
+    // TODO implement using BigDec functionality
+    return abs().number().doubleValue() < threshold ? ZeroScalar.get() : this;
   }
 
   @Override

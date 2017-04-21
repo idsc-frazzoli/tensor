@@ -75,6 +75,20 @@ public class RationalScalarTest extends TestCase {
     assertEquals(sol, x);
   }
 
+  public void testDouble1over3() {
+    Scalar r = RationalScalar.of(1, 3);
+    double d = r.number().doubleValue();
+    double e = 1.0 / 3.0;
+    assertEquals(d, e);
+  }
+
+  public void testDouble2over3() {
+    Scalar r = RationalScalar.of(2, 3);
+    double d = r.number().doubleValue();
+    double e = Math.nextUp(2.0 / 3.0);
+    assertEquals(d, e);
+  }
+
   public void testSerializable() throws Exception {
     Scalar a = RationalScalar.of(3, 5);
     assertEquals(a, Serialization.parse(Serialization.of(a)));
