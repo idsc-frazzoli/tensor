@@ -14,12 +14,22 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Real;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class ComplexScalarTest extends TestCase {
   public void testAbs() {
     ComplexScalar s = (ComplexScalar) ComplexScalar.of(RationalScalar.of(-2, 3), RationalScalar.of(-5, 100));
-    assertEquals(Chop.of(s.abs().subtract(RealScalar.of(Math.sqrt(1609. / 3600)))), ZeroScalar.get());
+    // ----------------------------------------- 0.668539037337719303091638399542
+    Scalar a = s.abs(); // --------------------- 0.6685390373377194
+    Scalar c = RationalScalar.of(1609, 3600); // 0.6685390373377192
+    Tensor r = Sqrt.of(c);
+    double d = Math.sqrt(c.number().doubleValue());
+    assertEquals(Chop.of(a.subtract(r)), ZeroScalar.get());
+    String prefix = "0.668539037337719";
+    assertTrue(a.toString().startsWith(prefix));
+    assertTrue(r.toString().startsWith(prefix));
+    assertTrue((d + "").startsWith(prefix));
   }
 
   public void testAbs2() {

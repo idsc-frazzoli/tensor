@@ -73,4 +73,12 @@ public class DecimalScalarTest extends TestCase {
     // assertEquals(d23, s23);
     // assertEquals(s23, d23);
   }
+
+  public void testSqrt() {
+    BigDecimal d = BigDecimal.ONE;
+    Scalar sc1 = DecimalScalar.of(d);
+    DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1);
+    Scalar root2 = sc2.sqrt();
+    // System.out.println(root2);
+  }
 }

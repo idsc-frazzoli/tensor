@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.function.Function;
 
@@ -50,5 +51,9 @@ public enum Sqrt implements Function<Scalar, Scalar> {
         a = mid.add(BigInteger.ONE);
     }
     return a.subtract(BigInteger.ONE);
+  }
+
+  public static BigDecimal of(BigDecimal bigDecimal) {
+    return new SqrtBigDecimal(30).newtonRaphson(bigDecimal);
   }
 }

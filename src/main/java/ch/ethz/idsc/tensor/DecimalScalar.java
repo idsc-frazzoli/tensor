@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 
 // EXPERIMENTAL
 // work in progress, use {@link DoubleScalar} instead
@@ -80,9 +81,15 @@ class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   }
 
   @Override
+  public Scalar sqrt() {
+    if (isNonNegative())
+      return of(Sqrt.of(value));
+    return ComplexScalar.of(ZeroScalar.get(), of(Sqrt.of(value.negate())));
+  }
+
+  @Override
   public Scalar chop(double threshold) {
-    // TODO implement using BigDec functionality
-    return abs().number().doubleValue() < threshold ? ZeroScalar.get() : this;
+    return value.abs().doubleValue() < threshold ? ZeroScalar.get() : this;
   }
 
   @Override
