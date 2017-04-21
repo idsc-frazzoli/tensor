@@ -16,7 +16,14 @@ import ch.ethz.idsc.tensor.Tensors;
  * <code>expr = Get["filePath"]</code>
  * 
  * <p>String expressions may also be compatible with Java,
- * for instance to define an array of type int[][], or double[][] */
+ * for instance to define an array of type int[][], or double[][]
+ * 
+ * <p>The following string notation is incompatible with Java
+ * <pre>
+ * 1.2630135948105083*^17
+ * 3.584990556425835*^-18
+ * </pre> */
+// TODO support 1.2630135948105083*^17
 public enum MathematicaFormat {
   ;
   /** @param tensor
@@ -29,6 +36,15 @@ public enum MathematicaFormat {
   /** @param strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
-    return Tensors.fromString(stream.map(String::trim).collect(Collectors.joining("")));
+    return Tensors.fromString(stream //
+        .map(MathematicaFormat::join) //
+        .collect(Collectors.joining("")));
+  }
+
+  // helper function
+  private static String join(String string) {
+    if (string.endsWith("\\"))
+      return string.substring(0, string.length() - 1);
+    return string;
   }
 }

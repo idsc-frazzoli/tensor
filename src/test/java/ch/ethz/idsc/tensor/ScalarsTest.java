@@ -132,4 +132,15 @@ public class ScalarsTest extends TestCase {
     // System.out.println(s);
     assertEquals(s, ComplexScalar.of(8, 2 / 3.));
   }
+
+  public void testParseFail() {
+    assertTrue(Scalars.fromString("(3+2)(-1+4") instanceof StringScalar);
+    assertTrue(Scalars.fromString("(3+2)(-1+4+") instanceof StringScalar);
+    assertTrue(Scalars.fromString("3+2-1+4+") instanceof StringScalar);
+    assertTrue(Scalars.fromString("3+2-1+4-") instanceof StringScalar);
+    assertTrue(Scalars.fromString("3++4") instanceof StringScalar);
+    assertTrue(Scalars.fromString("3--4") instanceof StringScalar);
+    assertTrue(Scalars.fromString("3**4") instanceof StringScalar);
+    assertTrue(Scalars.fromString("3//4") instanceof StringScalar);
+  }
 }

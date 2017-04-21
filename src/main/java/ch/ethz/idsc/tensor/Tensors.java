@@ -118,7 +118,7 @@ public enum Tensors {
             beg = index + 1;
         }
         if (level == 1 && (chr == ',' || chr == Tensor.CLOSING_BRACKET)) {
-          String entry = string.substring(beg, index).trim(); // <- TODO not sure if trim is good
+          String entry = string.substring(beg, index).trim(); // trim is required
           if (!entry.isEmpty())
             list.add(fromString(entry));
           beg = index + 1;

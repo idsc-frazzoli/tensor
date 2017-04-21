@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -20,13 +21,17 @@ public enum Ceiling implements Function<Scalar, Scalar> {
    * @return best integer scalar approximation to ceiling of scalar */
   @Override
   public Scalar apply(Scalar scalar) {
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return RealScalar.of(rationalScalar.toBigDecimal(0, RoundingMode.CEILING).toBigIntegerExact());
+    }
     if (scalar instanceof RealScalar)
-      // TODO this conversion formula is probably not the best we can do numerically!
-      return RationalScalar.of(toBigInteger(scalar.number().doubleValue()), BigInteger.ONE);
+      return RationalScalar.of(_ceiling(scalar.number().doubleValue()), BigInteger.ONE);
     throw TensorRuntimeException.of(scalar);
   }
 
-  /* package */ static BigInteger toBigInteger(double value) {
+  // helper function
+  private static BigInteger _ceiling(double value) {
     BigDecimal bd = BigDecimal.valueOf(value);
     BigInteger bi = bd.toBigInteger();
     if (new BigDecimal(bi).compareTo(bd) < 0) {

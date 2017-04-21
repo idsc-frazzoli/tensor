@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -57,6 +60,20 @@ public class MathematicaFormatTest extends TestCase {
         " 0. + 0.123*I, 0. - 123233.323123*I, {0. + 1982.6716245387552*I,", //
         "  {(81263581726538*I)/42921390881, 0. + 892.5158065769785*I}} " };
     Tensor tensor = MathematicaFormat.parse(Stream.of(strings));
+    checkNonString(tensor);
+  }
+
+  public void testBasic() throws IOException {
+    String string = getClass().getResource("/io/basic.mathematica").getPath();
+    Tensor tensor = MathematicaFormat.parse(Files.lines(Paths.get(string)));
+    // System.out.println(tensor);
+    checkNonString(tensor);
+  }
+
+  public void testExponent() throws IOException {
+    String string = getClass().getResource("/io/basic.mathematica").getPath();
+    Tensor tensor = MathematicaFormat.parse(Files.lines(Paths.get(string)));
+    // System.out.println(tensor);
     checkNonString(tensor);
   }
 }

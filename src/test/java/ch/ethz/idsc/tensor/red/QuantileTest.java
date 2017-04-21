@@ -1,9 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.util.Random;
+
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import junit.framework.TestCase;
 
 public class QuantileTest extends TestCase {
@@ -34,5 +39,17 @@ public class QuantileTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testLimitTheorem() {
+    Random rnd = new Random();
+    Tensor tensor = Array.of(l -> RealScalar.of(rnd.nextDouble()), 5000);
+    Tensor weight = Tensors.vector(.76, .1, .25, .5, .05, .95, 0, .5, .99, 1);
+    Tensor quantile = Quantile.of(tensor, weight);
+    Tensor deviation = quantile.subtract(weight);
+    // System.out.println(deviation);
+    Scalar maxError = Norm.Infinity.of(deviation);
+    assertTrue(Scalars.lessThan(maxError, RealScalar.of(0.05)));
+    // System.out.println(maxError);
   }
 }

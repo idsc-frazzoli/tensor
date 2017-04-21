@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
@@ -74,6 +76,11 @@ public final class RationalScalar extends AbstractRealScalar {
       return bigInteger;
     }
     return bigFraction.doubleValue();
+  }
+
+  // EXPERIMENTAL
+  public BigDecimal toBigDecimal(int scale, RoundingMode roundingMode) {
+    return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), scale, roundingMode);
   }
 
   @Override // from AbstractScalar

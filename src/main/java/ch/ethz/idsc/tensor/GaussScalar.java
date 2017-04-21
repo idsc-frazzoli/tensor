@@ -152,6 +152,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    return String.format("(%d'%d)", value, prime);
+    // TODO check for unicode symbol tripple ===
+    return String.format("%d'%d", value, prime);
   }
 }
