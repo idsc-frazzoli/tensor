@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
+import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Sqrt;
@@ -86,10 +87,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from ArgInterface
   public Scalar arg() {
-    return DoubleScalar.of(Math.atan2( //
-        imag().number().doubleValue(), //
-        real().number().doubleValue() //
-    ));
+    return ArcTan.of(re, im); // Mathematica::ArcTan[x, y]
   }
 
   @Override // from ChopInterface

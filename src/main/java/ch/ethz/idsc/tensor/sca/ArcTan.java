@@ -25,6 +25,22 @@ public enum ArcTan implements Function<Scalar, Scalar> {
     return I_HALF.multiply(Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
   }
 
+  /** CAREFUL: the ordering of input arguments is
+   * consistent with Mathematica::ArcTan[x, y]
+   * but opposite to java.lang.Math::atan2(y, x)
+   * 
+   * @param x
+   * @param y
+   * @return arc tangent of y/x, taking into account which quadrant the point (x,y) is in */
+  public static Scalar of(Scalar x, Scalar y) {
+    if (x instanceof RealScalar && y instanceof RealScalar) {
+      return DoubleScalar.of(Math.atan2( //
+          y.number().doubleValue(), // y
+          x.number().doubleValue())); // x
+    }
+    return function.apply(y.divide(x));
+  }
+
   /** @param tensor
    * @return tensor with all scalars replaced with their arc tan */
   public static Tensor of(Tensor tensor) {

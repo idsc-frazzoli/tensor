@@ -21,14 +21,14 @@ import ch.ethz.idsc.tensor.Tensors;
  * <p>The following string notation is incompatible with Java
  * <pre>
  * 1.2630135948105083*^17
- * 3.584990556425835*^-18
+ * 3.5849905564258352*^-18
  * </pre> */
-// TODO support 1.2630135948105083*^17
 public enum MathematicaFormat {
   ;
   /** @param tensor
    * @return strings parsed by Mathematica as tensor */
   public static Stream<String> of(Tensor tensor) {
+    // TODO output format 1.2630135948105083*^17
     String string = tensor.toString().replace("}, {", "},\n{"); // <- introduce new line
     return Stream.of(string.split("\n"));
   }
@@ -36,7 +36,9 @@ public enum MathematicaFormat {
   /** @param strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
+    // TODO does not support extended precision yet: ..12`50
     return Tensors.fromString(stream //
+        .map(string -> string.replace("*^", "E")) //
         .map(MathematicaFormat::join) //
         .collect(Collectors.joining("")));
   }

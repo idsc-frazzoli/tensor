@@ -48,9 +48,6 @@ public class MathematicaFormatTest extends TestCase {
         "   234625348762534876523847652837645223864521}}" };
     Tensor tensor = MathematicaFormat.parse(Stream.of(strings));
     checkNonString(tensor);
-    // System.out.println(tensor);
-    // String ref = "[[3.0+2.0*I], -1.0348772853950305 - 0.042973906265653894*I, [], [3.141592653589793, [3, 1.4142135623730951],
-    // 23846238476583465873465/234625348762534876523847652837645223864521]]";
   }
 
   public void testComplex() {
@@ -66,14 +63,17 @@ public class MathematicaFormatTest extends TestCase {
   public void testBasic() throws IOException {
     String string = getClass().getResource("/io/basic.mathematica").getPath();
     Tensor tensor = MathematicaFormat.parse(Files.lines(Paths.get(string)));
-    // System.out.println(tensor);
     checkNonString(tensor);
   }
 
   public void testExponent() throws IOException {
-    String string = getClass().getResource("/io/basic.mathematica").getPath();
+    String string = getClass().getResource("/io/exponent.mathematica").getPath();
     Tensor tensor = MathematicaFormat.parse(Files.lines(Paths.get(string)));
-    // System.out.println(tensor);
+    checkNonString(tensor);
+  }
+
+  public void testExponent2() {
+    Tensor tensor = MathematicaFormat.parse(Stream.of("{1*^-10,1*^10}"));
     checkNonString(tensor);
   }
 }
