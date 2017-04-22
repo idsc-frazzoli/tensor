@@ -15,4 +15,15 @@ public enum Cross {
   public static Tensor of(Tensor a, Tensor b) {
     return SO3AD.dot(a).dot(b);
   }
+
+  /** gives skew matrix based on 3 vector entries
+   * [ 0 -a3 a2 ]
+   * [ a3 0 -a1 ]
+   * [ -a2 a1 0 ]
+   * 
+   * @param a vector with 3 entries
+   * @return skew symmetric 3 x 3 matrix representing cross product mapping */
+  public static Tensor of(Tensor a) {
+    return SO3AD.dot(a);
+  }
 }

@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** <p>ordering of coefficients is <em>reversed</em> compared to
  * MATLAB::polyval, MATLAB::polyfit, etc. ! */
-/* package */ enum Multinomial {
+// EXPERIMENTAL, api not finalized
+public enum Multinomial {
   ;
   // ---
   /** horner scheme
@@ -15,7 +16,7 @@ import ch.ethz.idsc.tensor.ZeroScalar;
    * @param coeffs
    * @param scalar
    * @return */
-  /* package */ static Scalar horner(Tensor coeffs, Scalar scalar) {
+  public static Scalar horner(Tensor coeffs, Scalar scalar) {
     Scalar total = ZeroScalar.get();
     for (Tensor entry : Reverse.of(coeffs))
       total = total.multiply(scalar).add(entry);
