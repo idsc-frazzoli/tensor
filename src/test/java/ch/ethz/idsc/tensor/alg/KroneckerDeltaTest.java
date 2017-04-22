@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor.alg;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.KroneckerDelta;
 import junit.framework.TestCase;
@@ -15,5 +17,11 @@ public class KroneckerDeltaTest extends TestCase {
     assertEquals(KroneckerDelta.of(1, 2), ZeroScalar.get());
     assertEquals(KroneckerDelta.of(3, 3, 3), one);
     assertEquals(KroneckerDelta.of(3, 3, 1), ZeroScalar.get());
+  }
+
+  public void testFunction() {
+    Tensor vector = Tensors.vector(0, 3, 255, 0, 255, -43, 3, 0, 255, 0, 225);
+    Tensor res = vector.map(KroneckerDelta.function(RealScalar.of(255)));
+    assertEquals(res, Tensors.fromString("{0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0}"));
   }
 }
