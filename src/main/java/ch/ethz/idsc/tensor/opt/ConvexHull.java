@@ -12,7 +12,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 public enum ConvexHull {
   ;
   /** @param tensor of n x 2 coordinates
-   * @return points in TODO WHAT? order with no 3 co-linear points */
+   * @return points in counter-clockwise order with no 3 co-linear points
+   * careful: when (x,y) are taken as pixel coordinates, the ordering appears clockwise */
   public static Tensor of(Tensor tensor) {
     if (!Dimensions.isArray(tensor))
       throw TensorRuntimeException.of(tensor);

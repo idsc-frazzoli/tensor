@@ -1,15 +1,21 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 
 /** algorithm visits all corners
@@ -23,9 +29,12 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
    * @param A
    * @param b
    * @return all non-negative solutions */
-  static NavigableMap<Scalar, Tensor> minEquals(Tensor c, Tensor A, Tensor b) {
+  static NavigableMap<Scalar, Tensor> minEquals(Tensor c, Tensor A, Tensor b, boolean isNonNegative) {
+    List<Integer> list = Dimensions.of(A);
     final int m = b.length();
     final int n = c.length();
+    if (!list.equals(Arrays.asList(m, n)))
+      throw TensorRuntimeException.of(A);
     NavigableMap<Scalar, Tensor> map = new TreeMap<>();
     long power2 = 1L << n; // n < 64
     Tensor At = Transpose.of(A);
@@ -41,7 +50,7 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
           }
         try {
           Tensor X = LinearSolve.of(Transpose.of(matrix), b);
-          if (LinearProgramming.isNonNegative(X)) {
+          if (!isNonNegative || LinearProgramming.isNonNegative(X)) {
             Scalar key = cost.dot(X).Get();
             if (!map.containsKey(key))
               map.put(key, Tensors.empty());
@@ -60,5 +69,13 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
       }
     }
     return map;
+  }
+
+  static void show(NavigableMap<Scalar, Tensor> map) {
+    for (Entry<Scalar, Tensor> entry : map.entrySet()) {
+      System.out.println("--------------------------------------");
+      System.out.println("cost=" + entry.getKey());
+      System.out.println(Pretty.of(entry.getValue()));
+    }
   }
 }
