@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
 public class RationalScalarTest extends TestCase {
@@ -87,6 +88,12 @@ public class RationalScalarTest extends TestCase {
     double d = r.number().doubleValue();
     double e = Math.nextUp(2.0 / 3.0);
     assertEquals(d, e);
+  }
+  
+  public void testPower() {
+    Scalar r = RationalScalar.of(2, 3);
+    Scalar p = Power.of(r, 3);
+    System.out.println(p);
   }
 
   public void testSerializable() throws Exception {

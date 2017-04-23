@@ -55,7 +55,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor m = Transpose.of(Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}"));
     Tensor b = Tensors.fromString("{1,1/3}");
     // Tensor y = LinearProgramming.minLessEquals(c, m.negate(), b.negate());
-    // FIXME
+    // TODO
     // System.out.println(y);
     // System.out.println(c.dot(y));
     // assertEquals(x, Tensors.fromString("[2/3,4/3]"));
@@ -87,7 +87,7 @@ public class LinearProgrammingTest extends TestCase {
     assertFalse(LinearProgramming.isFeasible(m, Tensors.vector(3, 3), b));
   }
 
-  // FIXME
+  // TODO
   public void testClrsP846Dual() {
     Tensor c = Tensors.vector(8, 10, 2);
     Tensor m = Transpose.of(Tensors.matrixInt(new int[][] { { 4, -1 }, { 2, 1 }, { -5, 2 } })).negate();
@@ -146,7 +146,7 @@ public class LinearProgrammingTest extends TestCase {
     assertEquals(x, Tensors.vector(12, 8)); // confirmed with linprog
   }
 
-  // FIXME
+  // TODO
   public void testClrsP879_5Dual() {
     Tensor c = Tensors.vector(20, 12, 16);
     Tensor m = Transpose.of(Tensors.matrixInt(new int[][] { { 1, 1 }, { 1, 0 }, { 0, 1 } })).negate();

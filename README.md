@@ -122,3 +122,4 @@ The library is used in the projects:
 * `subare`
 * `owly`
 
+The repository has over `480` unit tests.

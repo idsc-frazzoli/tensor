@@ -15,7 +15,15 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 
-// TODO cite reference to graham scan
+/** Quote from Wikipedia:
+ * 
+ * Graham's scan is a method of finding the convex hull
+ * of a finite set of points in the plane with time complexity O(n log n).
+ * It is named after Ronald Graham, who published the original algorithm in 1972.
+ * The algorithm finds all vertices of the convex hull ordered along its boundary.
+ * It uses a stack to detect and remove concavities in the boundary efficiently.
+ * 
+ * https://en.wikipedia.org/wiki/Graham_scan */
 /* package */ class GrahamScan {
   private static final Comparator<Tensor> MINY_MINX = new Comparator<Tensor>() {
     @Override

@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 public enum Max {
   ;
-  /** function is a {@link BinaryOperator} that can be used in reduce()
+  /** function function of(...) is a {@link BinaryOperator} that can be used in reduce()
    * 
    * @param a
    * @param b
@@ -17,7 +17,7 @@ public enum Max {
     return comparable.compareTo(b) < 0 ? b : a;
   }
 
-  public static <T> Function<T, T> with(T a) {
+  public static <T> Function<T, T> function(T a) {
     return b -> of(a, b);
   }
 }

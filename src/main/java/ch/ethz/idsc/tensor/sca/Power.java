@@ -28,7 +28,7 @@ public class Power {
     if (scalar instanceof PowerInterface)
       return ((PowerInterface) scalar).power(exponent);
     if (exponent instanceof ZeroScalar)
-      return RealScalar.ONE; // FIXME this is not sufficiently generic! for instance gaussScalar!
+      return RealScalar.ONE;
     if (scalar instanceof RationalScalar && exponent instanceof RationalScalar) {
       RationalScalar exp = (RationalScalar) exponent;
       if (exp.isInteger()) {

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import ch.ethz.idsc.tensor.alg.BinaryExponentiation;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
@@ -107,17 +108,17 @@ public class GaussScalar extends AbstractScalar implements //
     throw TensorRuntimeException.of(this);
   }
 
-  @Override
+  @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     if (exponent instanceof ZeroScalar)
       return of(1, prime);
     if (exponent instanceof RationalScalar) {
       RationalScalar ratio = (RationalScalar) exponent;
       if (ratio.isInteger()) {
-        @SuppressWarnings("unused")
-        int exp = ratio.numerator().intValueExact();
-        // for (int count = 0:)
-        // FIXME implement fast for loop strategy...
+        long exp = ratio.numerator().longValueExact();
+        return 0 <= exp ? //
+            BinaryExponentiation.positive(Scalars.binaryExponentiation(this, of(1, prime)), exp) : //
+            BinaryExponentiation.positive(Scalars.binaryExponentiation(invert(), of(1, prime)), -exp);
       }
     }
     throw TensorRuntimeException.of(exponent);

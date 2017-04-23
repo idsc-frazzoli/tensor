@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.alg.BinaryExponentiation;
+
 public enum Scalars {
   ;
   /** parses string to scalar
@@ -55,5 +57,24 @@ public enum Scalars {
    * @return true if s1 <= s2 */
   public static boolean lessEquals(Scalar s1, Scalar s2) {
     return compare(s1, s2) <= 0;
+  }
+
+  /* package */ static BinaryExponentiation<Scalar> binaryExponentiation(Scalar scalar, Scalar one) {
+    return new BinaryExponentiation<Scalar>() {
+      @Override
+      public Scalar zeroth() {
+        return one;
+      }
+
+      @Override
+      public Scalar square(Scalar object) {
+        return object.multiply(object);
+      }
+
+      @Override
+      public Scalar raise(Scalar object) {
+        return object.multiply(scalar);
+      }
+    };
   }
 }
