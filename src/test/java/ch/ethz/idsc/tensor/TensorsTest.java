@@ -12,9 +12,9 @@ import junit.framework.TestCase;
 
 public class TensorsTest extends TestCase {
   public void testFromString() {
-    assertEquals(Tensors.fromString("[   ]"), Tensors.empty());
-    assertEquals(Tensors.fromString("[ 2 ,-3   , 4]"), Tensors.vector(2, -3, 4));
-    assertEquals(Tensors.fromString("[   [2, -3, 4  ], [2.3,-.2   ], [  ]   ]"), //
+    assertEquals(Tensors.fromString("{   }"), Tensors.empty());
+    assertEquals(Tensors.fromString("{ 2 ,-3   , 4}"), Tensors.vector(2, -3, 4));
+    assertEquals(Tensors.fromString("{   {2, -3, 4  }, {2.3,-.2   }, {  }   }"), //
         Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(2.3, -.2), Tensors.empty()));
   }
 
@@ -158,6 +158,41 @@ public class TensorsTest extends TestCase {
     Tensor q = Tensors.vector(3, 4, 5.3, 6);
     assertTrue(p.Get(0) instanceof RationalScalar);
     assertEquals(p, q);
+  }
+
+  public void testIntArrays() {
+    int[][] data = new int[][] { { 1, -2, 3 }, { 4, 9 } };
+    Tensor actual = Tensors.matrixInt(data);
+    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9}}");
+    assertEquals(expected, actual);
+  }
+
+  public void testLongArrays() {
+    long[][] data = new long[][] { { 1, -2, 3 }, { 4, 9 }, { 0, 0, 0, 0, 0 }, {} };
+    Tensor actual = Tensors.matrixLong(data);
+    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9},{0,0,0,0,0},{}}");
+    assertEquals(expected, actual);
+  }
+
+  public void testDoubleArrays() {
+    double[][] data = new double[][] { { 1, -2, 3 }, { 4, 9 }, { 0, 0, 0, 0, 0 }, {} };
+    Tensor actual = Tensors.matrixDouble(data);
+    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9},{0,0,0,0,0},{}}");
+    assertEquals(expected, actual);
+  }
+
+  public void testNumberArrays() {
+    Number[][] data = new Number[][] { { 1, -2, 3 }, { 4, 9 }, { 0, 0, 0, 0, 0 }, {} };
+    Tensor actual = Tensors.matrix(data);
+    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9},{0,0,0,0,0},{}}");
+    assertEquals(expected, actual);
+  }
+
+  public void testScalarArrays() {
+    Scalar[][] data = new Scalar[][] { { ZeroScalar.get(), RealScalar.ONE }, {}, { ComplexScalar.of(2, 3) } };
+    Tensor actual = Tensors.matrix(data);
+    Tensor expected = Tensors.fromString("{{0, 1}, {}, {2+3*I}}");
+    assertEquals(expected, actual);
   }
   // public void testString() {
   // Tensor asd2 = ArrayReshape.of(Tensors.vector(i -> RealScalar.of(i), 3 * 2 * 4), 3, 2, 4);

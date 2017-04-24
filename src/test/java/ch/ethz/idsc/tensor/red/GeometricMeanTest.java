@@ -18,7 +18,7 @@ public class GeometricMeanTest extends TestCase {
     Tensor a = Tensors.matrixDouble(new double[][] { { 5, 10 }, { 2, 1 }, { 4, 3 }, { 12, 15 } });
     Tensor b = GeometricMean.of(a);
     // {4.68069, 4.60578}
-    Tensor r = Tensors.fromString("[4.680694638641432, 4.605779351596907]");
+    Tensor r = Tensors.fromString("{4.680694638641432, 4.605779351596907}");
     assertEquals(b, r);
   }
 

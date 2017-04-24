@@ -10,15 +10,27 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.Imag;
+import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Real;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class ComplexScalarTest extends TestCase {
   public void testAbs() {
     ComplexScalar s = (ComplexScalar) ComplexScalar.of(RationalScalar.of(-2, 3), RationalScalar.of(-5, 100));
-    assertEquals(s.abs(), RealScalar.of(Math.sqrt(1609. / 3600)));
+    // ----------------------------------------- 0.668539037337719303091638399542
+    Scalar a = s.abs(); // --------------------- 0.6685390373377194
+    Scalar c = RationalScalar.of(1609, 3600); // 0.6685390373377192
+    Tensor r = Sqrt.of(c);
+    double d = Math.sqrt(c.number().doubleValue());
+    assertEquals(Chop.of(a.subtract(r)), ZeroScalar.get());
+    String prefix = "0.668539037337719";
+    assertTrue(a.toString().startsWith(prefix));
+    assertTrue(r.toString().startsWith(prefix));
+    assertTrue((d + "").startsWith(prefix));
   }
 
   public void testAbs2() {
@@ -73,12 +85,16 @@ public class ComplexScalarTest extends TestCase {
     Scalar c2 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(5, 8));
     Scalar c3 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(-5, 8));
     Scalar c4 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(-5, 8));
+    assertEquals("2+5/8*I", c1.toString());
+    assertEquals("5/8*I", c2.toString());
+    assertEquals("2-5/8*I", c3.toString());
+    assertEquals("-5/8*I", c4.toString());
     assertEquals(c1, Scalars.fromString(c1.toString()));
     assertEquals(c2, Scalars.fromString(c2.toString()));
     assertEquals(c3, Scalars.fromString(c3.toString()));
     assertEquals(c4, Scalars.fromString(c4.toString()));
-    assertEquals(c2, Scalars.fromString("0+5/8*I"));
-    assertEquals(c4, Scalars.fromString("0-5/8*I"));
+    assertEquals(c2, Scalars.fromString("5/8*I"));
+    assertEquals(c4, Scalars.fromString("-5/8*I"));
   }
 
   public void testEquals() {
@@ -110,9 +126,25 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(c.imag(), ra);
   }
 
+  public void testPower() {
+    Scalar s = ComplexScalar.I;
+    Scalar r = Power.of(s, 3);
+    assertEquals(r, ComplexScalar.I.negate());
+  }
+
+  public void testPower2() {
+    Scalar s = ComplexScalar.of(RationalScalar.of(2, 7), RationalScalar.of(-4, 3));
+    assertEquals(Power.of(s, -3), Scalars.fromString("-16086357/68921000-10955763/34460500*I"));
+  }
+
+  public void testToString() {
+    // Scalar c1 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
+    // Scalar c2 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(5, 8));
+  }
+
   public void testTensor() {
-    Tensor u = Tensors.fromString("[0+1*I,3/4-5*I]");
+    Tensor u = Tensors.fromString("{I,3/4-5*I}");
     Tensor uc = Conjugate.of(u);
-    assertEquals(uc.toString(), "[0-1*I, 3/4+5*I]");
+    assertEquals(uc.toString(), "{-I, 3/4+5*I}");
   }
 }

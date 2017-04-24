@@ -32,12 +32,12 @@ public class SqrtTest extends TestCase {
 
   public void testRational() {
     assertEquals(RationalScalar.of(16, 25).sqrt().toString(), "4/5");
-    assertEquals(RationalScalar.of(-16, 25).sqrt().toString(), "0+4/5*I");
+    assertEquals(RationalScalar.of(-16, 25).sqrt().toString(), "4/5*I");
   }
 
   public void testReal() {
     assertEquals(RealScalar.of(16 / 25.).sqrt(), Scalars.fromString("4/5"));
-    assertEquals(RealScalar.of(-16 / 25.).sqrt(), Scalars.fromString("0+4/5*I"));
+    assertEquals(RealScalar.of(-16 / 25.).sqrt(), Scalars.fromString("4/5*I"));
   }
 
   public void testBigInteger() {

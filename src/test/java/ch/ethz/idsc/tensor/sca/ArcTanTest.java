@@ -2,9 +2,11 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class ArcTanTest extends TestCase {
@@ -22,6 +24,11 @@ public class ArcTanTest extends TestCase {
     Scalar r = ArcTan.function.apply(s);
     assertEquals(r, ArcTan.of(s));
     // 1.50273 - 0.0944406 I
-    assertEquals(r, Scalars.fromString("1.5027268463683263-0.09444062638970714*I"));
+    assertEquals(r, Scalars.fromString("1.502726846368326-0.09444062638970714*I"));
+  }
+
+  public void testCornerCases() {
+    assertEquals(ArcTan.of(RealScalar.of(-5), ZeroScalar.get()), DoubleScalar.of(Math.PI));
+    assertEquals(ArcTan.of(ZeroScalar.get(), ZeroScalar.get()), ZeroScalar.get());
   }
 }

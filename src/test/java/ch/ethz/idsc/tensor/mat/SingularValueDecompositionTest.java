@@ -202,7 +202,7 @@ public class SingularValueDecompositionTest extends TestCase {
     mat.set(RationalScalar.of(1, 1), k - 1, k - 4);
     SingularValueDecomposition svd = specialOps(mat);
     assertEquals(MatrixRank.of(svd), 2);
-    assertEquals(Sort.of(svd.getW()), Tensors.fromString("[0, 0, 0, 0, 0, 0, 0, 0, 1.0, 1.0]"));
+    assertEquals(Sort.of(svd.getW()), Tensors.fromString("{0, 0, 0, 0, 0, 0, 0, 0, 1.0, 1.0}"));
   }
 
   public void testEye() {

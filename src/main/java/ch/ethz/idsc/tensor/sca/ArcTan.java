@@ -16,16 +16,29 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ArcTan implements Function<Scalar, Scalar> {
   function;
   // ---
-  private static Scalar I = ComplexScalar.of(0, 1);
+  private static final Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar) {
-      double value = scalar.number().doubleValue();
-      return DoubleScalar.of(Math.atan(value));
+    if (scalar instanceof RealScalar)
+      return DoubleScalar.of(Math.atan(scalar.number().doubleValue()));
+    return I_HALF.multiply(Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
+  }
+
+  /** CAREFUL: the ordering of input arguments is
+   * consistent with Mathematica::ArcTan[x, y]
+   * but opposite to java.lang.Math::atan2(y, x)
+   * 
+   * @param x
+   * @param y
+   * @return arc tangent of y/x, taking into account which quadrant the point (x,y) is in */
+  public static Scalar of(Scalar x, Scalar y) {
+    if (x instanceof RealScalar && y instanceof RealScalar) {
+      return DoubleScalar.of(Math.atan2( //
+          y.number().doubleValue(), // y
+          x.number().doubleValue())); // x
     }
-    return I.divide(RealScalar.of(2)).multiply( //
-        Log.function.apply(I.add(scalar).divide(I.subtract(scalar))));
+    return function.apply(y.divide(x));
   }
 
   /** @param tensor

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
@@ -19,17 +20,19 @@ public class QRDecompositionTest extends TestCase {
     Tensor Q = qr.getQ();
     Tensor Qi = qr.getInverseQ();
     Tensor R = qr.getR();
-    // System.out.println(Pretty.of(Chop.of(R)));
+    // System.out.println(Pretty.of(R));
     // System.out.println(Pretty.of(Q));
     assertEquals(Chop.of(A.subtract(Q.dot(R))), Array.zeros(Dimensions.of(A)));
     Tensor err = Q.dot(Qi).subtract(IdentityMatrix.of(A.length()));
     // System.out.println(Pretty.of(Chop.of(err)));
     assertEquals(Chop.of(err), Array.zeros(Dimensions.of(err)));
+    Scalar qrDet = Det.of(Q).multiply(Det.of(R));
+    assertEquals(Chop.of(qrDet.subtract(Det.of(A))), ZeroScalar.get());
     return qr;
   }
 
   public void testExampleP32() {
-    Tensor A = Tensors.matrixInt(new int[][] { //
+    Tensor A = Tensors.matrix(new Number[][] { //
         { -1, -1, 1 }, //
         { 1, 3, 3 }, //
         { -1, -1, 5 }, //
@@ -49,13 +52,19 @@ public class QRDecompositionTest extends TestCase {
     specialOps(A);
   }
 
+  public void testRandomReal5() {
+    Random rnd = new Random();
+    Tensor A = Tensors.matrix((i, j) -> RealScalar.of(rnd.nextDouble()), 5, 5);
+    specialOps(A);
+  }
+
   public void testDiag() {
     Tensor A = DiagonalMatrix.of(Tensors.vector(2, 3, 4));
     specialOps(A);
   }
 
   public void testDiag2() {
-    Tensor A = DiagonalMatrix.of(Tensors.vector(2, -3, 0, 0, -1e-10, 0, 4e20));
+    Tensor A = DiagonalMatrix.of(2, -3, 0, 0, -1e-10, 0, 4e20);
     specialOps(A);
   }
 
@@ -64,9 +73,15 @@ public class QRDecompositionTest extends TestCase {
     specialOps(A);
   }
 
-  public void testRandomComplex() {
+  public void testRandomComplex1() {
     Random rnd = new Random();
     Tensor A = Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 5, 3);
+    specialOps(A);
+  }
+
+  public void testRandomComplex2() {
+    Random rnd = new Random();
+    Tensor A = Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 5, 5);
     specialOps(A);
   }
 

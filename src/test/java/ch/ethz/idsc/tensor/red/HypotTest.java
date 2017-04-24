@@ -1,13 +1,11 @@
 // code by jph
-package ch.ethz.idsc.tensor.mat;
+package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.red.Hypot;
-import ch.ethz.idsc.tensor.red.Norm;
 import junit.framework.TestCase;
 
 public class HypotTest extends TestCase {

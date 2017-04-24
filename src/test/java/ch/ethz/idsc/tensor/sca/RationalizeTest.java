@@ -41,7 +41,8 @@ public class RationalizeTest extends TestCase {
         .map(Math::round) //
         .collect(Collectors.toList());
     Tensor ratio = Rationalize.of(s, 1);
-    assertEquals(ratio.toString(), round.toString());
+    // System.out.println(ratio);
+    assertEquals(ratio, Tensors.vector(round));
     // TODO rationalize inconsistent with Round
     // assertEquals(ratio, Round.of(s));
   }

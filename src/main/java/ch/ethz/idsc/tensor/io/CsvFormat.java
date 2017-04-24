@@ -33,7 +33,7 @@ public enum CsvFormat {
     return tensor.flatten(0).parallel() //
         .map(Tensor::toString) //
         .map(string -> string.replace(", ", ",")) // remove whitespace
-        .map(Utils::removeEnclosingBrackets); // destroy info about dimension
+        .map(Utils::removeEnclosingBracketsIfPresent); // destroys information about dimension
   }
 
   /** The strings can be read from a file using
@@ -45,13 +45,13 @@ public enum CsvFormat {
    * "78"
    * "-3,2.3"
    * </pre>
-   * results in the tensor [[10, 200, 3], [78], [-3, 2.3]]
+   * results in the tensor {{10, 200, 3}, {78}, {-3, 2.3}}
    * 
    * @param stream
    * @return tensor with rows defined by the entries of the input stream */
   public static Tensor parse(Stream<String> stream) {
     return Tensor.of(stream.parallel() //
-        .map(line -> "[" + line + "]") // insert first and last bracket
+        .map(Utils::encloseWithBrackets) //
         .map(Tensors::fromString));
   }
 }

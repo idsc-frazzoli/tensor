@@ -11,8 +11,6 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
-// TODO class may be a misnomer: better ring of p-adic integers ?
-// TODO Lubin–Tate formal group law
 public class GaussScalar extends AbstractScalar implements //
     Comparable<Scalar>, //
     PowerInterface, //
@@ -109,18 +107,14 @@ public class GaussScalar extends AbstractScalar implements //
     throw TensorRuntimeException.of(this);
   }
 
-  @Override
+  @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     if (exponent instanceof ZeroScalar)
       return of(1, prime);
     if (exponent instanceof RationalScalar) {
       RationalScalar ratio = (RationalScalar) exponent;
-      if (ratio.denominator().equals(BigInteger.ONE)) {
-        @SuppressWarnings("unused")
-        int exp = ratio.numerator().intValueExact();
-        // for (int count = 0:)
-        // FIXME implement fast for loop strategy...
-      }
+      if (ratio.isInteger())
+        return Scalars.binaryPower(of(1, prime)).apply(this, ratio.numerator().longValueExact());
     }
     throw TensorRuntimeException.of(exponent);
   }
@@ -154,6 +148,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    return String.format("(%d'%d)", value, prime);
+    // TODO check for unicode symbol tripple ===
+    return String.format("%d'%d", value, prime);
   }
 }

@@ -13,11 +13,15 @@ package ch.ethz.idsc.tensor;
  * All setter functions throw an exception when invoked on a {@link Scalar}. */
 public interface Scalar extends Tensor {
   /** Scalar::length returns LENGTH */
-  public static final int LENGTH = -1;
+  static final int LENGTH = -1;
 
+  /** @param tensor must be {@link Scalar}
+   * @return this plus input */
   @Override // from Tensor
   Scalar add(Tensor tensor);
 
+  /** @param tensor must be {@link Scalar}
+   * @return this minus input */
   @Override // from Tensor
   Scalar subtract(Tensor tensor);
 

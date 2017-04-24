@@ -27,10 +27,8 @@ public enum Log implements Function<Scalar, Scalar> {
       return ComplexScalar.of(Math.log(-value), Math.PI);
     }
     if (scalar instanceof ComplexScalar) {
-      ComplexScalar complexScalar = (ComplexScalar) scalar;
-      Scalar abs = Log.function.apply(complexScalar.abs());
-      Scalar arg = Arg.function.apply(complexScalar);
-      return ComplexScalar.of(abs, arg);
+      ComplexScalar z = (ComplexScalar) scalar;
+      return ComplexScalar.of(Log.function.apply(z.abs()), Arg.function.apply(z));
     }
     throw TensorRuntimeException.of(scalar);
   }

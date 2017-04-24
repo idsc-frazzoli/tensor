@@ -71,51 +71,59 @@ public enum Tensors {
   }
 
   /** @param data
+   * @return matrix with dimensions and {@link Tensor} entries as array data */
+  public static Tensor matrix(Tensor[][] data) {
+    return Tensor.of(Stream.of(data).map(Tensors::of));
+  }
+
+  /** @param data
+   * @return matrix with dimensions and {@link RealScalar} entries */
+  public static Tensor matrix(Number[][] data) {
+    return Tensor.of(Stream.of(data).map(Tensors::vector));
+  }
+
+  /** @param data
    * @return matrix with dimensions and {@link RationalScalar} entries as array data */
   public static Tensor matrixInt(int[][] data) {
-    return matrix((i, j) -> RealScalar.of(data[i][j]), data.length, data[0].length);
+    return Tensor.of(Stream.of(data).map(Tensors::vectorInt));
   }
 
   /** @param data
    * @return matrix with dimensions and {@link RationalScalar} entries as array data */
   public static Tensor matrixLong(long[][] data) {
-    return matrix((i, j) -> RealScalar.of(data[i][j]), data.length, data[0].length);
+    return Tensor.of(Stream.of(data).map(Tensors::vectorLong));
   }
 
   /** @param data
    * @return matrix with dimensions and {@link DoubleScalar} entries as array data */
   public static Tensor matrixDouble(double[][] data) {
-    return matrix((i, j) -> DoubleScalar.of(data[i][j]), data.length, data[0].length);
+    return Tensor.of(Stream.of(data).map(Tensors::vectorDouble));
   }
 
-  /** @param data
-   * @return matrix with dimensions and {@link Scalar} entries as array data */
-  public static Tensor matrix(Scalar[][] data) {
-    return matrix((i, j) -> data[i][j], data.length, data[0].length);
-  }
+  private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
 
   /** @param string
    * @return */
   public static Tensor fromString(final String string) {
     // TODO implement using stack
-    if (string.startsWith("[")) {
+    if (string.startsWith(OPENING_BRACKET_STRING)) {
       List<Tensor> list = new ArrayList<>();
       int level = 0;
       int beg = -1;
       for (int index = 0; index < string.length(); ++index) {
         final char chr = string.charAt(index);
-        if (chr == '[') {
+        if (chr == Tensor.OPENING_BRACKET) {
           ++level;
           if (level == 1)
             beg = index + 1;
         }
-        if (level == 1 && (chr == ',' || chr == ']')) {
-          String entry = string.substring(beg, index).trim(); // <- TODO not sure if trim is good
+        if (level == 1 && (chr == ',' || chr == Tensor.CLOSING_BRACKET)) {
+          String entry = string.substring(beg, index).trim(); // trim is required
           if (!entry.isEmpty())
             list.add(fromString(entry));
           beg = index + 1;
         }
-        if (chr == ']')
+        if (chr == Tensor.CLOSING_BRACKET)
           --level;
       }
       return Tensor.of(list.stream());

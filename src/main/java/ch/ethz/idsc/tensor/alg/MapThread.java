@@ -17,7 +17,7 @@ public enum MapThread {
    * @param level
    * @return */
   // TODO test if list isEmpty
-  public static Tensor of(Function<List<Tensor>, Tensor> function, List<Tensor> list, int level) {
+  public static Tensor of(Function<List<Tensor>, ? extends Tensor> function, List<Tensor> list, int level) {
     if (0 < level) {
       long unique = list.stream().map(Tensor::length).distinct().count();
       if (1 < unique)
@@ -28,6 +28,7 @@ public enum MapThread {
     return function.apply(list);
   }
 
+  // helper function
   private static List<Tensor> _extract(int index, List<Tensor> list) {
     return list.stream().map(tensor -> tensor.get(index)).collect(Collectors.toList());
   }

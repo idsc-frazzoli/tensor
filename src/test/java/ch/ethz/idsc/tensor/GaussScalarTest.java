@@ -115,9 +115,13 @@ public class GaussScalarTest extends TestCase {
   }
 
   public void testPower() {
-    Scalar res = Power.of(GaussScalar.of(4, 7), 0);
-    assertEquals(res, GaussScalar.of(1, 7));
-    // TODO more tests once power is implemented correctly
+    int prime = 677;
+    final Scalar val = GaussScalar.of(432, prime);
+    Scalar now = GaussScalar.of(1, prime);
+    for (int index = 0; index < prime; ++index) {
+      assertEquals(Power.of(val, index), now);
+      now = now.multiply(val);
+    }
   }
 
   public void testSerializable() throws Exception {

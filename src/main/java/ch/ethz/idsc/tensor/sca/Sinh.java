@@ -19,14 +19,12 @@ public enum Sinh implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar) {
-      double value = scalar.number().doubleValue();
-      return DoubleScalar.of(Math.sinh(value));
-    }
+    if (scalar instanceof RealScalar)
+      return DoubleScalar.of(Math.sinh(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {
-      ComplexScalar complexScalar = (ComplexScalar) scalar;
-      double re = complexScalar.real().number().doubleValue();
-      double im = complexScalar.imag().number().doubleValue();
+      ComplexScalar z = (ComplexScalar) scalar;
+      double re = z.real().number().doubleValue();
+      double im = z.imag().number().doubleValue();
       return ComplexScalar.of( //
           Math.sinh(re) * Math.cos(im), //
           Math.cosh(re) * Math.sin(im));

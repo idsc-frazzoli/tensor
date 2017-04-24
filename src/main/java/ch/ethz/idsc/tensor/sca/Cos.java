@@ -19,14 +19,12 @@ public enum Cos implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar) {
-      double value = scalar.number().doubleValue();
-      return DoubleScalar.of(Math.cos(value));
-    }
+    if (scalar instanceof RealScalar)
+      return DoubleScalar.of(Math.cos(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {
-      ComplexScalar complexScalar = (ComplexScalar) scalar;
-      double re = complexScalar.real().number().doubleValue();
-      double im = complexScalar.imag().number().doubleValue();
+      ComplexScalar z = (ComplexScalar) scalar;
+      double re = z.real().number().doubleValue();
+      double im = z.imag().number().doubleValue();
       return ComplexScalar.of( //
           Math.cos(re) * Math.cosh(im), //
           -Math.sin(re) * Math.sinh(im));

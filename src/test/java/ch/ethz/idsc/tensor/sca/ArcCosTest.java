@@ -32,15 +32,20 @@ public class ArcCosTest extends TestCase {
     Scalar s = ComplexScalar.of(5, -7);
     Scalar r = ArcCos.function.apply(s);
     assertEquals(r, ArcCos.of(s));
-    // 0.9537320301189030967 + 2.8462888282083865345 I
-    assertEquals(r, Scalars.fromString("0.9537320301189085+2.846288828208389*I"));
+    // num/(double)den double conversion:
+    // 0.9537320301189085............. + 2.846288828208389
+    // mathematica:
+    // 0.95373203011890309673440616093 + 2.84628882820838653446176723296 I
+    // bigDecimal double conversion:
+    // 0.9537320301188659............. + 2.846288828208396
+    assertEquals(r, Scalars.fromString("0.9537320301188659+2.846288828208396*I"));
   }
 
   public void testArcCosh() {
     Scalar s = ComplexScalar.of(5, -7);
     Scalar r = ArcCosh.function.apply(s);
     // 2.84629 - 0.953732 I
-    Scalar a = Scalars.fromString("2.8462888282083867-0.9537320301189032*I");
+    Scalar a = Scalars.fromString("2.8462888282083862-0.9537320301189031*I");
     assertEquals(a, r);
     assertEquals(a, ArcCosh.of(s));
   }

@@ -24,14 +24,14 @@ public class SimplexTest extends TestCase {
   public void testUnique() {
     Tensor x = LinearProgramming.maxLessEquals( //
         Array.zeros(2), //
-        Tensors.fromString("[[3, -1], [-3, 2], [1,-1]]"), //
+        Tensors.matrixInt(new int[][] { { 3, -1 }, { -3, 2 }, { 1, -1 } }), //
         Tensors.vector(-1, 2, -1));
     // System.out.println(x);
-    assertEquals(x, Tensors.fromString("[0, 1]"));
+    assertEquals(x, Tensors.vector(0, 1));
   }
 
   public void testUnique2() {
-    Tensor A = Tensors.fromString("[[3, -1], [-3, 2], [1,-1]]");
+    Tensor A = Tensors.matrixInt(new int[][] { { 3, -1 }, { -3, 2 }, { 1, -1 } });
     Tensor B = Join.of(1, A, IdentityMatrix.of(3));
     // System.out.println(Pretty.of(B));
     Tensor x = LinearProgramming.minEquals( //
@@ -39,7 +39,7 @@ public class SimplexTest extends TestCase {
         B, //
         Tensors.vector(-1, 2, -1));
     // System.out.println(x);
-    assertEquals(x, Tensors.fromString("[0, 1, 0, 0, 0]"));
+    assertEquals(x, Tensors.vector(0, 1, 0, 0, 0));
   }
 
   private static Tensor fromString(String... string) {
@@ -52,31 +52,31 @@ public class SimplexTest extends TestCase {
    * by WEIREN CHOU and R. J. DUFFIN */
   public void testAEV() {
     Tensor m = fromString( //
-        "[1, 0, 0, 0, 0]", //
-        "[1, 1,-1, 0, 0]", //
-        "[1, 1, 0,-1, 0]", //
-        "[1, 1, 0, 0,-1]", //
+        "{1, 0, 0, 0, 0}", //
+        "{1, 1,-1, 0, 0}", //
+        "{1, 1, 0,-1, 0}", //
+        "{1, 1, 0, 0,-1}", //
         // ---
-        "[1,-1, 1, 0, 0]", //
-        "[1, 0, 0, 0, 0]", //
-        "[1, 0, 1,-1, 0]", //
-        "[1, 0, 1, 0,-1]", //
+        "{1,-1, 1, 0, 0}", //
+        "{1, 0, 0, 0, 0}", //
+        "{1, 0, 1,-1, 0}", //
+        "{1, 0, 1, 0,-1}", //
         // ---
-        "[1,-1, 0, 1, 0]", //
-        "[1, 0,-1, 1, 0]", //
-        "[1, 0, 0, 0, 0]", //
-        "[1, 0, 0, 1,-1]", //
+        "{1,-1, 0, 1, 0}", //
+        "{1, 0,-1, 1, 0}", //
+        "{1, 0, 0, 0, 0}", //
+        "{1, 0, 0, 1,-1}", //
         // ---
-        "[1,-1, 0, 0, 1]", //
-        "[1, 0,-1, 0, 1]", //
-        "[1, 0, 0,-1, 1]", //
-        "[1, 0, 0, 0, 0]" //
+        "{1,-1, 0, 0, 1}", //
+        "{1, 0,-1, 0, 1}", //
+        "{1, 0, 0,-1, 1}", //
+        "{1, 0, 0, 0, 0}" //
     );
     Tensor b = Tensors.vector(8, 7, 9, 13, 6, 10, 5, 12, 14, 15, 9, 11, 9, 8, 4, 7); //
     Tensor c = Tensors.vector(i -> KroneckerDelta.of(i, 0), 5);
     Tensor x = LinearProgramming.maxLessEquals(c, m, b);
-    Tensor X51 = Tensors.fromString("[6.5, 0.5, 0, 2.5, 0]");
-    Tensor X52 = Tensors.fromString("[13/2, 1/2, 0, 6, 3/2]");
+    Tensor X51 = Tensors.vector(6.5, 0.5, 0, 2.5, 0);
+    Tensor X52 = Tensors.fromString("{13/2, 1/2, 0, 6, 3/2}");
     assertEquals(c.dot(x), c.dot(X51));
     assertEquals(c.dot(x), c.dot(X52));
     assertTrue(LinearProgramming.isFeasible(m, X51, b));
@@ -89,10 +89,10 @@ public class SimplexTest extends TestCase {
    * pp. 30 */
   public void testP30() {
     Tensor m = fromString( //
-        "[1,1,1,1,0,0,0]", //
-        "[1,0,0,0,1,0,0]", //
-        "[0,0,1,0,0,1,0]", //
-        "[0,3,1,0,0,0,1]" //
+        "{1,1,1,1,0,0,0}", //
+        "{1,0,0,0,1,0,0}", //
+        "{0,0,1,0,0,1,0}", //
+        "{0,3,1,0,0,0,1}" //
     );
     Tensor b = Tensors.vector(4, 2, 3, 6);
     Tensor c = Tensors.vector(0, 2, 0, 1, 0, 0, 5);
@@ -108,12 +108,12 @@ public class SimplexTest extends TestCase {
    * pp. 51 */
   public void testCyclingP51() {
     Tensor m = fromString( //
-        "[1/4, -8,-1  , 9]", //
-        "[1/2,-12,-1/2, 3]", //
-        "[0  ,  0, 1  , 0]" //
+        "{1/4, -8,-1  , 9}", //
+        "{1/2,-12,-1/2, 3}", //
+        "{0  ,  0, 1  , 0}" //
     );
     Tensor b = Tensors.vector(0, 0, 1);
-    Tensor c = Tensors.fromString("[-3/4, 20, -1/2, 6]");
+    Tensor c = Tensors.fromString("{-3/4, 20, -1/2, 6}");
     Tensor x = LinearProgramming.minLessEquals(c, m, b);
     Tensor X = Tensors.vector(1, 0, 1, 0);
     assertEquals(x, X);

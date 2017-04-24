@@ -23,7 +23,7 @@ public class VarianceTest extends TestCase {
     );
     Tensor b = TensorMap.of(Variance::ofVector, A, 1);
     // System.out.println(b);
-    Tensor c = Tensors.fromString("[91/12,13/3]");
+    Tensor c = Tensors.fromString("{91/12,13/3}");
     assertEquals(b, c);
   }
 

@@ -75,16 +75,22 @@ public enum LinearProgramming {
     return minLessEquals(c.negate(), m, b);
   }
 
+  /** @param vector
+   * @return true if all entries in vector are non-negative */
+  public static boolean isNonNegative(Tensor vector) {
+    return !vector.flatten(0) // all vector_i >= 0
+        .map(RealScalar.class::cast) //
+        .filter(v -> 0 > v.signInt()) //
+        .findAny().isPresent();
+  }
+
   /** @param m
    * @param x
    * @param b
    * @return true if x >= 0 and m.x <= b */
   public static boolean isFeasible(Tensor m, Tensor x, Tensor b) {
     boolean status = true;
-    status &= !x.flatten(0) // all x >= 0
-        .map(RealScalar.class::cast) //
-        .filter(v -> 0 > v.signInt()) //
-        .findAny().isPresent();
+    status &= isNonNegative(x);
     // if (!status) {
     // System.out.println(x);
     // System.out.println("negative");

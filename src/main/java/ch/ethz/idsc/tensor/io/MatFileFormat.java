@@ -2,19 +2,25 @@
 package ch.ethz.idsc.tensor.io;
 
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** "MAT-File Format" by The MathWorks, Inc. */
+/** "MAT-File Format" by The MathWorks, Inc.
+ * 
+ * There is no simple way to parse a mat file:
+ * a file may contain multiple arrays, structures and cells
+ * moreover the data may be compressed.
+ * 
+ * The tensor library rejects complexity, therefore,
+ * the format is not natively supported. */
+@Deprecated
 /* package */ enum MatFileFormat {
-  // TODO google for code that does the job
   ;
   // ---
   public static byte[] of(Tensor tensor) {
-    Dimensions.of(tensor);
-    return null;
+    throw TensorRuntimeException.of(tensor);
   }
 
   public static Tensor of(byte[] bytes) {
-    return null;
+    throw new RuntimeException();
   }
 }

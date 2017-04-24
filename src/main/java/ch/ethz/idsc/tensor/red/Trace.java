@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
@@ -47,5 +48,11 @@ public enum Trace {
    * i.e. the sum of all slices along dimensions d0 and d1 */
   public static Tensor of(Tensor tensor, int d0, int d1) {
     return stream(tensor, d0, d1).reduce(Tensor::add).get();
+  }
+
+  /** @param matrix
+   * @return */
+  public static Scalar of(Tensor matrix) {
+    return of(matrix, 0, 1).Get();
   }
 }

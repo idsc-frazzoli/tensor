@@ -16,7 +16,7 @@ public class HilbertMatrixTest extends TestCase {
   public void testInverse() {
     Tensor m = HilbertMatrix.of(4, 4);
     Tensor mi = Inverse.of(m);
-    Tensor ci = Tensors.fromString("[[16, -120, 240, -140], [-120, 1200, -2700, 1680], [240, -2700, 6480, -4200], [-140, 1680, -4200, 2800]]");
+    Tensor ci = Tensors.fromString("{{16, -120, 240, -140}, {-120, 1200, -2700, 1680}, {240, -2700, 6480, -4200}, {-140, 1680, -4200, 2800}}");
     assertEquals(mi, ci);
   }
 }

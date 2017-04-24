@@ -9,6 +9,6 @@ public class StringScalarTest extends TestCase {
     Tensor b = StringScalar.of("x");
     Tensor d = Tensors.of(a, b, a, b);
     assertEquals(d.length(), 4);
-    assertEquals(d.toString(), "[asd, x, asd, x]");
+    assertEquals(d.toString(), "{asd, x, asd, x}");
   }
 }

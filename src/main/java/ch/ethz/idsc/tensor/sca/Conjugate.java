@@ -23,7 +23,7 @@ public enum Conjugate implements Function<Scalar, Scalar> {
   /** see also {@link ConjugateTranspose}
    * 
    * @param tensor
-   * @return tensor with all entries conjugated 
+   * @return tensor with all entries conjugated
    * @see ConjugateTranspose */
   public static Tensor of(Tensor tensor) {
     return tensor.map(Conjugate.function);

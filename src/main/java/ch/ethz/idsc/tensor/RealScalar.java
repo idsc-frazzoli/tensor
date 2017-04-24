@@ -11,19 +11,27 @@ import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
+/** RealScalar encodes a real number
+ * 
+ * <p>possible encodings realize
+ * <ul>
+ * <li>integer fraction
+ * <li>decimal with double precision
+ * <li>decimal with extra precision
+ * </ul> */
 public interface RealScalar extends Scalar, //
     ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, NInterface, //
     RealInterface, SqrtInterface {
   /** real scalar 1 as a {@link RationalScalar} */
-  public static final RealScalar ONE = RealScalar.of(1);
+  static final RealScalar ONE = RealScalar.of(1);
   /** real scalar that encodes Infinity. value is backed by Double.POSITIVE_INFINITY */
-  public static final RealScalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
+  static final RealScalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
   /** real scalar that encodes -Infinity. value is backed by Double.NEGATIVE_INFINITY */
-  public static final RealScalar NEGATIVE_INFINITY = of(Double.NEGATIVE_INFINITY);
+  static final RealScalar NEGATIVE_INFINITY = of(Double.NEGATIVE_INFINITY);
 
   /** @param number
    * @return scalar with best possible accuracy to describe number */
-  public static RealScalar of(Number number) {
+  static RealScalar of(Number number) {
     if (number instanceof Integer || number instanceof Long)
       return RationalScalar.of(number.longValue(), 1);
     if (number instanceof Float || number instanceof Double)

@@ -6,7 +6,11 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
-/** inspired by
+/** Pretty helps to format tensors for easy reading in the console.
+ * 
+ * <p>Pretty can be used to export tensors as string expressions to MATLAB.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixForm.html">MatrixForm</a> */
 public class Pretty {
   /** @param tensor

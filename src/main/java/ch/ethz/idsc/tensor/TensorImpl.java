@@ -213,6 +213,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override // from Object
   public String toString() {
-    return list.toString();
+    String string = list.toString(); // produces "[x, y, z]"
+    StringBuilder stringBuilder = new StringBuilder(string.length());
+    stringBuilder.append(OPENING_BRACKET);
+    stringBuilder.append(string, 1, string.length() - 1);
+    stringBuilder.append(CLOSING_BRACKET);
+    return stringBuilder.toString(); // "{x, y, z}"
   }
 }

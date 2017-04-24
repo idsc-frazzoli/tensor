@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -39,15 +42,12 @@ public class MathematicaFormatTest extends TestCase {
 
   public void testStrings() {
     String[] strings = new String[] { //
-        "{{3 + 2*I}, -1.0348772853950305 + 0.042973906265653894*I, ", //
+        "{{3 + 2*I}, I,-I,-1.0348772853950305 + 0.042973906265653894*I, ", //
         " -1.0348772853950305 - 0.042973906265653894*I, {}, ", //
         " {3.141592653589793, {3, 1.4142135623730951}, 23846238476583465873465/", //
         "   234625348762534876523847652837645223864521}}" };
     Tensor tensor = MathematicaFormat.parse(Stream.of(strings));
     checkNonString(tensor);
-    // System.out.println(tensor);
-    // String ref = "[[3.0+2.0*I], -1.0348772853950305 - 0.042973906265653894*I, [], [3.141592653589793, [3, 1.4142135623730951],
-    // 23846238476583465873465/234625348762534876523847652837645223864521]]";
   }
 
   public void testComplex() {
@@ -55,8 +55,25 @@ public class MathematicaFormatTest extends TestCase {
         "{{3 + I}, -1.0348772853950305 - 0.042973906265653894*I, {}, ", //
         " 0.1 + I, 0.1 - I, ", // <- these were manually added
         " 0. + 0.123*I, 0. - 123233.323123*I, {0. + 1982.6716245387552*I,", //
-        "  {81263581726538/42921390881*I, 0. + 892.5158065769785*I}} " };
+        "  {(81263581726538*I)/42921390881, 0. + 892.5158065769785*I}} " };
     Tensor tensor = MathematicaFormat.parse(Stream.of(strings));
+    checkNonString(tensor);
+  }
+
+  public void testBasic() throws IOException {
+    String string = getClass().getResource("/io/basic.mathematica").getPath();
+    Tensor tensor = MathematicaFormat.parse(Files.lines(Paths.get(string)));
+    checkNonString(tensor);
+  }
+
+  public void testExponent() throws IOException {
+    String string = getClass().getResource("/io/exponent.mathematica").getPath();
+    Tensor tensor = MathematicaFormat.parse(Files.lines(Paths.get(string)));
+    checkNonString(tensor);
+  }
+
+  public void testExponent2() {
+    Tensor tensor = MathematicaFormat.parse(Stream.of("{1*^-10,1*^10}"));
     checkNonString(tensor);
   }
 }

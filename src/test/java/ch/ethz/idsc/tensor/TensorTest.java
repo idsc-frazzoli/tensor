@@ -27,11 +27,11 @@ public class TensorTest extends TestCase {
         new int[][] { { 3, 4 }, { 1, 2 }, { 9, 8 } });
     assertEquals(a.get(0, 0), Tensors.fromString("3"));
     assertEquals(a.get(1, 1), Tensors.fromString("2"));
-    assertEquals(a.get(0), Tensors.fromString("[3, 4]"));
-    assertEquals(a.get(1), Tensors.fromString("[1, 2]"));
-    assertEquals(a.get(2), Tensors.fromString("[9, 8]"));
-    assertEquals(a.get(-1, 0), Tensors.fromString("[3, 1, 9]"));
-    assertEquals(a.get(-1, 1), Tensors.fromString("[4, 2, 8]"));
+    assertEquals(a.get(0), Tensors.fromString("{3, 4}"));
+    assertEquals(a.get(1), Tensors.fromString("{1, 2}"));
+    assertEquals(a.get(2), Tensors.fromString("{9, 8}"));
+    assertEquals(a.get(-1, 0), Tensors.fromString("{3, 1, 9}"));
+    assertEquals(a.get(-1, 1), Tensors.fromString("{4, 2, 8}"));
   }
 
   private static Scalar incr(Scalar a) {
@@ -75,7 +75,7 @@ public class TensorTest extends TestCase {
   public void testPMul2() {
     Tensor a = Tensors.of( //
         Tensors.vectorLong(new long[] { 1, 2, 3 }), //
-        Tensors.fromString("[3,-1,-1]"));
+        Tensors.fromString("{3,-1,-1}"));
     Tensor b = Tensors.vectorLong(3, 2);
     Tensor c = Tensors.of( //
         Tensors.vectorLong(3, 6, 9), //
@@ -90,7 +90,7 @@ public class TensorTest extends TestCase {
     Tensor c = Tensors.of( //
         Tensors.vectorLong(3, 4, 6), //
         Tensors.vectorLong(-9, -2, -2));
-    Tensor r = Tensors.fromString("[[3, 8, 18], [-27, 2, 2]]");
+    Tensor r = Tensors.fromString("{{3, 8, 18}, {-27, 2, 2}}");
     assertEquals(a.pmul(c), r);
   }
 
@@ -138,6 +138,13 @@ public class TensorTest extends TestCase {
     assertTrue(c.add(d).equals(d.add(c)));
     Tensor e = Tensors.vectorLong(4, 6, 11);
     assertTrue(c.add(d).equals(e));
+  }
+
+  public void testAdd2() {
+    Tensor A = Tensors.matrixInt(new int[][] { {}, { 1, -2, 3 }, { 4, 9 } });
+    Tensor B = Tensors.matrixInt(new int[][] { {}, { 0, 2, 2 }, { 8, -7 } });
+    Tensor expected = Tensors.fromString("{{}, {1, 0, 5}, {12, 2}}");
+    assertEquals(expected, A.add(B));
   }
 
   public void testDotEmpty() {

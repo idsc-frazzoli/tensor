@@ -50,29 +50,29 @@ public class CsvFormatTest extends TestCase {
 
   public void testParse() {
     Tensor t = CsvFormat.parse(Arrays.asList("10, 200, 3", "", "78", "-3, 2.3").stream());
-    Tensor r = Tensors.fromString("[[10, 200, 3], [], [78], [-3, 2.3]]");
+    Tensor r = Tensors.fromString("{{10, 200, 3}, {}, {78}, {-3, 2.3}}");
     assertEquals(t, r);
     assertEquals(t.toString(), r.toString());
   }
 
   public void testParse2() {
-    Tensor t = CsvFormat.parse(Arrays.asList("10, [200, 3]", "78", "-3, 2.3").stream());
-    Tensor r = Tensors.fromString("[[10, [200, 3]], [78], [-3, 2.3]]");
+    Tensor t = CsvFormat.parse(Arrays.asList("10, {200, 3}", "78", "-3, 2.3").stream());
+    Tensor r = Tensors.fromString("{{10, {200, 3}}, {78}, {-3, 2.3}}");
     assertEquals(t, r);
     assertEquals(t.toString(), r.toString());
   }
 
   public void testSpacing() {
-    Tensor r = Tensors.fromString("[[10, [200, 3]], [],  [78], [-3, 2.3, 1-3*I]]");
+    Tensor r = Tensors.fromString("{{10, {200, 3}}, {},  {78}, {-3, 2.3, 1-3*I}}");
     List<String> list = CsvFormat.of(r).collect(Collectors.toList());
-    assertEquals(list.get(0), "10,[200,3]");
+    assertEquals(list.get(0), "10,{200,3}");
     assertEquals(list.get(1), "");
     assertEquals(list.get(2), "78");
     assertEquals(list.get(3), "-3,2.3,1-3*I");
   }
 
   public void testVector() {
-    Tensor r = Tensors.fromString("[123,456]");
+    Tensor r = Tensors.fromString("{123,456}");
     List<String> list = CsvFormat.of(r).collect(Collectors.toList());
     Tensor s = CsvFormat.parse(list.stream()); // [[123], [456]]
     assertEquals(Partition.of(r, 1), s);
@@ -100,6 +100,6 @@ public class CsvFormatTest extends TestCase {
   public void testGeditFile() throws Exception {
     String string = getClass().getResource("/io/gedit_mixed.csv").getPath();
     Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
-    assertEquals(table, Tensors.fromString("[[hello, blub], [1, 4.22], [-3, 0.323, asdf], [], [2, 1.223], [3+8*I, 12, 33]]"));
+    assertEquals(table, Tensors.fromString("{{hello, blub}, {1, 4.22}, {-3, 0.323, asdf}, {}, {2, 1.223}, {3+8*I, 12, 33}}"));
   }
 }

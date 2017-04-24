@@ -1,10 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigInteger;
+
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
 public class RationalScalarTest extends TestCase {
@@ -75,6 +78,32 @@ public class RationalScalarTest extends TestCase {
     assertEquals(sol, x);
   }
 
+  public void testDouble1over3() {
+    Scalar r = RationalScalar.of(1, 3);
+    double d = r.number().doubleValue();
+    double e = 1.0 / 3.0;
+    assertEquals(d, e);
+  }
+
+  public void testDouble2over3() {
+    Scalar r = RationalScalar.of(2, 3);
+    double d = r.number().doubleValue();
+    double e = Math.nextUp(2.0 / 3.0);
+    assertEquals(d, e);
+  }
+
+  public void testPower() {
+    assertEquals(Power.of(RationalScalar.of(2, 3), 0), RealScalar.ONE);
+    assertEquals(Power.of(RationalScalar.of(2, 3), 1), RationalScalar.of(2, 3));
+    assertEquals(Power.of(RationalScalar.of(2, 3), 3), RationalScalar.of(2 * 2 * 2, 3 * 3 * 3));
+    assertEquals(Power.of(RationalScalar.of(2, 3), -3), RationalScalar.of(3 * 3 * 3, 2 * 2 * 2));
+  }
+
+  public void testPower2() {
+    assertEquals(Power.of(RealScalar.ONE, new BigInteger("23847625384765238754826534")), RealScalar.ONE);
+    assertEquals(Power.of(RealScalar.ONE, new BigInteger("-23847625384765238754826534")), RealScalar.ONE);
+  }
+
   public void testSerializable() throws Exception {
     Scalar a = RationalScalar.of(3, 5);
     assertEquals(a, Serialization.parse(Serialization.of(a)));
@@ -83,7 +112,7 @@ public class RationalScalarTest extends TestCase {
   public void testSort() {
     Tensor v = Tensors.of(RationalScalar.of(3, 4), RationalScalar.of(-1, 7), ZeroScalar.get());
     Tensor s = Sort.of(v);
-    Tensor r = Tensors.fromString("[-1/7, 0, 3/4]");
+    Tensor r = Tensors.fromString("{-1/7, 0, 3/4}");
     assertEquals(s, r);
   }
 

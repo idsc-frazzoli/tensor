@@ -15,35 +15,38 @@ import ch.ethz.idsc.tensor.Tensors;
  * <p>Mathematica::Get retrieves an expression from a file
  * <code>expr = Get["filePath"]</code>
  * 
- * <p>String expressions may also be compatible with Java. */
+ * <p>String expressions may also be compatible with Java,
+ * for instance to define an array of type int[][], or double[][]
+ * 
+ * <p>The following string notation is incompatible with Java
+ * <pre>
+ * 1.2630135948105083*^17
+ * 3.5849905564258352*^-18
+ * </pre> */
 public enum MathematicaFormat {
   ;
   /** @param tensor
    * @return strings parsed by Mathematica as tensor */
   public static Stream<String> of(Tensor tensor) {
-    String string = tensor.toString() //
-        .replace('[', '{') //
-        .replace(']', '}') //
-        .replace("}, {", "},\n{"); // <- introduce new line
+    // TODO output format 1.2630135948105083*^17
+    String string = tensor.toString().replace("}, {", "},\n{"); // <- introduce new line
     return Stream.of(string.split("\n"));
   }
 
   /** @param strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
+    // TODO does not support extended precision yet: ..12`50
     return Tensors.fromString(stream //
-        .map(String::trim) //
-        .map(string -> string.replace(" I", "1*I")) // TODO still cannot parse 1*I, but only 0+1*I
-        .map(string -> string.replace("-I", "-1*I")) //
-        .map(string -> string.replace(" ", "")) // <- depends on implementation of Scalars::fromString
-        .map(string -> string.replace('{', '[')) //
-        .map(string -> string.replace('}', ']')) //
+        .map(string -> string.replace("*^", "E")) //
+        .map(MathematicaFormat::join) //
         .collect(Collectors.joining("")));
   }
 
-  /** @param string of Mathematica encoded tensor
-   * @return tensor */
-  public static Tensor parse(String string) {
-    return parse(Stream.of(string));
+  // helper function
+  private static String join(String string) {
+    if (string.endsWith("\\"))
+      return string.substring(0, string.length() - 1);
+    return string;
   }
 }
