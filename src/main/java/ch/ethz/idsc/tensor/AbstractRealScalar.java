@@ -1,7 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
+import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Log;
+import ch.ethz.idsc.tensor.sca.PowerInterface;
+
+public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar, //
+    PowerInterface {
   /** @return this or this.negate() depending on whichever is non-negative */
   @Override // from Scalar
   public final Scalar abs() {
@@ -15,7 +20,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from RealScalar
   public final int signInt() {
-    return this instanceof ZeroScalar ? 0 : (isNonNegative() ? 1 : -1);
+    return isNonNegative() ? 1 : -1;
   }
 
   @Override // from RealInterface
@@ -41,6 +46,13 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   @Override // from ArgInterface
   public Scalar arg() {
     return isNonNegative() ? ZeroScalar.get() : DoubleScalar.of(Math.PI);
+  }
+
+  @Override // from PowerInterface
+  public Scalar power(Scalar exponent) {
+    if (exponent instanceof RealScalar)
+      return RealScalar.of(Math.pow(number().doubleValue(), exponent.number().doubleValue()));
+    return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
   }
 
   /***************************************************/

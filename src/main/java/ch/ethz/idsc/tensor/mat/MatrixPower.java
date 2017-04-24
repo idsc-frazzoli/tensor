@@ -1,39 +1,43 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import java.math.BigInteger;
+
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.BinaryExponentiation;
+import ch.ethz.idsc.tensor.alg.BinaryPower;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixPower.html">MatrixPower</a> */
-public class MatrixPower implements BinaryExponentiation<Tensor> {
+public class MatrixPower extends BinaryPower<Tensor> {
   /** @param m square matrix
    * @param exponent
    * @return m ^ exponent */
   public static Tensor of(Tensor m, long exponent) {
-    return 0 <= exponent ? //
-        BinaryExponentiation.positive(new MatrixPower(m), exponent) : //
-        BinaryExponentiation.positive(new MatrixPower(Inverse.of(m)), -exponent);
+    return of(m, BigInteger.valueOf(exponent));
   }
 
-  private final Tensor matrix;
+  public static Tensor of(Tensor m, BigInteger exponent) {
+    return new MatrixPower(m.length()).apply(m, exponent);
+  }
 
-  private MatrixPower(Tensor matrix) {
-    this.matrix = matrix;
+  private final int n;
+
+  private MatrixPower(int n) {
+    this.n = n;
   }
 
   @Override
   public Tensor zeroth() {
-    return IdentityMatrix.of(matrix.length());
+    return IdentityMatrix.of(n);
   }
 
   @Override
-  public Tensor square(Tensor tensor) {
-    return tensor.dot(tensor);
+  public Tensor invert(Tensor matrix) {
+    return Inverse.of(matrix);
   }
 
   @Override
-  public Tensor raise(Tensor tensor) {
-    return tensor.dot(matrix);
+  public Tensor multiply(Tensor matrix1, Tensor matrix2) {
+    return matrix1.dot(matrix2);
   }
 }

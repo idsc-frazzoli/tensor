@@ -8,7 +8,7 @@ package ch.ethz.idsc.tensor;
  * 
  * <p>For instance, there are no {@link DoubleScalar} instance
  * with double value 0.0, and no {@link RationalScalar} instance of 0/1. */
-public final class ZeroScalar extends AbstractRealScalar {
+public final class ZeroScalar extends AbstractScalar implements RealScalar {
   private static final ZeroScalar INSTANCE = new ZeroScalar();
 
   /** @return instance representing 0 */
@@ -34,22 +34,52 @@ public final class ZeroScalar extends AbstractRealScalar {
     return this;
   }
 
+  @Override // from Scalar
+  public Scalar abs() {
+    return this;
+  }
+
+  @Override // from Scalar
+  public Number number() {
+    return Integer.valueOf(0);
+  }
+
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     return scalar;
   }
 
-  @Override // from AbstractRealScalar
-  protected boolean isNonNegative() {
-    return true;
+  @Override // from ArgInterface
+  public Scalar arg() {
+    return this;
+  }
+
+  @Override // from ConjugateInterface
+  public Scalar conjugate() {
+    return this;
+  }
+
+  @Override // from RealInterface
+  public Scalar real() {
+    return this;
+  }
+
+  @Override // from ImagInterface
+  public Scalar imag() {
+    return this;
+  }
+
+  @Override // from SqrtInterface
+  public Scalar sqrt() {
+    return this;
   }
 
   @Override // from RealScalar
-  public Number number() {
-    return Integer.valueOf(0);
+  public int signInt() {
+    return 0;
   }
 
-  @Override
+  @Override // from NInterface
   public Scalar n() {
     return this;
   }

@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-import ch.ethz.idsc.tensor.alg.BinaryExponentiation;
+import ch.ethz.idsc.tensor.alg.BinaryPower;
 
 public enum Scalars {
   ;
@@ -59,21 +59,21 @@ public enum Scalars {
     return compare(s1, s2) <= 0;
   }
 
-  /* package */ static BinaryExponentiation<Scalar> binaryExponentiation(Scalar scalar, Scalar one) {
-    return new BinaryExponentiation<Scalar>() {
+  public static BinaryPower<Scalar> binaryPower(Scalar one) {
+    return new BinaryPower<Scalar>() {
       @Override
       public Scalar zeroth() {
         return one;
       }
 
       @Override
-      public Scalar square(Scalar object) {
-        return object.multiply(object);
+      public Scalar invert(Scalar scalar) {
+        return scalar.invert();
       }
 
       @Override
-      public Scalar raise(Scalar object) {
-        return object.multiply(scalar);
+      public Scalar multiply(Scalar s1, Scalar s2) {
+        return s1.multiply(s2);
       }
     };
   }

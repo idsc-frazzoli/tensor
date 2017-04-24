@@ -6,10 +6,14 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar {
+/* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
+    PowerInterface {
   private final Scalar re;
   private final Scalar im;
 
@@ -93,6 +97,16 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
     return ComplexScalar.of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
+  }
+
+  @Override // from PowerInterface
+  public Scalar power(Scalar exponent) {
+    if (exponent instanceof RationalScalar) {
+      RationalScalar exp = (RationalScalar) exponent;
+      if (exp.isInteger())
+        return Scalars.binaryPower(RealScalar.ONE).apply(this, exp.numerator());
+    }
+    return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
   }
 
   @Override // from NInterface

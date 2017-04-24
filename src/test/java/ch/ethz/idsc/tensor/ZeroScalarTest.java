@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 public class ZeroScalarTest extends TestCase {
   public void testPositive() {
-    assertTrue(ZeroScalar.get().isNonNegative());
+    assertTrue(ZeroScalar.get().signInt() == 0);
   }
 
   public void testCompare() {

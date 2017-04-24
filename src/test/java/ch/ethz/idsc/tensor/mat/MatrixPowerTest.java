@@ -5,9 +5,15 @@ import java.util.BitSet;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class MatrixPowerTest extends TestCase {
+  private static boolean trunc(Tensor m, Tensor r) {
+    return Chop.of(m.subtract(r)).equals(Array.zeros(m.length(), m.length()));
+  }
+
   private static void checkLow(Tensor m) {
     int n = m.length();
     assertEquals(MatrixPower.of(m, 0), IdentityMatrix.of(n));
@@ -17,6 +23,10 @@ public class MatrixPowerTest extends TestCase {
     Tensor inv = Inverse.of(m);
     assertEquals(MatrixPower.of(m, -2), inv.dot(inv));
     assertEquals(MatrixPower.of(m, 3), m.dot(m).dot(m));
+    assertTrue(trunc(MatrixPower.of(m, 3), m.dot(m).dot(m)));
+    assertTrue(trunc(MatrixPower.of(m, 4), m.dot(m).dot(m).dot(m)));
+    assertTrue(trunc(MatrixPower.of(m, 5), m.dot(m).dot(m).dot(m).dot(m)));
+    assertTrue(trunc(MatrixPower.of(m, 6), m.dot(m).dot(m).dot(m).dot(m).dot(m)));
   }
 
   public void testHilbert() {

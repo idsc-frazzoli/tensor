@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigInteger;
+
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
@@ -89,11 +91,17 @@ public class RationalScalarTest extends TestCase {
     double e = Math.nextUp(2.0 / 3.0);
     assertEquals(d, e);
   }
-  
+
   public void testPower() {
-    Scalar r = RationalScalar.of(2, 3);
-    Scalar p = Power.of(r, 3);
-    System.out.println(p);
+    assertEquals(Power.of(RationalScalar.of(2, 3), 0), RealScalar.ONE);
+    assertEquals(Power.of(RationalScalar.of(2, 3), 1), RationalScalar.of(2, 3));
+    assertEquals(Power.of(RationalScalar.of(2, 3), 3), RationalScalar.of(2 * 2 * 2, 3 * 3 * 3));
+    assertEquals(Power.of(RationalScalar.of(2, 3), -3), RationalScalar.of(3 * 3 * 3, 2 * 2 * 2));
+  }
+
+  public void testPower2() {
+    assertEquals(Power.of(RealScalar.ONE, new BigInteger("23847625384765238754826534")), RealScalar.ONE);
+    assertEquals(Power.of(RealScalar.ONE, new BigInteger("-23847625384765238754826534")), RealScalar.ONE);
   }
 
   public void testSerializable() throws Exception {

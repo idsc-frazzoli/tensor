@@ -13,6 +13,7 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.Imag;
+import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
@@ -123,6 +124,17 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(c.conjugate(), s2);
     assertEquals(s2, c.conjugate());
     assertEquals(c.imag(), ra);
+  }
+
+  public void testPower() {
+    Scalar s = ComplexScalar.I;
+    Scalar r = Power.of(s, 3);
+    assertEquals(r, ComplexScalar.I.negate());
+  }
+
+  public void testPower2() {
+    Scalar s = ComplexScalar.of(RationalScalar.of(2, 7), RationalScalar.of(-4, 3));
+    assertEquals(Power.of(s, -3), Scalars.fromString("-16086357/68921000-10955763/34460500*I"));
   }
 
   public void testToString() {

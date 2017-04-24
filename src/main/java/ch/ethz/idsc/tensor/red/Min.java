@@ -17,11 +17,8 @@ public enum Min {
     return comparable.compareTo(b) > 0 ? b : a;
   }
 
-  /**
-   * 
-   * @param a
-   * @return
-   */
+  /** @param a
+   * @return */
   public static <T> Function<T, T> function(T a) {
     return b -> of(a, b);
   }

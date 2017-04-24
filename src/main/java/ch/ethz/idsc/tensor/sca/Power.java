@@ -3,9 +3,9 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** implementation compliant to Java convention:
@@ -28,24 +28,8 @@ public class Power {
     if (scalar instanceof PowerInterface)
       return ((PowerInterface) scalar).power(exponent);
     if (exponent instanceof ZeroScalar)
-      return RealScalar.ONE;
-    if (scalar instanceof RationalScalar && exponent instanceof RationalScalar) {
-      RationalScalar exp = (RationalScalar) exponent;
-      if (exp.isInteger()) {
-        RationalScalar rational = (RationalScalar) scalar;
-        int expInt = exp.numerator().intValue();
-        if (0 < expInt)
-          return RationalScalar.of( //
-              rational.numerator().pow(expInt), //
-              rational.denominator().pow(expInt));
-        return RationalScalar.of( //
-            rational.denominator().pow(-expInt), //
-            rational.numerator().pow(-expInt));
-      }
-    }
-    if (scalar instanceof RealScalar && exponent instanceof RealScalar)
-      return RealScalar.of(Math.pow(scalar.number().doubleValue(), exponent.number().doubleValue()));
-    return Exp.function.apply(exponent.multiply(Log.function.apply(scalar)));
+      return RealScalar.ONE; // this is not generic
+    throw TensorRuntimeException.of(scalar);
   }
 
   /** @param scalar
