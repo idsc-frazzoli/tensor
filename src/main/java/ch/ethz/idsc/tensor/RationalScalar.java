@@ -6,11 +6,12 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** an implementation is not required to support the representation of
  * Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, and Double.NaN */
-public final class RationalScalar extends AbstractRealScalar {
+public final class RationalScalar extends AbstractRealScalar implements NInterface {
   // private because BigFraction has package visibility
   private static RealScalar _of(BigFraction bigFraction) {
     return bigFraction.num.equals(BigInteger.ZERO) ? //

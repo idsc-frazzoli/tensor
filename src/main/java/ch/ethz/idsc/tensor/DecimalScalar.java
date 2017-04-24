@@ -71,11 +71,6 @@ class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   }
 
   @Override
-  public Scalar n() {
-    return this;
-  }
-
-  @Override
   protected boolean isNonNegative() {
     return 0 <= value.signum();
   }

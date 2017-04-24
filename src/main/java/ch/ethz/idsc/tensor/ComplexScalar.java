@@ -2,11 +2,9 @@
 package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.sca.ArgInterface;
-import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.ImagInterface;
-import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
 import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
@@ -15,8 +13,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * 
  * <p>number() or Comparable interface is not supported */
 public interface ComplexScalar extends Scalar, //
-    ArgInterface, ConjugateInterface, ChopInterface, ImagInterface, NInterface, //
-    RealInterface, SqrtInterface {
+    ArgInterface, ConjugateInterface, ImagInterface, RealInterface, SqrtInterface {
   /** complex number I == 0+1*I */
   static final Scalar I = of(0, 1);
   /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */

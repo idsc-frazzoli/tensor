@@ -68,11 +68,6 @@ public final class DoubleScalar extends AbstractRealScalar implements ChopInterf
     return abs().number().doubleValue() < threshold ? ZeroScalar.get() : this;
   }
 
-  @Override // from NInterface
-  public Scalar n() {
-    return this;
-  }
-
   @Override // from AbstractScalar
   public int hashCode() {
     return Double.hashCode(value);

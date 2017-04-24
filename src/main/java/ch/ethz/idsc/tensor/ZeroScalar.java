@@ -79,11 +79,6 @@ public final class ZeroScalar extends AbstractScalar implements RealScalar {
     return 0;
   }
 
-  @Override // from NInterface
-  public Scalar n() {
-    return this;
-  }
-
   @Override // from RealScalar
   public int compareTo(Scalar scalar) {
     if (scalar instanceof ZeroScalar)
