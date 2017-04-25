@@ -69,7 +69,7 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   @Override // from Tensor
-  public final void append(Tensor tensor) {
+  public final Tensor append(Tensor tensor) {
     throw TensorRuntimeException.of(this, tensor);
   }
 

@@ -96,8 +96,9 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
-  public void append(Tensor tensor) {
+  public Tensor append(Tensor tensor) {
     list.add(tensor.copy());
+    return this;
   }
 
   @Override

@@ -93,10 +93,17 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
   /** appends a copy of input tensor to this instance.
    * The length() is incremented by 1.
    * 
-   * <p>the operation does not succeed for an unmodifiable instance of this.
+   * <p>append(...) can be used to append to a sub-tensor of this instance via
+   * {@link Tensor#set(Function, Integer...)}.
+   * For example:
+   * matrix.set(entry -> entry.append(tensor), index);
    * 
-   * @param tensor to be appended to this */
-  void append(Tensor tensor);
+   * <p>the operation does not succeed for an unmodifiable instance of this.
+   * An exception is thrown when append is invoked on a {@link Scalar}.
+   * 
+   * @param tensor to be appended to this
+   * @return this */
+  Tensor append(Tensor tensor);
 
   /** function is <em>not</em> Mathematica compliant:
    * <code>Length[3.14] == -1</code>
