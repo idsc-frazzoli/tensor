@@ -9,16 +9,16 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** comma separated values format
  * 
- * csv format cannot reliably encode the {@link Dimensions}
+ * <p>The csv format cannot reliably encode the {@link Dimensions}
  * of tensors. For instance, csv does not distinguish between
  * vectors and matrices with dimensions [n x 1] or [1 x n].
  * 
- * If possible, only use {@link CsvFormat} for export of
+ * <p>If possible, only use {@link CsvFormat} for export of
  * vectors or matrices to other applications such as MATLAB.
  * {@link MatlabExport} preserves dimensions of multi-dimensional arrays.
  * 
- * Do not use csv format to store and reload tensors.
- * For that purpose {@link ObjectFormat} is preferred. */
+ * <p>Within the realm of Java, use {@link ObjectFormat}
+ * to store and reload tensors, and do not use csv format. */
 public enum CsvFormat {
   ;
   /** The stream of strings can be written to a file using

@@ -1,11 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class HypotTest extends TestCase {
@@ -54,5 +56,16 @@ public class HypotTest extends TestCase {
         { 12, 16 }, { 15, 20 }, { 16, 30 }, { 18, 24 }, { 20, 21 } };
     for (Tensor vec : Tensors.matrixInt(array))
       checkVectorExact(vec);
+  }
+
+  public void testComplex() {
+    Scalar c1 = ComplexScalar.of(1, -5);
+    Scalar c2 = ComplexScalar.of(2, 4);
+    Scalar pair = Hypot.bifunction.apply(c1, c2);
+    assertEquals(Sqrt.of(RealScalar.of(46)), pair);
+    Scalar func = Hypot.ofVector(Tensors.of(c1, c2));
+    assertEquals(func, pair);
+    Scalar norm = Norm._2.of(Tensors.of(c1, c2));
+    assertEquals(norm, pair);
   }
 }

@@ -21,8 +21,10 @@ public enum Total {
   /** The return value has {@link Dimensions} of input tensor reduced by 1.
    * 
    * <p>For instance
-   * <code>prod({ 3, 4, 2 }) == 3 * 4 * 2 == 24</code>
-   * <code>prod({ { 1, 2, 3 }, { 4, 5, 6 } }) == { 4, 10, 18 }</code>
+   * <pre>
+   * prod({ 3, 4, 2 }) == 3 * 4 * 2 == 24
+   * prod({ { 1, 2, 3 }, { 4, 5, 6 } }) == { 4, 10, 18 }
+   * </pre>
    * 
    * <p>implementation is consistent with MATLAB::prod
    * 

@@ -8,14 +8,15 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.sca.Sqrt;
-import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** Hypot computes
  * <code>sqrt(<i>a</i><sup>2</sup>&nbsp;+<i>b</i><sup>2</sup>)</code>
  * for a and b as {@link RealScalar}s
  * without intermediate overflow or underflow.
  * 
- * Hypot does <b>not</b> make use of {@link SqrtInterface}. */
+ * <p>Hypot also operates on vectors.
+ * 
+ * <p>Hypot is inspired by {@link Math#hypot(double, double)} */
 public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
   bifunction;
   // ---
@@ -27,11 +28,11 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
     Scalar min = Min.of(ax, ay);
     Scalar max = Max.of(ax, ay);
     if (min.equals(ZeroScalar.get()))
-      return max; // if minimum == 0 return maximum
-    // else 0 < t <= max
-    min = min.divide(max);
-    // TODO because of RealScalar.ONE this is not sufficiently generic
-    return max.multiply(Sqrt.function.apply(RealScalar.ONE.add(min.multiply(min))));
+      return max; // if min == 0 return max
+    // valid at this point: 0 < min <= max
+    Scalar ratio = min.divide(max);
+    // TODO RealScalar.ONE this is not sufficiently generic
+    return max.multiply(Sqrt.function.apply(RealScalar.ONE.add(ratio.multiply(ratio))));
     // Scalar one = min.divide(min);
     // Scalar res = one.add(min.multiply(min));
     // return max.multiply(Sqrt.function.apply(res));
@@ -40,7 +41,11 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
   /** function computes the 2-Norm of a vector
    * without intermediate overflow or underflow
    * 
-   * <p>by convention the empty vector evaluates to Hypot[{}] == 0
+   * <p>the empty vector evaluates to Hypot[{}] == 0
+   * 
+   * <p>The disadvantage of the implementation is that
+   * a numerical output is returned even in cases where
+   * a rational number is the exact result.
    * 
    * @param vector
    * @return */
