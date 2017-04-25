@@ -7,6 +7,8 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+/** class makes use of compression utilities provided by java.util.zip to compress byte arrays
+ * {@link Deflater} and {@link Inflater} */
 public enum Compression {
   ;
   // ---
@@ -15,7 +17,7 @@ public enum Compression {
   /** compression
    * 
    * @param data
-   * @return */
+   * @return byte array that is typically smaller than the input data */
   public static byte[] deflate(byte[] data) {
     Deflater deflater = new Deflater();
     deflater.setInput(data);
@@ -33,7 +35,7 @@ public enum Compression {
   /** decompression
    * 
    * @param data
-   * @return
+   * @return byte array that is typically larger than the input data
    * @throws DataFormatException */
   public static byte[] inflate(byte[] data) throws DataFormatException {
     return inflate(data, 0, data.length);

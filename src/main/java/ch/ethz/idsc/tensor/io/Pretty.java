@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -38,7 +41,7 @@ public class Pretty {
   }
 
   private void recur(Tensor tensor) {
-    stringBuilder.append(Utils.spaces(level) + "[\n");
+    stringBuilder.append(spaces(level) + "[\n");
     ++level;
     for (Tensor entry : tensor)
       if (Dimensions.isArray(entry))
@@ -46,7 +49,7 @@ public class Pretty {
       else
         recur(entry);
     --level;
-    stringBuilder.append(Utils.spaces(level) + "]\n");
+    stringBuilder.append(spaces(level) + "]\n");
   }
 
   private void recurArray(Tensor tensor) {
@@ -55,7 +58,7 @@ public class Pretty {
       stringBuilder.append(String.format(format, tensor.toString()));
       break;
     case 1: // vector
-      stringBuilder.append(Utils.spaces(level) + "[");
+      stringBuilder.append(spaces(level) + "[");
       for (Tensor entry : tensor) {
         Scalar scalar = (Scalar) entry;
         recurArray(scalar);
@@ -63,17 +66,22 @@ public class Pretty {
       stringBuilder.append("]\n");
       break;
     default:
-      stringBuilder.append(Utils.spaces(level) + "[\n");
+      stringBuilder.append(spaces(level) + "[\n");
       ++level;
       for (Tensor entry : tensor)
         recurArray(entry);
       --level;
-      stringBuilder.append(Utils.spaces(level) + "]\n");
+      stringBuilder.append(spaces(level) + "]\n");
     }
   }
 
   @Override
   public String toString() {
     return stringBuilder.toString().trim();
+  }
+
+  // helper function
+  private static String spaces(int level) {
+    return IntStream.range(0, level).boxed().map(i -> " ").collect(Collectors.joining());
   }
 }

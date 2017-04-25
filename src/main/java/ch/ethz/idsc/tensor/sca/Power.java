@@ -29,7 +29,7 @@ public class Power {
       return ((PowerInterface) scalar).power(exponent);
     if (exponent instanceof ZeroScalar)
       return RealScalar.ONE; // this is not generic
-    throw TensorRuntimeException.of(scalar);
+    throw TensorRuntimeException.of(scalar, exponent);
   }
 
   /** @param scalar

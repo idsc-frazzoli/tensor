@@ -116,7 +116,7 @@ public class GaussScalar extends AbstractScalar implements //
       if (ratio.isInteger())
         return Scalars.binaryPower(of(1, prime)).apply(this, ratio.numerator().longValueExact());
     }
-    throw TensorRuntimeException.of(exponent);
+    throw TensorRuntimeException.of(this, exponent);
   }
 
   @Override // from Comparable<Scalar>
@@ -126,7 +126,7 @@ public class GaussScalar extends AbstractScalar implements //
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
       if (prime != gaussScalar.prime)
-        throw TensorRuntimeException.of(this);
+        throw TensorRuntimeException.of(this, scalar);
       return Long.compare(value, gaussScalar.value);
     }
     throw TensorRuntimeException.of(this);

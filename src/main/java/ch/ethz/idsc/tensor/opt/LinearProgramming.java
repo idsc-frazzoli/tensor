@@ -29,7 +29,7 @@ public enum LinearProgramming {
   public static Tensor minEquals(Tensor c, Tensor m, Tensor b, SimplexPivot simplexPivot) {
     Tensor x = SimplexMethod.of(c.unmodifiable(), m.unmodifiable(), b.unmodifiable(), simplexPivot);
     if (!isFeasible(m, x, b))
-      throw TensorRuntimeException.of(x);
+      throw TensorRuntimeException.of(m, x, b);
     return x;
   }
 
@@ -63,7 +63,7 @@ public enum LinearProgramming {
     Tensor xeq = minEquals(ceq, meq, b);
     Tensor x = xeq.extract(0, c.length());
     if (!isFeasible(m, x, b))
-      throw TensorRuntimeException.of(x);
+      throw TensorRuntimeException.of(m, x, b);
     return x;
   }
 
