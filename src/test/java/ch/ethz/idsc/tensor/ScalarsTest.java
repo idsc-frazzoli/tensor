@@ -23,6 +23,7 @@ public class ScalarsTest extends TestCase {
     checkInvariant("12+15 /4*I", ComplexScalarImpl.class);
     checkInvariant("1.0E-50 + 1.0E50*I", ComplexScalarImpl.class);
     checkInvariant("I", ComplexScalarImpl.class);
+    checkInvariant(" ( I ) ", ComplexScalarImpl.class);
     checkInvariant("123123*I", ComplexScalarImpl.class);
     checkInvariant("123E-123*I", ComplexScalarImpl.class);
     checkInvariant("asndbvf", StringScalar.class);

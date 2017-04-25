@@ -81,4 +81,18 @@ public class DecimalScalarTest extends TestCase {
     Scalar root2 = sc2.sqrt();
     // System.out.println(root2);
   }
+
+  public void testCompare1() {
+    Scalar dec = DecimalScalar.of(.1);
+    Scalar alt = DoubleScalar.of(.01);
+    assertTrue(Scalars.lessThan(alt, dec));
+    assertFalse(Scalars.lessThan(dec, alt));
+  }
+
+  public void testCompare2() {
+    Scalar dec = DecimalScalar.of(.1);
+    Scalar alt = RationalScalar.of(1, 100);
+    assertTrue(Scalars.lessThan(alt, dec));
+    assertFalse(Scalars.lessThan(dec, alt));
+  }
 }

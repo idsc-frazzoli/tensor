@@ -116,6 +116,13 @@ public class RationalScalarTest extends TestCase {
     assertEquals(s, r);
   }
 
+  public void testCompare() {
+    assertTrue(Scalars.lessThan(RationalScalar.of(-3, 2), ZeroScalar.get()));
+    assertFalse(Scalars.lessThan(RationalScalar.of(3, 2), ZeroScalar.get()));
+    assertTrue(!Scalars.lessThan(ZeroScalar.get(), RationalScalar.of(-3, 2)));
+    assertFalse(!Scalars.lessThan(ZeroScalar.get(), RationalScalar.of(3, 2)));
+  }
+
   public void testEquals() {
     assertEquals(RationalScalar.of(0, 1), ZeroScalar.get());
     assertEquals(RationalScalar.of(0, 1), DoubleScalar.of(0));

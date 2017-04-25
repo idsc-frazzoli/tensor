@@ -12,17 +12,15 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
-    Comparable<Scalar>, //
-    PowerInterface, //
-    SqrtInterface //
+    Comparable<Scalar>, PowerInterface, SqrtInterface //
 {
-  private static final Set<Long> primes = new HashSet<>();
+  private static final Set<Long> PROBABLE_PRIMES = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
-    if (!primes.contains(prime)) {
+    if (!PROBABLE_PRIMES.contains(prime)) {
       if (!BigInteger.valueOf(prime).isProbablePrime(20))
         throw new IllegalArgumentException("not a prime number");
-      primes.add(prime);
+      PROBABLE_PRIMES.add(prime);
     }
   }
 

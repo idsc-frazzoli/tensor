@@ -91,6 +91,12 @@ public class GaussScalarTest extends TestCase {
     }
   }
 
+  public void testNegativePrime() { // this is a "feature"
+    Scalar a = GaussScalar.of(2, -7);
+    Scalar b = GaussScalar.of(3, -7);
+    assertEquals(GaussScalar.of(-2, -7), a.add(b));
+  }
+
   public void testSqrt() {
     Scalar a = GaussScalar.of(4, 7);
     Scalar s = GaussScalar.of(2, 7);

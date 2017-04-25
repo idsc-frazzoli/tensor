@@ -10,8 +10,8 @@ enum StaticHelper {
   // an exponent is 'e' or 'E' followed by an optionally
   // signed decimal integer.
   private static final String Exp = "[eE][+-]?" + Digits;
-  static final String fpRegex = ("[\\x00-\\x20]*" + // Optional leading "whitespace"
-      "[+-]?(" + // Optional sign character
+  // optional leading and trailing whitespace and sign is obsolete
+  static final String fpRegex = ("(" + //
       "NaN|" + // "NaN" string
       "Infinity|" + // "Infinity" string
       // A decimal floating-point string representing a finite positive
@@ -32,5 +32,6 @@ enum StaticHelper {
       // 0[xX] HexDigits ._opt BinaryExponent FloatTypeSuffix_opt
       "(0[xX]" + HexDigits + "(\\.)?)|" +
       // 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
-      "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")" + ")[pP][+-]?" + Digits + "))" + "[fFdD]?))" + "[\\x00-\\x20]*");// Optional trailing "whitespace"
+      "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")" + ")[pP][+-]?" + Digits + "))" + "[fFdD]?))" //
+  );
 }
