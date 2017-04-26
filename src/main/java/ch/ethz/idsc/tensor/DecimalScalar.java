@@ -98,6 +98,8 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
       return value.compareTo(decimalScalar.value);
     }
+    if (scalar instanceof ZeroScalar)
+      return signInt();
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) //
     (scalar instanceof NInterface ? ((NInterface) scalar).n() : scalar);

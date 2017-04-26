@@ -39,7 +39,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     }
     Tensor tab = Join.of(1, //
         TensorMap.of(row -> row.extract(0, n), simplexImpl.tab.extract(0, m), 1), //
-        Partition.of(simplexImpl.tab.get(-1, n + m).extract(0, m), 1));
+        Partition.of(simplexImpl.tab.get(Tensor.ALL, n + m).extract(0, m), 1));
     tab.append(Join.of(c, Tensors.of(ZeroScalar.get()))); // set bottom corner to 0
     return new SimplexMethod(tab, simplexImpl.ind, simplexPivot).getX(); // phase 2
   }
@@ -62,7 +62,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
       final int j = ArgMin.of(c);
       if (((RealScalar) c.Get(j)).signInt() == -1) {
         { // check if unbounded
-          int argmax = ArgMax.of(tab.get(-1, j).extract(0, m));
+          int argmax = ArgMax.of(tab.get(Tensor.ALL, j).extract(0, m));
           if (((RealScalar) tab.Get(argmax, j)).signInt() != 1)
             throw TensorRuntimeException.of(tab); // problem unbounded
         }

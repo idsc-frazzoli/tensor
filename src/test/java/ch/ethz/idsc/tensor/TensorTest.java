@@ -10,6 +10,10 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class TensorTest extends TestCase {
+  public void testConstantAll() {
+    assertTrue(Tensor.ALL < -1000000);
+  }
+
   public void testLength() {
     Tensor a = DoubleScalar.of(2.32123);
     assertEquals(a.length(), -1);
@@ -31,8 +35,8 @@ public class TensorTest extends TestCase {
     assertEquals(a.get(0), Tensors.fromString("{3, 4}"));
     assertEquals(a.get(1), Tensors.fromString("{1, 2}"));
     assertEquals(a.get(2), Tensors.fromString("{9, 8}"));
-    assertEquals(a.get(-1, 0), Tensors.fromString("{3, 1, 9}"));
-    assertEquals(a.get(-1, 1), Tensors.fromString("{4, 2, 8}"));
+    assertEquals(a.get(Tensor.ALL, 0), Tensors.fromString("{3, 1, 9}"));
+    assertEquals(a.get(Tensor.ALL, 1), Tensors.fromString("{4, 2, 8}"));
   }
 
   private static Scalar incr(Scalar a) {

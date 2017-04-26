@@ -10,6 +10,6 @@ public enum Numel {
   /** @param tensor
    * @return number of scalars in tensor */
   public static int of(Tensor tensor) {
-    return (int) tensor.flatten(Tensor.ALL).count();
+    return (int) tensor.flatten(-1).count();
   }
 }

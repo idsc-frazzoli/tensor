@@ -95,4 +95,11 @@ public class DecimalScalarTest extends TestCase {
     assertTrue(Scalars.lessThan(alt, dec));
     assertFalse(Scalars.lessThan(dec, alt));
   }
+
+  public void testCompare3() {
+    assertTrue(Scalars.lessThan(DecimalScalar.of(-3), ZeroScalar.get()));
+    assertFalse(Scalars.lessThan(DecimalScalar.of(3), ZeroScalar.get()));
+    assertTrue(!Scalars.lessThan(ZeroScalar.get(), DecimalScalar.of(-3)));
+    assertFalse(!Scalars.lessThan(ZeroScalar.get(), DecimalScalar.of(3)));
+  }
 }

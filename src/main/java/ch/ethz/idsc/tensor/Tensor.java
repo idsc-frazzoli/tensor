@@ -12,8 +12,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 /** a tensor is a multi-dimensional array with the dot product */
 public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function get(...)
-   * to extract <em>all</em> elements from the respective dimension */
-  static final int ALL = -1;
+   * to extract <em>all</em> elements from the respective dimension.
+   * 
+   * The value of ALL is deliberately not chosen to equal -1, since an index of -1
+   * could likely be the result of a mistake in the application layer. */
+  static final int ALL = (int) 0xC1A551CAL;
   /** opening bracket of vector */
   static final char OPENING_BRACKET = '{';
   /** closing bracket of vector */
@@ -50,7 +53,12 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return clone of this */
   Tensor copy();
 
-  /** @param index
+  /** non-negative index[...] refer to the position in the tensor
+   * 
+   * Special value:
+   * index[dim] == Tensor.ALL refers to all entries of tensor dimension dim
+   * 
+   * @param index
    * @return copy of this[index[0],index[1],...,All] */
   Tensor get(Integer... index);
 

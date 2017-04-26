@@ -95,7 +95,7 @@ public final class ZeroScalar extends AbstractScalar implements RealScalar {
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    // multiple instance are possible due to serialization
+    // multiple instances of ZeroScalar are possible due to serialization
     return object instanceof ZeroScalar;
   }
 
