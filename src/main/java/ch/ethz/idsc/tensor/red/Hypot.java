@@ -42,6 +42,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
    * without intermediate overflow or underflow
    * 
    * <p>the empty vector evaluates to Hypot[{}] == 0
+   * whereas in Mathematica Norm[{}] == Norm[{}]
    * 
    * <p>The disadvantage of the implementation is that
    * a numerical output is returned even in cases where

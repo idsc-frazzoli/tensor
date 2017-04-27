@@ -160,7 +160,7 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
   }
 
   /** @return true if denominator equals 1 */
-  public boolean isInteger() { // TODO the function name is ambiguous
+  /* package */ boolean isInteger() { // function name is ambiguous
     return bigFraction.isInteger();
   }
 

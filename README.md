@@ -11,7 +11,7 @@ Features:
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
 
-## Examples 
+## Examples
 
 Solving systems of linear equations
 

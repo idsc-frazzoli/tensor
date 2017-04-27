@@ -4,10 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.math.BigInteger;
 
-/** https://en.wikipedia.org/wiki/Exponentiation_by_squaring
- * 
- * interface used by MatrixPower and GaussScalar */
-// EXPERIMENTAL
+/** interface used by MatrixPower and GaussScalar */
 public abstract class BinaryPower<T> {
   public abstract T zeroth();
 
@@ -27,6 +24,10 @@ public abstract class BinaryPower<T> {
       exponent = exponent.negate();
       x = invert(x);
     }
+    // the below implementation was adapted from
+    // https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+    // Section: Computation by powers of 2
+    // non-recursive implementation of the algorithm in Ruby
     while (true) { // iteration
       if (exponent.testBit(0))
         result = multiply(x, result);

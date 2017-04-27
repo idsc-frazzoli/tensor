@@ -6,7 +6,7 @@ import java.util.List;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** Partition is used in Transpose
+/** Partition is used in {@link Transpose}
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Partition.html">Partition</a> */

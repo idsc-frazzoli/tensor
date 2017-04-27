@@ -16,7 +16,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * 
    * The value of ALL is deliberately not chosen to equal -1, since an index of -1
    * could likely be the result of a mistake in the application layer. */
-  static final int ALL = (int) 0xC1A551CAL;
+  static final int ALL = 0xA110CA7E; // (int) 0xC1A551CAL;
   /** opening bracket of vector */
   static final char OPENING_BRACKET = '{';
   /** closing bracket of vector */
@@ -124,6 +124,9 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
 
   /** stream access to the entries at given level of this tensor.
    * entries at given level can be tensors or scalars.
+   * 
+   * For the input level == -1, the return stream consists
+   * of all {@link Scalar}s in this tensor.
    * 
    * @param level
    * @return non-parallel stream, the user may invoke .parallel() */

@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Range {
   ;
   /** Range.of(5) gives
-   * [0, 1, 2, 3, 4]
+   * {0, 1, 2, 3, 4}
    * 
    * @param length
    * @return */
@@ -22,7 +22,7 @@ public enum Range {
   }
 
   /** Range.of(2, 7) gives
-   * [2, 3, 4, 5, 6]
+   * {2, 3, 4, 5, 6}
    * 
    * @param startInclusive
    * @param endExclusive
