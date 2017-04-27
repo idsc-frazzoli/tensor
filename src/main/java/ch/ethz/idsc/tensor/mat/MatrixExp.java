@@ -9,8 +9,8 @@ import ch.ethz.idsc.tensor.red.Norm;
  * <a href="https://reference.wolfram.com/language/ref/MatrixExp.html">MatrixExp</a> */
 public enum MatrixExp {
   ;
-  public static final int MAXITER = 100;
-  public static final double TENSOR_EPS = 1E-40;
+  private static final int MAXITER = 100;
+  private static final double TENSOR_EPS = 1E-40;
 
   /** @param m square matrix
    * @return exp(m) = I + m + m^2/2 + m^3/6 + ... */
@@ -18,6 +18,7 @@ public enum MatrixExp {
     final int n = m.length();
     Tensor sum = IdentityMatrix.of(n);
     Tensor nxt = IdentityMatrix.of(n);
+    // TODO cleanup
     for (int k = 1; k < MAXITER && TENSOR_EPS < Norm._1.of(nxt).number().doubleValue(); ++k) {
       nxt = nxt.dot(m).multiply(RationalScalar.of(1, k));
       sum = sum.add(nxt);

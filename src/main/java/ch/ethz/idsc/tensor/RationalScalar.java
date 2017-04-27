@@ -123,7 +123,8 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
       RationalScalar exp = (RationalScalar) exponent;
       if (exp.isInteger()) {
         try {
-          int expInt = exp.numerator().intValueExact(); // <- may throw an exception
+          // intValueExact throws an exception when exp > Integer.MAX_VALUE
+          int expInt = exp.numerator().intValueExact();
           if (0 <= expInt)
             return RationalScalar.of( //
                 numerator().pow(expInt), //

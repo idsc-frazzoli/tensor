@@ -4,12 +4,12 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** applications of {@link FourierMatrix} is to perform fourier transform and
  * inverse transform of vectors or matrices */
@@ -19,9 +19,9 @@ public enum FourierMatrix {
 
   /** @param n
    * @return square matrix of dimensions [n x n] with complex entries
-   * <code>(i,j) -> exp(i * j * 2pi/n *I)</code> */
+   * <code>(i,j) -> sqrt(1/n) exp(i * j * 2pi/n *I)</code> */
   public static Tensor of(int n) {
-    Scalar scalar = RealScalar.of(1 / Math.sqrt(n));
+    Scalar scalar = Sqrt.function.apply(RationalScalar.of(1, n));
     return Tensors.matrix((i, j) -> //
     Exp.function.apply(ComplexScalar.of(ZeroScalar.get(), //
         RationalScalar.of(2 * i * j, n).multiply(PI))).multiply(scalar), n, n);
