@@ -50,4 +50,22 @@ public class TotalTest extends TestCase {
     Tensor r = Total.prod(a);
     assertEquals(r, Tensors.vector(4, 10, 18));
   }
+
+  public void testTotalScalarFail() {
+    try {
+      Total.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testTotalProdFail() {
+    try {
+      Total.prod(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

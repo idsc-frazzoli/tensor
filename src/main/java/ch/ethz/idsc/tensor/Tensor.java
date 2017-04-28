@@ -119,8 +119,19 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * We deviate from this to avoid the ambiguity with length of an empty list:
    * <code>Length[{}] == 0</code>
    * 
+   * <p>In order to check if a tensor is an empty vector:
+   * Length[{}] == 0
+   * 
    * @return number of entries on the first level; -1 for {@link Scalar}s */
   int length();
+
+  /** function checks if instance of tensor is a {@link Scalar}
+   * 
+   * <p>function is identical to the check
+   * length() == Scalar.LENGTH
+   * 
+   * @return true if this instanceof {@link Scalar} */
+  boolean isScalar();
 
   /** stream access to the entries at given level of this tensor.
    * entries at given level can be tensors or scalars.

@@ -9,7 +9,9 @@ import java.util.Set;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** inspired by
+/** implementation consistent with Mathematica
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Dimensions.html">Dimensions</a> */
 public enum Dimensions {
   ;
@@ -64,7 +66,7 @@ public enum Dimensions {
     if (sets.size() <= level)
       sets.add(new HashSet<>());
     sets.get(level).add(tensor.length());
-    if (tensor.length() != Scalar.LENGTH)
+    if (!tensor.isScalar())
       tensor.flatten(0).forEach(entry -> _sets(entry, level + 1, sets));
     return sets;
   }

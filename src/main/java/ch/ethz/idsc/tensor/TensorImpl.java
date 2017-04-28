@@ -107,6 +107,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
+  public boolean isScalar() {
+    return false;
+  }
+
+  @Override
   public Stream<Tensor> flatten(int level) {
     if (level == 0)
       return list.stream();

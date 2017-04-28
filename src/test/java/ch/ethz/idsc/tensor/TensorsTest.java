@@ -40,6 +40,12 @@ public class TensorsTest extends TestCase {
     }
   }
 
+  public void testEmpty() {
+    assertEquals(Tensors.empty(), Tensors.empty());
+    assertEquals(Tensors.empty(), Tensors.vector());
+    assertEquals(Tensors.empty(), Tensors.of());
+  }
+
   public void testEquals() {
     Tensor a = Tensors.empty();
     assertFalse(a.equals(null));

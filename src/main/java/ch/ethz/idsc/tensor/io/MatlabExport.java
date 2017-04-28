@@ -13,6 +13,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Flatten;
 import ch.ethz.idsc.tensor.alg.Transpose;
 
+/** MatlabExport has not been sufficiently tested.
+ * If errors are encountered please report them back to the author. */
 public enum MatlabExport {
   ;
   /** The stream of strings can be written to a file using
@@ -20,6 +22,7 @@ public enum MatlabExport {
    * 
    * @param tensor must not be {@link Scalar}. For scalars, use Tensors.of(scalar);
    * @return lines of MATLAB function that returns tensor */
+  @SuppressWarnings("incomplete-switch")
   public static Stream<String> of(Tensor tensor) {
     if (tensor instanceof Scalar)
       throw TensorRuntimeException.of(tensor);

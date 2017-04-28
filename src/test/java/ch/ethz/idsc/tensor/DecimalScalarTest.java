@@ -75,11 +75,14 @@ public class DecimalScalarTest extends TestCase {
   }
 
   public void testSqrt() {
+    // Mathematica N[Sqrt[2], 50] gives
+    // 1.4142135623730950488016887242096980785696718753769
+    String expected = "1.41421356237309504880168872420969807856967187537";
     BigDecimal d = BigDecimal.ONE;
     Scalar sc1 = DecimalScalar.of(d);
     DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1);
     Scalar root2 = sc2.sqrt();
-    // System.out.println(root2);
+    assertTrue(root2.toString().startsWith(expected));
   }
 
   public void testCompare1() {

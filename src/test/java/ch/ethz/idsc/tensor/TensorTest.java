@@ -14,13 +14,18 @@ public class TensorTest extends TestCase {
     assertTrue(Tensor.ALL < -1000000);
   }
 
+  public void testIsScalar() {
+    assertFalse(Tensors.empty().isScalar());
+  }
+
   public void testLength() {
     Tensor a = DoubleScalar.of(2.32123);
-    assertEquals(a.length(), -1);
+    assertTrue(a.isScalar());
+    assertEquals(a.length(), Scalar.LENGTH);
     Tensor b = Tensors.vectorLong(3, 2);
     assertEquals(b.length(), 2);
     Tensor c = DoubleScalar.of(1.23);
-    assertEquals(c.length(), -1);
+    assertEquals(c.length(), Scalar.LENGTH);
     Tensor d = Tensors.empty();
     assertEquals(d.length(), 0);
     Tensor e = Tensors.of(a, b, c);
