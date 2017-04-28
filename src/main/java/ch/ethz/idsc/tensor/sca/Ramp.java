@@ -9,7 +9,13 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.Max;
 
-/** inspired by
+/** Mathematica uses the definition
+ * Ramp[x] == x * UnitStep[x]
+ * 
+ * The tensor library simply uses
+ * Ramp[x] == Max[0, x]
+ * 
+ * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Ramp.html">Ramp</a> */
 public enum Ramp implements Function<Scalar, Scalar> {
   function;
