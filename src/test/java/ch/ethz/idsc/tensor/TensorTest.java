@@ -5,17 +5,27 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.Numel;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class TensorTest extends TestCase {
+  public void testConstantAll() {
+    assertTrue(Tensor.ALL < -1000000);
+  }
+
+  public void testIsScalar() {
+    assertFalse(Tensors.empty().isScalar());
+  }
+
   public void testLength() {
     Tensor a = DoubleScalar.of(2.32123);
-    assertEquals(a.length(), -1);
+    assertTrue(a.isScalar());
+    assertEquals(a.length(), Scalar.LENGTH);
     Tensor b = Tensors.vectorLong(3, 2);
     assertEquals(b.length(), 2);
     Tensor c = DoubleScalar.of(1.23);
-    assertEquals(c.length(), -1);
+    assertEquals(c.length(), Scalar.LENGTH);
     Tensor d = Tensors.empty();
     assertEquals(d.length(), 0);
     Tensor e = Tensors.of(a, b, c);
@@ -30,8 +40,8 @@ public class TensorTest extends TestCase {
     assertEquals(a.get(0), Tensors.fromString("{3, 4}"));
     assertEquals(a.get(1), Tensors.fromString("{1, 2}"));
     assertEquals(a.get(2), Tensors.fromString("{9, 8}"));
-    assertEquals(a.get(-1, 0), Tensors.fromString("{3, 1, 9}"));
-    assertEquals(a.get(-1, 1), Tensors.fromString("{4, 2, 8}"));
+    assertEquals(a.get(Tensor.ALL, 0), Tensors.fromString("{3, 1, 9}"));
+    assertEquals(a.get(Tensor.ALL, 1), Tensors.fromString("{4, 2, 8}"));
   }
 
   private static Scalar incr(Scalar a) {
@@ -103,6 +113,16 @@ public class TensorTest extends TestCase {
     assertEquals(tensor, Tensors.of(a0, a1));
   }
 
+  public void testAppend2() {
+    Tensor a0 = Array.of(l -> Tensors.empty(), 5);
+    a0.set(t -> t.append(RealScalar.of(0)), 1);
+    a0.set(t -> t.append(RealScalar.of(1)), 3);
+    a0.set(t -> t.append(RealScalar.of(2)), 1);
+    assertEquals(a0.length(), 5);
+    assertEquals(Numel.of(a0), 3);
+    assertEquals(a0.get(1), Tensors.vector(0, 2));
+  }
+
   public void testUnmodifiable() {
     Tensor tensor = Tensors.vector(3, 4, 5, 6, -2);
     tensor.set(DoubleScalar.of(.3), 2);
@@ -116,6 +136,12 @@ public class TensorTest extends TestCase {
     }
     try {
       unmodi.append(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      unmodi.set(t -> t.append(ZeroScalar.get()));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

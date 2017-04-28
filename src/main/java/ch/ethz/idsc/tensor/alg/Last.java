@@ -9,8 +9,9 @@ public enum Last {
   ;
   // ---
   /** @param tensor
-   * @return last entry of tensor */
-  public static final Tensor of(Tensor tensor) {
+   * @return last entry of tensor
+   * @throws exception if tensor is empty */
+  public static Tensor of(Tensor tensor) {
     return tensor.get(tensor.length() - 1);
   }
 }

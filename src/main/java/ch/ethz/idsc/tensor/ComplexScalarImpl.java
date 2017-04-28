@@ -6,14 +6,16 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    PowerInterface {
+    ChopInterface, NInterface, PowerInterface {
   private final Scalar re;
   private final Scalar im;
 
@@ -57,8 +59,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
-    if (scalar instanceof ComplexScalar) {
-      ComplexScalar z = (ComplexScalar) scalar;
+    if (scalar instanceof ComplexScalarImpl) {
+      ComplexScalarImpl z = (ComplexScalarImpl) scalar;
       return ComplexScalar.of( //
           re.multiply(z.real()).subtract(im.multiply(z.imag())), //
           re.multiply(z.imag()).add(im.multiply(z.real())));
@@ -73,8 +75,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof ComplexScalar) {
-      ComplexScalar z = (ComplexScalar) scalar;
+    if (scalar instanceof ComplexScalarImpl) {
+      ComplexScalarImpl z = (ComplexScalarImpl) scalar;
       return ComplexScalar.of(re.add(z.real()), im.add(z.imag()));
     }
     if (scalar instanceof RealScalar)
@@ -122,8 +124,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from AbstractScalar
   public boolean equals(Object object) {
     // null check not required
-    if (object instanceof ComplexScalar) {
-      ComplexScalar complexScalar = (ComplexScalar) object;
+    if (object instanceof ComplexScalarImpl) {
+      ComplexScalarImpl complexScalar = (ComplexScalarImpl) object;
       return re.equals(complexScalar.real()) && im.equals(complexScalar.imag());
     }
     return re.equals(object) && im.equals(ZeroScalar.get());

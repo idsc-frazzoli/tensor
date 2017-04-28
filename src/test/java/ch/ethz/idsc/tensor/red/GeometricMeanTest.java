@@ -22,6 +22,15 @@ public class GeometricMeanTest extends TestCase {
     assertEquals(b, r);
   }
 
+  public void testScalar() {
+    try {
+      GeometricMean.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testEmpty() {
     try {
       GeometricMean.of(Tensors.empty());

@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -26,6 +27,15 @@ public class HarmonicMeanTest extends TestCase {
   public void testZero() {
     try {
       HarmonicMean.of(Tensors.vector(3, 0, 2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testScalarFail() {
+    try {
+      HarmonicMean.of(RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

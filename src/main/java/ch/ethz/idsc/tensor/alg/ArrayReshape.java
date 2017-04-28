@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** {@link ArrayReshape} is used in {@link Transpose}
+/** ArrayReshape is used in {@link Transpose}
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArrayReshape.html">ArrayReshape</a> */

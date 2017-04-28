@@ -1,10 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.mat.Det;
+import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
 import junit.framework.TestCase;
 
 public class KillingFormTest extends TestCase {
@@ -12,6 +13,21 @@ public class KillingFormTest extends TestCase {
     Tensor so3 = LieAlgebras.so3();
     assertEquals(JacobiIdentity.of(so3), Array.zeros(3, 3, 3, 3));
     Tensor kil = KillingForm.of(so3);
-    assertEquals(kil, IdentityMatrix.of(3).multiply(RealScalar.of(-2)));
+    assertEquals(kil, DiagonalMatrix.of(-2, -2, -2));
+  }
+
+  public void testSl3() {
+    Tensor sl3 = LieAlgebras.sl3();
+    assertEquals(JacobiIdentity.of(sl3), Array.zeros(3, 3, 3, 3));
+    Tensor kil = KillingForm.of(sl3);
+    // killing form is non-gegenerate
+    assertTrue(!Det.of(kil).equals(ZeroScalar.get()));
+  }
+
+  public void testHe3() {
+    Tensor he3 = LieAlgebras.heisenberg3();
+    assertEquals(JacobiIdentity.of(he3), Array.zeros(3, 3, 3, 3));
+    Tensor kil = KillingForm.of(he3);
+    assertTrue(Det.of(kil).equals(ZeroScalar.get()));
   }
 }

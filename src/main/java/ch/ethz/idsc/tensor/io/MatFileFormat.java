@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
     throw TensorRuntimeException.of(tensor);
   }
 
-  public static Tensor of(byte[] bytes) {
+  public static Tensor parse(byte[] bytes) {
     throw new RuntimeException();
   }
 }

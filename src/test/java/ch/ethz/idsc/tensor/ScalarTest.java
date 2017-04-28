@@ -7,6 +7,10 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import junit.framework.TestCase;
 
 public class ScalarTest extends TestCase {
+  public void testIsScalar() {
+    assertTrue(RealScalar.POSITIVE_INFINITY.isScalar());
+  }
+
   public void testGet() {
     Tensor t = RealScalar.of(3);
     Scalar s = t.Get();

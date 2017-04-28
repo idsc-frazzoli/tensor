@@ -1,7 +1,7 @@
 # ch.ethz.idsc.tensor
 Library for tensor computation in Java 8.
 
-Version `0.1.6`
+Version `0.1.7`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
@@ -11,13 +11,13 @@ Features:
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
 
-## Examples 
+## Examples
 
 Solving systems of linear equations
 
     Tensor matrix = Tensors.matrix(new Number[][] { { 4, 3 }, { 8, 2 } });
     System.out.println(Pretty.of(Inverse.of(matrix)));
-    
+
 gives
 
     [
@@ -94,13 +94,12 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.1.6</version>
+        <version>0.1.7</version>
       </dependency>
     </dependencies>
 
 The source code is attached to the `jar` file for your convenience.
 
-    
 ## Optional
 
 Clone the repository.
@@ -112,14 +111,14 @@ The `javadoc` API can be generated with
 Subsequently, the documentation is accessible through the file
 
     .../tensor/target/site/apidocs/index.html
-    
+
 ## References
- 
+
 The library is used in the projects:
 * `matsim-av`
 * `SwissTrolley+`
 * `SimBus`
-* `subare`
 * `owly`
+* `subare`
 
-The repository has over `480` unit tests.
+The repository has over `500` unit tests.

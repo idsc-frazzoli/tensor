@@ -31,4 +31,13 @@ public class ArgMaxTest extends TestCase {
     int pos = ArgMax.of(vec);
     assertEquals(pos, 1);
   }
+
+  public void testScalar() {
+    try {
+      ArgMax.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

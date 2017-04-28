@@ -5,10 +5,12 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
+import ch.ethz.idsc.tensor.sca.ImagInterface;
+import ch.ethz.idsc.tensor.sca.RealInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 class QuaternionScalar extends AbstractScalar implements //
-    ConjugateInterface {
+    ConjugateInterface, ImagInterface, RealInterface {
   public static Scalar of(Number re, Number im, Number jm, Number km) {
     return of( //
         RealScalar.of(re), //
@@ -114,9 +116,24 @@ class QuaternionScalar extends AbstractScalar implements //
     throw TensorRuntimeException.of(this);
   }
 
-  @Override
+  @Override // from ConjugateInterface
   public Scalar conjugate() {
     return of(re, im.negate(), jm.negate(), km.negate());
+  }
+
+  @Override // from RealInterface
+  public Scalar real() {
+    return re;
+  }
+
+  @Override // from ImagInterface
+  public Scalar imag() {
+    return im;
+  }
+
+  // EXPERIMENTAL, not finalized
+  public Tensor vectorPart() {
+    return Tensors.of(im, jm, km);
   }
 
   @Override

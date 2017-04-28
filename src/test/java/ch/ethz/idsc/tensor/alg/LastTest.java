@@ -9,4 +9,13 @@ public class LastTest extends TestCase {
   public void testLast() {
     assertEquals(Last.of(Tensors.vector(3, 2, 6, 4)), RealScalar.of(4));
   }
+
+  public void testFail() {
+    try {
+      Last.of(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

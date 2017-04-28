@@ -16,8 +16,9 @@ public enum Reverse {
         .map(index -> tensor.get(tensor.length() - index - 1)));
   }
 
+  // TODO for now, function all is used for testing... what next?
   /* package */ static Tensor all(Tensor tensor) {
-    if (tensor.length() == -1)
+    if (tensor.isScalar())
       return tensor;
     return of(Tensor.of(tensor.flatten(0).map(Reverse::all)));
   }

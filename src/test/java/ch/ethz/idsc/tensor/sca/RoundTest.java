@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
+import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -49,5 +50,17 @@ public class RoundTest extends TestCase {
     Scalar s = RealScalar.of(bi);
     Scalar r = (Scalar) Round.of(s);
     assertTrue(r instanceof RationalScalar);
+  }
+
+  public void testToMultipleOf1() {
+    Scalar s = DoubleScalar.of(3.37151617);
+    Scalar sr = Round.toMultipleOf(DecimalScalar.of(.1)).apply(s);
+    assertEquals(sr.toString(), "3.4");
+  }
+
+  public void testToMultipleOf2() {
+    Scalar s = DoubleScalar.of(3.37151617);
+    Scalar sr = Round.toMultipleOf(RationalScalar.of(1, 2)).apply(s);
+    assertEquals(sr.toString(), "7/2");
   }
 }

@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -59,10 +60,17 @@ public enum ImageFormat {
   private static BufferedImage toTYPE_BYTE_GRAY(Tensor tensor, List<Integer> dims) {
     BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_BYTE_GRAY);
     int[] array = ExtractPrimitives.toArrayInt(Transpose.of(tensor));
-    for (int index = 0; index < array.length; ++index)
-      array[index] = (array[index] << 16) | (array[index] << 8) | (array[index] << 0);
+    IntStream.range(0, array.length).parallel() //
+        .forEach(index -> array[index] = inflate(array[index]));
     bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
     return bufferedImage;
+  }
+
+  // helper function
+  private static int inflate(int level) {
+    // if (level < 0 || 255 < level)
+    // throw new RuntimeException();
+    return (level << 16) | (level << 8) | level;
   }
 
   // helper function

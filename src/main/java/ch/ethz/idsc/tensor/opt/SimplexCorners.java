@@ -34,7 +34,7 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
     final int m = b.length();
     final int n = c.length();
     if (!list.equals(Arrays.asList(m, n)))
-      throw TensorRuntimeException.of(A);
+      throw TensorRuntimeException.of(c, A, b);
     NavigableMap<Scalar, Tensor> map = new TreeMap<>();
     long power2 = 1L << n; // n < 64
     Tensor At = Transpose.of(A);

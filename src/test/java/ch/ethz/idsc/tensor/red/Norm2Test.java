@@ -33,4 +33,9 @@ public class Norm2Test extends TestCase {
     Tensor a = Tensors.vector(2, 3, 4);
     assertEquals(Norm._2Squared.of(a), a.dot(a));
   }
+
+  public void testVector3() {
+    Tensor A = Tensors.of(ComplexScalar.of(1, 2), DoubleScalar.of(1.5));
+    assertEquals(Norm._2.of(A), DoubleScalar.of(2.6925824035672523)); // 2.69258
+  }
 }

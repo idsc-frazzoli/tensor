@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Random;
@@ -62,13 +61,13 @@ public class MathematicaFormatTest extends TestCase {
 
   public void testBasic() throws IOException {
     String string = getClass().getResource("/io/basic.mathematica").getPath();
-    Tensor tensor = MathematicaFormat.parse(Files.lines(Paths.get(string)));
+    Tensor tensor = Get.of(Paths.get(string));
     checkNonString(tensor);
   }
 
   public void testExponent() throws IOException {
     String string = getClass().getResource("/io/exponent.mathematica").getPath();
-    Tensor tensor = MathematicaFormat.parse(Files.lines(Paths.get(string)));
+    Tensor tensor = Get.of(Paths.get(string));
     checkNonString(tensor);
   }
 

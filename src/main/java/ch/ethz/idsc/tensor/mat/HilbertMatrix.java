@@ -9,10 +9,15 @@ import ch.ethz.idsc.tensor.Tensors;
  * <a href="https://reference.wolfram.com/language/ref/HilbertMatrix.html">HilbertMatrix</a> */
 public enum HilbertMatrix {
   ;
+  /** @param n
+   * @param m
+   * @return n x m Hilbert matrix with elements of the form 1/(i+j-1) */
   public static Tensor of(int n, int m) {
     return Tensors.matrix((i, j) -> RationalScalar.of(1, i + j + 1), n, m);
   }
 
+  /** @param n
+   * @return n x n Hilbert matrix with elements of the form 1/(i+j-1) */
   public static Tensor of(int n) {
     return of(n, n);
   }

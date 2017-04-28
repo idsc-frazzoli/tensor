@@ -12,17 +12,15 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
-    Comparable<Scalar>, //
-    PowerInterface, //
-    SqrtInterface //
+    Comparable<Scalar>, PowerInterface, SqrtInterface //
 {
-  private static final Set<Long> primes = new HashSet<>();
+  private static final Set<Long> PROBABLE_PRIMES = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
-    if (!primes.contains(prime)) {
+    if (!PROBABLE_PRIMES.contains(prime)) {
       if (!BigInteger.valueOf(prime).isProbablePrime(20))
         throw new IllegalArgumentException("not a prime number");
-      primes.add(prime);
+      PROBABLE_PRIMES.add(prime);
     }
   }
 
@@ -116,7 +114,7 @@ public class GaussScalar extends AbstractScalar implements //
       if (ratio.isInteger())
         return Scalars.binaryPower(of(1, prime)).apply(this, ratio.numerator().longValueExact());
     }
-    throw TensorRuntimeException.of(exponent);
+    throw TensorRuntimeException.of(this, exponent);
   }
 
   @Override // from Comparable<Scalar>
@@ -126,7 +124,7 @@ public class GaussScalar extends AbstractScalar implements //
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
       if (prime != gaussScalar.prime)
-        throw TensorRuntimeException.of(this);
+        throw TensorRuntimeException.of(this, scalar);
       return Long.compare(value, gaussScalar.value);
     }
     throw TensorRuntimeException.of(this);

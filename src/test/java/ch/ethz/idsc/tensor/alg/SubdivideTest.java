@@ -20,4 +20,16 @@ public class SubdivideTest extends TestCase {
     assertEquals(t, r);
     assertEquals(t.toString(), r.toString());
   }
+
+  public void testSubdivideTensor() {
+    Tensor t = Subdivide.of(Tensors.vector(10, 5), Tensors.vector(5, 15), 5);
+    Tensor r = Tensors.fromString("{{10, 5}, {9, 7}, {8, 9}, {7, 11}, {6, 13}, {5, 15}}");
+    assertEquals(t, r);
+  }
+
+  public void testSubdivideTensor2() {
+    Tensor t = Subdivide.of(Tensors.vector(10, 5), Tensors.vector(5, 15), 4);
+    Tensor r = Tensors.fromString("{{10, 5}, {35/4, 15/2}, {15/2, 10}, {25/4, 25/2}, {5, 15}}");
+    assertEquals(t, r);
+  }
 }

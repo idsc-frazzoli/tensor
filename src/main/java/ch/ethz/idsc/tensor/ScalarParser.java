@@ -15,7 +15,7 @@ enum ScalarParser {
   private static final char MULTIPLY = '*';
   private static final char DIVIDE = '/';
   // ---
-  private static final Pattern PATTERN_INTEGER = Pattern.compile("-?\\d+");
+  private static final Pattern PATTERN_INTEGER = Pattern.compile("\\d+"); // optional sign is obsolete
   private static final Pattern PATTERN_DOUBLE = Pattern.compile(StaticHelper.fpRegex);
 
   static Scalar of(final String string) {

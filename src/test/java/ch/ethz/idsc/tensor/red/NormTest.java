@@ -10,10 +10,6 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class NormTest extends TestCase {
-  // public void testVector2Squared() {
-  // Tensor A = Tensors.of(DoubleComplexScalar.of(1, 2), DoubleScalar.of(1.5));
-  //// assertEquals(Norm._2.of(A), Scalars.fromString("2.6925824035672523"));
-  // }
   public void testOneInfNorm() {
     {
       Tensor a = Tensors.of(Scalars.fromString("3"), Scalars.fromString("-4"));

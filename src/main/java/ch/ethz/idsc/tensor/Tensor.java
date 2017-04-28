@@ -12,8 +12,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 /** a tensor is a multi-dimensional array with the dot product */
 public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function get(...)
-   * to extract <em>all</em> elements from the respective dimension */
-  static final int ALL = -1;
+   * to extract <em>all</em> elements from the respective dimension.
+   * 
+   * The value of ALL is deliberately not chosen to equal -1, since an index of -1
+   * could likely be the result of a mistake in the application layer. */
+  static final int ALL = 0xA110CA7E; // (int) 0xC1A551CAL;
   /** opening bracket of vector */
   static final char OPENING_BRACKET = '{';
   /** closing bracket of vector */
@@ -50,7 +53,12 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return clone of this */
   Tensor copy();
 
-  /** @param index
+  /** non-negative index[...] refer to the position in the tensor
+   * 
+   * Special value:
+   * index[dim] == Tensor.ALL refers to all entries of tensor dimension dim
+   * 
+   * @param index
    * @return copy of this[index[0],index[1],...,All] */
   Tensor get(Integer... index);
 
@@ -93,10 +101,17 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
   /** appends a copy of input tensor to this instance.
    * The length() is incremented by 1.
    * 
-   * <p>the operation does not succeed for an unmodifiable instance of this.
+   * <p>append(...) can be used to append to a sub-tensor of this instance via
+   * {@link Tensor#set(Function, Integer...)}.
+   * For example:
+   * matrix.set(entry -> entry.append(tensor), index);
    * 
-   * @param tensor to be appended to this */
-  void append(Tensor tensor);
+   * <p>the operation does not succeed for an unmodifiable instance of this.
+   * An exception is thrown when append is invoked on a {@link Scalar}.
+   * 
+   * @param tensor to be appended to this
+   * @return this */
+  Tensor append(Tensor tensor);
 
   /** function is <em>not</em> Mathematica compliant:
    * <code>Length[3.14] == -1</code>
@@ -104,11 +119,25 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * We deviate from this to avoid the ambiguity with length of an empty list:
    * <code>Length[{}] == 0</code>
    * 
+   * <p>In order to check if a tensor is an empty vector:
+   * Length[{}] == 0
+   * 
    * @return number of entries on the first level; -1 for {@link Scalar}s */
   int length();
 
+  /** function checks if instance of tensor is a {@link Scalar}
+   * 
+   * <p>function is identical to the check
+   * length() == Scalar.LENGTH
+   * 
+   * @return true if this instanceof {@link Scalar} */
+  boolean isScalar();
+
   /** stream access to the entries at given level of this tensor.
    * entries at given level can be tensors or scalars.
+   * 
+   * For the input level == -1, the return stream consists
+   * of all {@link Scalar}s in this tensor.
    * 
    * @param level
    * @return non-parallel stream, the user may invoke .parallel() */

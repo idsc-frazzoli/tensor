@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.Comparators;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
@@ -19,5 +20,14 @@ public class ArgMinTest extends TestCase {
   public void testMinComparator() {
     assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Comparators.ascending()));
     assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8), Comparators.ascending()));
+  }
+
+  public void testScalar() {
+    try {
+      ArgMin.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

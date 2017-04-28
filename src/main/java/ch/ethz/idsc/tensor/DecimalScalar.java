@@ -5,16 +5,21 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 // EXPERIMENTAL
 // work in progress, use {@link DoubleScalar} instead
-class DecimalScalar extends AbstractRealScalar implements ChopInterface {
+public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   // perhaps make this member
   private static final MathContext CONTEXT = MathContext.DECIMAL128;
 
   public static RealScalar of(BigDecimal value) {
     return value.compareTo(BigDecimal.ZERO) == 0 ? ZeroScalar.get() : new DecimalScalar(value);
+  }
+
+  public static RealScalar of(double value) {
+    return of(BigDecimal.valueOf(value));
   }
 
   static BigDecimal approx(RationalScalar rationalScalar) {
@@ -71,11 +76,6 @@ class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   }
 
   @Override
-  public Scalar n() {
-    return this;
-  }
-
-  @Override
   protected boolean isNonNegative() {
     return 0 <= value.signum();
   }
@@ -98,8 +98,11 @@ class DecimalScalar extends AbstractRealScalar implements ChopInterface {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
       return value.compareTo(decimalScalar.value);
     }
+    if (scalar instanceof ZeroScalar)
+      return signInt();
     @SuppressWarnings("unchecked")
-    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
+    Comparable<Scalar> comparable = (Comparable<Scalar>) //
+    (scalar instanceof NInterface ? ((NInterface) scalar).n() : scalar);
     return -comparable.compareTo(this);
   }
 
