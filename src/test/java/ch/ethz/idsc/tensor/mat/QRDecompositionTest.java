@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.mat;
 
 import java.util.Random;
+import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -16,18 +17,19 @@ import junit.framework.TestCase;
 
 public class QRDecompositionTest extends TestCase {
   private static QRDecomposition specialOps(Tensor A) {
+    Function<Scalar, Scalar> chop = Chop.below(1e-10);
     QRDecomposition qr = QRDecomposition.of(A);
     Tensor Q = qr.getQ();
     Tensor Qi = qr.getInverseQ();
     Tensor R = qr.getR();
     // System.out.println(Pretty.of(R));
     // System.out.println(Pretty.of(Q));
-    assertEquals(Chop.of(A.subtract(Q.dot(R))), Array.zeros(Dimensions.of(A)));
+    assertEquals(A.subtract(Q.dot(R)).map(chop), Array.zeros(Dimensions.of(A)));
     Tensor err = Q.dot(Qi).subtract(IdentityMatrix.of(A.length()));
     // System.out.println(Pretty.of(Chop.of(err)));
-    assertEquals(Chop.of(err), Array.zeros(Dimensions.of(err)));
+    assertEquals(err.map(chop), Array.zeros(Dimensions.of(err)));
     Scalar qrDet = Det.of(Q).multiply(Det.of(R));
-    assertEquals(Chop.of(qrDet.subtract(Det.of(A))), ZeroScalar.get());
+    assertEquals(qrDet.subtract(Det.of(A)).map(chop), ZeroScalar.get());
     return qr;
   }
 

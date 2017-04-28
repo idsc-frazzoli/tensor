@@ -12,13 +12,16 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** supported file formats are: CSV, PNG, TENSOR
  * 
+ * <p>Do not use Import when exchanging {@link Tensor}s with
+ * Mathematica. For that purpose use {@link Put} and {@link Get}.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Import.html">Import</a> */
 public enum Import {
   ;
   // ---
-  /** @param file
-   * @return
+  /** @param file source
+   * @return file content as {@link Tensor}
    * @throws ClassNotFoundException
    * @throws DataFormatException
    * @throws IOException */

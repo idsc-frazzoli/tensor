@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** export of tensor to file.
+ * The output is similar to Tensor::toString and readable in any text editor.
  * 
  * <p>file is readable in Mathematica where the file is
  * imported using Mathematica::Get.
@@ -22,14 +23,14 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Put {
   ;
   // ---
-  /** @param file
+  /** @param file destination of write
    * @param tensor
    * @throws IOException */
   public static void of(File file, Tensor tensor) throws IOException {
     of(file.toPath(), tensor);
   }
 
-  /** @param path
+  /** @param path destination of write
    * @param tensor
    * @throws IOException */
   public static void of(Path path, Tensor tensor) throws IOException {

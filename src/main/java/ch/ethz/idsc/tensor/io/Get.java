@@ -8,7 +8,8 @@ import java.nio.file.Path;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** import tensor expression from text file
+/** import tensor expression that was created by {@link Put}.
+ * The format is similar to Tensor::toString and readable in any text editor.
  * 
  * <p>example content
  * <pre>
@@ -28,14 +29,14 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Get {
   ;
   // ---
-  /** @param file
+  /** @param file source
    * @return
    * @throws IOException */
   public static Tensor of(File file) throws IOException {
     return of(file.toPath());
   }
 
-  /** @param path
+  /** @param path source
    * @return
    * @throws IOException */
   public static Tensor of(Path path) throws IOException {

@@ -11,12 +11,19 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** supported file formats are: CSV, PNG, TENSOR
  * 
+ * <p>Do not use Export when exchanging {@link Tensor}s with
+ * Mathematica. For that purpose use {@link Put} and {@link Get}.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Export.html">Export</a> */
 public enum Export {
   ;
   // ---
-  /** @param file
+  /** See the documentation of
+   * {@link CsvFormat}, {@link ImageFormat}, {@link ObjectFormat}
+   * to find how tensors are encoded in the respective format.
+   * 
+   * @param file destination
    * @param tensor
    * @throws IOException */
   public static void of(File file, Tensor tensor) throws IOException {

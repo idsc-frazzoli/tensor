@@ -5,6 +5,8 @@ import java.util.Comparator;
 
 import ch.ethz.idsc.tensor.alg.Sort;
 
+// EXPERIMENTAL perhaps Java already offers something similar
+// for canonic and reverse sorting...?
 public enum Comparators {
   ;
   /** ascending is default ordering when using {@link Sort}

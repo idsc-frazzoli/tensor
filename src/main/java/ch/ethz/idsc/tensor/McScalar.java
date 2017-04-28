@@ -7,14 +7,14 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 
-// experiment towards a Quaternion scalar
-class McScalar extends AbstractScalar implements ConjugateInterface {
+// EXPERIMENTAL towards a Quaternion scalar
+/* package */ class McScalar extends AbstractScalar implements ConjugateInterface {
   public static Scalar of(Scalar re, Scalar im) {
     if (im.equals(ZeroScalar.get()))
       return re;
     return _of(Tensors.matrix(new Scalar[][] { //
-        { re /*                */, im }, //
-        { (Scalar) Conjugate.of(im).negate(), (Scalar) Conjugate.of(re) } }));
+        { re /*                              */, im }, //
+        { Conjugate.function.apply(im).negate(), Conjugate.function.apply(re) } }));
   }
 
   private static Scalar _of(Tensor skew) {
