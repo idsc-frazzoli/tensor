@@ -6,6 +6,15 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class ConvexHullTest extends TestCase {
+  public void testEmpty() {
+    assertEquals(ConvexHull.of(Tensors.empty()), Tensors.empty());
+  }
+
+  public void testSingle() {
+    Tensor v = Tensors.of(Tensors.vector(-1.3, 2.5));
+    assertEquals(ConvexHull.of(v), v);
+  }
+
   public void testSimple() {
     Tensor points = Tensors.matrix(new Number[][] { //
         { -1, 2 }, //
