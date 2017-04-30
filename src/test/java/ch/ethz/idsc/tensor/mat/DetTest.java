@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
@@ -162,15 +163,24 @@ public class DetTest extends TestCase {
     // ---
     // Matlab gives num == 1.0597e+05 !
     // Mathematica gives num == 44934.8 !
-    Scalar num = Det.of(N.of(m)); // indeed, our algo is no different:
-    // System.out.println(num);
+    Scalar num1 = Det.of(N.of(m)); // indeed, our algo is no different:
+    // System.out.println(num1);
     // num == 105968.67122221774
-    num.toString(); // to eliminate warning
+    num1.toString(); // to eliminate warning
+    Scalar num2 = Det.withoutAbs(N.of(m)); // indeed, our algo is no different:
+    // System.out.println(num2);
+    // num == 105968.67122221774
+    num2.toString(); // to eliminate warning
   }
 
   public void testHilbert() {
     Scalar det = Det.of(HilbertMatrix.of(8));
     assertEquals(det, RationalScalar.of( //
         BigInteger.ONE, new BigInteger("365356847125734485878112256000000")));
+  }
+
+  public void testHilbert2() {
+    Scalar det = Det.withoutAbs(HilbertMatrix.of(8));
+    assertEquals(det, Scalars.fromString("1/365356847125734485878112256000000"));
   }
 }

@@ -22,7 +22,7 @@ public enum Det {
    * @return determinant of matrix */
   public static Scalar of(Tensor matrix) {
     if (isMatrix(matrix))
-      return _of(matrix);
+      return _of(matrix, Pivot.argMaxAbs);
     throw TensorRuntimeException.of(matrix);
   }
 
@@ -30,7 +30,7 @@ public enum Det {
    * @return determinant of m */
   public static Scalar withoutAbs(Tensor matrix) {
     if (isMatrix(matrix))
-      return _of(matrix);
+      return _of(matrix, Pivot.firstNonZero);
     throw TensorRuntimeException.of(matrix);
   }
 
@@ -41,10 +41,10 @@ public enum Det {
   }
 
   // helper function
-  private static Scalar _of(Tensor matrix) {
+  private static Scalar _of(Tensor matrix, Pivot pivot) {
     if (matrix.length() == matrix.get(0).length()) // square
       try {
-        return new GaussianElimination(matrix, Array.zeros(matrix.length()), Pivot.firstNonZero).det();
+        return new GaussianElimination(matrix, Array.zeros(matrix.length()), pivot).det();
       } catch (Exception exception) {
         // matrix is singular
       }
