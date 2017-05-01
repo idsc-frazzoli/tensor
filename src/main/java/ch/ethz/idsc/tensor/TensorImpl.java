@@ -157,6 +157,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @Override
   public Tensor add(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
+    if (list.size() != impl.list.size()) // <- check is necessary otherwise error might be undetected
+      throw TensorRuntimeException.of(tensor);
     return Tensor.of(IntStream.range(0, list.size()).boxed() //
         // .parallel() //
         .map(index -> list.get(index).add(impl.list.get(index))));
@@ -165,6 +167,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @Override
   public Tensor pmul(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
+    if (list.size() != impl.list.size()) // <- check is necessary otherwise error might be undetected
+      throw TensorRuntimeException.of(tensor);
     return Tensor.of(IntStream.range(0, list.size()).boxed() //
         .map(index -> list.get(index).pmul(impl.list.get(index))));
   }
@@ -184,16 +188,16 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
     return _dot(Dimensions.of(this), (TensorImpl) tensor);
   }
 
-  private Tensor _dot(List<Integer> dimensions, TensorImpl tensor) {
+  private Tensor _dot(List<Integer> dimensions, TensorImpl impl) {
     if (1 < dimensions.size())
       return Tensor.of(list.stream() //
           .parallel() // parallel because of subsequent reduce
-          .map(entry -> ((TensorImpl) entry)._dot(dimensions.subList(1, dimensions.size()), tensor)));
+          .map(entry -> ((TensorImpl) entry)._dot(dimensions.subList(1, dimensions.size()), impl)));
     final int length = dimensions.get(0);
-    if (length != tensor.length()) // <- check is necessary otherwise error might be undetected
+    if (length != impl.length()) // <- check is necessary otherwise error might be undetected
       throw new IllegalArgumentException("dimension mismatch");
     return IntStream.range(0, length).boxed() //
-        .map(index -> tensor.list.get(index).multiply((Scalar) list.get(index))) //
+        .map(index -> impl.list.get(index).multiply((Scalar) list.get(index))) //
         .reduce(Tensor::add).orElse(ZeroScalar.get());
   }
 

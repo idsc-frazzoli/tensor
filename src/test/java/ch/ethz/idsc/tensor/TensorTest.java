@@ -104,6 +104,24 @@ public class TensorTest extends TestCase {
     assertEquals(a.pmul(c), r);
   }
 
+  public void testPMulFail() {
+    try {
+      Tensors.vector(1, 2, 3).pmul(Tensors.vector(1, 2, 3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testAddFail() {
+    try {
+      Tensors.vector(1, 2, 3).add(Tensors.vector(1, 2, 3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testAppend() {
     Tensor a0 = RealScalar.of(3);
     Tensor a1 = Tensors.empty();
