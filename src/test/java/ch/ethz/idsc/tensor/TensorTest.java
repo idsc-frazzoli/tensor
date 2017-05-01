@@ -286,4 +286,8 @@ public class TensorTest extends TestCase {
     Tensor b = a.map(Chop.function);
     assertEquals(b, Tensors.of(ZeroScalar.get(), Tensors.of(ZeroScalar.get())));
   }
+
+  public void testToString() {
+    assertEquals(Tensors.vector(2, 3, 4).toString(), "{2, 3, 4}");
+  }
 }

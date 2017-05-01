@@ -43,6 +43,7 @@ public class SimplexCornersTest extends TestCase {
     Tensor m = Join.of(1, Ap, IdentityMatrix.of(2));
     Tensor b = Tensors.fromString("{-1,-1/3}").negate();
     NavigableMap<Scalar, Tensor> map = SimplexCorners.minEquals(c, m, b, false);
+    map.clear();
     // assertTrue(map.containsKey(RationalScalar.of(-10, 9)));
     // System.out.println("dual");
     // SimplexCorners.show(map);
