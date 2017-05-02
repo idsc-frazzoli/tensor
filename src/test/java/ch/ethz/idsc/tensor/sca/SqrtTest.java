@@ -45,6 +45,9 @@ public class SqrtTest extends TestCase {
     assertEquals(r, new BigInteger("4589736495873649578"));
     assertEquals(Sqrt.of(BigInteger.ONE), BigInteger.ONE);
     assertEquals(Sqrt.of(BigInteger.ZERO), BigInteger.ZERO);
+  }
+
+  public void testBigIntegerFail() {
     try {
       Sqrt.of(new BigInteger("21065681101554527729739161805139578083"));
       assertTrue(false);

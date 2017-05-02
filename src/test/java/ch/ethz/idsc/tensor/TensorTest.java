@@ -104,6 +104,24 @@ public class TensorTest extends TestCase {
     assertEquals(a.pmul(c), r);
   }
 
+  public void testPMulFail() {
+    try {
+      Tensors.vector(1, 2, 3).pmul(Tensors.vector(1, 2, 3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testAddFail() {
+    try {
+      Tensors.vector(1, 2, 3).add(Tensors.vector(1, 2, 3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testAppend() {
     Tensor a0 = RealScalar.of(3);
     Tensor a1 = Tensors.empty();
@@ -267,5 +285,9 @@ public class TensorTest extends TestCase {
     Tensor a = Tensors.of(DoubleScalar.of(1e-20), Tensors.of(DoubleScalar.of(3e-19)));
     Tensor b = a.map(Chop.function);
     assertEquals(b, Tensors.of(ZeroScalar.get(), Tensors.of(ZeroScalar.get())));
+  }
+
+  public void testToString() {
+    assertEquals(Tensors.vector(2, 3, 4).toString(), "{2, 3, 4}");
   }
 }

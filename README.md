@@ -1,7 +1,7 @@
 # ch.ethz.idsc.tensor
 Library for tensor computation in Java 8.
 
-Version `0.1.7`
+Version `0.1.8`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
@@ -94,11 +94,15 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.1.7</version>
+        <version>0.1.8</version>
       </dependency>
     </dependencies>
 
 The source code is attached to the `jar` file for your convenience.
+
+*Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
+
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.1.8/*
 
 ## Optional
 
@@ -117,8 +121,8 @@ Subsequently, the documentation is accessible through the file
 The library is used in the projects:
 * `matsim-av`
 * `SwissTrolley+`
-* `SimBus`
 * `owly`
+* `SimBus`
 * `subare`
 
-The repository has over `500` unit tests.
+The repository has over `540` unit tests.

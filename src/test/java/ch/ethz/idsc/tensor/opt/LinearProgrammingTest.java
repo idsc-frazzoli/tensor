@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.opt;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
@@ -54,6 +55,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor c = Tensors.vector(2, 1, 2, 1, -1, 2);
     Tensor m = Transpose.of(Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}"));
     Tensor b = Tensors.fromString("{1,1/3}");
+    TensorRuntimeException.of(c, m, b);
     // Tensor y = LinearProgramming.minLessEquals(c, m.negate(), b.negate());
     // TODO
     // System.out.println(y);
@@ -92,6 +94,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor c = Tensors.vector(8, 10, 2);
     Tensor m = Transpose.of(Tensors.matrixInt(new int[][] { { 4, -1 }, { 2, 1 }, { -5, 2 } })).negate();
     Tensor b = Tensors.vector(1, 1).negate();
+    TensorRuntimeException.of(c, m, b);
     // Tensor x = LinearProgramming.minLessEquals(c, m, b);
     // System.out.println(x);
     // System.out.println("cost "+c.dot(x));
@@ -151,6 +154,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor c = Tensors.vector(20, 12, 16);
     Tensor m = Transpose.of(Tensors.matrixInt(new int[][] { { 1, 1 }, { 1, 0 }, { 0, 1 } })).negate();
     Tensor b = Tensors.vector(18, 12.5).negate();
+    TensorRuntimeException.of(c, m, b);
     // System.out.println(Pretty.of(m));
     // System.out.println(Pretty.of(b));
     // Tensor x = LinearProgramming.minLessEquals(c, m, b);

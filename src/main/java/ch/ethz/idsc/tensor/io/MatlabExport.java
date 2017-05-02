@@ -13,8 +13,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Flatten;
 import ch.ethz.idsc.tensor.alg.Transpose;
 
-/** MatlabExport has not been sufficiently tested.
- * If errors are encountered please report them back to the author. */
+/** vectors, i.e. tensors or rank 1, are exported to MATLAB as column vectors
+ * 
+ * certain {@link Scalar} are not supported:
+ * Double.POSITIVE_INFINITY -> results in "Infinity" */
+// EXPERIMENTAL
 public enum MatlabExport {
   ;
   /** The stream of strings can be written to a file using

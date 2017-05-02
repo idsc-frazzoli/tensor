@@ -9,6 +9,9 @@ import ch.ethz.idsc.tensor.sca.Power;
 /** Each norm is defined at least for scalars, vectors, and matrices.
  * The return value is of type {@link RealScalar}.
  * 
+ * <p>As in Mathematica, the norm of empty expressions is undefined:
+ * Norm[{{}}] -> undefined
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Norm.html">Norm</a> */
 public enum Norm {

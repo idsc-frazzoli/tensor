@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
+import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 
 /* package */ class Norm2 extends RankAdapter<Scalar> {
@@ -22,6 +23,9 @@ import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 
   @Override
   public Scalar ofMatrix(Tensor matrix) {
+    // List<Integer> dims = Dimensions.of(matrix);
+    if (matrix.length() < matrix.get(0).length())
+      matrix = Transpose.of(matrix);
     return SingularValueDecomposition.of(matrix) //
         .getW().flatten(0) // values are non-negative
         .map(Scalar.class::cast) //

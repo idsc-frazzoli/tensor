@@ -50,7 +50,8 @@ public enum Round implements Function<Scalar, Scalar> {
    * @param increment
    * @return */
   public static Function<Scalar, Scalar> toMultipleOf(Scalar increment) {
-    return scalar -> function.apply(scalar.divide(increment)).multiply(increment);
+    Scalar inverse = increment.invert();
+    return scalar -> function.apply(scalar.multiply(inverse)).multiply(increment);
   }
 
   /** rounds all entries of tensor to nearest integers, with

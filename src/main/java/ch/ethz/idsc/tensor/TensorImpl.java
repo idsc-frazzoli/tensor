@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -14,6 +15,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 /** implementation of tensor interface
  * parallel stream processing is used for add() and dot() */
 /* package */ class TensorImpl implements Tensor {
+  private static final String DELIMITER = ", ";
+  // ---
   private final List<Tensor> list;
 
   /* package */ TensorImpl(List<Tensor> list) {
@@ -157,16 +160,13 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @Override
   public Tensor add(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
-    return Tensor.of(IntStream.range(0, list.size()).boxed() //
-        // .parallel() //
-        .map(index -> list.get(index).add(impl.list.get(index))));
+    return Tensor.of(_range(impl).map(index -> list.get(index).add(impl.list.get(index))));
   }
 
   @Override
   public Tensor pmul(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
-    return Tensor.of(IntStream.range(0, list.size()).boxed() //
-        .map(index -> list.get(index).pmul(impl.list.get(index))));
+    return Tensor.of(_range(impl).map(index -> list.get(index).pmul(impl.list.get(index))));
   }
 
   @Override
@@ -184,17 +184,21 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
     return _dot(Dimensions.of(this), (TensorImpl) tensor);
   }
 
-  private Tensor _dot(List<Integer> dimensions, TensorImpl tensor) {
+  private Tensor _dot(List<Integer> dimensions, TensorImpl impl) {
     if (1 < dimensions.size())
       return Tensor.of(list.stream() //
           .parallel() // parallel because of subsequent reduce
-          .map(entry -> ((TensorImpl) entry)._dot(dimensions.subList(1, dimensions.size()), tensor)));
-    final int length = dimensions.get(0);
-    if (length != tensor.length()) // <- check is necessary otherwise error might be undetected
-      throw new IllegalArgumentException("dimension mismatch");
-    return IntStream.range(0, length).boxed() //
-        .map(index -> tensor.list.get(index).multiply((Scalar) list.get(index))) //
+          .map(entry -> ((TensorImpl) entry)._dot(dimensions.subList(1, dimensions.size()), impl)));
+    return _range(impl).map(index -> impl.list.get(index).multiply((Scalar) list.get(index))) //
         .reduce(Tensor::add).orElse(ZeroScalar.get());
+  }
+
+  // helper function
+  private Stream<Integer> _range(TensorImpl impl) {
+    int length = list.size();
+    if (length != impl.list.size()) // <- check is necessary otherwise error might be undetected
+      throw TensorRuntimeException.of(impl); // dimensions mismatch
+    return IntStream.range(0, length).boxed();
   }
 
   @Override
@@ -219,10 +223,10 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override // from Object
   public String toString() {
-    String string = list.toString(); // produces "[x, y, z]"
-    StringBuilder stringBuilder = new StringBuilder(string.length());
+    String string = list.stream().map(Tensor::toString).collect(Collectors.joining(DELIMITER));
+    StringBuilder stringBuilder = new StringBuilder(2 + string.length());
     stringBuilder.append(OPENING_BRACKET);
-    stringBuilder.append(string, 1, string.length() - 1);
+    stringBuilder.append(string);
     stringBuilder.append(CLOSING_BRACKET);
     return stringBuilder.toString(); // "{x, y, z}"
   }

@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * Chop[1/1000000000000000] != 0, but
  * Chop[1/1000000000000000.] == 0
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Chop.html">Chop</a> */
 public enum Chop implements Function<Scalar, Scalar> {
   function;

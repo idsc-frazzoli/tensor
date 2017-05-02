@@ -48,6 +48,7 @@ public enum Array {
 
   // helper function
   // TODO check if this can be parallelized
+  // TODO check return value Array.zeros(0,0,0,0)=={}
   private static Tensor _of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions, List<Integer> index) {
     int level = index.size();
     if (level == dimensions.size())

@@ -1,17 +1,28 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Partition;
+import ch.ethz.idsc.tensor.io.MatlabExport;
 import ch.ethz.idsc.tensor.io.Pretty;
 import junit.framework.TestCase;
 
-public class MatlabTest extends TestCase {
-  public void testExportVector() {
+public class MatlabExportTest extends TestCase {
+  private static final String ROOT = "/home/datahaki/";
+
+  public void testDummy() {
+    // ---
+  }
+
+  public void exportVector() {
     Tensor tensor = Tensors.of(ZeroScalar.get(), ComplexScalar.of(3, 4));
     Pretty.of(tensor);
     // System.out.println(Pretty.of(tensor));
@@ -23,7 +34,7 @@ public class MatlabTest extends TestCase {
     }
   }
 
-  public void testExportMatrix() {
+  public void exportMatrix() {
     Tensor tensor = Tensors.matrix((i, j) -> RationalScalar.of(i * 5 + j, 1), 6, 5);
     Pretty.of(tensor);
     // System.out.println(Pretty.of(tensor));
@@ -35,7 +46,7 @@ public class MatlabTest extends TestCase {
     }
   }
 
-  public void testExport3D() {
+  public void export3D() {
     Tensor tensor = Partition.of(Tensors.matrix((i, j) -> RationalScalar.of(i * 5 + j, 1), 6, 5), 3);
     Pretty.of(tensor);
     // System.out.println(Pretty.of(tensor));
@@ -54,27 +65,19 @@ public class MatlabTest extends TestCase {
     // 10 11 12 13 14
   }
 
-  public void testCsvMatrix() {
+  static void _matrix() throws IOException {
     Tensor tensor = Tensors.matrix((i, j) -> RationalScalar.of(i * 5 + j, 1), 6, 5);
-    Pretty.of(tensor);
-    // System.out.println(Pretty.of(tensor));
-    // System.out.println(Dimensions.of(tensor));
-    try {
-      // Files.write(Paths.get("/home/datahaki/exported.csv"), (Iterable<String>) CsvFormat.of(tensor)::iterator);
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
+    System.out.println(Pretty.of(tensor));
+    Files.write(Paths.get(ROOT + "me_matrix.m"), (Iterable<String>) MatlabExport.of(tensor)::iterator);
   }
 
-  public void testCsvVector() {
-    Tensor tensor = Tensors.vectorDouble(3.2, -3, .234, 3, Double.POSITIVE_INFINITY, 0);
-    Pretty.of(tensor);
-    // System.out.println(Pretty.of(tensor));
-    // System.out.println(Dimensions.of(tensor));
-    try {
-      // Files.write(Paths.get("/home/datahaki/vecexported.csv"), (Iterable<String>) CsvFormat.of(tensor)::iterator);
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
+  static void _vector() throws IOException {
+    Tensor tensor = Tensors.vectorDouble(3.2, -3, .234, 3, 3e-20, 0);
+    Files.write(Paths.get(ROOT + "me_vector.m"), (Iterable<String>) MatlabExport.of(tensor)::iterator);
+  }
+
+  public static void main(String[] args) throws IOException {
+    _vector();
+    _matrix();
   }
 }
