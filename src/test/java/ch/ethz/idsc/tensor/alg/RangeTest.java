@@ -7,8 +7,8 @@ import junit.framework.TestCase;
 
 public class RangeTest extends TestCase {
   public void testRange() {
-    Tensor t = Range.of(5);
-    Tensor r = Tensors.vector(0, 1, 2, 3, 4);
+    Tensor t = Range.of(Integer.MAX_VALUE, Integer.MAX_VALUE + 4L);
+    Tensor r = Tensors.fromString("{2147483647, 2147483648, 2147483649, 2147483650}");
     assertEquals(t, r);
     assertEquals(t.toString(), r.toString());
   }

@@ -6,6 +6,10 @@ import ch.ethz.idsc.tensor.Tensor;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/SingularValueDecomposition.html">SingularValueDecomposition</a> */
 public interface SingularValueDecomposition {
+  // TODO comment on the choice of constants
+  static final double EPSILON = 1e-17;
+  static final int MAXITERATIONS = 25;
+
   /** performs a singular value decomposition of matrix A
    * <ul>
    * <li>u.dot(DiagonalMatrix.of(w)).dot(Transpose.of(v)) == A
@@ -18,7 +22,7 @@ public interface SingularValueDecomposition {
    * @return singular value decomposition of matrix A
    * @throws if decomposition cannot be established */
   static SingularValueDecomposition of(Tensor A) {
-    return new SingularValueDecompositionImpl(A.unmodifiable(), 1e-17, 25);
+    return new SingularValueDecompositionImpl(A.unmodifiable(), EPSILON, MAXITERATIONS);
   }
 
   /** @return matrix of dimensions A, rows x cols */

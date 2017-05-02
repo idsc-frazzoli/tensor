@@ -2,10 +2,10 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
+/** interface may be implemented by {@link Scalar}
+ * to support the computation of the complex argument */
 public interface ArgInterface {
-  /** @param threshold
-   * @return {@link ZeroScalar} if Scalar has numeric precision and absolute value is strictly below threshold */
+  /** @return argument of this number in the complex plane */
   Scalar arg();
 }

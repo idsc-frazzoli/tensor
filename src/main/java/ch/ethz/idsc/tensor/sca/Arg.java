@@ -7,9 +7,9 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** gives the argument of the complex number
+/** gives the argument of a number in the complex plane
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Arg.html">Arg</a> */
 public enum Arg implements Function<Scalar, Scalar> {
   function;
