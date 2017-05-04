@@ -1,12 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** the Cholesky decomposition of a hermitian matrix establishes matrices L and D with
  * 
- * matrix == L . D . L^*
+ * matrix == L . D . L*
  * 
  * matrix == getL().dot(getD().pmul(ConjugateTranspose.of(getL())))
  * 
@@ -14,7 +15,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <a href="https://reference.wolfram.com/language/ref/CholeskyDecomposition.html">CholeskyDecomposition</a> */
 public interface CholeskyDecomposition {
   /** @param matrix hermitian
-   * @return Cholesky decomposition of matrix */
+   * @return Cholesky decomposition of matrix
+   * @throws exception if matrix is not hermitian, or decomposition cannot be established 
+   * @see HermitianMatrixQ */
   public static CholeskyDecomposition of(Tensor matrix) {
     if (!HermitianMatrixQ.of(matrix))
       throw TensorRuntimeException.of(matrix);
@@ -26,4 +29,10 @@ public interface CholeskyDecomposition {
 
   /** @return vector of diagonal entries of D */
   Tensor getD();
+
+  /** @return determinant of matrix */
+  Scalar det();
+
+  // TODO preliminary
+  Tensor solve(Tensor rhs);
 }

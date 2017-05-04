@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
@@ -16,6 +17,7 @@ public class CholeskyDecompositionTest extends TestCase {
     // System.out.println(Pretty.of(cd.getD()));
     Tensor res = cd.getL().dot(cd.getD().pmul(ConjugateTranspose.of(cd.getL())));
     assertEquals(Chop.of(A.subtract(res)), Array.zeros(n, n));
+    assertEquals(Chop.of(cd.det().subtract(Det.of(A))), ZeroScalar.get());
     return cd;
   }
 
@@ -82,5 +84,10 @@ public class CholeskyDecompositionTest extends TestCase {
 
   public void testHilbertN1() {
     checkDecomp(N.of(HilbertMatrix.of(16)));
+  }
+
+  public void testZeros1() {
+    checkDecomp(Array.zeros(1, 1));
+    checkDecomp(Array.zeros(5, 5));
   }
 }

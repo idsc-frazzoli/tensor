@@ -2,8 +2,12 @@
 // adapted from wikipedia - Cholesky decomposition
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /* package */ class CholeskyDecompositionImpl implements CholeskyDecomposition {
@@ -19,7 +23,9 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
       for (int j = 0; j < i; ++j) {
         Tensor lik = l.get(i).extract(0, j);
         Tensor ljk = l.get(j).extract(0, j).map(Conjugate.function);
-        l.set(A.Get(i, j).subtract(lik.dot(d.extract(0, j).pmul(ljk))).divide(d.Get(j)), i, j);
+        Scalar value = A.Get(i, j).subtract(lik.dot(d.extract(0, j).pmul(ljk)));
+        if (!value.equals(ZeroScalar.get()))
+          l.set(value.divide(d.Get(j)), i, j);
       }
       Tensor lik = l.get(i).extract(0, i);
       Tensor ljk = l.get(i).extract(0, i).map(Conjugate.function); // variable name is deliberate
@@ -35,5 +41,16 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   @Override
   public Tensor getD() {
     return d;
+  }
+
+  @Override
+  public Scalar det() {
+    return Total.prod(d).Get();
+  }
+
+  @Override
+  public Tensor solve(Tensor rhs) {
+    // TODO implement solver
+    throw TensorRuntimeException.of(rhs);
   }
 }
