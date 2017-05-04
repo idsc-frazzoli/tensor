@@ -86,6 +86,16 @@ public class CholeskyDecompositionTest extends TestCase {
     checkDecomp(N.of(HilbertMatrix.of(16)));
   }
 
+  public void testDiag() {
+    checkDecomp(DiagonalMatrix.of(1, -2, 3, -4));
+    checkDecomp(DiagonalMatrix.of(0, -2, 3, -4));
+    checkDecomp(DiagonalMatrix.of(0, -2, 3, -4));
+    checkDecomp(DiagonalMatrix.of(0, -2, 0, -4));
+    checkDecomp(DiagonalMatrix.of(1, 0, 3, -4));
+    checkDecomp(DiagonalMatrix.of(1, -2, 3, 0));
+    checkDecomp(DiagonalMatrix.of(1, 0, 3, 0));
+  }
+
   public void testZeros1() {
     checkDecomp(Array.zeros(1, 1));
     checkDecomp(Array.zeros(5, 5));
