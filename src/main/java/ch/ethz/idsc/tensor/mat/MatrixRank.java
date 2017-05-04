@@ -10,6 +10,12 @@ public enum MatrixRank {
   ;
   /** @return rank of matrix m */
   public static int of(Tensor m) {
+    // TODO use row echelon
+    return of(SingularValueDecomposition.of(m));
+  }
+
+  /** @return rank of matrix m */
+  public static int usingSvd(Tensor m) {
     return of(SingularValueDecomposition.of(m));
   }
 

@@ -19,16 +19,14 @@ public class NullSpaceTest extends TestCase {
     assertEquals(Dimensions.of(nul), Arrays.asList(n, n));
     assertTrue(nul.get(0, 0) instanceof RationalScalar);
     assertEquals(nul, IdentityMatrix.of(n));
-    // System.out.println(Pretty.of(nul));
-    // System.out.println(Pretty.of(N.of(nul)));
   }
 
   public void testRowReduce() {
     Tensor m = Tensors.fromString("{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}}");
     Tensor r = NullSpace.of(m);
     assertEquals(r, Tensors.fromString("{{1, 0, -3, 2}, {0, 1, -2, 1}}"));
-    assertEquals(m.dot(r.get(0)), Array.zeros(4));
-    assertEquals(m.dot(r.get(1)), Array.zeros(4));
+    for (Tensor v : r)
+      assertEquals(m.dot(v), Array.zeros(4));
   }
 
   public void testZeros2() {
@@ -47,5 +45,65 @@ public class NullSpaceTest extends TestCase {
     Tensor m = Reverse.of(IdentityMatrix.of(5));
     Tensor r = NullSpace.of(m);
     assertEquals(r, Tensors.empty());
+  }
+
+  public void testWikipediaKernel() {
+    Tensor A = Tensors.matrix(new Number[][] { //
+        { 1, 0, -3, 0, 2, -8 }, //
+        { 0, 1, 5, 0, -1, 4 }, //
+        { 0, 0, 0, 1, 7, -9 }, //
+        { 0, 0, 0, 0, 0, 0 } //
+    });
+    Tensor nul = NullSpace.of(A);
+    for (Tensor v : nul)
+      assertEquals(A.dot(v), Array.zeros(4));
+    assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
+  }
+
+  public void testSome1() {
+    Tensor A = Tensors.matrix(new Number[][] { //
+        { -1, -2, -1 }, //
+        { -3, 1, 5 }, //
+        { 3, 6, 3 }, //
+        { 1, 2, 1 } //
+    });
+    Tensor nul = NullSpace.of(A);
+    for (Tensor v : nul)
+      assertEquals(A.dot(v), Array.zeros(4));
+    assertEquals(Dimensions.of(nul), Arrays.asList(1, 3));
+  }
+
+  public void testSome2() {
+    Tensor A = Tensors.matrix(new Number[][] { //
+        { 1, 0, -3, 0, 2, -8 }, //
+        { 0, 0, 1, 0, -1, 4 }, //
+        { 0, 0, 0, 1, 7, -9 }, //
+        { 0, 0, 0, 0, 0, 0 } //
+    });
+    Tensor nul = NullSpace.of(A);
+    for (Tensor v : nul)
+      assertEquals(A.dot(v), Array.zeros(4));
+    assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
+  }
+
+  public void testSome3() {
+    Tensor A = Tensors.matrix(new Number[][] { //
+        { 0, 0, 0, 0, 0, 0 }, //
+        { 0, 0, 1, 0, -1, 4 }, //
+        { 0, 0, 0, 0, 1, -9 }, //
+        { 1, 9, -3, 1, 2, -8 } //
+    });
+    Tensor nul = NullSpace.of(A);
+    for (Tensor v : nul)
+      assertEquals(A.dot(v), Array.zeros(4));
+    assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
+  }
+
+  public void testComplex() {
+    Tensor m = Tensors.fromString("{{1+3*I, 2, 3, 4+I}, {5, 6+I, 7, 8}}");
+    Tensor nul = NullSpace.of(m);
+    assertEquals(Dimensions.of(nul), Arrays.asList(2, 4));
+    for (Tensor v : nul)
+      assertEquals(m.dot(v), Array.zeros(2));
   }
 }

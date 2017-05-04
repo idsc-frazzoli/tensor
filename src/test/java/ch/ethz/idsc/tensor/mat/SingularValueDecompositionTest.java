@@ -206,7 +206,7 @@ public class SingularValueDecompositionTest extends TestCase {
   }
 
   public void testEye() {
-    assertEquals(MatrixRank.of(IdentityMatrix.of(10)), 10);
-    assertEquals(MatrixRank.of(DiagonalMatrix.of(Tensors.vector(1, 1, 1, 1, 0, 0))), 4);
+    assertEquals(MatrixRank.usingSvd(IdentityMatrix.of(10)), 10);
+    assertEquals(MatrixRank.usingSvd(DiagonalMatrix.of(Tensors.vector(1, 1, 1, 1, 0, 0))), 4);
   }
 }
