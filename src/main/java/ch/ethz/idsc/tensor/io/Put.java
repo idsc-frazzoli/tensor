@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -35,5 +36,12 @@ public enum Put {
    * @throws IOException */
   public static void of(Path path, Tensor tensor) throws IOException {
     Files.write(path, (Iterable<String>) MathematicaFormat.of(tensor)::iterator);
+  }
+
+  /** @param tensor
+   * @return string expression of tensor
+   * @see Pretty#of(Tensor) */
+  public static String string(Tensor tensor) {
+    return MathematicaFormat.of(tensor).collect(Collectors.joining("\n"));
   }
 }

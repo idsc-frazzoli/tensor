@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.sca.ImagInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
+// EXPERIMENTAL
 class QuaternionScalar extends AbstractScalar implements //
     ConjugateInterface, ImagInterface, RealInterface {
   public static Scalar of(Number re, Number im, Number jm, Number km) {

@@ -49,7 +49,7 @@ public enum Scalars {
    * @param s2
    * @return true if s1 < s2 */
   public static boolean lessThan(Scalar s1, Scalar s2) {
-    return compare(s1, s2) == -1;
+    return compare(s1, s2) < 0;
   }
 
   /** @param s1

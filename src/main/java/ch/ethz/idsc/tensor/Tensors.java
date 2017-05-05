@@ -25,13 +25,13 @@ public enum Tensors {
   }
 
   /** @param numbers
-   * @return */
+   * @return vector of numbers as {@link RealScalar}s */
   public static Tensor vector(Number... numbers) {
     return Tensor.of(Stream.of(numbers).map(RealScalar::of));
   }
 
   /** @param list
-   * @return */
+   * @return vector of numbers in list as {@link RealScalar}s */
   public static Tensor vector(List<? extends Number> list) {
     return Tensor.of(list.stream().map(RealScalar::of));
   }

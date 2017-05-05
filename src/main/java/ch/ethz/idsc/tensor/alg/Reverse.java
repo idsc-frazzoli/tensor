@@ -12,8 +12,8 @@ public enum Reverse {
   /** @param tensor
    * @return tensor with entries on first level reversed */
   public static Tensor of(Tensor tensor) {
-    return Tensor.of(IntStream.range(0, tensor.length()).boxed() //
-        .map(index -> tensor.get(tensor.length() - index - 1)));
+    int length = tensor.length();
+    return Tensor.of(IntStream.range(0, length).map(index -> length - index - 1).boxed().map(tensor::get));
   }
 
   // TODO for now, function all is used for testing... what next?
