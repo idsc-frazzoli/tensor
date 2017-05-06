@@ -19,7 +19,7 @@ public enum Norm {
   _1(new Norm1()), //
   /** 2-norm, uses SVD for matrices */
   _2(new Norm2()), //
-  _2Squared(new Norm2Squared()), //
+  _2Squared(new Norm2Squared()), // <- this is not a "norm"
   Frobenius(new NormFrobenius()), //
   /** infinity-norm, for vectors max_i |a_i| */
   Infinity(new NormInfinity()), //

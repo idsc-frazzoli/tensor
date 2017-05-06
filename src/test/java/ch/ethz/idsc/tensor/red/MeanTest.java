@@ -29,12 +29,22 @@ public class MeanTest extends TestCase {
     assertEquals(mean1.subtract(mean2).map(Chop.function), ZeroScalar.get());
   }
 
-  public void testEmpty() {
+  public void testEmpty1() {
     try {
       Mean.of(Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testEmpty2() {
+    Scalar s = Mean.orZero(Tensors.empty()).Get();
+    assertEquals(s, ZeroScalar.get());
+  }
+
+  public void testEmpty3() {
+    Tensor s = Tensors.of(Tensors.empty());
+    assertEquals(Mean.of(s), Tensors.empty());
   }
 }

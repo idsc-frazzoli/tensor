@@ -41,6 +41,20 @@ gives
 
 ---
 
+Linear Algebra
+
+    Tensor matrix = Tensors.fromString("{{-1/3, 0, I}}");
+    System.out.println(Pretty.of(NullSpace.of(matrix)));
+
+gives
+
+    [
+     [    1     0  -I/3 ]
+     [    0     1     0 ]
+    ]
+
+---
+
 Tensors of rank 3
 
     Tensor ad = LieAlgebras.so3();
@@ -125,4 +139,4 @@ The library is used in the projects:
 * `SimBus`
 * `subare`
 
-The repository has over `570` unit tests.
+The repository has over `580` unit tests.

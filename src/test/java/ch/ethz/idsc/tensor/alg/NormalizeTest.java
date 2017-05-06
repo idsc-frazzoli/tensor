@@ -41,4 +41,31 @@ public class NormalizeTest extends TestCase {
       // ---
     }
   }
+
+  public void testNorm1() {
+    Tensor v = Tensors.vector(1, 1, 1);
+    Tensor n = Normalize.of(v, Norm._1);
+    assertEquals(n, Tensors.fromString("{1/3, 1/3, 1/3}"));
+  }
+
+  public void testNormInf() {
+    Tensor d = Tensors.vector(1, 1, 1).multiply(RealScalar.of(2));
+    Tensor n = Normalize.of(d, Norm.Infinity);
+    assertEquals(n, Tensors.vector(1, 1, 1));
+  }
+
+  public void testFail1() {
+    try {
+      Normalize.of(Tensors.vector(0, 0, 0, 0), Norm._1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testOk1() {
+    Tensor v = Tensors.vector(0, 0, 0, 0);
+    Tensor n = Normalize.unlessZero(v, Norm._1);
+    assertEquals(v, n);
+  }
 }

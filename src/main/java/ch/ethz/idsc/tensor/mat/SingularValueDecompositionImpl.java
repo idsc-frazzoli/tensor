@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
-import ch.ethz.idsc.tensor.sca.Plus;
+import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 class SingularValueDecompositionImpl implements SingularValueDecomposition {
@@ -178,7 +178,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       }
       IntStream.range(i, rows).forEach(j -> u.set(x -> x.multiply(gi), j, i));
     }
-    u.set(Plus.ONE, i, i);
+    u.set(Increment.ONE, i, i);
   }
 
   private int levelW(int k, double eps) {

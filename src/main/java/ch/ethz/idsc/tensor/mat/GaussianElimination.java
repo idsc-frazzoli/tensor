@@ -27,7 +27,7 @@ import ch.ethz.idsc.tensor.ZeroScalar;
  * The algorithm that is taught in high school was named for Gauss only in the 1950s as
  * a result of confusion over the history of the subject. */
 /* package */ class GaussianElimination {
-  final Tensor lhs;
+  private final Tensor lhs;
   private final int[] ind;
   private final Tensor rhs;
   private int transpositions = 0;
@@ -62,28 +62,32 @@ import ch.ethz.idsc.tensor.ZeroScalar;
    * @param matrix
    * @param pivot */
   GaussianElimination(Tensor matrix, Pivot pivot) {
-    Tensor tmp = matrix.copy();
-    int n = tmp.length();
-    int m = tmp.get(0).length();
+    lhs = matrix.copy();
+    int n = lhs.length();
+    int m = lhs.get(0).length();
     ind = new int[n];
     rhs = null;
     IntStream.range(0, n).forEach(index -> ind[index] = index);
     int j = 0;
     for (int c0 = 0; c0 < n && j < m; ++j) {
-      _swap(pivot.get(c0, j, ind, tmp), c0);
-      Scalar piv = tmp.Get(ind[c0], j);
+      _swap(pivot.get(c0, j, ind, lhs), c0);
+      Scalar piv = lhs.Get(ind[c0], j);
       if (!piv.equals(ZeroScalar.get())) {
         Scalar den = piv.invert();
         for (int c1 = 0; c1 < n; ++c1)
           if (c1 != c0) {
-            Scalar fac = tmp.Get(ind[c1], j).multiply(den).negate();
-            tmp.set(tmp.get(ind[c1]).add(tmp.get(ind[c0]).multiply(fac)), ind[c1]);
+            Scalar fac = lhs.Get(ind[c1], j).multiply(den).negate();
+            lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
           }
-        tmp.set(tmp.get(ind[c0]).multiply(den), ind[c0]);
+        lhs.set(lhs.get(ind[c0]).multiply(den), ind[c0]);
         ++c0;
       }
     }
-    lhs = Tensor.of(IntStream.range(0, n).boxed().map(i -> tmp.get(ind[i])));
+  }
+
+  /** @return lhs */
+  Tensor lhs() {
+    return Tensor.of(IntStream.range(0, lhs.length()).map(i -> ind[i]).boxed().map(lhs::get));
   }
 
   private void _swap(int k, int c0) {

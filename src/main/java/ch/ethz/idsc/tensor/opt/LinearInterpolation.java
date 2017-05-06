@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.ExtractPrimitives;
 import ch.ethz.idsc.tensor.sca.Floor;
-import ch.ethz.idsc.tensor.sca.Plus;
+import ch.ethz.idsc.tensor.sca.Increment;
 
 /** multi-linear interpolation */
 public class LinearInterpolation implements Interpolation {
@@ -34,7 +34,7 @@ public class LinearInterpolation implements Interpolation {
       throw TensorRuntimeException.of(index);
     final int length = index.length();
     Tensor floor = Floor.of(index);
-    Tensor above = floor.map(Plus.ONE);
+    Tensor above = floor.map(Increment.ONE);
     List<Integer> fromIndex = ExtractPrimitives.toListInteger(floor);
     List<Integer> dimensions = IntStream.range(0, length).boxed() //
         .map(i -> 2).collect(Collectors.toList());

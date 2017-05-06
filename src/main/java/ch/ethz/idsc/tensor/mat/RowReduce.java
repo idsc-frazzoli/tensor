@@ -10,6 +10,6 @@ public enum RowReduce {
   /** @param matrix
    * @return reduced row echelon form (also called row canonical form) of matrix */
   public static Tensor of(Tensor matrix) {
-    return new GaussianElimination(matrix, Pivot.argMaxAbs).lhs;
+    return new GaussianElimination(matrix, Pivot.argMaxAbs).lhs();
   }
 }

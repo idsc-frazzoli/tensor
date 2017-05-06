@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigInteger;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
@@ -133,6 +134,15 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   // helper function that formats imaginary part to a String
   private String _imagToString() {
+    if (im instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) im;
+      BigInteger num = rationalScalar.numerator();
+      BigInteger den = rationalScalar.denominator();
+      if (num.equals(BigInteger.ONE))
+        return I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
+      if (num.equals(BigInteger.ONE.negate()))
+        return "-" + I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
+    }
     String imag = im.toString();
     if (imag.equals("1"))
       return I_SYMBOL;
