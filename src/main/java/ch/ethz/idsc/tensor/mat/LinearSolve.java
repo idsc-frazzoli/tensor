@@ -37,7 +37,9 @@ public enum LinearSolve {
     return new GaussianElimination(m, b, Pivot.firstNonZero).solution();
   }
 
-  /** @param m
+  /** function for m not necessarily invertible
+   * 
+   * @param m
    * @param b vector
    * @return x with m.x == b
    * @throws exception if such an x does not exist */

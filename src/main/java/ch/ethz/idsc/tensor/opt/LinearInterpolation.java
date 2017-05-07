@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.List;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
@@ -43,5 +44,10 @@ public class LinearInterpolation implements Interpolation {
     for (Tensor weight : weights)
       block = block.length() == 1 ? block.get(0) : weight.dot(block);
     return block;
+  }
+
+  @Override
+  public Scalar Get(Tensor index) {
+    return (Scalar) get(index);
   }
 }

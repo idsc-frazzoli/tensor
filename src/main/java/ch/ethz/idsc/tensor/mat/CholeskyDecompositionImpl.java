@@ -10,8 +10,8 @@ import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /* package */ class CholeskyDecompositionImpl implements CholeskyDecomposition {
-  final Tensor l;
-  final Tensor d;
+  private final Tensor l;
+  private final Tensor d;
 
   /** @param A hermitian matrix */
   CholeskyDecompositionImpl(Tensor A) {
@@ -46,9 +46,4 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   public Scalar det() {
     return Total.prod(d).Get();
   }
-  // @Override
-  // public Tensor solve(Tensor rhs) {
-  // TODO implement solver
-  // throw TensorRuntimeException.of(rhs);
-  // }
 }

@@ -32,7 +32,7 @@ import ch.ethz.idsc.tensor.ZeroScalar;
   private final Tensor rhs;
   private int transpositions = 0;
 
-  /** @param matrix square matrix
+  /** @param matrix square and invertible
    * @param b tensor with first dimension identical to size of matrix
    * @param pivot
    * @throws TensorRuntimeException if matrix m is singular */
@@ -46,15 +46,17 @@ import ch.ethz.idsc.tensor.ZeroScalar;
       _swap(pivot.get(c0, c0, ind, lhs), c0);
       Scalar piv = lhs.Get(ind[c0], c0);
       if (piv.equals(ZeroScalar.get()))
-        // TODO there might be still hope depending on rhs...?
         throw TensorRuntimeException.of(matrix);
-      Scalar den = piv.invert();
-      for (int c1 = c0 + 1; c1 < n; ++c1) {
-        Scalar fac = lhs.Get(ind[c1], c0).multiply(den).negate();
-        lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
-        rhs.set(rhs.get(ind[c1]).add(rhs.get(ind[c0]).multiply(fac)), ind[c1]);
-      }
+      _eliminate(c0, piv.invert());
     }
+  }
+
+  private void _eliminate(int c0, Scalar den) {
+    IntStream.range(c0 + 1, lhs.length()).boxed().parallel().forEach(c1 -> { //
+      Scalar fac = lhs.Get(ind[c1], c0).multiply(den).negate();
+      lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
+      rhs.set(rhs.get(ind[c1]).add(rhs.get(ind[c0]).multiply(fac)), ind[c1]);
+    });
   }
 
   /** constructs reduced row echelon form (also called row canonical form)
@@ -85,11 +87,6 @@ import ch.ethz.idsc.tensor.ZeroScalar;
     }
   }
 
-  /** @return lhs */
-  Tensor lhs() {
-    return Tensor.of(IntStream.range(0, lhs.length()).map(i -> ind[i]).boxed().map(lhs::get));
-  }
-
   private void _swap(int k, int c0) {
     if (k != c0) {
       ++transpositions;
@@ -97,6 +94,11 @@ import ch.ethz.idsc.tensor.ZeroScalar;
       ind[k] = ind[c0];
       ind[c0] = swap;
     }
+  }
+
+  /** @return lhs */
+  Tensor lhs() {
+    return Tensor.of(IntStream.range(0, lhs.length()).map(i -> ind[i]).boxed().map(lhs::get));
   }
 
   /** @return determinant */

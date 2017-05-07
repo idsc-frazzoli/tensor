@@ -32,7 +32,4 @@ public interface CholeskyDecomposition {
 
   /** @return determinant of matrix */
   Scalar det();
-
-  // TODO preliminary
-  // Tensor solve(Tensor rhs);
 }

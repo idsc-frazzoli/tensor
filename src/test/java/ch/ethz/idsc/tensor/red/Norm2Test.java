@@ -45,7 +45,6 @@ public class Norm2Test extends TestCase {
     Scalar nrm = Norm._2.of(matrix);
     assertEquals(nrm, Norm._2.of(Transpose.of(matrix)));
     // Mathematica: 9.49306
-    // System.out.println(nrm);
     assertEquals(nrm, DoubleScalar.of(9.493062577750758));
   }
 

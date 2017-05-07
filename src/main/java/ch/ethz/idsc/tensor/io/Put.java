@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** export of tensor to file.
+/** export of tensor to file, or a string compatible with Mathematica.
  * The output is similar to Tensor::toString and readable in any text editor.
  * 
  * <p>file is readable in Mathematica where the file is
@@ -39,7 +39,7 @@ public enum Put {
   }
 
   /** @param tensor
-   * @return string expression of tensor
+   * @return string expression of tensor compatible with Mathematica
    * @see Pretty#of(Tensor) */
   public static String string(Tensor tensor) {
     return MathematicaFormat.of(tensor).collect(Collectors.joining("\n"));

@@ -16,7 +16,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * 
    * The value of ALL is deliberately not chosen to equal -1, since an index of -1
    * could likely be the result of a mistake in the application layer. */
-  static final int ALL = 0xA110CA7E; // (int) 0xC1A551CAL;
+  static final int ALL = 0xA110CA7E;
   /** opening bracket of vector */
   static final char OPENING_BRACKET = '{';
   /** closing bracket of vector */

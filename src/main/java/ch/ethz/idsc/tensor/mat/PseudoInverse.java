@@ -9,11 +9,12 @@ import ch.ethz.idsc.tensor.sca.Chop;
  * <a href="https://reference.wolfram.com/language/ref/PseudoInverse.html">PseudoInverse</a> */
 public enum PseudoInverse {
   ;
-  // TODO what if rows<cols?
-  /** @param m
-   * @return pseudoinverse of m */
-  public static Tensor of(Tensor m) {
-    return of(SingularValueDecomposition.of(m));
+  /** @param matrix
+   * @return pseudoinverse of matrix */
+  public static Tensor of(Tensor matrix) {
+    return matrix.get(0).length() <= matrix.length() ? //
+        of(SingularValueDecomposition.of(matrix)) : //
+        Transpose.of(of(SingularValueDecomposition.of(Transpose.of(matrix))));
   }
 
   public static Tensor of(SingularValueDecomposition svd) {

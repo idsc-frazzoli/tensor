@@ -13,8 +13,6 @@ public class CholeskyDecompositionTest extends TestCase {
   static CholeskyDecomposition checkDecomp(Tensor A) {
     int n = A.length();
     CholeskyDecomposition cd = CholeskyDecomposition.of(A);
-    // System.out.println(Pretty.of(cd.getL()));
-    // System.out.println(Pretty.of(cd.getD()));
     Tensor res = cd.getL().dot(cd.getD().pmul(ConjugateTranspose.of(cd.getL())));
     assertEquals(Chop.of(A.subtract(res)), Array.zeros(n, n));
     assertEquals(Chop.of(cd.det().subtract(Det.of(A))), ZeroScalar.get());

@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Tally {
   ;
   /** @param tensor
-   * @return */
+   * @return map that assigns elements of tensor their multiplicity in tensor */
   public static Map<Tensor, Long> of(Tensor tensor) {
     return tensor.flatten(0).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
   }

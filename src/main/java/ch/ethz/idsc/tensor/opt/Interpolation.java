@@ -10,4 +10,9 @@ public interface Interpolation {
    * @return expression similar to Tensor::get(index)
    * @throws exception if index is outside dimensions of tensor, or index is a {@link Scalar} */
   Tensor get(Tensor index);
+
+  /** @param index must not be {@link Scalar}
+   * @return expression similar to Tensor::Get(index)
+   * @throws exception if index is outside dimensions of tensor, or index is a {@link Scalar} */
+  Scalar Get(Tensor index);
 }

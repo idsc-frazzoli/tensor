@@ -22,11 +22,8 @@ public class QRDecompositionTest extends TestCase {
     Tensor Q = qr.getQ();
     Tensor Qi = qr.getInverseQ();
     Tensor R = qr.getR();
-    // System.out.println(Pretty.of(R));
-    // System.out.println(Pretty.of(Q));
     assertEquals(A.subtract(Q.dot(R)).map(chop), Array.zeros(Dimensions.of(A)));
     Tensor err = Q.dot(Qi).subtract(IdentityMatrix.of(A.length()));
-    // System.out.println(Pretty.of(Chop.of(err)));
     assertEquals(err.map(chop), Array.zeros(Dimensions.of(err)));
     Scalar qrDet = Det.of(Q).multiply(Det.of(R));
     assertEquals(qrDet.subtract(Det.of(A)).map(chop), ZeroScalar.get());

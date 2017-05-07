@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.io.ExtractPrimitives;
@@ -30,5 +31,10 @@ public class MappedInterpolation implements Interpolation {
     if (index.isScalar())
       throw TensorRuntimeException.of(index);
     return tensor.get(ExtractPrimitives.toListInteger(function.apply(index)));
+  }
+
+  @Override
+  public Scalar Get(Tensor index) {
+    return (Scalar) get(index);
   }
 }
