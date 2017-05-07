@@ -20,7 +20,7 @@ public class ChopTest extends TestCase {
   }
 
   public void testExclusive() {
-    assertFalse(Chop.of(RealScalar.of(Chop.THRESHOLD)).equals(ZeroScalar.get()));
+    assertFalse(Chop.isZero(RealScalar.of(Chop.THRESHOLD)));
   }
 
   public void testChopOrInvert() {

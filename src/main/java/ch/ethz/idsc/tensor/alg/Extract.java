@@ -5,7 +5,7 @@ import java.util.List;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** API not consistent with Mathematica
+/** Careful: API _not_ consistent with Mathematica !
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Extract.html">Extract</a> */

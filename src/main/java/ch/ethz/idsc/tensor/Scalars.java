@@ -77,4 +77,16 @@ public enum Scalars {
       }
     };
   }
+
+  /** @param tensor
+   * @return true if tensor equals the scalar 0 */
+  public static boolean isZero(Tensor tensor) {
+    return tensor.equals(ZeroScalar.get());
+  }
+
+  /** @param tensor
+   * @return true if tensor does not equal the scalar 0 */
+  public static boolean nonZero(Tensor tensor) {
+    return !tensor.equals(ZeroScalar.get());
+  }
 }

@@ -18,11 +18,13 @@ public class LinearInterpolationTest extends TestCase {
 
   public void testSimple() {
     Interpolation interpolation = LinearInterpolation.of(Tensors.vector(10, 20, 30, 40));
-    Tensor res = interpolation.get(Tensors.vector(2));
-    assertEquals(res, RealScalar.of(30));
+    assertEquals(interpolation.get(Tensors.vector(0)), RealScalar.of(10));
+    assertEquals(interpolation.get(Tensors.vector(2)), RealScalar.of(30));
+    assertEquals(interpolation.get(Tensors.vector(2.5)), RealScalar.of(35));
+    assertEquals(interpolation.get(Tensors.vector(3)), RealScalar.of(40));
   }
 
-  public void testMatrix() {
+  public void testMatrix1() {
     Tensor tensor = Tensors.matrix(new Number[][] { //
         { 5, 5, 5 }, //
         { 1, 10, 100 } //
@@ -37,6 +39,19 @@ public class LinearInterpolationTest extends TestCase {
       Tensor from = Tensors.fromString("{3, 15/2, 105/2}");
       assertEquals(res, from);
     }
+  }
+
+  public void testMatrix2() {
+    Tensor tensor = Tensors.matrix(new Number[][] { //
+        { 5, 5, 5 }, //
+        { 1, 10, 100 } //
+    });
+    Interpolation interpolation = LinearInterpolation.of(tensor);
+    assertEquals(interpolation.get(Tensors.vector(1)), Tensors.vector(1, 10, 100));
+    assertEquals(interpolation.get(Tensors.vector(1, 2)), RealScalar.of(100));
+    assertEquals(interpolation.get(Tensors.vector(0)), Tensors.vector(5, 5, 5));
+    assertEquals(interpolation.get(Tensors.vector(1, 0)), RealScalar.of(1));
+    assertEquals(interpolation.get(Tensors.vector(0, 0)), RealScalar.of(5));
   }
 
   public void testRank3() {

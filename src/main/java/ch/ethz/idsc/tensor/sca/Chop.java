@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** consistent with Mathematica
@@ -41,6 +42,10 @@ public enum Chop implements Function<Scalar, Scalar> {
    * @return */
   public static Tensor of(Tensor tensor) {
     return tensor.map(belowDefault);
+  }
+
+  public static boolean isZero(Tensor tensor) {
+    return !of(tensor).flatten(-1).filter(Scalars::nonZero).findAny().isPresent();
   }
 
   /** @param tensor
