@@ -14,9 +14,11 @@ public enum PseudoInverse {
   public static Tensor of(Tensor matrix) {
     return matrix.get(0).length() <= matrix.length() ? //
         of(SingularValueDecomposition.of(matrix)) : //
-        Transpose.of(of(SingularValueDecomposition.of(Transpose.of(matrix))));
+        Transpose.of(of(Transpose.of(matrix)));
   }
 
+  /** @param svd
+   * @return pseudoinverse of matrix determined by given svd */
   public static Tensor of(SingularValueDecomposition svd) {
     double w_threshold = svd.getThreshold();
     Tensor wi = svd.getW().map(Chop.orInvert(w_threshold));

@@ -20,7 +20,8 @@ public enum Mean {
    * <li>for a matrix, the function returns a the average of rows as a vector
    * </ul>
    * 
-   * Mean::of({}) throws an exception
+   * In Mathematica, Mean[{}] is undefined.
+   * Mean.of({}) throws an exception.
    * 
    * @param tensor non-empty
    * @return average of entries in tensor
@@ -35,8 +36,6 @@ public enum Mean {
    * @param tensor
    * @return average of entries in tensor, or 0 if tensor is empty */
   public static Tensor orZero(Tensor tensor) {
-    if (tensor.length() == 0)
-      return ZeroScalar.get();
-    return of(tensor);
+    return tensor.length() == 0 ? ZeroScalar.get() : of(tensor);
   }
 }

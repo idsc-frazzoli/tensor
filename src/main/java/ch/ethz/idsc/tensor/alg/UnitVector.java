@@ -9,10 +9,12 @@ import ch.ethz.idsc.tensor.red.KroneckerDelta;
  * <a href="https://reference.wolfram.com/language/ref/UnitVector.html">UnitVector</a> */
 public enum UnitVector {
   ;
-  /** @param k_th
+  /** UnitVector.of(n, k) == IdentityMatrix.of(n).get(k)
+   * 
    * @param length
-   * @return vector with n entries all zero, except for k-th element as 1 */
-  public static Tensor of(int k_th, int length) {
+   * @param k_th
+   * @return vector with length entries all zero, except for k-th element as 1 */
+  public static Tensor of(int length, int k_th) {
     return Tensors.vector(i -> KroneckerDelta.of(i, k_th), length);
   }
 }

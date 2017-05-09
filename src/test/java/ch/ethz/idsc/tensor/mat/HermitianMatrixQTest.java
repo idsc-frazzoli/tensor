@@ -10,4 +10,8 @@ public class HermitianMatrixQTest extends TestCase {
     assertFalse(HermitianMatrixQ.of(Tensors.fromString("{{I,I},{-I,0}}")));
     assertFalse(HermitianMatrixQ.of(Tensors.fromString("{{0,I},{I,0}}")));
   }
+
+  public void testHilbert() {
+    assertTrue(HermitianMatrixQ.of(HilbertMatrix.of(10)));
+  }
 }

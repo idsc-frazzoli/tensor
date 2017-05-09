@@ -17,7 +17,6 @@ public class PositiveDefiniteMatrixQTest extends TestCase {
   }
 
   public void testZeros() {
-    boolean status = PositiveDefiniteMatrixQ.ofHermitian(Array.zeros(4, 4));
-    assertFalse(status);
+    assertFalse(PositiveDefiniteMatrixQ.ofHermitian(Array.zeros(4, 4)));
   }
 }

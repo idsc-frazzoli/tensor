@@ -8,9 +8,9 @@ import junit.framework.TestCase;
 
 public class CrossTest extends TestCase {
   public void testUnits() {
-    Tensor v1 = UnitVector.of(0, 3);
-    Tensor v2 = UnitVector.of(1, 3);
-    Tensor v3 = UnitVector.of(2, 3);
+    Tensor v1 = UnitVector.of(3, 0);
+    Tensor v2 = UnitVector.of(3, 1);
+    Tensor v3 = UnitVector.of(3, 2);
     assertEquals(Cross.of(v1, v2), v3);
     assertEquals(Cross.of(v2, v3), v1);
     assertEquals(Cross.of(v3, v1), v2);
