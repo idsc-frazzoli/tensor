@@ -18,7 +18,8 @@ public enum Ceiling implements Function<Scalar, Scalar> {
   function;
   // ---
   /** @param scalar instance if {@link RealScalar}
-   * @return best integer scalar approximation to ceiling of scalar */
+   * @return best integer scalar approximation to ceiling of scalar
+   * @throws exception if scalar is Infinity, or NaN */
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RationalScalar) {
@@ -32,6 +33,7 @@ public enum Ceiling implements Function<Scalar, Scalar> {
 
   // helper function
   private static BigInteger _ceiling(double value) {
+    // throws an exception if value is Infinity
     BigDecimal bd = BigDecimal.valueOf(value);
     BigInteger bi = bd.toBigInteger();
     if (new BigDecimal(bi).compareTo(bd) < 0) {

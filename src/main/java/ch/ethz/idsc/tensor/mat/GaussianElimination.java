@@ -8,42 +8,97 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
-/** the most important algorithm of all time */
+/** Gaussian elimination is the most important algorithm of all time.
+ * 
+ * <p>Quote from Wikipedia:
+ * The method of Gaussian elimination appears in the Chinese mathematical text Chapter
+ * Eight Rectangular Arrays of The Nine Chapters on the Mathematical Art. Its use is
+ * illustrated in eighteen problems, with two to five equations. The first reference to
+ * the book by this title is dated to 179 CE, but parts of it were written as early as
+ * approximately 150 BCE. It was commented on by Liu Hui in the 3rd century.
+ * The method in Europe stems from the notes of Isaac Newton. In 1670, he wrote that all
+ * the algebra books known to him lacked a lesson for solving simultaneous equations,
+ * which Newton then supplied. Cambridge University eventually published the notes as
+ * Arithmetica Universalis in 1707 long after Newton left academic life. The notes were
+ * widely imitated, which made (what is now called) Gaussian elimination a standard lesson
+ * in algebra textbooks by the end of the 18th century. Carl Friedrich Gauss in 1810
+ * devised a notation for symmetric elimination that was adopted in the 19th century by
+ * professional hand computers to solve the normal equations of least-squares problems.
+ * The algorithm that is taught in high school was named for Gauss only in the 1950s as
+ * a result of confusion over the history of the subject. */
 /* package */ class GaussianElimination {
-  final Tensor lhs;
-  final int[] ind;
-  final Tensor rhs;
-  int transpositions = 0;
+  private final Tensor lhs;
+  private final int[] ind;
+  private final Tensor rhs;
+  private int transpositions = 0;
 
-  /** @param m square matrix
+  /** @param matrix square and invertible
    * @param b tensor with first dimension identical to size of matrix
    * @param pivot
    * @throws TensorRuntimeException if matrix m is singular */
-  GaussianElimination(Tensor m, Tensor b, Pivot pivot) {
-    lhs = m.copy();
+  GaussianElimination(Tensor matrix, Tensor b, Pivot pivot) {
+    lhs = matrix.copy();
     int n = lhs.length();
     ind = new int[n];
     IntStream.range(0, n).forEach(index -> ind[index] = index);
     rhs = b.copy();
     for (int c0 = 0; c0 < n; ++c0) {
-      int k = pivot.get(c0, ind, lhs);
-      if (ind[k] != ind[c0]) {
-        ++transpositions;
-        int swap = ind[k];
-        ind[k] = ind[c0];
-        ind[c0] = swap;
-      }
-      final Scalar piv = lhs.Get(ind[c0], c0);
+      _swap(pivot.get(c0, c0, ind, lhs), c0);
+      Scalar piv = lhs.Get(ind[c0], c0);
       if (piv.equals(ZeroScalar.get()))
-        // TODO there might be still hope depending on rhs...?
-        throw TensorRuntimeException.of(m);
-      final Scalar den = piv.invert();
-      for (int c1 = c0 + 1; c1 < n; ++c1) {
-        Scalar fac = (Scalar) lhs.get(ind[c1], c0).multiply(den).negate();
-        lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
-        rhs.set(rhs.get(ind[c1]).add(rhs.get(ind[c0]).multiply(fac)), ind[c1]);
+        throw TensorRuntimeException.of(matrix);
+      _eliminate(c0, piv.invert());
+    }
+  }
+
+  private void _eliminate(int c0, Scalar den) {
+    IntStream.range(c0 + 1, lhs.length()).boxed().parallel().forEach(c1 -> { //
+      Scalar fac = lhs.Get(ind[c1], c0).multiply(den).negate();
+      lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
+      rhs.set(rhs.get(ind[c1]).add(rhs.get(ind[c0]).multiply(fac)), ind[c1]);
+    });
+  }
+
+  /** constructs reduced row echelon form (also called row canonical form)
+   * 
+   * @param matrix
+   * @param pivot */
+  GaussianElimination(Tensor matrix, Pivot pivot) {
+    lhs = matrix.copy();
+    int n = lhs.length();
+    int m = lhs.get(0).length();
+    ind = new int[n];
+    rhs = null;
+    IntStream.range(0, n).forEach(index -> ind[index] = index);
+    int j = 0;
+    for (int c0 = 0; c0 < n && j < m; ++j) {
+      _swap(pivot.get(c0, j, ind, lhs), c0);
+      Scalar piv = lhs.Get(ind[c0], j);
+      if (!piv.equals(ZeroScalar.get())) {
+        Scalar den = piv.invert();
+        for (int c1 = 0; c1 < n; ++c1)
+          if (c1 != c0) {
+            Scalar fac = lhs.Get(ind[c1], j).multiply(den).negate();
+            lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
+          }
+        lhs.set(lhs.get(ind[c0]).multiply(den), ind[c0]);
+        ++c0;
       }
     }
+  }
+
+  private void _swap(int k, int c0) {
+    if (k != c0) {
+      ++transpositions;
+      int swap = ind[k];
+      ind[k] = ind[c0];
+      ind[c0] = swap;
+    }
+  }
+
+  /** @return lhs */
+  Tensor lhs() {
+    return Tensor.of(IntStream.range(0, lhs.length()).map(i -> ind[i]).boxed().map(lhs::get));
   }
 
   /** @return determinant */

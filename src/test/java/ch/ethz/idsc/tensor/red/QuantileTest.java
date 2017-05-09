@@ -47,9 +47,7 @@ public class QuantileTest extends TestCase {
     Tensor weight = Tensors.vector(.76, .1, .25, .5, .05, .95, 0, .5, .99, 1);
     Tensor quantile = Quantile.of(tensor, weight);
     Tensor deviation = quantile.subtract(weight);
-    // System.out.println(deviation);
     Scalar maxError = Norm.Infinity.of(deviation);
     assertTrue(Scalars.lessThan(maxError, RealScalar.of(0.05)));
-    // System.out.println(maxError);
   }
 }

@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
@@ -28,5 +29,15 @@ public enum Subdivide {
     return Tensor.of(IntStream.rangeClosed(0, n).boxed() //
         .map(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
             .add(endInclusive.multiply(RationalScalar.of(count, n)))));
+  }
+
+  /** see description above
+   * 
+   * @param startInclusive
+   * @param endInclusive
+   * @param n
+   * @return */
+  public static Tensor of(Number startInclusive, Number endInclusive, int n) {
+    return of(RealScalar.of(startInclusive), RealScalar.of(endInclusive), n);
   }
 }

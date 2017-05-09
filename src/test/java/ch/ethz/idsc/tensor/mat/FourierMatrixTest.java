@@ -28,6 +28,6 @@ public class FourierMatrixTest extends TestCase {
     assertEquals(Norm._1.of(m), RealScalar.of(2));
     assertEquals(Norm._1.of(m), Norm.Infinity.of(m));
     assertEquals(Norm._1.of(m), Norm.Frobenius.of(m));
-    // TODO Norm._2.of m == 1
+    // TODO Norm._2.of m == 1, confirmed with Mathematica
   }
 }

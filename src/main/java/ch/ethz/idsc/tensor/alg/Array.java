@@ -13,7 +13,14 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
-/** inspired by
+/** consistent with Mathematica:
+ * Array[0 &, {0, 1}] == {}
+ * Array.zeros(0, 1) == {}
+ * 
+ * Array[0 &, {1, 0, 1}] == {{}}
+ * Array.zeros(1, 0, 1) == {{}}
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Array.html">Array</a> */
 public enum Array {
   ;
@@ -48,7 +55,6 @@ public enum Array {
 
   // helper function
   // TODO check if this can be parallelized
-  // TODO check return value Array.zeros(0,0,0,0)=={}
   private static Tensor _of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions, List<Integer> index) {
     int level = index.size();
     if (level == dimensions.size())

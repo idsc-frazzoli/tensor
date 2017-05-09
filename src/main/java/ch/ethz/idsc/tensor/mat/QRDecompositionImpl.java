@@ -44,7 +44,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     Scalar yn = Norm._2.of(y);
     if (yn instanceof ZeroScalar)
       return IdentityMatrix.of(n);
-    Tensor delta = UnitVector.of(k, n).multiply(yn);
+    Tensor delta = UnitVector.of(n, k).multiply(yn);
     final Tensor w;
     Scalar y0 = R.Get(k, k);
     if (y0 instanceof RealScalar) {

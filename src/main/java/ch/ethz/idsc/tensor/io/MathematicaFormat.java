@@ -25,11 +25,15 @@ import ch.ethz.idsc.tensor.Tensors;
  * </pre> */
 public enum MathematicaFormat {
   ;
+  private static final String EXPONENT_JAVA = "E";
+  private static final String EXPONENT_MATH = "*^";
+
   /** @param tensor
    * @return strings parsed by Mathematica as tensor */
   public static Stream<String> of(Tensor tensor) {
-    // TODO output format 1.2630135948105083*^17
-    String string = tensor.toString().replace("}, {", "},\n{"); // <- introduce new line
+    String string = tensor.toString() //
+        .replace(EXPONENT_JAVA, EXPONENT_MATH) //
+        .replace("}, {", "},\n{"); // <- introduce new line
     return Stream.of(string.split("\n"));
   }
 
@@ -38,7 +42,7 @@ public enum MathematicaFormat {
   public static Tensor parse(Stream<String> stream) {
     // TODO does not support extended precision yet: ..12`50
     return Tensors.fromString(stream //
-        .map(string -> string.replace("*^", "E")) //
+        .map(string -> string.replace(EXPONENT_MATH, EXPONENT_JAVA)) //
         .map(MathematicaFormat::join) //
         .collect(Collectors.joining("")));
   }

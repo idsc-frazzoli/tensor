@@ -197,7 +197,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   private Stream<Integer> _range(TensorImpl impl) {
     int length = list.size();
     if (length != impl.list.size()) // <- check is necessary otherwise error might be undetected
-      throw TensorRuntimeException.of(impl); // dimensions mismatch
+      throw TensorRuntimeException.of(this, impl); // dimensions mismatch
     return IntStream.range(0, length).boxed();
   }
 

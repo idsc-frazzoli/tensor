@@ -68,4 +68,22 @@ public class FloorTest extends TestCase {
       // ---
     }
   }
+
+  public void testFailInf() {
+    try {
+      Floor.function.apply(DoubleScalar.of(Double.POSITIVE_INFINITY));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailNaN() {
+    try {
+      Floor.function.apply(DoubleScalar.of(Double.NaN));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

@@ -32,7 +32,7 @@ public class TraceTest extends TestCase {
     // System.out.println(trA2);
     // System.out.println(trA3);
     // System.out.println(trA1.add(trA2).add(trA3));
-    // assertEquals(rhs, lhs); // TODO this is not confirmed
+    // assertEquals(rhs, lhs); // TODO trace of special matrix needs more research on valid input
   }
 
   public void testSimple() {

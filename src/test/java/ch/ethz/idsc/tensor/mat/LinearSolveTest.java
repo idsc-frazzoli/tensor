@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -90,7 +91,6 @@ public class LinearSolveTest extends TestCase {
     Tensor X = LinearSolve.of(A, b);
     assertEquals(X.dot(A), b);
     assertEquals(A.dot(X), b);
-    // System.out.println(X);
   }
 
   public void testEmpty() {
@@ -98,6 +98,62 @@ public class LinearSolveTest extends TestCase {
       Tensor m = Tensors.matrix(new Number[][] { {} });
       Tensor b = Tensors.vector(new Number[] {});
       LinearSolve.of(m, b);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testSome1() {
+    Tensor m = Tensors.fromString("{{1, 2, 3}, {5, 6, 7}, {7, 8, 9}}");
+    Tensor b = Tensors.fromString("{1, 1, 1}");
+    Tensor x = LinearSolve.any(m, b);
+    assertEquals(x, Tensors.fromString("{-1, 1, 0}"));
+  }
+
+  public void testDiag() {
+    Tensor vector = Tensors.vector(3, 2, 0, 5, 4, 7);
+    Tensor x = LinearSolve.any(DiagonalMatrix.of(vector), vector);
+    assertEquals(x, Tensors.fromString("{1, 1, 0, 1, 1, 1}"));
+  }
+
+  public void testDiag2() {
+    Tensor vector = Tensors.vector(3, 2, 0, 5, 4, 7);
+    Tensor m = Join.of(DiagonalMatrix.of(vector), Array.zeros(3, 6));
+    Tensor b = Join.of(vector, Array.zeros(3));
+    Tensor x = LinearSolve.any(m, b);
+    assertEquals(m.dot(x), b);
+  }
+
+  public void testDiag2b() {
+    Tensor vector = Tensors.vector(3, 2, 0, 5, 4, 7);
+    Tensor m = Join.of(1, DiagonalMatrix.of(vector), Array.zeros(6, 3));
+    Tensor b = Join.of(vector);
+    Tensor x = LinearSolve.any(m, b);
+    assertEquals(m.dot(x), b);
+  }
+
+  public void testDiag3() {
+    Tensor vector = Tensors.vector(3, 2, 0, 5, 4, 7);
+    Tensor m = Join.of(Array.zeros(3, 6), DiagonalMatrix.of(vector));
+    Tensor b = Join.of(Array.zeros(3), vector);
+    Tensor x = LinearSolve.any(m, b);
+    assertEquals(m.dot(x), b);
+  }
+
+  public void testDiag3b() {
+    Tensor vector = Tensors.vector(3, 2, 0, 5, 4, 7);
+    Tensor m = Join.of(1, Array.zeros(6, 3), DiagonalMatrix.of(vector));
+    Tensor b = Join.of(vector);
+    Tensor x = LinearSolve.any(m, b);
+    assertEquals(m.dot(x), b);
+  }
+
+  public void testSome2() {
+    Tensor m = Tensors.fromString("{{1, 2, 3}, {5, 6, 7}, {7, 8, 9}}");
+    Tensor b = Tensors.fromString("{1, -2, 1}");
+    try {
+      LinearSolve.any(m, b);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

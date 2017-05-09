@@ -145,6 +145,7 @@ public class ComplexScalarTest extends TestCase {
   public void testTensor() {
     Tensor u = Tensors.fromString("{I,3/4-5*I}");
     Tensor uc = Conjugate.of(u);
+    // System.out.println(uc.toString());
     assertEquals(uc.toString(), "{-I, 3/4+5*I}");
   }
 }

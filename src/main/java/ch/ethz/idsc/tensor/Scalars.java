@@ -49,7 +49,7 @@ public enum Scalars {
    * @param s2
    * @return true if s1 < s2 */
   public static boolean lessThan(Scalar s1, Scalar s2) {
-    return compare(s1, s2) == -1;
+    return compare(s1, s2) < 0;
   }
 
   /** @param s1
@@ -76,5 +76,17 @@ public enum Scalars {
         return s1.multiply(s2);
       }
     };
+  }
+
+  /** @param tensor
+   * @return true if tensor equals the scalar 0 */
+  public static boolean isZero(Tensor tensor) {
+    return tensor.equals(ZeroScalar.get());
+  }
+
+  /** @param tensor
+   * @return true if tensor does not equal the scalar 0 */
+  public static boolean nonZero(Tensor tensor) {
+    return !tensor.equals(ZeroScalar.get());
   }
 }

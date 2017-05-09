@@ -12,17 +12,9 @@ import junit.framework.TestCase;
 
 public class HypotTest extends TestCase {
   private static void checkPair(double x, double y) {
-    // Tensor vec = Tensors.vector(x, y);
     Scalar res = Hypot.bifunction.apply(RealScalar.of(x), RealScalar.of(y));
     double jav = Math.hypot(x, y);
-    //
-    // assertEquals(hyp.number().doubleValue(), jav);
     assertEquals(res.number().doubleValue(), jav);
-    // Tensor vector = Tensors.vector(x, y);
-    // Scalar hyp = Hypot.ofVector(vector);
-    // System.out.println(hyp.number().doubleValue() + " " + jav);
-    // Scalar nrm = Norm._2.of(vector);
-    // System.out.println(hyp + " " + nrm);
   }
 
   public void testBasic() {

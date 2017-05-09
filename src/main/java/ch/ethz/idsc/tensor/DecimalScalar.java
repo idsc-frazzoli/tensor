@@ -34,17 +34,17 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     this.value = value;
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar negate() {
     return of(value.negate());
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar invert() {
     return of(BigDecimal.ONE.divide(value, CONTEXT));
   }
 
-  @Override
+  @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof DecimalScalar) {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
@@ -57,7 +57,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return scalar.add(this);
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof DecimalScalar) {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
@@ -70,29 +70,29 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return scalar.multiply(this);
   }
 
-  @Override
+  @Override // from Scalar
   public Number number() {
     return value;
   }
 
-  @Override
+  @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
     return 0 <= value.signum();
   }
 
-  @Override
+  @Override // from SqrtInterface
   public Scalar sqrt() {
     if (isNonNegative())
       return of(Sqrt.of(value));
     return ComplexScalar.of(ZeroScalar.get(), of(Sqrt.of(value.negate())));
   }
 
-  @Override
+  @Override // from ChopInterface
   public Scalar chop(double threshold) {
     return value.abs().doubleValue() < threshold ? ZeroScalar.get() : this;
   }
 
-  @Override
+  @Override // from RealScalar
   public int compareTo(Scalar scalar) {
     if (scalar instanceof DecimalScalar) {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
@@ -106,7 +106,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return -comparable.compareTo(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof DecimalScalar) {
       DecimalScalar decimalScalar = (DecimalScalar) object;
@@ -119,12 +119,12 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return false;
   }
 
-  @Override
+  @Override // from AbstractScalar
   public int hashCode() {
     return value.hashCode();
   }
 
-  @Override
+  @Override // from AbstractScalar
   public String toString() {
     return value.toString();
   }
