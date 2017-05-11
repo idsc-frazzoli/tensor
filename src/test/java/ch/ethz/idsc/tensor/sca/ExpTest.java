@@ -12,7 +12,7 @@ public class ExpTest extends TestCase {
   public void testEuler() {
     Scalar emi = Exp.function.apply(ComplexScalar.of(0, -Math.PI));
     Scalar tru = RealScalar.of(-1);
-    assertTrue(Chop.isZero(emi.subtract(tru)));
+    assertTrue(Chop.isZeros(emi.subtract(tru)));
   }
 
   public void testExpZero() {
