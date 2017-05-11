@@ -28,7 +28,7 @@ public interface CholeskyDecomposition {
   Tensor getL();
 
   /** @return vector of diagonal entries of D */
-  Tensor getD();
+  Tensor diagonal();
 
   /** @return determinant of matrix */
   Scalar det();

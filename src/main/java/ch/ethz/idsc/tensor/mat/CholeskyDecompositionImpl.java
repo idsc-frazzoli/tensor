@@ -38,7 +38,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   }
 
   @Override
-  public Tensor getD() {
+  public Tensor diagonal() {
     return d;
   }
 

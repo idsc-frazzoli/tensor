@@ -11,8 +11,12 @@ import junit.framework.TestCase;
 public class FourierMatrixTest extends TestCase {
   public void checkFormat(int n) {
     Tensor zeros = Array.zeros(n, n);
-    Tensor matrix = Chop.of(FourierMatrix.of(n));
+    Tensor original = FourierMatrix.of(n);
+    assertTrue(SymmetricMatrixQ.of(original));
+    Tensor matrix = Chop.of(original);
+    assertTrue(SymmetricMatrixQ.of(matrix));
     Tensor invert = ConjugateTranspose.of(matrix);
+    assertTrue(SymmetricMatrixQ.of(matrix));
     assertEquals(Chop.of(matrix.dot(invert).subtract(IdentityMatrix.of(n))), zeros);
     assertEquals(Chop.of(Inverse.of(matrix).subtract(invert)), zeros);
   }
@@ -28,6 +32,6 @@ public class FourierMatrixTest extends TestCase {
     assertEquals(Norm._1.of(m), RealScalar.of(2));
     assertEquals(Norm._1.of(m), Norm.Infinity.of(m));
     assertEquals(Norm._1.of(m), Norm.Frobenius.of(m));
-    // TODO Norm._2.of m == 1, confirmed with Mathematica
+    // TODO Norm._2.of m == 1 is confirmed with Mathematica
   }
 }

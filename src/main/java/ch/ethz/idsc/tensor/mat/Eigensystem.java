@@ -6,8 +6,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Eigensystem.html">Eigensystem</a> */
+// EXPERIMENTAL, API not finalized
 public interface Eigensystem {
-  /** @param matrix symmetric
+  /** @param matrix symmetric and real valued
    * @return */
   static Eigensystem ofSymmetric(Tensor matrix) {
     if (!SymmetricMatrixQ.of(matrix))
@@ -16,9 +17,10 @@ public interface Eigensystem {
     throw TensorRuntimeException.of(matrix);
   }
 
-  /** @return matrix with eigenvectors of given matrix as rows */
-  Tensor vectors();
-
   /** @return vector of eigenvalues corresponding to the eigenvectors */
   Tensor values();
+
+  /** @return matrix with rows as eigenvectors of given matrix
+   * The eigenvectors are not necessarily scaled to unit length. */
+  Tensor vectors();
 }

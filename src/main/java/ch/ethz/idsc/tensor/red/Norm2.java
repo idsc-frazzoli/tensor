@@ -27,7 +27,7 @@ import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
     if (matrix.length() < matrix.get(0).length())
       matrix = Transpose.of(matrix);
     return SingularValueDecomposition.of(matrix) //
-        .getW().flatten(0) // values are non-negative
+        .values().flatten(0) // values are non-negative
         .map(Scalar.class::cast) //
         .reduce(Max::of) //
         .orElse(ZeroScalar.get());

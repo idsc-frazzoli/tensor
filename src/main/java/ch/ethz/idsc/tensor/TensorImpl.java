@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** implementation of tensor interface
- * parallel stream processing is used for add() and dot() */
+ * parallel stream processing is used for dot() */
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---

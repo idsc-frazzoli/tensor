@@ -76,7 +76,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
   }
 
   @Override
-  public Tensor getW() {
+  public Tensor values() {
     return w.unmodifiable();
   }
 

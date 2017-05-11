@@ -14,7 +14,7 @@ public enum NegativeDefiniteMatrixQ {
    * @return true if matrix is positive definite */
   public static boolean ofHermitian(Tensor matrix) {
     // TODO check for complex input in numeric precision
-    return !CholeskyDecomposition.of(matrix).getD().flatten(0) //
+    return !CholeskyDecomposition.of(matrix).diagonal().flatten(0) //
         .filter(scalar -> Scalars.lessEquals(ZeroScalar.get(), (Scalar) scalar)) //
         .findAny().isPresent();
   }

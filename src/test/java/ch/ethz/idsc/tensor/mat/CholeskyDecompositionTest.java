@@ -13,7 +13,7 @@ public class CholeskyDecompositionTest extends TestCase {
   static CholeskyDecomposition checkDecomp(Tensor A) {
     int n = A.length();
     CholeskyDecomposition cd = CholeskyDecomposition.of(A);
-    Tensor res = cd.getL().dot(cd.getD().pmul(ConjugateTranspose.of(cd.getL())));
+    Tensor res = cd.getL().dot(cd.diagonal().pmul(ConjugateTranspose.of(cd.getL())));
     assertEquals(Chop.of(A.subtract(res)), Array.zeros(n, n));
     assertEquals(Chop.of(cd.det().subtract(Det.of(A))), ZeroScalar.get());
     return cd;
@@ -44,7 +44,7 @@ public class CholeskyDecompositionTest extends TestCase {
         { -4, 5, 1 } //
     });
     assertEquals(cd.getL(), ltrue);
-    assertEquals(cd.getD(), Tensors.vector(4, 1, 9));
+    assertEquals(cd.diagonal(), Tensors.vector(4, 1, 9));
   }
 
   public void testMathematica1() {
