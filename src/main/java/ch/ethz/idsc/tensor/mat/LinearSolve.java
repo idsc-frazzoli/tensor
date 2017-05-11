@@ -42,7 +42,7 @@ public enum LinearSolve {
    * @param m
    * @param b vector
    * @return x with m.x == b
-   * @throws exception if such an x does not exist */
+   * @throws TensorRuntimeException if such an x does not exist */
   public static Tensor any(Tensor m, Tensor b) {
     switch (TensorRank.of(b)) {
     case 1:

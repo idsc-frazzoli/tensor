@@ -13,7 +13,10 @@ import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Increment;
 
-/** multi-linear interpolation */
+/** multi-linear interpolation
+ * 
+ * valid input for a respective dimension d are in the closed interval
+ * [0, Dimensions.of(tensor).get(d) - 1] */
 public class LinearInterpolation implements Interpolation {
   /** @param tensor
    * @return */

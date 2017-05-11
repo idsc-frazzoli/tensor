@@ -29,7 +29,7 @@ public enum Sqrt implements Function<Scalar, Scalar> {
 
   /** @param value
    * @return exact root of value
-   * @throws Exception if value is not a square number */
+   * @throws IllegalArgumentException if value is not a square number */
   public static BigInteger of(BigInteger value) {
     BigInteger root = approximation(value);
     if (root.multiply(root).equals(value))

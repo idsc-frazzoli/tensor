@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Tensors;
  * <a href="https://reference.wolfram.com/language/ref/Dot.html">Dot</a> */
 public enum Dot {
   ;
-  /** @param m
+  /** @param tensor
    * @param v
    * @return m.v[0].v[1]...v[end] */
   public static Tensor of(Tensor tensor, Tensor... v) {
@@ -21,8 +21,7 @@ public enum Dot {
     return tensor;
   }
 
-  /** @param m
-   * @param v
+  /** @param tensors
    * @return m.v[0].v[1]...v[end] */
   // experimental
   static Tensor asStream(Tensor... tensors) {

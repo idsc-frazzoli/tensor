@@ -34,7 +34,8 @@ public interface Scalar extends Tensor {
   /***************************************************/
   /** multiplicative inverse except for {@link ZeroScalar}
    * 
-   * @return multiplicative inverse of this scalar */
+   * @return multiplicative inverse of this scalar
+   * @throws ArithmeticException if scalar equals to 0, or cannot be inverted */
   Scalar invert();
 
   /** implemented as

@@ -24,7 +24,7 @@ public enum Total {
    * 
    * @param tensor
    * @return total sum of tensor entries at first level, or 0 if tensor is empty
-   * @throws exception if input tensor is a scalar */
+   * @throws TensorRuntimeException if input tensor is a scalar */
   public static Tensor of(Tensor tensor) {
     if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
@@ -43,7 +43,7 @@ public enum Total {
    * 
    * @param tensor
    * @return total pointwise product of tensor entries at first level, or 1 if tensor is empty
-   * @throws exception if input tensor is a scalar */
+   * @throws TensorRuntimeException if input tensor is a scalar */
   public static Tensor prod(Tensor tensor) {
     if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
