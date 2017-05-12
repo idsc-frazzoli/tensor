@@ -13,8 +13,7 @@ public interface Eigensystem {
   static Eigensystem ofSymmetric(Tensor matrix) {
     if (!SymmetricMatrixQ.of(matrix))
       throw TensorRuntimeException.of(matrix);
-    // TODO
-    throw TensorRuntimeException.of(matrix);
+    return new JacobiMethod(matrix);
   }
 
   /** @return vector of eigenvalues corresponding to the eigenvectors */
