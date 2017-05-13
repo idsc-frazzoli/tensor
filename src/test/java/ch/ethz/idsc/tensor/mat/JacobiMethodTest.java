@@ -1,10 +1,15 @@
 // code by guedelmi
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.Reverse;
+import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -12,7 +17,12 @@ public class JacobiMethodTest extends TestCase {
   private static void checkEquation(Tensor matrix, Eigensystem eigensys) {
     Tensor Vi = Inverse.of(eigensys.vectors());
     Tensor res = Vi.dot(DiagonalMatrix.of(eigensys.values())).dot(eigensys.vectors());
-    assertTrue(Chop.isZeros(res.subtract(matrix)));
+    assertEquals(res.subtract(matrix).map(Chop.below(1e-8)), matrix.multiply(ZeroScalar.get()));
+    // ---
+    // testing determinant
+    Scalar det = Det.of(matrix);
+    Tensor prd = Total.prod(eigensys.values());
+    assertTrue(Chop.isZeros(det.subtract(prd)));
   }
 
   public void testJacobiWithTensor1() {
@@ -38,5 +48,30 @@ public class JacobiMethodTest extends TestCase {
     checkEquation(tensor, eigsys);
     assertEquals(Chop.of(expEigvl.subtract(eigsys.values())), Array.zeros(4));
     // assertEquals(Chop.of(expEigvc.subtract(eigsys.vectors())), Array.zeros(4, 4));
+  }
+
+  public void testHilberts() {
+    for (int c = 1; c < 10; ++c) {
+      Tensor matrix = HilbertMatrix.of(c);
+      Eigensystem eigsys = Eigensystem.ofSymmetric(matrix);
+      checkEquation(matrix, eigsys);
+      SingularValueDecomposition svd = SingularValueDecomposition.of(matrix);
+      Tensor values = Reverse.of(Sort.of(svd.values()));
+      assertTrue(Chop.isZeros(eigsys.values().subtract(values)));
+    }
+  }
+
+  public void testHilbert2() {
+    Tensor matrix = HilbertMatrix.of(2);
+    Eigensystem eigsys = Eigensystem.ofSymmetric(matrix);
+    Tensor expected = Tensors.vector(1.2675918792439982155, 0.065741454089335117813);
+    assertEquals(Chop.of(expected.subtract(eigsys.values())), Array.zeros(matrix.length()));
+  }
+
+  public void testHilbert3() {
+    Tensor matrix = HilbertMatrix.of(3);
+    Eigensystem eigsys = Eigensystem.ofSymmetric(matrix);
+    Tensor expected = Tensors.vector(1.4083189271236539575, 0.12232706585390584656, 0.0026873403557735292310);
+    assertEquals(Chop.of(expected.subtract(eigsys.values())), Array.zeros(matrix.length()));
   }
 }

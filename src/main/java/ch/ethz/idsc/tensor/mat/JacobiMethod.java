@@ -13,9 +13,8 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
-import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.red.ArgMax;
 import ch.ethz.idsc.tensor.red.Hypot;
-import ch.ethz.idsc.tensor.red.Total;
 
 /** The Jacobi transformations of a real symmetric matrix establishes the
  * diagonal matrix D
@@ -30,34 +29,36 @@ import ch.ethz.idsc.tensor.red.Total;
  * entries of D are the eigenvalues of A and the columns of V are the
  * eigenvectors of A. */
 class JacobiMethod implements Eigensystem {
-  static final int MAXITERATIONS = 50;
+  private static final int MAXITERATIONS = 50;
   private static final Scalar HALF = RationalScalar.of(1, 2);
-  static final Scalar EPS = RealScalar.of(Math.ulp(1));
+  private static final Scalar HUNDRED = RealScalar.of(100);
+  private static final Scalar EPS = RealScalar.of(Math.ulp(1));
+  // ---
   private final int n;
-  private Tensor V;
+  private final Tensor V;
   private Tensor d;
 
-  /** @param tensor */
-  JacobiMethod(Tensor tensor) {
-    Tensor A = tensor.copy();
+  JacobiMethod(Tensor matrix) {
+    Tensor A = matrix.copy();
     n = Dimensions.of(A).get(0);
     V = IdentityMatrix.of(n);
     Tensor z = Array.zeros(n);
-    Tensor b = Tensors.vector(i -> tensor.get(i, i), n);
+    Tensor b = Tensors.vector(i -> matrix.get(i, i), n);
     d = b.copy();
     Scalar factor = RealScalar.of(0.2).divide(RealScalar.of(n * n));
-    for (int i = 0; i < MAXITERATIONS; i++) {
-      Scalar sum = ZeroScalar.get();
-      for (int ip = 0; ip < n - 1; ip++)
-        sum = sum.add(Total.of(A.get(ip).extract(ip + 1, n).map(Scalar::abs)).Get());
+    for (int i = 0; i < MAXITERATIONS; ++i) {
+      Scalar sum = IntStream.range(0, n - 1).boxed() //
+          .flatMap(ip -> A.get(ip).extract(ip + 1, n).flatten(0)) //
+          .map(Scalar.class::cast).map(Scalar::abs).reduce(Scalar::add) //
+          .orElse(ZeroScalar.get());
       if (sum instanceof ZeroScalar) {
         eigsrt();
         return;
       }
       Scalar tresh = (i < 4) ? sum.multiply(factor) : ZeroScalar.get();
-      for (int ip = 0; ip < n - 1; ip++) {
-        for (int iq = ip + 1; iq < n; iq++) {
-          Scalar g = RealScalar.of(100).multiply(A.Get(ip, iq).abs());
+      for (int ip = 0; ip < n - 1; ++ip) {
+        for (int iq = ip + 1; iq < n; ++iq) {
+          Scalar g = HUNDRED.multiply(A.Get(ip, iq).abs());
           if (i > 4 && Scalars.lessEquals(g, EPS.multiply(d.Get(ip).abs())) && Scalars.lessEquals(g, EPS.multiply(d.Get(ip).abs()))) {
             A.set(ZeroScalar.get(), ip, iq);
           } else if (!Scalars.lessEquals(A.Get(ip, iq).abs(), tresh)) {
@@ -83,13 +84,13 @@ class JacobiMethod implements Eigensystem {
             final int fip = ip;
             final int fiq = iq;
             IntStream.range(0, ip).parallel() //
-                .forEach(j -> rot(A, s, tau, j, fip, j, fiq));
+                .forEach(j -> rotate(A, s, tau, j, fip, j, fiq));
             IntStream.range(ip + 1, iq).parallel() //
-                .forEach(j -> rot(A, s, tau, fip, j, j, fiq));
+                .forEach(j -> rotate(A, s, tau, fip, j, j, fiq));
             IntStream.range(iq + 1, n).parallel() //
-                .forEach(j -> rot(A, s, tau, fip, j, fiq, j));
+                .forEach(j -> rotate(A, s, tau, fip, j, fiq, j));
             IntStream.range(0, n).parallel() //
-                .forEach(j -> rot(V, s, tau, j, fip, j, fiq));
+                .forEach(j -> rotate(V, s, tau, fip, j, fiq, j));
           }
         }
       }
@@ -100,7 +101,7 @@ class JacobiMethod implements Eigensystem {
     throw TensorRuntimeException.of(A);
   }
 
-  private static void rot(Tensor A, Scalar s, Scalar tau, int i, int j, int k, int l) {
+  private static void rotate(Tensor A, Scalar s, Scalar tau, int i, int j, int k, int l) {
     Scalar g = A.Get(i, j);
     Scalar h = A.Get(k, l);
     A.set(g.subtract(s.multiply(h.add(g.multiply(tau)))), i, j);
@@ -108,36 +109,26 @@ class JacobiMethod implements Eigensystem {
   }
 
   private void eigsrt() {
-    int k;
-    int n = d.length();
-    for (int i = 0; i < n - 1; i++) {
-      Scalar p = d.Get(i);
-      k = i;
-      for (int j = i; j < n; j++) {
-        if (Scalars.lessThan(p, d.Get(j))) {
-          p = d.Get(j);
-          k = j;
-        }
-      }
+    for (int i = 0; i < n - 1; ++i) {
+      final int k = i + ArgMax.of(d.extract(i, n));
       if (k != i) {
-        d.set(d.get(i), k);
-        d.set(p, i);
-        for (int j = 0; j < n; j++) {
-          p = V.Get(j, i);
-          V.set(V.get(j, k), j, i);
-          V.set(p, j, k);
-        }
+        Scalar max = d.Get(i);
+        d.set(d.get(k), i);
+        d.set(max, k);
+        Tensor vgi = V.get(i);
+        V.set(V.get(k), i);
+        V.set(vgi, k);
       }
     }
   }
 
   @Override
   public Tensor vectors() {
-    return Transpose.of(V);
+    return V;
   }
 
   @Override
   public Tensor values() {
-    return d.unmodifiable();
+    return d;
   }
 }
