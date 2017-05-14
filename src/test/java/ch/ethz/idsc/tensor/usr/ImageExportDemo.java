@@ -7,14 +7,9 @@ import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Export;
-import junit.framework.TestCase;
 
-public class ImageExportTest extends TestCase {
+public class ImageExportDemo {
   private static final String ROOT = "/home/datahaki/";
-
-  public void testDummy() {
-    // ---
-  }
 
   public static void _im1() throws Exception {
     int n = 251;
