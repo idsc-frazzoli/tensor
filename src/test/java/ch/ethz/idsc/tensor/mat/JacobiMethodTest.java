@@ -1,6 +1,7 @@
 // code by guedelmi
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -9,6 +10,7 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -23,6 +25,16 @@ public class JacobiMethodTest extends TestCase {
     Scalar det = Det.of(matrix);
     Tensor prd = Total.prod(eigensys.values());
     assertTrue(Chop.isZeros(det.subtract(prd)));
+    Tensor norm = Tensor.of(eigensys.vectors().flatten(0).map(Norm._2::of));
+    Tensor delta = norm.subtract(Tensors.vector(i -> RealScalar.ONE, norm.length()));
+    assertTrue(Chop.isZeros(delta));
+    // testing orthogonality
+    final Tensor Vt = Transpose.of(eigensys.vectors());
+    final int n = eigensys.values().length();
+    Tensor VtV_I = Vt.dot(eigensys.vectors()).subtract(IdentityMatrix.of(n));
+    assertTrue(Chop.isZeros(VtV_I));
+    Tensor VVt_I = eigensys.vectors().dot(Vt).subtract(IdentityMatrix.of(n));
+    assertTrue(Chop.isZeros(VVt_I));
   }
 
   public void testJacobiWithTensor1() {
@@ -53,6 +65,17 @@ public class JacobiMethodTest extends TestCase {
   public void testHilberts() {
     for (int c = 1; c < 10; ++c) {
       Tensor matrix = HilbertMatrix.of(c);
+      Eigensystem eigsys = Eigensystem.ofSymmetric(matrix);
+      checkEquation(matrix, eigsys);
+      SingularValueDecomposition svd = SingularValueDecomposition.of(matrix);
+      Tensor values = Reverse.of(Sort.of(svd.values()));
+      assertTrue(Chop.isZeros(eigsys.values().subtract(values)));
+    }
+  }
+
+  public void testZeros() {
+    for (int c = 1; c < 10; ++c) {
+      Tensor matrix = Array.zeros(c, c);
       Eigensystem eigsys = Eigensystem.ofSymmetric(matrix);
       checkEquation(matrix, eigsys);
       SingularValueDecomposition svd = SingularValueDecomposition.of(matrix);

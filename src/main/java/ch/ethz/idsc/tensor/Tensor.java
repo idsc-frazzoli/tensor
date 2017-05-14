@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -141,6 +142,9 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * For the input level == -1, the return stream consists
    * of all {@link Scalar}s in this tensor.
    * 
+   * If this tensor has been marked as unmodifiable, the elements of
+   * the stream are unmodifiable as well.
+   * 
    * @param level
    * @return non-parallel stream, the user may invoke .parallel() */
   Stream<Tensor> flatten(int level);
@@ -211,4 +215,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return new tensor with {@link Scalar} entries replaced by
    * function evaluation of {@link Scalar} entries */
   Tensor map(Function<Scalar, ? extends Tensor> function);
+
+  /** if this tensor is unmodifiable, references to entries are also unmodifiable.
+   * 
+   * @return references to entries in this tensor */
+  @Override // from Iterable<Tensor>
+  Iterator<Tensor> iterator();
 }
