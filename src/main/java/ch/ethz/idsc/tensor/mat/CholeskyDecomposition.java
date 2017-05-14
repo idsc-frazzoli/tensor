@@ -18,7 +18,7 @@ public interface CholeskyDecomposition {
    * @return Cholesky decomposition of matrix
    * @throws TensorRuntimeException if matrix is not hermitian, or decomposition cannot be established
    * @see HermitianMatrixQ */
-  public static CholeskyDecomposition of(Tensor matrix) {
+  static CholeskyDecomposition of(Tensor matrix) {
     if (!HermitianMatrixQ.of(matrix))
       throw TensorRuntimeException.of(matrix);
     return new CholeskyDecompositionImpl(matrix);

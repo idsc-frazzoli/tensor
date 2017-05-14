@@ -6,16 +6,16 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
-/** <p>inspired by
+/** inspired by
  * <a href="https://reference.wolfram.com/language/ref/PositiveDefiniteMatrixQ.html">PositiveDefiniteMatrixQ</a> */
 public enum PositiveDefiniteMatrixQ {
   ;
   /** @param matrix hermitian
    * @return true if matrix is positive definite */
   public static boolean ofHermitian(Tensor matrix) {
-    // TODO check for complex input in numeric precision
     return !CholeskyDecomposition.of(matrix).diagonal().flatten(0) //
-        .filter(scalar -> Scalars.lessEquals((Scalar) scalar, ZeroScalar.get())) //
+        .map(Scalar.class::cast) //
+        .filter(scalar -> Scalars.lessEquals(scalar, ZeroScalar.get())) //
         .findAny().isPresent();
   }
 }

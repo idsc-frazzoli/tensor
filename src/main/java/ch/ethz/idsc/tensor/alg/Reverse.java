@@ -16,8 +16,9 @@ public enum Reverse {
     return Tensor.of(IntStream.range(0, length).map(index -> length - index - 1).boxed().map(tensor::get));
   }
 
-  // TODO for now, function all is used for testing... what next?
-  /* package */ static Tensor all(Tensor tensor) {
+  /** @param tensor
+   * @return tensor with entries on all levels reversed */
+  public static Tensor all(Tensor tensor) {
     if (tensor.isScalar())
       return tensor;
     return of(Tensor.of(tensor.flatten(0).map(Reverse::all)));

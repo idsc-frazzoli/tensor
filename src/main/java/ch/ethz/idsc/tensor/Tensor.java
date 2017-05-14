@@ -11,11 +11,13 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** a tensor is a multi-dimensional array with the dot product */
 public interface Tensor extends Iterable<Tensor>, Serializable {
-  /** constant ALL is used in the function get(...)
+  /** constant ALL is used in the function {@link Tensor#get(Integer...)}
    * to extract <em>all</em> elements from the respective dimension.
    * 
    * The value of ALL is deliberately not chosen to equal -1, since an index of -1
-   * could likely be the result of a mistake in the application layer. */
+   * could likely be the result of a mistake in the application layer.
+   * 
+   * Constant ALL <em>cannot</em> be used in {@link Tensor#set(Tensor, Integer...)} */
   static final int ALL = 0xA110CA7E;
   /** opening bracket of vector */
   static final char OPENING_BRACKET = '{';

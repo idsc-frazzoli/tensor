@@ -7,15 +7,15 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/NegativeDefiniteMatrixQ.html">NegativeDefiniteMatrixQ</a> */
-public enum NegativeDefiniteMatrixQ {
+ * <a href="https://reference.wolfram.com/language/ref/NegativeSemidefiniteMatrixQ.html">NegativeSemidefiniteMatrixQ</a> */
+public enum NegativeSemidefiniteMatrixQ {
   ;
   /** @param matrix hermitian
-   * @return true if matrix is negative definite */
+   * @return true if matrix is negative semi-definite */
   public static boolean ofHermitian(Tensor matrix) {
     return !CholeskyDecomposition.of(matrix).diagonal().flatten(0) //
         .map(Scalar.class::cast) //
-        .filter(scalar -> Scalars.lessEquals(ZeroScalar.get(), scalar)) //
+        .filter(scalar -> Scalars.lessThan(ZeroScalar.get(), scalar)) //
         .findAny().isPresent();
   }
 }

@@ -7,29 +7,35 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Max;
 
-/** inspired by
+/** Rationalize is <em>not<em> a substitute for {@link Round}, or {@link Floor}.
+ * 
+ * <code>
+ * Rationalize.of(+11.5, 1) == +12
+ * Rationalize.of(-11.5, 1) == -11
+ * </code>
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Rationalize.html">Rationalize</a> */
 public enum Rationalize {
   ;
   /* find rational approximation to given real number
-   ** David Eppstein / UC Irvine / 8 Aug 1993
-   **
-   ** With corrections from Arno Formella, May 2008
-   **
-   ** usage: a.out r d
-   ** r is real number to approx
-   ** d is the maximum denominator allowed
-   **
-   ** based on the theory of continued fractions
-   ** if x = a1 + 1/(a2 + 1/(a3 + 1/(a4 + ...)))
-   ** then best approximation is found by truncating this series
-   ** (with some adjustments in the last term).
-   **
-   ** Note the fraction can be recovered as the first column of the matrix
-   ** ( a1 1 ) ( a2 1 ) ( a3 1 ) ...
-   ** ( 1 0 ) ( 1 0 ) ( 1 0 )
-   ** Instead of keeping the sequence of continued fraction terms,
-   ** we just keep the last partial product of these matrices. */
+   * David Eppstein / UC Irvine / 8 Aug 1993
+   *
+   * With corrections from Arno Formella, May 2008
+   * usage: a.out r d
+   * r is real number to approx
+   * d is the maximum denominator allowed
+   *
+   * based on the theory of continued fractions
+   * if x = a1 + 1/(a2 + 1/(a3 + 1/(a4 + ...)))
+   * then best approximation is found by truncating this series
+   * (with some adjustments in the last term).
+   *
+   * Note the fraction can be recovered as the first column of the matrix
+   * ( a1 1 ) ( a2 1 ) ( a3 1 ) ...
+   * ( 1 0 ) ( 1 0 ) ( 1 0 )
+   * Instead of keeping the sequence of continued fraction terms,
+   * we just keep the last partial product of these matrices. */
   /** @param realScalar for instance Math.PI, or 2./3.
    * @param max denominator
    * @return approximation of realScalar as RationalScalar with denominator bounded by max */
@@ -40,7 +46,7 @@ public enum Rationalize {
     long m11 = 1;
     double x = realScalar.number().doubleValue();
     long ain;
-    /* loop finding terms until denominator gets too big */
+    // loop finding terms until denominator gets too big
     while (m10 * (ain = toLong(x)) + m11 <= max) {
       long tmp;
       tmp = m00 * ain + m01;
@@ -55,9 +61,9 @@ public enum Rationalize {
       if (x > Long.MAX_VALUE)
         throw new IllegalArgumentException(); // AF: representation failure
     }
-    /* now remaining x is between 0 and 1/ai */
-    /* approx as either 0 or 1/m where m is max that will fit in maxden */
-    /* first try zero */
+    // now remaining x is between 0 and 1/ai
+    // approx as either 0 or 1/m where m is max that will fit in maxden
+    // first try zero
     RealScalar sol0 = RationalScalar.of(m00, m10);
     // now try other possibility
     ain = (max - m11) / m10;

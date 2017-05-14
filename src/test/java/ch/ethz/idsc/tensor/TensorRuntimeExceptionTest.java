@@ -13,4 +13,13 @@ public class TensorRuntimeExceptionTest extends TestCase {
     Exception ex = TensorRuntimeException.of();
     assertEquals(ex.getMessage(), "");
   }
+
+  public void testNull() {
+    try {
+      TensorRuntimeException.of(Tensors.vector(2), null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

@@ -41,10 +41,8 @@ public class RationalizeTest extends TestCase {
         .map(Math::round) //
         .collect(Collectors.toList());
     Tensor ratio = Rationalize.of(s, 1);
-    // System.out.println(ratio);
+    // System.out.println(Rationalize.of(RealScalar.of(-11.5), 1));
     assertEquals(ratio, Tensors.vector(round));
-    // TODO rationalize inconsistent with Round
-    // assertEquals(ratio, Round.of(s));
   }
 
   private static void denCheck(RealScalar realScalar, long max) {

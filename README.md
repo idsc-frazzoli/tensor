@@ -4,10 +4,11 @@ Library for tensor computation in Java 8.
 Version `0.2.0`
 
 Features:
-* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
+* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ...
 * scalars are real, or complex numbers, or from finite fields, etc.
 * values are encoded as exact fractions, or in double precision
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
+* import from and export to `Mathematica`, `CSV`-, and image files
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
 
@@ -88,6 +89,18 @@ gives
      [    1     0  -I/3 ]
      [    0     1     0 ]
     ]
+
+---
+
+Image export
+
+    int n = 251;
+    Export.of(new File("image.png"), Tensors.matrix((i, j) -> //
+    Tensors.of(RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
+
+gives
+
+![psu](https://cloud.githubusercontent.com/assets/4012178/25422498/57803d08-2a61-11e7-94c1-87fd1f87e694.png)
 
 
 ## Include in your project

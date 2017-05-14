@@ -98,4 +98,9 @@ public class CholeskyDecompositionTest extends TestCase {
     checkDecomp(Array.zeros(1, 1));
     checkDecomp(Array.zeros(5, 5));
   }
+
+  public void testComplex() {
+    checkDecomp(Tensors.fromString("{{10,I},{-I,10}}"));
+    checkDecomp(N.of(Tensors.fromString("{{10,I},{-I,10}}")));
+  }
 }
