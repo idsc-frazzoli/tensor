@@ -13,14 +13,9 @@ import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Partition;
 import ch.ethz.idsc.tensor.io.MatlabExport;
 import ch.ethz.idsc.tensor.io.Pretty;
-import junit.framework.TestCase;
 
-public class MatlabExportTest extends TestCase {
+public class MatlabExportDemo {
   private static final String ROOT = "/home/datahaki/";
-
-  public void testDummy() {
-    // ---
-  }
 
   public void exportVector() {
     Tensor tensor = Tensors.of(ZeroScalar.get(), ComplexScalar.of(3, 4));

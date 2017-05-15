@@ -11,7 +11,7 @@ public interface SingularValueDecomposition {
 
   /** performs a singular value decomposition of matrix A
    * <ul>
-   * <li>u.dot(DiagonalMatrix.of(w)).dot(Transpose.of(v)) == A
+   * <li>u.dot(DiagonalMatrix.of(values())).dot(Transpose.of(v)) == A
    * <li>Transpose.of(U).dot(U) == IdentityMatrix
    * <li>V.dot(Transpose.of(V) == IdentityMatrix
    * <li>Transpose.of(V).dot(V) == IdentityMatrix
@@ -28,7 +28,7 @@ public interface SingularValueDecomposition {
   Tensor getU();
 
   /** @return vector of non-negative singular values */
-  Tensor getW();
+  Tensor values();
 
   /** @return square matrix of dimensions cols x cols */
   Tensor getV();

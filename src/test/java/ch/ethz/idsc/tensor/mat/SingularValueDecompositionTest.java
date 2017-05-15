@@ -29,7 +29,7 @@ public class SingularValueDecompositionTest extends TestCase {
     final int N = dims.get(1);
     final Tensor U = svd.getU();
     assertEquals(dims, Dimensions.of(U));
-    final Tensor w = svd.getW();
+    final Tensor w = svd.values();
     // System.out.println("w " + w.dimensions());
     final Tensor V = svd.getV();
     // System.out.println("V " + V.dimensions());
@@ -202,7 +202,7 @@ public class SingularValueDecompositionTest extends TestCase {
     mat.set(RationalScalar.of(1, 1), k - 1, k - 4);
     SingularValueDecomposition svd = specialOps(mat);
     assertEquals(MatrixRank.of(svd), 2);
-    assertEquals(Sort.of(svd.getW()), Tensors.fromString("{0, 0, 0, 0, 0, 0, 0, 0, 1.0, 1.0}"));
+    assertEquals(Sort.of(svd.values()), Tensors.fromString("{0, 0, 0, 0, 0, 0, 0, 0, 1.0, 1.0}"));
   }
 
   public void testEye() {

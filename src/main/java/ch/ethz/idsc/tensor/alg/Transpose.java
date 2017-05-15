@@ -9,13 +9,16 @@ import java.util.stream.IntStream;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
+import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /** Transpose is consistent with Mathematica::Transpose
  * Transpose is consistent with MATALB::permute
- * <br/>
- * Transpose does <b>not</b> conjugate the elements.
- * <br/>
- * inspired by
+ * 
+ * <p>Transpose does <b>not</b> conjugate the elements.
+ * For that purpose, use {@link Conjugate}, or {@link ConjugateTranspose}.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Transpose.html">Transpose</a> */
 public enum Transpose {
   ;

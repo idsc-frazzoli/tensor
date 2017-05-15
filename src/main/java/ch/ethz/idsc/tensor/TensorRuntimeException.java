@@ -4,14 +4,14 @@ package ch.ethz.idsc.tensor;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/** exception commonly used when something goes wrong within the tensor library */
 public class TensorRuntimeException extends RuntimeException {
-  public static final int MAX_LENGTH = 32;
+  private static final int MAX_LENGTH = 32;
 
-  /** @param tensor
-   * @return */
+  /** @param tensors
+   * @return exception with message consisting of truncated string expressions of given tensors
+   * @throws Exception if any of the listed tensors is null */
   public static TensorRuntimeException of(Tensor... tensors) {
-    // if (Stream.of(tensors).filter(Objects::isNull).findAny().isPresent())
-    // return new TensorRuntimeException("null");
     return new TensorRuntimeException( //
         Stream.of(tensors).map(TensorRuntimeException::format).collect(Collectors.joining(", ")));
   }

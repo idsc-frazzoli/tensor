@@ -27,9 +27,16 @@ public enum NullSpace {
   /** @param matrix with exact precision entries
    * @return tensor of vectors that span the kernel of given matrix */
   public static Tensor of(Tensor matrix) {
+    return of(matrix, IdentityMatrix.of(matrix.get(0).length()));
+  }
+
+  /** @param matrix with exact precision entries
+   * @param identity contains the unit vector for the scalar type of each column
+   * @return tensor of vectors that span the kernel of given matrix */
+  public static Tensor of(Tensor matrix, Tensor identity) {
     final int n = matrix.length();
     final int m = matrix.get(0).length();
-    Tensor lhs = RowReduce.of(Join.of(1, Transpose.of(matrix), IdentityMatrix.of(m)));
+    Tensor lhs = RowReduce.of(Join.of(1, Transpose.of(matrix), identity));
     int j = 0;
     int c0 = 0;
     while (c0 < n)
@@ -44,11 +51,13 @@ public enum NullSpace {
     return of(SingularValueDecomposition.of(matrix));
   }
 
+  /** @param svd
+   * @return */
   public static Tensor of(SingularValueDecomposition svd) {
     double w_threshold = svd.getThreshold();
     Tensor vt = Transpose.of(svd.getV());
-    return Tensor.of(IntStream.range(0, svd.getW().length()).boxed() //
-        .filter(index -> svd.getW().Get(index).abs().number().doubleValue() < w_threshold) //
+    return Tensor.of(IntStream.range(0, svd.values().length()).boxed() //
+        .filter(index -> svd.values().Get(index).abs().number().doubleValue() < w_threshold) //
         .map(vt::get));
   }
 }

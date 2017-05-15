@@ -18,7 +18,8 @@ import ch.ethz.idsc.tensor.red.ArgMax;
     }
   };
   /** picks the first non Zero element in the column as pivot
-   * throws an exception if no such element is found */
+   * the return value is c0 in the case when the element at (ind[c0],j)
+   * is non-zero, but also if none of the candidates is non-zero */
   static final Pivot firstNonZero = new Pivot() {
     @Override
     public int get(int c0, int j, int[] ind, Tensor lhs) {

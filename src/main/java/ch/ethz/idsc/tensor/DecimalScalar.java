@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-// EXPERIMENTAL
 // work in progress, use {@link DoubleScalar} instead
 public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   // perhaps make this member

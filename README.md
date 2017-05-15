@@ -1,13 +1,14 @@
 # ch.ethz.idsc.tensor
 Library for tensor computation in Java 8.
 
-Version `0.1.9`
+Version `0.2.0`
 
 Features:
-* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ... 
+* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ...
 * scalars are real, or complex numbers, or from finite fields, etc.
 * values are encoded as exact fractions, or in double precision
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
+* import from and export to `Mathematica`, `CSV`-, and image files
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
 
@@ -38,20 +39,6 @@ Linear programming
 gives
 
     {4/3, 13/3}
-
----
-
-Linear Algebra
-
-    Tensor matrix = Tensors.fromString("{{-1/3, 0, I}}");
-    System.out.println(Pretty.of(NullSpace.of(matrix)));
-
-gives
-
-    [
-     [    1     0  -I/3 ]
-     [    0     1     0 ]
-    ]
 
 ---
 
@@ -89,6 +76,33 @@ gives
 
     1/365356847125734485878112256000000
 
+---
+
+Null-space
+
+    Tensor matrix = Tensors.fromString("{{-1/3, 0, I}}");
+    System.out.println(Pretty.of(NullSpace.of(matrix)));
+
+gives
+
+    [
+     [    1     0  -I/3 ]
+     [    0     1     0 ]
+    ]
+
+---
+
+Image synthesis
+
+    int n = 251;
+    Export.of(new File("image.png"), Tensors.matrix((i, j) -> //
+    Tensors.of(RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
+
+gives
+
+![gauss_scalar](https://cloud.githubusercontent.com/assets/4012178/26045629/63b756ee-394b-11e7-85f4-d9121905badd.png)
+
+
 ## Include in your project
 
 Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:
@@ -108,7 +122,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.1.9</version>
+        <version>0.2.0</version>
       </dependency>
     </dependencies>
 
@@ -116,7 +130,7 @@ The source code is attached to the `jar` file for your convenience.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.1.9/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.0/*
 
 ## Optional
 
@@ -139,4 +153,4 @@ The library is used in the projects:
 * `SimBus`
 * `subare`
 
-The repository has over `600` unit tests.
+The repository has over `620` unit tests.

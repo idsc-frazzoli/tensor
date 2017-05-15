@@ -16,9 +16,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public interface CholeskyDecomposition {
   /** @param matrix hermitian
    * @return Cholesky decomposition of matrix
-   * @throws exception if matrix is not hermitian, or decomposition cannot be established
+   * @throws TensorRuntimeException if matrix is not hermitian, or decomposition cannot be established
    * @see HermitianMatrixQ */
-  public static CholeskyDecomposition of(Tensor matrix) {
+  static CholeskyDecomposition of(Tensor matrix) {
     if (!HermitianMatrixQ.of(matrix))
       throw TensorRuntimeException.of(matrix);
     return new CholeskyDecompositionImpl(matrix);
@@ -28,7 +28,7 @@ public interface CholeskyDecomposition {
   Tensor getL();
 
   /** @return vector of diagonal entries of D */
-  Tensor getD();
+  Tensor diagonal();
 
   /** @return determinant of matrix */
   Scalar det();

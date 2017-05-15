@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class PositiveDefiniteMatrixQTest extends TestCase {
@@ -18,5 +19,12 @@ public class PositiveDefiniteMatrixQTest extends TestCase {
 
   public void testZeros() {
     assertFalse(PositiveDefiniteMatrixQ.ofHermitian(Array.zeros(4, 4)));
+  }
+
+  public void testComplex() {
+    assertTrue(PositiveDefiniteMatrixQ.ofHermitian(Tensors.fromString("{{10,I},{-I,10}}")));
+    assertFalse(PositiveDefiniteMatrixQ.ofHermitian(Tensors.fromString("{{10,I},{-I,1/10}}")));
+    assertTrue(PositiveDefiniteMatrixQ.ofHermitian(N.of(Tensors.fromString("{{10,I},{-I,10}}"))));
+    assertFalse(PositiveDefiniteMatrixQ.ofHermitian(N.of(Tensors.fromString("{{10,I},{-I,1/10}}"))));
   }
 }

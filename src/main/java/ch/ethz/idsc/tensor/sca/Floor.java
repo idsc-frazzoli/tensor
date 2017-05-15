@@ -19,7 +19,7 @@ public enum Floor implements Function<Scalar, Scalar> {
   // ---
   /** @param scalar instance if {@link RealScalar}
    * @return best integer scalar approximation to floor of scalar
-   * @throws exception if scalar is Infinity, or NaN */
+   * @throws TensorRuntimeException if scalar is Infinity, or NaN */
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RationalScalar) {

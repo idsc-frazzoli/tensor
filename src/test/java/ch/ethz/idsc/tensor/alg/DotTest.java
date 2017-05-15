@@ -14,8 +14,7 @@ public class DotTest extends TestCase {
     Tensor m4 = Transpose.of( //
         Tensors.matrix((i, j) -> RealScalar.of(100 - 7 * i + j), 2, 7));
     Tensor d1 = Dot.of(m1, m2, m3, m4);
-    Tensor d2 = Dot.asStream(m1, m2, m3, m4);
-    assertEquals(d1, d2);
+    assertEquals(d1, m1.dot(m2).dot(m3).dot(m4));
   }
 
   public void testDot2() {
@@ -23,8 +22,6 @@ public class DotTest extends TestCase {
     Tensor m2 = Tensors.vector(i -> RealScalar.of(8 + 2 * i), 4);
     Tensor m3 = Tensors.vector(i -> RealScalar.of(2 + 2 * i), 3);
     Tensor d1 = Dot.of(m1, m2, m3);
-    Tensor d2 = Dot.asStream(m1, m2, m3);
-    assertEquals(d1, d2);
-    assertEquals(Dot.of(d1), Dot.asStream(d2));
+    assertEquals(d1, m1.dot(m2).dot(m3));
   }
 }

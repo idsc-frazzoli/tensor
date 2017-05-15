@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class PositiveSemidefiniteMatrixQTest extends TestCase {
@@ -12,5 +14,12 @@ public class PositiveSemidefiniteMatrixQTest extends TestCase {
 
   public void testZeros() {
     assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(Array.zeros(4, 4)));
+  }
+
+  public void testComplex() {
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(Tensors.fromString("{{10,I},{-I,10}}")));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(Tensors.fromString("{{10,I},{-I,1/10}}")));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(N.of(Tensors.fromString("{{10,I},{-I,10}}"))));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(N.of(Tensors.fromString("{{10,I},{-I,1/10}}"))));
   }
 }

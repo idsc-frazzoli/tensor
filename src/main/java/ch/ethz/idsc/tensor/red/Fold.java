@@ -8,10 +8,11 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Fold.html">Fold</a> */
-// EXPERIMENTAL, API not finalized
 /* package */ enum Fold {
   ;
-  /** @param binaryOperator
+  /** Fold[f, x, {a, b, c, d}] == f[f[f[f[x, a], b], c], d]
+   * 
+   * @param binaryOperator
    * @param tensor
    * @return */
   public static Optional<Tensor> of(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {

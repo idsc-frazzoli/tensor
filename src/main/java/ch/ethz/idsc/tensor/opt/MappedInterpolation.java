@@ -7,9 +7,16 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.io.ExtractPrimitives;
+import ch.ethz.idsc.tensor.sca.Ceiling;
+import ch.ethz.idsc.tensor.sca.Floor;
+import ch.ethz.idsc.tensor.sca.Round;
 
-/** entries of index are rounded to nearest integers */
-// EXPERIMENTAL
+/** interpolation maps a given tensor to an integer index via a user specified function.
+ * 
+ * common usage examples are:
+ * {@link Round#of(Tensor)}
+ * {@link Floor#of(Tensor)}
+ * {@link Ceiling#of(Tensor)} */
 public class MappedInterpolation implements Interpolation {
   /** @param tensor
    * @param function

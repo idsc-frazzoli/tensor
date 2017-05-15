@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** implementation of tensor interface
- * parallel stream processing is used for add() and dot() */
+ * parallel stream processing is used for dot() */
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---
@@ -34,6 +34,28 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
       @Override
       <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
         throw new UnsupportedOperationException("unmodifiable");
+      }
+
+      @Override
+      Stream<Tensor> _flatten0() {
+        return list.stream().map(Tensor::unmodifiable);
+      }
+
+      @Override
+      public Iterator<Tensor> iterator() {
+        return new Iterator<Tensor>() {
+          int index = 0;
+
+          @Override
+          public boolean hasNext() {
+            return index < length();
+          }
+
+          @Override
+          public Tensor next() {
+            return list.get(index++).unmodifiable();
+          }
+        };
       }
     };
   }
@@ -114,16 +136,15 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
     return false;
   }
 
-  @Override
-  public Stream<Tensor> flatten(int level) {
-    if (level == 0)
-      return list.stream();
-    return list.stream().flatMap(tensor -> tensor.flatten(level - 1));
+  Stream<Tensor> _flatten0() {
+    return list.stream();
   }
 
   @Override
-  public Iterator<Tensor> iterator() {
-    return list.iterator();
+  public Stream<Tensor> flatten(int level) {
+    if (level == 0)
+      return _flatten0();
+    return list.stream().flatMap(tensor -> tensor.flatten(level - 1));
   }
 
   // function wrap does not copy data!
@@ -204,6 +225,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @Override
   public Tensor map(Function<Scalar, ? extends Tensor> function) {
     return Tensor.of(flatten(0).map(tensor -> tensor.map(function)));
+  }
+
+  @Override
+  public Iterator<Tensor> iterator() {
+    return list.iterator();
   }
 
   @Override // from Object

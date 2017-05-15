@@ -37,7 +37,7 @@ public enum MathematicaFormat {
     return Stream.of(string.split("\n"));
   }
 
-  /** @param strings of Mathematica encoded tensor
+  /** @param stream of strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
     // TODO does not support extended precision yet: ..12`50

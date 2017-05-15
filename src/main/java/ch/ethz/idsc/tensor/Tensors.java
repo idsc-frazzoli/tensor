@@ -62,9 +62,9 @@ public enum Tensors {
   }
 
   /** @param biFunction
-   * @param n
-   * @param m
-   * @return (n x m)-matrix with (i,j)-entry == bifunction.apply(i,j) */
+   * @param n number of rows
+   * @param m number of columns
+   * @return (n x m)-matrix with (i,j)th-entry == bifunction.apply(i,j) */
   public static Tensor matrix(BiFunction<Integer, Integer, ? extends Tensor> biFunction, int n, int m) {
     return Tensor.of(IntStream.range(0, n).boxed().map( //
         i -> Tensor.of(IntStream.range(0, m).boxed().map(j -> biFunction.apply(i, j)))));

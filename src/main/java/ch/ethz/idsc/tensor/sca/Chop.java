@@ -6,6 +6,7 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** consistent with Mathematica
  * Chop[1/1000000000000000] != 0, but
@@ -44,8 +45,11 @@ public enum Chop implements Function<Scalar, Scalar> {
     return tensor.map(belowDefault);
   }
 
-  public static boolean isZero(Tensor tensor) {
-    return !of(tensor).flatten(-1).filter(Scalars::nonZero).findAny().isPresent();
+  /** @param tensor
+   * @return true, if all entries of Chop.of(tensor) equal to {@link ZeroScalar} */
+  public static boolean isZeros(Tensor tensor) {
+    return !of(tensor).flatten(-1) //
+        .map(Scalar.class::cast).filter(Scalars::nonZero).findAny().isPresent();
   }
 
   /** @param tensor

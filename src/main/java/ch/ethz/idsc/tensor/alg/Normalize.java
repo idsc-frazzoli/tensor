@@ -22,7 +22,7 @@ public enum Normalize {
   /** @param vector
    * @param function
    * @return vector of |vector|==1 subject to given norm
-   * @throws exception if |vector|==0 */
+   * @throws ArithmeticException if |vector|==0 */
   public static Tensor of(Tensor vector, Norm norm) {
     return of(vector, norm::of);
   }
