@@ -92,7 +92,7 @@ gives
 
 ---
 
-Image export
+Image synthesis
 
     int n = 251;
     Export.of(new File("image.png"), Tensors.matrix((i, j) -> //
@@ -100,7 +100,7 @@ Image export
 
 gives
 
-![psu](https://cloud.githubusercontent.com/assets/4012178/25422498/57803d08-2a61-11e7-94c1-87fd1f87e694.png)
+![gauss_scalar](https://cloud.githubusercontent.com/assets/4012178/26045629/63b756ee-394b-11e7-85f4-d9121905badd.png)
 
 
 ## Include in your project

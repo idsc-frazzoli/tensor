@@ -6,7 +6,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Eigensystem.html">Eigensystem</a> */
-// EXPERIMENTAL, API not finalized
 public interface Eigensystem {
   /** @param matrix symmetric and real valued
    * @return */

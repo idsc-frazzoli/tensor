@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
-// EXPERIMENTAL
 // could be used to store pure integer rational scalars for memory efficiency
 /* package */ class IntegerScalar {
   public static RealScalar of(BigInteger value) {
