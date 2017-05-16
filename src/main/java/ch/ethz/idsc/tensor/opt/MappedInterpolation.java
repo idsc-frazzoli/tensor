@@ -41,7 +41,7 @@ public class MappedInterpolation implements Interpolation {
   }
 
   @Override
-  public Scalar Get(Tensor index) {
+  public final Scalar Get(Tensor index) {
     return (Scalar) get(index);
   }
 }
