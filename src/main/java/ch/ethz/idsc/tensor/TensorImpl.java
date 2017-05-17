@@ -27,6 +27,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   public Tensor unmodifiable() {
     return new TensorImpl(Collections.unmodifiableList(list)) {
       @Override
+      public Tensor unmodifiable() {
+        return this;
+      }
+
+      @Override
       void _set(Tensor tensor, List<Integer> index) {
         throw new UnsupportedOperationException("unmodifiable");
       }

@@ -51,4 +51,13 @@ public enum Serialization {
     objectInputStream.close();
     return object;
   }
+
+  /** @param object that implements {@link Serializable}
+   * @return new instance of T with identical content as given object
+   * @throws ClassNotFoundException
+   * @throws IOException */
+  public static <T extends Serializable> T copy(T object) //
+      throws ClassNotFoundException, IOException {
+    return parse(of(object));
+  }
 }
