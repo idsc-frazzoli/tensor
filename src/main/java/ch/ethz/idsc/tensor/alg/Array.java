@@ -43,7 +43,10 @@ public enum Array {
   public static Tensor zeros(List<Integer> dimensions) {
     if (dimensions.size() == 0)
       return ZeroScalar.get();
-    return Tensor.of(IntStream.range(0, dimensions.get(0)).boxed() //
+    int length = dimensions.get(0);
+    if (length < 0)
+      throw new IllegalArgumentException();
+    return Tensor.of(IntStream.range(0, length).boxed() //
         .map(i -> zeros(dimensions.subList(1, dimensions.size()))));
   }
 
@@ -61,7 +64,10 @@ public enum Array {
     Tensor tensor = Tensors.empty();
     List<Integer> copy = new ArrayList<>(index);
     copy.add(-1);
-    for (int count = 0; count < dimensions.get(level); ++count) {
+    int length = dimensions.get(level);
+    if (length < 0)
+      throw new IllegalArgumentException();
+    for (int count = 0; count < length; ++count) {
       copy.set(level, count);
       tensor.append(_of(function, dimensions, copy));
     }
