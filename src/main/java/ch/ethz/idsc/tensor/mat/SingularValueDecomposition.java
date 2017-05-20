@@ -1,11 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/SingularValueDecomposition.html">SingularValueDecomposition</a> */
-public interface SingularValueDecomposition {
+public interface SingularValueDecomposition extends Serializable {
   static final double EPSILON = 1e-17;
   static final int MAXITERATIONS = 25;
 

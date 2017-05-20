@@ -3,9 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.io.ExtractPrimitives;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
@@ -17,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.Round;
  * {@link Round#of(Tensor)}
  * {@link Floor#of(Tensor)}
  * {@link Ceiling#of(Tensor)} */
-public class MappedInterpolation implements Interpolation {
+public class MappedInterpolation extends AbstractInterpolation {
   /** @param tensor
    * @param function
    * @return */
@@ -33,15 +31,8 @@ public class MappedInterpolation implements Interpolation {
     this.function = function;
   }
 
-  @Override
-  public final Tensor get(Tensor index) {
-    if (index.isScalar())
-      throw TensorRuntimeException.of(index);
+  @Override // from AbstractInterpolation
+  protected final Tensor _get(Tensor index) {
     return tensor.get(ExtractPrimitives.toListInteger(function.apply(index)));
-  }
-
-  @Override
-  public final Scalar Get(Tensor index) {
-    return (Scalar) get(index);
   }
 }

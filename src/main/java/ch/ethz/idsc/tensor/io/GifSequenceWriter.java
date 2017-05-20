@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -15,12 +16,12 @@ import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
 /** in Mathematica, animated gif sequences are created by Mathematica::Export */
-public class GifSequenceWriter implements AutoCloseable {
+public class GifSequenceWriter implements ImageSequenceWriter {
   /** @param file
    * @param period between frames in milliseconds
    * @return
    * @throws Exception */
-  public static GifSequenceWriter of(File file, int period) throws Exception {
+  public static GifSequenceWriter of(File file, int period) throws IOException {
     return new GifSequenceWriter(new FileImageOutputStream(file), period, true);
   }
 
@@ -68,6 +69,7 @@ public class GifSequenceWriter implements AutoCloseable {
 
   /** @param bufferedImage to append to the sequence
    * @throws Exception */
+  @Override
   public void append(BufferedImage bufferedImage) throws Exception {
     if (iIOMetadata == null)
       _initialize(bufferedImage.getType());

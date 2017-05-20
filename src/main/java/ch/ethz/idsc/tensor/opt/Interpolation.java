@@ -1,12 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** the interface Interpolation has no direct equivalent in Mathematica */
-public interface Interpolation {
+public interface Interpolation extends Serializable {
   /** if index.length() is less than the rank r of the tensor object that is being interpolated,
    * then the function get(...) returns a tensor of rank r - index.length()
    * 

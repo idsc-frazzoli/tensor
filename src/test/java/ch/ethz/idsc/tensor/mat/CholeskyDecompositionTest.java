@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
@@ -31,7 +32,7 @@ public class CholeskyDecompositionTest extends TestCase {
     }));
   }
 
-  public void testWikiEn() {
+  public void testWikiEn() throws Exception {
     CholeskyDecomposition cd = //
         checkDecomp(Tensors.matrix(new Number[][] { //
             { 4, 12, -16 }, //
@@ -45,6 +46,7 @@ public class CholeskyDecompositionTest extends TestCase {
     });
     assertEquals(cd.getL(), ltrue);
     assertEquals(cd.diagonal(), Tensors.vector(4, 1, 9));
+    Serialization.of(cd);
   }
 
   public void testMathematica1() {
