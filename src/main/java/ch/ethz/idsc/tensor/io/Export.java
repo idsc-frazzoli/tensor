@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 
 import javax.imageio.ImageIO;
@@ -38,5 +39,15 @@ public enum Export {
       Files.write(file.toPath(), ObjectFormat.of(tensor));
     else //
       throw new RuntimeException(file.toString());
+  }
+
+  /** export function for Java objects that implement {@link Serializable}.
+   * To retrieve the object, use {@link Import#object(File)}.
+   * 
+   * @param file
+   * @param object implements {@link Serializable}
+   * @throws IOException */
+  public static <T extends Serializable> void object(File file, T object) throws IOException {
+    Files.write(file.toPath(), ObjectFormat.of(object));
   }
 }

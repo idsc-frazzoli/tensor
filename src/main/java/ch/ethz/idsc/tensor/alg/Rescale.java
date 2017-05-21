@@ -3,7 +3,9 @@ package ch.ethz.idsc.tensor.alg;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.red.Min;
 
@@ -18,16 +20,21 @@ import ch.ethz.idsc.tensor.red.Min;
 public enum Rescale {
   ;
   // ---
-  /** @param vector
+  /** Example:
+   * Rescale[{10, 20, 30}] == {0, 1/2, 1}
+   * 
+   * @param tensor
    * @return */
-  public static Tensor of(Tensor vector) {
-    if (vector.length() == 0)
+  public static Tensor of(Tensor tensor) {
+    if (tensor.isScalar())
+      throw TensorRuntimeException.of(tensor);
+    if (tensor.length() == 0)
       return Tensors.empty();
-    Scalar min = vector.flatten(0).map(Scalar.class::cast).reduce(Min::of).get();
-    Scalar max = vector.flatten(0).map(Scalar.class::cast).reduce(Max::of).get();
+    Scalar min = tensor.flatten(-1).map(Scalar.class::cast).reduce(Min::of).get();
+    Scalar max = tensor.flatten(-1).map(Scalar.class::cast).reduce(Max::of).get();
     if (min.equals(max))
-      return Array.zeros(vector.length());
+      return tensor.map(scalar -> ZeroScalar.get()); // set all entries to 0
     Scalar factor = max.subtract(min).invert();
-    return vector.map(scalar -> scalar.subtract(min).multiply(factor));
+    return tensor.map(scalar -> scalar.subtract(min).multiply(factor));
   }
 }

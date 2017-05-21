@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.zip.DataFormatException;
 
@@ -35,5 +36,18 @@ public enum Import {
     if (filename.hasExtension("tensor"))
       return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
     throw new RuntimeException();
+  }
+
+  /** import function for Java objects that implement {@link Serializable}
+   * and were stored with {@link Export#object(File, Serializable)}.
+   * 
+   * @param file
+   * @return object prior to serialization
+   * @throws ClassNotFoundException
+   * @throws DataFormatException
+   * @throws IOException */
+  public static <T extends Serializable> T object(File file) //
+      throws ClassNotFoundException, DataFormatException, IOException {
+    return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
   }
 }
