@@ -25,7 +25,10 @@ import ch.ethz.idsc.tensor.alg.Transpose;
  * refers to the same pixel as
  * <code>BufferedImage::getRGB(x, y)</code>
  * 
- * <p>Consistent also with the screen size, for instance 1280 x 720. */
+ * <p>Consistent also with the screen size, for instance 1280 x 720.
+ * 
+ * <p>see also
+ * <a href="https://reference.wolfram.com/language/ref/ImageData.html">ImageData</a> */
 public enum ImageFormat {
   ;
   // ---

@@ -59,4 +59,22 @@ public class ArrayTest extends TestCase {
     assertEquals(Array.zeros(0, 0, 1), Tensors.empty());
     assertEquals(Array.zeros(1, 0, 0, 1), Tensors.of(Tensors.empty()));
   }
+
+  public void testInvalid() {
+    try {
+      Array.zeros(-1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testInvalid2() {
+    try {
+      Array.of(l -> Tensors.vector(l.get(0), l.get(1), l.get(2)), 3, -2, 4);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

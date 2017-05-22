@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class TensorRuntimeExceptionTest extends TestCase {
@@ -21,5 +22,9 @@ public class TensorRuntimeExceptionTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testSerializable() throws Exception {
+    Serialization.of(TensorRuntimeException.of(RealScalar.ONE));
   }
 }

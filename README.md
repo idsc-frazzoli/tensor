@@ -1,7 +1,7 @@
 # ch.ethz.idsc.tensor
 Library for tensor computation in Java 8.
 
-Version `0.2.0`
+Version `0.2.1`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ...
@@ -16,14 +16,15 @@ The naming of functions, as well as the string format of the expressions are ins
 
 Solving systems of linear equations
 
-    Tensor matrix = Tensors.matrix(new Number[][] { { 4, 3 }, { 8, 2 } });
+    Tensor matrix = Tensors.matrixInt(new int[][] { { 2, -3, 2 }, { 4, 9, -3 }, { -1, 3, 2 } });
     System.out.println(Pretty.of(Inverse.of(matrix)));
 
 gives
 
     [
-     [ -1/8  3/16 ]
-     [  1/2  -1/4 ]
+     [   9/37    4/37   -3/37 ]
+     [ -5/111    2/37  14/111 ]
+     [   7/37   -1/37   10/37 ]
     ]
 
 ---
@@ -122,7 +123,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.1</version>
       </dependency>
     </dependencies>
 
@@ -130,7 +131,7 @@ The source code is attached to the `jar` file for your convenience.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.0/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.1/*
 
 ## Optional
 
@@ -147,10 +148,10 @@ Subsequently, the documentation is accessible through the file
 ## References
 
 The library is used in the projects:
-* `matsim-av`
+* `matsim`
 * `SwissTrolley+`
 * `owly`
 * `SimBus`
 * `subare`
 
-The repository has over `620` unit tests.
+The repository has over `640` unit tests.

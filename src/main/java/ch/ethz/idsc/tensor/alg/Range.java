@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * Careful: the tensor API deviates from Mathematica's Range:
  * Mathematica::Range[2, 7] == {2, 3, 4, 5, 6, 7}
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Range.html">Range</a> */
 public enum Range {
   ;

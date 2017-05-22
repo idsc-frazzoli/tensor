@@ -12,11 +12,11 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** RealScalar encodes a real number
  * 
- * <p>possible encodings realize
+ * <p>encodings provided by the tensor library are
  * <ul>
- * <li>integer fraction
- * <li>decimal with double precision
- * <li>decimal with extra precision
+ * <li>integer fraction {@link RationalScalar}
+ * <li>decimal with double precision {@link DoubleScalar}
+ * <li>decimal with extra precision {@link DecimalScalar}
  * </ul> */
 public interface RealScalar extends Scalar, //
     ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, //

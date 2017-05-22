@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 public class ReadmeDemo {
   public static void demoInverse() {
-    Tensor matrix = Tensors.matrixInt(new int[][] { { 4, 3 }, { 8, 2 } });
+    Tensor matrix = Tensors.matrixInt(new int[][] { { 2, -3, 2 }, { 4, 9, -3 }, { -1, 3, 2 } });
     System.out.println(Pretty.of(matrix));
     System.out.println(Pretty.of(Inverse.of(matrix)));
   }
@@ -32,5 +32,6 @@ public class ReadmeDemo {
 
   public static void main(String[] args) {
     demoSqrt();
+    demoInverse();
   }
 }

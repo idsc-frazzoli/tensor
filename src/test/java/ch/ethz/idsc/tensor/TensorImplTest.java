@@ -15,6 +15,15 @@ public class TensorImplTest extends TestCase {
     }
   }
 
+  public void testIteratorSize() {
+    int count = 0;
+    for (Tensor scalar : Tensors.vector(4, 2, 6, 3, 8).unmodifiable()) {
+      scalar.add(scalar);
+      ++count;
+    }
+    assertEquals(count, 5);
+  }
+
   public void testCopy() {
     Tensor eye = IdentityMatrix.of(4).unmodifiable().copy();
     eye.flatten(0).forEach(e -> e.set(RealScalar.of(4), 2));
@@ -39,6 +48,17 @@ public class TensorImplTest extends TestCase {
     for (Tensor unit : eye)
       rep.append(unit);
     assertEquals(eye, rep);
+  }
+
+  public void testIteratorUnmod3() {
+    Tensor eye = IdentityMatrix.of(4).unmodifiable();
+    for (Tensor unit : eye)
+      try {
+        unit.append(ZeroScalar.get());
+        assertTrue(false);
+      } catch (Exception exception) {
+        // ---
+      }
   }
 
   public void testIteratorCopy() {

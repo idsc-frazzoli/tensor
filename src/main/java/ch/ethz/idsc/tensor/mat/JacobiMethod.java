@@ -38,7 +38,8 @@ class JacobiMethod implements Eigensystem {
   private final Tensor V;
   private Tensor d;
 
-  JacobiMethod(Tensor matrix) {
+  /** @param matrix symmetric and real valued */
+  /* package */ JacobiMethod(Tensor matrix) {
     Tensor A = matrix.copy();
     n = Dimensions.of(A).get(0);
     V = IdentityMatrix.of(n);

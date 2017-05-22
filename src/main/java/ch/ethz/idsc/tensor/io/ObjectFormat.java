@@ -9,12 +9,20 @@ import java.util.zip.DataFormatException;
  * 
  * <p>The motivation to compress the byte arrays stems from the fact that
  * Java native serialization is not space efficient.
- * Compression factors of up to 10 are expected. */
+ * Compression factors of up to 10 are expected.
+ * 
+ * <p>In order to store an object to a file, use
+ * {@link Export#object(java.io.File, Serializable)}, or
+ * <code>Files.write(path, ObjectFormat.of(object));</code>
+ * 
+ * <p>In order to read an object from a file, use
+ * {@link Import#object(java.io.File)}, or
+ * <code>ObjectFormat.parse(Files.readAllBytes(path));</code> */
 public enum ObjectFormat {
   ;
   // ---
   /** @param object
-   * @return deflated serialization of object
+   * @return deflated serialization of object as bytes
    * @throws IOException */
   public static <T extends Serializable> byte[] of(T object) throws IOException {
     return Compression.deflate(Serialization.of(object));
