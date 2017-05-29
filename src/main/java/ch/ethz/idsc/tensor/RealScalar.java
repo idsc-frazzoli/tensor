@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ImagInterface;
+import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
@@ -20,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * </ul> */
 public interface RealScalar extends Scalar, //
     ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, //
-    RealInterface, SqrtInterface {
+    PowerInterface, RealInterface, SqrtInterface {
   /** real scalar 1 as a {@link RationalScalar} */
   static final RealScalar ONE = RealScalar.of(1);
   /** real scalar that encodes Infinity. value is backed by Double.POSITIVE_INFINITY */

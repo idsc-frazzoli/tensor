@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.sca.RealInterface;
+
 /** ZeroScalar represents the exact number 0
  * 
  * <p>all fields implemented using {@link Scalar}
@@ -77,6 +79,19 @@ public final class ZeroScalar extends AbstractScalar implements RealScalar {
   @Override // from RealScalar
   public int signInt() {
     return 0;
+  }
+
+  @Override // from PowerInterface
+  public Scalar power(Scalar exponent) {
+    if (exponent.equals(ZeroScalar.get()))
+      return RealScalar.ONE; // <- not generic
+    if (exponent instanceof RealInterface) {
+      RealInterface realInterface = (RealInterface) exponent;
+      RealScalar realScalar = (RealScalar) realInterface.real();
+      if (realScalar.signInt() == 1)
+        return ZeroScalar.get();
+    }
+    throw TensorRuntimeException.of(this, exponent);
   }
 
   @Override // from RealScalar

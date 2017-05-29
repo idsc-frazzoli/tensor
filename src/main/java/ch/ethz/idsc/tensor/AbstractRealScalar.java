@@ -3,11 +3,9 @@ package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
-import ch.ethz.idsc.tensor.sca.PowerInterface;
 
 /** suggested base class for implementations of {@link RealScalar} */
-public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar, //
-    PowerInterface {
+public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
   /** @return this or this.negate() depending on whichever is non-negative */
   @Override // from Scalar
   public final Scalar abs() {

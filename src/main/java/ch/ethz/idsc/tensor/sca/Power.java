@@ -33,9 +33,7 @@ public class Power {
     if (scalar instanceof PowerInterface)
       return ((PowerInterface) scalar).power(exponent);
     if (exponent instanceof ZeroScalar)
-      return RealScalar.ONE; // this is not generic
-    if (scalar instanceof ZeroScalar)
-      return RealScalar.ONE; // this is not generic
+      return RealScalar.ONE; // <- not generic
     throw TensorRuntimeException.of(scalar, exponent);
   }
 
