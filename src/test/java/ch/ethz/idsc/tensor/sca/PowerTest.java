@@ -14,13 +14,24 @@ public class PowerTest extends TestCase {
   }
 
   public void testZero() {
-    assertEquals(Power.of(2, 0), RealScalar.ONE);
-    assertEquals(Power.of(0, 0), RealScalar.ONE);
+    assertEquals(Power.of(+2, 0), RealScalar.ONE);
+    assertEquals(Power.of(+1, 0), RealScalar.ONE);
+    assertEquals(Power.of(+0, 0), RealScalar.ONE);
+    assertEquals(Power.of(-1, 0), RealScalar.ONE);
+    assertEquals(Power.of(-2, 0), RealScalar.ONE);
   }
 
   public void testSqrt() {
     assertEquals(Power.of(2, .5), Sqrt.of(RealScalar.of(2)));
     assertEquals(Power.of(14, .5), Sqrt.of(RealScalar.of(14)));
+  }
+
+  public void testPower2() {
+    assertEquals(Power.of(0, -2), RealScalar.ONE);
+    assertEquals(Power.of(0, -1), RealScalar.ONE);
+    assertEquals(Power.of(0, +0), RealScalar.ONE);
+    assertEquals(Power.of(0, +1), RealScalar.ONE);
+    assertEquals(Power.of(0, +2), RealScalar.ONE);
   }
 
   public void testNegative() {
