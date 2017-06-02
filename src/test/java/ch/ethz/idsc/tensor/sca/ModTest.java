@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class ModTest extends TestCase {
@@ -48,7 +47,7 @@ public class ModTest extends TestCase {
     }
     {
       Scalar r = Mod.function(n, d).apply((Scalar) N.of(m));
-      assertEquals(Chop.below(1e-9).apply(r.subtract(expected)), ZeroScalar.get());
+      assertEquals(Chop.below(1e-9).apply(r.subtract(expected)), RealScalar.ZERO);
     }
   }
 
@@ -69,7 +68,7 @@ public class ModTest extends TestCase {
     }
     {
       Scalar r = Mod.function(n, d).apply((Scalar) N.of(m));
-      assertEquals(Chop.below(.01).apply(r.subtract(expected)), ZeroScalar.get());
+      assertEquals(Chop.below(.01).apply(r.subtract(expected)), RealScalar.ZERO);
     }
   }
 }

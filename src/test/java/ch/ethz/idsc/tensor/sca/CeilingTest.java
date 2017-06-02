@@ -10,12 +10,11 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class CeilingTest extends TestCase {
   public void testCeiling() {
-    assertEquals(Ceiling.of(ZeroScalar.get()), ZeroScalar.get());
+    assertEquals(Ceiling.of(RealScalar.ZERO), RealScalar.ZERO);
     assertEquals(Ceiling.of(RationalScalar.of(-5, 2)), RationalScalar.of(-2, 1));
     assertEquals(Ceiling.of(RationalScalar.of(5, 2)), RationalScalar.of(3, 1));
     assertEquals(Ceiling.of(DoubleScalar.of(.123)), RealScalar.ONE);

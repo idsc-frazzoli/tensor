@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
+import ch.ethz.idsc.tensor.sca.RealInterface;
 
 /** suggested base class for implementations of {@link RealScalar} */
 public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
@@ -19,7 +20,12 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from RealScalar
   public final int signInt() {
-    return isNonNegative() ? 1 : -1;
+    return isNonNegative() ? (equals(zero()) ? 0 : 1) : -1;
+  }
+
+  @Override
+  public Scalar zero() {
+    return ZERO;
   }
 
   @Override // from RealInterface
@@ -29,7 +35,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from ImagInterface
   public final Scalar imag() {
-    return ZeroScalar.get();
+    return ZERO;
   }
 
   /***************************************************/
@@ -39,16 +45,27 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   public Scalar sqrt() {
     if (isNonNegative())
       return DoubleScalar.of(Math.sqrt(number().doubleValue()));
-    return ComplexScalar.of(ZeroScalar.get(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
+    return ComplexScalar.of(ZERO, DoubleScalar.of(Math.sqrt(-number().doubleValue())));
   }
 
   @Override // from ArgInterface
   public Scalar arg() {
-    return isNonNegative() ? ZeroScalar.get() : DoubleScalar.of(Math.PI);
+    return isNonNegative() ? ZERO : DoubleScalar.of(Math.PI);
   }
 
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
+    if (equals(zero())) {
+      if (exponent.equals(RealScalar.ZERO))
+        return RealScalar.ONE; // <- not generic
+      if (exponent instanceof RealInterface) {
+        RealInterface realInterface = (RealInterface) exponent;
+        RealScalar realScalar = (RealScalar) realInterface.real();
+        if (realScalar.signInt() == 1)
+          return RealScalar.ZERO;
+      }
+      throw TensorRuntimeException.of(this, exponent);
+    }
     if (exponent instanceof RealScalar)
       return RealScalar.of(Math.pow(number().doubleValue(), exponent.number().doubleValue()));
     return Exp.function.apply(exponent.multiply(Log.function.apply(this)));

@@ -5,14 +5,13 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class SincTest extends TestCase {
   private static Scalar checkBoth(Scalar scalar) {
     Scalar c = Sinc.function.apply(scalar);
     Scalar s = Sin.function.apply(scalar).divide(scalar);
-    assertEquals(Chop.of(c.subtract(s)), ZeroScalar.get());
+    assertEquals(Chop.of(c.subtract(s)), RealScalar.ZERO);
     return c;
   }
 
@@ -35,7 +34,7 @@ public class SincTest extends TestCase {
   }
 
   public void testZero() {
-    assertEquals(Sinc.function.apply(ZeroScalar.get()), RealScalar.ONE);
+    assertEquals(Sinc.function.apply(RealScalar.ZERO), RealScalar.ONE);
   }
 
   public void testComplex() {

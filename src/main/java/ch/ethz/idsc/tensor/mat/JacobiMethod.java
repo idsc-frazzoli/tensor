@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.red.ArgMax;
@@ -51,17 +50,18 @@ class JacobiMethod implements Eigensystem {
       Scalar sum = IntStream.range(0, n - 1).boxed() //
           .flatMap(ip -> A.get(ip).extract(ip + 1, n).flatten(0)) //
           .map(Scalar.class::cast).map(Scalar::abs).reduce(Scalar::add) //
-          .orElse(ZeroScalar.get());
-      if (sum instanceof ZeroScalar) {
+          .orElse(RealScalar.ZERO);
+      if (sum.equals(sum.zero())) { // TODO
+        // if (sum instanceof ZeroScalar) {
         eigsrt();
         return;
       }
-      Scalar tresh = (i < 4) ? sum.multiply(factor) : ZeroScalar.get();
+      Scalar tresh = (i < 4) ? sum.multiply(factor) : RealScalar.ZERO;
       for (int ip = 0; ip < n - 1; ++ip) {
         for (int iq = ip + 1; iq < n; ++iq) {
           Scalar g = HUNDRED.multiply(A.Get(ip, iq).abs());
           if (i > 4 && Scalars.lessEquals(g, EPS.multiply(d.Get(ip).abs())) && Scalars.lessEquals(g, EPS.multiply(d.Get(ip).abs()))) {
-            A.set(ZeroScalar.get(), ip, iq);
+            A.set(RealScalar.ZERO, ip, iq);
           } else if (!Scalars.lessEquals(A.Get(ip, iq).abs(), tresh)) {
             Scalar h = d.Get(iq).subtract(d.Get(ip));
             Scalar t;
@@ -81,7 +81,7 @@ class JacobiMethod implements Eigensystem {
             z.set(v -> v.add(fh), iq);
             d.set(v -> v.subtract(fh), ip);
             d.set(v -> v.add(fh), iq);
-            A.set(ZeroScalar.get(), ip, iq);
+            A.set(RealScalar.ZERO, ip, iq);
             final int fip = ip;
             final int fiq = iq;
             IntStream.range(0, ip).parallel() //

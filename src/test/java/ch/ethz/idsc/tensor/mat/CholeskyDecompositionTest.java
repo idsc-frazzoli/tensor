@@ -1,9 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -16,7 +16,7 @@ public class CholeskyDecompositionTest extends TestCase {
     CholeskyDecomposition cd = CholeskyDecomposition.of(A);
     Tensor res = cd.getL().dot(cd.diagonal().pmul(ConjugateTranspose.of(cd.getL())));
     assertEquals(Chop.of(A.subtract(res)), Array.zeros(n, n));
-    assertEquals(Chop.of(cd.det().subtract(Det.of(A))), ZeroScalar.get());
+    assertEquals(Chop.of(cd.det().subtract(Det.of(A))), RealScalar.ZERO);
     return cd;
   }
 

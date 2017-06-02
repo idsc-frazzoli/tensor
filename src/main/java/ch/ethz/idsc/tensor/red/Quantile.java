@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 
@@ -36,7 +35,7 @@ public enum Quantile {
 
   private static Scalar _of(Tensor sorted, Scalar scalar) {
     Scalar length = RealScalar.of(sorted.length());
-    int index = scalar.equals(ZeroScalar.get()) ? //
+    int index = scalar.equals(RealScalar.ZERO) ? //
         0 : (Integer) Ceiling.function.apply(scalar.multiply(length)).subtract(RealScalar.ONE).number();
     return sorted.Get(index);
   }

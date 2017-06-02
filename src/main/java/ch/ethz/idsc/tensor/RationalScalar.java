@@ -14,8 +14,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 public final class RationalScalar extends AbstractRealScalar implements NInterface {
   // private because BigFraction has package visibility
   private static RealScalar _of(BigFraction bigFraction) {
-    return bigFraction.num.equals(BigInteger.ZERO) ? //
-        ZeroScalar.get() : new RationalScalar(bigFraction);
+    return
+    // bigFraction.num.equals(BigInteger.ZERO) ? //
+    // ZeroScalar.get() :
+    new RationalScalar(bigFraction);
   }
 
   public static RealScalar of(BigInteger num, BigInteger den) {
@@ -110,7 +112,7 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
       boolean pos = isNonNegative();
       BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
       BigInteger sqrtden = Sqrt.of(bigFraction.den);
-      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZeroScalar.get(), of(sqrtnum, sqrtden));
+      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(RealScalar.ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---
     }
@@ -153,8 +155,8 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
       BigInteger rhs = rationalScalar.numerator().multiply(denominator());
       return lhs.compareTo(rhs);
     }
-    if (scalar instanceof ZeroScalar)
-      return signInt();
+    // if (scalar instanceof ZeroScalar) // TODO
+    // return signInt();
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
     return -comparable.compareTo(this);

@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Join;
@@ -28,10 +27,10 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     Tensor tab;
     {
       tab = Join.of(1, A, IdentityMatrix.of(m), Partition.of(b, 1));
-      Tensor row = Tensors.vector(i -> n <= i && i < n + m ? RealScalar.ONE : ZeroScalar.get(), n + m + 1);
+      Tensor row = Tensors.vector(i -> n <= i && i < n + m ? RealScalar.ONE : RealScalar.ZERO, n + m + 1);
       for (int index = 0; index < m; ++index) // make all entries in bottom row zero
         row = row.subtract(tab.get(index));
-      row.set(ZeroScalar.get(), n + m); // mysterious
+      row.set(RealScalar.ZERO, n + m); // mysterious
       tab.append(row);
       tab = simplex(tab); // make phase 1
     }
@@ -39,7 +38,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     tab = Join.of(1, //
         TensorMap.of(row -> row.extract(0, n), tab.extract(0, m), 1), //
         Partition.of(tab.get(-1, n + m).extract(0, m), 1));
-    tab.append(Join.of(c, Tensors.of(ZeroScalar.get())));
+    tab.append(Join.of(c, Tensors.of(RealScalar.ZERO)));
     tab = simplex(tab);
     return get_current_x(tab);
   }
@@ -95,7 +94,7 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     for (int j = 0; j < n; ++j) {
       int len = (int) tab.get(-1, j).flatten(0) //
           .map(Scalar.class::cast) //
-          .filter(s -> s.equals(ZeroScalar.get())).count();
+          .filter(s -> s.equals(RealScalar.ZERO)).count();
       if (len == m)
         x.set(tab.get(ArgMax.of(tab.get(-1, j)), n), j);
     }

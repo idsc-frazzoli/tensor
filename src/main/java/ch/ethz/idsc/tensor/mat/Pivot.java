@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.mat;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.ArgMax;
 
 /* package */ interface Pivot {
@@ -24,7 +23,10 @@ import ch.ethz.idsc.tensor.red.ArgMax;
     @Override
     public int get(int c0, int j, int[] ind, Tensor lhs) {
       return IntStream.range(c0, ind.length) //
-          .filter(c1 -> !lhs.Get(ind[c1], j).equals(ZeroScalar.get())) //
+          .filter(c1 -> !lhs.Get(ind[c1], j).equals(
+              // ZeroScalar.get()
+              lhs.Get(ind[c1], j).zero() //
+      )) //
           .findFirst().orElse(c0);
     }
   };

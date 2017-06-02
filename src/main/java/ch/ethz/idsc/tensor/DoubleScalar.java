@@ -8,7 +8,7 @@ public final class DoubleScalar extends AbstractRealScalar implements ChopInterf
   /** @param value
    * @return new instance of {@link DoubleScalar}, or {@link ZeroScalar} if value == 0 */
   public static RealScalar of(double value) {
-    return value == 0 ? ZeroScalar.get() : new DoubleScalar(value);
+    return value == 0 ? RealScalar.ZERO : new DoubleScalar(value);
   }
 
   private final double value;
@@ -65,7 +65,7 @@ public final class DoubleScalar extends AbstractRealScalar implements ChopInterf
 
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
-    return abs().number().doubleValue() < threshold ? ZeroScalar.get() : this;
+    return abs().number().doubleValue() < threshold ? zero() : this;
   }
 
   @Override // from AbstractScalar

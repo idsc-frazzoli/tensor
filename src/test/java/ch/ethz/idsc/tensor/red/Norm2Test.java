@@ -8,13 +8,12 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import junit.framework.TestCase;
 
 public class Norm2Test extends TestCase {
   public void testScalar() {
-    assertEquals(Norm._2.of(Scalars.fromString("0")), ZeroScalar.get());
+    assertEquals(Norm._2.of(Scalars.fromString("0")), RealScalar.ZERO);
     assertEquals(Norm._2.of(Scalars.fromString("-3.90512")), Scalars.fromString("3.90512"));
     assertEquals(Norm._2.of(Scalars.fromString("-3/7")), Scalars.fromString("3/7"));
     Scalar rs = Norm._2.of(ComplexScalar.of(RealScalar.ONE, RealScalar.of(2))); // <- sqrt(5)

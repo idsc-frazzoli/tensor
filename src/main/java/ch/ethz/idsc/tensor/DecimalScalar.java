@@ -14,7 +14,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   private static final MathContext CONTEXT = MathContext.DECIMAL128;
 
   public static RealScalar of(BigDecimal value) {
-    return value.compareTo(BigDecimal.ZERO) == 0 ? ZeroScalar.get() : new DecimalScalar(value);
+    return value.compareTo(BigDecimal.ZERO) == 0 ? RealScalar.ZERO : new DecimalScalar(value);
   }
 
   public static RealScalar of(double value) {
@@ -83,12 +83,12 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   public Scalar sqrt() {
     if (isNonNegative())
       return of(Sqrt.of(value));
-    return ComplexScalar.of(ZeroScalar.get(), of(Sqrt.of(value.negate())));
+    return ComplexScalar.of(zero(), of(Sqrt.of(value.negate())));
   }
 
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
-    return value.abs().doubleValue() < threshold ? ZeroScalar.get() : this;
+    return value.abs().doubleValue() < threshold ? zero() : this;
   }
 
   @Override // from RealScalar
@@ -97,7 +97,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
       return value.compareTo(decimalScalar.value);
     }
-    if (scalar instanceof ZeroScalar)
+    if (scalar.equals(scalar.zero()))
       return signInt();
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) //

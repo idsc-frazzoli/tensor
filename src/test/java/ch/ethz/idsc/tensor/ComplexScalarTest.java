@@ -26,7 +26,7 @@ public class ComplexScalarTest extends TestCase {
     Scalar c = RationalScalar.of(1609, 3600); // 0.6685390373377192
     Tensor r = Sqrt.of(c);
     double d = Math.sqrt(c.number().doubleValue());
-    assertEquals(Chop.of(a.subtract(r)), ZeroScalar.get());
+    assertEquals(Chop.of(a.subtract(r)), RealScalar.ZERO);
     String prefix = "0.668539037337719";
     assertTrue(a.toString().startsWith(prefix));
     assertTrue(r.toString().startsWith(prefix));
@@ -56,7 +56,7 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(Abs.of(c), Norm._2.of(Tensors.of(RealScalar.of(2), RationalScalar.of(5, 8))));
     Scalar r = RealScalar.of(-6);
     assertEquals(Real.of(r), r);
-    assertEquals(Imag.of(r), ZeroScalar.get());
+    assertEquals(Imag.of(r), RealScalar.ZERO);
     Scalar r2 = RealScalar.of(6);
     assertEquals(r.multiply(c).toString(), "-12-15/4*I");
     assertEquals(c.multiply(r).toString(), "-12-15/4*I");
@@ -82,9 +82,9 @@ public class ComplexScalarTest extends TestCase {
 
   public void testParsing() {
     Scalar c1 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
-    Scalar c2 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(5, 8));
+    Scalar c2 = ComplexScalar.of(RealScalar.ZERO, RationalScalar.of(5, 8));
     Scalar c3 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(-5, 8));
-    Scalar c4 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(-5, 8));
+    Scalar c4 = ComplexScalar.of(RealScalar.ZERO, RationalScalar.of(-5, 8));
     assertEquals("2+5/8*I", c1.toString());
     assertEquals("5/8*I", c2.toString());
     assertEquals("2-5/8*I", c3.toString());

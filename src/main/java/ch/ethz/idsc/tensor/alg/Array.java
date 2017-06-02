@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** consistent with Mathematica:
  * Array[0 &, {0, 1}] == {}
@@ -42,7 +42,7 @@ public enum Array {
    * @return tensor of {@link ZeroScalar} with given dimensions */
   public static Tensor zeros(List<Integer> dimensions) {
     if (dimensions.size() == 0)
-      return ZeroScalar.get();
+      return RealScalar.ZERO;
     int length = dimensions.get(0);
     if (length < 0)
       throw new IllegalArgumentException();

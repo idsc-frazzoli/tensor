@@ -1,9 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 
 /* package */ class Norm2Squared extends RankAdapter<Scalar> {
@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
         .map(Scalar.class::cast) //
         .map(AbsSquared.function) //
         .reduce(Scalar::add) //
-        .orElse(ZeroScalar.get());
+        .orElse(RealScalar.ZERO);
   }
 
   @Override

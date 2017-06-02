@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/UnitStep.html">UnitStep</a> */
@@ -16,7 +15,7 @@ public enum UnitStep implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return Scalars.lessThan(scalar, ZeroScalar.get()) ? ZeroScalar.get() : RealScalar.ONE;
+    return Scalars.lessThan(scalar, RealScalar.ZERO) ? RealScalar.ZERO : RealScalar.ONE;
   }
 
   /** @param tensor

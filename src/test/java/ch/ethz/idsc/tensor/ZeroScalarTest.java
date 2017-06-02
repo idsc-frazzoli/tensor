@@ -4,17 +4,18 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
+@Deprecated
 public class ZeroScalarTest extends TestCase {
   public void testPositive() {
-    assertTrue(ZeroScalar.get().signInt() == 0);
+    assertTrue(RealScalar.ZERO.signInt() == 0);
   }
 
   public void testCompare() {
-    assertEquals(ZeroScalar.get().compareTo(ZeroScalar.get()), 0);
+    assertEquals(RealScalar.ZERO.compareTo(RealScalar.ZERO), 0);
   }
 
   public void testSerializable() throws Exception {
-    Scalar a = ZeroScalar.get();
+    Scalar a = RealScalar.ZERO;
     Scalar b = Serialization.parse(Serialization.of(a));
     assertEquals(a, b);
     assertFalse(a == b);

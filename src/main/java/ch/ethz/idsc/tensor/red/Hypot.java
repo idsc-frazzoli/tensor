@@ -6,7 +6,6 @@ import java.util.function.BiFunction;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** Hypot computes
@@ -27,7 +26,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
     Scalar ay = b.abs();
     Scalar min = Min.of(ax, ay);
     Scalar max = Max.of(ax, ay);
-    if (min.equals(ZeroScalar.get()))
+    if (min.equals(RealScalar.ZERO))
       return max; // if min == 0 return max
     // valid at this point: 0 < min <= max
     Scalar ratio = min.divide(max);
@@ -52,11 +51,11 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
    * @return */
   public static Scalar ofVector(Tensor vector) {
     if (vector.length() == 0) // <- condition not compliant with Mathematica
-      return ZeroScalar.get();
+      return RealScalar.ZERO;
     Tensor abs = vector.map(Scalar::abs);
     Scalar max = (Scalar) abs.flatten(0).reduce(Max::of).get();
-    if (max.equals(ZeroScalar.get()))
-      return ZeroScalar.get();
+    if (max.equals(max.zero()))
+      return max;
     abs = abs.multiply(max.invert());
     return max.multiply(Sqrt.function.apply((Scalar) abs.dot(abs)));
   }

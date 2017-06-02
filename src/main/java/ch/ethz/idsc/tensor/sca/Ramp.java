@@ -6,7 +6,6 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.Max;
 
 /** Mathematica uses the definition
@@ -22,7 +21,7 @@ public enum Ramp implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return Max.of(ZeroScalar.get(), scalar);
+    return Max.of(RealScalar.ZERO, scalar);
   }
 
   /** @param tensor with {@link RealScalar} entries

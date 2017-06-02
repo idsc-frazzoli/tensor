@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** gives the exponential
  * 
@@ -22,7 +21,7 @@ public enum Exp implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof ZeroScalar)
+    if (scalar.equals(scalar.zero()))
       return RealScalar.ONE;
     if (scalar instanceof RealScalar)
       return DoubleScalar.of(Math.exp(scalar.number().doubleValue()));

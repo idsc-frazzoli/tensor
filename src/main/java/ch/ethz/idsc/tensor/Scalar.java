@@ -63,4 +63,7 @@ public interface Scalar extends Tensor {
    * @return this representation as {@link Number}
    * @throws TensorRuntimeException */
   Number number();
+
+  // TODO comment
+  Scalar zero();
 }

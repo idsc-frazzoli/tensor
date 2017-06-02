@@ -19,7 +19,7 @@ public class ScalarsTest extends TestCase {
     checkInvariant("  123  ", RationalScalar.class);
     checkInvariant("3 /  4", RationalScalar.class);
     checkInvariant("34.23123", DoubleScalar.class);
-    checkInvariant("0", ZeroScalar.class);
+    checkInvariant("0", RationalScalar.class);
     checkInvariant("12+15 /4*I", ComplexScalarImpl.class);
     checkInvariant("1.0E-50 + 1.0E50*I", ComplexScalarImpl.class);
     checkInvariant("I", ComplexScalarImpl.class);
@@ -119,13 +119,13 @@ public class ScalarsTest extends TestCase {
   public void testLessThan() {
     assertFalse(Scalars.lessThan(RealScalar.of(2), RealScalar.of(2)));
     assertTrue(Scalars.lessThan(RealScalar.of(2), RealScalar.of(3)));
-    assertTrue(Scalars.lessThan(RealScalar.of(-3), ZeroScalar.get()));
+    assertTrue(Scalars.lessThan(RealScalar.of(-3), RealScalar.ZERO));
   }
 
   public void testLessEquals() {
     assertTrue(Scalars.lessEquals(RealScalar.of(2), RealScalar.of(2)));
     assertTrue(Scalars.lessEquals(RealScalar.of(2), RealScalar.of(3)));
-    assertTrue(Scalars.lessEquals(RealScalar.of(-3), ZeroScalar.get()));
+    assertTrue(Scalars.lessEquals(RealScalar.of(-3), RealScalar.ZERO));
   }
 
   public void testExample() {

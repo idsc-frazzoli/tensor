@@ -23,7 +23,7 @@ public class ScalarTest extends TestCase {
   }
 
   public void testNumber() {
-    Scalar zero = ZeroScalar.get();
+    Scalar zero = RealScalar.ZERO;
     assertEquals(zero.number().getClass(), Integer.class);
     long asd = (Integer) zero.number();
     assertEquals(Double.valueOf(-1.9).intValue(), -1 + asd);
@@ -60,7 +60,7 @@ public class ScalarTest extends TestCase {
 
   public void testEquals() {
     assertFalse(Tensors.empty().equals(null));
-    assertFalse(ZeroScalar.get().equals(null));
+    assertFalse(RealScalar.ZERO.equals(null));
     assertFalse(DoubleScalar.of(.3).equals(null));
     assertFalse(RationalScalar.of(5, 3).equals(null));
     assertFalse(ComplexScalar.of(RationalScalar.of(5, 3), RationalScalar.of(5, 3)).equals(null));

@@ -81,12 +81,12 @@ public enum Scalars {
   /** @param scalar
    * @return true if given scalar equals {@link ZeroScalar} */
   public static boolean isZero(Scalar scalar) {
-    return scalar.equals(ZeroScalar.get());
+    return scalar.equals(scalar.zero());
   }
 
   /** @param scalar
    * @return true if given scalar does not equal {@link ZeroScalar} */
   public static boolean nonZero(Scalar scalar) {
-    return !scalar.equals(ZeroScalar.get());
+    return !scalar.equals(scalar.zero());
   }
 }

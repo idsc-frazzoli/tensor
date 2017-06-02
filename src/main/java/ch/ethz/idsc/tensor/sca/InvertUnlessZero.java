@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 public enum InvertUnlessZero implements Function<Scalar, Scalar> {
   function;
@@ -14,7 +13,7 @@ public enum InvertUnlessZero implements Function<Scalar, Scalar> {
    * @return scalar == zero ? zero : scalar.invert() */
   @Override
   public Scalar apply(Scalar scalar) {
-    return scalar.equals(ZeroScalar.get()) ? ZeroScalar.get() : scalar.invert();
+    return scalar.equals(scalar.zero()) ? scalar : scalar.invert();
   }
 
   public static Tensor of(Tensor tensor) {

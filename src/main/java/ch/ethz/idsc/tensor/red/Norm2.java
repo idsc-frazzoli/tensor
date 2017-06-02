@@ -1,9 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 
@@ -30,6 +30,6 @@ import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
         .values().flatten(0) // values are non-negative
         .map(Scalar.class::cast) //
         .reduce(Max::of) //
-        .orElse(ZeroScalar.get());
+        .orElse(RealScalar.ZERO);
   }
 }

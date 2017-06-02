@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Join;
@@ -27,7 +26,7 @@ public class LinearSolveTest extends TestCase {
     Tensor b = Tensors.matrix((i, j) -> RationalScalar.of(i.equals(j) ? 1 : 0, 1), n, n + 3);
     Tensor X = LinearSolve.of(A, b);
     Tensor err = A.dot(X).subtract(b);
-    assertEquals(err, b.multiply(ZeroScalar.get()));
+    assertEquals(err, b.multiply(RealScalar.ZERO));
     assertEquals(err, Array.zeros(Dimensions.of(b)));
   }
 
@@ -41,7 +40,7 @@ public class LinearSolveTest extends TestCase {
         RealScalar.of(random.nextInt(15))), n, n + 3);
     Tensor X = LinearSolve.of(A, b);
     Tensor err = A.dot(X).subtract(b);
-    assertEquals(err, b.multiply(ZeroScalar.get()));
+    assertEquals(err, b.multiply(RealScalar.ZERO));
     assertEquals(err, Array.zeros(Dimensions.of(b)));
   }
 
@@ -54,7 +53,7 @@ public class LinearSolveTest extends TestCase {
         RealScalar.of(random.nextDouble())), n, n + 3);
     Tensor X = LinearSolve.of(A, b);
     Tensor err = A.dot(X).add(b.negate()).map(Chop.below(1e-10));
-    assertEquals(err, b.multiply(ZeroScalar.get()));
+    assertEquals(err, b.multiply(RealScalar.ZERO));
     assertEquals(err, Array.zeros(Dimensions.of(b)));
   }
 

@@ -3,10 +3,10 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Mod.html">Mod</a> */
@@ -14,7 +14,7 @@ public class Mod implements Function<Scalar, Scalar> {
   /** @param n
    * @return remainder on division by n */
   public static Mod function(Scalar n) {
-    return function(n, ZeroScalar.get());
+    return function(n, RealScalar.ZERO);
   }
 
   /** @param n

@@ -6,7 +6,6 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class ArcTanTest extends TestCase {
@@ -28,7 +27,7 @@ public class ArcTanTest extends TestCase {
   }
 
   public void testCornerCases() {
-    assertEquals(ArcTan.of(RealScalar.of(-5), ZeroScalar.get()), DoubleScalar.of(Math.PI));
-    assertEquals(ArcTan.of(ZeroScalar.get(), ZeroScalar.get()), ZeroScalar.get());
+    assertEquals(ArcTan.of(RealScalar.of(-5), RealScalar.ZERO), DoubleScalar.of(Math.PI));
+    assertEquals(ArcTan.of(RealScalar.ZERO, RealScalar.ZERO), RealScalar.ZERO);
   }
 }

@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 public class DecimalScalarTest extends TestCase {
   public void testZero() {
-    assertTrue(DecimalScalar.of(BigDecimal.ZERO) instanceof ZeroScalar);
+    // assertTrue(DecimalScalar.of(BigDecimal.ZERO) instanceof ZeroScalar);
   }
 
   public void testSimple() {
@@ -65,11 +65,11 @@ public class DecimalScalarTest extends TestCase {
     Scalar s23 = sc2.divide(sc3);
     Scalar r23 = RationalScalar.of(2, 3);
     Scalar d23 = DoubleScalar.of(Math.nextUp(2. / 3));
-    assertEquals(Chop.of(r23.subtract(s23)), ZeroScalar.get());
-    assertEquals(Chop.of(s23.subtract(r23)), ZeroScalar.get());
+    assertEquals(Chop.of(r23.subtract(s23)), RealScalar.ZERO);
+    assertEquals(Chop.of(s23.subtract(r23)), RealScalar.ZERO);
     // assertEquals(s23, r23);
-    assertEquals(Chop.of(d23.subtract(s23)), ZeroScalar.get());
-    assertEquals(Chop.of(s23.subtract(d23)), ZeroScalar.get());
+    assertEquals(Chop.of(d23.subtract(s23)), RealScalar.ZERO);
+    assertEquals(Chop.of(s23.subtract(d23)), RealScalar.ZERO);
     // assertEquals(d23, s23);
     // assertEquals(s23, d23);
   }
@@ -100,9 +100,9 @@ public class DecimalScalarTest extends TestCase {
   }
 
   public void testCompare3() {
-    assertTrue(Scalars.lessThan(DecimalScalar.of(-3), ZeroScalar.get()));
-    assertFalse(Scalars.lessThan(DecimalScalar.of(3), ZeroScalar.get()));
-    assertTrue(!Scalars.lessThan(ZeroScalar.get(), DecimalScalar.of(-3)));
-    assertFalse(!Scalars.lessThan(ZeroScalar.get(), DecimalScalar.of(3)));
+    assertTrue(Scalars.lessThan(DecimalScalar.of(-3), RealScalar.ZERO));
+    assertFalse(Scalars.lessThan(DecimalScalar.of(3), RealScalar.ZERO));
+    assertTrue(!Scalars.lessThan(RealScalar.ZERO, DecimalScalar.of(-3)));
+    assertFalse(!Scalars.lessThan(RealScalar.ZERO, DecimalScalar.of(3)));
   }
 }

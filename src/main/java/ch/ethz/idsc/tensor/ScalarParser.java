@@ -48,7 +48,7 @@ enum ScalarParser {
     }
     if (!plusMinus.isEmpty()) {
       int first = plusMinus.get(0);
-      Scalar sum = first == 0 ? ZeroScalar.get() : of(expr.substring(0, first));
+      Scalar sum = first == 0 ? RealScalar.ZERO : of(expr.substring(0, first));
       for (int index = 0; index < plusMinus.size(); ++index) {
         int curr = plusMinus.get(index);
         final char c = chars[curr];

@@ -216,7 +216,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
           .parallel() // parallel because of subsequent reduce
           .map(entry -> ((TensorImpl) entry)._dot(dimensions.subList(1, dimensions.size()), impl)));
     return _range(impl).map(index -> impl.list.get(index).multiply((Scalar) list.get(index))) //
-        .reduce(Tensor::add).orElse(ZeroScalar.get());
+        .reduce(Tensor::add).orElse(RealScalar.ZERO);
   }
 
   // helper function

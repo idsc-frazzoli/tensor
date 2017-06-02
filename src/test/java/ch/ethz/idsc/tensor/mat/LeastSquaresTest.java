@@ -6,7 +6,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -14,7 +13,7 @@ import junit.framework.TestCase;
 public class LeastSquaresTest extends TestCase {
   public void testEasy() {
     Tensor m = Tensors.matrix( //
-        (i, j) -> i.equals(j) ? RationalScalar.of(1, 1) : ZeroScalar.get(), 4, 3);
+        (i, j) -> i.equals(j) ? RationalScalar.of(1, 1) : RealScalar.ZERO, 4, 3);
     Tensor b = Tensors.vector(1, 1, 1, 1);
     Tensor x1 = LeastSquares.of(m, b);
     assertEquals(x1, Tensors.vector(1, 1, 1));
@@ -37,7 +36,7 @@ public class LeastSquaresTest extends TestCase {
         (i, j) -> RationalScalar.of(2 * i + j, 9 + j), 4, 3);
     Tensor b = Tensors.vector(1, 1, 1, 1);
     Tensor x2 = LeastSquares.usingSvd(m, b);
-    assertEquals(Chop.of(m.dot(x2).subtract(b)), b.multiply(ZeroScalar.get()));
+    assertEquals(Chop.of(m.dot(x2).subtract(b)), b.multiply(RealScalar.ZERO));
   }
 
   public void testFullRankComplex() {

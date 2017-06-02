@@ -74,6 +74,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     throw TensorRuntimeException.of(this);
   }
 
+  @Override
+  public Scalar zero() {
+    return RealScalar.ZERO;
+  }
+
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof ComplexScalarImpl) {
@@ -129,7 +134,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       ComplexScalarImpl complexScalar = (ComplexScalarImpl) object;
       return re.equals(complexScalar.real()) && im.equals(complexScalar.imag());
     }
-    return re.equals(object) && im.equals(ZeroScalar.get());
+    return re.equals(object) && im.equals(im.zero());
   }
 
   // helper function that formats imaginary part to a String
@@ -155,7 +160,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder(48); // initial capacity
     String imag = _imagToString();
-    if (!re.equals(ZeroScalar.get())) {
+    if (!re.equals(re.zero())) {
       stringBuilder.append(re);
       if (!imag.startsWith("-"))
         stringBuilder.append('+');

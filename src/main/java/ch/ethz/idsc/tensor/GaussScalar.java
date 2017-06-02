@@ -24,15 +24,10 @@ public class GaussScalar extends AbstractScalar implements //
     }
   }
 
-  private static void assertInstanceOfZeroScalar(Scalar scalar) {
-    if (!(scalar instanceof ZeroScalar))
-      throw new IllegalArgumentException();
-  }
-
   public static Scalar of(long value, long prime) {
     assertIsProbablePrime(prime);
     long _value = ((value % prime) + prime) % prime;
-    return _value == 0 ? ZeroScalar.get() : new GaussScalar(_value, prime);
+    return new GaussScalar(_value, prime);
   }
 
   private final long value;
@@ -68,6 +63,11 @@ public class GaussScalar extends AbstractScalar implements //
     return value;
   }
 
+  @Override
+  public Scalar zero() {
+    return of(0, prime);
+  }
+
   @Override // from Scalar
   public Scalar abs() {
     return this;
@@ -79,8 +79,9 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value * gaussScalar.value, prime);
     }
-    assertInstanceOfZeroScalar(scalar);
-    return scalar.multiply(this);
+    // assertInstanceOfZeroScalar(scalar);
+    // return scalar.multiply(this);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   @Override // from AbstractScalar
@@ -89,8 +90,9 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value + gaussScalar.value, prime);
     }
-    assertInstanceOfZeroScalar(scalar);
-    return scalar.add(this);
+    // assertInstanceOfZeroScalar(scalar);
+    // return scalar.add(this);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   @Override // from SqrtInterface
@@ -107,8 +109,8 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
-    if (exponent instanceof ZeroScalar)
-      return of(1, prime);
+    // if (exponent instanceof ZeroScalar) // TODO
+    // return of(1, prime);
     if (exponent instanceof RationalScalar) {
       RationalScalar ratio = (RationalScalar) exponent;
       if (ratio.isInteger())
@@ -119,8 +121,8 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
-    if (scalar instanceof ZeroScalar)
-      return Long.compare(value, 0);
+    // if (scalar instanceof ZeroScalar) // TODO
+    // return Long.compare(value, 0);
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
       if (prime != gaussScalar.prime)
@@ -141,7 +143,8 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) object;
       return value == gaussScalar.value && prime == gaussScalar.prime;
     }
-    return object == null ? false : object.equals(this);
+    throw TensorRuntimeException.of(this, (Tensor) object);
+    // return object == null ? false : object.equals(this);
   }
 
   @Override // from AbstractScalar

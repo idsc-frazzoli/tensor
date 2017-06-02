@@ -54,7 +54,7 @@ public class TensorImplTest extends TestCase {
     Tensor eye = IdentityMatrix.of(4).unmodifiable();
     for (Tensor unit : eye)
       try {
-        unit.append(ZeroScalar.get());
+        unit.append(RealScalar.ZERO);
         assertTrue(false);
       } catch (Exception exception) {
         // ---

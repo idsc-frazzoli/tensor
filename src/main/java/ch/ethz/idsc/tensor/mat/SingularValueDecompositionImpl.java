@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.red.CopySign;
@@ -97,11 +96,11 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
   }
 
   private void initU1(int i) {
-    Scalar p = ZeroScalar.get();
-    Scalar scale = ZeroScalar.get();
+    Scalar p = RealScalar.ZERO;
+    Scalar scale = RealScalar.ZERO;
     if (i < rows) {
       scale = Norm._1.of(u.extract(i, rows).get(Tensor.ALL, i));
-      if (!scale.equals(ZeroScalar.get())) {
+      if (!scale.equals(RealScalar.ZERO)) {
         Scalar fi = scale.invert();
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(fi), k, i));
         Scalar s = Norm._2Squared.of(u.extract(i, rows).get(Tensor.ALL, i));
@@ -121,11 +120,11 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
 
   private void initU2(int i) {
     final int ip1 = i + 1;
-    Scalar p = ZeroScalar.get();
-    Scalar scale = ZeroScalar.get();
+    Scalar p = RealScalar.ZERO;
+    Scalar scale = RealScalar.ZERO;
     if (i < rows && ip1 != cols) {
       scale = Norm._1.of(u.get(i).extract(ip1, cols));
-      if (!scale.equals(ZeroScalar.get())) {
+      if (!scale.equals(RealScalar.ZERO)) {
         Scalar si = scale.invert();
         IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.multiply(si), i, k));
         {
@@ -154,22 +153,22 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
   private void initV(int i) {
     final int ip1 = i + 1;
     Scalar p = r.Get(ip1);
-    if (!p.equals(ZeroScalar.get())) {
+    if (!p.equals(RealScalar.ZERO)) {
       IntStream.range(ip1, cols).forEach(j -> v.set(u.Get(i, j).divide(u.Get(i, ip1)).divide(p), j, i));
       for (int j = ip1; j < cols; ++j)
         _addscaled(ip1, cols, v, i, j, //
             (Scalar) u.get(i).extract(ip1, cols).dot(v.extract(ip1, cols).get(Tensor.ALL, j)));
     }
-    IntStream.range(ip1, cols).forEach(j -> v.set(ZeroScalar.get(), i, j));
-    IntStream.range(ip1, cols).forEach(j -> v.set(ZeroScalar.get(), j, i));
+    IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, i, j));
+    IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, j, i));
   }
 
   private void initU3(int i) {
     final int ip1 = i + 1;
-    IntStream.range(ip1, cols).forEach(j -> u.set(ZeroScalar.get(), i, j));
+    IntStream.range(ip1, cols).forEach(j -> u.set(RealScalar.ZERO, i, j));
     Scalar p = w.Get(i);
-    if (p.equals(ZeroScalar.get()))
-      IntStream.range(i, rows).forEach(j -> u.set(ZeroScalar.get(), j, i));
+    if (p.equals(RealScalar.ZERO))
+      IntStream.range(i, rows).forEach(j -> u.set(RealScalar.ZERO, j, i));
     else {
       Scalar gi = p.invert();
       for (int j = ip1; j < cols; ++j) {
@@ -186,7 +185,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       if (r.Get(l).abs().number().doubleValue() <= eps)
         return l;
       if (w.Get(l - 1).abs().number().doubleValue() <= eps) {
-        Scalar c = ZeroScalar.get();
+        Scalar c = RealScalar.ZERO;
         Scalar s = RealScalar.ONE;
         for (int i = l; i < k + 1; ++i) {
           Scalar f = s.multiply(r.Get(i));
@@ -238,7 +237,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       y = y.multiply(c);
       z = Hypot.bifunction.apply(f, h);
       w.set(z, j);
-      if (!z.equals(ZeroScalar.get())) {
+      if (!z.equals(RealScalar.ZERO)) {
         z = z.invert();
         c = f.multiply(z);
         s = h.multiply(z);
@@ -247,7 +246,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       f = c.multiply(p).add(s.multiply(y));
       x = c.multiply(y).subtract(s.multiply(p));
     }
-    r.set(ZeroScalar.get(), l);
+    r.set(RealScalar.ZERO, l);
     r.set(f, i);
     w.set(x, i);
   }

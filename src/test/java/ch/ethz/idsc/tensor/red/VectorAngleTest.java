@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
@@ -15,7 +14,7 @@ public class VectorAngleTest extends TestCase {
     Scalar s1 = VectorAngle.of(id.get(2).multiply(RealScalar.of(3)), id.get(4));
     assertEquals(s1.toString(), "1.5707963267948966");
     Scalar s2 = VectorAngle.of(id.get(2), id.get(2));
-    assertEquals(s2, ZeroScalar.get());
+    assertEquals(s2, RealScalar.ZERO);
   }
 
   public void testComplex() {

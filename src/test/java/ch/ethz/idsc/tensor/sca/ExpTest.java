@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class ExpTest extends TestCase {
@@ -16,7 +15,7 @@ public class ExpTest extends TestCase {
   }
 
   public void testExpZero() {
-    assertTrue(Exp.of(ZeroScalar.get()) instanceof RationalScalar);
-    assertTrue(Log.of(RealScalar.ONE) instanceof ZeroScalar);
+    assertTrue(Exp.of(RealScalar.ZERO) instanceof RationalScalar);
+    // assertTrue(Log.of(RealScalar.ONE) instanceof ZeroScalar);
   }
 }

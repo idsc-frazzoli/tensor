@@ -7,7 +7,6 @@ import java.util.List;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
@@ -49,7 +48,7 @@ public class ArrayTest extends TestCase {
 
   public void testZeros() {
     Tensor zeros = Array.zeros(3, 5, 2, 7);
-    Tensor table = Array.of(l -> ZeroScalar.get(), 3, 5, 2, 7);
+    Tensor table = Array.of(l -> RealScalar.ZERO, 3, 5, 2, 7);
     assertEquals(zeros, table);
   }
 

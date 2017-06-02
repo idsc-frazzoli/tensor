@@ -108,14 +108,14 @@ public class GaussScalarTest extends TestCase {
   }
 
   public void testSort() {
-    Tensor v = Tensors.of(GaussScalar.of(4, 7), GaussScalar.of(1, 7), GaussScalar.of(2, 7), ZeroScalar.get());
-    Tensor r = Tensors.of(ZeroScalar.get(), GaussScalar.of(1, 7), GaussScalar.of(2, 7), GaussScalar.of(4, 7));
+    Tensor v = Tensors.of(GaussScalar.of(4, 7), GaussScalar.of(1, 7), GaussScalar.of(2, 7), GaussScalar.of(0, 7));
+    Tensor r = Tensors.of(GaussScalar.of(0, 7), GaussScalar.of(1, 7), GaussScalar.of(2, 7), GaussScalar.of(4, 7));
     Tensor s = Sort.of(v);
     assertEquals(s, r);
   }
 
   public void testArgMax() {
-    Tensor v = Tensors.of(GaussScalar.of(1, 7), GaussScalar.of(4, 7), GaussScalar.of(2, 7), ZeroScalar.get());
+    Tensor v = Tensors.of(GaussScalar.of(1, 7), GaussScalar.of(4, 7), GaussScalar.of(2, 7), GaussScalar.of(0, 7));
     int i = ArgMax.of(v);
     assertEquals(i, 1);
   }
@@ -138,7 +138,7 @@ public class GaussScalarTest extends TestCase {
   public void testHash() {
     Scalar g = GaussScalar.of(4, 7);
     Scalar d = DoubleScalar.of(4.33);
-    Scalar z = ZeroScalar.get();
+    Scalar z = RealScalar.ZERO;
     Scalar c = ComplexScalar.of(RealScalar.of(2.), RealScalar.of(3.4));
     Set<Scalar> set = new HashSet<>();
     set.add(g);

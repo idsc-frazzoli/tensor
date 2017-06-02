@@ -4,10 +4,10 @@ package ch.ethz.idsc.tensor.red;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.MapThread;
 import junit.framework.TestCase;
 
@@ -31,7 +31,7 @@ public class MaxTest extends TestCase {
 
   public void testElementWise() {
     Tensor matrix = Tensors.matrixInt(new int[][] { { -8, 3, -3 }, { 2, -2, 7 } });
-    Tensor capped = matrix.map(Max.function(ZeroScalar.get()));
+    Tensor capped = matrix.map(Max.function(RealScalar.ZERO));
     Tensor blub = Tensors.matrixInt(new int[][] { { 0, 3, 0 }, { 2, 0, 7 } });
     assertEquals(capped, blub);
   }

@@ -22,6 +22,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 public interface RealScalar extends Scalar, //
     ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, //
     PowerInterface, RealInterface, SqrtInterface {
+  static final RealScalar ZERO = RealScalar.of(0);
   /** real scalar 1 as a {@link RationalScalar} */
   static final RealScalar ONE = RealScalar.of(1);
   /** real scalar that encodes Infinity. value is backed by Double.POSITIVE_INFINITY */

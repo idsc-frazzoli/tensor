@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** implementation compliant to Java convention:
  * java.lang.Math.pow(0, 0) == 1
@@ -32,7 +31,7 @@ public class Power {
   public static Scalar of(Scalar scalar, Scalar exponent) {
     if (scalar instanceof PowerInterface)
       return ((PowerInterface) scalar).power(exponent);
-    if (exponent instanceof ZeroScalar)
+    if (exponent.equals(exponent.zero()))
       return RealScalar.ONE; // <- not generic
     throw TensorRuntimeException.of(scalar, exponent);
   }

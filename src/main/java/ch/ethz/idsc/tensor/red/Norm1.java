@@ -1,9 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.sca.Abs;
 
 /* package */ class Norm1 extends RankAdapter<Scalar> {
@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
         .map(Scalar.class::cast) //
         .map(Scalar::abs) //
         .reduce(Scalar::add) //
-        .orElse(ZeroScalar.get());
+        .orElse(RealScalar.ZERO);
   }
 
   @Override
@@ -28,6 +28,6 @@ import ch.ethz.idsc.tensor.sca.Abs;
     return Total.of(Abs.of(matrix)).flatten(0) //
         .map(Scalar.class::cast) //
         .reduce(Max::of) //
-        .orElse(ZeroScalar.get());
+        .orElse(RealScalar.ZERO);
   }
 }

@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** implementation is consistent with Mathematica.
@@ -28,7 +27,7 @@ public enum Total {
   public static Tensor of(Tensor tensor) {
     if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
-    return tensor.flatten(0).parallel().reduce(Tensor::add).orElse(ZeroScalar.get());
+    return tensor.flatten(0).parallel().reduce(Tensor::add).orElse(RealScalar.ZERO);
   }
 
   /** The return value has {@link Dimensions} of input tensor reduced by 1.

@@ -159,7 +159,7 @@ public class TensorTest extends TestCase {
       // ---
     }
     try {
-      unmodi.set(t -> t.append(ZeroScalar.get()));
+      unmodi.set(t -> t.append(RealScalar.ZERO));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -172,7 +172,7 @@ public class TensorTest extends TestCase {
   public void testUnmodifiable2() {
     Tensor m = Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4 } }).unmodifiable();
     Tensor mc = m.copy();
-    m.get(1).set(ZeroScalar.get(), 1);
+    m.get(1).set(RealScalar.ZERO, 1);
     assertEquals(m, mc);
   }
 
@@ -194,9 +194,9 @@ public class TensorTest extends TestCase {
   public void testDotEmpty() {
     Tensor a = Tensors.empty().dot(Tensors.empty());
     assertTrue(a instanceof Scalar);
-    assertEquals(a, ZeroScalar.get());
+    assertEquals(a, RealScalar.ZERO);
     assertEquals(a, DoubleScalar.of(0));
-    assertEquals(ZeroScalar.get(), a);
+    assertEquals(RealScalar.ZERO, a);
     assertEquals(DoubleScalar.of(0), a);
   }
 
@@ -249,7 +249,7 @@ public class TensorTest extends TestCase {
   }
 
   public void testScalarStream() {
-    List<Scalar> asd = Arrays.asList(ZeroScalar.get(), RealScalar.of(3));
+    List<Scalar> asd = Arrays.asList(RealScalar.ZERO, RealScalar.of(3));
     Tensor a = Tensor.of(asd.stream());
     assertEquals(a.length(), 2);
   }
@@ -284,7 +284,7 @@ public class TensorTest extends TestCase {
   public void testMap() {
     Tensor a = Tensors.of(DoubleScalar.of(1e-20), Tensors.of(DoubleScalar.of(3e-19)));
     Tensor b = a.map(Chop.function);
-    assertEquals(b, Tensors.of(ZeroScalar.get(), Tensors.of(ZeroScalar.get())));
+    assertEquals(b, Tensors.of(RealScalar.ZERO, Tensors.of(RealScalar.ZERO)));
   }
 
   public void testToString() {
