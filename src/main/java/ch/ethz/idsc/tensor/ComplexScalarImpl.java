@@ -76,7 +76,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override
   public Scalar zero() {
-    return RealScalar.ZERO;
+    return re.zero();
   }
 
   @Override // from AbstractScalar

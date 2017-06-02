@@ -39,7 +39,7 @@ public enum Array {
   }
 
   /** @param dimensions
-   * @return tensor of {@link ZeroScalar} with given dimensions */
+   * @return tensor of {@link RealScalar#ZERO} with given dimensions */
   public static Tensor zeros(List<Integer> dimensions) {
     if (dimensions.size() == 0)
       return RealScalar.ZERO;
@@ -51,7 +51,7 @@ public enum Array {
   }
 
   /** @param dimensions
-   * @return tensor of {@link ZeroScalar} with given dimensions */
+   * @return tensor of {@link RealScalar#ZERO} with given dimensions */
   public static Tensor zeros(Integer... dimensions) {
     return zeros(Arrays.asList(dimensions));
   }

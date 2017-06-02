@@ -10,9 +10,9 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** Log.of(1.0) returns {@link ZeroScalar}.
+/** logarithm
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Log.html">Log</a> */
 public enum Log implements Function<Scalar, Scalar> {
   function;

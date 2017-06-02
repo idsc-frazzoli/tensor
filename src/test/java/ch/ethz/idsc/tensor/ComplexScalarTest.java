@@ -139,7 +139,9 @@ public class ComplexScalarTest extends TestCase {
 
   public void testToString() {
     // Scalar c1 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
-    // Scalar c2 = ComplexScalar.of(ZeroScalar.get(), RationalScalar.of(5, 8));
+    Scalar c2 = ComplexScalar.of(RealScalar.ZERO, RationalScalar.of(5, 8));
+    // System.out.println(c2);
+    assertEquals(c2.toString(), "5/8*I");
   }
 
   public void testTensor() {

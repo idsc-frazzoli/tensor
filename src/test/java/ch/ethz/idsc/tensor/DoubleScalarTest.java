@@ -7,6 +7,11 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class DoubleScalarTest extends TestCase {
+  public void testZero() {
+    assertEquals(RealScalar.ZERO, DoubleScalar.of(0));
+    assertFalse(DoubleScalar.of(0) instanceof RationalScalar);
+  }
+
   public void testAdd() {
     RealScalar.ZERO.hashCode();
     Tensor a = DoubleScalar.of(1.23);

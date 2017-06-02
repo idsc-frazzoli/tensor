@@ -23,11 +23,6 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return isNonNegative() ? (equals(zero()) ? 0 : 1) : -1;
   }
 
-  @Override
-  public Scalar zero() {
-    return ZERO;
-  }
-
   @Override // from RealInterface
   public final Scalar real() {
     return this;
@@ -45,12 +40,12 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   public Scalar sqrt() {
     if (isNonNegative())
       return DoubleScalar.of(Math.sqrt(number().doubleValue()));
-    return ComplexScalar.of(ZERO, DoubleScalar.of(Math.sqrt(-number().doubleValue())));
+    return ComplexScalar.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
   }
 
   @Override // from ArgInterface
   public Scalar arg() {
-    return isNonNegative() ? ZERO : DoubleScalar.of(Math.PI);
+    return isNonNegative() ? zero() : DoubleScalar.of(Math.PI);
   }
 
   @Override // from PowerInterface
@@ -62,7 +57,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
         RealInterface realInterface = (RealInterface) exponent;
         RealScalar realScalar = (RealScalar) realInterface.real();
         if (realScalar.signInt() == 1)
-          return RealScalar.ZERO;
+          return zero();
       }
       throw TensorRuntimeException.of(this, exponent);
     }

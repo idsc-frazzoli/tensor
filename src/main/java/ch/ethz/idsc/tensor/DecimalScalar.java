@@ -10,11 +10,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 // work in progress, use {@link DoubleScalar} instead
 public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
+  private static final Scalar DECIMAL_ZERO = of(BigDecimal.ZERO);
   // perhaps make this member
   private static final MathContext CONTEXT = MathContext.DECIMAL128;
 
   public static RealScalar of(BigDecimal value) {
-    return value.compareTo(BigDecimal.ZERO) == 0 ? RealScalar.ZERO : new DecimalScalar(value);
+    return new DecimalScalar(value);
   }
 
   public static RealScalar of(double value) {
@@ -72,6 +73,11 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   @Override // from Scalar
   public Number number() {
     return value;
+  }
+
+  @Override // from Scalar
+  public Scalar zero() {
+    return DECIMAL_ZERO;
   }
 
   @Override // from AbstractRealScalar

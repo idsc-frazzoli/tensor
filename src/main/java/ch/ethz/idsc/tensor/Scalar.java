@@ -3,8 +3,8 @@ package ch.ethz.idsc.tensor;
 
 /** on top of the capabilities of a {@link Tensor} a scalar can be inverted
  * 
- * <p>The scalar 0 in any field is represented by {@link ZeroScalar},
- * which cannot be inverted.
+ * <p>The scalar 0 in any field cannot be inverted.
+ * Zero is supplied by {@link Scalar#zero()}.
  * 
  * <p>When invoking get() on {@link Scalar} the list of arguments has to be empty.
  * 
@@ -32,7 +32,7 @@ public interface Scalar extends Tensor {
   Scalar negate();
 
   /***************************************************/
-  /** multiplicative inverse except for {@link ZeroScalar}
+  /** multiplicative inverse except for {@link Scalar#zero()}
    * 
    * @return multiplicative inverse of this scalar
    * @throws ArithmeticException if scalar equals to 0, or cannot be inverted */
@@ -64,6 +64,6 @@ public interface Scalar extends Tensor {
    * @throws TensorRuntimeException */
   Number number();
 
-  // TODO comment
+  /** @return additive neutral element of field of this scalar */
   Scalar zero();
 }

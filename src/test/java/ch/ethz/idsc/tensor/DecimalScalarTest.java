@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 public class DecimalScalarTest extends TestCase {
   public void testZero() {
-    // assertTrue(DecimalScalar.of(BigDecimal.ZERO) instanceof ZeroScalar);
+    assertEquals(RealScalar.ZERO, DecimalScalar.of(BigDecimal.ZERO));
   }
 
   public void testSimple() {

@@ -12,8 +12,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** gives the exponential
  * 
- * <p>Exp.of(0) returns <code>RealScalar.ONE</code>
- * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Exp.html">Exp</a> */
 public enum Exp implements Function<Scalar, Scalar> {
@@ -21,8 +19,6 @@ public enum Exp implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar.equals(scalar.zero()))
-      return RealScalar.ONE;
     if (scalar instanceof RealScalar)
       return DoubleScalar.of(Math.exp(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {

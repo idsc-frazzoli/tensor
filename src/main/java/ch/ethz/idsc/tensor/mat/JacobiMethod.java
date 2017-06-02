@@ -51,8 +51,7 @@ class JacobiMethod implements Eigensystem {
           .flatMap(ip -> A.get(ip).extract(ip + 1, n).flatten(0)) //
           .map(Scalar.class::cast).map(Scalar::abs).reduce(Scalar::add) //
           .orElse(RealScalar.ZERO);
-      if (sum.equals(sum.zero())) { // TODO
-        // if (sum instanceof ZeroScalar) {
+      if (Scalars.isZero(sum)) {
         eigsrt();
         return;
       }

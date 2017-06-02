@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -41,8 +42,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   private Tensor reflect(int k) {
     Tensor y = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
     Scalar yn = Norm._2.of(y);
-    // if (yn instanceof ZeroScalar)
-    if (yn.equals(RealScalar.ZERO)) // TODO
+    if (Scalars.isZero(yn))
       return IdentityMatrix.of(n);
     Tensor delta = UnitVector.of(n, k).multiply(yn);
     final Tensor w;

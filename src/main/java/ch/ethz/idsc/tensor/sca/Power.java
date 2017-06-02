@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -13,10 +12,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * <p>not compliant with Mathematica
  * Mathematica::Power[0, 0] == 0^0 -> indeterminate
- * 
- * <p>Power interprets {@link ZeroScalar} as {@link RealScalar}.
- * This leads to inconsistencies when using {@link Power} for
- * {@link GaussScalar}.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Power.html">Power</a> */

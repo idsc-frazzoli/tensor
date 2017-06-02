@@ -3,9 +3,17 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class RealScalarTest extends TestCase {
+  public void testSerializable() throws Exception {
+    Scalar a = RealScalar.ZERO;
+    Scalar b = Serialization.parse(Serialization.of(a));
+    assertEquals(a, b);
+    assertFalse(a == b);
+  }
+
   public void testSign() {
     assertEquals(RealScalar.ZERO.signInt(), 0);
     assertEquals(RealScalar.of(+5).signInt(), 1);
@@ -17,6 +25,7 @@ public class RealScalarTest extends TestCase {
   }
 
   public void testCompare() {
+    assertEquals(RealScalar.ZERO.compareTo(RealScalar.ZERO), 0);
     {
       final Integer a = 0;
       final Integer b = 5;

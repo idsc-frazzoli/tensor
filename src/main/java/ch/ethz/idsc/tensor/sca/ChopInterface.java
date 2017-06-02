@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * to support the chop towards zero function */
 public interface ChopInterface {
   /** @param threshold
-   * @return {@link ZeroScalar} if Scalar has numeric precision and absolute value is strictly below threshold */
+   * @return {@link Scalar#zero()} if Scalar has numeric precision and
+   * absolute value is strictly below threshold */
   Scalar chop(double threshold);
 }

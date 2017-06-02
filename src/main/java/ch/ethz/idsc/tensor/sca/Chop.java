@@ -45,7 +45,7 @@ public enum Chop implements Function<Scalar, Scalar> {
   }
 
   /** @param tensor
-   * @return true, if all entries of Chop.of(tensor) equal to {@link ZeroScalar} */
+   * @return true, if all entries of Chop.of(tensor) equal to {@link Scalar#zero()} */
   public static boolean isZeros(Tensor tensor) {
     return !of(tensor).flatten(-1) //
         .map(Scalar.class::cast).filter(Scalars::nonZero).findAny().isPresent();
