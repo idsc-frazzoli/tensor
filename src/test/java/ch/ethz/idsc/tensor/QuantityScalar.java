@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
+import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
@@ -19,8 +20,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 public class QuantityScalar extends AbstractScalar implements //
-    ArcTanInterface, ChopInterface, ConjugateInterface, NInterface, PowerInterface, //
-    RealInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
+    ArcTanInterface, ChopInterface, ConjugateInterface, ExactNumberQInterface, NInterface, //
+    PowerInterface, RealInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
   /** @param value
    * @param unit
    * @param exponent
@@ -89,6 +90,11 @@ public class QuantityScalar extends AbstractScalar implements //
     return of(value.multiply(scalar), unitMap);
   }
 
+  @Override // from ExactNumberQInterface
+  public boolean isExactNumber() {
+    return ExactNumberQ.of(value);
+  }
+
   @Override
   public Scalar power(Scalar exponent) {
     throw TensorRuntimeException.of(this);
@@ -111,7 +117,7 @@ public class QuantityScalar extends AbstractScalar implements //
 
   @Override
   public Scalar chop(double threshold) {
-    return of((Scalar) Chop.of(value), unitMap);
+    return of(Chop.of(value), unitMap);
   }
 
   @Override

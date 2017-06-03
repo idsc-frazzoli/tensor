@@ -115,6 +115,8 @@ public class QuantityScalar1Test extends TestCase {
     Scalar qs1 = QuantityScalar.of(RealScalar.of(5), "s", RealScalar.ONE);
     Scalar qs2 = QuantityScalar.of(RealScalar.of(3), "s", RealScalar.ONE);
     Scalar qs3 = QuantityScalar.of(RealScalar.of(2), "s", RealScalar.ONE);
-    assertEquals(Mod.function(qs2).apply(qs1), qs3);
+    Scalar res = Mod.function(qs2).apply(qs1);
+    // System.out.println(res);
+    assertEquals(res, qs3);
   }
 }

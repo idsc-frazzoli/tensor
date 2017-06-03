@@ -1,6 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import ch.ethz.idsc.tensor.alg.Multinomial;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
@@ -14,6 +18,20 @@ import ch.ethz.idsc.tensor.opt.ConvexHull;
 import junit.framework.TestCase;
 
 public class QuantityScalar2Test extends TestCase {
+  public void testMultinomial() {
+    Scalar qs1;
+    {
+      Map<String, Scalar> map = new HashMap<>();
+      map.put("m", RealScalar.ONE);
+      map.put("s", RealScalar.ONE);
+      qs1 = QuantityScalar.of(RealScalar.of(-4), new UnitMap(map));
+    }
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(3), "m", RealScalar.ONE);
+    Scalar val = QuantityScalar.of(RealScalar.of(2), "s", RealScalar.ONE);
+    Scalar res = Multinomial.horner(Tensors.of(qs1, qs2), val);
+    System.out.println(res);
+  }
+
   public void testLinearSolve() {
     final Scalar one = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
     Scalar qs1 = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
@@ -58,6 +76,7 @@ public class QuantityScalar2Test extends TestCase {
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1);
     Tensor nul = NullSpace.of(mat);
+    // System.out.println(nul);
     assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
   }
 

@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.sca.Power;
  * The return value is of type {@link RealScalar}.
  * 
  * <p>As in Mathematica, the norm of empty expressions is undefined:
+ * Norm[{}] -> undefined
  * Norm[{{}}] -> undefined
  * 
  * <p>inspired by

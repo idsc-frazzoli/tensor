@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
-import ch.ethz.idsc.tensor.sca.ExactNumberInterface;
+import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    ArcTanInterface, ChopInterface, ExactNumberInterface, NInterface {
+    ArcTanInterface, ChopInterface, ExactNumberQInterface, NInterface {
   private final Scalar re;
   private final Scalar im;
 
