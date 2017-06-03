@@ -25,7 +25,8 @@ public enum Conjugate implements Function<Scalar, Scalar> {
    * @param tensor
    * @return tensor with all entries conjugated
    * @see ConjugateTranspose */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Conjugate.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Conjugate.function);
   }
 }

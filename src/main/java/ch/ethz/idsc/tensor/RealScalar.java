@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ImagInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RealInterface;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** RealScalar encodes a real number
@@ -21,7 +22,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * </ul> */
 public interface RealScalar extends Scalar, //
     ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, //
-    PowerInterface, RealInterface, SqrtInterface {
+    PowerInterface, RealInterface, SignInterface, SqrtInterface {
   static final RealScalar ZERO = RealScalar.of(0);
   /** real scalar 1 as a {@link RationalScalar} */
   static final RealScalar ONE = RealScalar.of(1);
@@ -43,8 +44,4 @@ public interface RealScalar extends Scalar, //
       return DecimalScalar.of((BigDecimal) number);
     throw new IllegalArgumentException("" + number);
   }
-
-  /***************************************************/
-  /** @return gives -1, 0, or 1 depending on whether this is negative, zero, or positive. */
-  int signInt();
 }

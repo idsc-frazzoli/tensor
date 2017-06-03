@@ -8,6 +8,8 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class SqrtTest extends TestCase {
@@ -59,5 +61,10 @@ public class SqrtTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testTensor() {
+    Tensor r = Sqrt.of(Tensors.vector(1, 4, 9, 16));
+    assertEquals(r, Tensors.vector(1, 2, 3, 4));
   }
 }

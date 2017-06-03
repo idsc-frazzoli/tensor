@@ -21,12 +21,13 @@ public enum Ramp implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return Max.of(RealScalar.ZERO, scalar);
+    return Max.of(scalar.zero(), scalar);
   }
 
   /** @param tensor with {@link RealScalar} entries
    * @return tensor with all scalars replaced with their ramp */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Ramp.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Ramp.function);
   }
 }

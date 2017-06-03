@@ -51,8 +51,8 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
    * @param vector
    * @return */
   public static Scalar ofVector(Tensor vector) {
-    if (vector.length() == 0) // <- condition not compliant with Mathematica
-      return RealScalar.ZERO;
+    // if (vector.length() == 0) // <- condition not compliant with Mathematica
+    // return RealScalar.ZERO;
     Tensor abs = vector.map(Scalar::abs);
     Scalar max = (Scalar) abs.flatten(0).reduce(Max::of).get();
     if (Scalars.isZero(max))

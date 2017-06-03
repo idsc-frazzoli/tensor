@@ -15,12 +15,13 @@ public enum UnitStep implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return Scalars.lessThan(scalar, RealScalar.ZERO) ? RealScalar.ZERO : RealScalar.ONE;
+    return Scalars.lessThan(scalar, scalar.zero()) ? RealScalar.ZERO : RealScalar.ONE;
   }
 
   /** @param tensor
-   * @return tensor with all scalars replaced with their exponential */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(UnitStep.function);
+   * @return tensor with all scalars replaced with their unit step evaluation */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(UnitStep.function);
   }
 }

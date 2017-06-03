@@ -18,7 +18,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return this;
   }
 
-  @Override // from RealScalar
+  @Override // from SignInterface
   public final int signInt() {
     return isNonNegative() ? (Scalars.isZero(this) ? 0 : 1) : -1;
   }
