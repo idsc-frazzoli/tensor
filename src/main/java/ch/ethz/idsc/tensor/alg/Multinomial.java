@@ -23,5 +23,4 @@ public enum Multinomial {
       total = total.multiply(scalar).add(entry);
     return total;
   }
-  // TODO more functionality
 }

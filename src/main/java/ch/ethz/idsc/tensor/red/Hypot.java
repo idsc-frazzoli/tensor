@@ -41,18 +41,16 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
   /** function computes the 2-Norm of a vector
    * without intermediate overflow or underflow
    * 
-   * <p>the empty vector evaluates to Hypot[{}] == 0
-   * whereas in Mathematica Norm[{}] == Norm[{}]
+   * <p>the empty vector Hypot[{}] results in an error, since
+   * Mathematica::Norm[{}] == Norm[{}] is undefined also.
    * 
    * <p>The disadvantage of the implementation is that
    * a numerical output is returned even in cases where
    * a rational number is the exact result.
    * 
    * @param vector
-   * @return */
+   * @return 2-norm of vector */
   public static Scalar ofVector(Tensor vector) {
-    // if (vector.length() == 0) // <- condition not compliant with Mathematica
-    // return RealScalar.ZERO;
     Tensor abs = vector.map(Scalar::abs);
     Scalar max = (Scalar) abs.flatten(0).reduce(Max::of).get();
     if (Scalars.isZero(max))

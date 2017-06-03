@@ -119,8 +119,7 @@ class QuaternionScalar extends AbstractScalar implements //
 
   @Override
   public Scalar zero() {
-    // TODO Auto-generated method stub
-    throw TensorRuntimeException.of(this);
+    return RealScalar.ZERO;
   }
 
   @Override // from ConjugateInterface

@@ -63,10 +63,7 @@ public class DetTest extends TestCase {
     for (int n = 1; n < 10; ++n) {
       Tensor mat = Reverse.of(IdentityMatrix.of(n));
       Scalar det = Det.of(mat);
-      // FIXME why does this fail!?
-      // CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
-      // System.out.println(n+" "+det+" "+cd.diagonal());
-      assertEquals(Det.of(Reverse.of(IdentityMatrix.of(n))), actual.Get(n));
+      assertEquals(det, actual.Get(n));
     }
   }
 

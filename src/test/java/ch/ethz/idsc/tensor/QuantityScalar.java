@@ -127,7 +127,7 @@ public class QuantityScalar extends AbstractScalar implements //
 
   @Override
   public Scalar n() {
-    return of((Scalar) N.of(value), unitMap);
+    return of(N.of(value), unitMap);
   }
 
   @Override // from SignInterface

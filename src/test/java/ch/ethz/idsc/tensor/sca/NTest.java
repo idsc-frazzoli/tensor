@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 public class NTest extends TestCase {
   public void testZero() {
-    Scalar result = (Scalar) N.of(RealScalar.ZERO);
+    Scalar result = N.of(RealScalar.ZERO);
     assertTrue(result instanceof DoubleScalar);
     assertEquals(result.toString(), "0.0");
   }

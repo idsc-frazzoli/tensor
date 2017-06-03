@@ -29,7 +29,8 @@ public class QuantityScalar2Test extends TestCase {
     Scalar qs2 = QuantityScalar.of(RealScalar.of(3), "m", RealScalar.ONE);
     Scalar val = QuantityScalar.of(RealScalar.of(2), "s", RealScalar.ONE);
     Scalar res = Multinomial.horner(Tensors.of(qs1, qs2), val);
-    System.out.println(res);
+    // System.out.println(res);
+    assertEquals(res.toString(), "2[m^1,s^1]");
   }
 
   public void testLinearSolve() {
@@ -66,6 +67,7 @@ public class QuantityScalar2Test extends TestCase {
     Tensor mat = Tensors.of(ve1, ve1);
     // Tensor nul = RowReduce.of(Transpose.of(mat));
     Tensor nul = RowReduce.of(mat);
+    nul.map(a -> a);
     // System.out.println(nul);
     // assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
   }

@@ -113,7 +113,9 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   public boolean equals(Object object) {
     if (object instanceof DecimalScalar) {
       DecimalScalar decimalScalar = (DecimalScalar) object;
-      return value.equals(decimalScalar.value); // TODO check
+      // "equal() only if given BigDecimal's are equal in value and scale,
+      // thus 2.0 is not equal to 2.00 when compared by equals()."
+      return value.compareTo(decimalScalar.value) == 0;
     }
     if (object instanceof RealScalar) {
       RealScalar realScalar = (RealScalar) object;

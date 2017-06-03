@@ -13,12 +13,17 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * matrix == getL().dot(getD().pmul(ConjugateTranspose.of(getL())))
  * 
+ * <p>The decomposition is robust for positive definite matrices.
+ * 
+ * <p>For some hermitian matrices the decomposition cannot be established.
+ * An example that fails (also in Mathematica) is {{0, 1}, {1, 0}}.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/CholeskyDecomposition.html">CholeskyDecomposition</a> */
 public interface CholeskyDecomposition extends Serializable {
-  /** @param matrix hermitian
+  /** @param matrix hermitian and positive semi-definite matrix
    * @return Cholesky decomposition of matrix
-   * @throws TensorRuntimeException if matrix is not hermitian, or decomposition cannot be established
+   * @throws TensorRuntimeException if matrix is not hermitian, or decomposition failed
    * @see HermitianMatrixQ */
   static CholeskyDecomposition of(Tensor matrix) {
     if (!HermitianMatrixQ.of(matrix))
