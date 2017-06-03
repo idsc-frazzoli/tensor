@@ -1,6 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import java.util.function.Function;
+
+import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -21,5 +25,11 @@ public class PseudoInverseTest extends TestCase {
     Tensor result = PseudoInverse.of(matrix);
     Tensor actual = Transpose.of(Tensors.fromString("{{-(29/60), -(11/45), -(1/180), 7/30}, {-(1/30), -(1/90), 1/90, 1/30}, {5/12, 2/9, 1/36, -(1/6)}}"));
     assertEquals(Chop.of(result.subtract(actual)), Array.zeros(4, 3));
+  }
+
+  public void testChopOrInvert() {
+    Function<Scalar, Scalar> func = PseudoInverse.orInvert(.5);
+    assertEquals(func.apply(RealScalar.of(-.5)), RealScalar.of(-2));
+    assertEquals(func.apply(RealScalar.of(-.4)), RealScalar.of(0));
   }
 }

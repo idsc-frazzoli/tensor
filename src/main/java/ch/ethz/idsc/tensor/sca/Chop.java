@@ -33,15 +33,11 @@ public enum Chop implements Function<Scalar, Scalar> {
     return belowDefault.apply(scalar);
   }
 
-  /** @return chop(scalar) == zero ? zero : scalar.invert() */
-  public static Function<Scalar, Scalar> orInvert(double threshold) {
-    return InvertUnlessZero.function.compose(below(threshold));
-  }
-
   /** @param tensor
    * @return */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(belowDefault);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(belowDefault);
   }
 
   /** @param tensor
