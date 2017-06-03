@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Transpose;
@@ -40,7 +40,7 @@ public enum NullSpace {
     int j = 0;
     int c0 = 0;
     while (c0 < n)
-      if (!lhs.Get(j, c0++).equals(RealScalar.ZERO)) // <- careful: c0 is modified
+      if (Scalars.nonZero(lhs.Get(j, c0++))) // <- careful: c0 is modified
         ++j;
     return Tensor.of(lhs.extract(j, m).flatten(0).map(row -> row.extract(n, n + m)));
   }

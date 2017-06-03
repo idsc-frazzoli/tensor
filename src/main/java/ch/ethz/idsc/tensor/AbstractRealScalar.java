@@ -30,7 +30,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from ImagInterface
   public final Scalar imag() {
-    return ZERO;
+    return ZERO; // consistent with Mathematica::Im[3.] == 0
   }
 
   /***************************************************/

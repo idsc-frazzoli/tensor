@@ -42,12 +42,25 @@ public enum Det {
 
   // helper function
   private static Scalar _of(Tensor matrix, Pivot pivot) {
-    if (matrix.length() == matrix.get(0).length()) // square
+    final int n = matrix.length();
+    final int m = matrix.get(0).length();
+    if (m == 0)
+      throw TensorRuntimeException.of(matrix);
+    // System.out.println(n + " " + m);
+    if (n == m) { // square
+      //
       try {
-        return new GaussianElimination(matrix, Array.zeros(matrix.length()), pivot).det();
+        return new GaussianElimination(matrix, Array.zeros(n), pivot).det();
       } catch (Exception exception) {
         // matrix is singular
       }
+      try {
+        if (HermitianMatrixQ.of(matrix))
+          return CholeskyDecomposition.of(matrix).det(); // TODO this should be robust!?
+      } catch (Exception exception) {
+        // matrix is non-hermitian
+      }
+    }
     return RealScalar.ZERO;
   }
 }

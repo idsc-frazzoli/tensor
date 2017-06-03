@@ -18,9 +18,15 @@ import junit.framework.TestCase;
 public class DetTest extends TestCase {
   public void testEmpty() {
     Tensor m = Tensors.matrix(new Number[][] { {} });
-    // this is not consistent with Mathematica
+    // this is consistent with Mathematica
     // Mathematica throws an exception
-    assertEquals(Det.of(m), RealScalar.ZERO);
+    // System.out.println("here!");
+    try {
+      Det.of(m);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testDet1() {
@@ -54,8 +60,14 @@ public class DetTest extends TestCase {
 
   public void testReversedId() {
     Tensor actual = Tensors.vector(0, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1);
-    for (int n = 1; n < 10; ++n)
+    for (int n = 1; n < 10; ++n) {
+      Tensor mat = Reverse.of(IdentityMatrix.of(n));
+      Scalar det = Det.of(mat);
+      // FIXME why does this fail!?
+      // CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
+      // System.out.println(n+" "+det+" "+cd.diagonal());
       assertEquals(Det.of(Reverse.of(IdentityMatrix.of(n))), actual.Get(n));
+    }
   }
 
   public void testDet4() {

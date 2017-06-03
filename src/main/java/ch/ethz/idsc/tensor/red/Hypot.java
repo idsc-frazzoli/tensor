@@ -27,7 +27,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
     Scalar ay = b.abs();
     Scalar min = Min.of(ax, ay);
     Scalar max = Max.of(ax, ay);
-    if (min.equals(RealScalar.ZERO))
+    if (Scalars.isZero(min))
       return max; // if min == 0 return max
     // valid at this point: 0 < min <= max
     Scalar ratio = min.divide(max);

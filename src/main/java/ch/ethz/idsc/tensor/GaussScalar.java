@@ -59,8 +59,8 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from Scalar
-  public Number number() {
-    return value;
+  public Scalar abs() {
+    return this;
   }
 
   @Override // from Scalar
@@ -69,17 +69,8 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from Scalar
-  public Scalar abs() {
-    return this;
-  }
-
-  @Override // from Scalar
-  public Scalar multiply(Scalar scalar) {
-    if (scalar instanceof GaussScalar) {
-      GaussScalar gaussScalar = (GaussScalar) scalar;
-      return of(value * gaussScalar.value, prime);
-    }
-    throw TensorRuntimeException.of(this, scalar);
+  public Number number() {
+    return value;
   }
 
   @Override // from AbstractScalar
@@ -87,6 +78,15 @@ public class GaussScalar extends AbstractScalar implements //
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value + gaussScalar.value, prime);
+    }
+    throw TensorRuntimeException.of(this, scalar);
+  }
+
+  @Override // from Scalar
+  public Scalar multiply(Scalar scalar) {
+    if (scalar instanceof GaussScalar) {
+      GaussScalar gaussScalar = (GaussScalar) scalar;
+      return of(value * gaussScalar.value, prime);
     }
     throw TensorRuntimeException.of(this, scalar);
   }

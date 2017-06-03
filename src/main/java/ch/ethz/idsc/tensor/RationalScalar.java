@@ -61,6 +61,11 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
   }
 
   @Override // from Scalar
+  public Scalar zero() {
+    return RealScalar.ZERO;
+  }
+
+  @Override // from Scalar
   public Number number() {
     if (isInteger()) {
       BigInteger bigInteger = numerator();
@@ -77,11 +82,6 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
       return bigInteger;
     }
     return toBigDecimal(MathContext.DECIMAL64).doubleValue();
-  }
-
-  @Override // from Scalar
-  public Scalar zero() {
-    return RealScalar.ZERO;
   }
 
   // EXPERIMENTAL
@@ -114,7 +114,7 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
       boolean pos = isNonNegative();
       BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
       BigInteger sqrtden = Sqrt.of(bigFraction.den);
-      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(RealScalar.ZERO, of(sqrtnum, sqrtden));
+      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---
     }

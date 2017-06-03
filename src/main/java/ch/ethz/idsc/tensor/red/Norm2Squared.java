@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
@@ -18,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
         .map(Scalar.class::cast) //
         .map(AbsSquared.function) //
         .reduce(Scalar::add) //
-        .orElse(RealScalar.ZERO);
+        .get();
   }
 
   @Override

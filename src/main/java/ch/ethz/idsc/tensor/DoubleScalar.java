@@ -35,6 +35,11 @@ public final class DoubleScalar extends AbstractRealScalar implements ChopInterf
   }
 
   @Override // from Scalar
+  public Scalar zero() {
+    return DOUBLE_ZERO;
+  }
+
+  @Override // from Scalar
   public Number number() {
     return value;
   }
@@ -65,14 +70,9 @@ public final class DoubleScalar extends AbstractRealScalar implements ChopInterf
     return 0 <= value;
   }
 
-  @Override // from Scalar
-  public Scalar zero() {
-    return DOUBLE_ZERO;
-  }
-
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
-    return abs().number().doubleValue() < threshold ? RealScalar.ZERO : this;
+    return abs().number().doubleValue() < threshold ? ZERO : this;
   }
 
   @Override // from AbstractScalar

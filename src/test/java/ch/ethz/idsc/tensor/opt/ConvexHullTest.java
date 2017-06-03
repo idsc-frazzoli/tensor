@@ -15,6 +15,16 @@ public class ConvexHullTest extends TestCase {
     assertEquals(ConvexHull.of(v), v);
   }
 
+  public void testDuo() {
+    Tensor v = Tensors.of( //
+        Tensors.vector(-1.3, 2.5), //
+        Tensors.vector(1, 10) //
+    );
+    Tensor hul = ConvexHull.of(v);
+    // System.out.println(hul);
+    assertEquals(hul, v);
+  }
+
   public void testSimple() {
     Tensor points = Tensors.matrix(new Number[][] { //
         { -1, 2 }, //

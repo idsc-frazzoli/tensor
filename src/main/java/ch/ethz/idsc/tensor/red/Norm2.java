@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Transpose;
@@ -38,6 +37,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         .values().flatten(0) // values are non-negative
         .map(Scalar.class::cast) //
         .reduce(Max::of) //
-        .orElse(RealScalar.ZERO);
+        .get();
   }
 }

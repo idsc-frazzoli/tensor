@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.mat;
 
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -107,7 +106,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
     Scalar scalar = IntStream.range(0, lhs.length()).boxed() //
         .map(c0 -> lhs.Get(ind[c0], c0)) //
         .reduce(Scalar::multiply) //
-        .orElse(RealScalar.ZERO);
+        .get();
     return transpositions % 2 == 0 ? scalar : scalar.negate();
   }
 

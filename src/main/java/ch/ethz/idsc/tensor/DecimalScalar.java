@@ -71,13 +71,13 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   }
 
   @Override // from Scalar
-  public Number number() {
-    return value;
+  public Scalar zero() {
+    return DECIMAL_ZERO;
   }
 
   @Override // from Scalar
-  public Scalar zero() {
-    return DECIMAL_ZERO;
+  public Number number() {
+    return value;
   }
 
   @Override // from AbstractRealScalar
@@ -94,7 +94,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
 
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
-    return value.abs().doubleValue() < threshold ? RealScalar.ZERO : this;
+    return value.abs().doubleValue() < threshold ? ZERO : this;
   }
 
   @Override // from RealScalar

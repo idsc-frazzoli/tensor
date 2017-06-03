@@ -24,7 +24,7 @@ public class QuantityScalar extends AbstractScalar //
    * @param exponent
    * @return */
   public static Scalar of(Scalar value, String unit, Scalar exponent) {
-    return new QuantityScalar(value, unit, exponent);
+    return Scalars.isZero(exponent) ? value : new QuantityScalar(value, unit, exponent);
   }
 
   private final Scalar value;

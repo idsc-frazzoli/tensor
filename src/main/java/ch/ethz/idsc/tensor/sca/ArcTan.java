@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** http://www.milefoot.com/math/complex/functionsofi.htm
@@ -34,6 +35,11 @@ public enum ArcTan implements Function<Scalar, Scalar> {
    * @return arc tangent of y/x, taking into account which quadrant the point (x,y) is in */
   public static Scalar of(Scalar x, Scalar y) {
     if (x instanceof RealScalar && y instanceof RealScalar) {
+      return DoubleScalar.of(Math.atan2( //
+          y.number().doubleValue(), // y
+          x.number().doubleValue())); // x
+    }
+    if (Scalars.isZero(x)) { // FIXME require that units are the same
       return DoubleScalar.of(Math.atan2( //
           y.number().doubleValue(), // y
           x.number().doubleValue())); // x

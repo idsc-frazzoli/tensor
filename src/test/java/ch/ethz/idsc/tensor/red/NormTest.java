@@ -33,10 +33,11 @@ public class NormTest extends TestCase {
 
   public void testCornerCases() {
     final Tensor z = RealScalar.ZERO;
-    {
-      assertEquals(Norm._1.of(Tensors.empty()), z);
-      assertEquals(Norm._2.of(Tensors.empty()), z);
-      assertEquals(Norm.Infinity.of(Tensors.empty()), z);
+    try {
+      Norm._1.of(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
     }
     {
       assertEquals(Norm._1.of(z), z);

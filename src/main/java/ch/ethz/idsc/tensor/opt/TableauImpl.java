@@ -7,6 +7,7 @@ import java.util.List;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
@@ -94,7 +95,8 @@ import ch.ethz.idsc.tensor.red.ArgMin;
     for (int j = 0; j < n; ++j) {
       int len = (int) tab.get(-1, j).flatten(0) //
           .map(Scalar.class::cast) //
-          .filter(s -> s.equals(RealScalar.ZERO)).count();
+          .filter(Scalars::isZero) //
+          .count();
       if (len == m)
         x.set(tab.get(ArgMax.of(tab.get(-1, j)), n), j);
     }

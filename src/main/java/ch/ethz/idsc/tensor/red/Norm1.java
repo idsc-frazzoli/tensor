@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.Abs;
@@ -20,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
         .map(Scalar.class::cast) //
         .map(Scalar::abs) //
         .reduce(Scalar::add) //
-        .orElse(RealScalar.ZERO);
+        .get();
   }
 
   @Override
@@ -28,6 +27,6 @@ import ch.ethz.idsc.tensor.sca.Abs;
     return Total.of(Abs.of(matrix)).flatten(0) //
         .map(Scalar.class::cast) //
         .reduce(Max::of) //
-        .orElse(RealScalar.ZERO);
+        .get();
   }
 }

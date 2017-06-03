@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.ArgMin;
@@ -73,7 +74,7 @@ public class FermatWeberProblem {
   private Tensor weiszfeldStep() {
     Tensor dist = Tensor.of(tensor.flatten(0).map(anchor -> Norm._2.of(anchor.subtract(point))));
     int index = ArgMin.of(dist);
-    if (dist.get(index).equals(RealScalar.ZERO))
+    if (Scalars.isZero(dist.Get(index)))
       return point.copy();
     Tensor distinv = weights.pmul(dist.map(Scalar::invert));
     return distinv.dot(tensor).multiply(Total.of(distinv).Get().invert());
