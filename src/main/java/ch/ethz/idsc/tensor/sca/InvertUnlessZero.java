@@ -11,7 +11,7 @@ public enum InvertUnlessZero implements Function<Scalar, Scalar> {
   function;
   // ---
   /** @param scalar
-   * @return scalar == zero ? zero : scalar.invert() */
+   * @return Scalars.isZero(scalar) ? scalar : scalar.invert(); */
   @Override
   public Scalar apply(Scalar scalar) {
     return Scalars.isZero(scalar) ? scalar : scalar.invert();

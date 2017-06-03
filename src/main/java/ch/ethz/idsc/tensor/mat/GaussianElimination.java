@@ -46,7 +46,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
       _swap(pivot.get(c0, c0, ind, lhs), c0);
       Scalar piv = lhs.Get(ind[c0], c0);
       if (Scalars.isZero(piv))
-        throw TensorRuntimeException.of(matrix);
+        throw TensorRuntimeException.of(matrix, piv);
       _eliminate(c0, piv.invert());
     }
   }

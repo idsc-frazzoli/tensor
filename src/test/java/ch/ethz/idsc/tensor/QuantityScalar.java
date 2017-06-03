@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor;
 
 import java.util.Objects;
 
+import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.Conjugate;
@@ -16,40 +18,42 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
-public class QuantityScalar extends AbstractScalar //
-    implements ChopInterface, ConjugateInterface, NInterface, PowerInterface, //
+public class QuantityScalar extends AbstractScalar implements //
+    ArcTanInterface, ChopInterface, ConjugateInterface, NInterface, PowerInterface, //
     RealInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
   /** @param value
    * @param unit
    * @param exponent
    * @return */
   public static Scalar of(Scalar value, String unit, Scalar exponent) {
-    return Scalars.isZero(exponent) ? value : new QuantityScalar(value, unit, exponent);
+    return of(value, new UnitMap(unit, exponent));
+  }
+
+  public static Scalar of(Scalar value, UnitMap unitMap) {
+    return unitMap.isEmpty() ? value : new QuantityScalar(value, unitMap);
   }
 
   private final Scalar value;
-  private final String unit;
-  private final Scalar exponent;
+  private final UnitMap unitMap;
 
-  private QuantityScalar(Scalar value, String unit, Scalar exponent) {
+  private QuantityScalar(Scalar value, UnitMap unitMap) {
     this.value = value;
-    this.unit = unit;
-    this.exponent = exponent;
+    this.unitMap = unitMap;
   }
 
   @Override
   public Scalar negate() {
-    return of(value.negate(), unit, exponent);
+    return of(value.negate(), unitMap);
   }
 
   @Override
   public Scalar invert() {
-    return of(value.invert(), unit, exponent.negate());
+    return of(value.invert(), unitMap.negate());
   }
 
   @Override
   public Scalar abs() {
-    return of(value.abs(), unit, exponent);
+    return of(value.abs(), unitMap);
   }
 
   @Override
@@ -59,7 +63,7 @@ public class QuantityScalar extends AbstractScalar //
 
   @Override
   public Scalar zero() {
-    return of(value.zero(), unit, exponent);
+    return of(value.zero(), unitMap);
   }
 
   @Override
@@ -70,8 +74,8 @@ public class QuantityScalar extends AbstractScalar //
       return this;
     if (scalar instanceof QuantityScalar) {
       QuantityScalar quantityScalar = (QuantityScalar) scalar;
-      if (unit.equals(quantityScalar.unit) && exponent.equals(quantityScalar.exponent))
-        return of(value.add(quantityScalar.value), unit, exponent);
+      if (unitMap.equals(quantityScalar.unitMap))
+        return of(value.add(quantityScalar.value), unitMap);
     }
     throw TensorRuntimeException.of(this, scalar);
   }
@@ -80,11 +84,9 @@ public class QuantityScalar extends AbstractScalar //
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof QuantityScalar) {
       QuantityScalar quantityScalar = (QuantityScalar) scalar;
-      if (unit.equals(quantityScalar.unit))
-        return of(value.multiply(quantityScalar.value), unit, exponent.add(quantityScalar.exponent));
-      throw TensorRuntimeException.of(this, scalar);
+      return of(value.multiply(quantityScalar.value), unitMap.add(quantityScalar.unitMap));
     }
-    return of(value.multiply(scalar), unit, exponent);
+    return of(value.multiply(scalar), unitMap);
   }
 
   @Override
@@ -93,23 +95,33 @@ public class QuantityScalar extends AbstractScalar //
   }
 
   @Override
+  public Scalar arcTan(Scalar y) {
+    if (y instanceof QuantityScalar) {
+      QuantityScalar quantityScalar = (QuantityScalar) y;
+      if (unitMap.equals(quantityScalar.unitMap))
+        return ArcTan.of(value, quantityScalar.value);
+    }
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override
   public Scalar sqrt() {
-    return of(Sqrt.of(value), unit, exponent.multiply(RationalScalar.of(1, 2)));
+    return of(Sqrt.of(value), unitMap.multiply(RationalScalar.of(1, 2)));
   }
 
   @Override
   public Scalar chop(double threshold) {
-    return of((Scalar) Chop.of(value), unit, exponent);
+    return of((Scalar) Chop.of(value), unitMap);
   }
 
   @Override
   public Scalar conjugate() {
-    return of(Conjugate.of(value), unit, exponent);
+    return of(Conjugate.of(value), unitMap);
   }
 
   @Override
   public Scalar n() {
-    return of((Scalar) N.of(value), unit, exponent);
+    return of((Scalar) N.of(value), unitMap);
   }
 
   @Override // from SignInterface
@@ -120,23 +132,23 @@ public class QuantityScalar extends AbstractScalar //
 
   @Override
   public Scalar real() {
-    return of(Real.of(value), unit, exponent);
+    return of(Real.of(value), unitMap);
   }
 
   @Override
   public int compareTo(Scalar object) {
     if (object instanceof QuantityScalar) {
       QuantityScalar quantityScalar = (QuantityScalar) object;
-      if (unit.equals(quantityScalar.unit) && //
-          exponent.equals(quantityScalar.exponent))
+      if (unitMap.equals(quantityScalar.unitMap))
         return Scalars.compare(value, quantityScalar.value);
+      throw TensorRuntimeException.of(this, quantityScalar);
     }
-    throw TensorRuntimeException.of(this);
+    throw new IllegalArgumentException();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(value, unit, exponent);
+    return Objects.hash(value, unitMap);
   }
 
   @Override
@@ -144,14 +156,13 @@ public class QuantityScalar extends AbstractScalar //
     if (object instanceof QuantityScalar) {
       QuantityScalar quantityScalar = (QuantityScalar) object;
       return value.equals(quantityScalar.value) && //
-          unit.equals(quantityScalar.unit) && //
-          exponent.equals(quantityScalar.exponent);
+          unitMap.equals(quantityScalar.unitMap);
     }
     return false;
   }
 
   @Override
   public String toString() {
-    return value + "[" + unit + "^" + exponent + "]";
+    return value + "[" + unitMap + "]";
   }
 }

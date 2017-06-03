@@ -6,17 +6,17 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
-import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    ChopInterface, NInterface, PowerInterface {
+    ArcTanInterface, ChopInterface, NInterface {
   private final Scalar re;
   private final Scalar im;
 
@@ -95,6 +95,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ComplexScalar.fromPolar( //
         Sqrt.function.apply(abs()), //
         arg().divide(RealScalar.of(2)));
+  }
+
+  @Override // from ArcTanInterface
+  public Scalar arcTan(Scalar y) {
+    Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
+    Scalar scalar = y.divide(this); // TODO prevent division by zero
+    return I_HALF.multiply(Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
   }
 
   @Override // from ArgInterface

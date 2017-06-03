@@ -35,17 +35,24 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   /***************************************************/
   // methods are non-final because other RealScalars may support better precision
+  @Override // from ArcTanInterface
+  public Scalar arcTan(Scalar y) {
+    return DoubleScalar.of(Math.atan2( //
+        y.number().doubleValue(), // y
+        number().doubleValue())); // x
+  }
+
+  @Override // from ArgInterface
+  public Scalar arg() {
+    return isNonNegative() ? RealScalar.ZERO : DoubleScalar.of(Math.PI);
+  }
+
   /** @return {@link ComplexScalar} if negative */
   @Override // from SqrtInterface
   public Scalar sqrt() {
     if (isNonNegative())
       return DoubleScalar.of(Math.sqrt(number().doubleValue()));
     return ComplexScalar.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
-  }
-
-  @Override // from ArgInterface
-  public Scalar arg() {
-    return isNonNegative() ? RealScalar.ZERO : DoubleScalar.of(Math.PI);
   }
 
   @Override // from PowerInterface

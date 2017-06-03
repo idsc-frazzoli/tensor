@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ImagInterface;
@@ -21,7 +22,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * <li>decimal with extra precision {@link DecimalScalar}
  * </ul> */
 public interface RealScalar extends Scalar, //
-    ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, //
+    ArcTanInterface, ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, //
     PowerInterface, RealInterface, SignInterface, SqrtInterface {
   /** real scalar 0 as a {@link RationalScalar} */
   static final RealScalar ZERO = RealScalar.of(0);
