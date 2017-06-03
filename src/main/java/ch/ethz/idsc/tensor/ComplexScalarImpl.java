@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.ExactNumberInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
@@ -16,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    ArcTanInterface, ChopInterface, NInterface {
+    ArcTanInterface, ChopInterface, ExactNumberInterface, NInterface {
   private final Scalar re;
   private final Scalar im;
 
@@ -74,7 +75,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     throw TensorRuntimeException.of(this);
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar zero() {
     return re.zero();
   }
@@ -114,12 +115,16 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ComplexScalar.of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
   }
 
+  @Override // from ExactNumberInterface
+  public boolean isExactNumber() {
+    return ExactNumberQ.of(re) && ExactNumberQ.of(im);
+  }
+
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
-    if (exponent instanceof RationalScalar) {
-      RationalScalar exp = (RationalScalar) exponent;
-      if (exp.isInteger())
-        return Scalars.binaryPower(RealScalar.ONE).apply(this, exp.numerator());
+    if (IntegerQ.of(exponent)) {
+      RationalScalar rationalScalar = (RationalScalar) exponent;
+      return Scalars.binaryPower(RealScalar.ONE).apply(this, rationalScalar.numerator());
     }
     return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
   }

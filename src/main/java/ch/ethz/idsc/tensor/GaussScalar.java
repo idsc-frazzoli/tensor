@@ -107,10 +107,9 @@ public class GaussScalar extends AbstractScalar implements //
   public Scalar power(Scalar exponent) {
     if (Scalars.isZero(exponent))
       return of(1, prime);
-    if (exponent instanceof RationalScalar) {
-      RationalScalar ratio = (RationalScalar) exponent;
-      if (ratio.isInteger())
-        return Scalars.binaryPower(of(1, prime)).apply(this, ratio.numerator().longValueExact());
+    if (IntegerQ.of(exponent)) {
+      RationalScalar rationalScalar = (RationalScalar) exponent;
+      return Scalars.binaryPower(of(1, prime)).apply(this, rationalScalar.numerator());
     }
     throw TensorRuntimeException.of(this, exponent);
   }

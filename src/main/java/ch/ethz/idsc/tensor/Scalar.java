@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.mat.LinearSolve;
+
 /** on top of the capabilities of a {@link Tensor} a scalar can be inverted
  * 
  * <p>The scalar 0 in any field cannot be inverted.
@@ -53,7 +55,13 @@ public interface Scalar extends Tensor {
    * in the case of {@link StringScalar} for instance */
   Scalar abs();
 
-  /** @return additive neutral element of field of this scalar
+  /** zero() is provided for the implementation of generic functions and algorithms,
+   * and used, for instance, in {@link LinearSolve}.
+   * 
+   * <p>zero() is not intended to provide the zero scalar in the application layer.
+   * There, use for instance {@link RealScalar#ZERO}.
+   * 
+   * @return additive neutral element of field of this scalar
    * @see Scalars#isZero(Scalar)
    * @see Scalars#nonZero(Scalar) */
   Scalar zero();
@@ -63,7 +71,7 @@ public interface Scalar extends Tensor {
    * {@link ComplexScalar} would require two numbers, therefore
    * returning a single number is not implemented.
    * 
-   * <p>two scalars that are equal should return the same number().doubleValue()
+   * <p>two scalars that are equal should return two number()s that are equal numerically.
    * 
    * @return this representation as {@link Number}
    * @throws TensorRuntimeException */
