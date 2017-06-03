@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 // EXPERIMENTAL towards a Quaternion scalar
 /* package */ class McScalar extends AbstractScalar implements ConjugateInterface {
   public static Scalar of(Scalar re, Scalar im) {
-    if (im.equals(im.zero()))
+    if (Scalars.isZero(im))
       return re;
     return _of(Tensors.matrix(new Scalar[][] { //
         { re /*                              */, im }, //

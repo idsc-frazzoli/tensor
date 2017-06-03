@@ -1,10 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.Mod;
 import junit.framework.TestCase;
 
 public class MultinomialTest extends TestCase {
@@ -20,5 +22,15 @@ public class MultinomialTest extends TestCase {
     Scalar actual = Multinomial.horner(coeffs, RealScalar.of(2));
     Scalar expected = RealScalar.of(-3 + 4 * (2) - 5 * (2 * 2));
     assertEquals(expected, actual);
+  }
+
+  public void testGauss() {
+    Scalar scalar1 = Multinomial.horner( //
+        Tensors.of(GaussScalar.of(2, 7), GaussScalar.of(4, 7), GaussScalar.of(5, 7)), //
+        GaussScalar.of(6, 7));
+    Scalar scalar2 = Multinomial.horner( //
+        Tensors.vector(2, 4, 5), RealScalar.of(6));
+    Scalar scalar3 = Mod.function(RealScalar.of(7)).apply(scalar2);
+    assertEquals(scalar1.number().intValue(), scalar3.number().intValue());
   }
 }

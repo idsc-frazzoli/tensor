@@ -24,7 +24,7 @@ public interface ComplexScalar extends Scalar, //
    * @return scalar with re as real part and im as imaginary part
    * @throws Exception if re or im are {@link ComplexScalar} */
   static Scalar of(Scalar re, Scalar im) {
-    return im.equals(im.zero()) ? re : new ComplexScalarImpl(re, im);
+    return Scalars.isZero(im) ? re : new ComplexScalarImpl(re, im);
   }
 
   /** @param re

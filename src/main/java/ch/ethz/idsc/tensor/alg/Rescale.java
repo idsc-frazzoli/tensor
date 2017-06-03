@@ -32,7 +32,7 @@ public enum Rescale {
     Scalar min = tensor.flatten(-1).map(Scalar.class::cast).reduce(Min::of).get();
     Scalar max = tensor.flatten(-1).map(Scalar.class::cast).reduce(Max::of).get();
     if (min.equals(max))
-      return tensor.map(scalar -> scalar.zero()); // set all entries to 0
+      return tensor.map(Scalar::zero); // set all entries to 0
     Scalar factor = max.subtract(min).invert();
     return tensor.map(scalar -> scalar.subtract(min).multiply(factor));
   }

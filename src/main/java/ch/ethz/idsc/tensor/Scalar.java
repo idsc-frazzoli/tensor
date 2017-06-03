@@ -64,6 +64,8 @@ public interface Scalar extends Tensor {
    * @throws TensorRuntimeException */
   Number number();
 
-  /** @return additive neutral element of field of this scalar */
+  /** @return additive neutral element of field of this scalar
+   * @see Scalars#isZero(Scalar)
+   * @see Scalars#nonZero(Scalar) */
   Scalar zero();
 }

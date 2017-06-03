@@ -20,7 +20,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from RealScalar
   public final int signInt() {
-    return isNonNegative() ? (equals(zero()) ? 0 : 1) : -1;
+    return isNonNegative() ? (Scalars.isZero(this) ? 0 : 1) : -1;
   }
 
   @Override // from RealInterface
@@ -45,13 +45,13 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from ArgInterface
   public Scalar arg() {
-    return isNonNegative() ? zero() : DoubleScalar.of(Math.PI);
+    return isNonNegative() ? RealScalar.ZERO : DoubleScalar.of(Math.PI);
   }
 
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
-    if (equals(zero())) {
-      if (exponent.equals(RealScalar.ZERO))
+    if (Scalars.isZero(this)) {
+      if (Scalars.isZero(exponent))
         return RealScalar.ONE; // <- not generic
       if (exponent instanceof RealInterface) {
         RealInterface realInterface = (RealInterface) exponent;

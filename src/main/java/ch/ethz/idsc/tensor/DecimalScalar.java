@@ -94,7 +94,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
 
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
-    return value.abs().doubleValue() < threshold ? zero() : this;
+    return value.abs().doubleValue() < threshold ? RealScalar.ZERO : this;
   }
 
   @Override // from RealScalar
@@ -103,8 +103,6 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
       return value.compareTo(decimalScalar.value);
     }
-    if (scalar.equals(scalar.zero()))
-      return signInt();
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) //
     (scalar instanceof NInterface ? ((NInterface) scalar).n() : scalar);

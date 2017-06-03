@@ -22,7 +22,7 @@ class QuaternionScalar extends AbstractScalar implements //
 
   // TODO probably better to represent quaternion as 2 complex scalars!
   public static Scalar of(Scalar re, Scalar im, Scalar jm, Scalar km) {
-    if (im.equals(im.zero()) && jm.equals(jm.zero()) && km.equals(km.zero()))
+    if (Scalars.isZero(im) && Scalars.isZero(jm) && Scalars.isZero(km))
       return re;
     return new QuaternionScalar(re, im, jm, km);
   }

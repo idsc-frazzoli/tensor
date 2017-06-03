@@ -3,6 +3,7 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.red.Total;
@@ -22,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
         Tensor lik = l.get(i).extract(0, j);
         Tensor ljk = l.get(j).extract(0, j).map(Conjugate.function);
         Scalar value = A.Get(i, j).subtract(lik.dot(d.extract(0, j).pmul(ljk)));
-        if (!value.equals(value.zero()))
+        if (Scalars.nonZero(value))
           l.set(value.divide(d.Get(j)), i, j);
       }
       Tensor lik = l.get(i).extract(0, i);

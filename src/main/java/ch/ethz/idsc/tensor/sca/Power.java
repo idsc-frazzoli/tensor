@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** implementation compliant to Java convention:
@@ -26,7 +27,7 @@ public class Power {
   public static Scalar of(Scalar scalar, Scalar exponent) {
     if (scalar instanceof PowerInterface)
       return ((PowerInterface) scalar).power(exponent);
-    if (exponent.equals(exponent.zero()))
+    if (Scalars.isZero(exponent))
       return RealScalar.ONE; // <- not generic
     throw TensorRuntimeException.of(scalar, exponent);
   }
