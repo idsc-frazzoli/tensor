@@ -55,17 +55,6 @@ public interface Scalar extends Tensor {
    * in the case of {@link StringScalar} for instance */
   Scalar abs();
 
-  /** zero() is provided for the implementation of generic functions and algorithms,
-   * and used, for instance, in {@link LinearSolve}.
-   * 
-   * <p>zero() is not intended to provide the zero scalar in the application layer.
-   * There, use for instance {@link RealScalar#ZERO}.
-   * 
-   * @return additive neutral element of field of this scalar
-   * @see Scalars#isZero(Scalar)
-   * @see Scalars#nonZero(Scalar) */
-  Scalar zero();
-
   /** classes should only override this if consistency is possible
    * for instance:
    * {@link ComplexScalar} would require two numbers, therefore
@@ -76,4 +65,15 @@ public interface Scalar extends Tensor {
    * @return this representation as {@link Number}
    * @throws TensorRuntimeException */
   Number number();
+
+  /** zero() is provided for the implementation of generic functions and algorithms,
+   * and used, for instance, in {@link LinearSolve}.
+   * 
+   * <p>zero() is not intended to provide the zero scalar in the application layer.
+   * There, use for instance {@link RealScalar#ZERO}.
+   * 
+   * @return additive neutral element of field of this scalar
+   * @see Scalars#isZero(Scalar)
+   * @see Scalars#nonZero(Scalar) */
+  Scalar zero();
 }

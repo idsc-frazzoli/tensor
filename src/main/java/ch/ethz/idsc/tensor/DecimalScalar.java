@@ -71,13 +71,13 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   }
 
   @Override // from Scalar
-  public Scalar zero() {
-    return DECIMAL_ZERO;
+  public Number number() {
+    return value;
   }
 
   @Override // from Scalar
-  public Number number() {
-    return value;
+  public Scalar zero() {
+    return DECIMAL_ZERO;
   }
 
   @Override // from AbstractRealScalar
@@ -110,6 +110,11 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   }
 
   @Override // from AbstractScalar
+  public int hashCode() {
+    return value.hashCode();
+  }
+
+  @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof DecimalScalar) {
       DecimalScalar decimalScalar = (DecimalScalar) object;
@@ -122,11 +127,6 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
       return number().doubleValue() == realScalar.number().doubleValue();
     }
     return false;
-  }
-
-  @Override // from AbstractScalar
-  public int hashCode() {
-    return value.hashCode();
   }
 
   @Override // from AbstractScalar

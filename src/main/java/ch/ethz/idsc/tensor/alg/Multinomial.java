@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Multinomial {
   ;
   // ---
-  /** horner scheme improves speed and stability for numeric evaluation of large polynomials
+  /** the horner scheme improves speed and stability for the numeric evaluation of large polynomials
    * 
    * horner({a, b, c, d}, x) == a + b*x + c*x^2 + d*x^3
    * 

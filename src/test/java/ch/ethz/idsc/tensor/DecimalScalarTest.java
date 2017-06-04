@@ -105,4 +105,11 @@ public class DecimalScalarTest extends TestCase {
     assertTrue(!Scalars.lessThan(RealScalar.ZERO, DecimalScalar.of(-3)));
     assertFalse(!Scalars.lessThan(RealScalar.ZERO, DecimalScalar.of(3)));
   }
+
+  public void testEquals() {
+    Scalar rs1 = RealScalar.ONE;
+    Scalar ds1 = DecimalScalar.of(new BigDecimal("1.0000"));
+    assertEquals(ds1, rs1);
+    assertEquals(rs1, ds1);
+  }
 }

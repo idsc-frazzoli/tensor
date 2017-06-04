@@ -182,8 +182,10 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    if (object instanceof RationalScalar)
-      return bigFraction.equals(((RationalScalar) object).bigFraction);
+    if (object instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) object;
+      return bigFraction.equals(rationalScalar.bigFraction);
+    }
     return object == null ? false : object.equals(this);
   }
 

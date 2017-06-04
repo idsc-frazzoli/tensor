@@ -64,13 +64,13 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from Scalar
-  public Scalar zero() {
-    return of(0, prime);
+  public Number number() {
+    return value;
   }
 
   @Override // from Scalar
-  public Number number() {
-    return value;
+  public Scalar zero() {
+    return of(0, prime);
   }
 
   @Override // from AbstractScalar
@@ -142,7 +142,6 @@ public class GaussScalar extends AbstractScalar implements //
       return value == gaussScalar.value && prime == gaussScalar.prime;
     }
     throw TensorRuntimeException.of(this, (Tensor) object);
-    // return object == null ? false : object.equals(this);
   }
 
   @Override // from AbstractScalar

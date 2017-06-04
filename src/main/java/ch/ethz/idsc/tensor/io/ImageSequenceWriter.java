@@ -7,7 +7,7 @@ import java.io.File;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ListAnimate.html">ListAnimate</a> */
 /* package */ interface ImageSequenceWriter extends AutoCloseable {
-  // TODO API not finalized
+  // EXPERIMENTAL - API not finalized
   static ImageSequenceWriter of(File file, int period) throws Exception {
     Filename filename = new Filename(file);
     if (filename.hasExtension("gif"))
