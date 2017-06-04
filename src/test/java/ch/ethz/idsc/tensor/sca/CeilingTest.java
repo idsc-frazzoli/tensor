@@ -31,12 +31,11 @@ public class CeilingTest extends TestCase {
     assertEquals(b.hashCode(), c.hashCode());
   }
 
-  @SuppressWarnings("cast")
   public void testGetCeiling() {
     Tensor v = Tensors.vectorDouble(3.5, 5.6, 9.12);
     Scalar s = Ceiling.function.apply(v.Get(1));
     RealScalar rs = (RealScalar) s;
-    assertEquals((Integer) rs.number(), (Integer) 6);
+    assertEquals(rs.number(), 6);
   }
 
   public void testComplex() {
@@ -51,14 +50,14 @@ public class CeilingTest extends TestCase {
 
   public void testRational1() {
     Scalar s = RationalScalar.of(234534584545L, 13423656767L); // 17.4717
-    Scalar r = (Scalar) Ceiling.of(s);
+    Scalar r = Ceiling.of(s);
     assertEquals(r, RealScalar.of(18));
     assertTrue(r instanceof RationalScalar);
   }
 
   public void testRational2() {
     Scalar s = RationalScalar.of(734534584545L, 13423656767L); // 54.7194
-    Scalar r = (Scalar) Ceiling.of(s);
+    Scalar r = Ceiling.of(s);
     assertEquals(r, RealScalar.of(55));
     assertTrue(r instanceof RationalScalar);
   }
@@ -66,7 +65,7 @@ public class CeilingTest extends TestCase {
   public void testLarge() {
     BigInteger bi = new BigInteger("97826349587623498756234545976");
     Scalar s = RealScalar.of(bi);
-    Scalar r = (Scalar) Ceiling.of(s);
+    Scalar r = Ceiling.of(s);
     assertEquals(s, r);
     assertTrue(r instanceof RationalScalar);
   }

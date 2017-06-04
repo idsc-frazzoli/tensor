@@ -59,7 +59,8 @@ public enum Round implements Function<Scalar, Scalar> {
    * 
    * @param tensor
    * @return Rationalize.of(tensor, 1) */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Round.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Round.function);
   }
 }

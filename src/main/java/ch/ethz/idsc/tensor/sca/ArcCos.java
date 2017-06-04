@@ -31,7 +31,8 @@ public enum ArcCos implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all scalars replaced with their arc cos */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(ArcCos.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(ArcCos.function);
   }
 }

@@ -30,7 +30,8 @@ public enum Exp implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all scalars replaced with their exponential */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Exp.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Exp.function);
   }
 }

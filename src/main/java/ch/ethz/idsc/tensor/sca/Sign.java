@@ -18,7 +18,8 @@ public enum Sign implements Function<Scalar, Scalar> {
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof SignInterface) {
-      int sign = ((SignInterface) scalar).signInt();
+      SignInterface signInterface = (SignInterface) scalar;
+      int sign = signInterface.signInt();
       return sign == 0 ? RealScalar.ZERO : (sign == 1 ? RealScalar.ONE : NEGATIVE_ONE);
     }
     throw TensorRuntimeException.of(scalar);

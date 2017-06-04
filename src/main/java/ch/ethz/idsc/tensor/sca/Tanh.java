@@ -35,7 +35,8 @@ public enum Tanh implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all entries replaced by their tanh */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Tanh.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Tanh.function);
   }
 }

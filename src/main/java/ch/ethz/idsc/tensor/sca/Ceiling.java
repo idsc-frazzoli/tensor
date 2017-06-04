@@ -45,7 +45,8 @@ public enum Ceiling implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Ceiling.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Ceiling.function);
   }
 }
