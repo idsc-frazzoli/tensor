@@ -1,8 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.mat.Det;
 import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
@@ -21,13 +21,13 @@ public class KillingFormTest extends TestCase {
     assertEquals(JacobiIdentity.of(sl3), Array.zeros(3, 3, 3, 3));
     Tensor kil = KillingForm.of(sl3);
     // killing form is non-gegenerate
-    assertTrue(!Det.of(kil).equals(ZeroScalar.get()));
+    assertTrue(Scalars.nonZero(Det.of(kil)));
   }
 
   public void testHe3() {
     Tensor he3 = LieAlgebras.heisenberg3();
     assertEquals(JacobiIdentity.of(he3), Array.zeros(3, 3, 3, 3));
     Tensor kil = KillingForm.of(he3);
-    assertTrue(Det.of(kil).equals(ZeroScalar.get()));
+    assertTrue(Scalars.isZero(Det.of(kil)));
   }
 }

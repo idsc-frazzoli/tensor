@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class RationalizeTest extends TestCase {
@@ -28,7 +27,7 @@ public class RationalizeTest extends TestCase {
     assertEquals(Rationalize.of(tenth, 6).toString(), "1/6");
     assertEquals(Rationalize.of(tenth.negate(), 6).toString(), "-1/6");
     assertEquals(Rationalize.of(tenth, 5).toString(), "1/5");
-    assertEquals(Rationalize.of(tenth.negate(), 5), ZeroScalar.get());
+    assertEquals(Rationalize.of(tenth.negate(), 5), RealScalar.ZERO);
     assertEquals(Rationalize.of(tenth, 4).toString(), "0");
   }
 

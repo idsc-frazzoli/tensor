@@ -6,7 +6,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiagonalMatrix.html">DiagonalMatrix</a> */
@@ -17,7 +16,7 @@ public enum DiagonalMatrix {
   public static Tensor of(Tensor vector) {
     if (vector instanceof Scalar)
       throw TensorRuntimeException.of(vector);
-    return Tensors.matrix((i, j) -> i.equals(j) ? vector.Get(i) : ZeroScalar.get(), vector.length(), vector.length());
+    return Tensors.matrix((i, j) -> i.equals(j) ? vector.Get(i) : vector.Get(i).zero(), vector.length(), vector.length());
   }
 
   /** @param scalars

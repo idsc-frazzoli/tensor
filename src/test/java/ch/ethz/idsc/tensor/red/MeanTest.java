@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -24,7 +23,7 @@ public class MeanTest extends TestCase {
     Scalar mean1 = Mean.of(tensor).Get();
     Scalar mean2 = Total.of(tensor.multiply(RealScalar.of(tensor.length()).invert())).Get();
     // possibly use error relative to magnitude
-    assertEquals(mean1.subtract(mean2).map(Chop.function), ZeroScalar.get());
+    assertEquals(mean1.subtract(mean2).map(Chop.function), RealScalar.ZERO);
   }
 
   public void testEmpty1() {
@@ -38,7 +37,7 @@ public class MeanTest extends TestCase {
 
   public void testEmpty2() {
     Scalar s = Mean.orZero(Tensors.empty()).Get();
-    assertEquals(s, ZeroScalar.get());
+    assertEquals(s, RealScalar.ZERO);
   }
 
   public void testEmpty3() {

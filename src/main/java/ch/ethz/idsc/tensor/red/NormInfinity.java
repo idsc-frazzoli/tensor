@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 /* package */ class NormInfinity extends RankAdapter<Scalar> {
   @Override
@@ -18,7 +17,7 @@ import ch.ethz.idsc.tensor.ZeroScalar;
         .map(Scalar.class::cast) //
         .map(Scalar::abs) //
         .reduce(Max::of) //
-        .orElse(ZeroScalar.get());
+        .get();
   }
 
   private static final Norm1 norm1 = new Norm1();

@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.sca.N;
@@ -19,9 +18,15 @@ import junit.framework.TestCase;
 public class DetTest extends TestCase {
   public void testEmpty() {
     Tensor m = Tensors.matrix(new Number[][] { {} });
-    // this is not consistent with Mathematica
+    // this is consistent with Mathematica
     // Mathematica throws an exception
-    assertEquals(Det.of(m), ZeroScalar.get());
+    // System.out.println("here!");
+    try {
+      Det.of(m);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testDet1() {
@@ -55,8 +60,11 @@ public class DetTest extends TestCase {
 
   public void testReversedId() {
     Tensor actual = Tensors.vector(0, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1);
-    for (int n = 1; n < 10; ++n)
-      assertEquals(Det.of(Reverse.of(IdentityMatrix.of(n))), actual.Get(n));
+    for (int n = 1; n < 10; ++n) {
+      Tensor mat = Reverse.of(IdentityMatrix.of(n));
+      Scalar det = Det.of(mat);
+      assertEquals(det, actual.Get(n));
+    }
   }
 
   public void testDet4() {
@@ -138,7 +146,7 @@ public class DetTest extends TestCase {
 
   public void testSingular() {
     Tensor m = Array.zeros(5, 5);
-    assertEquals(Det.of(m), ZeroScalar.get());
+    assertEquals(Det.of(m), RealScalar.ZERO);
   }
 
   // https://ch.mathworks.com/help/matlab/ref/det.html
@@ -159,7 +167,7 @@ public class DetTest extends TestCase {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -13, 24 }//
     });
     Scalar det = Det.of(m);
-    assertEquals(det, ZeroScalar.get());
+    assertEquals(det, RealScalar.ZERO);
     // ---
     // Matlab gives num == 1.0597e+05 !
     // Mathematica gives num == 44934.8 !

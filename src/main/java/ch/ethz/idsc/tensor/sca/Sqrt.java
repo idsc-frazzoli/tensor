@@ -23,8 +23,9 @@ public enum Sqrt implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all scalars replaced with their square root */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Sqrt.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Sqrt.function);
   }
 
   /** @param value

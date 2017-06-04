@@ -2,8 +2,8 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Transpose;
 
 /** inspired by
@@ -19,7 +19,7 @@ public enum MatrixRank {
     int j = 0;
     int c0 = 0;
     while (j < n && c0 < m)
-      if (!lhs.Get(j, c0++).equals(ZeroScalar.get())) // <- careful: c0 is modified
+      if (Scalars.nonZero(lhs.Get(j, c0++))) // <- careful: c0 is modified
         ++j;
     return j;
   }

@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.ZeroScalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class SqrtTest extends TestCase {
@@ -23,11 +24,11 @@ public class SqrtTest extends TestCase {
     Scalar scalar = ComplexScalar.of(0, 2);
     Scalar root = Sqrt.function.apply(scalar);
     Scalar res = ComplexScalar.of(1, 1);
-    assertEquals(Chop.of(root.subtract(res)), ZeroScalar.get());
+    assertEquals(Chop.of(root.subtract(res)), RealScalar.ZERO);
   }
 
   public void testZero() {
-    assertEquals(ZeroScalar.get(), Sqrt.function.apply(ZeroScalar.get()));
+    assertEquals(RealScalar.ZERO, Sqrt.function.apply(RealScalar.ZERO));
   }
 
   public void testRational() {
@@ -60,5 +61,10 @@ public class SqrtTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testTensor() {
+    Tensor r = Sqrt.of(Tensors.vector(1, 4, 9, 16));
+    assertEquals(r, Tensors.vector(1, 2, 3, 4));
   }
 }

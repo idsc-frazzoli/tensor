@@ -5,8 +5,8 @@ import java.util.function.BiFunction;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** Hypot computes
@@ -27,7 +27,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
     Scalar ay = b.abs();
     Scalar min = Min.of(ax, ay);
     Scalar max = Max.of(ax, ay);
-    if (min.equals(ZeroScalar.get()))
+    if (Scalars.isZero(min))
       return max; // if min == 0 return max
     // valid at this point: 0 < min <= max
     Scalar ratio = min.divide(max);
@@ -41,22 +41,20 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
   /** function computes the 2-Norm of a vector
    * without intermediate overflow or underflow
    * 
-   * <p>the empty vector evaluates to Hypot[{}] == 0
-   * whereas in Mathematica Norm[{}] == Norm[{}]
+   * <p>the empty vector Hypot[{}] results in an error, since
+   * Mathematica::Norm[{}] == Norm[{}] is undefined also.
    * 
    * <p>The disadvantage of the implementation is that
    * a numerical output is returned even in cases where
    * a rational number is the exact result.
    * 
    * @param vector
-   * @return */
+   * @return 2-norm of vector */
   public static Scalar ofVector(Tensor vector) {
-    if (vector.length() == 0) // <- condition not compliant with Mathematica
-      return ZeroScalar.get();
     Tensor abs = vector.map(Scalar::abs);
     Scalar max = (Scalar) abs.flatten(0).reduce(Max::of).get();
-    if (max.equals(ZeroScalar.get()))
-      return ZeroScalar.get();
+    if (Scalars.isZero(max))
+      return max;
     abs = abs.multiply(max.invert());
     return max.multiply(Sqrt.function.apply((Scalar) abs.dot(abs)));
   }

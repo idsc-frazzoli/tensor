@@ -7,7 +7,6 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.ZeroScalar;
 
 /** not completely consistent with Mathematica since
  * Mathematica::KroneckerDelta[ ] == 1 (<-consistent)
@@ -33,6 +32,6 @@ public enum KroneckerDelta {
   /** @param collection
    * @return RealScalar.ONE if there are no two objects in the collection that are distinct */
   public static Scalar of(Collection<Object> collection) {
-    return collection.stream().distinct().count() <= 1 ? RealScalar.ONE : ZeroScalar.get();
+    return collection.stream().distinct().count() <= 1 ? RealScalar.ONE : RealScalar.ZERO;
   }
 }

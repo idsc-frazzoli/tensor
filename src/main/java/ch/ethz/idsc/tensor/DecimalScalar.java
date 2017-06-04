@@ -10,11 +10,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 // work in progress, use {@link DoubleScalar} instead
 public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
+  private static final Scalar DECIMAL_ZERO = of(BigDecimal.ZERO);
   // perhaps make this member
   private static final MathContext CONTEXT = MathContext.DECIMAL128;
 
   public static RealScalar of(BigDecimal value) {
-    return value.compareTo(BigDecimal.ZERO) == 0 ? ZeroScalar.get() : new DecimalScalar(value);
+    return new DecimalScalar(value);
   }
 
   public static RealScalar of(double value) {
@@ -74,6 +75,11 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return value;
   }
 
+  @Override // from Scalar
+  public Scalar zero() {
+    return DECIMAL_ZERO;
+  }
+
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
     return 0 <= value.signum();
@@ -83,12 +89,12 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   public Scalar sqrt() {
     if (isNonNegative())
       return of(Sqrt.of(value));
-    return ComplexScalar.of(ZeroScalar.get(), of(Sqrt.of(value.negate())));
+    return ComplexScalar.of(zero(), of(Sqrt.of(value.negate())));
   }
 
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
-    return value.abs().doubleValue() < threshold ? ZeroScalar.get() : this;
+    return value.abs().doubleValue() < threshold ? ZERO : this;
   }
 
   @Override // from RealScalar
@@ -97,8 +103,6 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
       return value.compareTo(decimalScalar.value);
     }
-    if (scalar instanceof ZeroScalar)
-      return signInt();
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) //
     (scalar instanceof NInterface ? ((NInterface) scalar).n() : scalar);
@@ -106,21 +110,23 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   }
 
   @Override // from AbstractScalar
+  public int hashCode() {
+    return value.hashCode();
+  }
+
+  @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof DecimalScalar) {
       DecimalScalar decimalScalar = (DecimalScalar) object;
-      return value.equals(decimalScalar.value); // TODO check
+      // "equal() only if given BigDecimal's are equal in value and scale,
+      // thus 2.0 is not equal to 2.00 when compared by equals()."
+      return value.compareTo(decimalScalar.value) == 0;
     }
     if (object instanceof RealScalar) {
       RealScalar realScalar = (RealScalar) object;
       return number().doubleValue() == realScalar.number().doubleValue();
     }
     return false;
-  }
-
-  @Override // from AbstractScalar
-  public int hashCode() {
-    return value.hashCode();
   }
 
   @Override // from AbstractScalar

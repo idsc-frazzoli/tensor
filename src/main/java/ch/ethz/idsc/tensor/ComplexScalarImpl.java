@@ -6,17 +6,18 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
-import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    ChopInterface, NInterface, PowerInterface {
+    ArcTanInterface, ChopInterface, ExactNumberQInterface, NInterface {
   private final Scalar re;
   private final Scalar im;
 
@@ -74,6 +75,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     throw TensorRuntimeException.of(this);
   }
 
+  @Override // from Scalar
+  public Scalar zero() {
+    return re.zero();
+  }
+
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof ComplexScalarImpl) {
@@ -92,6 +98,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         arg().divide(RealScalar.of(2)));
   }
 
+  @Override // from ArcTanInterface
+  public Scalar arcTan(Scalar y) {
+    Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
+    Scalar scalar = y.divide(this); // TODO prevent division by zero
+    return I_HALF.multiply(Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
+  }
+
   @Override // from ArgInterface
   public Scalar arg() {
     return ArcTan.of(re, im); // Mathematica::ArcTan[x, y]
@@ -102,12 +115,16 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ComplexScalar.of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
   }
 
+  @Override // from ExactNumberInterface
+  public boolean isExactNumber() {
+    return ExactNumberQ.of(re) && ExactNumberQ.of(im);
+  }
+
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
-    if (exponent instanceof RationalScalar) {
-      RationalScalar exp = (RationalScalar) exponent;
-      if (exp.isInteger())
-        return Scalars.binaryPower(RealScalar.ONE).apply(this, exp.numerator());
+    if (IntegerQ.of(exponent)) {
+      RationalScalar rationalScalar = (RationalScalar) exponent;
+      return Scalars.binaryPower(RealScalar.ONE).apply(this, rationalScalar.numerator());
     }
     return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
   }
@@ -129,7 +146,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       ComplexScalarImpl complexScalar = (ComplexScalarImpl) object;
       return re.equals(complexScalar.real()) && im.equals(complexScalar.imag());
     }
-    return re.equals(object) && im.equals(ZeroScalar.get());
+    return re.equals(object) && Scalars.isZero(im);
   }
 
   // helper function that formats imaginary part to a String
@@ -155,7 +172,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder(48); // initial capacity
     String imag = _imagToString();
-    if (!re.equals(ZeroScalar.get())) {
+    if (Scalars.nonZero(re)) {
       stringBuilder.append(re);
       if (!imag.startsWith("-"))
         stringBuilder.append('+');

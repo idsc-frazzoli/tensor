@@ -3,11 +3,19 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class RealScalarTest extends TestCase {
+  public void testSerializable() throws Exception {
+    Scalar a = RealScalar.ZERO;
+    Scalar b = Serialization.parse(Serialization.of(a));
+    assertEquals(a, b);
+    assertFalse(a == b);
+  }
+
   public void testSign() {
-    assertEquals(ZeroScalar.get().signInt(), 0);
+    assertEquals(RealScalar.ZERO.signInt(), 0);
     assertEquals(RealScalar.of(+5).signInt(), 1);
     assertEquals(RealScalar.of(-5).signInt(), -1);
     RealScalar r1 = RationalScalar.of(1927365481254298736L, 1927365481254298737L);
@@ -17,17 +25,18 @@ public class RealScalarTest extends TestCase {
   }
 
   public void testCompare() {
+    assertEquals(RealScalar.ZERO.compareTo(RealScalar.ZERO), 0);
     {
       final Integer a = 0;
       final Integer b = 5;
-      assertEquals(Integer.compare(0, b), ZeroScalar.get().compareTo(RealScalar.of(b)));
-      assertEquals(a.compareTo(b), ZeroScalar.get().compareTo(RealScalar.of(b)));
+      assertEquals(Integer.compare(0, b), RealScalar.ZERO.compareTo(RealScalar.of(b)));
+      assertEquals(a.compareTo(b), RealScalar.ZERO.compareTo(RealScalar.of(b)));
     }
     {
       final Integer a = 0;
       final Integer b = -5;
-      assertEquals(Integer.compare(0, b), ZeroScalar.get().compareTo(RealScalar.of(b)));
-      assertEquals(a.compareTo(b), ZeroScalar.get().compareTo(RealScalar.of(b)));
+      assertEquals(Integer.compare(0, b), RealScalar.ZERO.compareTo(RealScalar.of(b)));
+      assertEquals(a.compareTo(b), RealScalar.ZERO.compareTo(RealScalar.of(b)));
     }
     {
       assertEquals(Double.compare(.3, .4), DoubleScalar.of(.3).compareTo(DoubleScalar.of(.4)));
@@ -50,8 +59,8 @@ public class RealScalarTest extends TestCase {
   }
 
   public void testNumber() {
-    assertEquals(ZeroScalar.get(), RealScalar.of(0));
-    assertEquals(ZeroScalar.get(), RealScalar.of(0.));
+    assertEquals(RealScalar.ZERO, RealScalar.of(0));
+    assertEquals(RealScalar.ZERO, RealScalar.of(0.));
     assertEquals(DoubleScalar.of(3.), RealScalar.of(3.));
     assertEquals(DoubleScalar.of(3.), RealScalar.of(3.f));
     assertEquals(IntegerScalar.of(3), RealScalar.of(3));

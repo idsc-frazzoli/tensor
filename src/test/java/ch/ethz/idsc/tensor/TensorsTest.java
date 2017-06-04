@@ -21,7 +21,7 @@ public class TensorsTest extends TestCase {
   public void testUnmodifiableSet() {
     Tensor id = IdentityMatrix.of(3).unmodifiable();
     try {
-      id.set(ZeroScalar.get(), 2, 2);
+      id.set(RealScalar.ZERO, 2, 2);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -195,7 +195,7 @@ public class TensorsTest extends TestCase {
   }
 
   public void testScalarArrays() {
-    Scalar[][] data = new Scalar[][] { { ZeroScalar.get(), RealScalar.ONE }, {}, { ComplexScalar.of(2, 3) } };
+    Scalar[][] data = new Scalar[][] { { RealScalar.ZERO, RealScalar.ONE }, {}, { ComplexScalar.of(2, 3) } };
     Tensor actual = Tensors.matrix(data);
     Tensor expected = Tensors.fromString("{{0, 1}, {}, {2+3*I}}");
     assertEquals(expected, actual);

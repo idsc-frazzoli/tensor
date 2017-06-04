@@ -6,22 +6,29 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** an implementation is not required to support the representation of
  * Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, and Double.NaN */
-public final class RationalScalar extends AbstractRealScalar implements NInterface {
+public final class RationalScalar extends AbstractRealScalar implements //
+    ExactNumberQInterface, NInterface {
   // private because BigFraction has package visibility
   private static RealScalar _of(BigFraction bigFraction) {
-    return bigFraction.num.equals(BigInteger.ZERO) ? //
-        ZeroScalar.get() : new RationalScalar(bigFraction);
+    return new RationalScalar(bigFraction);
   }
 
+  /** @param num
+   * @param den
+   * @return scalar encoding the exact fraction num / den */
   public static RealScalar of(BigInteger num, BigInteger den) {
     return _of(BigFraction.of(num, den));
   }
 
+  /** @param num
+   * @param den
+   * @return scalar encoding the exact fraction num / den */
   public static RealScalar of(long num, long den) {
     return _of(BigFraction.of(num, den));
   }
@@ -35,11 +42,13 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
     this.bigFraction = bigFraction;
   }
 
+  /** @return numerator as {@link BigInteger} */
   public BigInteger numerator() {
     return bigFraction.num;
   }
 
-  /** @return positive number */
+  /** @return denominator as {@link BigInteger},
+   * the denominator of a {@link RationalScalar} is always positive */
   public BigInteger denominator() {
     return bigFraction.den;
   }
@@ -62,8 +71,13 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
   }
 
   @Override // from Scalar
+  public Scalar zero() {
+    return RealScalar.ZERO;
+  }
+
+  @Override // from Scalar
   public Number number() {
-    if (isInteger()) {
+    if (IntegerQ.of(this)) {
       BigInteger bigInteger = numerator();
       try {
         return bigInteger.intValueExact();
@@ -110,7 +124,7 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
       boolean pos = isNonNegative();
       BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
       BigInteger sqrtden = Sqrt.of(bigFraction.den);
-      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZeroScalar.get(), of(sqrtnum, sqrtden));
+      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---
     }
@@ -119,25 +133,28 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
 
   @Override // from AbstractRealScalar
   public Scalar power(Scalar exponent) {
-    if (exponent instanceof RationalScalar) {
+    if (IntegerQ.of(exponent)) {
       RationalScalar exp = (RationalScalar) exponent;
-      if (exp.isInteger()) {
-        try {
-          // intValueExact throws an exception when exp > Integer.MAX_VALUE
-          int expInt = exp.numerator().intValueExact();
-          if (0 <= expInt)
-            return RationalScalar.of( //
-                numerator().pow(expInt), //
-                denominator().pow(expInt));
+      try {
+        // intValueExact throws an exception when exp > Integer.MAX_VALUE
+        int expInt = exp.numerator().intValueExact();
+        if (0 <= expInt)
           return RationalScalar.of( //
-              denominator().pow(-expInt), //
-              numerator().pow(-expInt));
-        } catch (Exception exception) {
-          return Scalars.binaryPower(RealScalar.ONE).apply(this, exp.numerator());
-        }
+              numerator().pow(expInt), //
+              denominator().pow(expInt));
+        return RationalScalar.of( //
+            denominator().pow(-expInt), //
+            numerator().pow(-expInt));
+      } catch (Exception exception) {
+        return Scalars.binaryPower(RealScalar.ONE).apply(this, exp.numerator());
       }
     }
     return super.power(exponent);
+  }
+
+  @Override // from ExactNumberQInterface
+  public boolean isExactNumber() {
+    return true;
   }
 
   @Override // from NInterface
@@ -153,16 +170,9 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
       BigInteger rhs = rationalScalar.numerator().multiply(denominator());
       return lhs.compareTo(rhs);
     }
-    if (scalar instanceof ZeroScalar)
-      return signInt();
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
     return -comparable.compareTo(this);
-  }
-
-  /** @return true if denominator equals 1 */
-  /* package */ boolean isInteger() { // function name is ambiguous
-    return bigFraction.isInteger();
   }
 
   @Override // from AbstractScalar
@@ -172,8 +182,10 @@ public final class RationalScalar extends AbstractRealScalar implements NInterfa
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    if (object instanceof RationalScalar)
-      return bigFraction.equals(((RationalScalar) object).bigFraction);
+    if (object instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) object;
+      return bigFraction.equals(rationalScalar.bigFraction);
+    }
     return object == null ? false : object.equals(this);
   }
 

@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.KroneckerDelta;
 
 /** inspired by
@@ -21,6 +20,6 @@ public enum IdentityMatrix {
    * @param one
    * @return matrix of dimensions n x n with multiplicative one on the diagonal */
   public static Tensor of(int n, Scalar one) {
-    return Tensors.matrix((i, j) -> i.equals(j) ? one : ZeroScalar.get(), n, n);
+    return Tensors.matrix((i, j) -> i.equals(j) ? one : one.zero(), n, n);
   }
 }

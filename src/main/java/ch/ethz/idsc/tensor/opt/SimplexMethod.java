@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Join;
@@ -30,17 +29,17 @@ import ch.ethz.idsc.tensor.red.ArgMin;
       // Tensor D = DiagonalMatrix.of(b.map(UnitStep.function));
       // IdentityMatrix.of(m)
       Tensor tab = Join.of(1, A, IdentityMatrix.of(m), Partition.of(b, 1));
-      Tensor row = Tensors.vector(i -> n <= i && i < n + m ? RealScalar.ONE : ZeroScalar.get(), n + m + 1);
+      Tensor row = Tensors.vector(i -> n <= i && i < n + m ? RealScalar.ONE : RealScalar.ZERO, n + m + 1);
       for (int index = 0; index < m; ++index) // make all entries in bottom row zero
         row = row.subtract(tab.get(index));
-      row.set(ZeroScalar.get(), n + m); // set bottom corner to 0
+      row.set(RealScalar.ZERO, n + m); // set bottom corner to 0
       tab.append(row);
       simplexImpl = new SimplexMethod(tab, Range.of(n, n + m), simplexPivot); // phase 1
     }
     Tensor tab = Join.of(1, //
         TensorMap.of(row -> row.extract(0, n), simplexImpl.tab.extract(0, m), 1), //
         Partition.of(simplexImpl.tab.get(Tensor.ALL, n + m).extract(0, m), 1));
-    tab.append(Join.of(c, Tensors.of(ZeroScalar.get()))); // set bottom corner to 0
+    tab.append(Join.of(c, Tensors.of(RealScalar.ZERO))); // set bottom corner to 0
     return new SimplexMethod(tab, simplexImpl.ind, simplexPivot).getX(); // phase 2
   }
 

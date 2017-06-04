@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -26,7 +25,7 @@ public class QRDecompositionTest extends TestCase {
     Tensor err = Q.dot(Qi).subtract(IdentityMatrix.of(A.length()));
     assertEquals(err.map(chop), Array.zeros(Dimensions.of(err)));
     Scalar qrDet = Det.of(Q).multiply(Det.of(R));
-    assertEquals(qrDet.subtract(Det.of(A)).map(chop), ZeroScalar.get());
+    assertEquals(qrDet.subtract(Det.of(A)).map(chop), RealScalar.ZERO);
     return qr;
   }
 
@@ -88,11 +87,11 @@ public class QRDecompositionTest extends TestCase {
     Tensor matrix = HilbertMatrix.of(4, 7);
     specialOps(matrix);
     QRDecomposition qr = QRDecomposition.of(matrix);
-    assertEquals(qr.getR().get(1, 0), ZeroScalar.get());
-    assertEquals(qr.getR().get(2, 0), ZeroScalar.get());
-    assertEquals(qr.getR().get(2, 1), ZeroScalar.get());
-    assertEquals(qr.getR().get(3, 0), ZeroScalar.get());
-    assertEquals(qr.getR().get(3, 1), ZeroScalar.get());
-    assertEquals(qr.getR().get(3, 2), ZeroScalar.get());
+    assertEquals(qr.getR().get(1, 0), RealScalar.ZERO);
+    assertEquals(qr.getR().get(2, 0), RealScalar.ZERO);
+    assertEquals(qr.getR().get(2, 1), RealScalar.ZERO);
+    assertEquals(qr.getR().get(3, 0), RealScalar.ZERO);
+    assertEquals(qr.getR().get(3, 1), RealScalar.ZERO);
+    assertEquals(qr.getR().get(3, 2), RealScalar.ZERO);
   }
 }

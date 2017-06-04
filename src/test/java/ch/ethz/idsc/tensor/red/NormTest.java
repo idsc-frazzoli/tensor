@@ -6,7 +6,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class NormTest extends TestCase {
@@ -33,11 +32,12 @@ public class NormTest extends TestCase {
   }
 
   public void testCornerCases() {
-    final Tensor z = ZeroScalar.get();
-    {
-      assertEquals(Norm._1.of(Tensors.empty()), z);
-      assertEquals(Norm._2.of(Tensors.empty()), z);
-      assertEquals(Norm.Infinity.of(Tensors.empty()), z);
+    final Tensor z = RealScalar.ZERO;
+    try {
+      Norm._1.of(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
     }
     {
       assertEquals(Norm._1.of(z), z);

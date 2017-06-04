@@ -7,9 +7,9 @@ import java.nio.file.Paths;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Partition;
 import ch.ethz.idsc.tensor.io.MatlabExport;
 import ch.ethz.idsc.tensor.io.Pretty;
@@ -18,7 +18,7 @@ public class MatlabExportDemo {
   private static final String ROOT = "/home/datahaki/";
 
   public void exportVector() {
-    Tensor tensor = Tensors.of(ZeroScalar.get(), ComplexScalar.of(3, 4));
+    Tensor tensor = Tensors.of(RealScalar.ZERO, ComplexScalar.of(3, 4));
     Pretty.of(tensor);
     // System.out.println(Pretty.of(tensor));
     // System.out.println(Dimensions.of(tensor));

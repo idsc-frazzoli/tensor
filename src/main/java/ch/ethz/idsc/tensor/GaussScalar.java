@@ -6,14 +6,14 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
-    Comparable<Scalar>, PowerInterface, SqrtInterface //
-{
+    Comparable<Scalar>, ExactNumberQInterface, PowerInterface, SqrtInterface {
   private static final Set<Long> PROBABLE_PRIMES = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
@@ -24,15 +24,10 @@ public class GaussScalar extends AbstractScalar implements //
     }
   }
 
-  private static void assertInstanceOfZeroScalar(Scalar scalar) {
-    if (!(scalar instanceof ZeroScalar))
-      throw new IllegalArgumentException();
-  }
-
   public static Scalar of(long value, long prime) {
     assertIsProbablePrime(prime);
     long _value = ((value % prime) + prime) % prime;
-    return _value == 0 ? ZeroScalar.get() : new GaussScalar(_value, prime);
+    return new GaussScalar(_value, prime);
   }
 
   private final long value;
@@ -64,23 +59,18 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from Scalar
-  public Number number() {
-    return value;
-  }
-
-  @Override // from Scalar
   public Scalar abs() {
     return this;
   }
 
   @Override // from Scalar
-  public Scalar multiply(Scalar scalar) {
-    if (scalar instanceof GaussScalar) {
-      GaussScalar gaussScalar = (GaussScalar) scalar;
-      return of(value * gaussScalar.value, prime);
-    }
-    assertInstanceOfZeroScalar(scalar);
-    return scalar.multiply(this);
+  public Number number() {
+    return value;
+  }
+
+  @Override // from Scalar
+  public Scalar zero() {
+    return of(0, prime);
   }
 
   @Override // from AbstractScalar
@@ -89,8 +79,21 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value + gaussScalar.value, prime);
     }
-    assertInstanceOfZeroScalar(scalar);
-    return scalar.add(this);
+    throw TensorRuntimeException.of(this, scalar);
+  }
+
+  @Override // from Scalar
+  public Scalar multiply(Scalar scalar) {
+    if (scalar instanceof GaussScalar) {
+      GaussScalar gaussScalar = (GaussScalar) scalar;
+      return of(value * gaussScalar.value, prime);
+    }
+    throw TensorRuntimeException.of(this, scalar);
+  }
+
+  @Override // from ExactNumberQInterface
+  public boolean isExactNumber() {
+    return true;
   }
 
   @Override // from SqrtInterface
@@ -107,20 +110,17 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
-    if (exponent instanceof ZeroScalar)
+    if (Scalars.isZero(exponent))
       return of(1, prime);
-    if (exponent instanceof RationalScalar) {
-      RationalScalar ratio = (RationalScalar) exponent;
-      if (ratio.isInteger())
-        return Scalars.binaryPower(of(1, prime)).apply(this, ratio.numerator().longValueExact());
+    if (IntegerQ.of(exponent)) {
+      RationalScalar rationalScalar = (RationalScalar) exponent;
+      return Scalars.binaryPower(of(1, prime)).apply(this, rationalScalar.numerator());
     }
     throw TensorRuntimeException.of(this, exponent);
   }
 
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
-    if (scalar instanceof ZeroScalar)
-      return Long.compare(value, 0);
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
       if (prime != gaussScalar.prime)
@@ -141,7 +141,7 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) object;
       return value == gaussScalar.value && prime == gaussScalar.prime;
     }
-    return object == null ? false : object.equals(this);
+    throw TensorRuntimeException.of(this, (Tensor) object);
   }
 
   @Override // from AbstractScalar

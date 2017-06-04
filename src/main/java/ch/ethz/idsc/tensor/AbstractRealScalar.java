@@ -3,11 +3,10 @@ package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
-import ch.ethz.idsc.tensor.sca.PowerInterface;
+import ch.ethz.idsc.tensor.sca.RealInterface;
 
 /** suggested base class for implementations of {@link RealScalar} */
-public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar, //
-    PowerInterface {
+public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
   /** @return this or this.negate() depending on whichever is non-negative */
   @Override // from Scalar
   public final Scalar abs() {
@@ -19,9 +18,9 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return this;
   }
 
-  @Override // from RealScalar
+  @Override // from SignInterface
   public final int signInt() {
-    return isNonNegative() ? 1 : -1;
+    return isNonNegative() ? (Scalars.isZero(this) ? 0 : 1) : -1;
   }
 
   @Override // from RealInterface
@@ -31,26 +30,44 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from ImagInterface
   public final Scalar imag() {
-    return ZeroScalar.get();
+    return ZERO; // consistent with Mathematica::Im[3.] == 0
   }
 
   /***************************************************/
   // methods are non-final because other RealScalars may support better precision
+  @Override // from ArcTanInterface
+  public Scalar arcTan(Scalar y) {
+    return DoubleScalar.of(Math.atan2( //
+        y.number().doubleValue(), // y
+        number().doubleValue())); // x
+  }
+
+  @Override // from ArgInterface
+  public Scalar arg() {
+    return isNonNegative() ? RealScalar.ZERO : DoubleScalar.of(Math.PI);
+  }
+
   /** @return {@link ComplexScalar} if negative */
   @Override // from SqrtInterface
   public Scalar sqrt() {
     if (isNonNegative())
       return DoubleScalar.of(Math.sqrt(number().doubleValue()));
-    return ComplexScalar.of(ZeroScalar.get(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
-  }
-
-  @Override // from ArgInterface
-  public Scalar arg() {
-    return isNonNegative() ? ZeroScalar.get() : DoubleScalar.of(Math.PI);
+    return ComplexScalar.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
   }
 
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
+    if (Scalars.isZero(this)) {
+      if (Scalars.isZero(exponent))
+        return RealScalar.ONE; // <- not generic
+      if (exponent instanceof RealInterface) {
+        RealInterface realInterface = (RealInterface) exponent;
+        RealScalar realScalar = (RealScalar) realInterface.real();
+        if (realScalar.signInt() == 1)
+          return zero();
+      }
+      throw TensorRuntimeException.of(this, exponent);
+    }
     if (exponent instanceof RealScalar)
       return RealScalar.of(Math.pow(number().doubleValue(), exponent.number().doubleValue()));
     return Exp.function.apply(exponent.multiply(Log.function.apply(this)));

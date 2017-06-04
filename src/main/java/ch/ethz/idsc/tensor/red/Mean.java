@@ -2,9 +2,9 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** inspired by
@@ -36,6 +36,6 @@ public enum Mean {
    * @param tensor
    * @return average of entries in tensor, or 0 if tensor is empty */
   public static Tensor orZero(Tensor tensor) {
-    return tensor.length() == 0 ? ZeroScalar.get() : of(tensor);
+    return tensor.length() == 0 ? RealScalar.ZERO : of(tensor);
   }
 }

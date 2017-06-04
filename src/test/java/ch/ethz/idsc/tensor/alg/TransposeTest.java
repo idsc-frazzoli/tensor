@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class TransposeTest extends TestCase {
@@ -69,7 +68,7 @@ public class TransposeTest extends TestCase {
   public void testModify() {
     Tensor m = Tensors.matrixInt(new int[][] { { 1, 2 }, { 2, 4 } });
     Tensor mt = Transpose.of(m);
-    mt.set(i -> ZeroScalar.get(), 1, 1);
+    mt.set(i -> RealScalar.ZERO, 1, 1);
     assertFalse(m.equals(mt));
     // System.out.println(Pretty.of(m));
     // System.out.println(Pretty.of(mt));

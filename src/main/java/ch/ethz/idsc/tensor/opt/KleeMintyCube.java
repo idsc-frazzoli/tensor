@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.sca.Power;
 
@@ -28,7 +27,7 @@ import ch.ethz.idsc.tensor.sca.Power;
 /* package */ class KleeMintyCube {
   private static Scalar coefficient(int i, int j) {
     if (i < j)
-      return ZeroScalar.get();
+      return RealScalar.ZERO;
     return i == j ? RealScalar.ONE : Power.of(2, i - j + 1);
   }
 
@@ -41,7 +40,7 @@ import ch.ethz.idsc.tensor.sca.Power;
     c = Tensors.vector(i -> Power.of(2, n - i - 1), n).unmodifiable();
     m = Tensors.matrix(KleeMintyCube::coefficient, n, n).unmodifiable();
     b = Tensors.vector(i -> Power.of(5, i + 1), n).unmodifiable();
-    x = Tensors.vector(i -> i < n - 1 ? ZeroScalar.get() : Power.of(5, n), n).unmodifiable();
+    x = Tensors.vector(i -> i < n - 1 ? RealScalar.ZERO : Power.of(5, n), n).unmodifiable();
   }
 
   public void show() {

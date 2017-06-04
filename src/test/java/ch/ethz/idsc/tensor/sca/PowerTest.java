@@ -14,13 +14,51 @@ public class PowerTest extends TestCase {
   }
 
   public void testZero() {
-    assertEquals(Power.of(2, 0), RealScalar.ONE);
-    assertEquals(Power.of(0, 0), RealScalar.ONE);
+    assertEquals(Power.of(+2, 0), RealScalar.ONE);
+    assertEquals(Power.of(+1, 0), RealScalar.ONE);
+    assertEquals(Power.of(+0, 0), RealScalar.ONE);
+    assertEquals(Power.of(-1, 0), RealScalar.ONE);
+    assertEquals(Power.of(-2, 0), RealScalar.ONE);
   }
 
   public void testSqrt() {
     assertEquals(Power.of(2, .5), Sqrt.of(RealScalar.of(2)));
     assertEquals(Power.of(14, .5), Sqrt.of(RealScalar.of(14)));
+  }
+
+  public void testPowerZero() {
+    assertEquals(Power.of(0, +0), RealScalar.ONE);
+    assertEquals(Power.of(0, +1), RealScalar.ZERO);
+    assertEquals(Power.of(0, +2), RealScalar.ZERO);
+  }
+
+  public void testPowerZeroFail() {
+    try {
+      Power.of(0, -2);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testPowerZeroComplex() {
+    assertEquals(Power.of(RealScalar.ZERO, Scalars.fromString("0.1+3*I")), RealScalar.ZERO);
+    assertEquals(Power.of(RealScalar.ZERO, Scalars.fromString("0.1-3*I/2")), RealScalar.ZERO);
+  }
+
+  public void testPowerZeroComplexFail() {
+    try {
+      Power.of(RealScalar.ZERO, ComplexScalar.I);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Power.of(RealScalar.ZERO, Scalars.fromString("-0.1+3*I"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testNegative() {

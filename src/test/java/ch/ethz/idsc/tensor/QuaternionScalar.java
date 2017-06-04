@@ -22,7 +22,7 @@ class QuaternionScalar extends AbstractScalar implements //
 
   // TODO probably better to represent quaternion as 2 complex scalars!
   public static Scalar of(Scalar re, Scalar im, Scalar jm, Scalar km) {
-    if (im.equals(ZeroScalar.get()) && jm.equals(ZeroScalar.get()) && km.equals(ZeroScalar.get()))
+    if (Scalars.isZero(im) && Scalars.isZero(jm) && Scalars.isZero(km))
       return re;
     return new QuaternionScalar(re, im, jm, km);
   }
@@ -115,6 +115,11 @@ class QuaternionScalar extends AbstractScalar implements //
   @Override
   public Number number() {
     throw TensorRuntimeException.of(this);
+  }
+
+  @Override
+  public Scalar zero() {
+    return RealScalar.ZERO;
   }
 
   @Override // from ConjugateInterface

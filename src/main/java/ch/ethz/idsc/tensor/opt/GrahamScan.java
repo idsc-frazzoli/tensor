@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /** Quote from Wikipedia:
  * 
@@ -65,7 +65,7 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
     // System.out.println("seed1 " + k1);
     int k2 = k1 + 1;
     for (Tensor point : list.subList(k2, list.size()))
-      if (ccw(point0, point1, point).equals(ZeroScalar.get())) {
+      if (Scalars.isZero(ccw(point0, point1, point))) {
         // System.out.println("co-lin");
         ++k2;
       } else
@@ -75,8 +75,13 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
     stack.push(list.get(k2 - 1));
     for (Tensor point : list.subList(k2, list.size())) {
       Tensor top = stack.pop();
-      while (Scalars.lessEquals(ccw(stack.peek(), top, point), ZeroScalar.get()))
+      while (true) {
+        Scalar ccw = ccw(stack.peek(), top, point);
+        SignInterface signInterface = (SignInterface) ccw;
+        if (signInterface.signInt() > 0) // if (!Scalars.lessEquals(ccw, RealScalar.ZERO))
+          break;
         top = stack.pop();
+      }
       stack.push(top);
       stack.push(point);
     }

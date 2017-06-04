@@ -4,10 +4,10 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
@@ -23,7 +23,7 @@ public enum FourierMatrix {
   public static Tensor of(int n) {
     Scalar scalar = Sqrt.function.apply(RationalScalar.of(1, n));
     return Tensors.matrix((i, j) -> //
-    Exp.function.apply(ComplexScalar.of(ZeroScalar.get(), //
+    Exp.function.apply(ComplexScalar.of(RealScalar.ZERO, //
         RationalScalar.of(2 * i * j, n).multiply(PI))).multiply(scalar), n, n);
   }
 

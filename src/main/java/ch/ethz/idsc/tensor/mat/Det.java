@@ -1,10 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorRank;
@@ -42,12 +42,18 @@ public enum Det {
 
   // helper function
   private static Scalar _of(Tensor matrix, Pivot pivot) {
-    if (matrix.length() == matrix.get(0).length()) // square
+    final int n = matrix.length();
+    final int m = matrix.get(0).length();
+    if (m == 0)
+      throw TensorRuntimeException.of(matrix);
+    // System.out.println(n + " " + m);
+    if (n == m) { // square
       try {
-        return new GaussianElimination(matrix, Array.zeros(matrix.length()), pivot).det();
+        return new GaussianElimination(matrix, Array.zeros(n), pivot).det();
       } catch (Exception exception) {
         // matrix is singular
       }
-    return ZeroScalar.get();
+    }
+    return RealScalar.ZERO;
   }
 }

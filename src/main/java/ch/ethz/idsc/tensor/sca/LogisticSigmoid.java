@@ -9,6 +9,9 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** The logistic function 1 / (1 + Exp[-z]) is a solution to the differential equation y' == y * (1 - y)
  * 
+ * <p>The taylor series is
+ * LogisticSigmoid[x] == 1/2 + x/4 - x^3/48 + x^5/480 + ...
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/LogisticSigmoid.html">LogisticSigmoid</a> */
 public enum LogisticSigmoid implements Function<Scalar, Scalar> {
@@ -21,7 +24,8 @@ public enum LogisticSigmoid implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all scalars replaced with their logistic sigmoid evaluation */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(LogisticSigmoid.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(LogisticSigmoid.function);
   }
 }

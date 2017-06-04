@@ -1,10 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Partition;
@@ -60,14 +60,14 @@ public enum LinearSolve {
     int j = 0;
     int c0 = 0;
     while (c0 < cols) {
-      if (!r.Get(j, c0).equals(ZeroScalar.get())) {
+      if (!r.Get(j, c0).equals(RealScalar.ZERO)) {
         x.set(r.Get(j, cols), c0);
         ++j;
       }
       ++c0;
     }
     for (; j < m.length(); ++j)
-      if (!r.Get(j, cols).equals(ZeroScalar.get()))
+      if (!r.Get(j, cols).equals(RealScalar.ZERO))
         throw TensorRuntimeException.of(m, b);
     return x;
   }

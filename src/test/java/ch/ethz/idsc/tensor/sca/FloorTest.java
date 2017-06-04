@@ -8,15 +8,14 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class FloorTest extends TestCase {
   public void testFloor() {
-    assertEquals(Floor.of(ZeroScalar.get()), ZeroScalar.get());
+    assertEquals(Floor.of(RealScalar.ZERO), RealScalar.ZERO);
     assertEquals(Floor.of(RationalScalar.of(-5, 2)), RationalScalar.of(-3, 1));
     assertEquals(Floor.of(RationalScalar.of(5, 2)), RationalScalar.of(2, 1));
-    assertEquals(Floor.of(DoubleScalar.of(.123)), ZeroScalar.get());
+    assertEquals(Floor.of(DoubleScalar.of(.123)), RealScalar.ZERO);
     assertEquals(Floor.of(RealScalar.ONE), RealScalar.ONE);
     assertEquals(Floor.of(DoubleScalar.of(-.123)), RationalScalar.of(-1, 1));
   }

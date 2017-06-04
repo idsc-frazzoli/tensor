@@ -6,7 +6,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.ZeroScalar;
 import junit.framework.TestCase;
 
 public class ArgMaxTest extends TestCase {
@@ -27,7 +26,7 @@ public class ArgMaxTest extends TestCase {
 
   public void testInf() {
     Scalar inf = RealScalar.of(Double.POSITIVE_INFINITY);
-    Tensor vec = Tensors.of(ZeroScalar.get(), inf, inf);
+    Tensor vec = Tensors.of(RealScalar.ZERO, inf, inf);
     int pos = ArgMax.of(vec);
     assertEquals(pos, 1);
   }

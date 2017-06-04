@@ -7,6 +7,11 @@ import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class PositiveDefiniteMatrixQTest extends TestCase {
+  public void testMathematica2() {
+    boolean status = PositiveDefiniteMatrixQ.ofHermitian(Tensors.fromString("{{8, 3}, {3, 8}}"));
+    assertTrue(status);
+  }
+
   public void testMathematica3() {
     boolean status = PositiveDefiniteMatrixQ.ofHermitian(Tensors.fromString("{{4, 3, 2, I}, {3, 4, 3, 2}, {2, 3, 4, 3}, {-I, 2, 3, 4}}"));
     assertTrue(status);

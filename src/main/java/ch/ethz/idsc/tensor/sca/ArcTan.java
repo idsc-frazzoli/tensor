@@ -33,12 +33,11 @@ public enum ArcTan implements Function<Scalar, Scalar> {
    * @param y
    * @return arc tangent of y/x, taking into account which quadrant the point (x,y) is in */
   public static Scalar of(Scalar x, Scalar y) {
-    if (x instanceof RealScalar && y instanceof RealScalar) {
-      return DoubleScalar.of(Math.atan2( //
-          y.number().doubleValue(), // y
-          x.number().doubleValue())); // x
+    if (x instanceof ArcTanInterface) {
+      ArcTanInterface arcTanInterface = (ArcTanInterface) x;
+      return arcTanInterface.arcTan(y);
     }
-    return function.apply(y.divide(x));
+    return function.apply(y.divide(x)); // TODO division by zero?
   }
 
   /** @param tensor

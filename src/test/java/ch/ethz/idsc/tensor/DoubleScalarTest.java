@@ -7,8 +7,13 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class DoubleScalarTest extends TestCase {
+  public void testZero() {
+    assertEquals(RealScalar.ZERO, DoubleScalar.of(0));
+    assertFalse(DoubleScalar.of(0) instanceof RationalScalar);
+  }
+
   public void testAdd() {
-    ZeroScalar.get().hashCode();
+    RealScalar.ZERO.hashCode();
     Tensor a = DoubleScalar.of(1.23);
     Tensor b = DoubleScalar.of(2.3);
     assertTrue(a.add(b).equals(b.add(a)));
@@ -20,8 +25,8 @@ public class DoubleScalarTest extends TestCase {
     Scalar s = DoubleScalar.of(3.14);
     assertEquals(Chop.of(s), s);
     Scalar r = DoubleScalar.of(1e-14);
-    assertEquals(Chop.of(r), ZeroScalar.get());
-    assertEquals(Chop.of(ZeroScalar.get()), ZeroScalar.get());
+    assertEquals(Chop.of(r), r.zero());
+    assertEquals(Chop.of(RealScalar.ZERO), RealScalar.ZERO);
   }
 
   public void testEquality() {
@@ -35,7 +40,7 @@ public class DoubleScalarTest extends TestCase {
     Scalar c = RealScalar.of(-2);
     assertEquals(inf.multiply(c), inf.negate());
     assertEquals(c.multiply(inf), inf.negate());
-    Scalar nan = inf.multiply(ZeroScalar.get());
+    Scalar nan = inf.multiply(inf.zero());
     assertTrue(Double.isNaN(nan.number().doubleValue()));
   }
 

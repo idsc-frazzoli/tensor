@@ -110,23 +110,23 @@ public class RationalScalarTest extends TestCase {
   }
 
   public void testSort() {
-    Tensor v = Tensors.of(RationalScalar.of(3, 4), RationalScalar.of(-1, 7), ZeroScalar.get());
+    Tensor v = Tensors.of(RationalScalar.of(3, 4), RationalScalar.of(-1, 7), RealScalar.ZERO);
     Tensor s = Sort.of(v);
     Tensor r = Tensors.fromString("{-1/7, 0, 3/4}");
     assertEquals(s, r);
   }
 
   public void testCompare() {
-    assertTrue(Scalars.lessThan(RationalScalar.of(-3, 2), ZeroScalar.get()));
-    assertFalse(Scalars.lessThan(RationalScalar.of(3, 2), ZeroScalar.get()));
-    assertTrue(!Scalars.lessThan(ZeroScalar.get(), RationalScalar.of(-3, 2)));
-    assertFalse(!Scalars.lessThan(ZeroScalar.get(), RationalScalar.of(3, 2)));
+    assertTrue(Scalars.lessThan(RationalScalar.of(-3, 2), RealScalar.ZERO));
+    assertFalse(Scalars.lessThan(RationalScalar.of(3, 2), RealScalar.ZERO));
+    assertTrue(!Scalars.lessThan(RealScalar.ZERO, RationalScalar.of(-3, 2)));
+    assertFalse(!Scalars.lessThan(RealScalar.ZERO, RationalScalar.of(3, 2)));
   }
 
   public void testEquals() {
-    assertEquals(RationalScalar.of(0, 1), ZeroScalar.get());
+    assertEquals(RationalScalar.of(0, 1), RealScalar.ZERO);
     assertEquals(RationalScalar.of(0, 1), DoubleScalar.of(0));
-    assertEquals(ZeroScalar.get(), RationalScalar.of(0, 1));
+    assertEquals(RealScalar.ZERO, RationalScalar.of(0, 1));
     assertEquals(DoubleScalar.of(0), RationalScalar.of(0, 1));
     assertEquals(DoubleScalar.of(123), RationalScalar.of(123, 1));
   }

@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 // EXPERIMENTAL towards a Quaternion scalar
 /* package */ class McScalar extends AbstractScalar implements ConjugateInterface {
   public static Scalar of(Scalar re, Scalar im) {
-    if (im.equals(ZeroScalar.get()))
+    if (Scalars.isZero(im))
       return re;
     return _of(Tensors.matrix(new Scalar[][] { //
         { re /*                              */, im }, //
@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.ConjugateInterface;
   }
 
   private static Scalar _of(Tensor skew) {
-    if (skew.Get(0, 1).equals(ZeroScalar.get()))
+    if (skew.Get(0, 1).equals(RealScalar.ZERO))
       return skew.Get(0, 0);
     return new McScalar(skew);
   }
@@ -52,6 +52,11 @@ import ch.ethz.idsc.tensor.sca.ConjugateInterface;
   @Override
   public Number number() {
     throw TensorRuntimeException.of(this);
+  }
+
+  @Override
+  public Scalar zero() {
+    return RealScalar.ZERO;
   }
 
   @Override
@@ -93,7 +98,7 @@ import ch.ethz.idsc.tensor.sca.ConjugateInterface;
       McScalar complexScalar = (McScalar) object;
       return skew.equals(complexScalar.skew);
     }
-    return real().equals(object) && imag().equals(ZeroScalar.get());
+    return real().equals(object) && imag().equals(imag().zero());
   }
 
   @Override

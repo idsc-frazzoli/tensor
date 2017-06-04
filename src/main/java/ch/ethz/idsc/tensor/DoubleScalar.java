@@ -4,11 +4,14 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 
 /** scalar with double precision, 64-bit, MATLAB style */
-public final class DoubleScalar extends AbstractRealScalar implements ChopInterface {
+public final class DoubleScalar extends AbstractRealScalar implements //
+    ChopInterface {
+  private static final Scalar DOUBLE_ZERO = of(0.);
+
   /** @param value
-   * @return new instance of {@link DoubleScalar}, or {@link ZeroScalar} if value == 0 */
+   * @return new instance of {@link DoubleScalar} */
   public static RealScalar of(double value) {
-    return value == 0 ? ZeroScalar.get() : new DoubleScalar(value);
+    return new DoubleScalar(value);
   }
 
   private final double value;
@@ -30,6 +33,11 @@ public final class DoubleScalar extends AbstractRealScalar implements ChopInterf
     if (scalar instanceof RealScalar)
       return of(value * scalar.number().doubleValue());
     return scalar.multiply(this);
+  }
+
+  @Override // from Scalar
+  public Scalar zero() {
+    return DOUBLE_ZERO;
   }
 
   @Override // from Scalar
@@ -65,7 +73,7 @@ public final class DoubleScalar extends AbstractRealScalar implements ChopInterf
 
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
-    return abs().number().doubleValue() < threshold ? ZeroScalar.get() : this;
+    return Math.abs(value) < threshold ? ZERO : this;
   }
 
   @Override // from AbstractScalar
@@ -84,6 +92,6 @@ public final class DoubleScalar extends AbstractRealScalar implements ChopInterf
 
   @Override // from AbstractScalar
   public String toString() {
-    return "" + value;
+    return Double.toString(value);
   }
 }

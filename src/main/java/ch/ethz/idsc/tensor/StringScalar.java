@@ -46,6 +46,11 @@ public final class StringScalar extends AbstractScalar {
     throw TensorRuntimeException.of(this);
   }
 
+  @Override
+  public Scalar zero() {
+    throw TensorRuntimeException.of(this);
+  }
+
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     throw TensorRuntimeException.of(this);
