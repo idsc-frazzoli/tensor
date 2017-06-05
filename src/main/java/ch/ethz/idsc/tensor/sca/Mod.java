@@ -6,7 +6,9 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** inspired by
+/** our implementation is not consistent with Mathematica for negative, and complex n.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Mod.html">Mod</a> */
 public class Mod implements Function<Scalar, Scalar> {
   /** @param n

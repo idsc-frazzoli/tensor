@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
+import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
@@ -89,6 +90,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     if (scalar instanceof RealScalar)
       return ComplexScalar.of(re.add(scalar), im);
     throw TensorRuntimeException.of(scalar);
+  }
+
+  @Override // from RoundInterface
+  public Scalar round() {
+    return ComplexScalar.of( //
+        Round.function.apply(re), //
+        Round.function.apply(im));
   }
 
   @Override // from SqrtInterface

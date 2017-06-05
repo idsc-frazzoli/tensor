@@ -15,6 +15,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Real;
+import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
@@ -130,6 +131,12 @@ public class ComplexScalarTest extends TestCase {
     Scalar s = ComplexScalar.I;
     Scalar r = Power.of(s, 3);
     assertEquals(r, ComplexScalar.I.negate());
+  }
+
+  public void testRound() {
+    Scalar s = ComplexScalar.of(12.3, -3.9);
+    Scalar r = ComplexScalar.of(12, -4);
+    assertEquals(Round.of(s), r);
   }
 
   public void testPower2() {

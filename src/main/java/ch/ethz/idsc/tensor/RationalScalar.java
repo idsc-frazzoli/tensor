@@ -115,6 +115,11 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return 0 <= bigFraction.num.signum();
   }
 
+  @Override // from RoundInterface
+  public Scalar round() {
+    return of(toBigDecimal(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
+  }
+
   /** Example: sqrt(16/25) == 4/5
    * 
    * @return {@link RationalScalar} precision if numerator and denominator are both squares */

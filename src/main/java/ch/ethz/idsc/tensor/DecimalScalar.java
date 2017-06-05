@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
@@ -83,6 +84,11 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
     return 0 <= value.signum();
+  }
+
+  @Override // from RoundInterface
+  public Scalar round() {
+    return RealScalar.of(value.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact());
   }
 
   @Override // from SqrtInterface

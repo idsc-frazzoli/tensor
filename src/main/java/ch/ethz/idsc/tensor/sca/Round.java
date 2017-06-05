@@ -1,14 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -28,13 +25,9 @@ public enum Round implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) scalar;
-      return RealScalar.of(rationalScalar.toBigDecimal(0, RoundingMode.HALF_UP).toBigIntegerExact());
-    }
-    if (scalar instanceof RealScalar) {
-      BigDecimal bigDecimal = BigDecimal.valueOf(scalar.number().doubleValue());
-      return RealScalar.of(bigDecimal.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact());
+    if (scalar instanceof RoundInterface) {
+      RoundInterface roundInterface = (RoundInterface) scalar;
+      return roundInterface.round();
     }
     throw TensorRuntimeException.of(scalar);
   }

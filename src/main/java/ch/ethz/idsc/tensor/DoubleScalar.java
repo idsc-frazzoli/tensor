@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 
 /** scalar with double precision, 64-bit, MATLAB style */
@@ -69,6 +72,12 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
     return 0 <= value;
+  }
+
+  @Override // from RoundInterface
+  public Scalar round() {
+    BigDecimal bigDecimal = BigDecimal.valueOf(value);
+    return RealScalar.of(bigDecimal.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact());
   }
 
   @Override // from ChopInterface

@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -69,6 +70,23 @@ public class ModTest extends TestCase {
     {
       Scalar r = Mod.function(n, d).apply(N.of(m));
       assertEquals(Chop.below(.01).apply(r.subtract(expected)), RealScalar.ZERO);
+    }
+  }
+
+  public void testNegative() {
+    Mod mod = Mod.function(RealScalar.of(-5));
+    Scalar m = mod.apply(RealScalar.of(2));
+    // TODO desired behavior not clear
+    // System.out.println(m);
+  }
+
+  public void testComplex() {
+    Mod mod = Mod.function(ComplexScalar.of(2, 3));
+    try {
+      mod.apply(RealScalar.of(2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
     }
   }
 }
