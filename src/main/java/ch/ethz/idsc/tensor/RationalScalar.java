@@ -115,6 +115,16 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return 0 <= bigFraction.num.signum();
   }
 
+  @Override
+  public Scalar ceiling() {
+    return of(toBigDecimal(0, RoundingMode.CEILING).toBigIntegerExact(), BigInteger.ONE);
+  }
+
+  @Override // from FloorInterface
+  public Scalar floor() {
+    return of(toBigDecimal(0, RoundingMode.FLOOR).toBigIntegerExact(), BigInteger.ONE);
+  }
+
   @Override // from RoundInterface
   public Scalar round() {
     return of(toBigDecimal(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);

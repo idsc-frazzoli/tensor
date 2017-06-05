@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Real;
@@ -131,6 +132,12 @@ public class ComplexScalarTest extends TestCase {
     Scalar s = ComplexScalar.I;
     Scalar r = Power.of(s, 3);
     assertEquals(r, ComplexScalar.I.negate());
+  }
+
+  public void testFloor() {
+    Scalar s = ComplexScalar.of(121.3, -111.1);
+    Scalar r = ComplexScalar.of(121, -112);
+    assertEquals(Floor.of(s), r);
   }
 
   public void testRound() {

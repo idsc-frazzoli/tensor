@@ -2,6 +2,9 @@
 // https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#valueOf(java.lang.String)
 package ch.ethz.idsc.tensor;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 enum StaticHelper {
   ;
   /** code from java.lang.Double */
@@ -34,4 +37,24 @@ enum StaticHelper {
       // 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
       "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")" + ")[pP][+-]?" + Digits + "))" + "[fFdD]?))" //
   );
+
+  // throws an exception if value is Infinity
+  static BigInteger floor(BigDecimal bd) {
+    BigInteger bi = bd.toBigInteger();
+    if (0 < new BigDecimal(bi).compareTo(bd)) {
+      bd = bd.subtract(BigDecimal.ONE);
+      bi = bd.toBigInteger();
+    }
+    return bi;
+  }
+
+  // throws an exception if value is Infinity
+  static BigInteger ceiling(BigDecimal bd) {
+    BigInteger bi = bd.toBigInteger();
+    if (new BigDecimal(bi).compareTo(bd) < 0) {
+      bd = bd.add(BigDecimal.ONE);
+      bi = bd.toBigInteger();
+    }
+    return bi;
+  }
 }

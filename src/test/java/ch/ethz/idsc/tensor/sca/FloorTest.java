@@ -59,13 +59,10 @@ public class FloorTest extends TestCase {
   }
 
   public void testComplex() {
-    Scalar c = Scalars.fromString("3-3*I");
-    try {
-      Floor.of(c);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+    Scalar c = Scalars.fromString("7-2*I");
+    assertEquals(Floor.of(c), c);
+    Scalar d = Scalars.fromString("7.9-1.1*I");
+    assertEquals(Floor.of(d), c);
   }
 
   public void testFailInf() {

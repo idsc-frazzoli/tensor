@@ -7,10 +7,12 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
+import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
@@ -92,11 +94,19 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     throw TensorRuntimeException.of(scalar);
   }
 
+  @Override // from CeilingInterface
+  public Scalar ceiling() {
+    return ComplexScalar.of(Ceiling.function.apply(re), Ceiling.function.apply(im));
+  }
+
+  @Override // from FloorInterface
+  public Scalar floor() {
+    return ComplexScalar.of(Floor.function.apply(re), Floor.function.apply(im));
+  }
+
   @Override // from RoundInterface
   public Scalar round() {
-    return ComplexScalar.of( //
-        Round.function.apply(re), //
-        Round.function.apply(im));
+    return ComplexScalar.of(Round.function.apply(re), Round.function.apply(im));
   }
 
   @Override // from SqrtInterface

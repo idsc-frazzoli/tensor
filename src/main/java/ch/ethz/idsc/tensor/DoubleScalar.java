@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 
 import ch.ethz.idsc.tensor.sca.ChopInterface;
@@ -74,15 +75,28 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return 0 <= value;
   }
 
+  @Override // from CeilingInterface
+  public Scalar ceiling() {
+    return RationalScalar.of(StaticHelper.ceiling(bigDecimal()), BigInteger.ONE);
+  }
+
+  @Override // from FloorInterface
+  public Scalar floor() {
+    return RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE);
+  }
+
   @Override // from RoundInterface
   public Scalar round() {
-    BigDecimal bigDecimal = BigDecimal.valueOf(value);
-    return RealScalar.of(bigDecimal.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact());
+    return RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
   }
 
   @Override // from ChopInterface
   public Scalar chop(double threshold) {
     return Math.abs(value) < threshold ? ZERO : this;
+  }
+
+  private BigDecimal bigDecimal() {
+    return BigDecimal.valueOf(value);
   }
 
   @Override // from AbstractScalar

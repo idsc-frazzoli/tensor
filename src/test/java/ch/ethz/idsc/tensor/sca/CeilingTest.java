@@ -39,13 +39,10 @@ public class CeilingTest extends TestCase {
   }
 
   public void testComplex() {
-    Scalar c = Scalars.fromString("3-3*I");
-    try {
-      Ceiling.of(c);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+    Scalar c = Scalars.fromString("7-2*I");
+    assertEquals(Ceiling.of(c), c);
+    Scalar d = Scalars.fromString("6.1-2.1*I");
+    assertEquals(Ceiling.of(d), c);
   }
 
   public void testRational1() {
