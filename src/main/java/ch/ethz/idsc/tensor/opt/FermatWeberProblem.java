@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -22,7 +24,7 @@ import ch.ethz.idsc.tensor.sca.N;
  * implementation based on
  * "Weiszfeld’s Method: Old and New Results"
  * by [Amir Beck, Shoham Sabach] */
-public class FermatWeberProblem {
+public class FermatWeberProblem implements Serializable {
   private final Tensor tensor;
   private Tensor point;
   private Tensor weights;

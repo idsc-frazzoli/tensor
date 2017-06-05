@@ -1,10 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-public interface SimplexPivot {
+public interface SimplexPivot extends Serializable {
   /** nonbasic gradient method, or "steepest decent policy"
    * 
    * <p>pivot designed by G. B. Dantzig that works decent for most practical problems
