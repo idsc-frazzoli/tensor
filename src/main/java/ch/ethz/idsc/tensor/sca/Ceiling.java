@@ -18,9 +18,9 @@ public enum Ceiling implements Function<Scalar, Scalar> {
    * @throws TensorRuntimeException if scalar is Infinity, or NaN */
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof CeilingInterface) {
-      CeilingInterface ceilingInterface = (CeilingInterface) scalar;
-      return ceilingInterface.ceiling();
+    if (scalar instanceof RoundingInterface) {
+      RoundingInterface roundingInterface = (RoundingInterface) scalar;
+      return roundingInterface.ceiling();
     }
     throw TensorRuntimeException.of(scalar);
   }

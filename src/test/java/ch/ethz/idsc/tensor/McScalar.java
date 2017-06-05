@@ -41,7 +41,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     return skew.Get(0, 1);
   }
 
-  @Override // from ConjugateInterface
+  @Override // from ComplexEmbedding
   public Scalar conjugate() {
     return of(real(), imag().negate());
   }

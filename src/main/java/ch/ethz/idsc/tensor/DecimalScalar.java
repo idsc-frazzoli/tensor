@@ -103,7 +103,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return -comparable.compareTo(this);
   }
 
-  @Override // from CeilingInterface
+  @Override // from RoundingInterface
   public Scalar ceiling() {
     return RationalScalar.of(StaticHelper.ceiling(value), BigInteger.ONE);
   }
@@ -113,12 +113,12 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return value.abs().doubleValue() < threshold ? ZERO : this;
   }
 
-  @Override // from FloorInterface
+  @Override // from RoundingInterface
   public Scalar floor() {
     return RationalScalar.of(StaticHelper.floor(value), BigInteger.ONE);
   }
 
-  @Override // from RoundInterface
+  @Override // from RoundingInterface
   public Scalar round() {
     return RationalScalar.of(value.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
   }

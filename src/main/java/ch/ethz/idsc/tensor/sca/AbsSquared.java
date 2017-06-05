@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * Since {@link ComplexScalar}::abs involves a sqrt the square of abs is better computed using
  * <code>z * conjugate(z)</code>.
  * 
- * if a {@link Scalar} does not implement {@link ConjugateInterface}
+ * if a {@link Scalar} does not implement {@link ComplexEmbedding}
  * the function AbsSquared is computed simply as
  * <code>abs(x) ^ 2</code> */
 public enum AbsSquared implements Function<Scalar, Scalar> {

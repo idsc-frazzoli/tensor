@@ -99,7 +99,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
   }
 
   /***************************************************/
-  @Override // from CeilingInterface
+  @Override // from RoundingInterface
   public Scalar ceiling() {
     return of(toBigDecimal(0, RoundingMode.CEILING).toBigIntegerExact(), BigInteger.ONE);
   }
@@ -117,7 +117,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return -comparable.compareTo(this);
   }
 
-  @Override // from FloorInterface
+  @Override // from RoundingInterface
   public Scalar floor() {
     return of(toBigDecimal(0, RoundingMode.FLOOR).toBigIntegerExact(), BigInteger.ONE);
   }
@@ -153,7 +153,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return super.power(exponent);
   }
 
-  @Override // from RoundInterface
+  @Override // from RoundingInterface
   public Scalar round() {
     return of(toBigDecimal(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
   }

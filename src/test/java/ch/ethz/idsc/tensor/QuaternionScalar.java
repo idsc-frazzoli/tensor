@@ -120,17 +120,17 @@ class QuaternionScalar extends AbstractScalar implements //
     return RealScalar.ZERO;
   }
 
-  @Override // from ConjugateInterface
+  @Override // from ComplexEmbedding
   public Scalar conjugate() {
     return of(re, im.negate(), jm.negate(), km.negate());
   }
 
-  @Override // from RealInterface
+  @Override // from ComplexEmbedding
   public Scalar real() {
     return re;
   }
 
-  @Override // from ImagInterface
+  @Override // from ComplexEmbedding
   public Scalar imag() {
     return im;
   }

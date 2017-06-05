@@ -25,9 +25,9 @@ public enum Round implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RoundInterface) {
-      RoundInterface roundInterface = (RoundInterface) scalar;
-      return roundInterface.round();
+    if (scalar instanceof RoundingInterface) {
+      RoundingInterface roundingInterface = (RoundingInterface) scalar;
+      return roundingInterface.round();
     }
     throw TensorRuntimeException.of(scalar);
   }

@@ -14,17 +14,17 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   }
 
   /***************************************************/
-  @Override // from ConjugateInterface
+  @Override // from ComplexEmbedding
   public final Scalar conjugate() {
     return this;
   }
 
-  @Override // from ImagInterface
+  @Override // from ComplexEmbedding
   public final Scalar imag() {
     return ZERO; // consistent with Mathematica::Im[3.] == 0
   }
 
-  @Override // from RealInterface
+  @Override // from ComplexEmbedding
   public final Scalar real() {
     return this;
   }

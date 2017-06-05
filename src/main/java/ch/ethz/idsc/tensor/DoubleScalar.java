@@ -79,7 +79,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return -comparable.compareTo(this);
   }
 
-  @Override // from CeilingInterface
+  @Override // from RoundingInterface
   public Scalar ceiling() {
     return RationalScalar.of(StaticHelper.ceiling(bigDecimal()), BigInteger.ONE);
   }
@@ -89,12 +89,12 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return Math.abs(value) < threshold ? ZERO : this;
   }
 
-  @Override // from FloorInterface
+  @Override // from RoundingInterface
   public Scalar floor() {
     return RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE);
   }
 
-  @Override // from RoundInterface
+  @Override // from RoundingInterface
   public Scalar round() {
     return RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
   }

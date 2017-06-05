@@ -5,25 +5,27 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
+import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
+import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
-import ch.ethz.idsc.tensor.sca.RoundInterface;
+import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 public class QuantityScalar extends AbstractScalar implements //
     ArcTanInterface, ChopInterface, ComplexEmbedding, ExactNumberQInterface, NInterface, //
-    PowerInterface, RoundInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
+    PowerInterface, RoundingInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
   /** @param value
    * @param unit
    * @param exponent
@@ -118,6 +120,11 @@ public class QuantityScalar extends AbstractScalar implements //
   }
 
   @Override
+  public Scalar ceiling() {
+    return of(Ceiling.of(value), unitMap);
+  }
+
+  @Override
   public Scalar chop(double threshold) {
     return of(Chop.of(value), unitMap);
   }
@@ -125,6 +132,11 @@ public class QuantityScalar extends AbstractScalar implements //
   @Override
   public Scalar conjugate() {
     return of(Conjugate.of(value), unitMap);
+  }
+
+  @Override
+  public Scalar floor() {
+    return of(Floor.of(value), unitMap);
   }
 
   @Override

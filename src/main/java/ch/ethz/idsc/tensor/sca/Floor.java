@@ -18,9 +18,9 @@ public enum Floor implements Function<Scalar, Scalar> {
    * @throws TensorRuntimeException if scalar is Infinity, or NaN */
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof FloorInterface) {
-      FloorInterface floorInterface = (FloorInterface) scalar;
-      return floorInterface.floor();
+    if (scalar instanceof RoundingInterface) {
+      RoundingInterface roundingInterface = (RoundingInterface) scalar;
+      return roundingInterface.floor();
     }
     throw TensorRuntimeException.of(scalar);
   }

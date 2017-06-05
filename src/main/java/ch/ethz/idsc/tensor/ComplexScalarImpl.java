@@ -93,7 +93,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ArcTan.of(re, im); // Mathematica::ArcTan[x, y]
   }
 
-  @Override // from CeilingInterface
+  @Override // from RoundingInterface
   public Scalar ceiling() {
     return ComplexScalar.of(Ceiling.function.apply(re), Ceiling.function.apply(im));
   }
@@ -103,17 +103,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ComplexScalar.of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
   }
 
-  @Override // from ConjugateInterface
+  @Override // from ComplexEmbedding
   public Scalar conjugate() {
     return ComplexScalar.of(re, im.negate());
   }
 
-  @Override // from FloorInterface
+  @Override // from RoundingInterface
   public Scalar floor() {
     return ComplexScalar.of(Floor.function.apply(re), Floor.function.apply(im));
   }
 
-  @Override // from ImagInterface
+  @Override // from ComplexEmbedding
   public Scalar imag() {
     return im;
   }
@@ -137,12 +137,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
   }
 
-  @Override // from RealInterface
+  @Override // from ComplexEmbedding
   public Scalar real() {
     return re;
   }
 
-  @Override // from RoundInterface
+  @Override // from RoundingInterface
   public Scalar round() {
     return ComplexScalar.of(Round.function.apply(re), Round.function.apply(im));
   }
