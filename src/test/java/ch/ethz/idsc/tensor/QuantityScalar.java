@@ -7,14 +7,14 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
-import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
+import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Real;
-import ch.ethz.idsc.tensor.sca.RealInterface;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.RoundInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
@@ -22,8 +22,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 public class QuantityScalar extends AbstractScalar implements //
-    ArcTanInterface, ChopInterface, ConjugateInterface, ExactNumberQInterface, NInterface, //
-    PowerInterface, RealInterface, RoundInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
+    ArcTanInterface, ChopInterface, ComplexEmbedding, ExactNumberQInterface, NInterface, //
+    PowerInterface, RoundInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
   /** @param value
    * @param unit
    * @param exponent
@@ -125,6 +125,11 @@ public class QuantityScalar extends AbstractScalar implements //
   @Override
   public Scalar conjugate() {
     return of(Conjugate.of(value), unitMap);
+  }
+
+  @Override
+  public Scalar imag() {
+    return of(Imag.of(value), unitMap);
   }
 
   @Override

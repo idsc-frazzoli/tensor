@@ -154,4 +154,4 @@ The library is used in the projects:
 * `SimBus`
 * `subare`
 
-The repository has over `690` unit tests.
+The repository has over `700` unit tests.

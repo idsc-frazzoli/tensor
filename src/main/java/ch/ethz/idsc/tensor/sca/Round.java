@@ -51,7 +51,7 @@ public enum Round implements Function<Scalar, Scalar> {
    * ties rounding to positive infinity.
    * 
    * @param tensor
-   * @return Rationalize.of(tensor, 1) */
+   * @return tensor with all entries replaced by their rounded values */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(Round.function);

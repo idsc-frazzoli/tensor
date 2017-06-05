@@ -38,19 +38,10 @@ public class GaussScalar extends AbstractScalar implements //
     this.prime = prime;
   }
 
-  /** @return value in the range 0, 1, ..., getPrime()-1 */
-  public long getValue() {
-    return value;
-  }
-
-  /** @return prime order of finite field */
-  public long getPrime() {
-    return prime;
-  }
-
+  /***************************************************/
   @Override // from Scalar
-  public Scalar negate() {
-    return of(-value, prime);
+  public Scalar abs() {
+    return this;
   }
 
   @Override // from Scalar
@@ -59,8 +50,17 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from Scalar
-  public Scalar abs() {
-    return this;
+  public Scalar negate() {
+    return of(-value, prime);
+  }
+
+  @Override // from Scalar
+  public Scalar multiply(Scalar scalar) {
+    if (scalar instanceof GaussScalar) {
+      GaussScalar gaussScalar = (GaussScalar) scalar;
+      return of(value * gaussScalar.value, prime);
+    }
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   @Override // from Scalar
@@ -73,6 +73,7 @@ public class GaussScalar extends AbstractScalar implements //
     return of(0, prime);
   }
 
+  /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
@@ -82,18 +83,32 @@ public class GaussScalar extends AbstractScalar implements //
     throw TensorRuntimeException.of(this, scalar);
   }
 
-  @Override // from Scalar
-  public Scalar multiply(Scalar scalar) {
+  /***************************************************/
+  @Override // from Comparable<Scalar>
+  public int compareTo(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
-      return of(value * gaussScalar.value, prime);
+      if (prime != gaussScalar.prime)
+        throw TensorRuntimeException.of(this, scalar);
+      return Long.compare(value, gaussScalar.value);
     }
-    throw TensorRuntimeException.of(this, scalar);
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from ExactNumberQInterface
   public boolean isExactNumber() {
     return true;
+  }
+
+  @Override // from PowerInterface
+  public Scalar power(Scalar exponent) {
+    if (Scalars.isZero(exponent))
+      return of(1, prime);
+    if (IntegerQ.of(exponent)) {
+      RationalScalar rationalScalar = (RationalScalar) exponent;
+      return Scalars.binaryPower(of(1, prime)).apply(this, rationalScalar.numerator());
+    }
+    throw TensorRuntimeException.of(this, exponent);
   }
 
   @Override // from SqrtInterface
@@ -108,28 +123,18 @@ public class GaussScalar extends AbstractScalar implements //
     throw TensorRuntimeException.of(this);
   }
 
-  @Override // from PowerInterface
-  public Scalar power(Scalar exponent) {
-    if (Scalars.isZero(exponent))
-      return of(1, prime);
-    if (IntegerQ.of(exponent)) {
-      RationalScalar rationalScalar = (RationalScalar) exponent;
-      return Scalars.binaryPower(of(1, prime)).apply(this, rationalScalar.numerator());
-    }
-    throw TensorRuntimeException.of(this, exponent);
+  /***************************************************/
+  /** @return value in the range 0, 1, ..., getPrime()-1 */
+  public long getValue() {
+    return value;
   }
 
-  @Override // from Comparable<Scalar>
-  public int compareTo(Scalar scalar) {
-    if (scalar instanceof GaussScalar) {
-      GaussScalar gaussScalar = (GaussScalar) scalar;
-      if (prime != gaussScalar.prime)
-        throw TensorRuntimeException.of(this, scalar);
-      return Long.compare(value, gaussScalar.value);
-    }
-    throw TensorRuntimeException.of(this);
+  /** @return prime order of finite field */
+  public long getPrime() {
+    return prime;
   }
 
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return Objects.hash(value, prime);

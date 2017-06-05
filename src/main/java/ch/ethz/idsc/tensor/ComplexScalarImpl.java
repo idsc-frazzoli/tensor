@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.sca.ArcTan;
-import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
@@ -20,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    ArcTanInterface, ChopInterface, ExactNumberQInterface, NInterface {
+    ChopInterface, ExactNumberQInterface, NInterface {
   private final Scalar re;
   private final Scalar im;
 
@@ -31,14 +30,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     this.im = im;
   }
 
-  @Override // from RealInterface
-  public Scalar real() {
-    return re;
-  }
-
-  @Override // from ImagInterface
-  public Scalar imag() {
-    return im;
+  /***************************************************/
+  @Override // from Scalar
+  public Scalar abs() {
+    return Hypot.bifunction.apply(re, im);
   }
 
   @Override // from Scalar
@@ -50,16 +45,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from Scalar
   public Scalar negate() {
     return ComplexScalar.of(re.negate(), im.negate());
-  }
-
-  @Override // from ConjugateInterface
-  public Scalar conjugate() {
-    return ComplexScalar.of(re, im.negate());
-  }
-
-  @Override // from Scalar
-  public Scalar abs() {
-    return Hypot.bifunction.apply(re, im);
   }
 
   @Override // from Scalar
@@ -83,6 +68,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return re.zero();
   }
 
+  /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof ComplexScalarImpl) {
@@ -94,14 +80,66 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     throw TensorRuntimeException.of(scalar);
   }
 
+  /***************************************************/
+  @Override // from ArcTanInterface
+  public Scalar arcTan(Scalar y) {
+    Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
+    Scalar scalar = y.divide(this); // TODO prevent division by zero
+    return I_HALF.multiply(Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
+  }
+
+  @Override // from ArgInterface
+  public Scalar arg() {
+    return ArcTan.of(re, im); // Mathematica::ArcTan[x, y]
+  }
+
   @Override // from CeilingInterface
   public Scalar ceiling() {
     return ComplexScalar.of(Ceiling.function.apply(re), Ceiling.function.apply(im));
   }
 
+  @Override // from ChopInterface
+  public Scalar chop(double threshold) {
+    return ComplexScalar.of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
+  }
+
+  @Override // from ConjugateInterface
+  public Scalar conjugate() {
+    return ComplexScalar.of(re, im.negate());
+  }
+
   @Override // from FloorInterface
   public Scalar floor() {
     return ComplexScalar.of(Floor.function.apply(re), Floor.function.apply(im));
+  }
+
+  @Override // from ImagInterface
+  public Scalar imag() {
+    return im;
+  }
+
+  @Override // from ExactNumberInterface
+  public boolean isExactNumber() {
+    return ExactNumberQ.of(re) && ExactNumberQ.of(im);
+  }
+
+  @Override // from NInterface
+  public Scalar n() {
+    return ComplexScalar.of(N.function.apply(re), N.function.apply(im));
+  }
+
+  @Override // from PowerInterface
+  public Scalar power(Scalar exponent) {
+    if (IntegerQ.of(exponent)) {
+      RationalScalar rationalScalar = (RationalScalar) exponent;
+      return Scalars.binaryPower(RealScalar.ONE).apply(this, rationalScalar.numerator());
+    }
+    return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
+  }
+
+  @Override // from RealInterface
+  public Scalar real() {
+    return re;
   }
 
   @Override // from RoundInterface
@@ -116,42 +154,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         arg().divide(RealScalar.of(2)));
   }
 
-  @Override // from ArcTanInterface
-  public Scalar arcTan(Scalar y) {
-    Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
-    Scalar scalar = y.divide(this); // TODO prevent division by zero
-    return I_HALF.multiply(Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
-  }
-
-  @Override // from ArgInterface
-  public Scalar arg() {
-    return ArcTan.of(re, im); // Mathematica::ArcTan[x, y]
-  }
-
-  @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return ComplexScalar.of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
-  }
-
-  @Override // from ExactNumberInterface
-  public boolean isExactNumber() {
-    return ExactNumberQ.of(re) && ExactNumberQ.of(im);
-  }
-
-  @Override // from PowerInterface
-  public Scalar power(Scalar exponent) {
-    if (IntegerQ.of(exponent)) {
-      RationalScalar rationalScalar = (RationalScalar) exponent;
-      return Scalars.binaryPower(RealScalar.ONE).apply(this, rationalScalar.numerator());
-    }
-    return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
-  }
-
-  @Override // from NInterface
-  public Scalar n() {
-    return ComplexScalar.of(N.function.apply(re), N.function.apply(im));
-  }
-
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return Objects.hash(re, im);

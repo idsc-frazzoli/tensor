@@ -1,9 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
-import ch.ethz.idsc.tensor.sca.RealInterface;
 
 /** suggested base class for implementations of {@link RealScalar} */
 public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
@@ -13,18 +13,9 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return isNonNegative() ? this : negate();
   }
 
+  /***************************************************/
   @Override // from ConjugateInterface
   public final Scalar conjugate() {
-    return this;
-  }
-
-  @Override // from SignInterface
-  public final int signInt() {
-    return isNonNegative() ? (Scalars.isZero(this) ? 0 : 1) : -1;
-  }
-
-  @Override // from RealInterface
-  public final Scalar real() {
     return this;
   }
 
@@ -33,8 +24,18 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return ZERO; // consistent with Mathematica::Im[3.] == 0
   }
 
+  @Override // from RealInterface
+  public final Scalar real() {
+    return this;
+  }
+
+  @Override // from SignInterface
+  public final int signInt() {
+    return isNonNegative() ? (Scalars.isZero(this) ? 0 : 1) : -1;
+  }
+
   /***************************************************/
-  // methods are non-final because other RealScalars may support better precision
+  // methods are non-final because overriding classes may support better precision
   @Override // from ArcTanInterface
   public Scalar arcTan(Scalar y) {
     return DoubleScalar.of(Math.atan2( //
@@ -47,22 +48,14 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return isNonNegative() ? RealScalar.ZERO : DoubleScalar.of(Math.PI);
   }
 
-  /** @return {@link ComplexScalar} if negative */
-  @Override // from SqrtInterface
-  public Scalar sqrt() {
-    if (isNonNegative())
-      return DoubleScalar.of(Math.sqrt(number().doubleValue()));
-    return ComplexScalar.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
-  }
-
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     if (Scalars.isZero(this)) {
       if (Scalars.isZero(exponent))
         return RealScalar.ONE; // <- not generic
-      if (exponent instanceof RealInterface) {
-        RealInterface realInterface = (RealInterface) exponent;
-        RealScalar realScalar = (RealScalar) realInterface.real();
+      if (exponent instanceof ComplexEmbedding) {
+        ComplexEmbedding complexEmbedding = (ComplexEmbedding) exponent;
+        RealScalar realScalar = (RealScalar) complexEmbedding.real();
         if (realScalar.signInt() == 1)
           return zero();
       }
@@ -71,6 +64,14 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     if (exponent instanceof RealScalar)
       return RealScalar.of(Math.pow(number().doubleValue(), exponent.number().doubleValue()));
     return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
+  }
+
+  /** @return {@link ComplexScalar} if negative */
+  @Override // from SqrtInterface
+  public Scalar sqrt() {
+    if (isNonNegative())
+      return DoubleScalar.of(Math.sqrt(number().doubleValue()));
+    return ComplexScalar.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
   }
 
   /***************************************************/

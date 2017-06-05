@@ -14,8 +14,10 @@ public enum Imag implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof ImagInterface)
-      return ((ImagInterface) scalar).imag();
+    if (scalar instanceof ComplexEmbedding) {
+      ComplexEmbedding complexEmbedding = (ComplexEmbedding) scalar;
+      return complexEmbedding.imag();
+    }
     throw TensorRuntimeException.of(scalar);
   }
 

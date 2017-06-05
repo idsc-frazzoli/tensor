@@ -26,7 +26,7 @@ public enum Ceiling implements Function<Scalar, Scalar> {
   }
 
   /** @param tensor
-   * @return */
+   * @return tensor with all entries replaced by their ceiling */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(Ceiling.function);

@@ -68,4 +68,9 @@ public class RealScalarTest extends TestCase {
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3L));
     assertEquals(RationalScalar.of(1, 1), RealScalar.of(BigInteger.ONE));
   }
+
+  public void testInvertInfinity() {
+    assertEquals(RealScalar.POSITIVE_INFINITY.invert(), RealScalar.ZERO);
+    assertEquals(RealScalar.NEGATIVE_INFINITY.invert(), RealScalar.ZERO);
+  }
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
@@ -15,6 +16,7 @@ import ch.ethz.idsc.tensor.mat.PositiveDefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.PositiveSemidefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.RowReduce;
 import ch.ethz.idsc.tensor.opt.ConvexHull;
+import ch.ethz.idsc.tensor.red.Quantile;
 import junit.framework.TestCase;
 
 public class QuantityScalar2Test extends TestCase {
@@ -108,5 +110,21 @@ public class QuantityScalar2Test extends TestCase {
     Tensor mat = Tensors.of(ve2, ve1);
     Tensor hul = ConvexHull.of(mat);
     assertEquals(hul, mat);
+  }
+
+  public void testQuantile() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(4), "m", RealScalar.ONE);
+    Scalar qs3 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+    Tensor vector = Tensors.of(qs1, qs2, qs3);
+    assertEquals(Quantile.of(vector, RealScalar.ZERO), qs1);
+    assertEquals(Quantile.of(vector, RealScalar.ONE), qs2);
+    Scalar qs4 = QuantityScalar.of(RealScalar.of(2), "s", RealScalar.ONE);
+    try {
+      Sort.of(Tensors.of(qs1, qs4)); // comparison fails
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

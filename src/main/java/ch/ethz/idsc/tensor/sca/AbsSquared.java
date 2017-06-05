@@ -19,7 +19,7 @@ public enum AbsSquared implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof ConjugateInterface)
+    if (scalar instanceof ComplexEmbedding)
       return scalar.multiply(Conjugate.function.apply(scalar));
     Scalar abs = scalar.abs();
     return abs.multiply(abs);

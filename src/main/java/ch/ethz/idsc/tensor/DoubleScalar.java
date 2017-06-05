@@ -27,9 +27,15 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     this.value = value;
   }
 
+  /***************************************************/
   @Override // from Scalar
   public Scalar invert() {
     return of(1 / value);
+  }
+
+  @Override // from Scalar
+  public Scalar negate() {
+    return of(-value);
   }
 
   @Override // from Scalar
@@ -40,21 +46,31 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   @Override // from Scalar
-  public Scalar zero() {
-    return DOUBLE_ZERO;
-  }
-
-  @Override // from Scalar
   public Number number() {
     return value;
   }
 
-  @Override // from RealScalar
-  public RealScalar negate() {
-    return of(-value);
+  @Override // from Scalar
+  public Scalar zero() {
+    return DOUBLE_ZERO;
   }
 
-  @Override // from RealScalar
+  /***************************************************/
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return of(value + scalar.number().doubleValue());
+    return scalar.add(this);
+  }
+
+  /***************************************************/
+  @Override // from AbstractRealScalar
+  protected boolean isNonNegative() {
+    return 0 <= value;
+  }
+
+  /***************************************************/
+  @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
     if (scalar instanceof RealScalar)
       return Double.compare(number().doubleValue(), scalar.number().doubleValue());
@@ -63,21 +79,14 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return -comparable.compareTo(this);
   }
 
-  @Override // from AbstractScalar
-  protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return of(value + scalar.number().doubleValue());
-    return scalar.add(this);
-  }
-
-  @Override // from AbstractRealScalar
-  protected boolean isNonNegative() {
-    return 0 <= value;
-  }
-
   @Override // from CeilingInterface
   public Scalar ceiling() {
     return RationalScalar.of(StaticHelper.ceiling(bigDecimal()), BigInteger.ONE);
+  }
+
+  @Override // from ChopInterface
+  public Scalar chop(double threshold) {
+    return Math.abs(value) < threshold ? ZERO : this;
   }
 
   @Override // from FloorInterface
@@ -90,15 +99,12 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
   }
 
-  @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return Math.abs(value) < threshold ? ZERO : this;
-  }
-
+  /***************************************************/
   private BigDecimal bigDecimal() {
     return BigDecimal.valueOf(value);
   }
 
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return Double.hashCode(value);

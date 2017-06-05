@@ -36,27 +36,15 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     this.value = value;
   }
 
-  @Override // from Scalar
-  public Scalar negate() {
-    return of(value.negate());
-  }
-
+  /***************************************************/
   @Override // from Scalar
   public Scalar invert() {
     return of(BigDecimal.ONE.divide(value, CONTEXT));
   }
 
-  @Override // from AbstractScalar
-  protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof DecimalScalar) {
-      DecimalScalar decimalScalar = (DecimalScalar) scalar;
-      return of(value.add(decimalScalar.value));
-    }
-    if (scalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) scalar;
-      return of(value.add(approx(rationalScalar)));
-    }
-    return scalar.add(this);
+  @Override // from Scalar
+  public Scalar negate() {
+    return of(value.negate());
   }
 
   @Override // from Scalar
@@ -82,14 +70,47 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return DECIMAL_ZERO;
   }
 
+  /***************************************************/
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    if (scalar instanceof DecimalScalar) {
+      DecimalScalar decimalScalar = (DecimalScalar) scalar;
+      return of(value.add(decimalScalar.value));
+    }
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return of(value.add(approx(rationalScalar)));
+    }
+    return scalar.add(this);
+  }
+
+  /***************************************************/
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
     return 0 <= value.signum();
   }
 
-  @Override
+  /***************************************************/
+  @Override // from Comparable<Scalar>
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof DecimalScalar) {
+      DecimalScalar decimalScalar = (DecimalScalar) scalar;
+      return value.compareTo(decimalScalar.value);
+    }
+    @SuppressWarnings("unchecked")
+    Comparable<Scalar> comparable = (Comparable<Scalar>) //
+    (scalar instanceof NInterface ? ((NInterface) scalar).n() : scalar);
+    return -comparable.compareTo(this);
+  }
+
+  @Override // from CeilingInterface
   public Scalar ceiling() {
     return RationalScalar.of(StaticHelper.ceiling(value), BigInteger.ONE);
+  }
+
+  @Override // from ChopInterface
+  public Scalar chop(double threshold) {
+    return value.abs().doubleValue() < threshold ? ZERO : this;
   }
 
   @Override // from FloorInterface
@@ -109,23 +130,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return ComplexScalar.of(zero(), of(Sqrt.of(value.negate())));
   }
 
-  @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return value.abs().doubleValue() < threshold ? ZERO : this;
-  }
-
-  @Override // from RealScalar
-  public int compareTo(Scalar scalar) {
-    if (scalar instanceof DecimalScalar) {
-      DecimalScalar decimalScalar = (DecimalScalar) scalar;
-      return value.compareTo(decimalScalar.value);
-    }
-    @SuppressWarnings("unchecked")
-    Comparable<Scalar> comparable = (Comparable<Scalar>) //
-    (scalar instanceof NInterface ? ((NInterface) scalar).n() : scalar);
-    return -comparable.compareTo(this);
-  }
-
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return value.hashCode();
