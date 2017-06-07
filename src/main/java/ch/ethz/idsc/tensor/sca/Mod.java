@@ -39,7 +39,8 @@ public class Mod implements Function<Scalar, Scalar>, Serializable {
     return scalar.subtract(loops.multiply(n));
   }
 
-  public Tensor of(Tensor tensor) {
-    return tensor.map(this);
+  @SuppressWarnings("unchecked")
+  public <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(this);
   }
 }

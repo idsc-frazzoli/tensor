@@ -7,6 +7,7 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Clip.html">Clip</a> */
@@ -40,5 +41,10 @@ public class Clip implements Function<Scalar, Scalar>, Serializable {
     if (Scalars.lessThan(max, scalar))
       return max;
     return scalar;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(this);
   }
 }

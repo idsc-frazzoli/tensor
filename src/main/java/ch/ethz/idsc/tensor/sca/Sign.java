@@ -27,7 +27,8 @@ public enum Sign implements Function<Scalar, Scalar> {
 
   /** @param tensor with {@link RealScalar} entries
    * @return tensor with all scalars replaced with their sign */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Sign.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Sign.function);
   }
 }
