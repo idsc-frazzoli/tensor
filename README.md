@@ -1,4 +1,7 @@
 # ch.ethz.idsc.tensor
+
+<a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
+
 Library for tensor computation in Java 8.
 
 Version `0.2.4`
