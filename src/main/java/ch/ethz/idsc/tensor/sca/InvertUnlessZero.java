@@ -17,7 +17,8 @@ public enum InvertUnlessZero implements Function<Scalar, Scalar> {
     return Scalars.isZero(scalar) ? scalar : scalar.invert();
   }
 
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(InvertUnlessZero.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(InvertUnlessZero.function);
   }
 }

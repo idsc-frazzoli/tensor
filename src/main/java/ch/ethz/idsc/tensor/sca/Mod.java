@@ -1,14 +1,17 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** inspired by
+/** our implementation is not consistent with Mathematica for negative, and complex n.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Mod.html">Mod</a> */
-public class Mod implements Function<Scalar, Scalar> {
+public class Mod implements Function<Scalar, Scalar>, Serializable {
   /** @param n
    * @return remainder on division by n */
   public static Mod function(Scalar n) {
@@ -36,7 +39,8 @@ public class Mod implements Function<Scalar, Scalar> {
     return scalar.subtract(loops.multiply(n));
   }
 
-  public Tensor of(Tensor tensor) {
-    return tensor.map(this);
+  @SuppressWarnings("unchecked")
+  public <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(this);
   }
 }

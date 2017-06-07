@@ -15,8 +15,10 @@ public enum Conjugate implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof ConjugateInterface)
-      return ((ConjugateInterface) scalar).conjugate();
+    if (scalar instanceof ComplexEmbedding) {
+      ComplexEmbedding complexEmbedding = (ComplexEmbedding) scalar;
+      return complexEmbedding.conjugate();
+    }
     throw TensorRuntimeException.of(scalar);
   }
 

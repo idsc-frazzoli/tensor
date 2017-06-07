@@ -26,7 +26,8 @@ public enum ArcTanh implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all scalars replaced with their arc tanh */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(ArcTanh.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(ArcTanh.function);
   }
 }

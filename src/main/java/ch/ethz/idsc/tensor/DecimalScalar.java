@@ -2,7 +2,9 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
@@ -34,27 +36,15 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     this.value = value;
   }
 
-  @Override // from Scalar
-  public Scalar negate() {
-    return of(value.negate());
-  }
-
+  /***************************************************/
   @Override // from Scalar
   public Scalar invert() {
     return of(BigDecimal.ONE.divide(value, CONTEXT));
   }
 
-  @Override // from AbstractScalar
-  protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof DecimalScalar) {
-      DecimalScalar decimalScalar = (DecimalScalar) scalar;
-      return of(value.add(decimalScalar.value));
-    }
-    if (scalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) scalar;
-      return of(value.add(approx(rationalScalar)));
-    }
-    return scalar.add(this);
+  @Override // from Scalar
+  public Scalar negate() {
+    return of(value.negate());
   }
 
   @Override // from Scalar
@@ -80,24 +70,28 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return DECIMAL_ZERO;
   }
 
+  /***************************************************/
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    if (scalar instanceof DecimalScalar) {
+      DecimalScalar decimalScalar = (DecimalScalar) scalar;
+      return of(value.add(decimalScalar.value));
+    }
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return of(value.add(approx(rationalScalar)));
+    }
+    return scalar.add(this);
+  }
+
+  /***************************************************/
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
     return 0 <= value.signum();
   }
 
-  @Override // from SqrtInterface
-  public Scalar sqrt() {
-    if (isNonNegative())
-      return of(Sqrt.of(value));
-    return ComplexScalar.of(zero(), of(Sqrt.of(value.negate())));
-  }
-
-  @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return value.abs().doubleValue() < threshold ? ZERO : this;
-  }
-
-  @Override // from RealScalar
+  /***************************************************/
+  @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
     if (scalar instanceof DecimalScalar) {
       DecimalScalar decimalScalar = (DecimalScalar) scalar;
@@ -109,6 +103,34 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     return -comparable.compareTo(this);
   }
 
+  @Override // from RoundingInterface
+  public Scalar ceiling() {
+    return RationalScalar.of(StaticHelper.ceiling(value), BigInteger.ONE);
+  }
+
+  @Override // from ChopInterface
+  public Scalar chop(double threshold) {
+    return value.abs().doubleValue() < threshold ? ZERO : this;
+  }
+
+  @Override // from RoundingInterface
+  public Scalar floor() {
+    return RationalScalar.of(StaticHelper.floor(value), BigInteger.ONE);
+  }
+
+  @Override // from RoundingInterface
+  public Scalar round() {
+    return RationalScalar.of(value.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
+  }
+
+  @Override // from SqrtInterface
+  public Scalar sqrt() {
+    if (isNonNegative())
+      return of(Sqrt.of(value));
+    return ComplexScalar.of(zero(), of(Sqrt.of(value.negate())));
+  }
+
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return value.hashCode();

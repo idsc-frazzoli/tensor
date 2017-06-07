@@ -1,14 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -28,13 +25,9 @@ public enum Round implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) scalar;
-      return RealScalar.of(rationalScalar.toBigDecimal(0, RoundingMode.HALF_UP).toBigIntegerExact());
-    }
-    if (scalar instanceof RealScalar) {
-      BigDecimal bigDecimal = BigDecimal.valueOf(scalar.number().doubleValue());
-      return RealScalar.of(bigDecimal.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact());
+    if (scalar instanceof RoundingInterface) {
+      RoundingInterface roundingInterface = (RoundingInterface) scalar;
+      return roundingInterface.round();
     }
     throw TensorRuntimeException.of(scalar);
   }
@@ -58,8 +51,9 @@ public enum Round implements Function<Scalar, Scalar> {
    * ties rounding to positive infinity.
    * 
    * @param tensor
-   * @return Rationalize.of(tensor, 1) */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Round.function);
+   * @return tensor with all entries replaced by their rounded values */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Round.function);
   }
 }

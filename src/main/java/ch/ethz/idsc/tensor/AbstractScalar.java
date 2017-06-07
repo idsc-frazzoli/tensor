@@ -98,6 +98,7 @@ public abstract class AbstractScalar implements Scalar {
     throw TensorRuntimeException.of(this, tensor);
   }
 
+  /***************************************************/
   @Override // from Scalar
   public final Scalar add(Tensor tensor) {
     return plus((Scalar) tensor);

@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Mod;
 import ch.ethz.idsc.tensor.sca.Ramp;
+import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
@@ -95,6 +96,12 @@ public class QuantityScalar1Test extends TestCase {
     Scalar qs2 = QuantityScalar.of(RealScalar.of(-2), "m", RealScalar.ONE);
     assertEquals(Ramp.of(qs1), qs1);
     assertEquals(Ramp.of(qs2), qs1.zero());
+  }
+
+  public void testRound() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(2.333), "m", RealScalar.ONE);
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+    assertEquals(Round.of(qs1), qs2);
   }
 
   public void testHypot() {

@@ -12,7 +12,7 @@ public class CoshTest extends TestCase {
   public void testReal() {
     Scalar c = Cosh.function.apply(RealScalar.of(2));
     Scalar s = DoubleScalar.of(Math.cosh(2));
-    Scalar t = (Scalar) Cosh.of(RealScalar.of(2));
+    Scalar t = Cosh.of(RealScalar.of(2));
     assertEquals(c, s);
     assertEquals(c, t);
   }

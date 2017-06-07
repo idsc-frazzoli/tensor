@@ -46,26 +46,23 @@ public class FloorTest extends TestCase {
 
   public void testRational1() {
     Scalar s = RationalScalar.of(234534584545L, 13423656767L); // 17.4717
-    Scalar r = (Scalar) Floor.of(s);
+    Scalar r = Floor.of(s);
     assertEquals(r, RealScalar.of(17));
     assertTrue(r instanceof RationalScalar);
   }
 
   public void testRational2() {
     Scalar s = RationalScalar.of(734534584545L, 13423656767L); // 54.7194
-    Scalar r = (Scalar) Floor.of(s);
+    Scalar r = Floor.of(s);
     assertEquals(r, RealScalar.of(54));
     assertTrue(r instanceof RationalScalar);
   }
 
   public void testComplex() {
-    Scalar c = Scalars.fromString("3-3*I");
-    try {
-      Floor.of(c);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+    Scalar c = Scalars.fromString("7-2*I");
+    assertEquals(Floor.of(c), c);
+    Scalar d = Scalars.fromString("7.9-1.1*I");
+    assertEquals(Floor.of(d), c);
   }
 
   public void testFailInf() {

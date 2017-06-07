@@ -6,10 +6,9 @@ import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.ArgInterface;
-import ch.ethz.idsc.tensor.sca.ConjugateInterface;
-import ch.ethz.idsc.tensor.sca.ImagInterface;
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
-import ch.ethz.idsc.tensor.sca.RealInterface;
+import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
@@ -22,8 +21,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * <li>decimal with extra precision {@link DecimalScalar}
  * </ul> */
 public interface RealScalar extends Scalar, //
-    ArcTanInterface, ArgInterface, ConjugateInterface, Comparable<Scalar>, ImagInterface, //
-    PowerInterface, RealInterface, SignInterface, SqrtInterface {
+    ArcTanInterface, ArgInterface, Comparable<Scalar>, ComplexEmbedding, //
+    PowerInterface, RoundingInterface, SignInterface, SqrtInterface {
   /** real scalar 0 as a {@link RationalScalar} */
   static final RealScalar ZERO = RealScalar.of(0);
   /** real scalar 1 as a {@link RationalScalar} */

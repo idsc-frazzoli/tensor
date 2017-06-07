@@ -5,12 +5,13 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Norm;
 
-/* package */ class MatrixExpImpl implements MatrixExp {
+/** matrix exponential via power series */
+/* package */ class SeriesMatrixExp {
   static final int MAXITER = 100;
   static final double TENSOR_EPS = 1E-40;
   Tensor sum;
 
-  MatrixExpImpl(Tensor m) {
+  SeriesMatrixExp(Tensor m) {
     final int n = m.length();
     sum = IdentityMatrix.of(n);
     Tensor nxt = IdentityMatrix.of(n);

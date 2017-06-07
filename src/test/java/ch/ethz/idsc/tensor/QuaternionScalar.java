@@ -4,14 +4,12 @@ package ch.ethz.idsc.tensor;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.AbsSquared;
-import ch.ethz.idsc.tensor.sca.ConjugateInterface;
-import ch.ethz.idsc.tensor.sca.ImagInterface;
-import ch.ethz.idsc.tensor.sca.RealInterface;
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 // EXPERIMENTAL
 class QuaternionScalar extends AbstractScalar implements //
-    ConjugateInterface, ImagInterface, RealInterface {
+    ComplexEmbedding {
   public static Scalar of(Number re, Number im, Number jm, Number km) {
     return of( //
         RealScalar.of(re), //
@@ -122,17 +120,17 @@ class QuaternionScalar extends AbstractScalar implements //
     return RealScalar.ZERO;
   }
 
-  @Override // from ConjugateInterface
+  @Override // from ComplexEmbedding
   public Scalar conjugate() {
     return of(re, im.negate(), jm.negate(), km.negate());
   }
 
-  @Override // from RealInterface
+  @Override // from ComplexEmbedding
   public Scalar real() {
     return re;
   }
 
-  @Override // from ImagInterface
+  @Override // from ComplexEmbedding
   public Scalar imag() {
     return im;
   }

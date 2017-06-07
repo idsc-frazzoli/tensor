@@ -34,7 +34,8 @@ public enum Log implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all scalars replaced with their logarithm */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Log.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Log.function);
   }
 }

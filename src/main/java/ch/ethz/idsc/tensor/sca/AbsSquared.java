@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * Since {@link ComplexScalar}::abs involves a sqrt the square of abs is better computed using
  * <code>z * conjugate(z)</code>.
  * 
- * if a {@link Scalar} does not implement {@link ConjugateInterface}
+ * if a {@link Scalar} does not implement {@link ComplexEmbedding}
  * the function AbsSquared is computed simply as
  * <code>abs(x) ^ 2</code> */
 public enum AbsSquared implements Function<Scalar, Scalar> {
@@ -19,7 +19,7 @@ public enum AbsSquared implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof ConjugateInterface)
+    if (scalar instanceof ComplexEmbedding)
       return scalar.multiply(Conjugate.function.apply(scalar));
     Scalar abs = scalar.abs();
     return abs.multiply(abs);
@@ -27,7 +27,8 @@ public enum AbsSquared implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all scalars replaced with their absolute value */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(AbsSquared.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(AbsSquared.function);
   }
 }

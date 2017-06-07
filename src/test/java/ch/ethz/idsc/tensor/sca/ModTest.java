@@ -3,10 +3,12 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class ModTest extends TestCase {
@@ -70,5 +72,24 @@ public class ModTest extends TestCase {
       Scalar r = Mod.function(n, d).apply(N.of(m));
       assertEquals(Chop.below(.01).apply(r.subtract(expected)), RealScalar.ZERO);
     }
+  }
+
+  public void testTemplate() {
+    Mod mod = Mod.function(RealScalar.of(5));
+    assertEquals(mod.of(RealScalar.of(6)), RealScalar.ONE);
+    assertEquals(mod.of(Tensors.vector(-1, 3, 6)), Tensors.vector(4, 3, 1));
+  }
+
+  public void testNegative() {
+    Mod mod = Mod.function(RealScalar.of(-5));
+    Scalar m = mod.apply(RealScalar.of(2));
+    // TODO desired behavior not clear
+    // System.out.println(m);
+  }
+
+  public void testComplex() {
+    Mod mod = Mod.function(ComplexScalar.of(2, 3));
+    mod.apply(RealScalar.of(2));
+    // TODO desire behavior ?
   }
 }

@@ -4,11 +4,11 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
-import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 
 // EXPERIMENTAL towards a Quaternion scalar
-/* package */ class McScalar extends AbstractScalar implements ConjugateInterface {
+/* package */ class McScalar extends AbstractScalar implements ComplexEmbedding {
   public static Scalar of(Scalar re, Scalar im) {
     if (Scalars.isZero(im))
       return re;
@@ -30,16 +30,18 @@ import ch.ethz.idsc.tensor.sca.ConjugateInterface;
   }
 
   /** @return real part */
-  public Scalar real() {
+  @Override
+  public Scalar real() { // TODO arg, misnomer!
     return skew.Get(0, 0);
   }
 
   /** @return imaginary part */
-  public Scalar imag() {
+  @Override
+  public Scalar imag() { // TODO arg, misnomer!
     return skew.Get(0, 1);
   }
 
-  @Override // from ConjugateInterface
+  @Override // from ComplexEmbedding
   public Scalar conjugate() {
     return of(real(), imag().negate());
   }

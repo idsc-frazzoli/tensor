@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.alg.Sort;
+import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
@@ -15,6 +17,9 @@ import ch.ethz.idsc.tensor.mat.PositiveDefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.PositiveSemidefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.RowReduce;
 import ch.ethz.idsc.tensor.opt.ConvexHull;
+import ch.ethz.idsc.tensor.opt.Interpolation;
+import ch.ethz.idsc.tensor.opt.LinearInterpolation;
+import ch.ethz.idsc.tensor.red.Quantile;
 import junit.framework.TestCase;
 
 public class QuantityScalar2Test extends TestCase {
@@ -108,5 +113,55 @@ public class QuantityScalar2Test extends TestCase {
     Tensor mat = Tensors.of(ve2, ve1);
     Tensor hul = ConvexHull.of(mat);
     assertEquals(hul, mat);
+  }
+
+  public void testQuantile() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(4), "m", RealScalar.ONE);
+    Scalar qs3 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+    Tensor vector = Tensors.of(qs1, qs2, qs3);
+    assertEquals(Quantile.of(vector, RealScalar.ZERO), qs1);
+    assertEquals(Quantile.of(vector, RealScalar.ONE), qs2);
+    Scalar qs4 = QuantityScalar.of(RealScalar.of(2), "s", RealScalar.ONE);
+    try {
+      Sort.of(Tensors.of(qs1, qs4)); // comparison fails
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testInterpolation() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(4), "m", RealScalar.ONE);
+    Scalar qs3 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+    Tensor vector = Tensors.of(qs1, qs2, qs3);
+    Interpolation interpolation = LinearInterpolation.of(vector);
+    Scalar r = QuantityScalar.of(RealScalar.of((1 + 4) * 0.5), "m", RealScalar.ONE);
+    Scalar s = interpolation.Get(Tensors.vector(0.5));
+    assertEquals(s, r);
+  }
+
+  public void testInterpolation2() {
+    Tensor v1;
+    {
+      Scalar qs1 = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
+      Scalar qs2 = QuantityScalar.of(RealScalar.of(4), "m", RealScalar.ONE);
+      Scalar qs3 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+      v1 = Tensors.of(qs1, qs2, qs3);
+    }
+    Tensor v2;
+    {
+      Scalar qs1 = QuantityScalar.of(RealScalar.of(9), "s", RealScalar.ONE);
+      Scalar qs2 = QuantityScalar.of(RealScalar.of(6), "s", RealScalar.ONE);
+      Scalar qs3 = QuantityScalar.of(RealScalar.of(-3), "s", RealScalar.ONE);
+      v2 = Tensors.of(qs1, qs2, qs3);
+    }
+    Tensor matrix = Transpose.of(Tensors.of(v1, v2));
+    Interpolation interpolation = LinearInterpolation.of(matrix);
+    Scalar r1 = QuantityScalar.of(RealScalar.of((1 + 4) * 0.5), "m", RealScalar.ONE);
+    Scalar r2 = QuantityScalar.of(RealScalar.of((9 + 6) * 0.5), "s", RealScalar.ONE);
+    Tensor vec = interpolation.get(Tensors.vector(0.5));
+    assertEquals(vec, Tensors.of(r1, r2));
   }
 }

@@ -20,6 +20,21 @@ public class SqrtTest extends TestCase {
     assertEquals(Rationalize.of(sr.multiply(sr), 10000), n2);
   }
 
+  public void testMixingTemplates() {
+    {
+      RealScalar tensor = RealScalar.of(-2);
+      Sqrt.of(tensor);
+      Scalar scalar = Sqrt.of(tensor);
+      scalar.zero();
+    }
+    {
+      RationalScalar tensor = (RationalScalar) RationalScalar.of(-2, 3);
+      Sqrt.of(tensor);
+      Scalar scalar = Sqrt.of(tensor);
+      scalar.zero();
+    }
+  }
+
   public void testComplex() {
     Scalar scalar = ComplexScalar.of(0, 2);
     Scalar root = Sqrt.function.apply(scalar);

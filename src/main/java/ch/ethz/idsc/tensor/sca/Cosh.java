@@ -34,7 +34,8 @@ public enum Cosh implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all entries replaced by their cosh */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Cosh.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Cosh.function);
   }
 }

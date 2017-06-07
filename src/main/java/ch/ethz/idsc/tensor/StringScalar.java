@@ -21,6 +21,12 @@ public final class StringScalar extends AbstractScalar {
     this.string = string;
   }
 
+  /***************************************************/
+  @Override // from Scalar
+  public Scalar abs() {
+    throw TensorRuntimeException.of(this);
+  }
+
   @Override // from Scalar
   public Scalar invert() {
     throw TensorRuntimeException.of(this);
@@ -37,11 +43,6 @@ public final class StringScalar extends AbstractScalar {
   }
 
   @Override // from Scalar
-  public Scalar abs() {
-    throw TensorRuntimeException.of(this);
-  }
-
-  @Override // from Scalar
   public Number number() {
     throw TensorRuntimeException.of(this);
   }
@@ -51,11 +52,13 @@ public final class StringScalar extends AbstractScalar {
     throw TensorRuntimeException.of(this);
   }
 
+  /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     throw TensorRuntimeException.of(this);
   }
 
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return string.hashCode();

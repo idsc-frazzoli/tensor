@@ -1,6 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 
 /** scalar with double precision, 64-bit, MATLAB style */
@@ -23,9 +27,15 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     this.value = value;
   }
 
+  /***************************************************/
   @Override // from Scalar
   public Scalar invert() {
     return of(1 / value);
+  }
+
+  @Override // from Scalar
+  public Scalar negate() {
+    return of(-value);
   }
 
   @Override // from Scalar
@@ -36,21 +46,31 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   @Override // from Scalar
-  public Scalar zero() {
-    return DOUBLE_ZERO;
-  }
-
-  @Override // from Scalar
   public Number number() {
     return value;
   }
 
-  @Override // from RealScalar
-  public RealScalar negate() {
-    return of(-value);
+  @Override // from Scalar
+  public Scalar zero() {
+    return DOUBLE_ZERO;
   }
 
-  @Override // from RealScalar
+  /***************************************************/
+  @Override // from AbstractScalar
+  protected Scalar plus(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return of(value + scalar.number().doubleValue());
+    return scalar.add(this);
+  }
+
+  /***************************************************/
+  @Override // from AbstractRealScalar
+  protected boolean isNonNegative() {
+    return 0 <= value;
+  }
+
+  /***************************************************/
+  @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
     if (scalar instanceof RealScalar)
       return Double.compare(number().doubleValue(), scalar.number().doubleValue());
@@ -59,16 +79,9 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return -comparable.compareTo(this);
   }
 
-  @Override // from AbstractScalar
-  protected Scalar plus(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return of(value + scalar.number().doubleValue());
-    return scalar.add(this);
-  }
-
-  @Override // from AbstractRealScalar
-  protected boolean isNonNegative() {
-    return 0 <= value;
+  @Override // from RoundingInterface
+  public Scalar ceiling() {
+    return RationalScalar.of(StaticHelper.ceiling(bigDecimal()), BigInteger.ONE);
   }
 
   @Override // from ChopInterface
@@ -76,6 +89,22 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return Math.abs(value) < threshold ? ZERO : this;
   }
 
+  @Override // from RoundingInterface
+  public Scalar floor() {
+    return RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE);
+  }
+
+  @Override // from RoundingInterface
+  public Scalar round() {
+    return RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
+  }
+
+  /***************************************************/
+  private BigDecimal bigDecimal() {
+    return BigDecimal.valueOf(value);
+  }
+
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return Double.hashCode(value);

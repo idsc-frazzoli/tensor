@@ -32,7 +32,8 @@ public enum Sinc implements Function<Scalar, Scalar> {
 
   /** @param tensor
    * @return tensor with all scalars replaced with their sin */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Sinc.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Sinc.function);
   }
 }

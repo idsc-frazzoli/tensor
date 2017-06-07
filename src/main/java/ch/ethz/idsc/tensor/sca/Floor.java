@@ -1,12 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -22,30 +18,17 @@ public enum Floor implements Function<Scalar, Scalar> {
    * @throws TensorRuntimeException if scalar is Infinity, or NaN */
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) scalar;
-      return RealScalar.of(rationalScalar.toBigDecimal(0, RoundingMode.FLOOR).toBigIntegerExact());
+    if (scalar instanceof RoundingInterface) {
+      RoundingInterface roundingInterface = (RoundingInterface) scalar;
+      return roundingInterface.floor();
     }
-    if (scalar instanceof RealScalar)
-      return RationalScalar.of(_floor(scalar.number().doubleValue()), BigInteger.ONE);
     throw TensorRuntimeException.of(scalar);
-  }
-
-  // helper function
-  private static BigInteger _floor(double value) {
-    // throws an exception if value is Infinity
-    BigDecimal bd = BigDecimal.valueOf(value);
-    BigInteger bi = bd.toBigInteger();
-    if (0 < new BigDecimal(bi).compareTo(bd)) {
-      bd = BigDecimal.valueOf(value - 1);
-      bi = bd.toBigInteger();
-    }
-    return bi;
   }
 
   /** @param tensor
    * @return tensor with all entries replaced by their floor */
-  public static Tensor of(Tensor tensor) {
-    return tensor.map(Floor.function);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(Floor.function);
   }
 }

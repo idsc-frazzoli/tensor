@@ -14,8 +14,10 @@ public enum Real implements Function<Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealInterface)
-      return ((RealInterface) scalar).real();
+    if (scalar instanceof ComplexEmbedding) {
+      ComplexEmbedding complexEmbedding = (ComplexEmbedding) scalar;
+      return complexEmbedding.real();
+    }
     throw TensorRuntimeException.of(scalar);
   }
 

@@ -2,10 +2,11 @@
 // implementation adapted from Ruby code of https://en.wikipedia.org/wiki/Exponentiation_by_squaring
 package ch.ethz.idsc.tensor.alg;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /** interface used by MatrixPower and GaussScalar */
-public abstract class BinaryPower<T> {
+public abstract class BinaryPower<T> implements Serializable {
   public abstract T zeroth();
 
   public abstract T invert(T object);

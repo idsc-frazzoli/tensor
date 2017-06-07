@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 public class LogTest extends TestCase {
   public void testOne() {
-    Scalar scalar = (Scalar) Log.of(RealScalar.ONE);
+    Scalar scalar = Log.of(RealScalar.ONE);
     assertTrue(Scalars.isZero(scalar));
   }
 

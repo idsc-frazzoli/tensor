@@ -42,24 +42,14 @@ public final class RationalScalar extends AbstractRealScalar implements //
     this.bigFraction = bigFraction;
   }
 
-  /** @return numerator as {@link BigInteger} */
-  public BigInteger numerator() {
-    return bigFraction.num;
-  }
-
-  /** @return denominator as {@link BigInteger},
-   * the denominator of a {@link RationalScalar} is always positive */
-  public BigInteger denominator() {
-    return bigFraction.den;
-  }
-
+  /***************************************************/
   @Override // from Scalar
   public RealScalar invert() {
     return _of(bigFraction.invert());
   }
 
   @Override // from Scalar
-  public RealScalar negate() {
+  public Scalar negate() {
     return _of(bigFraction.negate());
   }
 
@@ -68,11 +58,6 @@ public final class RationalScalar extends AbstractRealScalar implements //
     if (scalar instanceof RationalScalar)
       return _of(bigFraction.multiply(((RationalScalar) scalar).bigFraction));
     return scalar.multiply(this);
-  }
-
-  @Override // from Scalar
-  public Scalar zero() {
-    return RealScalar.ZERO;
   }
 
   @Override // from Scalar
@@ -94,15 +79,12 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return toBigDecimal(MathContext.DECIMAL64).doubleValue();
   }
 
-  // EXPERIMENTAL
-  public BigDecimal toBigDecimal(int scale, RoundingMode roundingMode) {
-    return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), scale, roundingMode);
+  @Override // from Scalar
+  public Scalar zero() {
+    return RealScalar.ZERO;
   }
 
-  public BigDecimal toBigDecimal(MathContext mathContext) {
-    return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), mathContext);
-  }
-
+  /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof RationalScalar)
@@ -110,25 +92,44 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return scalar.add(this);
   }
 
+  /***************************************************/
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
     return 0 <= bigFraction.num.signum();
   }
 
-  /** Example: sqrt(16/25) == 4/5
-   * 
-   * @return {@link RationalScalar} precision if numerator and denominator are both squares */
-  @Override // from AbstractRealScalar
-  public Scalar sqrt() {
-    try {
-      boolean pos = isNonNegative();
-      BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
-      BigInteger sqrtden = Sqrt.of(bigFraction.den);
-      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
-    } catch (Exception exception) {
-      // ---
+  /***************************************************/
+  @Override // from RoundingInterface
+  public Scalar ceiling() {
+    return of(toBigDecimal(0, RoundingMode.CEILING).toBigIntegerExact(), BigInteger.ONE);
+  }
+
+  @Override // from Comparable<Scalar>
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      BigInteger lhs = numerator().multiply(rationalScalar.denominator());
+      BigInteger rhs = rationalScalar.numerator().multiply(denominator());
+      return lhs.compareTo(rhs);
     }
-    return super.sqrt();
+    @SuppressWarnings("unchecked")
+    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
+    return -comparable.compareTo(this);
+  }
+
+  @Override // from RoundingInterface
+  public Scalar floor() {
+    return of(toBigDecimal(0, RoundingMode.FLOOR).toBigIntegerExact(), BigInteger.ONE);
+  }
+
+  @Override // from ExactNumberQInterface
+  public boolean isExactNumber() {
+    return true;
+  }
+
+  @Override // from NInterface
+  public Scalar n() {
+    return DoubleScalar.of(toBigDecimal(MathContext.DECIMAL64).doubleValue());
   }
 
   @Override // from AbstractRealScalar
@@ -152,29 +153,48 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return super.power(exponent);
   }
 
-  @Override // from ExactNumberQInterface
-  public boolean isExactNumber() {
-    return true;
+  @Override // from RoundingInterface
+  public Scalar round() {
+    return of(toBigDecimal(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
   }
 
-  @Override // from NInterface
-  public Scalar n() {
-    return DoubleScalar.of(toBigDecimal(MathContext.DECIMAL64).doubleValue());
-  }
-
-  @Override // from RealScalar
-  public int compareTo(Scalar scalar) {
-    if (scalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) scalar;
-      BigInteger lhs = numerator().multiply(rationalScalar.denominator());
-      BigInteger rhs = rationalScalar.numerator().multiply(denominator());
-      return lhs.compareTo(rhs);
+  /** Example: sqrt(16/25) == 4/5
+   * 
+   * @return {@link RationalScalar} precision if numerator and denominator are both squares */
+  @Override // from AbstractRealScalar
+  public Scalar sqrt() {
+    try {
+      boolean pos = isNonNegative();
+      BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
+      BigInteger sqrtden = Sqrt.of(bigFraction.den);
+      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
+    } catch (Exception exception) {
+      // ---
     }
-    @SuppressWarnings("unchecked")
-    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
-    return -comparable.compareTo(this);
+    return super.sqrt();
   }
 
+  /***************************************************/
+  /** @return numerator as {@link BigInteger} */
+  public BigInteger numerator() {
+    return bigFraction.num;
+  }
+
+  /** @return denominator as {@link BigInteger},
+   * the denominator of a {@link RationalScalar} is always positive */
+  public BigInteger denominator() {
+    return bigFraction.den;
+  }
+
+  private BigDecimal toBigDecimal(int scale, RoundingMode roundingMode) {
+    return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), scale, roundingMode);
+  }
+
+  private BigDecimal toBigDecimal(MathContext mathContext) {
+    return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), mathContext);
+  }
+
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return bigFraction.hashCode();
