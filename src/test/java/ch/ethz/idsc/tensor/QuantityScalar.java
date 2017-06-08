@@ -73,9 +73,9 @@ public class QuantityScalar extends AbstractScalar implements //
 
   @Override
   protected Scalar plus(Scalar scalar) {
-    if (Scalars.isZero(this))
+    if (Scalars.isZero(this) && Scalars.nonZero(scalar))
       return scalar;
-    if (Scalars.isZero(scalar))
+    if (Scalars.isZero(scalar) && Scalars.nonZero(this))
       return this;
     if (scalar instanceof QuantityScalar) {
       QuantityScalar quantityScalar = (QuantityScalar) scalar;
