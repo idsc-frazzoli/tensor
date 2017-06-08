@@ -50,7 +50,11 @@ public enum Array {
         .map(i -> zeros(dimensions.subList(1, dimensions.size()))));
   }
 
-  /** @param dimensions
+  /** Examples:
+   * Array.zeros(3) == Tensors.vector(0, 0, 0) == {0, 0, 0}
+   * Array.zeros(2, 3) == {{0, 0, 0}, {0, 0, 0}}
+   * 
+   * @param dimensions
    * @return tensor of {@link RealScalar#ZERO} with given dimensions */
   public static Tensor zeros(Integer... dimensions) {
     return zeros(Arrays.asList(dimensions));

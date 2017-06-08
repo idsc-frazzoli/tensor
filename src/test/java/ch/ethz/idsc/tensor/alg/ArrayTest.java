@@ -52,6 +52,11 @@ public class ArrayTest extends TestCase {
     assertEquals(zeros, table);
   }
 
+  public void testZeros2() {
+    Tensor zeros = Array.zeros(2, 3);
+    assertEquals(zeros, Tensors.fromString("{ {  0,0, 0} ,  {0,0,0}  }"));
+  }
+
   public void testEmpty() {
     assertEquals(Array.zeros(0), Tensors.empty());
     assertEquals(Array.zeros(0, 1), Tensors.empty());
