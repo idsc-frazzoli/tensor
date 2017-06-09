@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Tensor;
@@ -50,9 +51,16 @@ public enum CsvFormat {
    * @param stream
    * @return tensor with rows defined by the entries of the input stream */
   public static Tensor parse(Stream<String> stream) {
+    return parse(stream, Tensors::fromString);
+  }
+
+  /** @param stream
+   * @param function that parses a string to a tensor
+   * @return */
+  public static Tensor parse(Stream<String> stream, Function<String, Tensor> function) {
     return Tensor.of(stream.parallel() //
         .map(CsvFormat::encloseWithBrackets) //
-        .map(Tensors::fromString));
+        .map(function));
   }
 
   private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
