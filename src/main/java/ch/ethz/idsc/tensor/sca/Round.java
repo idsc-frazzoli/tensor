@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -20,8 +18,12 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Round.html">Round</a> */
-public enum Round implements Function<Scalar, Scalar> {
+public enum Round implements ScalarUnaryOperator {
   function;
+  // ---
+  // display pi as "3.1416"
+  public static final ScalarUnaryOperator MATLAB = Round.toMultipleOf(DecimalScalar.of(0.0001));
+
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -42,7 +44,7 @@ public enum Round implements Function<Scalar, Scalar> {
    * 
    * @param increment
    * @return */
-  public static Function<Scalar, Scalar> toMultipleOf(Scalar increment) {
+  public static ScalarUnaryOperator toMultipleOf(Scalar increment) {
     Scalar inverse = increment.invert();
     return scalar -> function.apply(scalar.multiply(inverse)).multiply(increment);
   }

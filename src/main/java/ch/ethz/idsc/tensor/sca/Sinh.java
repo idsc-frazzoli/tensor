@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -14,7 +12,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  *
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sinh.html">Sinh</a> */
-public enum Sinh implements Function<Scalar, Scalar> {
+public enum Sinh implements ScalarUnaryOperator {
   function;
   // ---
   @Override

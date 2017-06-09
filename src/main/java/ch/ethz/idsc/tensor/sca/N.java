@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -14,7 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/N.html">N</a> */
-public enum N implements Function<Scalar, Scalar> {
+public enum N implements ScalarUnaryOperator {
   function;
   // ---
   @Override

@@ -168,6 +168,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
 
   /** tensor addition
    * 
+   * addition is commutative: a.add(b) equals b.add(a)
+   * 
    * @param tensor
    * @return this plus input tensor */
   Tensor add(Tensor tensor);

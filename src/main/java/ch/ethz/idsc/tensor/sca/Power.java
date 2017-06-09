@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -50,18 +48,13 @@ public enum Power {
 
   /** @param exponent
    * @return function that maps a scalar to scalar ^ exponent */
-  public static Function<Scalar, Scalar> function(Scalar exponent) {
-    return new Function<Scalar, Scalar>() {
-      @Override
-      public Scalar apply(Scalar scalar) {
-        return of(scalar, exponent);
-      }
-    };
+  public static ScalarUnaryOperator function(Scalar exponent) {
+    return scalar -> of(scalar, exponent);
   }
 
   /** @param exponent
    * @return function that maps a scalar to scalar ^ exponent */
-  public static Function<Scalar, Scalar> function(Number exponent) {
+  public static ScalarUnaryOperator function(Number exponent) {
     return function(RealScalar.of(exponent));
   }
 }

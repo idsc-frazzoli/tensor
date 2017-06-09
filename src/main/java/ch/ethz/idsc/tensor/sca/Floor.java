@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -10,7 +8,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Floor.html">Floor</a> */
-public enum Floor implements Function<Scalar, Scalar> {
+public enum Floor implements ScalarUnaryOperator {
   function;
   // ---
   /** @param scalar instance if {@link RealScalar}

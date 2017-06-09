@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -11,7 +9,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArcSinh.html">ArcSinh</a> */
-public enum ArcSinh implements Function<Scalar, Scalar> {
+public enum ArcSinh implements ScalarUnaryOperator {
   function;
   // ---
   @Override

@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -14,7 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * if a {@link Scalar} does not implement {@link ComplexEmbedding}
  * the function AbsSquared is computed simply as
  * <code>abs(x) ^ 2</code> */
-public enum AbsSquared implements Function<Scalar, Scalar> {
+public enum AbsSquared implements ScalarUnaryOperator {
   function;
   // ---
   @Override

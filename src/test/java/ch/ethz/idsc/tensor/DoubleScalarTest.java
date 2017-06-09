@@ -21,6 +21,11 @@ public class DoubleScalarTest extends TestCase {
     assertTrue(a.add(b).equals(c));
   }
 
+  public void testZeroInvert() {
+    Scalar nzero = DoubleScalar.of(0.0);
+    assertEquals(nzero.invert(), RealScalar.POSITIVE_INFINITY);
+  }
+
   public void testChop() {
     Scalar s = DoubleScalar.of(3.14);
     assertEquals(Chop.of(s), s);

@@ -63,4 +63,9 @@ public class RoundTest extends TestCase {
     Scalar sr = Round.toMultipleOf(RationalScalar.of(1, 2)).apply(s);
     assertEquals(sr.toString(), "7/2");
   }
+
+  public void testMatlab() {
+    Scalar pi = DoubleScalar.of(Math.PI);
+    // System.out.println(pi.map(Round.MATLAB)); // TODO for some reason this displays as "3.14160"
+  }
 }

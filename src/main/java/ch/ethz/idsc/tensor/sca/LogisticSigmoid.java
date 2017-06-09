@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -14,7 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/LogisticSigmoid.html">LogisticSigmoid</a> */
-public enum LogisticSigmoid implements Function<Scalar, Scalar> {
+public enum LogisticSigmoid implements ScalarUnaryOperator {
   function;
   // ---
   @Override

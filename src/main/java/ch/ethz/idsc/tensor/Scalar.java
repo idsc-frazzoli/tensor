@@ -17,7 +17,11 @@ public interface Scalar extends Tensor {
   /** Scalar::length returns LENGTH */
   static final int LENGTH = -1;
 
-  /** @param tensor must be {@link Scalar}
+  /** scalar addition
+   * 
+   * addition is commutative: a.add(b) equals b.add(a)
+   * 
+   * @param tensor must be {@link Scalar}
    * @return this plus input */
   @Override // from Tensor
   Scalar add(Tensor tensor);
@@ -35,6 +39,10 @@ public interface Scalar extends Tensor {
 
   /***************************************************/
   /** multiplicative inverse except for {@link Scalar#zero()}
+   * 
+   * for zero().inverse() there are two possible outcomes
+   * 1) throw an exception, example {@link RationalScalar}
+   * 2) result is encoded as "Infinity", example {@link DoubleScalar}
    * 
    * @return multiplicative inverse of this scalar
    * @throws ArithmeticException if scalar equals to 0, or cannot be inverted */

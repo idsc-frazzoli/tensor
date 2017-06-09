@@ -154,7 +154,8 @@ The library is used in the projects:
 * `matsim`
 * `SwissTrolley+`
 * `owly`
-* `SimBus`
 * `subare`
+* `QueuingNetworks`
+* `SimBus`
 
 The repository has over `700` unit tests.

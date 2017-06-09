@@ -7,7 +7,9 @@ import java.math.RoundingMode;
 
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 
-/** scalar with double precision, 64-bit, MATLAB style */
+/** scalar with double precision, 64-bit, MATLAB style
+ * 
+ * zero().inverse() equals {@link RealScalar#POSITIVE_INFINITY} */
 public final class DoubleScalar extends AbstractRealScalar implements //
     ChopInterface {
   private static final Scalar DOUBLE_ZERO = of(0.);
@@ -102,6 +104,18 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   /***************************************************/
   private BigDecimal bigDecimal() {
     return BigDecimal.valueOf(value);
+  }
+
+  public boolean isFinite() {
+    return Double.isFinite(value);
+  }
+
+  public boolean isInfinite() {
+    return Double.isInfinite(value);
+  }
+
+  public boolean isNaN() {
+    return Double.isNaN(value);
   }
 
   /***************************************************/
