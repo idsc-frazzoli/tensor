@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -22,7 +23,7 @@ public class RationalizeTest extends TestCase {
     assertEquals(Rationalize.of(RealScalar.of(-13), 1000).toString(), "-13");
     assertEquals(Rationalize.of(RealScalar.of(4), 1000), RealScalar.of(4));
     assertEquals(Rationalize.of(RealScalar.of(-4), 1000), RealScalar.of(-4));
-    RealScalar tenth = RealScalar.of(0.1);
+    Scalar tenth = RealScalar.of(0.1);
     assertEquals(Rationalize.of(tenth, 1000).toString(), "1/10");
     assertEquals(Rationalize.of(tenth, 6).toString(), "1/6");
     assertEquals(Rationalize.of(tenth.negate(), 6).toString(), "-1/6");

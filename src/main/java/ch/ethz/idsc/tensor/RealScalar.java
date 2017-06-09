@@ -24,17 +24,17 @@ public interface RealScalar extends Scalar, //
     ArcTanInterface, ArgInterface, Comparable<Scalar>, ComplexEmbedding, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface {
   /** real scalar 0 as a {@link RationalScalar} */
-  static final RealScalar ZERO = RealScalar.of(0);
+  static final Scalar ZERO = RealScalar.of(0);
   /** real scalar 1 as a {@link RationalScalar} */
-  static final RealScalar ONE = RealScalar.of(1);
+  static final Scalar ONE = RealScalar.of(1);
   /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
-  static final RealScalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
+  static final Scalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
   /** real scalar that encodes -Infinity. value is backed by Double.NEGATIVE_INFINITY */
-  static final RealScalar NEGATIVE_INFINITY = of(Double.NEGATIVE_INFINITY);
+  static final Scalar NEGATIVE_INFINITY = of(Double.NEGATIVE_INFINITY);
 
   /** @param number
    * @return scalar with best possible accuracy to describe number */
-  static RealScalar of(Number number) {
+  static Scalar of(Number number) {
     if (number instanceof Integer || number instanceof Long)
       return RationalScalar.of(number.longValue(), 1);
     if (number instanceof Float || number instanceof Double)

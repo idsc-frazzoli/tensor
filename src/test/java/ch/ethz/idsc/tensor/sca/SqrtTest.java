@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 
 public class SqrtTest extends TestCase {
   public void testNegative() {
-    RealScalar n2 = RealScalar.of(-2);
+    Scalar n2 = RealScalar.of(-2);
     Scalar sr = Sqrt.function.apply(n2);
     assertEquals(Rationalize.of(AbsSquared.function.apply(sr), 10000), RealScalar.of(2));
     assertEquals(Rationalize.of(sr.multiply(sr), 10000), n2);
@@ -22,7 +22,7 @@ public class SqrtTest extends TestCase {
 
   public void testMixingTemplates() {
     {
-      RealScalar tensor = RealScalar.of(-2);
+      Scalar tensor = RealScalar.of(-2);
       Sqrt.of(tensor);
       Scalar scalar = Sqrt.of(tensor);
       scalar.zero();
@@ -52,8 +52,8 @@ public class SqrtTest extends TestCase {
   }
 
   public void testReal() {
-    assertEquals(RealScalar.of(16 / 25.).sqrt(), Scalars.fromString("4/5"));
-    assertEquals(RealScalar.of(-16 / 25.).sqrt(), Scalars.fromString("4/5*I"));
+    assertEquals(((RealScalar) RealScalar.of(16 / 25.)).sqrt(), Scalars.fromString("4/5"));
+    assertEquals(((RealScalar) RealScalar.of(-16 / 25.)).sqrt(), Scalars.fromString("4/5*I"));
   }
 
   public void testBigInteger() {
