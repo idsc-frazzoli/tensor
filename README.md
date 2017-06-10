@@ -152,10 +152,10 @@ Subsequently, the documentation is accessible through the file
 
 The library is used in the projects:
 * `matsim`
-* `SwissTrolley+`
 * `owly`
+* `SwissTrolley+`
 * `subare`
 * `QueuingNetworks`
 * `SimBus`
 
-The repository has over `700` unit tests.
+The repository has over `710` unit tests.

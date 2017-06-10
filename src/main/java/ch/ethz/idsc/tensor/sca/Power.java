@@ -25,8 +25,10 @@ public enum Power {
    * @param exponent
    * @return scalar ^ exponent */
   public static Scalar of(Scalar scalar, Scalar exponent) {
-    if (scalar instanceof PowerInterface)
-      return ((PowerInterface) scalar).power(exponent);
+    if (scalar instanceof PowerInterface) {
+      PowerInterface powerInterface = (PowerInterface) scalar;
+      return powerInterface.power(exponent);
+    }
     if (Scalars.isZero(exponent))
       return RealScalar.ONE; // <- not generic
     throw TensorRuntimeException.of(scalar, exponent);

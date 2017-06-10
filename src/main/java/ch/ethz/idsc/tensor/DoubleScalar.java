@@ -6,12 +6,13 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
 /** scalar with double precision, 64-bit, MATLAB style
  * 
  * zero().inverse() equals {@link RealScalar#POSITIVE_INFINITY} */
 public final class DoubleScalar extends AbstractRealScalar implements //
-    ChopInterface {
+    ChopInterface, MachineNumberQInterface {
   private static final Scalar DOUBLE_ZERO = of(0.);
 
   /** @param value
@@ -94,6 +95,11 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   @Override // from RoundingInterface
   public Scalar floor() {
     return RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE);
+  }
+
+  @Override // from MachineNumberQInterface
+  public boolean isMachineNumber() {
+    return true;
   }
 
   @Override // from RoundingInterface

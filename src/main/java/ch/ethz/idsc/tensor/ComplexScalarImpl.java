@@ -13,13 +13,14 @@ import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Log;
+import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    ChopInterface, ExactNumberQInterface, NInterface {
+    ChopInterface, ExactNumberQInterface, MachineNumberQInterface, NInterface {
   private final Scalar re;
   private final Scalar im;
 
@@ -117,6 +118,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from ExactNumberInterface
   public boolean isExactNumber() {
     return ExactNumberQ.of(re) && ExactNumberQ.of(im);
+  }
+
+  @Override // MachineNumberQInterface
+  public boolean isMachineNumber() {
+    return MachineNumberQ.of(re) && MachineNumberQ.of(im);
   }
 
   @Override // from NInterface
