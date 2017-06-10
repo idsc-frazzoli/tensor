@@ -12,10 +12,10 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** complex number
  * 
- * <p>number() or Comparable interface is not supported */
+ * <p>number() is not supported
+ * <p>{@link Comparable} is not provided */
 public interface ComplexScalar extends Scalar, //
-    ArcTanInterface, ArgInterface, ComplexEmbedding, //
-    PowerInterface, RoundingInterface, SqrtInterface {
+    ArcTanInterface, ArgInterface, ComplexEmbedding, PowerInterface, RoundingInterface, SqrtInterface {
   /** complex number I == 0+1*I */
   static final Scalar I = of(0, 1);
   /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */
@@ -26,6 +26,8 @@ public interface ComplexScalar extends Scalar, //
    * @return scalar with re as real part and im as imaginary part
    * @throws Exception if re or im are {@link ComplexScalar} */
   static Scalar of(Scalar re, Scalar im) {
+    if (re instanceof ComplexScalar || im instanceof ComplexScalar)
+      throw TensorRuntimeException.of(re, im);
     return Scalars.isZero(im) ? re : new ComplexScalarImpl(re, im);
   }
 
@@ -40,6 +42,8 @@ public interface ComplexScalar extends Scalar, //
    * @param arg angle
    * @return complex scalar with polar coordinates abs and arg */
   static Scalar fromPolar(Scalar abs, Scalar arg) {
+    if (abs instanceof ComplexScalar || arg instanceof ComplexScalar)
+      throw TensorRuntimeException.of(abs, arg);
     return abs.multiply(of(Cos.function.apply(arg), Sin.function.apply(arg)));
   }
 }

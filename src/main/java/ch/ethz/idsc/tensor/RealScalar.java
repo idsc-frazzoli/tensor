@@ -27,6 +27,8 @@ public interface RealScalar extends Scalar, //
   static final Scalar ZERO = RealScalar.of(0);
   /** real scalar 1 as a {@link RationalScalar} */
   static final Scalar ONE = RealScalar.of(1);
+  /** real scalar -1 as a {@link RationalScalar} */
+  static final Scalar NEGATIVE_ONE = RealScalar.of(-1);
   /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
   static final Scalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
   /** real scalar that encodes -Infinity. value is backed by Double.NEGATIVE_INFINITY */

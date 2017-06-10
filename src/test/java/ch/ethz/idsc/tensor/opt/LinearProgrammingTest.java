@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 // TODO for problems without unique solution only test for value of cost function
+// TODO some tests are still incomplete
 public class LinearProgrammingTest extends TestCase {
   public void testCase4() {
     Tensor c = Tensors.vector(-3, -5, 0, 0, 0);
@@ -57,7 +58,6 @@ public class LinearProgrammingTest extends TestCase {
     Tensor b = Tensors.fromString("{1,1/3}");
     TensorRuntimeException.of(c, m, b);
     // Tensor y = LinearProgramming.minLessEquals(c, m.negate(), b.negate());
-    // TODO
     // System.out.println(y);
     // System.out.println(c.dot(y));
     // assertEquals(x, Tensors.fromString("[2/3,4/3]"));
@@ -89,7 +89,6 @@ public class LinearProgrammingTest extends TestCase {
     assertFalse(LinearProgramming.isFeasible(m, Tensors.vector(3, 3), b));
   }
 
-  // TODO
   public void testClrsP846Dual() {
     Tensor c = Tensors.vector(8, 10, 2);
     Tensor m = Transpose.of(Tensors.matrixInt(new int[][] { { 4, -1 }, { 2, 1 }, { -5, 2 } })).negate();
@@ -149,7 +148,6 @@ public class LinearProgrammingTest extends TestCase {
     assertEquals(x, Tensors.vector(12, 8)); // confirmed with linprog
   }
 
-  // TODO
   public void testClrsP879_5Dual() {
     Tensor c = Tensors.vector(20, 12, 16);
     Tensor m = Transpose.of(Tensors.matrixInt(new int[][] { { 1, 1 }, { 1, 0 }, { 0, 1 } })).negate();

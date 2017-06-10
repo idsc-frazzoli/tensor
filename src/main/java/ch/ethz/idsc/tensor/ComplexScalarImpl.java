@@ -24,8 +24,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private final Scalar im;
 
   /* package */ ComplexScalarImpl(Scalar re, Scalar im) {
-    if (re instanceof ComplexScalar || im instanceof ComplexScalar)
-      throw TensorRuntimeException.of(re);
     this.re = re;
     this.im = im;
   }
@@ -77,7 +75,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     }
     if (scalar instanceof RealScalar)
       return ComplexScalar.of(re.add(scalar), im);
-    throw TensorRuntimeException.of(scalar);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   /***************************************************/

@@ -66,6 +66,6 @@ public class RoundTest extends TestCase {
 
   public void testMatlab() {
     Scalar pi = DoubleScalar.of(Math.PI);
-    // System.out.println(pi.map(Round.MATLAB)); // TODO for some reason this displays as "3.14160"
+    assertEquals(pi.map(Round.MATLAB).toString(), "3.1416");
   }
 }

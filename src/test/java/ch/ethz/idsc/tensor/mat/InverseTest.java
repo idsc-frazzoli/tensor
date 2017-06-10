@@ -33,7 +33,7 @@ public class InverseTest extends TestCase {
     Tensor x = LinearSolve.withoutAbs(A, b);
     assertEquals(A.dot(x), b);
     Tensor id = IdentityMatrix.of(n, GaussScalar.of(1, p));
-    Tensor Ai = Inverse.withoutAbs(A, id);
+    Tensor Ai = Inverse.withoutAbs(A);
     assertEquals(A.dot(Ai), id);
     assertEquals(Ai.dot(A), id);
   }

@@ -26,6 +26,14 @@ public class ArcTanTest extends TestCase {
     assertEquals(r, Scalars.fromString("1.502726846368326-0.09444062638970714*I"));
   }
 
+  public void testComplex2() {
+    Scalar x = ComplexScalar.of(4, -1);
+    Scalar y = ComplexScalar.of(1, 2);
+    Scalar r = ArcTan.of(x, y);
+    // 0.160875 + 0.575646 I
+    assertEquals(r, Scalars.fromString("0.1608752771983211+0.5756462732485114*I"));
+  }
+
   public void testCornerCases() {
     assertEquals(ArcTan.of(RealScalar.of(-5), RealScalar.ZERO), DoubleScalar.of(Math.PI));
     assertEquals(ArcTan.of(RealScalar.ZERO, RealScalar.ZERO), RealScalar.ZERO);

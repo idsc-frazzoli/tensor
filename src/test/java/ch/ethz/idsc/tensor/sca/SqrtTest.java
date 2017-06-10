@@ -47,8 +47,8 @@ public class SqrtTest extends TestCase {
   }
 
   public void testRational() {
-    assertEquals(RationalScalar.of(16, 25).sqrt().toString(), "4/5");
-    assertEquals(RationalScalar.of(-16, 25).sqrt().toString(), "4/5*I");
+    assertEquals(Sqrt.of(RationalScalar.of(16, 25)).toString(), "4/5");
+    assertEquals(Sqrt.of(RationalScalar.of(-16, 25)).toString(), "4/5*I");
   }
 
   public void testReal() {

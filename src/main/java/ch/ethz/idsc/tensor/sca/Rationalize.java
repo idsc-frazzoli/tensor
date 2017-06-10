@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Max;
 
@@ -39,7 +40,7 @@ public enum Rationalize {
   /** @param realScalar for instance Math.PI, or 2./3.
    * @param max denominator
    * @return approximation of realScalar as RationalScalar with denominator bounded by max */
-  private static RealScalar ofRealScalar(final RealScalar realScalar, final long max) {
+  private static Scalar ofRealScalar(final RealScalar realScalar, final long max) {
     long m00 = 1; /* initialize matrix */
     long m01 = 0;
     long m10 = 0;
@@ -64,10 +65,10 @@ public enum Rationalize {
     // now remaining x is between 0 and 1/ai
     // approx as either 0 or 1/m where m is max that will fit in maxden
     // first try zero
-    RealScalar sol0 = RationalScalar.of(m00, m10);
+    Scalar sol0 = RationalScalar.of(m00, m10);
     // now try other possibility
     ain = (max - m11) / m10;
-    RealScalar sol1 = RationalScalar.of(m00 * ain + m01, m10 * ain + m11);
+    Scalar sol1 = RationalScalar.of(m00 * ain + m01, m10 * ain + m11);
     // System.out.println(realScalar + " -> " + sol0 + " " + sol1);
     final double err0 = sol0.subtract(realScalar).abs().number().doubleValue();
     final double err1 = sol1.subtract(realScalar).abs().number().doubleValue();

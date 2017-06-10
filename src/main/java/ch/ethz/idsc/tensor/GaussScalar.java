@@ -60,6 +60,10 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value * gaussScalar.value, prime);
     }
+    if (Scalars.isZero(scalar)) // && Scalars.nonZero(this)
+      return zero();
+    if (scalar.equals(RealScalar.ONE))
+      return this;
     throw TensorRuntimeException.of(this, scalar);
   }
 
@@ -80,6 +84,10 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value + gaussScalar.value, prime);
     }
+    if (Scalars.isZero(scalar)) // plus not commutative 0'7 + 0 == 0'7
+      return this;
+    if (scalar.equals(RealScalar.ONE))
+      return of(value + 1, prime);
     throw TensorRuntimeException.of(this, scalar);
   }
 
@@ -92,7 +100,7 @@ public class GaussScalar extends AbstractScalar implements //
         throw TensorRuntimeException.of(this, scalar);
       return Long.compare(value, gaussScalar.value);
     }
-    throw TensorRuntimeException.of(this);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   @Override // from ExactNumberQInterface

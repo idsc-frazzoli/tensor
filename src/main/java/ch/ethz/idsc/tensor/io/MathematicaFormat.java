@@ -41,7 +41,6 @@ public enum MathematicaFormat {
   /** @param stream of strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
-    // TODO does not support extended precision yet: ..12`50
     return parse(stream, Tensors::fromString);
   }
 

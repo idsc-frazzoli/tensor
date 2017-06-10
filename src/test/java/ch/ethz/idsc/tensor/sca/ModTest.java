@@ -82,6 +82,7 @@ public class ModTest extends TestCase {
 
   public void testNegative() {
     Mod mod = Mod.function(RealScalar.of(-5));
+    @SuppressWarnings("unused")
     Scalar m = mod.apply(RealScalar.of(2));
     // TODO desired behavior not clear
     // System.out.println(m);

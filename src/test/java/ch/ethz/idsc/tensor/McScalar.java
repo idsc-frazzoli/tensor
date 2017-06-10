@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
 // EXPERIMENTAL towards a Quaternion scalar
+// TODO definition of ComplexEmbedding 
 /* package */ class McScalar extends AbstractScalar implements ComplexEmbedding {
   public static Scalar of(Scalar re, Scalar im) {
     if (Scalars.isZero(im))
@@ -31,13 +32,13 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 
   /** @return real part */
   @Override
-  public Scalar real() { // TODO arg, misnomer!
+  public Scalar real() {
     return skew.Get(0, 0);
   }
 
   /** @return imaginary part */
   @Override
-  public Scalar imag() { // TODO arg, misnomer!
+  public Scalar imag() {
     return skew.Get(0, 1);
   }
 

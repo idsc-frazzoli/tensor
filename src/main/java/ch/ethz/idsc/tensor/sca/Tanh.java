@@ -20,6 +20,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <a href="https://reference.wolfram.com/language/ref/Tanh.html">Tanh</a> */
 public enum Tanh implements ScalarUnaryOperator {
   function;
+  // ---
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RealScalar)

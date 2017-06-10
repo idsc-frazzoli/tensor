@@ -111,7 +111,7 @@ public class QuantityScalar extends AbstractScalar implements //
       if (unitMap.equals(quantityScalar.unitMap))
         return ArcTan.of(value, quantityScalar.value);
     }
-    throw TensorRuntimeException.of(this);
+    throw TensorRuntimeException.of(this, y);
   }
 
   @Override
@@ -166,14 +166,13 @@ public class QuantityScalar extends AbstractScalar implements //
   }
 
   @Override
-  public int compareTo(Scalar object) {
-    if (object instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) object;
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof QuantityScalar) {
+      QuantityScalar quantityScalar = (QuantityScalar) scalar;
       if (unitMap.equals(quantityScalar.unitMap))
         return Scalars.compare(value, quantityScalar.value);
-      throw TensorRuntimeException.of(this, quantityScalar);
     }
-    throw new IllegalArgumentException();
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   @Override

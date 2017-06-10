@@ -13,6 +13,8 @@ buildNumber.properties
 .settings/
 .project
 .classpath
+
+# datahaki
 testall.sh
 gendocs.sh
 
