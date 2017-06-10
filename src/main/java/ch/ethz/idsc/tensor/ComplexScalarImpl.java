@@ -63,7 +63,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar zero() {
-    return re.zero();
+    return re.zero(); // not symmetric, since re is chosen over im...
   }
 
   /***************************************************/
@@ -80,10 +80,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   /***************************************************/
   @Override // from ArcTanInterface
-  public Scalar arcTan(Scalar y) {
-    Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
-    Scalar scalar = y.divide(this); // TODO prevent division by zero
-    return I_HALF.multiply(Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
+  public Scalar arcTan(Scalar x) {
+    return StaticHelper.arcTan(x, this);
   }
 
   @Override // from ArgInterface

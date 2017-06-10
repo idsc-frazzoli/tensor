@@ -105,13 +105,13 @@ public class QuantityScalar extends AbstractScalar implements //
   }
 
   @Override
-  public Scalar arcTan(Scalar y) {
-    if (y instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) y;
+  public Scalar arcTan(Scalar x) {
+    if (x instanceof QuantityScalar) {
+      QuantityScalar quantityScalar = (QuantityScalar) x;
       if (unitMap.equals(quantityScalar.unitMap))
-        return ArcTan.of(value, quantityScalar.value);
+        return ArcTan.of(quantityScalar.value, value);
     }
-    throw TensorRuntimeException.of(this, y);
+    throw TensorRuntimeException.of(x, this);
   }
 
   @Override
