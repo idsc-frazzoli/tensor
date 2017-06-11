@@ -42,4 +42,41 @@ public class BinomialDistributionTest extends TestCase {
     assertEquals(pdf.p_equals(RealScalar.of(11)), RealScalar.ZERO);
     assertEquals(pdf.p_equals(RealScalar.of(12)), RealScalar.ZERO);
   }
+
+  public void testCornerCase() {
+    {
+      PDF pdf = PDF.of(BinomialDistribution.of(0, RationalScalar.ONE));
+      int sample = pdf.nextSample().number().intValue();
+      assertEquals(sample, 0);
+    }
+    {
+      PDF pdf = PDF.of(BinomialDistribution.of(0, RationalScalar.ZERO));
+      int sample = pdf.nextSample().number().intValue();
+      assertEquals(sample, 0);
+    }
+  }
+
+  public void testFailN() {
+    try {
+      BinomialDistribution.of(-1, RationalScalar.of(1, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailP() {
+    try {
+      BinomialDistribution.of(10, RationalScalar.of(-1, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      BinomialDistribution.of(10, RationalScalar.of(4, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

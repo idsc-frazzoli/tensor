@@ -75,4 +75,19 @@ public class PoissonDistributionTest extends TestCase {
     Scalar s = pdf.p_lessThan(RealScalar.of(50));
     assertEquals(Chop.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
   }
+
+  public void testFailLambda() {
+    try {
+      PoissonDistribution.of(RealScalar.ZERO);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      PoissonDistribution.of(RealScalar.of(-0.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

@@ -57,4 +57,19 @@ public class BernoulliDistributionTest extends TestCase {
     // System.out.println(dev);
     assertTrue(Scalars.lessThan(dev, RealScalar.of(.07)));
   }
+
+  public void testFailP() {
+    try {
+      BernoulliDistribution.of(RationalScalar.of(-1, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      BernoulliDistribution.of(RationalScalar.of(4, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

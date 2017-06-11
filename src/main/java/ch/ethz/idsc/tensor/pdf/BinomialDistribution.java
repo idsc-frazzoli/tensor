@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Binomial;
 import ch.ethz.idsc.tensor.sca.Power;
 
@@ -14,17 +16,21 @@ public class BinomialDistribution implements DiscreteDistribution {
   /** Example:
    * PDF[BinomialDistribution[10, 1/3], 1] == 5120/59049
    * 
-   * @param n
-   * @param p
+   * @param n non-negative
+   * @param p in the interval [0, 1]
    * @return */
   public static DiscreteDistribution of(int n, Scalar p) {
+    if (n < 0)
+      throw new RuntimeException("n=" + n);
+    if (Scalars.lessThan(p, RealScalar.ZERO) || Scalars.lessThan(RealScalar.ONE, p))
+      throw TensorRuntimeException.of(p);
     return new BinomialDistribution(n, p);
   }
 
   private final int n;
   private final Scalar p;
 
-  /* package */ BinomialDistribution(int n, Scalar p) {
+  private BinomialDistribution(int n, Scalar p) {
     this.n = n;
     this.p = p;
   }

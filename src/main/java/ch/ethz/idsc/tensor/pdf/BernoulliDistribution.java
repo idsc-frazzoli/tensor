@@ -13,9 +13,9 @@ public enum BernoulliDistribution {
   /** Example:
    * PDF[BernoulliDistribution[1/3], 0] == 2/3
    * 
-   * @param p
+   * @param p in the interval [0, 1]
    * @return */
   public static DiscreteDistribution of(Scalar p) {
-    return new BinomialDistribution(1, p);
+    return BinomialDistribution.of(1, p);
   }
 }

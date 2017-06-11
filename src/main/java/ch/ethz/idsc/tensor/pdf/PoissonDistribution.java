@@ -3,7 +3,9 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.sca.Exp;
@@ -16,9 +18,11 @@ public class PoissonDistribution implements DiscreteDistribution {
   /** Example:
    * PDF[PoissonDistribution[Lambda], 2] == 1/(3!) Exp[-Lambda] Lambda^3
    * 
-   * @param lambda
+   * @param lambda positive
    * @return */
   public static DiscreteDistribution of(Scalar lambda) {
+    if (Scalars.lessEquals(lambda, RealScalar.ZERO))
+      throw TensorRuntimeException.of(lambda);
     return new PoissonDistribution(lambda);
   }
 
