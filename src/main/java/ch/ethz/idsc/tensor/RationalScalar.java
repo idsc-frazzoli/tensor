@@ -14,22 +14,22 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, and Double.NaN */
 public final class RationalScalar extends AbstractRealScalar implements //
     ExactNumberQInterface, NInterface {
-  // private because BigFraction has package visibility
-  private static RealScalar _of(BigFraction bigFraction) {
+  // method _of is private because BigFraction has package visibility
+  private static Scalar _of(BigFraction bigFraction) {
     return new RationalScalar(bigFraction);
   }
 
   /** @param num
    * @param den
    * @return scalar encoding the exact fraction num / den */
-  public static RealScalar of(BigInteger num, BigInteger den) {
+  public static Scalar of(BigInteger num, BigInteger den) {
     return _of(BigFraction.of(num, den));
   }
 
   /** @param num
    * @param den
    * @return scalar encoding the exact fraction num / den */
-  public static RealScalar of(long num, long den) {
+  public static Scalar of(long num, long den) {
     return _of(BigFraction.of(num, den));
   }
 
@@ -44,7 +44,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   /***************************************************/
   @Override // from Scalar
-  public RealScalar invert() {
+  public Scalar invert() {
     return _of(bigFraction.invert());
   }
 

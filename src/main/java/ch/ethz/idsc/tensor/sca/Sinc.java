@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -16,7 +14,7 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sinc.html">Sinc</a> */
-public enum Sinc implements Function<Scalar, Scalar> {
+public enum Sinc implements ScalarUnaryOperator {
   function;
   // ---
   private static final double THRESHOLD = 0.05;

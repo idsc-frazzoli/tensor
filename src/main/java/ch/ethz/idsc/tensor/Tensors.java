@@ -105,6 +105,13 @@ public enum Tensors {
   /** @param string
    * @return */
   public static Tensor fromString(final String string) {
+    return fromString(string, Scalars::fromString);
+  }
+
+  /** @param string
+   * @param function that parses a string to a scalar
+   * @return */
+  public static Tensor fromString(final String string, Function<String, Scalar> function) {
     // TODO implement using stack
     if (string.startsWith(OPENING_BRACKET_STRING)) {
       List<Tensor> list = new ArrayList<>();
@@ -128,6 +135,6 @@ public enum Tensors {
       }
       return Tensor.of(list.stream());
     }
-    return Scalars.fromString(string);
+    return function.apply(string);
   }
 }

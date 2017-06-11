@@ -37,10 +37,12 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   /***************************************************/
   // methods are non-final because overriding classes may support better precision
   @Override // from ArcTanInterface
-  public Scalar arcTan(Scalar y) {
+  public Scalar arcTan(Scalar x) {
+    if (x instanceof ComplexScalar)
+      return StaticHelper.arcTan(x, this);
     return DoubleScalar.of(Math.atan2( //
-        y.number().doubleValue(), // y
-        number().doubleValue())); // x
+        number().doubleValue(), // y
+        x.number().doubleValue())); // x
   }
 
   @Override // from ArgInterface

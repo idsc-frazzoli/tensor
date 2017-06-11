@@ -1,9 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.io.Serializable;
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -11,7 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Mod.html">Mod</a> */
-public class Mod implements Function<Scalar, Scalar>, Serializable {
+public class Mod implements ScalarUnaryOperator {
   /** @param n
    * @return remainder on division by n */
   public static Mod function(Scalar n) {

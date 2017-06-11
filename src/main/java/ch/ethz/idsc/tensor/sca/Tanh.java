@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -20,8 +18,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Tanh.html">Tanh</a> */
-public enum Tanh implements Function<Scalar, Scalar> {
+public enum Tanh implements ScalarUnaryOperator {
   function;
+  // ---
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RealScalar)

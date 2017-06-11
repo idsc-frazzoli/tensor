@@ -1,7 +1,10 @@
 # ch.ethz.idsc.tensor
+
+<a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
+
 Library for tensor computation in Java 8.
 
-Version `0.2.3`
+Version `0.2.4`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ...
@@ -123,7 +126,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.2.3</version>
+        <version>0.2.4</version>
       </dependency>
     </dependencies>
 
@@ -131,7 +134,7 @@ The source code is attached to the `jar` file for your convenience.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.3/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.4/*
 
 ## Optional
 
@@ -149,9 +152,10 @@ Subsequently, the documentation is accessible through the file
 
 The library is used in the projects:
 * `matsim`
-* `SwissTrolley+`
 * `owly`
-* `SimBus`
+* `SwissTrolley+`
 * `subare`
+* `QueuingNetworks`
+* `SimBus`
 
-The repository has over `700` unit tests.
+The repository has over `730` unit tests.

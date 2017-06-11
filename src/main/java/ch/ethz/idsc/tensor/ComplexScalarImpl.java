@@ -13,19 +13,18 @@ import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Log;
+import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    ChopInterface, ExactNumberQInterface, NInterface {
+    ChopInterface, ExactNumberQInterface, MachineNumberQInterface, NInterface {
   private final Scalar re;
   private final Scalar im;
 
   /* package */ ComplexScalarImpl(Scalar re, Scalar im) {
-    if (re instanceof ComplexScalar || im instanceof ComplexScalar)
-      throw TensorRuntimeException.of(re);
     this.re = re;
     this.im = im;
   }
@@ -65,7 +64,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar zero() {
-    return re.zero();
+    return re.zero(); // not symmetric, since re is chosen over im...
   }
 
   /***************************************************/
@@ -77,15 +76,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     }
     if (scalar instanceof RealScalar)
       return ComplexScalar.of(re.add(scalar), im);
-    throw TensorRuntimeException.of(scalar);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   /***************************************************/
   @Override // from ArcTanInterface
-  public Scalar arcTan(Scalar y) {
-    Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
-    Scalar scalar = y.divide(this); // TODO prevent division by zero
-    return I_HALF.multiply(Log.function.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
+  public Scalar arcTan(Scalar x) {
+    return StaticHelper.arcTan(x, this);
   }
 
   @Override // from ArgInterface
@@ -121,6 +118,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from ExactNumberInterface
   public boolean isExactNumber() {
     return ExactNumberQ.of(re) && ExactNumberQ.of(im);
+  }
+
+  @Override // MachineNumberQInterface
+  public boolean isMachineNumber() {
+    return MachineNumberQ.of(re) && MachineNumberQ.of(im);
   }
 
   @Override // from NInterface

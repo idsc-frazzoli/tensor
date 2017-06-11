@@ -11,7 +11,11 @@ public class IntegerQTest extends TestCase {
 
   public void testNegative() {
     assertFalse(IntegerQ.of(Scalars.fromString("9.0")));
-    assertFalse(IntegerQ.of(Tensors.empty()));
     assertFalse(IntegerQ.of(ComplexScalar.of(2, 3)));
+  }
+
+  public void testTensor() {
+    assertFalse(IntegerQ.of(Tensors.empty()));
+    assertFalse(IntegerQ.of(Tensors.vector(1)));
   }
 }

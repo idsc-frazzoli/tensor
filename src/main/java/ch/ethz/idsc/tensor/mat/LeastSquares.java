@@ -13,7 +13,7 @@ public enum LeastSquares {
    * @param b
    * @return x with m.x ~ b */
   public static Tensor of(Tensor m, Tensor b) {
-    Tensor mt = Transpose.of(Conjugate.of(m)); // TODO give reference for use of conjugate()
+    Tensor mt = Transpose.of(Conjugate.of(m)); // TODO give reference for use of conjugate() for least squares?
     return LinearSolve.of(mt.dot(m), mt.dot(b));
   }
 

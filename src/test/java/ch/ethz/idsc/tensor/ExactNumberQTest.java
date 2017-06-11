@@ -11,4 +11,9 @@ public class ExactNumberQTest extends TestCase {
     assertTrue(ExactNumberQ.of(ComplexScalar.of(3, 4)));
     assertFalse(ExactNumberQ.of(ComplexScalar.of(3., 4)));
   }
+
+  public void testTensor() {
+    assertFalse(ExactNumberQ.of(Tensors.empty()));
+    assertFalse(ExactNumberQ.of(Tensors.vector(1)));
+  }
 }

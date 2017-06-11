@@ -119,12 +119,11 @@ public class ComplexScalarTest extends TestCase {
     ComplexScalar c = (ComplexScalar) ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
     Scalar ra = RationalScalar.of(5, 8);
     assertEquals(Conjugate.of(ra), RationalScalar.of(5, 8));
-    Scalar s1 = c.conjugate();
+    Scalar s1 = Conjugate.of(c);
     Scalar s2 = ComplexScalar.of(RealScalar.of(2), ra.negate());
     assertEquals(s1.toString(), s2.toString());
     assertEquals(s1, s2);
-    assertEquals(c.conjugate(), s2);
-    assertEquals(s2, c.conjugate());
+    assertEquals(s2, s1);
     assertEquals(c.imag(), ra);
   }
 

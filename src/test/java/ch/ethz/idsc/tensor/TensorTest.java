@@ -242,6 +242,30 @@ public class TensorTest extends TestCase {
     Tensor b = Tensors.vectorLong(7, 2);
     assertEquals(a, b);
     assertEquals(a.hashCode(), b.hashCode());
+    assertTrue(a.hashCode() != 0);
+  }
+
+  public void testHashDifferent() {
+    Tensor a = Tensors.vectorLong(7, 2);
+    Tensor b = Tensors.vectorLong(722, 18275);
+    assertFalse(a.hashCode() == b.hashCode());
+  }
+
+  public void testHashCopy() {
+    Tensor a = Tensors.of(Tensors.vectorLong(2, -81, 7, 2, 8), Tensors.vector(32, 3.123));
+    Tensor b = a.copy();
+    assertEquals(a, b);
+    assertEquals(a.hashCode(), b.hashCode());
+  }
+
+  public void testHashUnmod() {
+    Tensor a = Tensors.of(Tensors.vectorLong(2, -81, 7, 2, 8), Tensors.vector(32, 3.123));
+    Tensor b = a.unmodifiable();
+    assertEquals(a, b);
+    assertEquals(a.hashCode(), b.hashCode());
+  }
+
+  public void testHashScalar() {
     Tensor c = DoubleScalar.of(3.14);
     Tensor d = DoubleScalar.of(3.14);
     assertEquals(c, d);

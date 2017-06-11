@@ -6,17 +6,19 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** <p>ordering of coefficients is <em>reversed</em> compared to
  * MATLAB::polyval, MATLAB::polyfit, etc. ! */
-// EXPERIMENTAL, api not finalized
+// api not finalized
 public enum Multinomial {
   ;
   // ---
   /** the horner scheme improves speed and stability for the numeric evaluation of large polynomials
    * 
-   * horner({a, b, c, d}, x) == a + b*x + c*x^2 + d*x^3
+   * horner({a, b, c, d}, x)
+   * == a + b*x + c*x^2 + d*x^3
+   * == a + x*(b + x*(c + x*(d)))
    * 
-   * @param coeffs
+   * @param coeffs of polynomial
    * @param scalar
-   * @return */
+   * @return evaluation of polynomial at given scalar */
   public static Scalar horner(Tensor coeffs, Scalar scalar) {
     Scalar total = scalar.zero();
     for (Tensor entry : Reverse.of(coeffs))

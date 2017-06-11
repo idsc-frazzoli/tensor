@@ -15,28 +15,28 @@ public class RealScalarTest extends TestCase {
   }
 
   public void testSign() {
-    assertEquals(RealScalar.ZERO.signInt(), 0);
-    assertEquals(RealScalar.of(+5).signInt(), 1);
-    assertEquals(RealScalar.of(-5).signInt(), -1);
-    RealScalar r1 = RationalScalar.of(1927365481254298736L, 1927365481254298737L);
-    RealScalar r2 = RationalScalar.of(1927365481254298741L, -1927365481254298739L);
+    assertEquals(((RealScalar) RealScalar.ZERO).signInt(), 0);
+    assertEquals(((RealScalar) RealScalar.of(+5)).signInt(), 1);
+    assertEquals(((RealScalar) RealScalar.of(-5)).signInt(), -1);
+    RealScalar r1 = (RealScalar) RationalScalar.of(1927365481254298736L, 1927365481254298737L);
+    RealScalar r2 = (RealScalar) RationalScalar.of(1927365481254298741L, -1927365481254298739L);
     assertEquals(r1.signInt(), 1);
     assertEquals(r2.signInt(), -1);
   }
 
   public void testCompare() {
-    assertEquals(RealScalar.ZERO.compareTo(RealScalar.ZERO), 0);
+    assertEquals(Scalars.compare(RealScalar.ZERO, RealScalar.ZERO), 0);
     {
       final Integer a = 0;
       final Integer b = 5;
-      assertEquals(Integer.compare(0, b), RealScalar.ZERO.compareTo(RealScalar.of(b)));
-      assertEquals(a.compareTo(b), RealScalar.ZERO.compareTo(RealScalar.of(b)));
+      assertEquals(Integer.compare(0, b), Scalars.compare(RealScalar.ZERO, RealScalar.of(b)));
+      assertEquals(a.compareTo(b), Scalars.compare(RealScalar.ZERO, RealScalar.of(b)));
     }
     {
       final Integer a = 0;
       final Integer b = -5;
-      assertEquals(Integer.compare(0, b), RealScalar.ZERO.compareTo(RealScalar.of(b)));
-      assertEquals(a.compareTo(b), RealScalar.ZERO.compareTo(RealScalar.of(b)));
+      assertEquals(Integer.compare(0, b), Scalars.compare(RealScalar.ZERO, RealScalar.of(b)));
+      assertEquals(a.compareTo(b), Scalars.compare(RealScalar.ZERO, RealScalar.of(b)));
     }
     {
       assertEquals(Double.compare(.3, .4), DoubleScalar.of(.3).compareTo(DoubleScalar.of(.4)));
@@ -50,9 +50,9 @@ public class RealScalarTest extends TestCase {
   }
 
   public void testCompareRational() {
-    RealScalar r1 = RationalScalar.of(1927365481254298736L, 1927365481254298737L);
-    RealScalar r2 = RationalScalar.of(1927365481254298741L, 1927365481254298739L);
-    assertEquals(r1.compareTo(r2), -1);
+    Scalar r1 = RationalScalar.of(1927365481254298736L, 1927365481254298737L);
+    Scalar r2 = RationalScalar.of(1927365481254298741L, 1927365481254298739L);
+    assertEquals(Scalars.compare(r1, r2), -1);
     RealScalar d1 = DoubleScalar.of(r1.number().doubleValue());
     RealScalar d2 = DoubleScalar.of(r2.number().doubleValue());
     assertEquals(d1.compareTo(d2), 0);

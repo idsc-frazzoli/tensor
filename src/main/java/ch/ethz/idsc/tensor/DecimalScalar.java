@@ -10,18 +10,30 @@ import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-// work in progress, use {@link DoubleScalar} instead
+/** a decimal scalar encodes a number as {@link BigDecimal}
+ * 
+ * <p>{@link DecimalScalar} offers increased precision over {@link DoubleScalar} */
 public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   private static final Scalar DECIMAL_ZERO = of(BigDecimal.ZERO);
   // perhaps make this member
   private static final MathContext CONTEXT = MathContext.DECIMAL128;
 
-  public static RealScalar of(BigDecimal value) {
+  /** @param value
+   * @return */
+  public static Scalar of(BigDecimal value) {
     return new DecimalScalar(value);
   }
 
-  public static RealScalar of(double value) {
+  /** @param value
+   * @return scalar with value encoded as {@link BigDecimal#valueOf(double)} */
+  public static Scalar of(double value) {
     return of(BigDecimal.valueOf(value));
+  }
+
+  /** @param string
+   * @return scalar with value encoded as {@link BigDecimal(string)} */
+  public static Scalar of(String string) {
+    return of(new BigDecimal(string));
   }
 
   static BigDecimal approx(RationalScalar rationalScalar) {
@@ -91,6 +103,16 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   }
 
   /***************************************************/
+  @Override // from ChopInterface
+  public Scalar chop(double threshold) {
+    return value.abs().doubleValue() < threshold ? ZERO : this;
+  }
+
+  @Override // from RoundingInterface
+  public Scalar ceiling() {
+    return RationalScalar.of(StaticHelper.ceiling(value), BigInteger.ONE);
+  }
+
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
     if (scalar instanceof DecimalScalar) {
@@ -101,16 +123,6 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
     Comparable<Scalar> comparable = (Comparable<Scalar>) //
     (scalar instanceof NInterface ? ((NInterface) scalar).n() : scalar);
     return -comparable.compareTo(this);
-  }
-
-  @Override // from RoundingInterface
-  public Scalar ceiling() {
-    return RationalScalar.of(StaticHelper.ceiling(value), BigInteger.ONE);
-  }
-
-  @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return value.abs().doubleValue() < threshold ? ZERO : this;
   }
 
   @Override // from RoundingInterface

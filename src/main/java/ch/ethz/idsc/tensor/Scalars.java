@@ -19,7 +19,7 @@ public enum Scalars {
     } catch (Exception exception) {
       // ---
     }
-    return StringScalar.of(string); // return as string
+    return StringScalar.of(string); // return as StringScalar
   }
 
   /** @param scalar
@@ -59,6 +59,8 @@ public enum Scalars {
     return compare(s1, s2) <= 0;
   }
 
+  /** @param one
+   * @return */
   public static BinaryPower<Scalar> binaryPower(Scalar one) {
     return new BinaryPower<Scalar>() {
       @Override
@@ -88,5 +90,30 @@ public enum Scalars {
    * @return true if given scalar does not equal scalar.zero() */
   public static boolean nonZero(Scalar scalar) {
     return !scalar.equals(scalar.zero());
+  }
+
+  /***************************************************/
+  /** exact conversion to primitive type int
+   * 
+   * @param scalar
+   * @return int
+   * @throws Exception if exact conversion is not possible */
+  public static int intValueExact(Scalar scalar) {
+    if (!IntegerQ.of(scalar))
+      throw TensorRuntimeException.of(scalar);
+    RationalScalar rationalScalar = (RationalScalar) scalar;
+    return rationalScalar.numerator().intValueExact();
+  }
+
+  /** exact conversion to primitive type long
+   * 
+   * @param scalar
+   * @return long
+   * @throws Exception if exact conversion is not possible */
+  public static long longValueExact(Scalar scalar) {
+    if (!IntegerQ.of(scalar))
+      throw TensorRuntimeException.of(scalar);
+    RationalScalar rationalScalar = (RationalScalar) scalar;
+    return rationalScalar.numerator().longValueExact();
   }
 }

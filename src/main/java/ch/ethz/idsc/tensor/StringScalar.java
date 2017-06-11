@@ -34,7 +34,7 @@ public final class StringScalar extends AbstractScalar {
 
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
-    throw TensorRuntimeException.of(this);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   @Override // from Scalar
@@ -55,7 +55,7 @@ public final class StringScalar extends AbstractScalar {
   /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
-    throw TensorRuntimeException.of(this);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   /***************************************************/

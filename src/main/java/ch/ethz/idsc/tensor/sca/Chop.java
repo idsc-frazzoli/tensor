@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -13,14 +11,14 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Chop.html">Chop</a> */
-public enum Chop implements Function<Scalar, Scalar> {
+public enum Chop implements ScalarUnaryOperator {
   function;
   // ---
   /** default threshold for numerical truncation to 0 */
   public static final double THRESHOLD = 1e-12;
-  private static final Function<Scalar, Scalar> belowDefault = below(Chop.THRESHOLD);
+  private static final ScalarUnaryOperator belowDefault = below(Chop.THRESHOLD);
 
-  public static Function<Scalar, Scalar> below(double threshold) {
+  public static ScalarUnaryOperator below(double threshold) {
     return scalar -> {
       if (scalar instanceof ChopInterface)
         return ((ChopInterface) scalar).chop(threshold);

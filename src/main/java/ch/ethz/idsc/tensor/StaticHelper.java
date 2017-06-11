@@ -5,6 +5,10 @@ package ch.ethz.idsc.tensor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
+import ch.ethz.idsc.tensor.sca.Sign;
+
 enum StaticHelper {
   ;
   /** code from java.lang.Double */
@@ -56,5 +60,14 @@ enum StaticHelper {
       bi = bd.toBigInteger();
     }
     return bi;
+  }
+
+  // helper function to compute arctan for complex scalars x, y
+  static Scalar arcTan(Scalar x, Scalar y) {
+    if (Scalars.isZero(x)) { // prevent division by zero
+      ComplexEmbedding complexEmbedding = (ComplexEmbedding) y;
+      return Sign.of(complexEmbedding.real()).multiply(DoubleScalar.of(Math.PI / 2));
+    }
+    return ArcTan.function.apply(y.divide(x));
   }
 }

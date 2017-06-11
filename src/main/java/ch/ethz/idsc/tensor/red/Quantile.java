@@ -42,6 +42,6 @@ public enum Quantile {
           0 : (Integer) Ceiling.function.apply(scalar.multiply(length)).subtract(RealScalar.ONE).number();
       return sorted.Get(index);
     }
-    throw TensorRuntimeException.of(scalar);
+    throw TensorRuntimeException.of(sorted, scalar);
   }
 }

@@ -73,9 +73,9 @@ public class QuantityScalar extends AbstractScalar implements //
 
   @Override
   protected Scalar plus(Scalar scalar) {
-    if (Scalars.isZero(this))
+    if (Scalars.isZero(this) && Scalars.nonZero(scalar))
       return scalar;
-    if (Scalars.isZero(scalar))
+    if (Scalars.isZero(scalar) && Scalars.nonZero(this))
       return this;
     if (scalar instanceof QuantityScalar) {
       QuantityScalar quantityScalar = (QuantityScalar) scalar;
@@ -105,13 +105,13 @@ public class QuantityScalar extends AbstractScalar implements //
   }
 
   @Override
-  public Scalar arcTan(Scalar y) {
-    if (y instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) y;
+  public Scalar arcTan(Scalar x) {
+    if (x instanceof QuantityScalar) {
+      QuantityScalar quantityScalar = (QuantityScalar) x;
       if (unitMap.equals(quantityScalar.unitMap))
-        return ArcTan.of(value, quantityScalar.value);
+        return ArcTan.of(quantityScalar.value, value);
     }
-    throw TensorRuntimeException.of(this);
+    throw TensorRuntimeException.of(x, this);
   }
 
   @Override
@@ -166,14 +166,13 @@ public class QuantityScalar extends AbstractScalar implements //
   }
 
   @Override
-  public int compareTo(Scalar object) {
-    if (object instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) object;
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof QuantityScalar) {
+      QuantityScalar quantityScalar = (QuantityScalar) scalar;
       if (unitMap.equals(quantityScalar.unitMap))
         return Scalars.compare(value, quantityScalar.value);
-      throw TensorRuntimeException.of(this, quantityScalar);
     }
-    throw new IllegalArgumentException();
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   @Override

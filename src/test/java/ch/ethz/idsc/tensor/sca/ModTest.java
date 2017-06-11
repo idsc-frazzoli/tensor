@@ -2,13 +2,17 @@
 package ch.ethz.idsc.tensor.sca;
 
 import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Range;
 import junit.framework.TestCase;
 
 public class ModTest extends TestCase {
@@ -82,14 +86,41 @@ public class ModTest extends TestCase {
 
   public void testNegative() {
     Mod mod = Mod.function(RealScalar.of(-5));
+    @SuppressWarnings("unused")
     Scalar m = mod.apply(RealScalar.of(2));
     // TODO desired behavior not clear
     // System.out.println(m);
   }
 
   public void testComplex() {
+    // Mathematica Mod[10, 2 + 3 I] == -2 I
     Mod mod = Mod.function(ComplexScalar.of(2, 3));
-    mod.apply(RealScalar.of(2));
-    // TODO desire behavior ?
+    Scalar res = mod.apply(RealScalar.of(10));
+    // -2 I + (2 + 3 I) + I (2 + 3 I) == -1 + 3 I
+    assertEquals(res, ComplexScalar.of(-1, 3));
+  }
+
+  private static void _checkComplexSet(Scalar n, int size) {
+    Mod mod = Mod.function(n);
+    Set<Scalar> set = new HashSet<>();
+    for (Tensor re : Range.of(-7, 8)) {
+      for (Tensor im : Range.of(-7, 8)) {
+        Scalar z = ComplexScalar.of(re.Get(), im.Get());
+        set.add(mod.apply(z));
+      }
+    }
+    // size is consistent with Mathematica
+    assertEquals(set.size(), size);
+    // for n = 2 + 3 * I
+    // Mathematica has representatives as
+    // {-2, -1, -1 - I, -1 + I, 0, -I, I, -2 I, 2 I, 1, 1 - I, 1 + I, 2}
+    // Tensor lib has
+    // [1+2*I, I, 0, -2+3*I, -1+4*I, 4*I, -2+2*I, -1+3*I, 3*I, -1+2*I, 2*I, 1+3*I, -1+I]
+  }
+
+  public void testComplexSet() {
+    _checkComplexSet(ComplexScalar.of(2, 3), 13);
+    // _checkComplexSet(ComplexScalar.of(1, 3), 13); // not consistent with Mathematica
+    // _checkComplexSet(ComplexScalar.of(2, 4), 13);
   }
 }

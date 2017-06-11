@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -11,7 +10,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sqrt.html">Sqrt</a> */
-public enum Sqrt implements Function<Scalar, Scalar> {
+public enum Sqrt implements ScalarUnaryOperator {
   function;
   // ---
   @Override

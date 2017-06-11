@@ -1,19 +1,18 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** http://www.milefoot.com/math/complex/functionsofi.htm
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArcTan.html">ArcTan</a> */
-public enum ArcTan implements Function<Scalar, Scalar> {
+public enum ArcTan implements ScalarUnaryOperator {
   function;
   // ---
   private static final Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
@@ -29,15 +28,19 @@ public enum ArcTan implements Function<Scalar, Scalar> {
    * consistent with Mathematica::ArcTan[x, y]
    * but opposite to java.lang.Math::atan2(y, x)
    * 
+   * ArcTan.of(0, 0) == 0 is not consistent with
+   * Mathematica::ArcTan[0, 0] as undefined
+   * 
    * @param x
    * @param y
    * @return arc tangent of y/x, taking into account which quadrant the point (x,y) is in */
   public static Scalar of(Scalar x, Scalar y) {
-    if (x instanceof ArcTanInterface) {
-      ArcTanInterface arcTanInterface = (ArcTanInterface) x;
-      return arcTanInterface.arcTan(y);
+    if (y instanceof ArcTanInterface) {
+      ArcTanInterface arcTanInterface = (ArcTanInterface) y;
+      return arcTanInterface.arcTan(x);
     }
-    return function.apply(y.divide(x)); // TODO division by zero?
+    // return function.apply(y.divide(x)); // no protection against division by zero
+    throw TensorRuntimeException.of(x, y);
   }
 
   /** @param tensor

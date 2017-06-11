@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.util.Optional;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -32,11 +33,14 @@ public class MeanTest extends TestCase {
       assertTrue(false);
     } catch (Exception exception) {
       // ---
+      assertTrue(exception instanceof ArithmeticException);
     }
   }
 
   public void testEmpty2() {
-    Scalar s = Mean.orZero(Tensors.empty()).Get();
+    Optional<Tensor> optional = Mean.optional(Tensors.empty());
+    assertFalse(optional.isPresent());
+    Scalar s = optional.orElse(RealScalar.ZERO).Get();
     assertEquals(s, RealScalar.ZERO);
   }
 

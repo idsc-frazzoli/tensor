@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.Scalar;
 
 /** Mathematica::ArcTan[x, y] */
 public interface ArcTanInterface {
-  /** @param y
-   * @return ArcTan[this, y] */
-  Scalar arcTan(Scalar y);
+  /** @param x
+   * @return ArcTan[x, this] */
+  Scalar arcTan(Scalar x);
 }
