@@ -8,9 +8,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.pdf.DiscreteDistribution;
-import ch.ethz.idsc.tensor.pdf.PDF;
-import ch.ethz.idsc.tensor.pdf.PoissonDistribution;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -37,16 +34,6 @@ public class PoissonDistributionTest extends TestCase {
     Scalar scalar = Total.of(prob).Get();
     assertTrue(Scalars.lessThan(RealScalar.of(.9999), scalar));
     assertTrue(Scalars.lessThan(scalar, RealScalar.ONE));
-  }
-
-  public void testMemo() {
-    int size = PoissonDistribution.MEMO.size();
-    {
-      PoissonDistribution.of(RealScalar.of(32.));
-      PoissonDistribution.of(RealScalar.of(32.));
-      PoissonDistribution.of(RealScalar.of(32.));
-    }
-    assertEquals(size + 1, PoissonDistribution.MEMO.size());
   }
 
   public void testValues() {

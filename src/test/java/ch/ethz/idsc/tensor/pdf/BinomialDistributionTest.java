@@ -5,9 +5,6 @@ import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
-import ch.ethz.idsc.tensor.pdf.DiscreteDistribution;
-import ch.ethz.idsc.tensor.pdf.PDF;
 import junit.framework.TestCase;
 
 public class BinomialDistributionTest extends TestCase {

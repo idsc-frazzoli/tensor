@@ -19,7 +19,7 @@ public enum Scalars {
     } catch (Exception exception) {
       // ---
     }
-    return StringScalar.of(string); // return as string
+    return StringScalar.of(string); // return as StringScalar
   }
 
   /** @param scalar
@@ -59,6 +59,8 @@ public enum Scalars {
     return compare(s1, s2) <= 0;
   }
 
+  /** @param one
+   * @return */
   public static BinaryPower<Scalar> binaryPower(Scalar one) {
     return new BinaryPower<Scalar>() {
       @Override

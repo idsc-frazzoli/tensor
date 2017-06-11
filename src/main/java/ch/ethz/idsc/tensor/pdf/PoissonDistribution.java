@@ -1,9 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -17,26 +14,14 @@ import ch.ethz.idsc.tensor.sca.Exp;
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
 public class PoissonDistribution implements DiscreteDistribution {
   /** Example:
-   * PDF[PoissonDistribution[Lambda], 2] == 1/6 Exp[-Lambda] Lambda^3
+   * PDF[PoissonDistribution[Lambda], 2] == 1/(3!) Exp[-Lambda] Lambda^3
    * 
    * @param lambda
    * @return */
   public static DiscreteDistribution of(Scalar lambda) {
-    if (!MEMO.containsKey(lambda))
-      MEMO.put(lambda, new PoissonDistribution(lambda));
-    return MEMO.get(lambda);
+    return new PoissonDistribution(lambda);
   }
 
-  /***************************************************/
-  private static final int PRECOMPUTE_LENGTH = 16;
-  private static final int MEMO_SIZE = 40;
-  /* package for testing */ static final Map<Scalar, PoissonDistribution> MEMO = //
-      new LinkedHashMap<Scalar, PoissonDistribution>(MEMO_SIZE * 4 / 3, 0.75f, true) {
-        @Override
-        protected boolean removeEldestEntry(Map.Entry<Scalar, PoissonDistribution> eldest) {
-          return size() > MEMO_SIZE;
-        }
-      };
   /***************************************************/
   private final Scalar lambda;
   private final Tensor values = Tensors.empty();
@@ -44,7 +29,6 @@ public class PoissonDistribution implements DiscreteDistribution {
   private PoissonDistribution(Scalar lambda) {
     this.lambda = lambda;
     values.append(Exp.of(lambda.negate()));
-    p_equals(PRECOMPUTE_LENGTH - 1);
   }
 
   @Override // from DiscreteDistribution

@@ -21,10 +21,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum Round implements ScalarUnaryOperator {
   function;
   // ---
-  // display pi as "3.1416"
-  public static final ScalarUnaryOperator MATLAB = Round.toMultipleOf(DecimalScalar.of("0.0001"));
-
-  // ---
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RoundingInterface) {
