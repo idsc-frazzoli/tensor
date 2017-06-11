@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.util.Collections;
 import java.util.Map;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -15,5 +16,10 @@ public class TallyTest extends TestCase {
     assertEquals((long) map.get(RealScalar.of(2)), 4);
     assertEquals((long) map.get(RealScalar.of(4)), 2);
     assertEquals((long) map.get(RealScalar.of(5)), 2);
+  }
+
+  public void testEmpty() {
+    Map<Tensor, Long> map = Tally.of(Tensors.empty());
+    assertEquals(map, Collections.emptyMap());
   }
 }

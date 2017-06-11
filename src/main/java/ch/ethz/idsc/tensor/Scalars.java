@@ -89,4 +89,29 @@ public enum Scalars {
   public static boolean nonZero(Scalar scalar) {
     return !scalar.equals(scalar.zero());
   }
+
+  /***************************************************/
+  /** exact conversion to primitive type int
+   * 
+   * @param scalar
+   * @return int
+   * @throws Exception if exact conversion is not possible */
+  public static int intValueExact(Scalar scalar) {
+    if (!IntegerQ.of(scalar))
+      throw TensorRuntimeException.of(scalar);
+    RationalScalar rationalScalar = (RationalScalar) scalar;
+    return rationalScalar.numerator().intValueExact();
+  }
+
+  /** exact conversion to primitive type long
+   * 
+   * @param scalar
+   * @return long
+   * @throws Exception if exact conversion is not possible */
+  public static long longValueExact(Scalar scalar) {
+    if (!IntegerQ.of(scalar))
+      throw TensorRuntimeException.of(scalar);
+    RationalScalar rationalScalar = (RationalScalar) scalar;
+    return rationalScalar.numerator().longValueExact();
+  }
 }

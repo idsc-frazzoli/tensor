@@ -16,9 +16,12 @@ public class BinomialTest extends TestCase {
   }
 
   public void testRow() {
-    assertEquals(Binomial.row(3), Tensors.vector(1, 3, 3, 1));
-    for (int n = 0; n < 100; ++n)
-      assertEquals(Binomial.row(n), Reverse.of(Binomial.row(n)));
+    assertEquals(Binomial.row(0), Tensors.vector(1));
+    assertEquals(Binomial.row(1), Tensors.vector(1));
+    assertEquals(Binomial.row(2), Tensors.vector(1, 2));
+    assertEquals(Binomial.row(3), Tensors.vector(1, 3));
+    assertEquals(Binomial.row(4), Tensors.vector(1, 4, 6));
+    assertEquals(Binomial.row(5), Tensors.vector(1, 5, 10));
   }
 
   public void testFail() {
@@ -47,5 +50,20 @@ public class BinomialTest extends TestCase {
     BigInteger bi = new BigInteger(
         "270288240945436569515614693625975275496152008446548287007392875106625428705522193898612483924502370165362606085021546104802209750050679917549894219699518475423665484263751733356162464079737887344364574161119497604571044985756287880514600994219426752366915856603136862602484428109296905863799821216320");
     assertEquals(res, RealScalar.of(bi));
+  }
+
+  public void testLargeFail() {
+    try {
+      Binomial.of(RealScalar.of(123412341234324L), RealScalar.ZERO);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Binomial.of(RealScalar.of(-123412341234324L), RealScalar.ZERO);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
