@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
@@ -14,10 +13,18 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
    * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/11 for 0 <= x <=10 and x integer
    * 
    * @param min inclusive
-   * @param max inclusive */
+   * @param max inclusive and min < max
+   * @return distribution */
   public static Distribution of(Scalar min, Scalar max) {
-    if (Scalars.lessThan(max, min))
-      throw TensorRuntimeException.of(min, max);
+    return of(Scalars.intValueExact(min), Scalars.intValueExact(max));
+  }
+
+  /** @param min inclusive
+   * @param max inclusive and min < max
+   * @return distribution */
+  public static Distribution of(int min, int max) {
+    if (max < min)
+      throw new RuntimeException();
     return new DiscreteUniformDistribution(min, max);
   }
 
@@ -26,10 +33,10 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
   private final int max;
   private final Scalar p;
 
-  private DiscreteUniformDistribution(Scalar min, Scalar max) {
-    this.min = Scalars.intValueExact(min);
-    this.max = Scalars.intValueExact(max);
-    p = max.subtract(min).add(RealScalar.ONE).invert();
+  private DiscreteUniformDistribution(int min, int max) {
+    this.min = min;
+    this.max = max;
+    p = RationalScalar.of(1, max - min + 1);
   }
 
   @Override // from DiscreteDistribution

@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Arrays;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -18,6 +19,28 @@ public class JoinTest extends TestCase {
     assertEquals(j1, re);
     assertEquals(Join.of(v1), v1);
     assertEquals(Join.of(), Tensors.empty());
+  }
+
+  public void testExample() {
+    Tensor v1 = Join.of(Tensors.vector(2, 3, 4), Tensors.vector(9, 8));
+    Tensor re = Tensors.vector(2, 3, 4, 9, 8);
+    assertEquals(v1, re);
+  }
+
+  public void testFail() {
+    // in mathematica Join of two or more scalars is not defined!
+    try {
+      Join.of(RealScalar.of(2), RealScalar.of(3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Join.of(RealScalar.of(2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testMatrices() {
@@ -62,6 +85,12 @@ public class JoinTest extends TestCase {
   public void testEmpty() {
     Tensor v1 = Tensors.vector(2, 3, 4);
     Tensor ap = Join.of(Tensors.empty(), v1);
+    assertEquals(ap, v1);
+  }
+
+  public void testSingle() {
+    Tensor v1 = Tensors.vector(2, 3, 4);
+    Tensor ap = Join.of(v1);
     assertEquals(ap, v1);
   }
 }

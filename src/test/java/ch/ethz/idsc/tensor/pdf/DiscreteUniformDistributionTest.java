@@ -41,9 +41,20 @@ public class DiscreteUniformDistributionTest extends TestCase {
     assertEquals(pdf.p_lessEquals(RealScalar.of(11)), RationalScalar.of(8, 10 - 3 + 1));
   }
 
+  public void testEqualMinMax() {
+    DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(3));
+    DiscreteUniformDistribution.of(10, 10);
+  }
+
   public void testFailsOrder() {
     try {
       DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      DiscreteUniformDistribution.of(3, 2);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

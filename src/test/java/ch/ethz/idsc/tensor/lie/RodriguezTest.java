@@ -20,4 +20,13 @@ public class RodriguezTest extends TestCase {
     checkDiff(Tensors.vector(-.3, -.2, .1));
     checkDiff(Tensors.vector(-.3, -.2, -.3));
   }
+
+  public void testFail() {
+    try {
+      Rodriguez.of(Tensors.vector(0, 0, 0, 0));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
