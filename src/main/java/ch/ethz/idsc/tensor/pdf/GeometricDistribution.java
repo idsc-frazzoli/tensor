@@ -9,9 +9,9 @@ import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/GeometricDistribution.html">GeometricDistribution</a> */
-public class GeometricDistribution implements DiscreteDistribution {
+public class GeometricDistribution extends AbstractDiscreteDistribution {
   /** @param p with 0 < p < 1 */
-  public static DiscreteDistribution of(Scalar p) {
+  public static Distribution of(Scalar p) {
     if (Scalars.lessEquals(p, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, p))
       throw TensorRuntimeException.of(p);
     return new GeometricDistribution(p);
@@ -33,8 +33,13 @@ public class GeometricDistribution implements DiscreteDistribution {
     return p.multiply(Power.of(RealScalar.ONE.subtract(p), n));
   }
 
-  @Override // from DiscreteDistribution
+  @Override // from Distribution
   public Scalar mean() {
     return RealScalar.ONE.subtract(p).divide(p);
+  }
+
+  @Override // from Distribution
+  public Scalar variance() {
+    return RealScalar.ONE.subtract(p).divide(p.multiply(p));
   }
 }

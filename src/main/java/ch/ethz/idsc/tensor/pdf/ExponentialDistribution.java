@@ -12,10 +12,10 @@ import ch.ethz.idsc.tensor.sca.Log;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
-public class ExponentialDistribution implements ContinuousDistribution {
+public class ExponentialDistribution implements ContinuousDistribution, RandomVariateInterface {
   /** @param lambda positive
    * @return */
-  public static ContinuousDistribution of(Scalar lambda) {
+  public static Distribution of(Scalar lambda) {
     if (Scalars.lessEquals(lambda, RealScalar.ZERO))
       throw TensorRuntimeException.of(lambda);
     return new ExponentialDistribution(lambda);
@@ -40,14 +40,19 @@ public class ExponentialDistribution implements ContinuousDistribution {
   }
 
   @Override
-  public Scalar nextSample(Random random) {
+  public Scalar randomVariate(Random random) {
     // {@link Random#nextDouble()} samples uniformly from the range 0.0 (inclusive) to 1.0d (exclusive)
     double uniform = Math.nextUp(random.nextDouble());
     return Log.of(RealScalar.of(uniform)).divide(lambda_negate);
   }
 
-  @Override
+  @Override // from Distribution
   public Scalar mean() {
     return lambda.invert();
+  }
+
+  @Override // from Distribution
+  public Scalar variance() {
+    return lambda.multiply(lambda).invert();
   }
 }

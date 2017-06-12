@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
-
 import ch.ethz.idsc.tensor.Scalar;
 
 /** probability density function
@@ -10,16 +8,14 @@ import ch.ethz.idsc.tensor.Scalar;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/PDF.html">PDF</a> */
 public interface PDF {
-  /** @param discreteDistribution
+  /** @param distribution
    * @return probability density function */
-  public static PDF of(DiscreteDistribution discreteDistribution) {
-    return new DefaultDiscretePDF(discreteDistribution);
-  }
-
-  /** @param discreteDistribution
-   * @return probability density function */
-  public static PDF of(ContinuousDistribution continuousDistribution) {
-    return new DefaultContinuousPDF(continuousDistribution);
+  public static PDF of(Distribution distribution) {
+    if (distribution instanceof DiscreteDistribution)
+      return new DiscretePDF((DiscreteDistribution) distribution);
+    if (distribution instanceof ContinuousDistribution)
+      return new ContinuousPDF((ContinuousDistribution) distribution);
+    throw new RuntimeException();
   }
 
   /** @param x
@@ -33,14 +29,4 @@ public interface PDF {
   /** @param x
    * @return P(X <= x), i.e. probability of random variable X <= x */
   Scalar p_lessEquals(Scalar x);
-
-  /** @return random sample */
-  Scalar nextSample();
-
-  /** @param random
-   * @return sample generated using the given random generator */
-  Scalar nextSample(Random random);
-
-  /** @return mean of distribution */
-  Scalar mean();
 }

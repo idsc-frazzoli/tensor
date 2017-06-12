@@ -9,8 +9,8 @@ import junit.framework.TestCase;
 
 public class BinomialDistributionTest extends TestCase {
   public void testSimple() {
-    DiscreteDistribution discreteDistribution = BinomialDistribution.of(10, RationalScalar.of(1, 7));
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 7));
+    PDF pdf = PDF.of(distribution);
     Scalar prob = RealScalar.ZERO;
     for (int c = 0; c <= 10; ++c)
       prob = prob.add(pdf.p_equals(RealScalar.of(c)));
@@ -19,15 +19,15 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testValue() {
-    DiscreteDistribution discreteDistribution = BinomialDistribution.of(10, RationalScalar.of(1, 2));
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 2));
+    PDF pdf = PDF.of(distribution);
     assertEquals(pdf.p_equals(RealScalar.of(0)), RationalScalar.of(1, 1024));
     assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(5, 512));
   }
 
   public void testValue2() {
-    DiscreteDistribution discreteDistribution = BinomialDistribution.of(10, RationalScalar.of(1, 3));
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 3));
+    PDF pdf = PDF.of(distribution);
     assertEquals(pdf.p_equals(RealScalar.of(0)), RationalScalar.of(1024, 59049));
     // PDF[BinomialDistribution[10, 1/3], 1] == 5120/59049
     assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(5120, 59049));
@@ -36,8 +36,8 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testValue3() {
-    DiscreteDistribution discreteDistribution = BinomialDistribution.of(10, RationalScalar.of(1, 3));
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 3));
+    PDF pdf = PDF.of(distribution);
     assertEquals(pdf.p_equals(RealScalar.of(-1)), RealScalar.ZERO);
     assertEquals(pdf.p_equals(RealScalar.of(11)), RealScalar.ZERO);
     assertEquals(pdf.p_equals(RealScalar.of(12)), RealScalar.ZERO);
@@ -45,13 +45,15 @@ public class BinomialDistributionTest extends TestCase {
 
   public void testCornerCase() {
     {
+      Distribution distribution = BinomialDistribution.of(0, RationalScalar.ONE);
       PDF pdf = PDF.of(BinomialDistribution.of(0, RationalScalar.ONE));
-      int sample = pdf.nextSample().number().intValue();
+      int sample = RandomVariate.of(distribution).number().intValue();
       assertEquals(sample, 0);
     }
     {
-      PDF pdf = PDF.of(BinomialDistribution.of(0, RationalScalar.ZERO));
-      int sample = pdf.nextSample().number().intValue();
+      Distribution distribution = BinomialDistribution.of(0, RationalScalar.ZERO);
+      // PDF pdf = PDF.of();
+      int sample = RandomVariate.of(distribution).number().intValue();
       assertEquals(sample, 0);
     }
   }

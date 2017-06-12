@@ -13,7 +13,7 @@ public enum BernoulliDistribution {
    * 
    * @param p in the interval [0, 1]
    * @return */
-  public static DiscreteDistribution of(Scalar p) {
+  public static Distribution of(Scalar p) {
     return BinomialDistribution.of(1, p);
   }
 }

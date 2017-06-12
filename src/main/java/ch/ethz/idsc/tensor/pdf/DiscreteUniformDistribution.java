@@ -9,13 +9,13 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
-public class DiscreteUniformDistribution implements DiscreteDistribution {
+public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
   /** Example:
    * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/11 for 0 <= x <=10 and x integer
    * 
    * @param min inclusive
    * @param max inclusive */
-  public static DiscreteDistribution of(Scalar min, Scalar max) {
+  public static Distribution of(Scalar min, Scalar max) {
     if (Scalars.lessThan(max, min))
       throw TensorRuntimeException.of(min, max);
     return new DiscreteUniformDistribution(min, max);
@@ -44,7 +44,14 @@ public class DiscreteUniformDistribution implements DiscreteDistribution {
     return p;
   }
 
+  @Override // from Distribution
   public Scalar mean() {
     return RealScalar.of(max - min).multiply(RationalScalar.of(1, 2));
+  }
+
+  @Override // from Distribution
+  public Scalar variance() {
+    Scalar width = RealScalar.of(max - min);
+    return width.multiply(RealScalar.of(2).add(width)).multiply(RationalScalar.of(1, 12));
   }
 }

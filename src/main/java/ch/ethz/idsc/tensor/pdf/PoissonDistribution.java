@@ -12,13 +12,13 @@ import ch.ethz.idsc.tensor.sca.Exp;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
-public class PoissonDistribution implements DiscreteDistribution {
+public class PoissonDistribution extends AbstractDiscreteDistribution {
   /** Example:
    * PDF[PoissonDistribution[Lambda], 2] == 1/(3!) Exp[-Lambda] Lambda^3
    * 
    * @param lambda positive
    * @return */
-  public static DiscreteDistribution of(Scalar lambda) {
+  public static Distribution of(Scalar lambda) {
     if (Scalars.lessEquals(lambda, RealScalar.ZERO))
       throw TensorRuntimeException.of(lambda);
     return new PoissonDistribution(lambda);
@@ -51,6 +51,11 @@ public class PoissonDistribution implements DiscreteDistribution {
 
   @Override
   public Scalar mean() {
+    return lambda;
+  }
+
+  @Override
+  public Scalar variance() {
     return lambda;
   }
 }

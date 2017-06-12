@@ -9,8 +9,10 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.opt.LinearProgramming;
+import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.HypergeometricDistribution;
 import ch.ethz.idsc.tensor.pdf.PDF;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 public class ReadmeDemo {
@@ -34,9 +36,10 @@ public class ReadmeDemo {
   }
 
   public static void demoPDF() {
-    PDF pdf = PDF.of(HypergeometricDistribution.of(10, 50, 100));
+    Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
+    PDF pdf = PDF.of(distribution);
     System.out.println("P(X=3)=" + pdf.p_equals(RealScalar.of(3)));
-    System.out.println(Tensors.vector(i -> pdf.nextSample(), 20));
+    System.out.println(Tensors.vector(i -> RandomVariate.of(distribution), 20));
   }
 
   public static void main(String[] args) {

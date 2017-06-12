@@ -8,8 +8,8 @@ import junit.framework.TestCase;
 
 public class DiscreteUniformDistributionTest extends TestCase {
   public void testSimple() {
-    DiscreteDistribution discreteDistribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
+    PDF pdf = PDF.of(distribution);
     Scalar prob = pdf.p_equals(RealScalar.of(4));
     assertEquals(prob, RationalScalar.of(1, 10 - 3 + 1));
     assertEquals(pdf.p_equals(RealScalar.of(4)), pdf.p_equals(RealScalar.of(8)));
@@ -20,8 +20,8 @@ public class DiscreteUniformDistributionTest extends TestCase {
   }
 
   public void testLessThan() {
-    DiscreteDistribution discreteDistribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
+    PDF pdf = PDF.of(distribution);
     assertEquals(pdf.p_lessThan(RealScalar.of(2)), RationalScalar.of(0, 10 - 3 + 1));
     assertEquals(pdf.p_lessThan(RealScalar.of(3)), RationalScalar.of(0, 10 - 3 + 1));
     assertEquals(pdf.p_lessThan(RealScalar.of(4)), RationalScalar.of(1, 10 - 3 + 1));
@@ -31,13 +31,31 @@ public class DiscreteUniformDistributionTest extends TestCase {
   }
 
   public void testLessEquals() {
-    DiscreteDistribution discreteDistribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
+    PDF pdf = PDF.of(distribution);
     assertEquals(pdf.p_lessEquals(RealScalar.of(2)), RationalScalar.of(0, 10 - 3 + 1));
     assertEquals(pdf.p_lessEquals(RealScalar.of(3)), RationalScalar.of(1, 10 - 3 + 1));
     assertEquals(pdf.p_lessEquals(RealScalar.of(4)), RationalScalar.of(2, 10 - 3 + 1));
     assertEquals(pdf.p_lessEquals(RealScalar.of(5)), RationalScalar.of(3, 10 - 3 + 1));
     assertEquals(pdf.p_lessEquals(RealScalar.of(10)), RationalScalar.of(8, 10 - 3 + 1));
     assertEquals(pdf.p_lessEquals(RealScalar.of(11)), RationalScalar.of(8, 10 - 3 + 1));
+  }
+
+  public void testFailsOrder() {
+    try {
+      DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailsInt() {
+    try {
+      DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(4.5));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

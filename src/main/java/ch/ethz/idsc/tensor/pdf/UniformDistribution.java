@@ -12,11 +12,11 @@ import ch.ethz.idsc.tensor.sca.Clip;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
-public class UniformDistribution implements ContinuousDistribution {
+public class UniformDistribution implements ContinuousDistribution, RandomVariateInterface {
   /** @param min < max
    * @param max
    * @return */
-  public static ContinuousDistribution of(Scalar min, Scalar max) {
+  public static Distribution of(Scalar min, Scalar max) {
     if (Scalars.lessEquals(max, min))
       throw TensorRuntimeException.of(min, max);
     return new UniformDistribution(min, max);
@@ -43,12 +43,17 @@ public class UniformDistribution implements ContinuousDistribution {
   }
 
   @Override
-  public Scalar nextSample(Random random) {
+  public Scalar randomVariate(Random random) {
     return RealScalar.of(random.nextDouble()).multiply(width).add(min);
   }
 
   @Override
   public Scalar mean() {
     return min.add(width.multiply(RationalScalar.of(1, 2)));
+  }
+
+  @Override
+  public Scalar variance() {
+    return width.multiply(width).multiply(RationalScalar.of(1, 12));
   }
 }

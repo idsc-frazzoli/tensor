@@ -19,8 +19,8 @@ public class PoissonDistributionTest extends TestCase {
   }
 
   public void testSingle() {
-    DiscreteDistribution poissonDistribution = PoissonDistribution.of(RealScalar.of(2));
-    PDF pdf = PDF.of(poissonDistribution);
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(2));
+    PDF pdf = PDF.of(distribution);
     assertTrue(pdf.p_equals(RealScalar.ZERO).toString().startsWith("0.13533"));
     assertTrue(pdf.p_equals(RealScalar.ONE).toString().startsWith("0.27067"));
     assertTrue(pdf.p_equals(RealScalar.of(2)).toString().startsWith("0.27067"));
@@ -28,8 +28,8 @@ public class PoissonDistributionTest extends TestCase {
   }
 
   public void testSimple() {
-    DiscreteDistribution poissonDistribution = PoissonDistribution.of(RealScalar.of(2));
-    PDF pdf = PDF.of(poissonDistribution);
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(2));
+    PDF pdf = PDF.of(distribution);
     Tensor prob = values(pdf, 16);
     Scalar scalar = Total.of(prob).Get();
     assertTrue(Scalars.lessThan(RealScalar.of(.9999), scalar));
@@ -37,9 +37,9 @@ public class PoissonDistributionTest extends TestCase {
   }
 
   public void testValues() {
-    DiscreteDistribution poissonDistribution = PoissonDistribution.of(RealScalar.of(3));
-    PDF pdf = PDF.of(poissonDistribution);
-    poissonDistribution.p_equals(30);
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(3));
+    PDF pdf = PDF.of(distribution);
+    pdf.p_equals(RealScalar.of(30));
     Tensor prob = values(pdf, 30);
     // assertEquals(poissonDistribution.values().length(), 30 + 1);
     Scalar sum = Total.of(prob).Get();
@@ -48,12 +48,12 @@ public class PoissonDistributionTest extends TestCase {
   }
 
   public void testSample() {
-    DiscreteDistribution poissonDistribution = PoissonDistribution.of(RealScalar.of(1.5));
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(1.5));
     Random random = new Random();
     Tensor collect = Tensors.empty();
-    PDF pdf = PDF.of(poissonDistribution);
+    PDF pdf = PDF.of(distribution);
     for (int c = 0; c < 100; ++c) {
-      Scalar sample = pdf.nextSample(random);
+      Scalar sample = RandomVariate.of(distribution);
       collect.append(sample);
       // System.out.println(sample);
     }
@@ -63,15 +63,15 @@ public class PoissonDistributionTest extends TestCase {
   }
 
   public void testPDF() {
-    DiscreteDistribution poissonDistribution = PoissonDistribution.of(RealScalar.of(10.5));
-    PDF pdf = PDF.of(poissonDistribution);
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(10.5));
+    PDF pdf = PDF.of(distribution);
     Scalar s = pdf.p_lessThan(RealScalar.of(50));
     assertEquals(Chop.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
   }
 
   public void testPDF2() {
-    DiscreteDistribution poissonDistribution = PoissonDistribution.of(RealScalar.of(1.5));
-    PDF pdf = PDF.of(poissonDistribution);
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(1.5));
+    PDF pdf = PDF.of(distribution);
     Scalar s = pdf.p_lessThan(RealScalar.of(50));
     assertEquals(Chop.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
   }

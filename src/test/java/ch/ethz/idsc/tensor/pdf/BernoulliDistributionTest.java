@@ -16,8 +16,8 @@ import junit.framework.TestCase;
 public class BernoulliDistributionTest extends TestCase {
   public void testEquals() {
     Scalar p = RationalScalar.of(1, 3);
-    DiscreteDistribution discreteDistribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BernoulliDistribution.of(p);
+    PDF pdf = PDF.of(distribution);
     // PDF[BernoulliDistribution[1/3], 0] == 2/3
     assertEquals(pdf.p_equals(RealScalar.of(0)), RationalScalar.of(2, 3));
     assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(1, 3));
@@ -26,8 +26,8 @@ public class BernoulliDistributionTest extends TestCase {
 
   public void testLessThan() {
     Scalar p = RationalScalar.of(1, 3);
-    DiscreteDistribution discreteDistribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BernoulliDistribution.of(p);
+    PDF pdf = PDF.of(distribution);
     assertEquals(pdf.p_lessThan(RealScalar.of(0)), RationalScalar.ZERO);
     assertEquals(pdf.p_lessThan(RealScalar.of(1)), RationalScalar.of(2, 3));
     assertEquals(pdf.p_lessThan(RealScalar.of(2)), RealScalar.ONE);
@@ -35,8 +35,8 @@ public class BernoulliDistributionTest extends TestCase {
 
   public void testLessEquals() {
     Scalar p = RationalScalar.of(1, 3);
-    DiscreteDistribution discreteDistribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BernoulliDistribution.of(p);
+    PDF pdf = PDF.of(distribution);
     assertEquals(pdf.p_lessEquals(RealScalar.of(0)), RationalScalar.of(2, 3));
     assertEquals(pdf.p_lessEquals(RealScalar.of(1)), RationalScalar.ONE);
     assertEquals(pdf.p_lessEquals(RealScalar.of(2)), RealScalar.ONE);
@@ -44,11 +44,11 @@ public class BernoulliDistributionTest extends TestCase {
 
   public void testSample() {
     final Scalar p = RationalScalar.of(1, 3);
-    DiscreteDistribution discreteDistribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BernoulliDistribution.of(p);
+    PDF pdf = PDF.of(distribution);
     Tensor list = Tensors.empty();
     for (int c = 0; c < 2000; ++c)
-      list.append(pdf.nextSample());
+      list.append(RandomVariate.of(distribution));
     Map<Tensor, Long> map = Tally.of(list);
     long v0 = map.get(RealScalar.ZERO);
     long v1 = map.get(RealScalar.ONE);

@@ -8,31 +8,45 @@ import ch.ethz.idsc.tensor.Scalar;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
-public class NormalDistribution implements ContinuousDistribution {
-  public static ContinuousDistribution of() {
-    return new NormalDistribution();
+public class NormalDistribution implements ContinuousDistribution, RandomVariateInterface {
+  public static Distribution of(Scalar mean, Scalar sigma) {
+    return new NormalDistribution(mean, sigma);
   }
 
-  private NormalDistribution() {
+  public static Distribution of() {
+    return of(RealScalar.ZERO, RealScalar.ONE);
   }
 
-  @Override
+  private final Scalar mean;
+  private final Scalar sigma;
+
+  private NormalDistribution(Scalar mean, Scalar sigma) {
+    this.mean = mean;
+    this.sigma = sigma;
+  }
+
+  @Override // ContinuousDistribution
   public Scalar p_lessThan(Scalar x) {
     return null;
   }
 
-  @Override
+  @Override // ContinuousDistribution
   public Scalar p_lessEquals(Scalar x) {
     return p_lessThan(x);
   }
 
-  @Override
-  public Scalar nextSample(Random random) {
-    return RealScalar.of(random.nextGaussian());
+  @Override // from RandomVariateInterface
+  public Scalar randomVariate(Random random) {
+    return mean.add(RealScalar.of(random.nextGaussian()).multiply(sigma));
   }
 
-  @Override
+  @Override // from Distribution
   public Scalar mean() {
-    return RealScalar.ZERO;
+    return mean;
+  }
+
+  @Override // from Distribution
+  public Scalar variance() {
+    return sigma.multiply(sigma);
   }
 }
