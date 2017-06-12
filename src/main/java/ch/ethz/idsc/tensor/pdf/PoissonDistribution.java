@@ -10,9 +10,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.sca.Exp;
 
-/** consistent with Mathematica::PoissonDistribution
- * 
- * <p>inspired by
+/** inspired by
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
 public class PoissonDistribution implements DiscreteDistribution {
   /** Example:

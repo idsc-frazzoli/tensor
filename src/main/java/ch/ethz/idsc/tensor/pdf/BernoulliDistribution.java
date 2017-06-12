@@ -3,9 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-/** consistent with Mathematica::BernoulliDistribution
- * 
- * <p>inspired by
+/** inspired by
  * <a href="https://reference.wolfram.com/language/ref/BernoulliDistribution.html">BernoulliDistribution</a> */
 public enum BernoulliDistribution {
   ;

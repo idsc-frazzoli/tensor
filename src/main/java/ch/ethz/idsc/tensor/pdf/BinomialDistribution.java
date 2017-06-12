@@ -8,9 +8,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Binomial;
 import ch.ethz.idsc.tensor.sca.Power;
 
-/** consistent with Mathematica::BinomialDistribution
- * 
- * <p>inspired by
+/** inspired by
  * <a href="https://reference.wolfram.com/language/ref/BinomialDistribution.html">BinomialDistribution</a> */
 public class BinomialDistribution implements DiscreteDistribution {
   /** Example:

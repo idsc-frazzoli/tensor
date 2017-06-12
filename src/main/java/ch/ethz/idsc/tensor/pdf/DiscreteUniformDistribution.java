@@ -6,9 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** consistent with Mathematica::DiscreteUniformDistribution
- * 
- * <p>inspired by
+/** inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
 public class DiscreteUniformDistribution implements DiscreteDistribution {
   /** Example:
