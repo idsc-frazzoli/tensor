@@ -24,7 +24,7 @@ public class PoissonDistribution extends AbstractDiscreteDistribution {
     return new PoissonDistribution(lambda);
   }
 
-  /***************************************************/
+  // ---
   private final Scalar lambda;
   private final Tensor values = Tensors.empty();
 
@@ -49,12 +49,12 @@ public class PoissonDistribution extends AbstractDiscreteDistribution {
     return values.Get(n);
   }
 
-  @Override
+  @Override // from Distribution
   public Scalar mean() {
     return lambda;
   }
 
-  @Override
+  @Override // from Distribution
   public Scalar variance() {
     return lambda;
   }

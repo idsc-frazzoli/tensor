@@ -46,7 +46,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
 
   @Override // from Distribution
   public Scalar mean() {
-    return RealScalar.of(max - min).multiply(RationalScalar.of(1, 2));
+    return RealScalar.of(max + min).multiply(RationalScalar.of(1, 2));
   }
 
   @Override // from Distribution

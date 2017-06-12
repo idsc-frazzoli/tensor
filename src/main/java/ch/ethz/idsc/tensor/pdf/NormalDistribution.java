@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
-public class NormalDistribution implements ContinuousDistribution, RandomVariateInterface {
+public class NormalDistribution implements ContinuousDistribution {
   public static Distribution of(Scalar mean, Scalar sigma) {
     return new NormalDistribution(mean, sigma);
   }
@@ -17,6 +17,7 @@ public class NormalDistribution implements ContinuousDistribution, RandomVariate
     return of(RealScalar.ZERO, RealScalar.ONE);
   }
 
+  // ---
   private final Scalar mean;
   private final Scalar sigma;
 

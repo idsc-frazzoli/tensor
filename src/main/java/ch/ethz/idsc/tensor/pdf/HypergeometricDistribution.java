@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.alg.Binomial;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/HypergeometricDistribution.html">HypergeometricDistribution</a> */
 public class HypergeometricDistribution extends AbstractDiscreteDistribution {
-  // TODO need to test and comment more
   /** @param N
    * @param n
    * @param m_n
@@ -20,6 +19,7 @@ public class HypergeometricDistribution extends AbstractDiscreteDistribution {
     return new HypergeometricDistribution(N, n, m_n);
   }
 
+  // ---
   private final int N;
   private final int n;
   private final int m_n;
@@ -52,6 +52,12 @@ public class HypergeometricDistribution extends AbstractDiscreteDistribution {
   @Override // from Distribution
   public Scalar variance() {
     // ((mpn - n) n (mpn - N) N) / ((-1 + mpn) mpn^2)
-    throw new RuntimeException();
+    Scalar rd1 = RationalScalar.of(m_n - n, m_n);
+    Scalar rd2 = RationalScalar.of(m_n - N, m_n);
+    // ( n N) / (-1 + mpn)
+    Scalar rd3 = RationalScalar.of(N, m_n - 1);
+    // ( n )
+    Scalar rd4 = RationalScalar.of(n, 1);
+    return rd1.multiply(rd2).multiply(rd3).multiply(rd4);
   }
 }

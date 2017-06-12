@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.Clip;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
-public class UniformDistribution implements ContinuousDistribution, RandomVariateInterface {
+public class UniformDistribution implements ContinuousDistribution {
   /** @param min < max
    * @param max
    * @return */
@@ -32,27 +32,27 @@ public class UniformDistribution implements ContinuousDistribution, RandomVariat
     width = max.subtract(min);
   }
 
-  @Override
+  @Override // from ContinuousDistribution
   public Scalar p_lessThan(Scalar x) {
     return CLIP.apply(x.subtract(min).divide(width));
   }
 
-  @Override
+  @Override // from ContinuousDistribution
   public Scalar p_lessEquals(Scalar x) {
     return p_lessThan(x);
   }
 
-  @Override
+  @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     return RealScalar.of(random.nextDouble()).multiply(width).add(min);
   }
 
-  @Override
+  @Override // from Distribution
   public Scalar mean() {
     return min.add(width.multiply(RationalScalar.of(1, 2)));
   }
 
-  @Override
+  @Override // from Distribution
   public Scalar variance() {
     return width.multiply(width).multiply(RationalScalar.of(1, 12));
   }

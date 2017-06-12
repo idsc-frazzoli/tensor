@@ -12,20 +12,16 @@ public enum RandomVariate {
   // ---
   private static final Random RANDOM = new Random();
 
-  /** @param distribution
+  /** @param randomVariateInterface
    * @return */
-  public static Scalar of(Distribution distribution) {
-    return of(distribution, RANDOM);
+  public static Scalar of(RandomVariateInterface randomVariateInterface) {
+    return of(randomVariateInterface, RANDOM);
   }
 
-  /** @param distribution
+  /** @param randomVariateInterface
    * @param random
-   * @return random variates from given probability density function */
-  public static Scalar of(Distribution distribution, Random random) {
-    if (distribution instanceof RandomVariateInterface) {
-      RandomVariateInterface randomVariateInterface = (RandomVariateInterface) distribution;
-      return randomVariateInterface.randomVariate(random);
-    }
-    throw new RuntimeException();
+   * @return random variate from given interface */
+  public static Scalar of(RandomVariateInterface randomVariateInterface, Random random) {
+    return randomVariateInterface.randomVariate(random);
   }
 }

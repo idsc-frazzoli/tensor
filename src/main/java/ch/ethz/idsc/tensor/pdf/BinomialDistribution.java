@@ -32,6 +32,7 @@ public class BinomialDistribution extends AbstractDiscreteDistribution {
     return of(Scalars.intValueExact(n), p);
   }
 
+  // ---
   private final int n;
   private final Scalar p;
 

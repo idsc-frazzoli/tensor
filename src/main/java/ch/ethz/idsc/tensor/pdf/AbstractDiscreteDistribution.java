@@ -8,8 +8,8 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
 /** functionality for a discrete probability distribution */
-public abstract class AbstractDiscreteDistribution implements DiscreteDistribution, RandomVariateInterface {
-  @Override
+public abstract class AbstractDiscreteDistribution implements DiscreteDistribution {
+  @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     Scalar reference = RealScalar.of(random.nextDouble());
     int sample = lowerBound();

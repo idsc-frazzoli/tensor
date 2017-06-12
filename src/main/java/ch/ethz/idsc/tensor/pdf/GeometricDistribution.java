@@ -17,6 +17,7 @@ public class GeometricDistribution extends AbstractDiscreteDistribution {
     return new GeometricDistribution(p);
   }
 
+  // ---
   private final Scalar p;
 
   private GeometricDistribution(Scalar p) {
@@ -35,7 +36,7 @@ public class GeometricDistribution extends AbstractDiscreteDistribution {
 
   @Override // from Distribution
   public Scalar mean() {
-    return RealScalar.ONE.subtract(p).divide(p);
+    return p.invert().subtract(RealScalar.ONE);
   }
 
   @Override // from Distribution

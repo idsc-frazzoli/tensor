@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.Log;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
-public class ExponentialDistribution implements ContinuousDistribution, RandomVariateInterface {
+public class ExponentialDistribution implements ContinuousDistribution {
   /** @param lambda positive
    * @return */
   public static Distribution of(Scalar lambda) {
@@ -21,6 +21,7 @@ public class ExponentialDistribution implements ContinuousDistribution, RandomVa
     return new ExponentialDistribution(lambda);
   }
 
+  // ---
   private final Scalar lambda;
   private final Scalar lambda_negate;
 
