@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.alg.Binomial;
@@ -41,5 +42,10 @@ public class HypergeometricDistribution implements DiscreteDistribution {
     if (N < i)
       return RealScalar.ZERO;
     return Binomial.of(n, i).multiply(Binomial.of(m, N - i)).divide(Binomial.of(m_n, N));
+  }
+
+  @Override // from DiscreteDistribution
+  public Scalar mean() {
+    return RealScalar.of(N).multiply(RationalScalar.of(n, m_n));
   }
 }

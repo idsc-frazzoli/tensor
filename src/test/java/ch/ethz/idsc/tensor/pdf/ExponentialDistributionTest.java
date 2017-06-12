@@ -4,6 +4,10 @@ package ch.ethz.idsc.tensor.pdf;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.red.Mean;
+import ch.ethz.idsc.tensor.red.Norm;
 import junit.framework.TestCase;
 
 public class ExponentialDistributionTest extends TestCase {
@@ -16,12 +20,17 @@ public class ExponentialDistributionTest extends TestCase {
   }
 
   public void testMean() {
-    PDF pdf = PDF.of(ExponentialDistribution.of(RealScalar.of(2)));
-    // TODO check that mean
-    for (int c = 0; c < 100; ++c) {
+    Scalar lambda = RealScalar.of(2);
+    PDF pdf = PDF.of(ExponentialDistribution.of(lambda));
+    Tensor all = Tensors.empty();
+    for (int c = 0; c < 2000; ++c) {
       Scalar s = pdf.nextSample();
-      assertTrue(Scalars.lessEquals(RealScalar.ZERO, s));
+      all.append(s);
     }
+    Scalar mean = lambda.invert();
+    assertEquals(pdf.mean(), mean);
+    Scalar diff = Norm._2.of(Mean.of(all).Get().subtract(mean));
+    assertTrue(Scalars.lessThan(diff, RealScalar.of(0.05)));
   }
 
   public void testFailL() {

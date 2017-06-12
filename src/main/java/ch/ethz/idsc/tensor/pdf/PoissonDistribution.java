@@ -48,4 +48,9 @@ public class PoissonDistribution implements DiscreteDistribution {
     }
     return values.Get(n);
   }
+
+  @Override
+  public Scalar mean() {
+    return lambda;
+  }
 }

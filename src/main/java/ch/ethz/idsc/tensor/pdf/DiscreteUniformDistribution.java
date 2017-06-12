@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -41,5 +42,9 @@ public class DiscreteUniformDistribution implements DiscreteDistribution {
     if (n < min || max < n)
       return RealScalar.ZERO;
     return p;
+  }
+
+  public Scalar mean() {
+    return RealScalar.of(max - min).multiply(RationalScalar.of(1, 2));
   }
 }

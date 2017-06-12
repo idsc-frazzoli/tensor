@@ -40,4 +40,7 @@ public interface PDF {
   /** @param random
    * @return sample generated using the given random generator */
   Scalar nextSample(Random random);
+
+  /** @return mean of distribution */
+  Scalar mean();
 }

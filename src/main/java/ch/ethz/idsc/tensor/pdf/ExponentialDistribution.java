@@ -21,9 +21,11 @@ public class ExponentialDistribution implements ContinuousDistribution {
     return new ExponentialDistribution(lambda);
   }
 
+  private final Scalar lambda;
   private final Scalar lambda_negate;
 
   private ExponentialDistribution(Scalar lambda) {
+    this.lambda = lambda;
     lambda_negate = lambda.negate();
   }
 
@@ -42,5 +44,10 @@ public class ExponentialDistribution implements ContinuousDistribution {
     // {@link Random#nextDouble()} samples uniformly from the range 0.0 (inclusive) to 1.0d (exclusive)
     double uniform = Math.nextUp(random.nextDouble());
     return Log.of(RealScalar.of(uniform)).divide(lambda_negate);
+  }
+
+  @Override
+  public Scalar mean() {
+    return lambda.invert();
   }
 }

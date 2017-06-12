@@ -61,4 +61,9 @@ import ch.ethz.idsc.tensor.Scalars;
       cumprob = cumprob.add(discreteDistribution.p_equals(++sample));
     return RealScalar.of(sample);
   }
+
+  @Override
+  public Scalar mean() {
+    return discreteDistribution.mean();
+  }
 }

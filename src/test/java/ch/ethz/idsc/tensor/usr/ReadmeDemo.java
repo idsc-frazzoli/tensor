@@ -2,12 +2,15 @@
 package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.opt.LinearProgramming;
+import ch.ethz.idsc.tensor.pdf.HypergeometricDistribution;
+import ch.ethz.idsc.tensor.pdf.PDF;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 public class ReadmeDemo {
@@ -30,8 +33,15 @@ public class ReadmeDemo {
     System.out.println(Sqrt.of(fraction));
   }
 
+  public static void demoPDF() {
+    PDF pdf = PDF.of(HypergeometricDistribution.of(10, 50, 100));
+    System.out.println("P(X=3)=" + pdf.p_equals(RealScalar.of(3)));
+    System.out.println(Tensors.vector(i -> pdf.nextSample(), 20));
+  }
+
   public static void main(String[] args) {
     demoSqrt();
     demoInverse();
+    demoPDF();
   }
 }

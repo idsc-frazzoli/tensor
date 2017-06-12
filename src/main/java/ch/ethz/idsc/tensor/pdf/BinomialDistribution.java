@@ -44,4 +44,9 @@ public class BinomialDistribution implements DiscreteDistribution {
       return RealScalar.ZERO;
     return Binomial.of(n, k).multiply(Power.of(p, k)).multiply(Power.of(RealScalar.ONE.subtract(p), n - k));
   }
+
+  @Override // from DiscreteDistribution
+  public Scalar mean() {
+    return RealScalar.of(n).multiply(p);
+  }
 }

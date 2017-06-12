@@ -39,4 +39,9 @@ import ch.ethz.idsc.tensor.Scalar;
   public Scalar nextSample(Random random) {
     return continuousDistribution.nextSample(random);
   }
+
+  @Override
+  public Scalar mean() {
+    return continuousDistribution.mean();
+  }
 }

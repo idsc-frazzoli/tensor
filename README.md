@@ -61,10 +61,9 @@ gives
 
 ---
 
-Scalar ops
+Functions for complex numbers
 
-    Scalar fraction = RationalScalar.of(-9, 16);
-    System.out.println(Sqrt.of(fraction));
+    System.out.println(Sqrt.of(RationalScalar.of(-9, 16)));
 
 gives
 
@@ -93,6 +92,19 @@ gives
      [    1     0  -I/3 ]
      [    0     1     0 ]
     ]
+
+---
+
+Statistics
+
+    PDF pdf = PDF.of(HypergeometricDistribution.of(10, 50, 100));
+    System.out.println("P(X=3)=" + pdf.p_equals(RealScalar.of(3)));
+    System.out.println(Tensors.vector(i -> pdf.nextSample(), 20));
+
+gives
+
+    P(X=3)=84000/742729
+    {6, 5, 1, 4, 3, 4, 7, 5, 7, 4, 6, 3, 5, 4, 5, 4, 6, 2, 6, 7}
 
 ---
 

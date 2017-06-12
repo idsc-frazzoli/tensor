@@ -30,4 +30,9 @@ public class NormalDistribution implements ContinuousDistribution {
   public Scalar nextSample(Random random) {
     return RealScalar.of(random.nextGaussian());
   }
+
+  @Override
+  public Scalar mean() {
+    return RealScalar.ZERO;
+  }
 }

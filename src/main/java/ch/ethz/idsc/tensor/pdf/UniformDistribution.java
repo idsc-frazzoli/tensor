@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -44,5 +45,10 @@ public class UniformDistribution implements ContinuousDistribution {
   @Override
   public Scalar nextSample(Random random) {
     return RealScalar.of(random.nextDouble()).multiply(width).add(min);
+  }
+
+  @Override
+  public Scalar mean() {
+    return min.add(width.multiply(RationalScalar.of(1, 2)));
   }
 }

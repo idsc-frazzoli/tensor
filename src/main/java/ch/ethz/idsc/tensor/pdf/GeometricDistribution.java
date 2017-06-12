@@ -32,4 +32,9 @@ public class GeometricDistribution implements DiscreteDistribution {
   public Scalar p_equals(int n) {
     return p.multiply(Power.of(RealScalar.ONE.subtract(p), n));
   }
+
+  @Override // from DiscreteDistribution
+  public Scalar mean() {
+    return RealScalar.ONE.subtract(p).divide(p);
+  }
 }
