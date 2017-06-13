@@ -46,15 +46,15 @@ public class BinomialDistributionTest extends TestCase {
   public void testCornerCase() {
     {
       Distribution distribution = BinomialDistribution.of(0, RationalScalar.ONE);
-      PDF pdf = PDF.of(BinomialDistribution.of(0, RationalScalar.ONE));
-      int sample = RandomVariate.of(distribution).number().intValue();
-      assertEquals(sample, 0);
+      assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
     }
     {
       Distribution distribution = BinomialDistribution.of(0, RationalScalar.ZERO);
-      // PDF pdf = PDF.of();
-      int sample = RandomVariate.of(distribution).number().intValue();
-      assertEquals(sample, 0);
+      assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
+    }
+    {
+      Distribution distribution = BinomialDistribution.of(0, RealScalar.of(.3));
+      assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
     }
   }
 

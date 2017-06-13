@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
@@ -45,10 +44,7 @@ public class BernoulliDistributionTest extends TestCase {
   public void testSample() {
     final Scalar p = RationalScalar.of(1, 3);
     Distribution distribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(distribution);
-    Tensor list = Tensors.empty();
-    for (int c = 0; c < 2000; ++c)
-      list.append(RandomVariate.of(distribution));
+    Tensor list = RandomVariate.of(distribution, 2000);
     Map<Tensor, Long> map = Tally.of(list);
     long v0 = map.get(RealScalar.ZERO);
     long v1 = map.get(RealScalar.ONE);

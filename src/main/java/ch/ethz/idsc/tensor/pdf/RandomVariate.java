@@ -7,7 +7,13 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 
-/** inspired by
+/** Example:
+ * <code>
+ * Distribution distribution = NormalDistribution.of();
+ * Tensor matrix = RandomVariate.of(distribution, 5, 3);
+ * </code>
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/RandomVariate.html">RandomVariate</a> */
 public enum RandomVariate {
   ;

@@ -66,6 +66,10 @@ public class RoundTest extends TestCase {
 
   public void testMatlab() {
     Scalar pi = DoubleScalar.of(Math.PI);
-    assertEquals(pi.map(Round.toMultipleOf(DecimalScalar.of("0.0001"))).toString(), "3.1416");
+    assertEquals(pi.map(Round._1).toString(), "3.1");
+    assertEquals(pi.map(Round._2).toString(), "3.14");
+    assertEquals(pi.map(Round._3).toString(), "3.142");
+    assertEquals(pi.map(Round._4).toString(), "3.1416");
+    assertEquals(pi.map(Round._5).toString(), "3.14159");
   }
 }

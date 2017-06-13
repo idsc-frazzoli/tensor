@@ -98,7 +98,7 @@ gives
 Statistics
 
     Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
-    System.out.println(Tensors.vector(i -> RandomVariate.of(distribution), 20));
+    System.out.println(RandomVariate.of(distribution, 20));
 
 gives
 
@@ -177,4 +177,4 @@ The library is used in the projects:
 * `QueuingNetworks`
 * `SimBus`
 
-The repository has over `770` unit tests.
+The repository has over `780` unit tests.

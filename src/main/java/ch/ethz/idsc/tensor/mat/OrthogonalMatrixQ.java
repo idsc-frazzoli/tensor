@@ -15,6 +15,8 @@ public enum OrthogonalMatrixQ {
    * @param matrix
    * @return true, if matrix.Transpose[matrix] is the identity matrix */
   public static boolean of(Tensor matrix) {
+    if (!MatrixQ.of(matrix))
+      return false;
     return Chop.isZeros(matrix.dot(Transpose.of(matrix)).subtract(IdentityMatrix.of(matrix.length())));
   }
 }

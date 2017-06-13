@@ -37,7 +37,7 @@ public class ReadmeDemo {
 
   public static void demoPDF() {
     Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
-    System.out.println(Tensors.vector(i -> RandomVariate.of(distribution), 20));
+    System.out.println(RandomVariate.of(distribution, 20));
     // ---
     PDF pdf = PDF.of(distribution);
     System.out.println("P(X=3)=" + pdf.p_equals(RealScalar.of(3)));

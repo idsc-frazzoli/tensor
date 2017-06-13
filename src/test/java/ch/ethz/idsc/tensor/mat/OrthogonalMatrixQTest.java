@@ -2,8 +2,10 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.lie.Rodriguez;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
@@ -22,5 +24,12 @@ public class OrthogonalMatrixQTest extends TestCase {
       Tensor matrix = Rodriguez.of(RandomVariate.of(dis, 3));
       assertTrue(OrthogonalMatrixQ.of(matrix));
     }
+  }
+
+  public void testCornerCase() {
+    assertFalse(OrthogonalMatrixQ.of(RealScalar.of(1)));
+    assertFalse(OrthogonalMatrixQ.of(Tensors.vector(1, 0, 0)));
+    assertFalse(OrthogonalMatrixQ.of(Tensors.vector(1, 0, 2)));
+    assertFalse(OrthogonalMatrixQ.of(LieAlgebras.so3()));
   }
 }
