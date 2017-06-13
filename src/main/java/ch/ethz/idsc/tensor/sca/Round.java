@@ -21,6 +21,13 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum Round implements ScalarUnaryOperator {
   function;
   // ---
+  public static final ScalarUnaryOperator _1 = Round.toMultipleOf(DecimalScalar.of("0.1"));
+  public static final ScalarUnaryOperator _2 = Round.toMultipleOf(DecimalScalar.of("0.01"));
+  public static final ScalarUnaryOperator _3 = Round.toMultipleOf(DecimalScalar.of("0.001"));
+  public static final ScalarUnaryOperator _4 = Round.toMultipleOf(DecimalScalar.of("0.0001"));
+  public static final ScalarUnaryOperator _5 = Round.toMultipleOf(DecimalScalar.of("0.00001"));
+
+  // ---
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RoundingInterface) {
