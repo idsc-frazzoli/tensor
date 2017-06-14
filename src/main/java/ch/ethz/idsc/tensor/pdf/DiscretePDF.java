@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.NavigableMap;
+import java.util.TreeMap;
+
 import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -9,6 +12,9 @@ import ch.ethz.idsc.tensor.Scalars;
 
 /* package */ class DiscretePDF implements PDF {
   private final DiscreteDistribution discreteDistribution;
+  // ---
+  // TODO build cdf in queries p_lessThan, and p_lessEquals
+  private final NavigableMap<Scalar, Scalar> cdf = new TreeMap<>();
 
   DiscretePDF(DiscreteDistribution discreteDistribution) {
     this.discreteDistribution = discreteDistribution;
