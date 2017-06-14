@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 import ch.ethz.idsc.tensor.Scalar;
 
 /* package */ class ContinuousPDF implements PDF {
-  private final ContinuousDistribution continuousDistribution;
+  final ContinuousDistribution continuousDistribution;
 
   ContinuousPDF(ContinuousDistribution continuousDistribution) {
     this.continuousDistribution = continuousDistribution;
@@ -14,15 +14,5 @@ import ch.ethz.idsc.tensor.Scalar;
   public Scalar p_equals(Scalar x) {
     return continuousDistribution.p_lessEquals(x) //
         .subtract(continuousDistribution.p_lessThan(x));
-  }
-
-  @Override // from PDF
-  public Scalar p_lessThan(Scalar x) {
-    return continuousDistribution.p_lessThan(x);
-  }
-
-  @Override // from PDF
-  public Scalar p_lessEquals(Scalar x) {
-    return continuousDistribution.p_lessEquals(x);
   }
 }

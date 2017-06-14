@@ -5,6 +5,7 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
@@ -45,13 +46,13 @@ public class NormalDistribution implements ContinuousDistribution {
     return sigma.multiply(sigma);
   }
 
-  @Override // ContinuousDistribution
+  @Override // from ContinuousDistribution
   public Scalar p_lessThan(Scalar x) {
-    return null;
+    throw TensorRuntimeException.of(x); // TODO implement
   }
 
-  @Override // ContinuousDistribution
+  @Override // from ContinuousDistribution
   public Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
+    throw TensorRuntimeException.of(x); // TODO implement
   }
 }

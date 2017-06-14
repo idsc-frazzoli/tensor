@@ -8,8 +8,11 @@ import ch.ethz.idsc.tensor.Scalar;
 public enum BernoulliDistribution {
   ;
   // ---
-  /** Example:
+  /** parameter p denotes the probability of the outcome 1
+   * 
+   * Example:
    * PDF[BernoulliDistribution[1/3], 0] == 2/3
+   * PDF[BernoulliDistribution[1/3], 1] == 1/3
    * 
    * @param p in the interval [0, 1]
    * @return */

@@ -1,20 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.NavigableMap;
-import java.util.TreeMap;
-
 import ch.ethz.idsc.tensor.IntegerQ;
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
 /* package */ class DiscretePDF implements PDF {
-  private final DiscreteDistribution discreteDistribution;
-  // ---
-  // TODO build cdf in queries p_lessThan, and p_lessEquals
-  private final NavigableMap<Scalar, Scalar> cdf = new TreeMap<>();
+  final DiscreteDistribution discreteDistribution;
 
   DiscretePDF(DiscreteDistribution discreteDistribution) {
     this.discreteDistribution = discreteDistribution;
@@ -26,27 +19,5 @@ import ch.ethz.idsc.tensor.Scalars;
       return RealScalar.ZERO;
     int k = Scalars.intValueExact(x);
     return discreteDistribution.p_equals(k);
-  }
-
-  @Override // from PDF
-  public Scalar p_lessThan(Scalar x) {
-    int k = discreteDistribution.lowerBound();
-    Scalar cumprob = RealScalar.ZERO;
-    while (Scalars.lessThan(RationalScalar.of(k, 1), x)) {
-      cumprob = cumprob.add(discreteDistribution.p_equals(k));
-      ++k;
-    }
-    return cumprob;
-  }
-
-  @Override // from PDF
-  public Scalar p_lessEquals(Scalar x) {
-    int k = discreteDistribution.lowerBound();
-    Scalar cumprob = RealScalar.ZERO;
-    while (Scalars.lessEquals(RationalScalar.of(k, 1), x)) {
-      cumprob = cumprob.add(discreteDistribution.p_equals(k));
-      ++k;
-    }
-    return cumprob;
   }
 }

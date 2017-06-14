@@ -26,7 +26,7 @@ public class BernoulliDistributionTest extends TestCase {
   public void testLessThan() {
     Scalar p = RationalScalar.of(1, 3);
     Distribution distribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(distribution);
+    CDF pdf = CDF.of(distribution);
     assertEquals(pdf.p_lessThan(RealScalar.of(0)), RationalScalar.ZERO);
     assertEquals(pdf.p_lessThan(RealScalar.of(1)), RationalScalar.of(2, 3));
     assertEquals(pdf.p_lessThan(RealScalar.of(2)), RealScalar.ONE);
@@ -35,7 +35,7 @@ public class BernoulliDistributionTest extends TestCase {
   public void testLessEquals() {
     Scalar p = RationalScalar.of(1, 3);
     Distribution distribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(distribution);
+    CDF pdf = CDF.of(distribution);
     assertEquals(pdf.p_lessEquals(RealScalar.of(0)), RationalScalar.of(2, 3));
     assertEquals(pdf.p_lessEquals(RealScalar.of(1)), RationalScalar.ONE);
     assertEquals(pdf.p_lessEquals(RealScalar.of(2)), RealScalar.ONE);
@@ -67,5 +67,18 @@ public class BernoulliDistributionTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testInverseCdf() {
+    Scalar p = RationalScalar.of(1, 3);
+    Distribution distribution = BernoulliDistribution.of(p);
+    RandomVariate.of(distribution, 20);
+    AbstractDiscreteDistribution add = (AbstractDiscreteDistribution) distribution;
+    assertEquals(add.inverse_cdf().size(), 2);
+    assertEquals(add.inverse_cdf().get(RationalScalar.of(2, 3)), RealScalar.of(0));
+    assertEquals(add.inverse_cdf().get(RationalScalar.of(1, 1)), RealScalar.of(1));
+    assertEquals(add.inverse_cdf().higherEntry(RationalScalar.of(0, 3)).getValue(), RealScalar.of(0));
+    assertEquals(add.inverse_cdf().higherEntry(RationalScalar.of(2, 3)).getValue(), RealScalar.of(1));
+    assertEquals(add.inverse_cdf().higherEntry(RationalScalar.of(1, 1)), null);
   }
 }

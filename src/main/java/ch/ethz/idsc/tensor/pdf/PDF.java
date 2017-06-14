@@ -21,12 +21,11 @@ public interface PDF {
   /** @param x
    * @return P(X == x), i.e. probability of random variable X == x */
   Scalar p_equals(Scalar x);
-
-  /** @param x
-   * @return P(X < x), i.e. probability of random variable X < x */
-  Scalar p_lessThan(Scalar x);
-
-  /** @param x
-   * @return P(X <= x), i.e. probability of random variable X <= x */
-  Scalar p_lessEquals(Scalar x);
+  // /** @param x
+  // * @return P(X < x), i.e. probability of random variable X < x */
+  // Scalar p_lessThan(Scalar x);
+  //
+  // /** @param x
+  // * @return P(X <= x), i.e. probability of random variable X <= x */
+  // Scalar p_lessEquals(Scalar x);
 }

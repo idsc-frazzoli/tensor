@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Random;
@@ -12,12 +13,11 @@ import ch.ethz.idsc.tensor.Scalars;
 
 /** functionality for a discrete probability distribution */
 public abstract class AbstractDiscreteDistribution implements DiscreteDistribution {
-  // inverse cdf is built during random sampling generation
-  // inverse cdf maps from probability to sample
+  // inverse cdf maps from probability to sample and is built during random sampling generation
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();
 
   @Override // from RandomVariateInterface
-  public Scalar randomVariate(Random random) {
+  public synchronized Scalar randomVariate(Random random) {
     if (inverse_cdf.isEmpty()) {
       int sample = lowerBound();
       inverse_cdf.put(p_equals(sample), RealScalar.of(sample));
@@ -35,5 +35,9 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
       }
     }
     return inverse_cdf.higherEntry(reference).getValue();
+  }
+
+  /* package for testing */ NavigableMap<Scalar, Scalar> inverse_cdf() {
+    return Collections.unmodifiableNavigableMap(inverse_cdf);
   }
 }

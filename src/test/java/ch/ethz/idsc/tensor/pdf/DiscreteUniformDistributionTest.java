@@ -21,7 +21,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
 
   public void testLessThan() {
     Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
-    PDF pdf = PDF.of(distribution);
+    CDF pdf = CDF.of(distribution);
     assertEquals(pdf.p_lessThan(RealScalar.of(2)), RationalScalar.of(0, 10 - 3 + 1));
     assertEquals(pdf.p_lessThan(RealScalar.of(3)), RationalScalar.of(0, 10 - 3 + 1));
     assertEquals(pdf.p_lessThan(RealScalar.of(4)), RationalScalar.of(1, 10 - 3 + 1));
@@ -32,7 +32,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
 
   public void testLessEquals() {
     Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
-    PDF pdf = PDF.of(distribution);
+    CDF pdf = CDF.of(distribution);
     assertEquals(pdf.p_lessEquals(RealScalar.of(2)), RationalScalar.of(0, 10 - 3 + 1));
     assertEquals(pdf.p_lessEquals(RealScalar.of(3)), RationalScalar.of(1, 10 - 3 + 1));
     assertEquals(pdf.p_lessEquals(RealScalar.of(4)), RationalScalar.of(2, 10 - 3 + 1));
