@@ -30,6 +30,18 @@ gives
      [   7/37   -1/37   10/37 ]
     ]
 
+singular value decomposition of given matrix
+
+    System.out.println(Pretty.of(SingularValueDecomposition.of(matrix).getU().map(Round._4)));
+
+gives results in machine precision
+
+    [
+     [  0.2532   0.6307  -0.7336 ]
+     [ -0.9512   0.3004  -0.0700 ]
+     [ -0.1763  -0.7155  -0.6760 ]
+    ]
+
 ---
 
 Linear programming

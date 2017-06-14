@@ -32,18 +32,6 @@ public class HypergeometricDistribution extends AbstractDiscreteDistribution {
     this.m = m_n - n;
   }
 
-  @Override // from DiscreteDistribution
-  public int lowerBound() {
-    return 0;
-  }
-
-  @Override // from DiscreteDistribution
-  public Scalar p_equals(int i) {
-    if (N < i)
-      return RealScalar.ZERO;
-    return Binomial.of(n, i).multiply(Binomial.of(m, N - i)).divide(Binomial.of(m_n, N));
-  }
-
   @Override // from Distribution
   public Scalar mean() {
     return RealScalar.of(N).multiply(RationalScalar.of(n, m_n));
@@ -59,5 +47,17 @@ public class HypergeometricDistribution extends AbstractDiscreteDistribution {
     // ( n )
     Scalar rd4 = RationalScalar.of(n, 1);
     return rd1.multiply(rd2).multiply(rd3).multiply(rd4);
+  }
+
+  @Override // from DiscreteDistribution
+  public int lowerBound() {
+    return 0;
+  }
+
+  @Override // from DiscreteDistribution
+  public Scalar p_equals(int i) {
+    if (N < i)
+      return RealScalar.ZERO;
+    return Binomial.of(n, i).multiply(Binomial.of(m, N - i)).divide(Binomial.of(m_n, N));
   }
 }

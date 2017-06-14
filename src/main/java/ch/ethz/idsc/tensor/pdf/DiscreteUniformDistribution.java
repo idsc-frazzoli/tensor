@@ -39,6 +39,17 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
     p = RationalScalar.of(1, max - min + 1);
   }
 
+  @Override // from Distribution
+  public Scalar mean() {
+    return RealScalar.of(max + min).multiply(RationalScalar.of(1, 2));
+  }
+
+  @Override // from Distribution
+  public Scalar variance() {
+    Scalar width = RealScalar.of(max - min);
+    return width.multiply(RealScalar.of(2).add(width)).multiply(RationalScalar.of(1, 12));
+  }
+
   @Override // from DiscreteDistribution
   public int lowerBound() {
     return min;
@@ -49,16 +60,5 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
     if (n < min || max < n)
       return RealScalar.ZERO;
     return p;
-  }
-
-  @Override // from Distribution
-  public Scalar mean() {
-    return RealScalar.of(max + min).multiply(RationalScalar.of(1, 2));
-  }
-
-  @Override // from Distribution
-  public Scalar variance() {
-    Scalar width = RealScalar.of(max - min);
-    return width.multiply(RealScalar.of(2).add(width)).multiply(RationalScalar.of(1, 12));
   }
 }

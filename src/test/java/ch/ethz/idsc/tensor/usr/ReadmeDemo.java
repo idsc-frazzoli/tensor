@@ -8,11 +8,13 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.mat.Inverse;
+import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 import ch.ethz.idsc.tensor.opt.LinearProgramming;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.HypergeometricDistribution;
 import ch.ethz.idsc.tensor.pdf.PDF;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 public class ReadmeDemo {
@@ -20,6 +22,11 @@ public class ReadmeDemo {
     Tensor matrix = Tensors.matrixInt(new int[][] { { 2, -3, 2 }, { 4, 9, -3 }, { -1, 3, 2 } });
     System.out.println(Pretty.of(matrix));
     System.out.println(Pretty.of(Inverse.of(matrix)));
+  }
+
+  public static void demoSVD() {
+    Tensor matrix = Tensors.matrixInt(new int[][] { { 2, -3, 2 }, { 4, 9, -3 }, { -1, 3, 2 } });
+    System.out.println(Pretty.of(SingularValueDecomposition.of(matrix).getU().map(Round._4)));
   }
 
   public static void demoLP() {
@@ -44,8 +51,9 @@ public class ReadmeDemo {
   }
 
   public static void main(String[] args) {
-    demoSqrt();
-    demoInverse();
-    demoPDF();
+    // demoSqrt();
+    // demoInverse();
+    // demoPDF();
+    // demoSVD();
   }
 }

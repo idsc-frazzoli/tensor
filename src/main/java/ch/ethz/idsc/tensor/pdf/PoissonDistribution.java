@@ -33,6 +33,16 @@ public class PoissonDistribution extends AbstractDiscreteDistribution {
     values.append(Exp.of(lambda.negate()));
   }
 
+  @Override // from Distribution
+  public Scalar mean() {
+    return lambda;
+  }
+
+  @Override // from Distribution
+  public Scalar variance() {
+    return lambda;
+  }
+
   @Override // from DiscreteDistribution
   public int lowerBound() {
     return 0;
@@ -47,15 +57,5 @@ public class PoissonDistribution extends AbstractDiscreteDistribution {
       values.append(Last.of(values).multiply(factor));
     }
     return values.Get(n);
-  }
-
-  @Override // from Distribution
-  public Scalar mean() {
-    return lambda;
-  }
-
-  @Override // from Distribution
-  public Scalar variance() {
-    return lambda;
   }
 }

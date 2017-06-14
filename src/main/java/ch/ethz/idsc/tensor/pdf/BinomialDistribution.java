@@ -41,6 +41,16 @@ public class BinomialDistribution extends AbstractDiscreteDistribution {
     this.p = p;
   }
 
+  @Override // from Distribution
+  public Scalar mean() {
+    return RealScalar.of(n).multiply(p);
+  }
+
+  @Override // from Distribution
+  public Scalar variance() {
+    return RealScalar.of(n).multiply(p).multiply(RealScalar.ONE.subtract(p));
+  }
+
   @Override // from DiscreteDistribution
   public int lowerBound() {
     return 0;
@@ -51,15 +61,5 @@ public class BinomialDistribution extends AbstractDiscreteDistribution {
     if (k < 0 || n < k)
       return RealScalar.ZERO;
     return Binomial.of(n, k).multiply(Power.of(p, k)).multiply(Power.of(RealScalar.ONE.subtract(p), n - k));
-  }
-
-  @Override // from Distribution
-  public Scalar mean() {
-    return RealScalar.of(n).multiply(p);
-  }
-
-  @Override // from Distribution
-  public Scalar variance() {
-    return RealScalar.of(n).multiply(p).multiply(RealScalar.ONE.subtract(p));
   }
 }

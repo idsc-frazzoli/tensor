@@ -30,17 +30,7 @@ public class ExponentialDistribution implements ContinuousDistribution {
     lambda_negate = lambda.negate();
   }
 
-  @Override
-  public Scalar p_lessThan(Scalar x) {
-    return RealScalar.ONE.subtract(Exp.of(x.multiply(lambda_negate)));
-  }
-
-  @Override
-  public Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
-  }
-
-  @Override
+  @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     // {@link Random#nextDouble()} samples uniformly from the range 0.0 (inclusive) to 1.0d (exclusive)
     double uniform = Math.nextUp(random.nextDouble());
@@ -55,5 +45,15 @@ public class ExponentialDistribution implements ContinuousDistribution {
   @Override // from Distribution
   public Scalar variance() {
     return lambda.multiply(lambda).invert();
+  }
+
+  @Override // from ContinuousDistribution
+  public Scalar p_lessThan(Scalar x) {
+    return RealScalar.ONE.subtract(Exp.of(x.multiply(lambda_negate)));
+  }
+
+  @Override // from ContinuousDistribution
+  public Scalar p_lessEquals(Scalar x) {
+    return p_lessThan(x);
   }
 }

@@ -15,11 +15,16 @@ import ch.ethz.idsc.tensor.sca.Clip;
 public class UniformDistribution implements ContinuousDistribution {
   /** @param min < max
    * @param max
-   * @return */
+   * @return uniform distribution over the half-open interval [min, max) */
   public static Distribution of(Scalar min, Scalar max) {
     if (Scalars.lessEquals(max, min))
       throw TensorRuntimeException.of(min, max);
     return new UniformDistribution(min, max);
+  }
+
+  /** @return uniform distribution over the half-open interval [0, 1) */
+  public static Distribution of() {
+    return of(RealScalar.ZERO, RealScalar.ONE);
   }
 
   private static final Clip CLIP = Clip.function(0, 1);
@@ -30,16 +35,6 @@ public class UniformDistribution implements ContinuousDistribution {
   private UniformDistribution(Scalar min, Scalar max) {
     this.min = min;
     width = max.subtract(min);
-  }
-
-  @Override // from ContinuousDistribution
-  public Scalar p_lessThan(Scalar x) {
-    return CLIP.apply(x.subtract(min).divide(width));
-  }
-
-  @Override // from ContinuousDistribution
-  public Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
   }
 
   @Override // from RandomVariateInterface
@@ -55,5 +50,15 @@ public class UniformDistribution implements ContinuousDistribution {
   @Override // from Distribution
   public Scalar variance() {
     return width.multiply(width).multiply(RationalScalar.of(1, 12));
+  }
+
+  @Override // from ContinuousDistribution
+  public Scalar p_lessThan(Scalar x) {
+    return CLIP.apply(x.subtract(min).divide(width));
+  }
+
+  @Override // from ContinuousDistribution
+  public Scalar p_lessEquals(Scalar x) {
+    return p_lessThan(x);
   }
 }

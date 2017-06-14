@@ -14,6 +14,12 @@ public class UniformDistributionTest extends TestCase {
     assertEquals(pdf.p_lessThan(RealScalar.of(4)), RealScalar.ONE);
   }
 
+  public void testUnit() {
+    UniformDistribution distribution = (UniformDistribution) UniformDistribution.of();
+    assertEquals(distribution.mean(), RationalScalar.of(1, 2));
+    assertEquals(distribution.variance(), RationalScalar.of(1, 12));
+  }
+
   public void testFail() {
     try {
       UniformDistribution.of(RealScalar.ONE, RealScalar.ONE);

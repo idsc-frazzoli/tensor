@@ -24,16 +24,6 @@ public class GeometricDistribution extends AbstractDiscreteDistribution {
     this.p = p;
   }
 
-  @Override // from DiscreteDistribution
-  public int lowerBound() {
-    return 0;
-  }
-
-  @Override // from DiscreteDistribution
-  public Scalar p_equals(int n) {
-    return p.multiply(Power.of(RealScalar.ONE.subtract(p), n));
-  }
-
   @Override // from Distribution
   public Scalar mean() {
     return p.invert().subtract(RealScalar.ONE);
@@ -42,5 +32,15 @@ public class GeometricDistribution extends AbstractDiscreteDistribution {
   @Override // from Distribution
   public Scalar variance() {
     return RealScalar.ONE.subtract(p).divide(p.multiply(p));
+  }
+
+  @Override // from DiscreteDistribution
+  public int lowerBound() {
+    return 0;
+  }
+
+  @Override // from DiscreteDistribution
+  public Scalar p_equals(int n) {
+    return p.multiply(Power.of(RealScalar.ONE.subtract(p), n));
   }
 }

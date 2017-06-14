@@ -8,8 +8,8 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Dot {
   ;
   /** @param tensor
-   * @param v
-   * @return m.v[0].v[1]...v[end] */
+   * @param v's
+   * @return ( ... ( ( m . v[0] ) . v[1] ). ... ) . v[end-1] */
   public static Tensor of(Tensor tensor, Tensor... v) {
     if (v.length == 0)
       return tensor.copy();

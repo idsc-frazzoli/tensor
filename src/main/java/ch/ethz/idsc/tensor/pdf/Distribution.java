@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-/** base interface for a probability distribution */
+/** base interface for a univariate probability distribution */
 public interface Distribution extends RandomVariateInterface {
   /** @return mean of distribution */
   Scalar mean();
