@@ -46,15 +46,15 @@ public class PoissonDistributionTest extends TestCase {
 
   public void testPDF() {
     Distribution distribution = PoissonDistribution.of(RealScalar.of(10.5));
-    CDF pdf = CDF.of(distribution);
-    Scalar s = pdf.p_lessThan(RealScalar.of(50));
+    CDF cdf = CDF.of(distribution);
+    Scalar s = cdf.p_lessThan(RealScalar.of(50));
     assertEquals(Chop.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
   }
 
   public void testPDF2() {
     Distribution distribution = PoissonDistribution.of(RealScalar.of(1.5));
-    CDF pdf = CDF.of(distribution);
-    Scalar s = pdf.p_lessThan(RealScalar.of(50));
+    CDF cdf = CDF.of(distribution);
+    Scalar s = cdf.p_lessThan(RealScalar.of(50));
     assertEquals(Chop.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
   }
 

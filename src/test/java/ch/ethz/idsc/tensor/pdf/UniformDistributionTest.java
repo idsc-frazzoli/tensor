@@ -7,11 +7,11 @@ import junit.framework.TestCase;
 
 public class UniformDistributionTest extends TestCase {
   public void testSimple() {
-    CDF pdf = CDF.of(UniformDistribution.of(RealScalar.ONE, RealScalar.of(3)));
-    assertEquals(pdf.p_lessThan(RealScalar.ONE), RealScalar.ZERO);
-    assertEquals(pdf.p_lessThan(RealScalar.of(2)), RationalScalar.of(1, 2));
-    assertEquals(pdf.p_lessThan(RealScalar.of(3)), RealScalar.ONE);
-    assertEquals(pdf.p_lessThan(RealScalar.of(4)), RealScalar.ONE);
+    CDF cdf = CDF.of(UniformDistribution.of(RealScalar.ONE, RealScalar.of(3)));
+    assertEquals(cdf.p_lessThan(RealScalar.ONE), RealScalar.ZERO);
+    assertEquals(cdf.p_lessThan(RealScalar.of(2)), RationalScalar.of(1, 2));
+    assertEquals(cdf.p_lessThan(RealScalar.of(3)), RealScalar.ONE);
+    assertEquals(cdf.p_lessThan(RealScalar.of(4)), RealScalar.ONE);
   }
 
   public void testUnit() {

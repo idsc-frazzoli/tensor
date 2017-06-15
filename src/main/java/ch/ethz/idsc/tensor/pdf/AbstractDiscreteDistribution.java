@@ -18,12 +18,11 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
 
   @Override // from RandomVariateInterface
   public synchronized Scalar randomVariate(Random random) {
-    if (inverse_cdf.isEmpty()) {
-      int sample = lowerBound();
-      inverse_cdf.put(p_equals(sample), RealScalar.of(sample));
-    }
+    if (inverse_cdf.isEmpty())
+      inverse_cdf.put(p_equals(lowerBound()), RealScalar.of(lowerBound()));
+    // ---
     Scalar reference = RealScalar.of(random.nextDouble());
-    Entry<Scalar, Scalar> higher = inverse_cdf.higherEntry(reference); // strictly higher than cdf
+    Entry<Scalar, Scalar> higher = inverse_cdf.higherEntry(reference); // strictly higher
     if (higher == null) {
       Entry<Scalar, Scalar> lower = inverse_cdf.floorEntry(reference); // less than or equal
       int sample = lower.getValue().number().intValue();
@@ -33,8 +32,9 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
         cumprob = cumprob.add(p_equals(sample));
         inverse_cdf.put(cumprob, RealScalar.of(sample));
       }
+      higher = inverse_cdf.higherEntry(reference); // strictly higher
     }
-    return inverse_cdf.higherEntry(reference).getValue();
+    return higher.getValue();
   }
 
   /* package for testing */ NavigableMap<Scalar, Scalar> inverse_cdf() {

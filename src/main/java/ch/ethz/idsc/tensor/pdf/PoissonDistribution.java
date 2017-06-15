@@ -13,13 +13,18 @@ import ch.ethz.idsc.tensor.sca.Exp;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
 public class PoissonDistribution extends AbstractDiscreteDistribution {
+  // lambda above max lead to incorrect results due to numerical properties
+  private static final Scalar LAMBDA_MAX = RealScalar.of(700);
+
   /** Example:
    * PDF[PoissonDistribution[Lambda], 2] == 1/(3!) Exp[-Lambda] Lambda^3
    * 
-   * @param lambda positive
+   * @param lambda positive and <= 700
    * @return */
   public static Distribution of(Scalar lambda) {
     if (Scalars.lessEquals(lambda, RealScalar.ZERO))
+      throw TensorRuntimeException.of(lambda);
+    if (Scalars.lessThan(LAMBDA_MAX, lambda))
       throw TensorRuntimeException.of(lambda);
     return new PoissonDistribution(lambda);
   }

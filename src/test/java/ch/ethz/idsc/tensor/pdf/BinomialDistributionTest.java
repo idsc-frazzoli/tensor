@@ -5,6 +5,8 @@ import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.Range;
 import junit.framework.TestCase;
 
 public class BinomialDistributionTest extends TestCase {
@@ -41,6 +43,22 @@ public class BinomialDistributionTest extends TestCase {
     assertEquals(pdf.p_equals(RealScalar.of(-1)), RealScalar.ZERO);
     assertEquals(pdf.p_equals(RealScalar.of(11)), RealScalar.ZERO);
     assertEquals(pdf.p_equals(RealScalar.of(12)), RealScalar.ZERO);
+  }
+
+  public void testMean() {
+    Distribution distribution = BinomialDistribution.of(21, RationalScalar.of(7, 13));
+    PDF pdf = PDF.of(distribution);
+    Tensor sum = RealScalar.ZERO;
+    for (Tensor x : Range.of(0, 22))
+      sum = sum.add(x.multiply(pdf.p_equals(x.Get())));
+    assertEquals(distribution.mean(), sum);
+  }
+
+  public void testHigh() {
+    Distribution distribution = BinomialDistribution.of(21, RationalScalar.of(7, 13));
+    CDF cdf = CDF.of(distribution);
+    cdf.p_lessThan(RealScalar.of(-1000000000));
+    // cdf.p_lessEquals(RealScalar.of(1000000000));
   }
 
   public void testCornerCase() {
