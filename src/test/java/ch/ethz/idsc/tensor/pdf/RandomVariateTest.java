@@ -14,13 +14,13 @@ import junit.framework.TestCase;
 
 public class RandomVariateTest extends TestCase {
   public void testVarying() {
-    Distribution distribution = NormalDistribution.of();
+    Distribution distribution = NormalDistribution.standard();
     Set<Tensor> set = RandomVariate.of(distribution, 1000).flatten(0).collect(Collectors.toSet());
     assertTrue(970 < set.size());
   }
 
   public void testSame() {
-    Distribution distribution = NormalDistribution.of();
+    Distribution distribution = NormalDistribution.standard();
     assertEquals( //
         RandomVariate.of(distribution, new Random(10), 1000), //
         RandomVariate.of(distribution, new Random(10), 1000) //

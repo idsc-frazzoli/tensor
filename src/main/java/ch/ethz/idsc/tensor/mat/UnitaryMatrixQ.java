@@ -11,9 +11,10 @@ public enum UnitaryMatrixQ {
   /** Mathematica definition:
    * "A matrix m is unitary if m.ConjugateTranspose[m] is the identity matrix."
    * 
-   * @param matrix
-   * @return true, if matrix.ConjugateTranspose[matrix] is the identity matrix */
-  public static boolean of(Tensor matrix) {
-    return Chop.isZeros(matrix.dot(ConjugateTranspose.of(matrix)).subtract(IdentityMatrix.of(matrix.length())));
+   * @param tensor
+   * @return true, if tensor is a matrix and tensor.ConjugateTranspose[tensor] is the identity matrix */
+  public static boolean of(Tensor tensor) {
+    return MatrixQ.of(tensor) && //
+        Chop.isZeros(tensor.dot(ConjugateTranspose.of(tensor)).subtract(IdentityMatrix.of(tensor.length())));
   }
 }

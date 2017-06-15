@@ -12,11 +12,10 @@ public enum OrthogonalMatrixQ {
   /** Mathematica definition:
    * "A matrix m is orthogonal if m.Transpose[m] is the identity matrix."
    * 
-   * @param matrix
-   * @return true, if matrix.Transpose[matrix] is the identity matrix */
-  public static boolean of(Tensor matrix) {
-    if (!MatrixQ.of(matrix))
-      return false;
-    return Chop.isZeros(matrix.dot(Transpose.of(matrix)).subtract(IdentityMatrix.of(matrix.length())));
+   * @param tensor
+   * @return true, if tensor is a matrix and tensor.Transpose[tensor] is the identity matrix */
+  public static boolean of(Tensor tensor) {
+    return MatrixQ.of(tensor) && //
+        Chop.isZeros(tensor.dot(Transpose.of(tensor)).subtract(IdentityMatrix.of(tensor.length())));
   }
 }

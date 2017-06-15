@@ -9,6 +9,12 @@ import ch.ethz.idsc.tensor.Scalar;
  * 
  * CDF extends the capabilities of {@link PDF}
  * 
+ * {@link ContinuousDistribution}s extend CDF
+ * 
+ * {@link DiscreteDistribution}s may extend CDF if the implementation
+ * is beneficial for computational efficiency and numerical robustness.
+ * Examples: {@link DiscreteUniformDistribution}, and {@link GeometricDistribution}.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/CDF.html">CDF</a> */
 public interface CDF extends Serializable {

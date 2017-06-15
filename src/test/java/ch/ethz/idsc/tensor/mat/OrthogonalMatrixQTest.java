@@ -19,7 +19,7 @@ public class OrthogonalMatrixQTest extends TestCase {
   }
 
   public void testRodriques() {
-    Distribution dis = NormalDistribution.of();
+    Distribution dis = NormalDistribution.standard();
     for (int c = 0; c < 20; ++c) {
       Tensor matrix = Rodriguez.of(RandomVariate.of(dis, 3));
       assertTrue(OrthogonalMatrixQ.of(matrix));

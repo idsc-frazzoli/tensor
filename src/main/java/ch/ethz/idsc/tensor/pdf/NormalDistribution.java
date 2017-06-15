@@ -18,7 +18,7 @@ public class NormalDistribution implements ContinuousDistribution {
   }
 
   /** @return standard normal distribution with mean == 0, and standard deviation == variance == 1 */
-  public static Distribution of() {
+  public static Distribution standard() {
     return of(RealScalar.ZERO, RealScalar.ONE);
   }
 

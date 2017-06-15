@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
-/** functionality for a discrete probability distribution */
+/** functionality and suggested base class for a discrete probability distribution */
 public abstract class AbstractDiscreteDistribution implements DiscreteDistribution, PDF {
   // inverse cdf maps from probability to sample and is built during random sampling generation
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();

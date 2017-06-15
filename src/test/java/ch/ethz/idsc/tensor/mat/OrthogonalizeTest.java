@@ -31,7 +31,7 @@ public class OrthogonalizeTest extends TestCase {
   }
 
   public void testRandom() {
-    Distribution distribution = NormalDistribution.of();
+    Distribution distribution = NormalDistribution.standard();
     Tensor matrix = RandomVariate.of(distribution, 10, 10);
     _check(matrix);
   }
