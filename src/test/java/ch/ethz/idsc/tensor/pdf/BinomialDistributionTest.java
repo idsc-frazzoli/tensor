@@ -24,6 +24,7 @@ public class BinomialDistributionTest extends TestCase {
     Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 2));
     PDF pdf = PDF.of(distribution);
     assertEquals(pdf.p_equals(RealScalar.of(0)), RationalScalar.of(1, 1024));
+    assertEquals(pdf.p_equals(RealScalar.of(0.5)), RationalScalar.ZERO);
     assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(5, 512));
   }
 
@@ -58,7 +59,9 @@ public class BinomialDistributionTest extends TestCase {
     Distribution distribution = BinomialDistribution.of(21, RationalScalar.of(7, 13));
     CDF cdf = CDF.of(distribution);
     cdf.p_lessThan(RealScalar.of(-1000000000));
-    // cdf.p_lessEquals(RealScalar.of(1000000000));
+    cdf.p_lessThan(RealScalar.of(+1000000000));
+    cdf.p_lessEquals(RealScalar.of(-1000000000));
+    cdf.p_lessEquals(RealScalar.of(+1000000000));
   }
 
   public void testCornerCase() {

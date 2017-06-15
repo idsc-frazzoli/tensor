@@ -10,7 +10,11 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.sca.Exp;
 
-/** inspired by
+/** in Mathematica, the CDF of the Poisson-distribution is expressed as
+ * 
+ * CDF[PoissonDistribution[lambda], x] == GammaRegularized[1 + Floor[x], lambda]
+ * 
+ * inspired by
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
 public class PoissonDistribution extends AbstractDiscreteDistribution {
   // lambda above max lead to incorrect results due to numerical properties

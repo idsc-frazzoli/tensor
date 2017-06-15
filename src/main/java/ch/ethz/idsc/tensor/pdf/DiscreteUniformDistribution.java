@@ -5,10 +5,13 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.sca.Ceiling;
+import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Floor;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
-public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
+public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements CDF {
   /** Example:
    * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/11 for 0 <= x <=10 and x integer
    * 
@@ -28,6 +31,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
     return new DiscreteUniformDistribution(min, max);
   }
 
+  private static final Clip CLIP = Clip.function(0, 1);
   // ---
   private final int min;
   private final int max;
@@ -60,5 +64,17 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution {
     if (n < min || max < n)
       return RealScalar.ZERO;
     return p;
+  }
+
+  @Override // from CDF
+  public Scalar p_lessThan(Scalar x) {
+    Scalar num = Ceiling.of(x).subtract(RealScalar.of(min));
+    return (Scalar) num.multiply(RationalScalar.of(1, 1 + max - min)).map(CLIP);
+  }
+
+  @Override // from CDF
+  public Scalar p_lessEquals(Scalar x) {
+    Scalar num = RealScalar.ONE.add(Floor.of(x)).subtract(RealScalar.of(min));
+    return (Scalar) num.multiply(RationalScalar.of(1, 1 + max - min)).map(CLIP);
   }
 }

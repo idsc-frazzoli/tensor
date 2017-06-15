@@ -1,8 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.ExactNumberQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import junit.framework.TestCase;
 
 public class GeometricDistributionTest extends TestCase {
@@ -13,6 +15,27 @@ public class GeometricDistributionTest extends TestCase {
     assertEquals(pdf.p_equals(RealScalar.of(2)), RationalScalar.of(4, 27));
     assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(1, 3).multiply(RationalScalar.of(2, 3)));
     assertEquals(pdf.p_equals(RealScalar.of(2)), RationalScalar.of(1, 3).multiply(RationalScalar.of(4, 9)));
+  }
+
+  public void testNarrow() {
+    final Scalar p = RationalScalar.of(1, 19);
+    GeometricDistribution distribution = (GeometricDistribution) GeometricDistribution.of(p);
+    PDF pdf = PDF.of(distribution);
+    Scalar peq0 = pdf.p_equals(RealScalar.ZERO);
+    Scalar peq1 = pdf.p_equals(RealScalar.ONE);
+    Scalar plt2 = peq0.add(peq1);
+    assertEquals(peq0, p);
+    CDF cdf = CDF.of(distribution);
+    assertEquals(cdf.p_lessThan(RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(cdf.p_lessEquals(RealScalar.ZERO), p);
+    assertEquals(cdf.p_lessThan(RealScalar.of(.1)), p);
+    assertEquals(cdf.p_lessEquals(RealScalar.of(.1)), p);
+    assertEquals(cdf.p_lessThan(RealScalar.ONE), p);
+    assertEquals(cdf.p_lessThan(RealScalar.of(1.1)), plt2);
+    assertEquals(cdf.p_lessEquals(RealScalar.ONE), plt2);
+    assertEquals(cdf.p_lessEquals(RealScalar.of(1.1)), plt2);
+    Scalar large = cdf.p_lessEquals(RealScalar.of(100.1));
+    assertTrue(ExactNumberQ.of(large));
   }
 
   public void testFailP() {
@@ -28,5 +51,12 @@ public class GeometricDistributionTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testNumerics() {
+    Distribution distribution = GeometricDistribution.of(RealScalar.of(.002));
+    CDF cdf = CDF.of(distribution);
+    Scalar s = cdf.p_lessEquals(RealScalar.of(1000000000));
+    assertEquals(s, RealScalar.ONE);
   }
 }

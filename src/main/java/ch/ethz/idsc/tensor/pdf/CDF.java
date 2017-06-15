@@ -1,20 +1,24 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.Scalar;
 
 /** cumulative distribution function
  * 
+ * CDF extends the capabilities of {@link PDF}
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/CDF.html">CDF</a> */
-public interface CDF extends PDF {
+public interface CDF extends Serializable {
   /** @param distribution
    * @return cumulative distribution function */
   public static CDF of(Distribution distribution) {
+    if (distribution instanceof CDF)
+      return (CDF) distribution;
     if (distribution instanceof DiscreteDistribution)
       return new DiscreteCDF((DiscreteDistribution) distribution);
-    if (distribution instanceof ContinuousDistribution)
-      return new ContinuousCDF((ContinuousDistribution) distribution);
     throw new RuntimeException();
   }
 

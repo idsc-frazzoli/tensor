@@ -13,8 +13,8 @@ public interface PDF extends Serializable {
   /** @param distribution
    * @return probability density function */
   public static PDF of(Distribution distribution) {
-    if (distribution instanceof DiscreteDistribution)
-      return new DiscretePDF((DiscreteDistribution) distribution);
+    if (distribution instanceof PDF)
+      return (PDF) distribution;
     if (distribution instanceof ContinuousDistribution)
       return new ContinuousPDF((ContinuousDistribution) distribution);
     throw new RuntimeException();

@@ -8,19 +8,23 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.red.Variance;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class DistributionTest extends TestCase {
-  private static void _check(Distribution distribution, int samples) {
-    Tensor collect = RandomVariate.of(distribution, samples);
-    Scalar mean = Mean.of(collect).Get();
-    Scalar var = Variance.ofVector(collect).Get();
-    Scalar tmean = distribution.mean();
-    Scalar tvar = distribution.variance();
+  private static void _check(Distribution distribution, int n) {
+    Tensor collect = RandomVariate.of(distribution, n);
+    Scalar mean = Mean.of(collect).Get(); // measured mean
+    Scalar var = Variance.ofVector(collect).Get(); // measured variance
+    assertTrue(Scalars.nonZero(var));
+    Scalar tmean = distribution.mean(); // theoretical mean
+    Scalar tvar = distribution.variance(); // theoretical variance
     Scalar dmean = mean.subtract(tmean).divide(tmean).abs();
+    // TODO https://en.wikipedia.org/wiki/Central_limit_theorem
+    Scalar limmean = Sqrt.of(RealScalar.of(n)).multiply(mean.subtract(tmean)).divide(Sqrt.of(tvar));
     Scalar dvar = var.subtract(tvar).divide(tvar).abs();
     // System.out.println( //
-    // distribution.getClass().getSimpleName() + "\t" + N.of(dmean) + "\t" + N.of(dvar));
+    // distribution.getClass().getSimpleName() + "\t" + N.of(limmean) + "\t" + N.of(dvar));
     assertTrue(Scalars.lessThan(dmean, RealScalar.of(.2)));
     assertTrue(Scalars.lessThan(dvar, RealScalar.of(.2)));
   }

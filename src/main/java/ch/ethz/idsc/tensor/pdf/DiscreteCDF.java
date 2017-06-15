@@ -12,16 +12,19 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
-/* package */ class DiscreteCDF extends DiscretePDF implements CDF {
+/** class performs the integration of probabilities to calculate the cumulative distribution function
+ * whenever there is no closed form expression for the terms. */
+/* package */ class DiscreteCDF implements CDF {
   // 0.9999999999999999
   // .^....^....^....^.
   /* package for testing */ static final Scalar CDF_NUMERIC_THRESHOLD = RealScalar.of(1e-14);
   // ---
+  private final DiscreteDistribution discreteDistribution;
   private final NavigableMap<Scalar, Scalar> cdf = new TreeMap<>();
   private boolean cdf_finished = false;
 
   DiscreteCDF(DiscreteDistribution discreteDistribution) {
-    super(discreteDistribution);
+    this.discreteDistribution = discreteDistribution;
   }
 
   @Override // from CDF

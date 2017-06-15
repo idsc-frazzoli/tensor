@@ -5,6 +5,8 @@ import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 
 /** implementation consistent with Mathematica
  * 
+ * see also {@link MachineNumberQ}
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExactNumberQ.html">ExactNumberQ</a> */
 public enum ExactNumberQ {

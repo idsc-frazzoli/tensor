@@ -40,7 +40,7 @@ public class DiscreteCDFTest extends TestCase {
     assertTrue(discreteCDF.cdf_finished());
   }
 
-  private static void _checkNumerics(Distribution distribution) {
+  private static void _checkDiscreteCDFNumerics(Distribution distribution) {
     CDF cdf = CDF.of(distribution);
     DiscreteCDF discreteCDF = (DiscreteCDF) cdf;
     assertEquals(cdf.p_lessEquals(RealScalar.of(-10)), RealScalar.ZERO);
@@ -53,31 +53,31 @@ public class DiscreteCDFTest extends TestCase {
   }
 
   public void testNumericsPoisson() {
-    _checkNumerics(PoissonDistribution.of(RealScalar.of(.1)));
-    _checkNumerics(PoissonDistribution.of(RealScalar.of(1.)));
-    _checkNumerics(PoissonDistribution.of(RealScalar.of(70)));
-    _checkNumerics(PoissonDistribution.of(RealScalar.of(700.)));
+    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(.1)));
+    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(1.)));
+    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(70)));
+    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(700.)));
+  }
+
+  private static void _checkCDFNumerics(Distribution distribution) {
+    CDF cdf = CDF.of(distribution);
+    assertEquals(cdf.p_lessEquals(RealScalar.of(-10)), RealScalar.ZERO);
+    Scalar top = cdf.p_lessEquals(RealScalar.of(1000000));
+    assertTrue(Scalars.lessThan( //
+        top.subtract(RealScalar.ONE).abs(), //
+        DiscreteCDF.CDF_NUMERIC_THRESHOLD));
   }
 
   public void testNumericsGeometric() {
-    _checkNumerics(GeometricDistribution.of(RealScalar.of(.01)));
-    _checkNumerics(GeometricDistribution.of(RealScalar.of(.1)));
-    _checkNumerics(GeometricDistribution.of(RealScalar.of(.9)));
-    _checkNumerics(GeometricDistribution.of(RealScalar.of(.99)));
+    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(.01)));
+    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(.1)));
+    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(.9)));
+    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(.99)));
   }
 
   public void testFailPoisson() {
     try {
       PoissonDistribution.of(RealScalar.of(800));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testFailGeometric() {
-    try {
-      GeometricDistribution.of(RealScalar.of(.002));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
