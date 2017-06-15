@@ -12,15 +12,14 @@ import ch.ethz.idsc.tensor.sca.InvertUnlessZero;
  * <a href="https://reference.wolfram.com/language/ref/Normalize.html">Normalize</a> */
 public enum Normalize {
   ;
-  // ---
   /** @param vector
-   * @return normalized form of vector */
+   * @return normalized form of vector with respect to 2-norm */
   public static Tensor of(Tensor vector) {
     return of(vector, Norm._2::of);
   }
 
   /** @param vector
-   * @param function
+   * @param norm
    * @return vector of |vector|==1 subject to given norm
    * @throws ArithmeticException if |vector|==0 */
   public static Tensor of(Tensor vector, Norm norm) {

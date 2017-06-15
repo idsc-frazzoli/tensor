@@ -9,7 +9,6 @@ import java.math.BigInteger;
  * <a href="https://reference.wolfram.com/language/ref/IntegerQ.html">IntegerQ</a> */
 public enum IntegerQ {
   ;
-  // ---
   /** @param tensor
    * @return true, if tensor is instance of {@link RationalScalar} with denominator == 1 */
   public static boolean of(Tensor tensor) {

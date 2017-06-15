@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.lie;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Trace;
 
+/** https://en.wikipedia.org/wiki/Killing_form */
 public enum KillingForm {
   ;
   /** @param ad tensor of lie algebra

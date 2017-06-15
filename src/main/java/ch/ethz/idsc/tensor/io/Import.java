@@ -20,7 +20,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Import.html">Import</a> */
 public enum Import {
   ;
-  // ---
   /** @param file source
    * @return file content as {@link Tensor}
    * @throws ClassNotFoundException

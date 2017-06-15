@@ -6,8 +6,7 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-/** capability to produce random variate
- * extends {@link Distribution} */
+/** capability to produce random variate */
 public interface RandomVariateInterface extends Serializable {
   /** @param random
    * @return sample generated using the given random generator */

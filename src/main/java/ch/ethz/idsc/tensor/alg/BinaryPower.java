@@ -5,7 +5,10 @@ package ch.ethz.idsc.tensor.alg;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-/** interface used by MatrixPower and GaussScalar */
+import ch.ethz.idsc.tensor.GaussScalar;
+import ch.ethz.idsc.tensor.mat.MatrixPower;
+
+/** interface used by {@link MatrixPower} and {@link GaussScalar} */
 public abstract class BinaryPower<T> implements Serializable {
   public abstract T zeroth();
 

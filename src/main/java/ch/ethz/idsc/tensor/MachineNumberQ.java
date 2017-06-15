@@ -11,7 +11,6 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * <a href="https://reference.wolfram.com/language/ref/MachineNumberQ.html">MachineNumberQ</a> */
 public enum MachineNumberQ {
   ;
-  // ---
   /** @param tensor
    * @return true, if tensor is instance of {@link MachineNumberQInterface} which evaluates to true */
   public static boolean of(Tensor tensor) {

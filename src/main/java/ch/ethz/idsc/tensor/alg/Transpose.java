@@ -23,7 +23,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 public enum Transpose {
   ;
   /** @param matrix
-   * @return matrix transposed */
+   * @return matrix transposed
+   * @throws Exception if input is not a matrix */
   public static Tensor of(Tensor matrix) {
     return of(matrix, 1, 0);
   }

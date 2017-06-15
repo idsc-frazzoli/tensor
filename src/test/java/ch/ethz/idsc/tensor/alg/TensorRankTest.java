@@ -4,20 +4,22 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import junit.framework.TestCase;
 
 public class TensorRankTest extends TestCase {
-  public void testRank() {
+  public void testRank0() {
     Tensor a = DoubleScalar.of(2.32123);
     assertEquals(TensorRank.of(a), 0);
   }
 
-  public void testRank2() {
+  public void testRank1() {
     Tensor a = Tensors.empty();
     assertEquals(TensorRank.of(a), 1);
+    assertEquals(TensorRank.of(Tensors.vector(1, 2, 3)), 1);
   }
 
-  public void testRank3() {
+  public void testRank12() {
     Tensor a = Tensors.vectorLong(3, 2, 3);
     assertEquals(TensorRank.of(a), 1);
     Tensor b = Tensors.vectorLong(3, 2, 9);
@@ -25,7 +27,7 @@ public class TensorRankTest extends TestCase {
     assertEquals(TensorRank.of(d), 2);
   }
 
-  public void testRank4() {
+  public void testRank01() {
     Tensor a = DoubleScalar.of(2.32123);
     assertEquals(TensorRank.of(a), 0);
     Tensor b = Tensors.vectorLong(3, 2);
@@ -36,10 +38,14 @@ public class TensorRankTest extends TestCase {
     assertEquals(TensorRank.of(d), 1);
   }
 
-  public void testRank5() {
+  public void testRank11() {
     Tensor a = Tensors.vectorLong(1, 3, 2);
     Tensor b = Tensors.vectorLong(3, 2);
     Tensor c = Tensors.of(a, b);
     assertEquals(TensorRank.of(c), 1);
+  }
+
+  public void testRank3() {
+    assertEquals(TensorRank.of(LieAlgebras.so3()), 3);
   }
 }

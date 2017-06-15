@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * but was given a different name in order not to conflict with {@link Map} */
 public enum TensorMap {
   ;
-  // ---
   /** applies function to all entries of tensor at given level
    * 
    * @param function

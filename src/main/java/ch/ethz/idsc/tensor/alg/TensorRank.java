@@ -10,14 +10,14 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum TensorRank {
   ;
   /** Examples:
-   * for Scalars
-   * TensorRank[3.14] == 0
-   * for Vectors
-   * TensorRank[{}] == 1
-   * TensorRank[{1, 2, 3}] == 1
-   * for Matrices
-   * TensorRank[{{}}] == 2
-   * TensorRank[{{1, 2, 3}, {4, 5, 6}}] == 2
+   * for Scalars ...... TensorRank[3.14] == 0
+   * for Vectors ...... TensorRank[{}] == 1
+   * .................. TensorRank[{1, 2, 3}] == 1
+   * for Matrices ..... TensorRank[{{}}] == 2
+   * .................. TensorRank[{{1, 2, 3}, {4, 5, 6}}] == 2
+   * for Lie-algebras.. TensorRank[LieAlgebras.so3()] == 3
+   * 
+   * for other cases see the documentation provided by Mathematica
    * 
    * @return rank of this tensor */
   public static int of(Tensor tensor) {

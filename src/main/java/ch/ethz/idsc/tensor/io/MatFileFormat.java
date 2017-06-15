@@ -15,7 +15,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 @Deprecated
 /* package */ enum MatFileFormat {
   ;
-  // ---
   public static byte[] of(Tensor tensor) {
     throw TensorRuntimeException.of(tensor);
   }

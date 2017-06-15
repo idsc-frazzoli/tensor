@@ -16,7 +16,6 @@ import ch.ethz.idsc.tensor.Scalar;
  * <a href="https://reference.wolfram.com/language/ref/KroneckerDelta.html">KroneckerDelta</a> */
 public enum KroneckerDelta {
   ;
-  // ---
   /** @param scalar
    * @return function that maps input to 1 if input matches scalar, otherwise gives 0 */
   public static Function<Scalar, Scalar> function(Scalar scalar) {

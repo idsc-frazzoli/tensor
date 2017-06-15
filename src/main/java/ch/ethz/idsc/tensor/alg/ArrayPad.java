@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/ArrayPad.html">ArrayPad</a> */
 public enum ArrayPad {
   ;
-  // ---
   /** @param tensor
    * @param ante number of zeros to be prepended for each dimension of tensor
    * @param post number of zeros to be appended for each dimension of tensor

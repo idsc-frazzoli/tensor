@@ -11,7 +11,6 @@ import java.util.zip.Inflater;
  * {@link Deflater} and {@link Inflater} */
 public enum Compression {
   ;
-  // ---
   private static final int SIZE = 4096;
 
   /** compression

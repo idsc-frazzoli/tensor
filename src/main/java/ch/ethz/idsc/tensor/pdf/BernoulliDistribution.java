@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.Scalar;
  * <a href="https://reference.wolfram.com/language/ref/BernoulliDistribution.html">BernoulliDistribution</a> */
 public enum BernoulliDistribution {
   ;
-  // ---
   /** parameter p denotes the probability of the outcome 1
    * 
    * Example:

@@ -24,7 +24,6 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
 // EXPERIMENTAL
 /* package */ enum SimplexCorners {
   ;
-  // ---
   /** @param c
    * @param A
    * @param b

@@ -23,7 +23,6 @@ import ch.ethz.idsc.tensor.alg.Array;
  * <a href="https://reference.wolfram.com/language/ref/RandomVariate.html">RandomVariate</a> */
 public enum RandomVariate {
   ;
-  // ---
   private static final Random RANDOM = new Random();
 
   /** @param randomVariateInterface

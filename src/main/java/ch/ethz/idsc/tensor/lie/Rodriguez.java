@@ -9,7 +9,10 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Sinc;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/** from Blanes/Casas
+/** Rodriguez formula is a fast and robuest method to
+ * compute the exponential of a skew symmetric 3x3 matrix.
+ * 
+ * formula taken from Blanes/Casas
  * "A concise introduction to geometric numerical integration"
  * p. 131 */
 public enum Rodriguez {

@@ -8,8 +8,9 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** only works for {@link Tensor}s with {@link Scalar} entries
- * that support the operation {@link Scalar#number()} */
+/** the extraction of primitive types from a {@link Tensor}
+ * only works for tensors with {@link Scalar} entries
+ * that all support the operation {@link Scalar#number()} */
 public enum ExtractPrimitives {
   ;
   /** @param tensor

@@ -17,7 +17,6 @@ import ch.ethz.idsc.tensor.Tensors;
  * <a href="https://reference.wolfram.com/language/ref/Binomial.html">Binomial</a> */
 public enum Binomial {
   ;
-  // ---
   /** Mathematica::Binomial[n, m]
    * 
    * @param n scalar that satisfies IntegerQ
@@ -39,7 +38,7 @@ public enum Binomial {
   }
 
   /***************************************************/
-  private static final int MEMO_SIZE = 40;
+  private static final int MEMO_SIZE = 100;
   private static final Map<Integer, Tensor> MEMO = new LinkedHashMap<Integer, Tensor>(MEMO_SIZE * 4 / 3, 0.75f, true) {
     @Override
     protected boolean removeEldestEntry(Map.Entry<Integer, Tensor> eldest) {
