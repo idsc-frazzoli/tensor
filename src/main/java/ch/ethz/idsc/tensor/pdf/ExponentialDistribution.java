@@ -49,7 +49,8 @@ public class ExponentialDistribution implements ContinuousDistribution {
 
   @Override // from ContinuousDistribution
   public Scalar p_lessThan(Scalar x) {
-    return RealScalar.ONE.subtract(Exp.of(x.multiply(lambda_negate)));
+    return Scalars.lessEquals(x, RealScalar.ZERO) ? RealScalar.ZERO : //
+        RealScalar.ONE.subtract(Exp.of(x.multiply(lambda_negate)));
   }
 
   @Override // from ContinuousDistribution

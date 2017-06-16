@@ -20,6 +20,15 @@ public class ExponentialDistributionTest extends TestCase {
     }
   }
 
+  public void testCDF() {
+    Distribution distribution = ExponentialDistribution.of(RealScalar.ONE);
+    CDF cdf = CDF.of(distribution);
+    assertEquals(cdf.p_lessThan(RealScalar.of(-1)), RealScalar.ZERO);
+    assertEquals(cdf.p_lessEquals(RealScalar.of(-1)), RealScalar.ZERO);
+    assertEquals(cdf.p_lessThan(RealScalar.of(0)), RealScalar.ZERO);
+    assertEquals(cdf.p_lessEquals(RealScalar.of(0)), RealScalar.ZERO);
+  }
+
   public void testMean() {
     Scalar lambda = RealScalar.of(2);
     Distribution distribution = ExponentialDistribution.of(lambda);

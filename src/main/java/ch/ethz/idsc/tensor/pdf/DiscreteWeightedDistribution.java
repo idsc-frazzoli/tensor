@@ -1,29 +1,41 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Accumulate;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
 
-// TODO complete and test
-public class BucketDistribution extends AbstractDiscreteDistribution implements CDF {
-  public static Distribution of(Tensor counts) {
-    return new BucketDistribution(counts);
+/** DiscreteWeightedDistribution has no direct equivalent in Mathematica */
+public class DiscreteWeightedDistribution extends AbstractDiscreteDistribution implements CDF {
+  /** weights are non-negative
+   * 
+   * @param weights over the numbers [0, 1, 2, ... weights.length() - 1]
+   * @return */
+  public static Distribution of(Tensor weights) {
+    return new DiscreteWeightedDistribution(weights);
   }
 
+  // ---
   private final Tensor pdf;
   private final Tensor cdf;
 
-  private BucketDistribution(Tensor counts) {
-    Tensor accumulate = Accumulate.of(counts);
+  private DiscreteWeightedDistribution(Tensor weights) {
+    if (weights.flatten(0) //
+        .map(Scalar.class::cast) //
+        .filter(scalar -> Scalars.lessThan(scalar, RealScalar.ZERO)) //
+        .findAny() //
+        .isPresent())
+      throw TensorRuntimeException.of(weights);
+    Tensor accumulate = Accumulate.of(weights);
     Scalar scale = Last.of(accumulate).Get().invert();
-    pdf = counts.multiply(scale);
+    pdf = weights.multiply(scale);
     cdf = accumulate.multiply(scale);
   }
 
@@ -52,19 +64,21 @@ public class BucketDistribution extends AbstractDiscreteDistribution implements 
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    if (!IntegerQ.of(x))
+    int index = Scalars.intValueExact(Ceiling.of(x.subtract(RealScalar.ONE)));
+    if (index < 0)
       return RealScalar.ZERO;
-    int index = Scalars.intValueExact(x);
-    if (index < 0 || index <= cdf.length())
-      return RealScalar.ZERO;
+    if (cdf.length() <= index)
+      return RealScalar.ONE;
     return cdf.Get(index);
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
     int index = Scalars.intValueExact(Floor.of(x));
-    if (index < 0 || index <= cdf.length())
+    if (index < 0)
       return RealScalar.ZERO;
+    if (cdf.length() <= index)
+      return RealScalar.ONE;
     return cdf.Get(index);
   }
 }

@@ -19,19 +19,27 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
 
   @Override // from RandomVariateInterface
   public synchronized Scalar randomVariate(Random random) {
+    return randomVariate(RealScalar.of(random.nextDouble()));
+  }
+
+  /** @param reference in the half-open interval [0, 1)
+   * @return */
+  /* package for testing */ Scalar randomVariate(Scalar reference) {
     if (inverse_cdf.isEmpty())
       inverse_cdf.put(p_equals(lowerBound()), RealScalar.of(lowerBound()));
     // ---
-    Scalar reference = RealScalar.of(random.nextDouble());
     Entry<Scalar, Scalar> higher = inverse_cdf.higherEntry(reference); // strictly higher
     if (higher == null) {
       Entry<Scalar, Scalar> lower = inverse_cdf.floorEntry(reference); // less than or equal
       int sample = lower.getValue().number().intValue();
       Scalar cumprob = lower.getKey();
-      while (Scalars.lessThan(cumprob, reference)) {
+      while (Scalars.lessEquals(cumprob, reference)) { // less equals
         ++sample;
-        cumprob = cumprob.add(p_equals(sample));
-        inverse_cdf.put(cumprob, RealScalar.of(sample));
+        Scalar probability = p_equals(sample);
+        if (Scalars.nonZero(probability)) {
+          cumprob = cumprob.add(probability);
+          inverse_cdf.put(cumprob, RealScalar.of(sample));
+        }
       }
       higher = inverse_cdf.higherEntry(reference); // strictly higher
     }
