@@ -9,15 +9,14 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 
-/** Example:
+/** RandomVariate generates single random variates, or arrays of random variates
+ * from a given {@link Distribution}, or {@link RandomVariateInterface}.
+ * 
+ * Example:
  * <code>
- * Distribution distribution = NormalDistribution.of();
+ * Distribution distribution = NormalDistribution.standard();
  * Tensor matrix = RandomVariate.of(distribution, 5, 3);
  * </code>
- * 
- * RandomVariate generates single random variates, or arrays of random variates
- * from a given {@link Distribution}, or {@link RandomVariateInterface}.
- * RandomVariate exists for convenience.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/RandomVariate.html">RandomVariate</a> */

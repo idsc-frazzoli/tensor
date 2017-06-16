@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -15,8 +16,12 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 
 /** vectors, i.e. tensors or rank 1, are exported to MATLAB as column vectors
  * 
- * certain {@link Scalar} are not supported:
- * Double.POSITIVE_INFINITY -> results in "Infinity" */
+ * certain scalar's are not supported by the function Scalar::toString:
+ * Double.POSITIVE_INFINITY -> results in "Infinity" whereas Matlab requires "Inf"
+ * the user must provide a customized scalar to string mapping to cover these cases.
+ * 
+ * Hint:
+ * for the export of vectors and matrices, {@link Pretty} may also be a solution. */
 // EXPERIMENTAL
 public enum MatlabExport {
   ;
@@ -24,10 +29,11 @@ public enum MatlabExport {
    * <code>Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator);</code>
    * 
    * @param tensor must not be {@link Scalar}. For scalars, use Tensors.of(scalar);
+   * @param function that maps a {@link Scalar} to a string expression
    * @return lines of MATLAB function that returns tensor */
   @SuppressWarnings("incomplete-switch")
-  public static Stream<String> of(Tensor tensor) {
-    if (tensor instanceof Scalar)
+  public static Stream<String> of(Tensor tensor, Function<Scalar, String> function) {
+    if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
     List<String> list = new LinkedList<>();
     list.add("function a=anonymous");
@@ -47,8 +53,14 @@ public enum MatlabExport {
     }
     list.add("a=zeros(" + dims + ");");
     int count = 0;
-    for (Tensor s : Flatten.of(Transpose.of(tensor, sigma), -1))
-      list.add("a(" + (++count) + ")=" + s + ";");
+    for (Tensor scalar : Flatten.of(Transpose.of(tensor, sigma), -1))
+      list.add("a(" + (++count) + ")=" + function.apply(scalar.Get()) + ";");
     return list.stream();
+  }
+
+  /** @param tensor must not be {@link Scalar}. For scalars, use Tensors.of(scalar);
+   * @return lines of MATLAB function that returns tensor */
+  public static Stream<String> of(Tensor tensor) {
+    return of(tensor, Object::toString);
   }
 }

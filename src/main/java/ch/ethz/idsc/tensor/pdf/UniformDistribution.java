@@ -22,8 +22,8 @@ public class UniformDistribution implements ContinuousDistribution {
     return new UniformDistribution(min, max);
   }
 
-  /** @return uniform distribution over the half-open interval [0, 1) */
-  public static Distribution of() {
+  /** @return uniform distribution over the half-open unit interval [0, 1) */
+  public static Distribution unit() {
     return of(RealScalar.ZERO, RealScalar.ONE);
   }
 

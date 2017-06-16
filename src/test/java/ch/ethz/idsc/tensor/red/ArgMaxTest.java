@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class ArgMaxTest extends TestCase {
@@ -34,6 +35,15 @@ public class ArgMaxTest extends TestCase {
   public void testScalar() {
     try {
       ArgMax.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailMatrix() {
+    try {
+      ArgMax.of(HilbertMatrix.of(6));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

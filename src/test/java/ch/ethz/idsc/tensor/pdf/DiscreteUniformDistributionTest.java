@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 public class DiscreteUniformDistributionTest extends TestCase {
   public void testSimple() {
-    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
+    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(11));
     PDF pdf = PDF.of(distribution);
     Scalar prob = pdf.p_equals(RealScalar.of(4));
     assertEquals(prob, RationalScalar.of(1, 10 - 3 + 1));
@@ -20,7 +20,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
   }
 
   public void testLessThan() {
-    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
+    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(11));
     CDF cdf = CDF.of(distribution);
     assertEquals(cdf.p_lessThan(RealScalar.of(2)), RationalScalar.of(0, 10 - 3 + 1));
     assertEquals(cdf.p_lessThan(RealScalar.of(3)), RationalScalar.of(0, 10 - 3 + 1));
@@ -33,7 +33,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
   }
 
   public void testLessEquals() {
-    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(10));
+    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(11));
     CDF cdf = CDF.of(distribution);
     assertEquals(cdf.p_lessEquals(RealScalar.of(2)), RationalScalar.of(0, 10 - 3 + 1));
     assertEquals(cdf.p_lessEquals(RealScalar.of(3)), RationalScalar.of(1, 10 - 3 + 1));
@@ -45,8 +45,8 @@ public class DiscreteUniformDistributionTest extends TestCase {
   }
 
   public void testEqualMinMax() {
-    DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(3));
-    DiscreteUniformDistribution.of(10, 10);
+    DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(4));
+    DiscreteUniformDistribution.of(10, 11);
   }
 
   public void testFailsOrder() {
@@ -58,6 +58,12 @@ public class DiscreteUniformDistributionTest extends TestCase {
     }
     try {
       DiscreteUniformDistribution.of(3, 2);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      DiscreteUniformDistribution.of(3, 3);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

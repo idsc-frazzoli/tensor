@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
@@ -22,5 +23,14 @@ public class VectorAngleTest extends TestCase {
     Tensor v = Tensors.fromString("{1+1*I,-1/2+2*I}");
     Scalar s1 = VectorAngle.of(u, v);
     assertEquals(s1.toString(), "2.1371816924169798");
+  }
+
+  public void testFail() {
+    try {
+      VectorAngle.of(HilbertMatrix.of(3), HilbertMatrix.of(3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

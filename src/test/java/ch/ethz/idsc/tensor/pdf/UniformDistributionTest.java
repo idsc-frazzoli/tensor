@@ -15,7 +15,7 @@ public class UniformDistributionTest extends TestCase {
   }
 
   public void testUnit() {
-    UniformDistribution distribution = (UniformDistribution) UniformDistribution.of();
+    UniformDistribution distribution = (UniformDistribution) UniformDistribution.unit();
     assertEquals(distribution.mean(), RationalScalar.of(1, 2));
     assertEquals(distribution.variance(), RationalScalar.of(1, 12));
   }

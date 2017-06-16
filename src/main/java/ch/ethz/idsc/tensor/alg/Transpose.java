@@ -38,7 +38,7 @@ public enum Transpose {
    * @param sigma is permutation with rank of tensor == sigma.length
    * @return */
   public static Tensor of(Tensor tensor, Integer... sigma) {
-    if (tensor instanceof Scalar)
+    if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
     if (!Dimensions.isArray(tensor))
       throw TensorRuntimeException.of(tensor);

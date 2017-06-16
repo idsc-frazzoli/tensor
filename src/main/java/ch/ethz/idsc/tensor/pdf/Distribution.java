@@ -5,7 +5,10 @@ import ch.ethz.idsc.tensor.Scalar;
 
 /** base interface for a univariate probability distribution */
 public interface Distribution extends RandomVariateInterface {
-  /** @return mean of distribution */
+  /** Example:
+   * BinomialDistribution.of(n, p).mean() == n * p
+   * 
+   * @return mean of distribution */
   Scalar mean();
 
   /** @return variance of distribution */

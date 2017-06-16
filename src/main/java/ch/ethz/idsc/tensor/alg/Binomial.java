@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -37,7 +38,12 @@ public enum Binomial {
     return row(n).Get(Math.min(m, n - m));
   }
 
+  static Function<Integer, Scalar> of(int n) {
+    return null; // TODO
+  }
+
   /***************************************************/
+  // FIXME this is not thread safe ... ?
   private static final int MEMO_SIZE = 100;
   private static final Map<Integer, Tensor> MEMO = new LinkedHashMap<Integer, Tensor>(MEMO_SIZE * 4 / 3, 0.75f, true) {
     @Override

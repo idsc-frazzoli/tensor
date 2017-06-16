@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -48,11 +49,15 @@ public class NormalDistribution implements ContinuousDistribution {
 
   @Override // from ContinuousDistribution
   public Scalar p_lessThan(Scalar x) {
+    if (x.equals(mean))
+      return RationalScalar.of(1, 2); // this is a temporary joke...
     throw TensorRuntimeException.of(x); // TODO implement
   }
 
   @Override // from ContinuousDistribution
   public Scalar p_lessEquals(Scalar x) {
+    if (x.equals(mean))
+      return RationalScalar.of(1, 2); // this is a temporary joke...
     throw TensorRuntimeException.of(x); // TODO implement
   }
 }

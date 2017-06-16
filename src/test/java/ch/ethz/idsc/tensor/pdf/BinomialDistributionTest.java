@@ -55,6 +55,11 @@ public class BinomialDistributionTest extends TestCase {
     assertEquals(distribution.mean(), sum);
   }
 
+  public void testMean2() {
+    Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(3, 10));
+    assertEquals(distribution.mean(), RealScalar.of(3));
+  }
+
   public void testHigh() {
     Distribution distribution = BinomialDistribution.of(21, RationalScalar.of(7, 13));
     CDF cdf = CDF.of(distribution);

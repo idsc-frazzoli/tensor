@@ -193,7 +193,7 @@ public class TensorTest extends TestCase {
 
   public void testDotEmpty() {
     Tensor a = Tensors.empty().dot(Tensors.empty());
-    assertTrue(a instanceof Scalar);
+    assertTrue(a.isScalar());
     assertEquals(a, RealScalar.ZERO);
     assertEquals(a, DoubleScalar.of(0));
     assertEquals(RealScalar.ZERO, a);
