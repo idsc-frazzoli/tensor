@@ -61,7 +61,18 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
   public final Scalar at(Scalar x) {
     if (!IntegerQ.of(x))
       return RealScalar.ZERO;
-    int k = Scalars.intValueExact(x);
-    return p_equals(k);
+    int n = Scalars.intValueExact(x);
+    return p_equals(n);
   }
+
+  @Override // from DiscreteDistribution
+  public final Scalar p_equals(int n) {
+    if (n < lowerBound())
+      return RealScalar.ZERO;
+    return protected_p_equals(n);
+  }
+
+  /** @param n with n >= lowerBound()
+   * @return P(X == n), i.e. probability of random variable X == n */
+  protected abstract Scalar protected_p_equals(int n);
 }

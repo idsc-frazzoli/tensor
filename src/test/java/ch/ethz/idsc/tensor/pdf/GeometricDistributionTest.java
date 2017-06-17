@@ -59,4 +59,9 @@ public class GeometricDistributionTest extends TestCase {
     Scalar s = cdf.p_lessEquals(RealScalar.of(1000000000));
     assertEquals(s, RealScalar.ONE);
   }
+
+  public void testOutside() {
+    PDF pdf = PDF.of(GeometricDistribution.of(RationalScalar.of(1, 3)));
+    assertEquals(pdf.at(RealScalar.of(-1)), RealScalar.ZERO);
+  }
 }

@@ -72,4 +72,18 @@ public class PoissonDistributionTest extends TestCase {
       // ---
     }
   }
+
+  public void testLarge() {
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(700));
+    PDF pdf = PDF.of(distribution);
+    assertTrue(Scalars.isZero(pdf.at(RealScalar.of(140.123))));
+    assertTrue(Scalars.nonZero(pdf.at(RealScalar.of(1942))));
+    assertTrue(Scalars.isZero(pdf.at(RealScalar.of(1945))));
+    assertTrue(Scalars.isZero(pdf.at(RealScalar.of(10000000))));
+    assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-1))));
+    assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-10000000))));
+    assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-1000000.12))));
+    // for (Tensor s : Range.of(1900, 2000))
+    // System.out.println(s+" "+pdf.at(s.Get()));
+  }
 }

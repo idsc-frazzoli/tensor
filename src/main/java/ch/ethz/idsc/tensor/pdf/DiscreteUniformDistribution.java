@@ -62,9 +62,9 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
     return min;
   }
 
-  @Override // from DiscreteDistribution
-  public Scalar p_equals(int n) {
-    if (n < min || max <= n)
+  @Override // from AbstractDiscreteDistribution
+  protected Scalar protected_p_equals(int n) {
+    if (max <= n)
       return RealScalar.ZERO;
     return p;
   }

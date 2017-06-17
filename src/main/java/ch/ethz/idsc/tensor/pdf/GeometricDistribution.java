@@ -9,18 +9,20 @@ import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Power;
 
-/** inspired by
+/** Careful:
+ * if parameter p is in exact precision, the probabilities may evaluate
+ * to long exact fractions and slow down the computation.
+ * 
+ * inspired by
  * <a href="https://reference.wolfram.com/language/ref/GeometricDistribution.html">GeometricDistribution</a> */
 public class GeometricDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {
   // lambda above max lead to incorrect results due to numerical properties
+  // if p is in machine precision, the additional requirement 0.01 <= p has to hold
   // private static final Scalar P_MIN = RealScalar.of(0.01);
-  /** @param p with 0 < p < 1 denotes probability P(X==0) == p
-   * if p is in machine precision, the additional requirement 0.01 <= p has to hold */
+  /** @param p with 0 < p < 1 denotes probability P(X==0) == p */
   public static Distribution of(Scalar p) {
     if (Scalars.lessEquals(p, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, p))
       throw TensorRuntimeException.of(p);
-    // if (MachineNumberQ.of(p) && Scalars.lessThan(p, P_MIN))
-    // throw TensorRuntimeException.of(p);
     return new GeometricDistribution(p);
   }
 
@@ -46,8 +48,8 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
     return 0;
   }
 
-  @Override // from DiscreteDistribution
-  public Scalar p_equals(int n) {
+  @Override // from AbstractDiscreteDistribution
+  protected Scalar protected_p_equals(int n) {
     // PDF[GeometricDistribution[p], n] == (1 - p) ^ n * p
     return p.multiply(Power.of(RealScalar.ONE.subtract(p), n));
   }

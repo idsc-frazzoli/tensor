@@ -35,10 +35,12 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
   // ---
   private final int n;
   private final Scalar p;
+  private final Binomial binomial;
 
   private BinomialDistribution(int n, Scalar p) {
     this.n = n;
     this.p = p;
+    binomial = Binomial.of(n);
   }
 
   @Override // from MeanInterface
@@ -56,10 +58,10 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
     return 0;
   }
 
-  @Override // from DiscreteDistribution
-  public Scalar p_equals(int k) {
-    if (k < 0 || n < k)
+  @Override // from AbstractDiscreteDistribution
+  protected Scalar protected_p_equals(int k) {
+    if (n < k)
       return RealScalar.ZERO;
-    return Binomial.of(n, k).multiply(Power.of(p, k)).multiply(Power.of(RealScalar.ONE.subtract(p), n - k));
+    return binomial.over(k).multiply(Power.of(p, k)).multiply(Power.of(RealScalar.ONE.subtract(p), n - k));
   }
 }

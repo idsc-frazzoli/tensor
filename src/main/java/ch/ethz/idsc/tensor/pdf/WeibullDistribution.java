@@ -15,7 +15,7 @@ class WeibullDistribution implements Distribution {
   @SuppressWarnings("unused")
   private final Scalar beta;
 
-  public WeibullDistribution(Scalar alpha, Scalar beta) {
+  private WeibullDistribution(Scalar alpha, Scalar beta) {
     this.alpha = alpha;
     this.beta = beta;
   }

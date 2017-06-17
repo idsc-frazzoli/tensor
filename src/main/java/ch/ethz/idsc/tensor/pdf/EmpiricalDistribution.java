@@ -55,9 +55,9 @@ public class EmpiricalDistribution extends AbstractDiscreteDistribution implemen
     return 0;
   }
 
-  @Override // from PDF
-  public Scalar p_equals(int n) {
-    if (n < 0 || pdf.length() <= n)
+  @Override // from AbstractDiscreteDistribution
+  protected Scalar protected_p_equals(int n) {
+    if (pdf.length() <= n)
       return RealScalar.ZERO;
     return pdf.Get(n);
   }

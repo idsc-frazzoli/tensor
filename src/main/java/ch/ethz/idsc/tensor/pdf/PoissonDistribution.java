@@ -18,10 +18,13 @@ import ch.ethz.idsc.tensor.sca.Exp;
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
 public class PoissonDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
   // lambda above max lead to incorrect results due to numerical properties
+  private static final int P_EQUALS_MAX = 1950; // probabilities are zero beyond that point
   private static final Scalar LAMBDA_MAX = RealScalar.of(700);
 
   /** Example:
-   * PDF[PoissonDistribution[Lambda], 2] == 1/(3!) Exp[-Lambda] Lambda^3
+   * PDF[PoissonDistribution[lambda], n] == 1/(n!) Exp[-lambda] lambda^n
+   * 
+   * Because P[X==0] == Exp[-lambda], the implementation limits lambda to 700.
    * 
    * @param lambda positive and <= 700
    * @return */
@@ -57,9 +60,9 @@ public class PoissonDistribution extends AbstractDiscreteDistribution implements
     return 0;
   }
 
-  @Override // from DiscreteDistribution
-  public Scalar p_equals(int n) {
-    if (n < 0)
+  @Override // from AbstractDiscreteDistribution
+  protected Scalar protected_p_equals(int n) {
+    if (P_EQUALS_MAX < n)
       return RealScalar.ZERO;
     while (values.length() <= n) {
       Scalar factor = lambda.divide(RealScalar.of(values.length()));

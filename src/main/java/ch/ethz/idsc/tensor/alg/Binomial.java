@@ -51,7 +51,7 @@ public class Binomial {
   }
 
   /***************************************************/
-  static int MEMO_REUSE = 0;
+  /* package for testing */ static int MEMO_REUSE = 0;
   private static final int MEMO_SIZE = 100;
   private static final Map<Integer, Binomial> MEMO = new LinkedHashMap<Integer, Binomial>(MEMO_SIZE * 4 / 3, 0.75f, true) {
     @Override

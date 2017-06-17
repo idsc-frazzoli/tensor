@@ -6,17 +6,21 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.alg.Binomial;
 
-/** inspired by
+/** Quote from Mathematica:
+ * "A hypergeometric distribution gives the distribution of the number of successes
+ * in N draws from a population of size m_n containing n successes."
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HypergeometricDistribution.html">HypergeometricDistribution</a> */
 public class HypergeometricDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
   /** see the Mathematica documentation of HypergeometricDistribution
    * 
-   * @param N
-   * @param n
-   * @param m_n
+   * @param N number of draws
+   * @param n number of successes
+   * @param m_n population size
    * @return */
   public static Distribution of(int N, int n, int m_n) {
-    if (N <= 0 || m_n < N || m_n < n) // TODO document conditions
+    if (N <= 0 || m_n < N || m_n < n || n < 0)
       throw new RuntimeException();
     return new HypergeometricDistribution(N, n, m_n);
   }
@@ -26,12 +30,18 @@ public class HypergeometricDistribution extends AbstractDiscreteDistribution imp
   private final int n;
   private final int m_n;
   private final int m;
+  private final Binomial binomial_n;
+  private final Binomial binomial_m;
+  private final Binomial binomial_m_n;
 
   private HypergeometricDistribution(int N, int n, int m_n) {
     this.N = N;
     this.n = n;
     this.m_n = m_n;
     this.m = m_n - n;
+    binomial_n = Binomial.of(n);
+    binomial_m = Binomial.of(m);
+    binomial_m_n = Binomial.of(m_n);
   }
 
   @Override // from MeanInterface
@@ -56,10 +66,10 @@ public class HypergeometricDistribution extends AbstractDiscreteDistribution imp
     return 0;
   }
 
-  @Override // from DiscreteDistribution
-  public Scalar p_equals(int i) {
-    if (N < i)
+  @Override // from AbstractDiscreteDistribution
+  protected Scalar protected_p_equals(int i) {
+    if (N < i || n < i)
       return RealScalar.ZERO;
-    return Binomial.of(n, i).multiply(Binomial.of(m, N - i)).divide(Binomial.of(m_n, N));
+    return binomial_n.over(i).multiply(binomial_m.over(N - i)).divide(binomial_m_n.over(N));
   }
 }
