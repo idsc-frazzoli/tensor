@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.alg.Binomial;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/HypergeometricDistribution.html">HypergeometricDistribution</a> */
-public class HypergeometricDistribution extends AbstractDiscreteDistribution {
+public class HypergeometricDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
   /** see the Mathematica documentation of HypergeometricDistribution
    * 
    * @param N
@@ -34,12 +34,12 @@ public class HypergeometricDistribution extends AbstractDiscreteDistribution {
     this.m = m_n - n;
   }
 
-  @Override // from Distribution
+  @Override // from MeanInterface
   public Scalar mean() {
     return RealScalar.of(N).multiply(RationalScalar.of(n, m_n));
   }
 
-  @Override // from Distribution
+  @Override // from VarianceInterface
   public Scalar variance() {
     // ((mpn - n) n (mpn - N) N) / ((-1 + mpn) mpn^2)
     Scalar rd1 = RationalScalar.of(m_n - n, m_n);

@@ -3,14 +3,12 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
-public class NormalDistribution implements ContinuousDistribution {
+public class NormalDistribution implements Distribution, MeanInterface, RandomVariateInterface, VarianceInterface {
   /** @param mean
    * @param sigma standard deviation
    * @return */
@@ -37,32 +35,13 @@ public class NormalDistribution implements ContinuousDistribution {
     return mean.add(RealScalar.of(random.nextGaussian()).multiply(sigma));
   }
 
-  @Override // from Distribution
+  @Override // from MeanInterface
   public Scalar mean() {
     return mean;
   }
 
-  @Override // from Distribution
+  @Override // from VarianceInterface
   public Scalar variance() {
     return sigma.multiply(sigma);
-  }
-
-  @Override
-  public Scalar at(Scalar x) {
-    throw TensorRuntimeException.of(x); // TODO implement
-  }
-
-  @Override // from ContinuousDistribution
-  public Scalar p_lessThan(Scalar x) {
-    if (x.equals(mean))
-      return RationalScalar.of(1, 2); // this is a temporary joke...
-    throw TensorRuntimeException.of(x); // TODO implement
-  }
-
-  @Override // from ContinuousDistribution
-  public Scalar p_lessEquals(Scalar x) {
-    if (x.equals(mean))
-      return RationalScalar.of(1, 2); // this is a temporary joke...
-    throw TensorRuntimeException.of(x); // TODO implement
   }
 }

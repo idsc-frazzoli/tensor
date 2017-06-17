@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/GeometricDistribution.html">GeometricDistribution</a> */
-public class GeometricDistribution extends AbstractDiscreteDistribution implements CDF {
+public class GeometricDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {
   // lambda above max lead to incorrect results due to numerical properties
   // private static final Scalar P_MIN = RealScalar.of(0.01);
   /** @param p with 0 < p < 1 denotes probability P(X==0) == p
@@ -31,12 +31,12 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
     this.p = p;
   }
 
-  @Override // from Distribution
+  @Override // from MeanInterface
   public Scalar mean() {
     return p.invert().subtract(RealScalar.ONE);
   }
 
-  @Override // from Distribution
+  @Override // from VarianceInterface
   public Scalar variance() {
     return RealScalar.ONE.subtract(p).divide(p.multiply(p));
   }

@@ -27,14 +27,14 @@ public enum RandomVariate {
   /** @param randomVariateInterface
    * @param random
    * @return random variate from given interface */
-  public static Scalar of(RandomVariateInterface randomVariateInterface, Random random) {
-    return randomVariateInterface.randomVariate(random); // terminal
+  public static Scalar of(Distribution distribution, Random random) {
+    return _of((RandomVariateInterface) distribution, random); // terminal
   }
 
   /** @param randomVariateInterface
    * @return random variate from given interface */
-  public static Scalar of(RandomVariateInterface randomVariateInterface) {
-    return of(randomVariateInterface, RANDOM); // of # interface, random
+  public static Scalar of(Distribution distribution) {
+    return of(distribution, RANDOM); // of # interface, random
   }
 
   // ---
@@ -42,15 +42,16 @@ public enum RandomVariate {
    * @param random
    * @param dimensions
    * @return array of random variates from given interface with given dimensions */
-  public static Tensor of(RandomVariateInterface randomVariateInterface, Random random, List<Integer> dimensions) {
-    return Array.of(list -> of(randomVariateInterface, random), dimensions); // terminal
+  public static Tensor of(Distribution distribution, Random random, List<Integer> dimensions) {
+    RandomVariateInterface randomVariateInterface = (RandomVariateInterface) distribution;
+    return Array.of(list -> _of(randomVariateInterface, random), dimensions); // terminal
   }
 
   /** @param randomVariateInterface
    * @param dimensions
    * @return array of random variates with given dimensions */
-  public static Tensor of(RandomVariateInterface randomVariateInterface, List<Integer> dimensions) {
-    return of(randomVariateInterface, RANDOM, dimensions); // of # interface, random, list
+  public static Tensor of(Distribution distribution, List<Integer> dimensions) {
+    return of(distribution, RANDOM, dimensions); // of # interface, random, list
   }
 
   // ---
@@ -58,14 +59,19 @@ public enum RandomVariate {
    * @param random
    * @param dimensions
    * @return array of random variates from given interface with given dimensions */
-  public static Tensor of(RandomVariateInterface randomVariateInterface, Random random, Integer... dimensions) {
-    return of(randomVariateInterface, random, Arrays.asList(dimensions)); // of # interface, random, list
+  public static Tensor of(Distribution distribution, Random random, Integer... dimensions) {
+    return of(distribution, random, Arrays.asList(dimensions)); // of # interface, random, list
   }
 
   /** @param randomVariateInterface
    * @param dimensions
    * @return array of random variates with given dimensions */
-  public static Tensor of(RandomVariateInterface randomVariateInterface, Integer... dimensions) {
-    return of(randomVariateInterface, Arrays.asList(dimensions)); // of # interface, list
+  public static Tensor of(Distribution distribution, Integer... dimensions) {
+    return of(distribution, Arrays.asList(dimensions)); // of # interface, list
+  }
+
+  // helper function
+  private static Scalar _of(RandomVariateInterface randomVariateInterface, Random random) {
+    return randomVariateInterface.randomVariate(random);
   }
 }

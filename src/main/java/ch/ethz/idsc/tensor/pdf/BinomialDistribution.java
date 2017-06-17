@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/BinomialDistribution.html">BinomialDistribution</a> */
-public class BinomialDistribution extends AbstractDiscreteDistribution {
+public class BinomialDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
   /** Example:
    * PDF[BinomialDistribution[10, 1/3], 1] == 5120/59049
    * 
@@ -41,12 +41,12 @@ public class BinomialDistribution extends AbstractDiscreteDistribution {
     this.p = p;
   }
 
-  @Override // from Distribution
+  @Override // from MeanInterface
   public Scalar mean() {
     return RealScalar.of(n).multiply(p);
   }
 
-  @Override // from Distribution
+  @Override // from VarianceInterface
   public Scalar variance() {
     return RealScalar.of(n).multiply(p).multiply(RealScalar.ONE.subtract(p));
   }

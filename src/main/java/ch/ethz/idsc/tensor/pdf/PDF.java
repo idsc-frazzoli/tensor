@@ -30,7 +30,7 @@ public interface PDF extends Serializable {
    * for {@link DiscreteDistribution}, the function returns the
    * P(X == x), i.e. probability of random variable X == x
    * 
-   * for {@link ContinuousDistribution}, the function returns the value
+   * for continuous distributions, the function returns the value
    * of the probability density function [which is <em>not</em> identical to P(X == x)]
    * 
    * @param x

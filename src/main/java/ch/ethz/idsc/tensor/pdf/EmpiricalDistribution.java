@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Accumulate;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.Range;
-import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
 
@@ -46,15 +45,9 @@ public class EmpiricalDistribution extends AbstractDiscreteDistribution implemen
     cdf = accumulate.multiply(scale);
   }
 
-  @Override // from Distribution
+  @Override // from MeanInterface
   public Scalar mean() {
     return pdf.dot(Range.of(0, pdf.length())).Get();
-  }
-
-  @Override // from Distribution
-  public Scalar variance() {
-    Scalar mean = mean();
-    return Expectation.of(scalar -> AbsSquared.of(scalar.subtract(mean)), this);
   }
 
   @Override // from DiscreteDistribution

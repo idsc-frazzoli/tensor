@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.Clip;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
-public class UniformDistribution implements ContinuousDistribution {
+public class UniformDistribution implements Distribution, CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   /** @param min < max
    * @param max
    * @return uniform distribution over the half-open interval [min, max) */
@@ -41,27 +41,27 @@ public class UniformDistribution implements ContinuousDistribution {
     return RealScalar.of(random.nextDouble()).multiply(width).add(min);
   }
 
-  @Override // from Distribution
+  @Override // from MeanInterface
   public Scalar mean() {
     return min.add(width.multiply(RationalScalar.of(1, 2)));
   }
 
-  @Override // from Distribution
+  @Override // from VarianceInterface
   public Scalar variance() {
     return width.multiply(width).multiply(RationalScalar.of(1, 12));
   }
 
-  @Override
+  @Override // from PDF
   public Scalar at(Scalar x) {
     return width.invert();
   }
 
-  @Override // from ContinuousDistribution
+  @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     return Clip.UNIT.apply(x.subtract(min).divide(width));
   }
 
-  @Override // from ContinuousDistribution
+  @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
     return p_lessThan(x);
   }

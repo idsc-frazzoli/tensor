@@ -52,12 +52,12 @@ public class BinomialDistributionTest extends TestCase {
     Tensor sum = RealScalar.ZERO;
     for (Tensor x : Range.of(0, 22))
       sum = sum.add(x.multiply(pdf.at(x.Get())));
-    assertEquals(distribution.mean(), sum);
+    assertEquals(Expectation.mean(distribution), sum);
   }
 
   public void testMean2() {
     Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(3, 10));
-    assertEquals(distribution.mean(), RealScalar.of(3));
+    assertEquals(Expectation.mean(distribution), RealScalar.of(3));
   }
 
   public void testHigh() {

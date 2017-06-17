@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
-public class PoissonDistribution extends AbstractDiscreteDistribution {
+public class PoissonDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
   // lambda above max lead to incorrect results due to numerical properties
   private static final Scalar LAMBDA_MAX = RealScalar.of(700);
 
@@ -42,12 +42,12 @@ public class PoissonDistribution extends AbstractDiscreteDistribution {
     values.append(Exp.of(lambda.negate()));
   }
 
-  @Override // from Distribution
+  @Override // from MeanInterface
   public Scalar mean() {
     return lambda;
   }
 
-  @Override // from Distribution
+  @Override // from VarianceInterface
   public Scalar variance() {
     return lambda;
   }

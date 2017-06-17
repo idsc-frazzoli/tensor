@@ -6,6 +6,8 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** Careful:
  * does not work well for distributions with infinite support and exact probabilities,
@@ -22,6 +24,28 @@ public enum Expectation {
     if (distribution instanceof DiscreteDistribution)
       return _of(function, (DiscreteDistribution) distribution);
     throw new RuntimeException();
+  }
+
+  /** @param distribution
+   * @return mean of distribution, E[X] */
+  public static Scalar mean(Distribution distribution) {
+    if (distribution instanceof MeanInterface) {
+      MeanInterface meanInterface = (MeanInterface) distribution;
+      return meanInterface.mean();
+    }
+    return of(scalar -> scalar, distribution);
+  }
+
+  /** @param distribution
+   * @return variance of distribution, E[ |X-E[X]|^2 ] */
+  public static Scalar variance(Distribution distribution) {
+    if (distribution instanceof VarianceInterface) {
+      VarianceInterface varianceInterface = (VarianceInterface) distribution;
+      return varianceInterface.variance();
+    }
+    Scalar mean = mean(distribution);
+    ScalarUnaryOperator scalarUnaryOperator = scalar -> AbsSquared.of(scalar.subtract(mean));
+    return of(scalarUnaryOperator, distribution);
   }
 
   @SuppressWarnings("unchecked")

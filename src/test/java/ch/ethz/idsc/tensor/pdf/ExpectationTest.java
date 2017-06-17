@@ -11,12 +11,12 @@ import junit.framework.TestCase;
 
 public class ExpectationTest extends TestCase {
   private static void _check(Distribution distribution) {
-    Scalar mean = distribution.mean();
+    Scalar mean = Expectation.mean(distribution);
     {
       Scalar E_X = Expectation.of(s -> s, distribution);
       assertTrue(Chop.isZeros(E_X.subtract(mean)));
     }
-    Scalar var = distribution.variance();
+    Scalar var = Expectation.variance(distribution);
     {
       Scalar Var = Expectation.of(s -> AbsSquared.of(s.subtract(mean)), distribution);
       assertTrue(Chop.isZeros(Var.subtract(var)));

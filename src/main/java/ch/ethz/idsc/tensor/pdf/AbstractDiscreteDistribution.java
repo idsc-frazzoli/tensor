@@ -14,7 +14,8 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** functionality and suggested base class for a discrete probability distribution */
-public abstract class AbstractDiscreteDistribution implements DiscreteDistribution, PDF {
+public abstract class AbstractDiscreteDistribution implements DiscreteDistribution, //
+    MeanInterface, PDF, RandomVariateInterface {
   /** inverse cdf maps from probability to integers and is built during random sampling generation.
    * the value type of the map is Scalar (instead of Integer) to reuse the instances of Scalar */
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();

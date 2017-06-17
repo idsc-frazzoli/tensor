@@ -17,8 +17,8 @@ public class DistributionTest extends TestCase {
     Scalar mean = Mean.of(collect).Get(); // measured mean
     Scalar var = Variance.ofVector(collect).Get(); // measured variance
     assertTrue(Scalars.nonZero(var));
-    Scalar tmean = distribution.mean(); // theoretical mean
-    Scalar tvar = distribution.variance(); // theoretical variance
+    Scalar tmean = Expectation.mean(distribution); // theoretical mean
+    Scalar tvar = Expectation.variance(distribution); // theoretical variance
     Scalar dmean = mean.subtract(tmean).divide(tmean).abs();
     // TODO https://en.wikipedia.org/wiki/Central_limit_theorem
     @SuppressWarnings("unused")
