@@ -47,7 +47,7 @@ public class ReadmeDemo {
     System.out.println(RandomVariate.of(distribution, 20));
     // ---
     PDF pdf = PDF.of(distribution);
-    System.out.println("P(X=3)=" + pdf.p_equals(RealScalar.of(3)));
+    System.out.println("P(X=3)=" + pdf.at(RealScalar.of(3)));
   }
 
   public static void main(String[] args) {

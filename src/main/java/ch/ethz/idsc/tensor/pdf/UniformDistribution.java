@@ -27,7 +27,6 @@ public class UniformDistribution implements ContinuousDistribution {
     return of(RealScalar.ZERO, RealScalar.ONE);
   }
 
-  private static final Clip CLIP = Clip.function(0, 1);
   // ---
   private final Scalar min;
   private final Scalar width;
@@ -52,9 +51,14 @@ public class UniformDistribution implements ContinuousDistribution {
     return width.multiply(width).multiply(RationalScalar.of(1, 12));
   }
 
+  @Override
+  public Scalar at(Scalar x) {
+    return width.invert();
+  }
+
   @Override // from ContinuousDistribution
   public Scalar p_lessThan(Scalar x) {
-    return CLIP.apply(x.subtract(min).divide(width));
+    return Clip.UNIT.apply(x.subtract(min).divide(width));
   }
 
   @Override // from ContinuousDistribution

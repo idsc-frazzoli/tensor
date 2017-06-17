@@ -10,19 +10,19 @@ import junit.framework.TestCase;
 public class GeometricDistributionTest extends TestCase {
   public void testSimple() {
     PDF pdf = PDF.of(GeometricDistribution.of(RationalScalar.of(1, 3)));
-    assertEquals(pdf.p_equals(RealScalar.ZERO), RationalScalar.of(1, 3));
-    assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(2, 9));
-    assertEquals(pdf.p_equals(RealScalar.of(2)), RationalScalar.of(4, 27));
-    assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(1, 3).multiply(RationalScalar.of(2, 3)));
-    assertEquals(pdf.p_equals(RealScalar.of(2)), RationalScalar.of(1, 3).multiply(RationalScalar.of(4, 9)));
+    assertEquals(pdf.at(RealScalar.ZERO), RationalScalar.of(1, 3));
+    assertEquals(pdf.at(RealScalar.of(1)), RationalScalar.of(2, 9));
+    assertEquals(pdf.at(RealScalar.of(2)), RationalScalar.of(4, 27));
+    assertEquals(pdf.at(RealScalar.of(1)), RationalScalar.of(1, 3).multiply(RationalScalar.of(2, 3)));
+    assertEquals(pdf.at(RealScalar.of(2)), RationalScalar.of(1, 3).multiply(RationalScalar.of(4, 9)));
   }
 
   public void testNarrow() {
     final Scalar p = RationalScalar.of(1, 19);
     GeometricDistribution distribution = (GeometricDistribution) GeometricDistribution.of(p);
     PDF pdf = PDF.of(distribution);
-    Scalar peq0 = pdf.p_equals(RealScalar.ZERO);
-    Scalar peq1 = pdf.p_equals(RealScalar.ONE);
+    Scalar peq0 = pdf.at(RealScalar.ZERO);
+    Scalar peq1 = pdf.at(RealScalar.ONE);
     Scalar plt2 = peq0.add(peq1);
     assertEquals(peq0, p);
     CDF cdf = CDF.of(distribution);

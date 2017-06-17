@@ -38,6 +38,11 @@ class WeibullDistribution implements ContinuousDistribution {
   }
 
   @Override
+  public Scalar at(Scalar x) {
+    return null;
+  }
+
+  @Override
   public Scalar p_lessThan(Scalar x) {
     return null;
   }

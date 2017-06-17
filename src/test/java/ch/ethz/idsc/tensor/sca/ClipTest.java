@@ -25,4 +25,10 @@ public class ClipTest extends TestCase {
     Tensor vector = Tensors.vector(-30, 30, 5);
     assertEquals(clip.of(vector), Tensors.vector(-3, 10, 5));
   }
+
+  public void testUnit() {
+    assertEquals(Clip.UNIT.apply(RealScalar.of(-.1)), RealScalar.ZERO);
+    assertEquals(Clip.UNIT.apply(RealScalar.of(0.1)), RealScalar.of(0.1));
+    assertEquals(Clip.UNIT.apply(RealScalar.of(1.1)), RealScalar.ONE);
+  }
 }

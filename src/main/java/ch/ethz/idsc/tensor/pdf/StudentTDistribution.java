@@ -23,6 +23,11 @@ import ch.ethz.idsc.tensor.Scalar;
   }
 
   @Override
+  public Scalar at(Scalar x) {
+    return null;
+  }
+
+  @Override
   public Scalar p_lessThan(Scalar x) {
     return null;
   }

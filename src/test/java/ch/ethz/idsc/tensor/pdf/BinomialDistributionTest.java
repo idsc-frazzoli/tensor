@@ -15,7 +15,7 @@ public class BinomialDistributionTest extends TestCase {
     PDF pdf = PDF.of(distribution);
     Scalar prob = RealScalar.ZERO;
     for (int c = 0; c <= 10; ++c)
-      prob = prob.add(pdf.p_equals(RealScalar.of(c)));
+      prob = prob.add(pdf.at(RealScalar.of(c)));
     assertTrue(IntegerQ.of(prob));
     assertEquals(prob, RealScalar.ONE);
   }
@@ -23,27 +23,27 @@ public class BinomialDistributionTest extends TestCase {
   public void testValue() {
     Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 2));
     PDF pdf = PDF.of(distribution);
-    assertEquals(pdf.p_equals(RealScalar.of(0)), RationalScalar.of(1, 1024));
-    assertEquals(pdf.p_equals(RealScalar.of(0.5)), RationalScalar.ZERO);
-    assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(5, 512));
+    assertEquals(pdf.at(RealScalar.of(0)), RationalScalar.of(1, 1024));
+    assertEquals(pdf.at(RealScalar.of(0.5)), RationalScalar.ZERO);
+    assertEquals(pdf.at(RealScalar.of(1)), RationalScalar.of(5, 512));
   }
 
   public void testValue2() {
     Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 3));
     PDF pdf = PDF.of(distribution);
-    assertEquals(pdf.p_equals(RealScalar.of(0)), RationalScalar.of(1024, 59049));
+    assertEquals(pdf.at(RealScalar.of(0)), RationalScalar.of(1024, 59049));
     // PDF[BinomialDistribution[10, 1/3], 1] == 5120/59049
-    assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(5120, 59049));
+    assertEquals(pdf.at(RealScalar.of(1)), RationalScalar.of(5120, 59049));
     // PDF[BinomialDistribution[10, 1/3], 10] == 1/59049
-    assertEquals(pdf.p_equals(RealScalar.of(10)), RationalScalar.of(1, 59049));
+    assertEquals(pdf.at(RealScalar.of(10)), RationalScalar.of(1, 59049));
   }
 
   public void testValue3() {
     Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 3));
     PDF pdf = PDF.of(distribution);
-    assertEquals(pdf.p_equals(RealScalar.of(-1)), RealScalar.ZERO);
-    assertEquals(pdf.p_equals(RealScalar.of(11)), RealScalar.ZERO);
-    assertEquals(pdf.p_equals(RealScalar.of(12)), RealScalar.ZERO);
+    assertEquals(pdf.at(RealScalar.of(-1)), RealScalar.ZERO);
+    assertEquals(pdf.at(RealScalar.of(11)), RealScalar.ZERO);
+    assertEquals(pdf.at(RealScalar.of(12)), RealScalar.ZERO);
   }
 
   public void testMean() {
@@ -51,7 +51,7 @@ public class BinomialDistributionTest extends TestCase {
     PDF pdf = PDF.of(distribution);
     Tensor sum = RealScalar.ZERO;
     for (Tensor x : Range.of(0, 22))
-      sum = sum.add(x.multiply(pdf.p_equals(x.Get())));
+      sum = sum.add(x.multiply(pdf.at(x.Get())));
     assertEquals(distribution.mean(), sum);
   }
 

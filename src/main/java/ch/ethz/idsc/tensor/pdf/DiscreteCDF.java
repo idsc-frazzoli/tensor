@@ -6,7 +6,7 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.MachineNumberQ;
+import ch.ethz.idsc.tensor.ExactNumberQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -54,15 +54,22 @@ import ch.ethz.idsc.tensor.Scalars;
     Scalar cumprob = last.getValue();
     while (Scalars.lessEquals(RationalScalar.of(k, 1), x) && !cdf_finished) {
       ++k;
-      Scalar delta = discreteDistribution.p_equals(k);
-      cumprob = cumprob.add(delta);
+      Scalar p_equals = discreteDistribution.p_equals(k);
+      cumprob = cumprob.add(p_equals);
       cdf.put(RealScalar.of(k), cumprob);
-      cdf_finished |= cumprob.equals(RealScalar.ONE);
-      cdf_finished |= MachineNumberQ.of(cumprob) && //
-          delta.equals(RealScalar.ZERO) && //
-          Scalars.lessThan(cumprob.subtract(RealScalar.ONE).abs(), CDF_NUMERIC_THRESHOLD);
+      cdf_finished |= isFinished(p_equals, cumprob);
     }
     return p_function(x, function);
+  }
+
+  // also used in Expectation
+  /* package */ static boolean isFinished(Scalar p_equals, Scalar cumprob) {
+    boolean finished = false;
+    finished |= cumprob.equals(RealScalar.ONE);
+    finished |= !ExactNumberQ.of(cumprob) && //
+        p_equals.equals(RealScalar.ZERO) && //
+        Scalars.lessThan(cumprob.subtract(RealScalar.ONE).abs(), CDF_NUMERIC_THRESHOLD);
+    return finished;
   }
 
   /* package for testing */ boolean cdf_finished() {

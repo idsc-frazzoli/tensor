@@ -35,7 +35,6 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
     return new DiscreteUniformDistribution(min, max);
   }
 
-  private static final Clip CLIP = Clip.function(0, 1);
   // ---
   private final int min;
   private final int max;
@@ -73,12 +72,12 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     Scalar num = Ceiling.of(x).subtract(RealScalar.of(min));
-    return (Scalar) num.multiply(p).map(CLIP);
+    return (Scalar) num.multiply(p).map(Clip.UNIT);
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
     Scalar num = RealScalar.ONE.add(Floor.of(x)).subtract(RealScalar.of(min));
-    return (Scalar) num.multiply(p).map(CLIP);
+    return (Scalar) num.multiply(p).map(Clip.UNIT);
   }
 }

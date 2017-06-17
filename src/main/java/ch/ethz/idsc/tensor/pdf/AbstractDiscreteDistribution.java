@@ -11,28 +11,34 @@ import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** functionality and suggested base class for a discrete probability distribution */
 public abstract class AbstractDiscreteDistribution implements DiscreteDistribution, PDF {
-  // inverse cdf maps from probability to sample and is built during random sampling generation
+  /** inverse cdf maps from probability to integers and is built during random sampling generation.
+   * the value type of the map is Scalar (instead of Integer) to reuse the instances of Scalar */
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();
 
   @Override // from RandomVariateInterface
-  public synchronized Scalar randomVariate(Random random) {
+  public final Scalar randomVariate(Random random) {
     return randomVariate(RealScalar.of(random.nextDouble()));
   }
 
   /** @param reference in the half-open interval [0, 1)
    * @return */
-  /* package for testing */ Scalar randomVariate(Scalar reference) {
+  /* package for testing */ synchronized final Scalar randomVariate(Scalar reference) {
+    // if the input is outside the valid range, the while loop below may never terminate
+    if (Scalars.lessThan(reference, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, reference))
+      throw TensorRuntimeException.of(reference);
+    // ---
     if (inverse_cdf.isEmpty())
       inverse_cdf.put(p_equals(lowerBound()), RealScalar.of(lowerBound()));
     // ---
     Entry<Scalar, Scalar> higher = inverse_cdf.higherEntry(reference); // strictly higher
     if (higher == null) {
-      Entry<Scalar, Scalar> lower = inverse_cdf.floorEntry(reference); // less than or equal
-      int sample = lower.getValue().number().intValue();
-      Scalar cumprob = lower.getKey();
+      Entry<Scalar, Scalar> floor = inverse_cdf.floorEntry(reference); // less than or equal
+      int sample = (Integer) floor.getValue().number();
+      Scalar cumprob = floor.getKey();
       while (Scalars.lessEquals(cumprob, reference)) { // less equals
         ++sample;
         Scalar probability = p_equals(sample);
@@ -46,12 +52,12 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
     return higher.getValue();
   }
 
-  /* package for testing */ NavigableMap<Scalar, Scalar> inverse_cdf() {
+  /* package for testing */ final NavigableMap<Scalar, Scalar> inverse_cdf() {
     return Collections.unmodifiableNavigableMap(inverse_cdf);
   }
 
   @Override // from PDF
-  public final Scalar p_equals(Scalar x) {
+  public final Scalar at(Scalar x) {
     if (!IntegerQ.of(x))
       return RealScalar.ZERO;
     int k = Scalars.intValueExact(x);

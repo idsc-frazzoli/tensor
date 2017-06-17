@@ -9,12 +9,14 @@ import ch.ethz.idsc.tensor.alg.Binomial;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/HypergeometricDistribution.html">HypergeometricDistribution</a> */
 public class HypergeometricDistribution extends AbstractDiscreteDistribution {
-  /** @param N
+  /** see the Mathematica documentation of HypergeometricDistribution
+   * 
+   * @param N
    * @param n
    * @param m_n
    * @return */
   public static Distribution of(int N, int n, int m_n) {
-    if (N <= 0 || m_n < N || m_n < n || m_n < n)
+    if (N <= 0 || m_n < N || m_n < n) // TODO document conditions
       throw new RuntimeException();
     return new HypergeometricDistribution(N, n, m_n);
   }

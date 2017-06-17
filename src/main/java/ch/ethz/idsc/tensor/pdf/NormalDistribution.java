@@ -47,6 +47,11 @@ public class NormalDistribution implements ContinuousDistribution {
     return sigma.multiply(sigma);
   }
 
+  @Override
+  public Scalar at(Scalar x) {
+    throw TensorRuntimeException.of(x); // TODO implement
+  }
+
   @Override // from ContinuousDistribution
   public Scalar p_lessThan(Scalar x) {
     if (x.equals(mean))

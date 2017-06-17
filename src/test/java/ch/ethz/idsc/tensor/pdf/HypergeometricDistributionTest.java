@@ -10,7 +10,7 @@ public class HypergeometricDistributionTest extends TestCase {
     PDF pdf = PDF.of(HypergeometricDistribution.of(10, 50, 100));
     Scalar sum = RealScalar.ZERO;
     for (int c = 0; c <= 10; ++c)
-      sum = sum.add(pdf.p_equals(RealScalar.of(c)));
+      sum = sum.add(pdf.at(RealScalar.of(c)));
     assertEquals(sum, RealScalar.ONE);
   }
 

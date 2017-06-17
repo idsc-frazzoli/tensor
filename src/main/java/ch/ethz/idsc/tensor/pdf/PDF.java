@@ -22,12 +22,18 @@ public interface PDF extends Serializable {
   public static PDF of(Distribution distribution) {
     if (distribution instanceof PDF)
       return (PDF) distribution;
-    if (distribution instanceof ContinuousDistribution)
-      return new ContinuousPDF((ContinuousDistribution) distribution);
     throw new RuntimeException();
   }
 
-  /** @param x
-   * @return P(X == x), i.e. probability of random variable X == x */
-  Scalar p_equals(Scalar x);
+  /** "PDF.of(distribution).at(x)" corresponds to Mathematica::PDF[distribution, x]
+   * 
+   * for {@link DiscreteDistribution}, the function returns the
+   * P(X == x), i.e. probability of random variable X == x
+   * 
+   * for {@link ContinuousDistribution}, the function returns the value
+   * of the probability density function [which is <em>not</em> identical to P(X == x)]
+   * 
+   * @param x
+   * @return */
+  Scalar at(Scalar x);
 }

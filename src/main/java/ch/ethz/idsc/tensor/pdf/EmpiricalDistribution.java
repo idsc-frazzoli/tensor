@@ -9,33 +9,40 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Accumulate;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
 
-/** DiscreteWeightedDistribution has no direct equivalent in Mathematica */
-public class DiscreteWeightedDistribution extends AbstractDiscreteDistribution implements CDF {
-  /** weights are non-negative
-   * 
-   * @param weights over the numbers [0, 1, 2, ... weights.length() - 1]
+/** Careful:
+ * The constructor Mathematica::EmpiricalDistribution[data] has no direct equivalent in the tensor library.
+ * 
+ * The constructor here takes as input the unscaled pdf which is interpreted over the samples
+ * 0, 1, 2, 3, ..., [length of unscaled pdf] - 1
+ * 
+ * <p>inspired by
+ * <a href="https://reference.wolfram.com/language/ref/EmpiricalDistribution.html">EmpiricalDistribution</a> */
+public class EmpiricalDistribution extends AbstractDiscreteDistribution implements CDF {
+  /** @param unscaledPDF vector of non-negative weights over the numbers
+   * [0, 1, 2, ... unscaledPDF.length() - 1]
    * @return */
-  public static Distribution of(Tensor weights) {
-    return new DiscreteWeightedDistribution(weights);
+  public static Distribution fromUnscaledPDF(Tensor unscaledPDF) {
+    return new EmpiricalDistribution(unscaledPDF);
   }
 
   // ---
   private final Tensor pdf;
   private final Tensor cdf;
 
-  private DiscreteWeightedDistribution(Tensor weights) {
-    if (weights.flatten(0) //
+  private EmpiricalDistribution(Tensor unscaledPDF) {
+    if (unscaledPDF.flatten(0) //
         .map(Scalar.class::cast) //
         .filter(scalar -> Scalars.lessThan(scalar, RealScalar.ZERO)) //
         .findAny() //
         .isPresent())
-      throw TensorRuntimeException.of(weights);
-    Tensor accumulate = Accumulate.of(weights);
+      throw TensorRuntimeException.of(unscaledPDF);
+    Tensor accumulate = Accumulate.of(unscaledPDF);
     Scalar scale = Last.of(accumulate).Get().invert();
-    pdf = weights.multiply(scale);
+    pdf = unscaledPDF.multiply(scale);
     cdf = accumulate.multiply(scale);
   }
 
@@ -46,8 +53,8 @@ public class DiscreteWeightedDistribution extends AbstractDiscreteDistribution i
 
   @Override // from Distribution
   public Scalar variance() {
-    // TODO implement
-    return null;
+    Scalar mean = mean();
+    return Expectation.of(scalar -> AbsSquared.of(scalar.subtract(mean)), this);
   }
 
   @Override // from DiscreteDistribution

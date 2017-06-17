@@ -11,17 +11,17 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.red.Tally;
 import junit.framework.TestCase;
 
-public class DiscreteWeightedDistributionTest extends TestCase {
+public class EmpiricalDistributionTest extends TestCase {
   public void testPDF() {
-    Distribution distribution = DiscreteWeightedDistribution.of(Tensors.vector(0, 9, 1));
+    Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 9, 1));
     PDF pdf = PDF.of(distribution);
-    assertEquals(pdf.p_equals(RealScalar.of(0)), RealScalar.ZERO);
-    assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(9, 10));
-    assertEquals(pdf.p_equals(RealScalar.of(2)), RationalScalar.of(1, 10));
+    assertEquals(pdf.at(RealScalar.of(0)), RealScalar.ZERO);
+    assertEquals(pdf.at(RealScalar.of(1)), RationalScalar.of(9, 10));
+    assertEquals(pdf.at(RealScalar.of(2)), RationalScalar.of(1, 10));
   }
 
   public void testCDF() {
-    Distribution distribution = DiscreteWeightedDistribution.of(Tensors.vector(0, 9, 1));
+    Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 9, 1));
     CDF pdf = CDF.of(distribution);
     assertEquals(pdf.p_lessEquals(RealScalar.of(-.1)), RealScalar.ZERO);
     assertEquals(pdf.p_lessEquals(RealScalar.of(0)), RealScalar.ZERO);
@@ -33,7 +33,7 @@ public class DiscreteWeightedDistributionTest extends TestCase {
   }
 
   public void testCDF2() {
-    Distribution distribution = DiscreteWeightedDistribution.of(Tensors.vector(0, 9, 1));
+    Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 9, 1));
     CDF pdf = CDF.of(distribution);
     assertEquals(pdf.p_lessThan(RealScalar.of(-.1)), RealScalar.ZERO);
     assertEquals(pdf.p_lessThan(RealScalar.of(0)), RealScalar.ZERO);
@@ -45,7 +45,7 @@ public class DiscreteWeightedDistributionTest extends TestCase {
   }
 
   public void testRandomVariate() {
-    Distribution distribution = DiscreteWeightedDistribution.of(Tensors.vector(0, 2, 1, 0, 3, 0));
+    Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 2, 1, 0, 3, 0));
     Map<Tensor, Long> map = Tally.of(RandomVariate.of(distribution, 1000));
     assertFalse(map.containsKey(RealScalar.ZERO));
     assertTrue(map.containsKey(RealScalar.of(1)));
@@ -55,34 +55,62 @@ public class DiscreteWeightedDistributionTest extends TestCase {
     assertFalse(map.containsKey(RealScalar.of(5)));
   }
 
-  public void testRandomVariateNeedle() {
+  public void testRandomVariateNeedle1() {
     AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
-    DiscreteWeightedDistribution.of(Tensors.vector(0, 2, 1, 0, 3, 0));
+    EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 2, 1, 0, 3, 0));
     assertEquals(distribution.randomVariate(RealScalar.of(0)), RealScalar.ONE);
     assertEquals(distribution.randomVariate(RealScalar.of(.99999999999)), RealScalar.of(4));
   }
 
+  public void testRandomVariateNeedle2() {
+    AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
+    EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
+    assertEquals(distribution.randomVariate(RealScalar.of(0)), RealScalar.of(2));
+    assertEquals(distribution.randomVariate(RealScalar.of(Math.nextDown(.5))), RealScalar.of(2));
+    assertEquals(distribution.randomVariate(RationalScalar.of(1, 2)), RealScalar.of(4));
+    assertEquals(distribution.randomVariate(RealScalar.of(Math.nextDown(1))), RealScalar.of(4));
+  }
+
+  public void testWrongReference() {
+    try {
+      AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
+      EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
+      distribution.randomVariate(RealScalar.of(Math.nextDown(0)));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
+      EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
+      distribution.randomVariate(RealScalar.of(1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFail() {
     try {
-      DiscreteWeightedDistribution.of(Tensors.vector(0, -9, 1));
+      EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, -9, 1));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      DiscreteWeightedDistribution.of(Tensors.vector(0, 0, 0));
+      EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 0));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      DiscreteWeightedDistribution.of(RealScalar.ONE);
+      EmpiricalDistribution.fromUnscaledPDF(RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      DiscreteWeightedDistribution.of(HilbertMatrix.of(10));
+      EmpiricalDistribution.fromUnscaledPDF(HilbertMatrix.of(10));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

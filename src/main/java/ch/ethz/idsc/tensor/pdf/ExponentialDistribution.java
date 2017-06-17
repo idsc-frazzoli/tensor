@@ -47,6 +47,13 @@ public class ExponentialDistribution implements ContinuousDistribution {
     return lambda.multiply(lambda).invert();
   }
 
+  @Override // from PDF
+  public Scalar at(Scalar x) {
+    if (Scalars.lessThan(x, RealScalar.ZERO))
+      return RealScalar.ZERO;
+    return Exp.of(x.multiply(lambda).negate()).multiply(lambda); // E^(-x \[Lambda]) \[Lambda]
+  }
+
   @Override // from ContinuousDistribution
   public Scalar p_lessThan(Scalar x) {
     return Scalars.lessEquals(x, RealScalar.ZERO) ? RealScalar.ZERO : //

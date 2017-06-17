@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Round;
       Distribution distribution = BinomialDistribution.of(20, RationalScalar.of(1, 3));
       System.out.println(distribution.getClass().getSimpleName());
       PDF pdf = PDF.of(distribution);
-      System.out.println("P(X=14) = " + pdf.p_equals(RealScalar.of(14)));
+      System.out.println("P(X=14) = " + pdf.at(RealScalar.of(14)));
     }
     { // cumulative density
       Distribution distribution = GeometricDistribution.of(RationalScalar.of(1, 8));
