@@ -16,17 +16,16 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * <a href="https://reference.wolfram.com/language/ref/Tr.html">Tr</a> */
 public enum Trace {
   ;
-  // ---
   /** @param tensor
    * @param d0
    * @param d1
    * @return stream of slices of tensor along dimensions d0 and d1 */
   public static Stream<Tensor> stream(Tensor tensor, int d0, int d1) {
-    List<Integer> dims = Dimensions.of(tensor);
-    final int length = dims.get(d0);
-    if (length != dims.get(d1))
+    List<Integer> dimensions = Dimensions.of(tensor);
+    final int length = dimensions.get(d0);
+    if (length != dimensions.get(d1))
       throw new IllegalArgumentException();
-    List<Integer> index = IntStream.range(0, dims.size()) //
+    List<Integer> index = IntStream.range(0, dimensions.size()) //
         .map(i -> Tensor.ALL) //
         .boxed().collect(Collectors.toList());
     return IntStream.range(0, length).boxed().map(count -> {

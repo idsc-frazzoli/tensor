@@ -22,4 +22,15 @@ public class TallyTest extends TestCase {
     Map<Tensor, Long> map = Tally.of(Tensors.empty());
     assertEquals(map, Collections.emptyMap());
   }
+
+  public void testInfty() {
+    Tensor tensor = Tensors.of( //
+        RealScalar.POSITIVE_INFINITY, RealScalar.ONE, //
+        RealScalar.NEGATIVE_INFINITY, //
+        RealScalar.POSITIVE_INFINITY, RealScalar.POSITIVE_INFINITY);
+    Map<Tensor, Long> map = Tally.of(tensor);
+    assertEquals((long) map.get(RealScalar.POSITIVE_INFINITY), 3);
+    assertEquals((long) map.get(RealScalar.NEGATIVE_INFINITY), 1);
+    assertEquals((long) map.get(RealScalar.of(1)), 1);
+  }
 }

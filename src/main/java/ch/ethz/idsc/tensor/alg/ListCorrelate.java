@@ -11,7 +11,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/ListCorrelate.html">ListCorrelate</a> */
 public enum ListCorrelate {
   ;
-  // ---
   /** ListCorrelate[{x, y}, {a, b, c, d, e, f}] ==
    * {a x + b y, b x + c y, c x + d y, d x + e y, e x + f y}
    * 

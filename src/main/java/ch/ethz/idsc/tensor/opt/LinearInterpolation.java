@@ -22,9 +22,10 @@ public class LinearInterpolation extends AbstractInterpolation {
     return new LinearInterpolation(tensor);
   }
 
+  // ---
   private final Tensor tensor;
 
-  /* package */ LinearInterpolation(Tensor tensor) {
+  private LinearInterpolation(Tensor tensor) {
     this.tensor = tensor;
   }
 

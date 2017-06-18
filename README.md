@@ -4,7 +4,7 @@
 
 Library for tensor computation in Java 8.
 
-Version `0.2.4`
+Version `0.2.5`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ...
@@ -28,6 +28,18 @@ gives
      [   9/37    4/37   -3/37 ]
      [ -5/111    2/37  14/111 ]
      [   7/37   -1/37   10/37 ]
+    ]
+
+singular value decomposition of given matrix
+
+    System.out.println(Pretty.of(SingularValueDecomposition.of(matrix).getU().map(Round._4)));
+
+gives results in machine precision
+
+    [
+     [  0.2532   0.6307  -0.7336 ]
+     [ -0.9512   0.3004  -0.0700 ]
+     [ -0.1763  -0.7155  -0.6760 ]
     ]
 
 ---
@@ -61,10 +73,9 @@ gives
 
 ---
 
-Scalar ops
+Functions for complex numbers
 
-    Scalar fraction = RationalScalar.of(-9, 16);
-    System.out.println(Sqrt.of(fraction));
+    System.out.println(Sqrt.of(RationalScalar.of(-9, 16)));
 
 gives
 
@@ -93,6 +104,26 @@ gives
      [    1     0  -I/3 ]
      [    0     1     0 ]
     ]
+
+---
+
+Statistics
+
+    Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
+    System.out.println(RandomVariate.of(distribution, 20));
+
+gives
+
+    {6, 5, 1, 4, 3, 4, 7, 5, 7, 4, 6, 3, 5, 4, 5, 4, 6, 2, 6, 7}
+
+and
+
+    PDF pdf = PDF.of(distribution);
+    System.out.println("P(X=3)=" + pdf.p_equals(RealScalar.of(3)));
+
+gives
+
+    P(X=3)=84000/742729
 
 ---
 
@@ -126,7 +157,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.2.4</version>
+        <version>0.2.5</version>
       </dependency>
     </dependencies>
 
@@ -134,7 +165,7 @@ The source code is attached to the `jar` file for your convenience.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.4/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.5/*
 
 ## Optional
 
@@ -158,4 +189,4 @@ The library is used in the projects:
 * `QueuingNetworks`
 * `SimBus`
 
-The repository has over `730` unit tests.
+The repository has over `830` unit tests.

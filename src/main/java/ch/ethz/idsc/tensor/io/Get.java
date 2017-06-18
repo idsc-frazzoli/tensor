@@ -28,7 +28,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Get.html">Get</a> */
 public enum Get {
   ;
-  // ---
   /** @param file source
    * @return
    * @throws IOException */

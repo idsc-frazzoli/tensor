@@ -11,7 +11,7 @@ public enum Cross {
    * @param b vector with 3 entries
    * @return cross product a x b */
   public static Tensor of(Tensor a, Tensor b) {
-    return LieAlgebras.so3().dot(a).dot(b);
+    return of(a).dot(b);
   }
 
   /** gives skew matrix based on 3 vector entries

@@ -19,7 +19,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Export.html">Export</a> */
 public enum Export {
   ;
-  // ---
   /** See the documentation of
    * {@link CsvFormat}, {@link ImageFormat}, {@link ObjectFormat}
    * to find how tensors are encoded in the respective format.

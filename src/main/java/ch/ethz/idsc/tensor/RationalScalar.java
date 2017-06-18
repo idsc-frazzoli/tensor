@@ -10,8 +10,11 @@ import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/** an implementation is not required to support the representation of
- * Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, and Double.NaN */
+/** a RationalScalar corresponds to an element from the field of rational numbers.
+ * 
+ * a RationalScalar represents an integer fraction, for instance 17/42, or -6/1.
+ * 
+ * zero().inverse() throws a {@link TensorRuntimeException}. */
 public final class RationalScalar extends AbstractRealScalar implements //
     ExactNumberQInterface, NInterface {
   // method _of is private because BigFraction has package visibility

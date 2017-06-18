@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
@@ -16,45 +15,68 @@ import junit.framework.TestCase;
 public class BernoulliDistributionTest extends TestCase {
   public void testEquals() {
     Scalar p = RationalScalar.of(1, 3);
-    DiscreteDistribution discreteDistribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(discreteDistribution);
+    Distribution distribution = BernoulliDistribution.of(p);
+    PDF pdf = PDF.of(distribution);
     // PDF[BernoulliDistribution[1/3], 0] == 2/3
-    assertEquals(pdf.p_equals(RealScalar.of(0)), RationalScalar.of(2, 3));
-    assertEquals(pdf.p_equals(RealScalar.of(1)), RationalScalar.of(1, 3));
-    assertEquals(pdf.p_equals(RealScalar.of(2)), RealScalar.ZERO);
+    assertEquals(pdf.at(RealScalar.of(0)), RationalScalar.of(2, 3));
+    assertEquals(pdf.at(RealScalar.of(1)), RationalScalar.of(1, 3));
+    assertEquals(pdf.at(RealScalar.of(2)), RealScalar.ZERO);
   }
 
   public void testLessThan() {
     Scalar p = RationalScalar.of(1, 3);
-    DiscreteDistribution discreteDistribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(discreteDistribution);
-    assertEquals(pdf.p_lessThan(RealScalar.of(0)), RationalScalar.ZERO);
-    assertEquals(pdf.p_lessThan(RealScalar.of(1)), RationalScalar.of(2, 3));
-    assertEquals(pdf.p_lessThan(RealScalar.of(2)), RealScalar.ONE);
+    Distribution distribution = BernoulliDistribution.of(p);
+    CDF cdf = CDF.of(distribution);
+    assertEquals(cdf.p_lessThan(RealScalar.of(0)), RationalScalar.ZERO);
+    assertEquals(cdf.p_lessThan(RealScalar.of(1)), RationalScalar.of(2, 3));
+    assertEquals(cdf.p_lessThan(RealScalar.of(2)), RealScalar.ONE);
   }
 
   public void testLessEquals() {
     Scalar p = RationalScalar.of(1, 3);
-    DiscreteDistribution discreteDistribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(discreteDistribution);
-    assertEquals(pdf.p_lessEquals(RealScalar.of(0)), RationalScalar.of(2, 3));
-    assertEquals(pdf.p_lessEquals(RealScalar.of(1)), RationalScalar.ONE);
-    assertEquals(pdf.p_lessEquals(RealScalar.of(2)), RealScalar.ONE);
+    Distribution distribution = BernoulliDistribution.of(p);
+    CDF cdf = CDF.of(distribution);
+    assertEquals(cdf.p_lessEquals(RealScalar.of(0)), RationalScalar.of(2, 3));
+    assertEquals(cdf.p_lessEquals(RealScalar.of(1)), RationalScalar.ONE);
+    assertEquals(cdf.p_lessEquals(RealScalar.of(2)), RealScalar.ONE);
   }
 
   public void testSample() {
     final Scalar p = RationalScalar.of(1, 3);
-    DiscreteDistribution discreteDistribution = BernoulliDistribution.of(p);
-    PDF pdf = PDF.of(discreteDistribution);
-    Tensor list = Tensors.empty();
-    for (int c = 0; c < 2000; ++c)
-      list.append(pdf.nextSample());
+    Distribution distribution = BernoulliDistribution.of(p);
+    Tensor list = RandomVariate.of(distribution, 2000);
     Map<Tensor, Long> map = Tally.of(list);
     long v0 = map.get(RealScalar.ZERO);
     long v1 = map.get(RealScalar.ONE);
     Scalar ratio = RationalScalar.of(v1, v0 + v1);
     Scalar dev = N.of(ratio.subtract(p).abs());
-    // System.out.println(dev);
     assertTrue(Scalars.lessThan(dev, RealScalar.of(.07)));
+  }
+
+  public void testFailP() {
+    try {
+      BernoulliDistribution.of(RationalScalar.of(-1, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      BernoulliDistribution.of(RationalScalar.of(4, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testInverseCdf() {
+    Scalar p = RationalScalar.of(1, 3);
+    AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) BernoulliDistribution.of(p);
+    RandomVariate.of(distribution, 20);
+    assertEquals(distribution.inverse_cdf().size(), 2);
+    assertEquals(distribution.inverse_cdf().get(RationalScalar.of(2, 3)), RealScalar.of(0));
+    assertEquals(distribution.inverse_cdf().get(RationalScalar.of(1, 1)), RealScalar.of(1));
+    assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(0, 3)).getValue(), RealScalar.of(0));
+    assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(2, 3)).getValue(), RealScalar.of(1));
+    assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(1, 1)), null);
   }
 }

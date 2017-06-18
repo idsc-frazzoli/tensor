@@ -9,6 +9,9 @@ import ch.ethz.idsc.tensor.Tensor;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Clip.html">Clip</a> */
 public class Clip implements ScalarUnaryOperator {
+  /** @return clip function that maps to the unit interval [0, 1] */
+  public static final Clip UNIT = function(RealScalar.ZERO, RealScalar.ONE);
+
   /** @param min
    * @param max
    * @return function that clips the input to the closed interval [min, max] */
@@ -23,6 +26,7 @@ public class Clip implements ScalarUnaryOperator {
     return new Clip(min, max);
   }
 
+  // ---
   private final Scalar min;
   private final Scalar max;
 

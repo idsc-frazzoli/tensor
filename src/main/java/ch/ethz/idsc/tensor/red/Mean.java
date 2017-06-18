@@ -6,6 +6,7 @@ import java.util.Optional;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** inspired by
@@ -26,7 +27,8 @@ public enum Mean {
    * 
    * @param tensor non-empty
    * @return average of entries in tensor
-   * @throws ArithmeticException if tensor is empty */
+   * @throws ArithmeticException if tensor is empty
+   * @throws TensorRuntimeException if tensor is a {@link Scalar} */
   public static Tensor of(Tensor tensor) {
     return Total.of(tensor).multiply(RationalScalar.of(1, tensor.length()));
   }

@@ -18,7 +18,6 @@ import ch.ethz.idsc.tensor.red.Min;
  * <a href="https://reference.wolfram.com/language/ref/Rescale.html">Rescale</a> */
 public enum Rescale {
   ;
-  // ---
   /** Example:
    * Rescale[{10, 20, 30}] == {0, 1/2, 1}
    * 

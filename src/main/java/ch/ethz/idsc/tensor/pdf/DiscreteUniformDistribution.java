@@ -1,24 +1,37 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.sca.Ceiling;
+import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Floor;
 
-/** consistent with Mathematica::DiscreteUniformDistribution
+/** Careful:
+ * In Mathematica::DiscreteUniformDistribution the upper bound "max" is inclusive.
+ * The tensor library considers "max" to be excluded.
  * 
- * <p>inspired by
+ * inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
-public class DiscreteUniformDistribution implements DiscreteDistribution {
+public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {
   /** Example:
-   * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/11 for 0 <= x <=10 and x integer
+   * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/10 for 0 <= x < 10 and x integer
    * 
    * @param min inclusive
-   * @param max inclusive */
-  public static DiscreteDistribution of(Scalar min, Scalar max) {
-    if (Scalars.lessThan(max, min))
-      throw TensorRuntimeException.of(min, max);
+   * @param max exclusive and min < max
+   * @return distribution */
+  public static Distribution of(Scalar min, Scalar max) {
+    return of(Scalars.intValueExact(min), Scalars.intValueExact(max));
+  }
+
+  /** @param min inclusive
+   * @param max exclusive and min < max
+   * @return distribution */
+  public static Distribution of(int min, int max) {
+    if (max <= min)
+      throw new RuntimeException();
     return new DiscreteUniformDistribution(min, max);
   }
 
@@ -27,10 +40,21 @@ public class DiscreteUniformDistribution implements DiscreteDistribution {
   private final int max;
   private final Scalar p;
 
-  private DiscreteUniformDistribution(Scalar min, Scalar max) {
-    this.min = Scalars.intValueExact(min);
-    this.max = Scalars.intValueExact(max);
-    p = max.subtract(min).add(RealScalar.ONE).invert();
+  private DiscreteUniformDistribution(int min, int max) {
+    this.min = min;
+    this.max = max;
+    p = RationalScalar.of(1, max - min);
+  }
+
+  @Override // from MeanInterface
+  public Scalar mean() {
+    return RealScalar.of(max - 1 + min).multiply(RationalScalar.of(1, 2));
+  }
+
+  @Override // from VarianceInterface
+  public Scalar variance() {
+    Scalar width = RealScalar.of(max - 1 - min);
+    return width.multiply(RealScalar.of(2).add(width)).multiply(RationalScalar.of(1, 12));
   }
 
   @Override // from DiscreteDistribution
@@ -38,10 +62,22 @@ public class DiscreteUniformDistribution implements DiscreteDistribution {
     return min;
   }
 
-  @Override // from DiscreteDistribution
-  public Scalar p_equals(int n) {
-    if (n < min || max < n)
+  @Override // from AbstractDiscreteDistribution
+  protected Scalar protected_p_equals(int n) {
+    if (max <= n)
       return RealScalar.ZERO;
     return p;
+  }
+
+  @Override // from CDF
+  public Scalar p_lessThan(Scalar x) {
+    Scalar num = Ceiling.of(x).subtract(RealScalar.of(min));
+    return (Scalar) num.multiply(p).map(Clip.UNIT);
+  }
+
+  @Override // from CDF
+  public Scalar p_lessEquals(Scalar x) {
+    Scalar num = RealScalar.ONE.add(Floor.of(x)).subtract(RealScalar.of(min));
+    return (Scalar) num.multiply(p).map(Clip.UNIT);
   }
 }

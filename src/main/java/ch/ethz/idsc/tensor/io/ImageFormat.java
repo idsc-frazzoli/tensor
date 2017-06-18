@@ -31,7 +31,6 @@ import ch.ethz.idsc.tensor.alg.Transpose;
  * <a href="https://reference.wolfram.com/language/ref/ImageData.html">ImageData</a> */
 public enum ImageFormat {
   ;
-  // ---
   /** @param bufferedImage with dimensions [width x height]
    * @return tensor with dimensions [width x height x 4] */
   public static Tensor from(BufferedImage bufferedImage) {

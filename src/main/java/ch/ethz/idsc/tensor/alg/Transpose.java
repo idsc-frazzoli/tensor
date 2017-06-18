@@ -23,7 +23,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 public enum Transpose {
   ;
   /** @param matrix
-   * @return matrix transposed */
+   * @return matrix transposed
+   * @throws Exception if input is not a matrix */
   public static Tensor of(Tensor matrix) {
     return of(matrix, 1, 0);
   }
@@ -37,7 +38,7 @@ public enum Transpose {
    * @param sigma is permutation with rank of tensor == sigma.length
    * @return */
   public static Tensor of(Tensor tensor, Integer... sigma) {
-    if (tensor instanceof Scalar)
+    if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
     if (!Dimensions.isArray(tensor))
       throw TensorRuntimeException.of(tensor);

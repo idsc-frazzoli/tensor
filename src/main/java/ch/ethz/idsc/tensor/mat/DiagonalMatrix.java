@@ -14,7 +14,7 @@ public enum DiagonalMatrix {
   /** @param vector with scalars to appear on the diagonal
    * @return */
   public static Tensor of(Tensor vector) {
-    if (vector instanceof Scalar)
+    if (vector.isScalar())
       throw TensorRuntimeException.of(vector);
     return Tensors.matrix((i, j) -> i.equals(j) ? vector.Get(i) : vector.Get(i).zero(), vector.length(), vector.length());
   }

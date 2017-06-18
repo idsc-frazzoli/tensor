@@ -1,37 +1,39 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
+import java.io.Serializable;
 
 import ch.ethz.idsc.tensor.Scalar;
 
 /** probability density function
  * 
- * inspired by
+ * {@link DiscreteDistribution}s typically implement the PDF interface
+ * through the extension of {@link AbstractDiscreteDistribution}.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/PDF.html">PDF</a> */
-public interface PDF {
-  /** @param discreteDistribution
-   * @return */
-  public static PDF of(DiscreteDistribution discreteDistribution) {
-    return new DefaultDiscretePDF(discreteDistribution);
+public interface PDF extends Serializable {
+  /** Example use:
+   * PDF pdf = PDF.of(PoissonDistribution.of(RealScalar.of(2)));
+   * Scalar probability = pdf.p_equals(RealScalar.of(3));
+   * 
+   * @param distribution
+   * @return probability density function */
+  public static PDF of(Distribution distribution) {
+    if (distribution instanceof PDF)
+      return (PDF) distribution;
+    throw new RuntimeException();
   }
 
-  /** @param x
-   * @return P(X == x), i.e. probability of random variable X == x */
-  Scalar p_equals(Scalar x);
-
-  /** @param x
+  /** "PDF.of(distribution).at(x)" corresponds to Mathematica::PDF[distribution, x]
+   * 
+   * for {@link DiscreteDistribution}, the function returns the
+   * P(X == x), i.e. probability of random variable X == x
+   * 
+   * for continuous distributions, the function returns the value
+   * of the probability density function [which is <em>not</em> identical to P(X == x)]
+   * 
+   * @param x
    * @return */
-  Scalar p_lessThan(Scalar x);
-
-  /** @param x
-   * @return */
-  Scalar p_lessEquals(Scalar x);
-
-  /** @return */
-  Scalar nextSample();
-
-  /** @param random
-   * @return */
-  Scalar nextSample(Random random);
+  Scalar at(Scalar x);
 }

@@ -10,6 +10,11 @@ import junit.framework.TestCase;
 
 public class LinearInterpolationTest extends TestCase {
   public void testEmpty() {
+    Interpolation interpolation = LinearInterpolation.of(Tensors.empty());
+    assertEquals(interpolation.get(Tensors.empty()), Tensors.empty());
+  }
+
+  public void testEmpty1() {
     Tensor tensor = Tensors.vector(10, 20, 30, 40);
     Interpolation interpolation = LinearInterpolation.of(tensor);
     Tensor res = interpolation.get(Tensors.empty());

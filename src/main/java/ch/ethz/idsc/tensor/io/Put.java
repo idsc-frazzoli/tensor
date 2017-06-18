@@ -23,7 +23,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Put.html">Put</a> */
 public enum Put {
   ;
-  // ---
   /** @param file destination of write
    * @param tensor
    * @throws IOException */

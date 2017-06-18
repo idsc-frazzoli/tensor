@@ -9,13 +9,14 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
  * <a href="https://reference.wolfram.com/language/ref/NegativeDefiniteMatrixQ.html">NegativeDefiniteMatrixQ</a> */
 public enum NegativeDefiniteMatrixQ {
   ;
-  /** @param matrix hermitian
-   * @return true if matrix is negative definite
-   * @throws TensorRuntimeException if input is not a hermitian matrix */
-  public static boolean ofHermitian(Tensor matrix) {
-    return !CholeskyDecomposition.of(matrix).diagonal().flatten(0) //
-        .map(SignInterface.class::cast) //
-        .filter(signInterface -> signInterface.signInt() >= 0) // Scalars.lessEquals(RealScalar.ZERO, scalar)) //
-        .findAny().isPresent();
+  /** @param tensor
+   * @return true if tensor is a matrix and matrix is negative definite
+   * @throws TensorRuntimeException if result cannot be established */
+  public static boolean ofHermitian(Tensor tensor) {
+    return MatrixQ.of(tensor) && //
+        !CholeskyDecomposition.of(tensor).diagonal().flatten(0) //
+            .map(SignInterface.class::cast) //
+            .filter(signInterface -> signInterface.signInt() >= 0) // Scalars.lessEquals(RealScalar.ZERO, scalar)) //
+            .findAny().isPresent();
   }
 }

@@ -20,7 +20,6 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
  * <a href="https://reference.wolfram.com/language/ref/LinearProgramming.html">LinearProgramming</a> */
 public enum LinearProgramming {
   ;
-  // ---
   /** @param c
    * @param m
    * @param b

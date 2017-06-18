@@ -7,6 +7,8 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dot;
 
+/** class provides ad-tensors of several low-dimensional Lie-algebras */
+// EXPERIMENTAL
 public enum LieAlgebras {
   ;
   private static final Scalar P1 = RealScalar.ONE;

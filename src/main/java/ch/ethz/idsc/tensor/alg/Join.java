@@ -14,6 +14,9 @@ import ch.ethz.idsc.tensor.Tensor;
  * <li>Join.of(1, A, B) is MATLAB::horzcat(A, B) == [A B]
  * </ul>
  * 
+ * Mathematica::Join[0, 1] of one, two or more scalars is not defined.
+ * The tensor library also does not permit joining scalars, but only tensors with rank 1 or higher.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Join.html">Join</a> */
 public enum Join {
@@ -25,7 +28,10 @@ public enum Join {
     return of(level, Arrays.asList(tensors));
   }
 
-  /** @param tensors
+  /** Example:
+   * Join.of(Tensors.vector(2, 3, 4), Tensors.vector(9, 8)) == Tensors.vector(2, 3, 4, 9, 8)
+   * 
+   * @param tensors
    * @return joins elements of all tensors along their first dimension */
   public static Tensor of(Tensor... tensors) {
     return of(0, Arrays.asList(tensors));
@@ -40,6 +46,8 @@ public enum Join {
 
   // helper function called in base case of more general function of(...)
   private static Tensor _flatten(List<Tensor> list) {
+    if (list.stream().filter(Tensor::isScalar).findAny().isPresent())
+      throw new RuntimeException();
     return Tensor.of(list.stream().flatMap(tensor -> tensor.flatten(0)));
   }
 }

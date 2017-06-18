@@ -78,6 +78,8 @@ public class QuantityScalar extends AbstractScalar implements //
     if (Scalars.isZero(scalar) && Scalars.nonZero(this))
       return this;
     if (scalar instanceof QuantityScalar) {
+      if (Scalars.isZero(this) && Scalars.isZero(scalar))
+        return RealScalar.ZERO;
       QuantityScalar quantityScalar = (QuantityScalar) scalar;
       if (unitMap.equals(quantityScalar.unitMap))
         return of(value.add(quantityScalar.value), unitMap);

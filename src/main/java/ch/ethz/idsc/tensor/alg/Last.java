@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Last.html">Last</a> */
 public enum Last {
   ;
-  // ---
   /** @param tensor
    * @return last entry of tensor
    * @throws Exception if tensor is empty */

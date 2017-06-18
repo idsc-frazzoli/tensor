@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.alg;
 
 import java.math.BigInteger;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -15,16 +16,28 @@ public class BinomialTest extends TestCase {
     assertEquals(Binomial.of(10, 10), RealScalar.ONE);
   }
 
-  public void testRow() {
-    assertEquals(Binomial.row(0), Tensors.vector(1));
-    assertEquals(Binomial.row(1), Tensors.vector(1));
-    assertEquals(Binomial.row(2), Tensors.vector(1, 2));
-    assertEquals(Binomial.row(3), Tensors.vector(1, 3));
-    assertEquals(Binomial.row(4), Tensors.vector(1, 4, 6));
-    assertEquals(Binomial.row(5), Tensors.vector(1, 5, 10));
+  public void testSingleIn() {
+    assertEquals(Binomial.of(10).over(0), RealScalar.ONE);
+    assertEquals(Binomial.of(10).over(3), RealScalar.of(120));
+    assertEquals(Binomial.of(10).over(10), RealScalar.ONE);
   }
 
-  public void testFail() {
+  public void testRow() {
+    assertEquals(Binomial.of(0).row, Tensors.vector(1));
+    assertEquals(Binomial.of(1).row, Tensors.vector(1));
+    assertEquals(Binomial.of(2).row, Tensors.vector(1, 2));
+    assertEquals(Binomial.of(3).row, Tensors.vector(1, 3));
+    assertEquals(Binomial.of(4).row, Tensors.vector(1, 4, 6));
+    assertEquals(Binomial.of(5).row, Tensors.vector(1, 5, 10));
+  }
+
+  public void testTreadSafe() {
+    IntStream.range(0, 20000).parallel() //
+        .forEach(n -> Binomial.of(50 + (n % 500)));
+    // System.out.println(Binomial.MEMO_REUSE);
+  }
+
+  public void testFailNK() {
     try {
       Binomial.of(RealScalar.of(10.21), RealScalar.of(3));
       assertTrue(false);
@@ -39,6 +52,21 @@ public class BinomialTest extends TestCase {
     }
     try {
       Binomial.of(-3, 0);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailN() {
+    try {
+      Binomial.of(RealScalar.of(10.21));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Binomial.of(-1);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

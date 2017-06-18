@@ -11,11 +11,14 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * moreover the data may be compressed.
  * 
  * The tensor library rejects complexity, therefore,
- * the format is not natively supported. */
+ * the format is not natively supported.
+ * 
+ * For export to Matlab see {@link MatlabExport}.
+ * But there is no import native provided by the
+ * tensor library at the moment. */
 @Deprecated
 /* package */ enum MatFileFormat {
   ;
-  // ---
   public static byte[] of(Tensor tensor) {
     throw TensorRuntimeException.of(tensor);
   }

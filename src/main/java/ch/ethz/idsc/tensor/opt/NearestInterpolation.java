@@ -5,14 +5,11 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.Round;
 
 /** entries of index are rounded to nearest integers */
-public class NearestInterpolation extends MappedInterpolation {
+public enum NearestInterpolation {
+  ;
   /** @param tensor
    * @return */
   public static Interpolation of(Tensor tensor) {
-    return new NearestInterpolation(tensor);
-  }
-
-  /* package */ NearestInterpolation(Tensor tensor) {
-    super(tensor, Round::of);
+    return new MappedInterpolation(tensor, Round::of);
   }
 }

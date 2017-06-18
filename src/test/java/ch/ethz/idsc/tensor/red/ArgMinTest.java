@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.Comparators;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class ArgMinTest extends TestCase {
@@ -25,6 +26,15 @@ public class ArgMinTest extends TestCase {
   public void testScalar() {
     try {
       ArgMin.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailMatrix() {
+    try {
+      ArgMin.of(HilbertMatrix.of(6));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

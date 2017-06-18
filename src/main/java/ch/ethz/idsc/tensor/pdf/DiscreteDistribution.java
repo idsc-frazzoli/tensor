@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 import ch.ethz.idsc.tensor.Scalar;
 
 /** functionality for a discrete probability distribution */
-public interface DiscreteDistribution {
+public interface DiscreteDistribution extends Distribution {
   /** @return lowest value a random variable from this distribution may attain */
   int lowerBound();
 
