@@ -99,7 +99,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from MachineNumberQInterface
   public boolean isMachineNumber() {
-    return true;
+    return isFinite();
   }
 
   @Override // from RoundingInterface
@@ -112,6 +112,8 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return BigDecimal.valueOf(value);
   }
 
+  /** @return true if the argument is a finite floating-point
+   * value; false otherwise (for NaN and infinity arguments). */
   public boolean isFinite() {
     return Double.isFinite(value);
   }

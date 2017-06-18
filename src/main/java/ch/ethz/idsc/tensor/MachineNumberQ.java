@@ -5,6 +5,10 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
 /** implementation consistent with Mathematica
  * 
+ * <p>Special cases are
+ * MachineNumberQ[Infinity] == false
+ * MachineNumberQ[Indeterminate] == false
+ * 
  * see also {@link ExactNumberQ}
  * 
  * <p>inspired by
@@ -12,7 +16,8 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 public enum MachineNumberQ {
   ;
   /** @param tensor
-   * @return true, if tensor is instance of {@link MachineNumberQInterface} which evaluates to true */
+   * @return true, if tensor is instance of {@link MachineNumberQInterface} which evaluates to true,
+   * otherwise false */
   public static boolean of(Tensor tensor) {
     if (tensor instanceof MachineNumberQInterface) {
       MachineNumberQInterface machineNumberQInterface = (MachineNumberQInterface) tensor;

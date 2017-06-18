@@ -22,4 +22,10 @@ public class MachineNumberQTest extends TestCase {
   public void testTensor() {
     assertFalse(MachineNumberQ.of(Tensors.vector(1.)));
   }
+
+  public void testCorner() {
+    assertFalse(MachineNumberQ.of(RealScalar.POSITIVE_INFINITY));
+    assertFalse(MachineNumberQ.of(RealScalar.NEGATIVE_INFINITY));
+    assertFalse(MachineNumberQ.of(RealScalar.of(Double.NaN)));
+  }
 }

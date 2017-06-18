@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.mat.MatrixQ;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ConvexHull.html">ConvexHull</a> */
@@ -18,7 +19,7 @@ public enum ConvexHull {
   public static Tensor of(Tensor tensor) {
     if (tensor.length() == 0)
       return Tensors.empty();
-    if (!Dimensions.isArray(tensor))
+    if (!MatrixQ.of(tensor))
       throw TensorRuntimeException.of(tensor);
     List<Integer> dims = Dimensions.of(tensor);
     if (dims.get(1) == 2)

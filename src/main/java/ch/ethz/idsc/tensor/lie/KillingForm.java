@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.red.Trace;
 public enum KillingForm {
   ;
   /** @param ad tensor of lie algebra
-   * @return killing form of lie algebra */
+   * @return Killing-form of Lie-algebra */
   public static Tensor of(Tensor ad) {
     return Trace.of(ad.dot(ad), 0, 3);
   }

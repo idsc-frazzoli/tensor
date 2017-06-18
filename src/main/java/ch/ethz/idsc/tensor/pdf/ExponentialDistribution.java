@@ -33,8 +33,12 @@ public class ExponentialDistribution implements Distribution, //
 
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
+    return randomVariate(random.nextDouble());
+  }
+
+  /* package for testing */ Scalar randomVariate(double reference) {
     // {@link Random#nextDouble()} samples uniformly from the range 0.0 (inclusive) to 1.0d (exclusive)
-    double uniform = Math.nextUp(random.nextDouble());
+    double uniform = Math.nextUp(reference);
     return Log.of(RealScalar.of(uniform)).divide(lambda_negate);
   }
 
