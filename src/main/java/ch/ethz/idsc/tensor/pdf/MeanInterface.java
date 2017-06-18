@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-public interface MeanInterface {
+/* package until API finalized */ interface MeanInterface {
   /** Example:
    * BinomialDistribution.of(n, p).mean() == n * p
    * 

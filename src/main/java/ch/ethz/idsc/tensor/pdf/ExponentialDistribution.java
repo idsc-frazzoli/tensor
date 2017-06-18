@@ -12,7 +12,8 @@ import ch.ethz.idsc.tensor.sca.Log;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
-public class ExponentialDistribution implements Distribution, CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+public class ExponentialDistribution implements Distribution, //
+    CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   /** @param lambda positive
    * @return */
   public static Distribution of(Scalar lambda) {

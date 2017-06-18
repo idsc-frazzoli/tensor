@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 // TODO implement
 /* package */ class StudentTDistribution implements Distribution {
   // ---
+  @SuppressWarnings("unused")
   private final Scalar v;
 
   private StudentTDistribution(Scalar v) {

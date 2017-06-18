@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.Scalar;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
-public class NormalDistribution implements Distribution, MeanInterface, RandomVariateInterface, VarianceInterface {
+public class NormalDistribution implements Distribution, //
+    MeanInterface, RandomVariateInterface, VarianceInterface {
   /** @param mean
    * @param sigma standard deviation
    * @return */

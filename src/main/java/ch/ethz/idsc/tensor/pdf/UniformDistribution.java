@@ -12,7 +12,8 @@ import ch.ethz.idsc.tensor.sca.Clip;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
-public class UniformDistribution implements Distribution, CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+public class UniformDistribution implements Distribution, //
+    CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   /** @param min < max
    * @param max
    * @return uniform distribution over the half-open interval [min, max) */
