@@ -10,6 +10,8 @@ import ch.ethz.idsc.tensor.Scalar;
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
 public class NormalDistribution implements Distribution, //
     MeanInterface, RandomVariateInterface, VarianceInterface {
+  private static final Distribution STANDARD = of(RealScalar.ZERO, RealScalar.ONE);
+
   /** @param mean
    * @param sigma standard deviation
    * @return */
@@ -19,7 +21,7 @@ public class NormalDistribution implements Distribution, //
 
   /** @return standard normal distribution with mean == 0, and standard deviation == variance == 1 */
   public static Distribution standard() {
-    return of(RealScalar.ZERO, RealScalar.ONE);
+    return STANDARD;
   }
 
   // ---

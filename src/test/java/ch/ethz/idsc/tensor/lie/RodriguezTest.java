@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -28,5 +29,14 @@ public class RodriguezTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testRotZ() {
+    Tensor matrix = Rodriguez.of(Tensors.vector(0, 0, 1));
+    assertEquals(matrix.get(2, 0), RealScalar.ZERO);
+    assertEquals(matrix.get(2, 1), RealScalar.ZERO);
+    assertEquals(matrix.get(0, 2), RealScalar.ZERO);
+    assertEquals(matrix.get(1, 2), RealScalar.ZERO);
+    assertEquals(matrix.get(2, 2), RealScalar.ONE);
   }
 }

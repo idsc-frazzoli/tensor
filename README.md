@@ -7,7 +7,7 @@ Library for tensor computation in Java 8.
 Version `0.2.6`
 
 Features:
-* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ...
+* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
 * scalars are real, or complex numbers, or from finite fields, etc.
 * values are encoded as exact fractions, or in double precision
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
@@ -119,7 +119,7 @@ gives
 and
 
     PDF pdf = PDF.of(distribution);
-    System.out.println("P(X=3)=" + pdf.p_equals(RealScalar.of(3)));
+    System.out.println("P(X=3)=" + pdf.at(RealScalar.of(3)));
 
 gives
 
