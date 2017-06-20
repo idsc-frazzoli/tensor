@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.Scalar;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
 public class NormalDistribution implements Distribution, //
-    MeanInterface, RandomVariateInterface, VarianceInterface {
+    MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   private static final Distribution STANDARD = of(RealScalar.ZERO, RealScalar.ONE);
 
   /** @param mean
@@ -27,10 +27,12 @@ public class NormalDistribution implements Distribution, //
   // ---
   private final Scalar mean;
   private final Scalar sigma;
+  private final Scalar sigma_invert;
 
   private NormalDistribution(Scalar mean, Scalar sigma) {
     this.mean = mean;
     this.sigma = sigma;
+    this.sigma_invert = sigma.invert();
   }
 
   @Override // from RandomVariateInterface
@@ -41,6 +43,12 @@ public class NormalDistribution implements Distribution, //
   @Override // from MeanInterface
   public Scalar mean() {
     return mean;
+  }
+
+  @Override // from PDF
+  public Scalar at(Scalar x) {
+    return StandardNormalDistribution.INSTANCE.at( //
+        x.subtract(mean).multiply(sigma_invert)).multiply(sigma_invert);
   }
 
   @Override // from VarianceInterface
