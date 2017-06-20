@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.Random;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -63,5 +65,18 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
     if (n < k)
       return RealScalar.ZERO;
     return binomial.over(k).multiply(Power.of(p, k)).multiply(Power.of(RealScalar.ONE.subtract(p), n - k));
+  }
+
+  @Override
+  public Scalar randomVariate(Random random) {
+    // if (n <= 20)
+    // return super.randomVariate(random);
+    // extension thanks to claudio ruch
+    int k = 0;
+    double p_double = p.number().doubleValue(); // TODO test if 1-p or p
+    for (int index = 0; index < n; ++index)
+      if (random.nextDouble() < p_double)
+        ++k;
+    return RealScalar.of(k);
   }
 }
