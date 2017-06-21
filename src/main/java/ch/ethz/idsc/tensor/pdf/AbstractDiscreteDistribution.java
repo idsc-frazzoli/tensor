@@ -21,7 +21,7 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();
 
   @Override // from RandomVariateInterface
-  public Scalar randomVariate(Random random) {
+  public final Scalar randomVariate(Random random) {
     return randomVariate(RealScalar.of(random.nextDouble()));
   }
 

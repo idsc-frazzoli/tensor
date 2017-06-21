@@ -1,13 +1,16 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
-
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.alg.Binomial;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Reverse;
+import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
@@ -18,13 +21,32 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
    * 
    * @param n non-negative
    * @param p in the interval [0, 1]
-   * @return */
+   * @return
+   * @throws Exception */
   public static Distribution of(int n, Scalar p) {
     if (n < 0)
       throw new RuntimeException("n=" + n);
     if (Scalars.lessThan(p, RealScalar.ZERO) || Scalars.lessThan(RealScalar.ONE, p))
       throw TensorRuntimeException.of(p);
-    return new BinomialDistribution(n, p);
+    // ---
+    boolean revert = Scalars.lessThan(RationalScalar.of(1, 2), p);
+    Scalar q = revert ? RealScalar.ONE.subtract(p) : p;
+    Tensor table = Tensors.empty();
+    Scalar prev = Power.of(RealScalar.ONE.subtract(q), n);
+    table.append(prev);
+    final Scalar pratio = q.divide(RealScalar.ONE.subtract(q));
+    for (int k = 1; k <= n; ++k) {
+      // ((1 - k + n) p) / (k - k p) == ((1 - k + n)/k) * (p/(1 - p))
+      Scalar ratio = RationalScalar.of(n - k + 1, k).multiply(pratio);
+      prev = prev.multiply(ratio);
+      table.append(prev);
+    }
+    table = revert ? Reverse.of(table) : table;
+    Scalar sum = Total.of(table).Get();
+    if (Chop.isZeros(sum.subtract(RealScalar.ONE)))
+      return new BinomialDistribution(n, p, table);
+    // ---
+    return new BinomialRandomVariate(n, p);
   }
 
   /** @param n non-negative integer
@@ -37,12 +59,12 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
   // ---
   private final int n;
   private final Scalar p;
-  private final Binomial binomial;
+  private final Tensor table;
 
-  private BinomialDistribution(int n, Scalar p) {
+  private BinomialDistribution(int n, Scalar p, Tensor table) {
     this.n = n;
     this.p = p;
-    binomial = Binomial.of(n);
+    this.table = table;
   }
 
   @Override // from MeanInterface
@@ -64,19 +86,6 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
   protected Scalar protected_p_equals(int k) {
     if (n < k)
       return RealScalar.ZERO;
-    return binomial.over(k).multiply(Power.of(p, k)).multiply(Power.of(RealScalar.ONE.subtract(p), n - k));
-  }
-
-  @Override
-  public Scalar randomVariate(Random random) {
-    // if (n <= 20)
-    // return super.randomVariate(random);
-    // extension thanks to claudio ruch
-    int k = 0;
-    double p_double = p.number().doubleValue(); // TODO test if 1-p or p
-    for (int index = 0; index < n; ++index)
-      if (random.nextDouble() < p_double)
-        ++k;
-    return RealScalar.of(k);
+    return table.Get(k);
   }
 }

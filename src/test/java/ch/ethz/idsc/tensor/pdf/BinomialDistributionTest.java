@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -103,6 +104,20 @@ public class BinomialDistributionTest extends TestCase {
       Entry<Scalar, Scalar> entry = navigableMap.lastEntry();
       // System.out.println(n + " " + entry);
     }
+  }
+
+  public void testBlub() {
+    BinomialDistribution.of(1200, RealScalar.of(.1));
+    BinomialDistribution.of(1200, RealScalar.of(.9));
+  }
+
+  public void testInRange() {
+    assertEquals(BinomialDistribution.of(1000, DoubleScalar.of(.5)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(2000, DoubleScalar.of(.1)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.01)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.99)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(.0)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(1.0)).getClass(), BinomialDistribution.class);
   }
 
   public void testFailN() {
