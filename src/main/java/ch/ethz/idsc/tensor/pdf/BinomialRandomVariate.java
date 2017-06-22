@@ -1,4 +1,4 @@
-// code by jph
+// code by cr and jph
 package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
@@ -6,11 +6,14 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 
-/** robust function to generate random variates for any parameters n and p
+/** fallback option to robustly generate random variates from a
+ * {@link BinomialDistribution} for any parameters n and p.
+ * The complexity of the generation is O(n).
  * 
- * the complexity of the algorithm is O(n)
+ * For large n, and p away from 0, or 1, the option to approximate the
+ * distribution as a {@link NormalDistribution} should be considered.
  * 
- * extension due to Claudio Ruch */
+ * implementation by Claudio Ruch */
 /* package */ class BinomialRandomVariate implements Distribution, RandomVariateInterface {
   private final int n;
   private final Scalar p;
@@ -27,9 +30,9 @@ import ch.ethz.idsc.tensor.Scalar;
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     int k = 0;
-    double p_double = p.number().doubleValue();
+    double p_success = p.number().doubleValue();
     for (int index = 0; index < n; ++index)
-      if (random.nextDouble() < p_double)
+      if (random.nextDouble() < p_success)
         ++k;
     return RealScalar.of(k);
   }

@@ -5,6 +5,9 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
@@ -24,12 +27,23 @@ public class NormalDistribution implements Distribution, //
     return STANDARD;
   }
 
+  /** @param distribution
+   * @return {@link NormalDistribution} that has the same mean and variance
+   * as input distribution */
+  // EXPERIMENTAL API not finalized
+  public static Distribution fit(Distribution distribution) {
+    return new NormalDistribution( //
+        Expectation.mean(distribution), Sqrt.of(Expectation.variance(distribution)));
+  }
+
   // ---
   private final Scalar mean;
   private final Scalar sigma;
   private final Scalar sigma_invert;
 
   private NormalDistribution(Scalar mean, Scalar sigma) {
+    if (Scalars.lessEquals(sigma, RealScalar.ZERO))
+      throw TensorRuntimeException.of(sigma);
     this.mean = mean;
     this.sigma = sigma;
     this.sigma_invert = sigma.invert();

@@ -21,5 +21,24 @@ public class BinomialRandomVariateTest extends TestCase {
     Scalar s1 = RandomVariate.of(distribution1);
     Scalar s2 = RandomVariate.of(distribution2);
     assertEquals(s1, s2);
+    assertEquals(s2, RealScalar.of(10));
+  }
+
+  public void testPDFFail() {
+    try {
+      PDF.of(BinomialDistribution.of(1200, DoubleScalar.of(.5)));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testCDFFail() {
+    try {
+      CDF.of(BinomialDistribution.of(1200, DoubleScalar.of(.5)));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

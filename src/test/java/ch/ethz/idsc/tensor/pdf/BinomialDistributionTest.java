@@ -112,12 +112,19 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testInRange() {
+    // System.out.println("next down "+Math.nextDown(1.0));
     assertEquals(BinomialDistribution.of(1000, DoubleScalar.of(.5)).getClass(), BinomialDistribution.class);
     assertEquals(BinomialDistribution.of(2000, DoubleScalar.of(.1)).getClass(), BinomialDistribution.class);
     assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.01)).getClass(), BinomialDistribution.class);
     assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.99)).getClass(), BinomialDistribution.class);
     assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(.0)).getClass(), BinomialDistribution.class);
     assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(1.0)).getClass(), BinomialDistribution.class);
+  }
+
+  public void testNextDownOne() { // TODO test list this for all Discrete Distribs
+    AbstractDiscreteDistribution distribution = //
+        (AbstractDiscreteDistribution) BinomialDistribution.of(1000, DoubleScalar.of(.5));
+    distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
   }
 
   public void testFailN() {

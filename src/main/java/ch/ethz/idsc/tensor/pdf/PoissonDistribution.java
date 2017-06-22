@@ -60,6 +60,11 @@ public class PoissonDistribution extends AbstractDiscreteDistribution implements
     return 0;
   }
 
+  @Override
+  protected int upperBound() {
+    return P_EQUALS_MAX;
+  }
+
   @Override // from AbstractDiscreteDistribution
   protected Scalar protected_p_equals(int n) {
     if (P_EQUALS_MAX < n)

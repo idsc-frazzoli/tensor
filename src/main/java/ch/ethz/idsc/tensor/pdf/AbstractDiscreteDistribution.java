@@ -47,6 +47,12 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
           cumprob = cumprob.add(probability);
           inverse_cdf.put(cumprob, RealScalar.of(sample));
         }
+        if (sample == upperBound()) {
+          Scalar last = inverse_cdf.lastKey();
+          if (Scalars.lessThan(last, RealScalar.ONE))
+            inverse_cdf.put(RealScalar.ONE, RealScalar.of(sample));
+          break;
+        }
       }
       higher = inverse_cdf.higherEntry(reference); // strictly higher
     }
@@ -70,6 +76,13 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
     if (n < lowerBound())
       return RealScalar.ZERO;
     return protected_p_equals(n);
+  }
+
+  /** optional safeguard when computing CDF for probabilities with machine precision
+   * 
+   * @return */
+  protected int upperBound() {
+    return Integer.MAX_VALUE;
   }
 
   /** @param n with n >= lowerBound()
