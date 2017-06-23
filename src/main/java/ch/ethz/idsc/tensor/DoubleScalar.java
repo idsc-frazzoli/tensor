@@ -84,7 +84,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from RoundingInterface
   public Scalar ceiling() {
-    return RationalScalar.of(StaticHelper.ceiling(bigDecimal()), BigInteger.ONE);
+    return isMachineNumber() ? RationalScalar.of(StaticHelper.ceiling(bigDecimal()), BigInteger.ONE) : this;
   }
 
   @Override // from ChopInterface
@@ -94,7 +94,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from RoundingInterface
   public Scalar floor() {
-    return RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE);
+    return isMachineNumber() ? RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE) : this;
   }
 
   @Override // from MachineNumberQInterface
@@ -104,7 +104,8 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from RoundingInterface
   public Scalar round() {
-    return RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
+    return isMachineNumber() ? //
+        RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE) : this;
   }
 
   /***************************************************/

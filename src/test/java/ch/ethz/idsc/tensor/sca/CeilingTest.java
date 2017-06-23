@@ -67,21 +67,19 @@ public class CeilingTest extends TestCase {
     assertTrue(r instanceof RationalScalar);
   }
 
-  public void testFailInf() {
-    try {
-      Ceiling.function.apply(DoubleScalar.of(Double.POSITIVE_INFINITY));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
+  public void testNonFailInf() {
+    {
+      Scalar s = DoubleScalar.of(Double.POSITIVE_INFINITY);
+      assertEquals(Ceiling.function.apply(s), s);
+    }
+    {
+      Scalar s = DoubleScalar.of(Double.NEGATIVE_INFINITY);
+      assertEquals(Ceiling.function.apply(s), s);
     }
   }
 
-  public void testFailNaN() {
-    try {
-      Ceiling.function.apply(DoubleScalar.of(Double.NaN));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+  public void testNonFailNaN() {
+    Scalar s = Ceiling.function.apply(DoubleScalar.of(Double.NaN));
+    assertTrue(Double.isNaN(s.number().doubleValue()));
   }
 }

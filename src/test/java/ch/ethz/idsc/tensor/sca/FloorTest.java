@@ -66,20 +66,18 @@ public class FloorTest extends TestCase {
   }
 
   public void testFailInf() {
-    try {
-      Floor.function.apply(DoubleScalar.of(Double.POSITIVE_INFINITY));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
+    {
+      Scalar s = DoubleScalar.of(Double.POSITIVE_INFINITY);
+      assertEquals(Floor.function.apply(s), s);
+    }
+    {
+      Scalar s = DoubleScalar.of(Double.NEGATIVE_INFINITY);
+      assertEquals(Floor.function.apply(s), s);
     }
   }
 
   public void testFailNaN() {
-    try {
-      Floor.function.apply(DoubleScalar.of(Double.NaN));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+    Scalar s = Floor.function.apply(DoubleScalar.of(Double.NaN));
+    assertTrue(Double.isNaN(s.number().doubleValue()));
   }
 }
