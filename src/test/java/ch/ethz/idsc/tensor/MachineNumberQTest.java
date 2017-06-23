@@ -14,6 +14,11 @@ public class MachineNumberQTest extends TestCase {
     assertFalse(MachineNumberQ.of(ComplexScalar.of(0., 2)));
   }
 
+  public void testComplexCorner() {
+    assertFalse(MachineNumberQ.of(ComplexScalar.of(Double.POSITIVE_INFINITY, .3)));
+    assertFalse(MachineNumberQ.of(ComplexScalar.of(0., Double.NaN)));
+  }
+
   public void testGauss() {
     assertFalse(MachineNumberQ.of(GaussScalar.of(3, 7)));
     assertFalse(MachineNumberQ.of(GaussScalar.of(0, 7)));

@@ -24,6 +24,18 @@ public class RodriguezTest extends TestCase {
 
   public void testFail() {
     try {
+      Rodriguez.of(RealScalar.ZERO);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Rodriguez.of(Tensors.vector(0, 0));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       Rodriguez.of(Tensors.vector(0, 0, 0, 0));
       assertTrue(false);
     } catch (Exception exception) {

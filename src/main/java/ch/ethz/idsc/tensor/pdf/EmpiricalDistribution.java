@@ -55,6 +55,11 @@ public class EmpiricalDistribution extends AbstractDiscreteDistribution implemen
     return 0;
   }
 
+  @Override
+  protected int upperBound() {
+    return cdf.length() - 1; // TODO check if this does any good
+  }
+
   @Override // from AbstractDiscreteDistribution
   protected Scalar protected_p_equals(int n) {
     if (pdf.length() <= n)

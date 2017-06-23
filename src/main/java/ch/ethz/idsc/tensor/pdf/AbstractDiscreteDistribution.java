@@ -80,7 +80,7 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
 
   /** optional safeguard when computing CDF for probabilities with machine precision
    * 
-   * @return */
+   * @return greatest integer n for which 0 < p(n) */
   protected int upperBound() {
     return Integer.MAX_VALUE;
   }

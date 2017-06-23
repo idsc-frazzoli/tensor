@@ -189,4 +189,4 @@ The library is used in the projects:
 * `QueuingNetworks`
 * `SimBus`
 
-The repository has over `850` unit tests.
+The repository has over `860` unit tests.
