@@ -26,6 +26,7 @@ public class MachineNumberQTest extends TestCase {
 
   public void testTensor() {
     assertFalse(MachineNumberQ.of(Tensors.vector(1.)));
+    assertFalse(MachineNumberQ.of(Tensors.empty()));
   }
 
   public void testCorner() {
