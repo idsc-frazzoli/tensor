@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.LongBuffer;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,7 +16,7 @@ import ch.ethz.idsc.tensor.alg.Numel;
 /** the extraction of primitive data types from a {@link Tensor}
  * only works for tensors with {@link Scalar} entries
  * that all support the operation {@link Scalar#number()} */
-public enum ExtractPrimitives {
+public enum Primitives {
   ;
   /** @param tensor
    * @return stream of all scalars in tensor mapped to {@link Number} */
@@ -36,6 +37,8 @@ public enum ExtractPrimitives {
     return toStreamNumber(tensor).mapToDouble(Number::doubleValue).toArray();
   }
 
+  /** @param tensor
+   * @return */
   public static DoubleBuffer toDoubleBuffer(Tensor tensor) {
     DoubleBuffer doubleBuffer = DoubleBuffer.allocate(Numel.of(tensor));
     toStreamNumber(tensor).map(Number::doubleValue).forEach(doubleBuffer::put);
@@ -61,6 +64,8 @@ public enum ExtractPrimitives {
     return array;
   }
 
+  /** @param tensor
+   * @return */
   public static FloatBuffer toFloatBuffer(Tensor tensor) {
     FloatBuffer floatBuffer = FloatBuffer.allocate(Numel.of(tensor));
     toStreamNumber(tensor).map(Number::floatValue).forEach(floatBuffer::put);
@@ -85,6 +90,15 @@ public enum ExtractPrimitives {
     return toStreamNumber(tensor).mapToLong(Number::longValue).toArray();
   }
 
+  /** @param tensor
+   * @return */
+  public static LongBuffer toLongBuffer(Tensor tensor) {
+    LongBuffer longBuffer = LongBuffer.allocate(Numel.of(tensor));
+    toStreamNumber(tensor).map(Number::longValue).forEach(longBuffer::put);
+    longBuffer.flip();
+    return longBuffer;
+  }
+
   /***************************************************/
   /** does not perform rounding, but uses Number::intValue
    * 
@@ -102,6 +116,8 @@ public enum ExtractPrimitives {
     return toStreamNumber(tensor).mapToInt(Number::intValue).toArray();
   }
 
+  /** @param tensor
+   * @return */
   public static IntBuffer toIntBuffer(Tensor tensor) {
     IntBuffer intBuffer = IntBuffer.allocate(Numel.of(tensor));
     toStreamNumber(tensor).map(Number::intValue).forEach(intBuffer::put);

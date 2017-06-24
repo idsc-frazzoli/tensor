@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import ch.ethz.idsc.tensor.alg.Accumulate;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.Sort;
-import ch.ethz.idsc.tensor.io.ExtractPrimitives;
+import ch.ethz.idsc.tensor.io.Primitives;
 import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.red.Tally;
@@ -57,7 +57,7 @@ public class BooleanScalarTest extends TestCase {
     Tensor result = Tensor.of(values.flatten(0) //
         .map(Scalar.class::cast) //
         .map(s -> Scalars.lessThan(s, RealScalar.of(5))).map(BooleanScalar::of));
-    Tensor zeroOne = Tensors.vector(ExtractPrimitives.toStreamNumber(result).collect(Collectors.toList()));
+    Tensor zeroOne = Tensors.vector(Primitives.toStreamNumber(result).collect(Collectors.toList()));
     assertTrue(10 < Total.of(zeroOne).Get().number().intValue());
   }
 

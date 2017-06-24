@@ -31,7 +31,7 @@ public enum ColorFormat {
   /** @param vector with length() == 4
    * @return int in hex 0xAA:RR:GG:BB */
   public static Color toColor(Tensor vector) {
-    int[] rgba = ExtractPrimitives.toArrayInt(vector);
+    int[] rgba = Primitives.toArrayInt(vector);
     return new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
   }
 }
