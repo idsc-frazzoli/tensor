@@ -69,14 +69,22 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   /***************************************************/
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
+    if (Double.isNaN(value))
+      throw TensorRuntimeException.of(this);
     return 0 <= value;
   }
 
   /***************************************************/
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return Double.compare(number().doubleValue(), scalar.number().doubleValue());
+    if (Double.isNaN(value))
+      throw TensorRuntimeException.of(this, scalar);
+    if (scalar instanceof RealScalar) {
+      double other = scalar.number().doubleValue();
+      if (Double.isNaN(other))
+        throw TensorRuntimeException.of(this, scalar);
+      return Double.compare(number().doubleValue(), other);
+    }
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
     return -comparable.compareTo(this);

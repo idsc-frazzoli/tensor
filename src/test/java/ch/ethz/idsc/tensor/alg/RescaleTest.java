@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -35,5 +36,11 @@ public class RescaleTest extends TestCase {
     assertEquals(Rescale.of(Tensors.fromString("{{2,2,2},{2,2}}")), Tensors.fromString("{{0,0,0},{0,0}}"));
     assertEquals(Rescale.of(Tensors.fromString("{{1,2,3}}")), Tensors.fromString("{{0,1/2,1}}"));
     assertEquals(Rescale.of(Tensors.fromString("{{10,20,30}}")), Tensors.fromString("{{0,1/2,1}}"));
+  }
+
+  public void testInfty() {
+    Tensor vec = Tensors.vector(-.7, .5, 1.2, Double.POSITIVE_INFINITY, 1.8);
+    Tensor res = Rescale.of(vec);
+    assertTrue(2 < Tally.of(res).size());
   }
 }

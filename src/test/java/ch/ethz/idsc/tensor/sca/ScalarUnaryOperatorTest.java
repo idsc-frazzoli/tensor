@@ -3,19 +3,40 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import junit.framework.TestCase;
 
 public class ScalarUnaryOperatorTest extends TestCase {
   static void _checkOps(Scalar tensor) {
-    Abs.of(tensor);
-    Arg.of(tensor);
-    // ArcCos.of(tensor); // TODO FAIL
-    // ArcSin.of(tensor);
-    // ArcTan.of(tensor);
-    // ArcTanh.of(tensor);
+    try {
+      Abs.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Arg.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArcCos.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArcSin.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
+    ArcTan.of(tensor);
+    ArcTanh.of(tensor);
     Ceiling.of(tensor);
     Chop.of(tensor);
-    Clip.UNIT.apply(tensor);
+    try {
+      Clip.UNIT.apply(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
     Cos.of(tensor);
     Exp.of(tensor);
     Floor.of(tensor);
@@ -25,16 +46,42 @@ public class ScalarUnaryOperatorTest extends TestCase {
     Power.of(tensor, RealScalar.of(.3));
     Power.of(tensor, RealScalar.of(-.3));
     Power.of(tensor, RealScalar.ZERO);
-    Ramp.of(tensor);
+    try {
+      Ramp.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
     Round.of(tensor);
-    Sign.of(tensor);
+    try {
+      Sign.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
     Sin.of(tensor);
-    Sinc.of(tensor);
+    try {
+      Sinc.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
     Sinh.of(tensor);
-    Sqrt.of(tensor);
+    try {
+      Sqrt.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
     Tan.of(tensor);
     Tanh.of(tensor);
-    UnitStep.of(tensor);
+    try {
+      UnitStep.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
+    // ---
+    try {
+      Scalars.compare(tensor, RealScalar.ONE);
+    } catch (Exception exception) {
+      // ---
+    }
     // ---
     tensor.map(Decrement.ONE);
     tensor.map(Increment.ONE);

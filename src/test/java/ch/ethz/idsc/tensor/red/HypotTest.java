@@ -75,12 +75,17 @@ public class HypotTest extends TestCase {
     assertFalse(Scalars.isZero(s1));
     Scalar s2 = RealScalar.INDETERMINATE;
     assertFalse(Scalars.isZero(s2));
-    Scalar s3 = Hypot.bifunction.apply(s1, s2); // NaN+NaN*I
-    assertTrue(s3 instanceof ComplexScalar);
-    assertFalse(Scalars.isZero(s3));
-    // System.out.println(s3);
-    @SuppressWarnings("unused")
-    Scalar s4 = ArcTan.function.apply(s2);
+    try {
+      Scalar s3 = Hypot.bifunction.apply(s1, s2); // NaN+NaN*I
+      assertTrue(s3 instanceof ComplexScalar);
+      assertFalse(Scalars.isZero(s3));
+      // System.out.println(s3);
+      @SuppressWarnings("unused")
+      Scalar s4 = ArcTan.function.apply(s2);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
     // System.out.println(s4);
     // Cos.of(s3);
     // FIXME the next line causes infinite recursion... ARG
