@@ -63,8 +63,8 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   }
 
   @Override // from AbstractDiscreteDistribution
-  protected int upperBound() {
-    return max - 1;
+  public Scalar randomVariate(Scalar reference) {
+    return RealScalar.of(min).add(Floor.of(reference.multiply(RealScalar.of(max - min))));
   }
 
   @Override // from AbstractDiscreteDistribution

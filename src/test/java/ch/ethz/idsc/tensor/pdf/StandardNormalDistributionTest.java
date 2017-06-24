@@ -17,4 +17,18 @@ public class StandardNormalDistributionTest extends TestCase {
     assertTrue(x.toString().startsWith("0.241970724"));
     assertEquals(x, xn);
   }
+
+  public void testCdf() {
+    CDF cdf = StandardNormalDistribution.INSTANCE;
+    {
+      Scalar p = cdf.p_lessThan(RealScalar.ZERO);
+      assertEquals(p, RealScalar.of(0.5));
+    }
+    {
+      Scalar p = cdf.p_lessThan(RealScalar.of(.3));
+      assertTrue(p.toString().startsWith("0.617911"));
+      Scalar q = cdf.p_lessThan(RealScalar.of(-.3));
+      assertEquals(p.add(q), RealScalar.ONE);
+    }
+  }
 }

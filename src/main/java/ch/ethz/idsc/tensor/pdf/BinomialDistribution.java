@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/BinomialDistribution.html">BinomialDistribution</a> */
-public class BinomialDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
+public class BinomialDistribution extends EvaluatedDiscreteDistribution implements VarianceInterface {
   /** Example:
    * PDF[BinomialDistribution[10, 1/3], 1] == 5120/59049
    * 
@@ -73,7 +73,7 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
     this.table = table;
   }
 
-  @Override // from DiscreteDistribution
+  @Override // from EvaluatedDiscreteDistribution
   public int upperBound() {
     return n;
   }

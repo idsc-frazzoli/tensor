@@ -7,18 +7,16 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
+import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** Careful:
  * if parameter p is in exact precision, the probabilities may evaluate
  * to long exact fractions and slow down the computation.
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/GeometricDistribution.html">GeometricDistribution</a> */
 public class GeometricDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {
-  // lambda above max lead to incorrect results due to numerical properties
-  // if p is in machine precision, the additional requirement 0.01 <= p has to hold
-  // private static final Scalar P_MIN = RealScalar.of(0.01);
   /** @param p with 0 < p < 1 denotes probability P(X==0) == p */
   public static Distribution of(Scalar p) {
     if (Scalars.lessEquals(p, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, p))
@@ -46,6 +44,13 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
   @Override // from DiscreteDistribution
   public int lowerBound() {
     return 0;
+  }
+
+  @Override // from AbstractDiscreteDistribution
+  public Scalar randomVariate(Scalar reference) {
+    Scalar num = Log.of(RealScalar.ONE.subtract(reference));
+    Scalar den = Log.of(RealScalar.ONE.subtract(p));
+    return Floor.of(num.divide(den));
   }
 
   @Override // from AbstractDiscreteDistribution

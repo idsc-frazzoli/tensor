@@ -97,7 +97,7 @@ public class BinomialDistributionTest extends TestCase {
 
   public void testSome() {
     for (int n = 10; n < 1200; n += 10) {
-      AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) BinomialDistribution.of(n, RealScalar.of(.333));
+      EvaluatedDiscreteDistribution distribution = (EvaluatedDiscreteDistribution) BinomialDistribution.of(n, RealScalar.of(.333));
       double extreme = Math.nextDown(1);
       distribution.randomVariate(RealScalar.of(extreme));
       NavigableMap<Scalar, Scalar> navigableMap = distribution.inverse_cdf();
@@ -121,7 +121,7 @@ public class BinomialDistributionTest extends TestCase {
     assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(1.0)).getClass(), BinomialDistribution.class);
   }
 
-  public void testNextDownOne() { // TODO test list this for all Discrete Distribs
+  public void testNextDownOne() {
     AbstractDiscreteDistribution distribution = //
         (AbstractDiscreteDistribution) BinomialDistribution.of(1000, DoubleScalar.of(.5));
     distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));

@@ -86,10 +86,14 @@ public class HypotTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
-    // System.out.println(s4);
-    // Cos.of(s3);
-    // FIXME the next line causes infinite recursion... ARG
-    // Scalar s5 = ArcTan.function.apply(s3);
-    // System.out.println(s5);
+  }
+
+  public void testDoubleNaNFail() {
+    try {
+      ArcTan.function.apply(ComplexScalar.of(Double.NaN, Double.NaN));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

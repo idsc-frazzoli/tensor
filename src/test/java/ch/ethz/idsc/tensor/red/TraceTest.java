@@ -23,6 +23,7 @@ public class TraceTest extends TestCase {
 
   // from wikipedia
   private static void checkOrder3(Tensor A) {
+    // trace of special matrix needs more research on valid input
     // Scalar rhs = Det.of(A);
     // Scalar trA1 = Power.of(Trace.of(A), 3);
     // Scalar trA2 = Trace.of(MatrixPower.of(A, 2)).multiply(Trace.of(A)).multiply(RealScalar.of(-3));
@@ -32,7 +33,7 @@ public class TraceTest extends TestCase {
     // System.out.println(trA2);
     // System.out.println(trA3);
     // System.out.println(trA1.add(trA2).add(trA3));
-    // assertEquals(rhs, lhs); // TODO trace of special matrix needs more research on valid input
+    // assertEquals(rhs, lhs);
   }
 
   public void testSimple() {
@@ -48,5 +49,14 @@ public class TraceTest extends TestCase {
     });
     checkOrder2(A);
     checkOrder3(A);
+  }
+
+  public void testFail() {
+    try {
+      Trace.of(Tensors.vector(1, 2, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

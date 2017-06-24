@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -85,5 +86,13 @@ public class PoissonDistributionTest extends TestCase {
     assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-1000000.12))));
     // for (Tensor s : Range.of(1900, 2000))
     // System.out.println(s+" "+pdf.at(s.Get()));
+  }
+
+  public void testNextDownOne() {
+    for (int c = 1; c < 700; c += 3) {
+      AbstractDiscreteDistribution distribution = //
+          (AbstractDiscreteDistribution) PoissonDistribution.of(DoubleScalar.of(c * .5 + 300));
+      distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
+    }
   }
 }

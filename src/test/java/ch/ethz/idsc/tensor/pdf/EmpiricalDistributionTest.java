@@ -5,6 +5,7 @@ import java.util.Map;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
@@ -53,6 +54,13 @@ public class EmpiricalDistributionTest extends TestCase {
     assertFalse(map.containsKey(RealScalar.of(3)));
     assertTrue(map.containsKey(RealScalar.of(4)));
     assertFalse(map.containsKey(RealScalar.of(5)));
+  }
+
+  public void testNextDown() {
+    AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
+    EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(Math.PI, 2., 1., 1.123123, 3., 0, 0, 0));
+    Scalar s = distribution.randomVariate(RealScalar.of(Math.nextDown(1)));
+    assertEquals(s, RealScalar.of(4));
   }
 
   public void testRandomVariateNeedle1() {

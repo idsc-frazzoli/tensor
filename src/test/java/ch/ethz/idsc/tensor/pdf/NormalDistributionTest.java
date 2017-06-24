@@ -32,4 +32,10 @@ public class NormalDistributionTest extends TestCase {
     assertEquals(Expectation.mean(distribution), Expectation.mean(normal));
     assertTrue(Chop.isZeros(Expectation.variance(distribution).subtract(Expectation.variance(normal))));
   }
+
+  public void testCdf() {
+    CDF distribution = (CDF) NormalDistribution.of(RealScalar.of(-10.2), RealScalar.of(2.3));
+    Scalar s = distribution.p_lessThan(RealScalar.of(-11));
+    assertTrue(s.toString().startsWith("0.363985"));
+  }
 }

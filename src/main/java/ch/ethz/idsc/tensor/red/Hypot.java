@@ -31,11 +31,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
       return max; // if min == 0 return max
     // valid at this point: 0 < min <= max
     Scalar ratio = min.divide(max);
-    // TODO RealScalar.ONE this is not sufficiently generic
     return max.multiply(Sqrt.function.apply(RealScalar.ONE.add(ratio.multiply(ratio))));
-    // Scalar one = min.divide(min);
-    // Scalar res = one.add(min.multiply(min));
-    // return max.multiply(Sqrt.function.apply(res));
   }
 
   /** function computes the 2-Norm of a vector

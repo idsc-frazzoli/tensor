@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
-public class PoissonDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
+public class PoissonDistribution extends EvaluatedDiscreteDistribution implements VarianceInterface {
   // lambda above max lead to incorrect results due to numerical properties
   private static final int P_EQUALS_MAX = 1950; // probabilities are zero beyond that point
   private static final Scalar LAMBDA_MAX = RealScalar.of(700);
