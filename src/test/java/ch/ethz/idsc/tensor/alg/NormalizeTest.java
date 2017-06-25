@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -53,6 +54,12 @@ public class NormalizeTest extends TestCase {
     assertEquals(n, Tensors.vector(1, 1, 1));
   }
 
+  public void testOk1() {
+    Tensor v = Tensors.vector(0, 0, 0, 0);
+    Tensor n = Normalize.unlessZero(v, Norm._1);
+    assertEquals(v, n);
+  }
+
   public void testFail1() {
     try {
       Normalize.of(Tensors.vector(0, 0, 0, 0), Norm._1);
@@ -62,9 +69,21 @@ public class NormalizeTest extends TestCase {
     }
   }
 
-  public void testOk1() {
-    Tensor v = Tensors.vector(0, 0, 0, 0);
-    Tensor n = Normalize.unlessZero(v, Norm._1);
-    assertEquals(v, n);
+  public void testScalarFail() {
+    try {
+      Normalize.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMatrixFail() {
+    try {
+      Normalize.of(HilbertMatrix.of(3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

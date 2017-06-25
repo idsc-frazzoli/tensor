@@ -5,6 +5,8 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.mat.VectorQ;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.InvertUnlessZero;
 
@@ -37,13 +39,17 @@ public enum Normalize {
    * @param function
    * @return vector / function(vector) */
   public static Tensor of(Tensor vector, Function<Tensor, Scalar> function) {
-    return vector.multiply(function.apply(vector).invert());
+    if (VectorQ.of(vector))
+      return vector.multiply(function.apply(vector).invert());
+    throw TensorRuntimeException.of(vector);
   }
 
   /** @param vector
    * @param norm
    * @return vector of |vector|==1 subject to given norm, or zero-vector if |vector|==0 */
   public static Tensor unlessZero(Tensor vector, Function<Tensor, Scalar> function) {
-    return vector.multiply(InvertUnlessZero.function.apply(function.apply(vector)));
+    if (VectorQ.of(vector))
+      return vector.multiply(InvertUnlessZero.function.apply(function.apply(vector)));
+    throw TensorRuntimeException.of(vector);
   }
 }
