@@ -69,14 +69,22 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   /***************************************************/
   @Override // from AbstractRealScalar
   protected boolean isNonNegative() {
+    if (Double.isNaN(value))
+      throw TensorRuntimeException.of(this);
     return 0 <= value;
   }
 
   /***************************************************/
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return Double.compare(number().doubleValue(), scalar.number().doubleValue());
+    if (Double.isNaN(value))
+      throw TensorRuntimeException.of(this, scalar);
+    if (scalar instanceof RealScalar) {
+      double other = scalar.number().doubleValue();
+      if (Double.isNaN(other))
+        throw TensorRuntimeException.of(this, scalar);
+      return Double.compare(number().doubleValue(), other);
+    }
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
     return -comparable.compareTo(this);
@@ -84,7 +92,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from RoundingInterface
   public Scalar ceiling() {
-    return RationalScalar.of(StaticHelper.ceiling(bigDecimal()), BigInteger.ONE);
+    return isMachineNumber() ? RationalScalar.of(StaticHelper.ceiling(bigDecimal()), BigInteger.ONE) : this;
   }
 
   @Override // from ChopInterface
@@ -94,17 +102,18 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from RoundingInterface
   public Scalar floor() {
-    return RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE);
+    return isMachineNumber() ? RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE) : this;
   }
 
   @Override // from MachineNumberQInterface
   public boolean isMachineNumber() {
-    return true;
+    return isFinite();
   }
 
   @Override // from RoundingInterface
   public Scalar round() {
-    return RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
+    return isMachineNumber() ? //
+        RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE) : this;
   }
 
   /***************************************************/
@@ -112,6 +121,8 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return BigDecimal.valueOf(value);
   }
 
+  /** @return true if the argument is a finite floating-point
+   * value; false otherwise (for NaN and infinity arguments). */
   public boolean isFinite() {
     return Double.isFinite(value);
   }

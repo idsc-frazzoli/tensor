@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -64,5 +65,24 @@ public class ExponentialDistributionTest extends TestCase {
     double nonzero = Math.nextUp(zero);
     double log = Math.log(nonzero);
     assertTrue(-2000 < log);
+  }
+
+  private static void _checkCorner(Distribution distribution) {
+    ExponentialDistribution exponentialDistribution = (ExponentialDistribution) distribution;
+    Scalar from0 = exponentialDistribution.randomVariate(0);
+    assertTrue(MachineNumberQ.of(from0));
+    assertTrue(Scalars.lessThan(RealScalar.ZERO, from0));
+    double max = Math.nextDown(1);
+    Scalar from1 = exponentialDistribution.randomVariate(max);
+    assertTrue(Scalars.lessThan(RealScalar.ZERO, from1));
+    assertFalse(Scalars.lessThan(RealScalar.ZERO, exponentialDistribution.randomVariate(1)));
+  }
+
+  public void testCornerCase() {
+    _checkCorner(ExponentialDistribution.of(RealScalar.of(.00001)));
+    _checkCorner(ExponentialDistribution.of(RealScalar.of(.1)));
+    _checkCorner(ExponentialDistribution.of(RealScalar.of(1)));
+    _checkCorner(ExponentialDistribution.of(RealScalar.of(2)));
+    _checkCorner(ExponentialDistribution.of(RealScalar.of(700)));
   }
 }

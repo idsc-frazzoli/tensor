@@ -6,7 +6,7 @@ import java.util.List;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
-import ch.ethz.idsc.tensor.io.ExtractPrimitives;
+import ch.ethz.idsc.tensor.io.Primitives;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Increment;
@@ -34,8 +34,8 @@ public class LinearInterpolation extends AbstractInterpolation {
     Tensor floor = Floor.of(index);
     Tensor above = Ceiling.of(index);
     Tensor width = above.subtract(floor).map(Increment.ONE);
-    List<Integer> fromIndex = ExtractPrimitives.toListInteger(floor);
-    List<Integer> dimensions = ExtractPrimitives.toListInteger(width);
+    List<Integer> fromIndex = Primitives.toListInteger(floor);
+    List<Integer> dimensions = Primitives.toListInteger(width);
     Tensor block = tensor.block(fromIndex, dimensions);
     Tensor weights = Transpose.of(Tensors.of( //
         above.subtract(index), //

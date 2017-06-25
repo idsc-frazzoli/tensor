@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/EmpiricalDistribution.html">EmpiricalDistribution</a> */
-public class EmpiricalDistribution extends AbstractDiscreteDistribution implements CDF {
+public class EmpiricalDistribution extends EvaluatedDiscreteDistribution implements CDF {
   /** @param unscaledPDF vector of non-negative weights over the numbers
    * [0, 1, 2, ... unscaledPDF.length() - 1]
    * @return */
@@ -53,6 +53,11 @@ public class EmpiricalDistribution extends AbstractDiscreteDistribution implemen
   @Override // from DiscreteDistribution
   public int lowerBound() {
     return 0;
+  }
+
+  @Override // from EvaluatedDiscreteDistribution
+  protected int upperBound() {
+    return cdf.length() - 1; // override probably not necessary
   }
 
   @Override // from AbstractDiscreteDistribution

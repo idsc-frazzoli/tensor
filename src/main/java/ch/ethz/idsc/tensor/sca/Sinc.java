@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Multinomial;
@@ -17,13 +19,13 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
 public enum Sinc implements ScalarUnaryOperator {
   function;
   // ---
-  private static final double THRESHOLD = 0.05;
+  private static final Scalar THRESHOLD = RealScalar.of(0.05);
   private static final Tensor SERIES = Tensors.vector(1, 0, -6, 0, 120, 0, -5040, 0, 362880, 0, -39916800) //
       .map(InvertUnlessZero.function);
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar.abs().number().doubleValue() < THRESHOLD)
+    if (Scalars.lessThan(scalar.abs(), THRESHOLD))
       return Multinomial.horner(SERIES, N.function.apply(scalar));
     return Sin.function.apply(scalar).divide(scalar);
   }

@@ -5,8 +5,10 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
@@ -59,5 +61,39 @@ public class HypotTest extends TestCase {
     assertEquals(func, pair);
     Scalar norm = Norm._2.of(Tensors.of(c1, c2));
     assertEquals(norm, pair);
+  }
+
+  public void testNaNdivNaN() {
+    Scalar s1 = RealScalar.INDETERMINATE;
+    Scalar s2 = RealScalar.INDETERMINATE;
+    Scalar s3 = s1.divide(s2);
+    assertEquals(s3.toString(), "NaN");
+  }
+
+  public void testInfNan() {
+    Scalar s1 = RealScalar.POSITIVE_INFINITY;
+    assertFalse(Scalars.isZero(s1));
+    Scalar s2 = RealScalar.INDETERMINATE;
+    assertFalse(Scalars.isZero(s2));
+    try {
+      Scalar s3 = Hypot.bifunction.apply(s1, s2); // NaN+NaN*I
+      assertTrue(s3 instanceof ComplexScalar);
+      assertFalse(Scalars.isZero(s3));
+      // System.out.println(s3);
+      @SuppressWarnings("unused")
+      Scalar s4 = ArcTan.function.apply(s2);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testDoubleNaNFail() {
+    try {
+      ArcTan.function.apply(ComplexScalar.of(Double.NaN, Double.NaN));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

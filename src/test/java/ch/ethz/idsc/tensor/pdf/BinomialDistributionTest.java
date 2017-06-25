@@ -1,12 +1,17 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.Map.Entry;
+import java.util.NavigableMap;
+
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.red.Tally;
 import junit.framework.TestCase;
 
 public class BinomialDistributionTest extends TestCase {
@@ -82,6 +87,44 @@ public class BinomialDistributionTest extends TestCase {
       Distribution distribution = BinomialDistribution.of(0, RealScalar.of(.3));
       assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
     }
+  }
+
+  public void testBug() {
+    assertTrue(10 < Tally.of(RandomVariate.of(BinomialDistribution.of(20, RationalScalar.of(2, 3)), 10000)).size());
+    assertTrue(20 < Tally.of(RandomVariate.of(BinomialDistribution.of(100, RationalScalar.of(2, 3)), 10000)).size());
+    assertTrue(50 < Tally.of(RandomVariate.of(BinomialDistribution.of(1207, RationalScalar.of(2, 3)), 10000)).size());
+  }
+
+  public void testSome() {
+    for (int n = 10; n < 1200; n += 10) {
+      EvaluatedDiscreteDistribution distribution = (EvaluatedDiscreteDistribution) BinomialDistribution.of(n, RealScalar.of(.333));
+      double extreme = Math.nextDown(1);
+      distribution.randomVariate(RealScalar.of(extreme));
+      NavigableMap<Scalar, Scalar> navigableMap = distribution.inverse_cdf();
+      Entry<Scalar, Scalar> entry = navigableMap.lastEntry();
+      // System.out.println(n + " " + entry);
+    }
+  }
+
+  public void testBlub() {
+    BinomialDistribution.of(1200, RealScalar.of(.1));
+    BinomialDistribution.of(1200, RealScalar.of(.9));
+  }
+
+  public void testInRange() {
+    // System.out.println("next down "+Math.nextDown(1.0));
+    assertEquals(BinomialDistribution.of(1000, DoubleScalar.of(.5)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(2000, DoubleScalar.of(.1)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.01)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.99)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(.0)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(1.0)).getClass(), BinomialDistribution.class);
+  }
+
+  public void testNextDownOne() {
+    AbstractDiscreteDistribution distribution = //
+        (AbstractDiscreteDistribution) BinomialDistribution.of(1000, DoubleScalar.of(.5));
+    distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
   }
 
   public void testFailN() {

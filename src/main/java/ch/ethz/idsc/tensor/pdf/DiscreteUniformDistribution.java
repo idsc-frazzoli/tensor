@@ -36,9 +36,9 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   }
 
   // ---
-  private final int min;
-  private final int max;
-  private final Scalar p;
+  private final int min; // inclusive
+  private final int max; // exclusive
+  private final Scalar p; // precomputed
 
   private DiscreteUniformDistribution(int min, int max) {
     this.min = min;
@@ -60,6 +60,11 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   @Override // from DiscreteDistribution
   public int lowerBound() {
     return min;
+  }
+
+  @Override // from AbstractDiscreteDistribution
+  public Scalar randomVariate(Scalar reference) {
+    return RealScalar.of(min).add(Floor.of(reference.multiply(RealScalar.of(max - min))));
   }
 
   @Override // from AbstractDiscreteDistribution

@@ -15,6 +15,8 @@ import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
+import ch.ethz.idsc.tensor.Tensor;
+
 /** in Mathematica, animated gif sequences are created by Mathematica::Export */
 public class GifSequenceWriter implements ImageSequenceWriter {
   /** @param file
@@ -67,13 +69,16 @@ public class GifSequenceWriter implements ImageSequenceWriter {
     return node;
   }
 
-  /** @param bufferedImage to append to the sequence
-   * @throws Exception */
   @Override
   public void append(BufferedImage bufferedImage) throws Exception {
     if (iIOMetadata == null)
       _initialize(bufferedImage.getType());
     imageWriter.writeToSequence(new IIOImage(bufferedImage, null, iIOMetadata), imageWriteParam);
+  }
+
+  @Override
+  public void append(Tensor tensor) throws Exception {
+    append(ImageFormat.of(tensor));
   }
 
   @Override

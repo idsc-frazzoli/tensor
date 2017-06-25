@@ -15,10 +15,13 @@ public enum Subdivide {
    * results in
    * [10, 11, 12, 13, 14, 15]
    * 
-   * also works for decending values:
+   * Subdivide also works for descending values:
    * Subdivide.of(RealScalar.of(-1), RealScalar.of(-4), 3)
    * results in
    * [-1, -2, -3, -4]
+   * 
+   * Subdivide also works for vectors:
+   * Subdivide.of(Tensors.vector(10, 5), Tensors.vector(5, 15), 4)
    * 
    * @param startInclusive
    * @param endInclusive

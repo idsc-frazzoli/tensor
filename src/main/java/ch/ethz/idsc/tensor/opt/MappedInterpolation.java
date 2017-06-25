@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.opt;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.io.ExtractPrimitives;
+import ch.ethz.idsc.tensor.io.Primitives;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Round;
@@ -33,6 +33,6 @@ public class MappedInterpolation extends AbstractInterpolation {
 
   @Override // from AbstractInterpolation
   protected final Tensor _get(Tensor index) {
-    return tensor.get(ExtractPrimitives.toListInteger(function.apply(index)));
+    return tensor.get(Primitives.toListInteger(function.apply(index)));
   }
 }

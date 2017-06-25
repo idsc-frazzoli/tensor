@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.ExactNumberQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -63,5 +64,33 @@ public class GeometricDistributionTest extends TestCase {
   public void testOutside() {
     PDF pdf = PDF.of(GeometricDistribution.of(RationalScalar.of(1, 3)));
     assertEquals(pdf.at(RealScalar.of(-1)), RealScalar.ZERO);
+  }
+
+  public void testRandomVariate() {
+    double P = 0.9999;
+    AbstractDiscreteDistribution distribution = //
+        (AbstractDiscreteDistribution) GeometricDistribution.of(RealScalar.of(P));
+    {
+      Scalar s = distribution.randomVariate(RealScalar.of(Math.nextDown(P)));
+      assertEquals(s, RealScalar.ZERO);
+    }
+    {
+      Scalar s = distribution.randomVariate(RealScalar.of(P));
+      assertEquals(s, RealScalar.ONE);
+    }
+    {
+      Scalar s = distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
+      assertEquals(s, RealScalar.of(3));
+    }
+  }
+
+  public void testNextDownOne() {
+    for (int c = 500; c <= 700; c += 100) {
+      Scalar p = DoubleScalar.of(.1 / c);
+      // System.out.println(p);
+      AbstractDiscreteDistribution distribution = //
+          (AbstractDiscreteDistribution) GeometricDistribution.of(p);
+      distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
+    }
   }
 }

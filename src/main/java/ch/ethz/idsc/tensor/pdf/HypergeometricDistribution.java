@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.alg.Binomial;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HypergeometricDistribution.html">HypergeometricDistribution</a> */
-public class HypergeometricDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
+public class HypergeometricDistribution extends EvaluatedDiscreteDistribution implements VarianceInterface {
   /** see the Mathematica documentation of HypergeometricDistribution
    * 
    * @param N number of draws

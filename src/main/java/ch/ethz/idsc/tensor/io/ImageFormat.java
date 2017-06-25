@@ -61,7 +61,7 @@ public enum ImageFormat {
   // helper function
   private static BufferedImage toTYPE_BYTE_GRAY(Tensor tensor, List<Integer> dims) {
     BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_BYTE_GRAY);
-    int[] array = ExtractPrimitives.toArrayInt(Transpose.of(tensor));
+    int[] array = Primitives.toArrayInt(Transpose.of(tensor));
     IntStream.range(0, array.length).parallel() //
         .forEach(index -> array[index] = inflate(array[index]));
     bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
@@ -79,7 +79,7 @@ public enum ImageFormat {
   private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, List<Integer> dims) {
     BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_INT_ARGB);
     Tensor res = TensorMap.of(vector -> RealScalar.of(ColorFormat.toInt(vector)), tensor, 2);
-    int[] array = ExtractPrimitives.toArrayInt(Transpose.of(res));
+    int[] array = Primitives.toArrayInt(Transpose.of(res));
     bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
     return bufferedImage;
   }

@@ -1,28 +1,58 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.alg.Binomial;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Reverse;
+import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/BinomialDistribution.html">BinomialDistribution</a> */
-public class BinomialDistribution extends AbstractDiscreteDistribution implements VarianceInterface {
+public class BinomialDistribution extends EvaluatedDiscreteDistribution implements VarianceInterface {
   /** Example:
    * PDF[BinomialDistribution[10, 1/3], 1] == 5120/59049
    * 
+   * For some input parameters (n, p), the computation of the exact PDF can be challenging:
+   * Extreme cases are
+   * BinomialDistribution[10000, 0.5] <- several probabilities are below machine precision (~10^-300)
+   * BinomialDistribution[10000, 11/13] <- probabilities are complicated integer fractions
+   * 
    * @param n non-negative
    * @param p in the interval [0, 1]
-   * @return */
+   * @return an instance of {@link BinomialDistribution} if the CDF could be computed correctly,
+   * otherwise an instance of {@link BinomialRandomVariate}, which has the capability to
+   * generate random variates, but is not available to PDF, or CDF. */
   public static Distribution of(int n, Scalar p) {
     if (n < 0)
       throw new RuntimeException("n=" + n);
     if (Scalars.lessThan(p, RealScalar.ZERO) || Scalars.lessThan(RealScalar.ONE, p))
       throw TensorRuntimeException.of(p);
-    return new BinomialDistribution(n, p);
+    // ---
+    boolean revert = Scalars.lessThan(RationalScalar.of(1, 2), p);
+    Scalar q = revert ? RealScalar.ONE.subtract(p) : p;
+    Tensor table = Tensors.empty();
+    Scalar last = Power.of(RealScalar.ONE.subtract(q), n);
+    table.append(last);
+    final Scalar pratio = q.divide(RealScalar.ONE.subtract(q));
+    for (int k = 1; k <= n; ++k) {
+      // ((1 - k + n) p) / (k - k p) == ((1 - k + n)/k) * (p/(1 - p))
+      Scalar ratio = RationalScalar.of(n - k + 1, k).multiply(pratio);
+      last = last.multiply(ratio);
+      table.append(last);
+    }
+    table = revert ? Reverse.of(table) : table;
+    Scalar sum = Total.of(table).Get();
+    // System.out.println(sum);
+    return Chop.isZeros(sum.subtract(RealScalar.ONE)) ? //
+        new BinomialDistribution(n, p, table) : //
+        new BinomialRandomVariate(n, p);
   }
 
   /** @param n non-negative integer
@@ -35,12 +65,17 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
   // ---
   private final int n;
   private final Scalar p;
-  private final Binomial binomial;
+  private final Tensor table;
 
-  private BinomialDistribution(int n, Scalar p) {
+  private BinomialDistribution(int n, Scalar p, Tensor table) {
     this.n = n;
     this.p = p;
-    binomial = Binomial.of(n);
+    this.table = table;
+  }
+
+  @Override // from EvaluatedDiscreteDistribution
+  public int upperBound() {
+    return n;
   }
 
   @Override // from MeanInterface
@@ -62,6 +97,6 @@ public class BinomialDistribution extends AbstractDiscreteDistribution implement
   protected Scalar protected_p_equals(int k) {
     if (n < k)
       return RealScalar.ZERO;
-    return binomial.over(k).multiply(Power.of(p, k)).multiply(Power.of(RealScalar.ONE.subtract(p), n - k));
+    return table.Get(k);
   }
 }

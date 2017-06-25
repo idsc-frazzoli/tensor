@@ -67,6 +67,16 @@ public class DoubleScalarTest extends TestCase {
     assertEquals(Max.of(a, b), b);
   }
 
+  public void testNaN() {
+    try {
+      DoubleScalar nan = (DoubleScalar) RealScalar.INDETERMINATE;
+      nan.isNonNegative();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testCompareFail() {
     Scalar a = RealScalar.of(7.2);
     Scalar b = GaussScalar.of(3, 5);

@@ -78,4 +78,17 @@ public class DiscreteUniformDistributionTest extends TestCase {
       // ---
     }
   }
+
+  public void testRandomVariate() {
+    AbstractDiscreteDistribution distribution = //
+        (AbstractDiscreteDistribution) DiscreteUniformDistribution.of(10, 100);
+    {
+      Scalar s = distribution.randomVariate(RealScalar.of(Math.nextDown(1)));
+      assertEquals(s, RealScalar.of(99));
+    }
+    {
+      Scalar s = distribution.randomVariate(RealScalar.of(0));
+      assertEquals(s, RealScalar.of(10));
+    }
+  }
 }

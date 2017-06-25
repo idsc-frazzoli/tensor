@@ -12,6 +12,12 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** Trace of a matrix or tensor.
  * 
+ * Trace is similar to Mathematica::Tr, however Mathematica also defines
+ * the function for vectors Mathematica::Tr[{1,2,3}].
+ * 
+ * In the tensor library computing the trace of a vector throws an exception:
+ * Trace.of[{1,2,3}] == undefined
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Tr.html">Tr</a> */
 public enum Trace {

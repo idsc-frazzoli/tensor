@@ -4,10 +4,10 @@
 
 Library for tensor computation in Java 8.
 
-Version `0.2.5`
+Version `0.2.6`
 
 Features:
-* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie algebra ad-tensor, ...
+* multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
 * scalars are real, or complex numbers, or from finite fields, etc.
 * values are encoded as exact fractions, or in double precision
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
@@ -119,7 +119,7 @@ gives
 and
 
     PDF pdf = PDF.of(distribution);
-    System.out.println("P(X=3)=" + pdf.p_equals(RealScalar.of(3)));
+    System.out.println("P(X=3)=" + pdf.at(RealScalar.of(3)));
 
 gives
 
@@ -157,7 +157,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.2.5</version>
+        <version>0.2.6</version>
       </dependency>
     </dependencies>
 
@@ -165,7 +165,7 @@ The source code is attached to the `jar` file for your convenience.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.5/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.6/*
 
 ## Optional
 
@@ -189,4 +189,4 @@ The library is used in the projects:
 * `QueuingNetworks`
 * `SimBus`
 
-The repository has over `830` unit tests.
+The repository has over `880` unit tests.

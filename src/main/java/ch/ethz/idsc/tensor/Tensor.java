@@ -10,7 +10,22 @@ import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
-/** a tensor is a multi-dimensional array with the dot product */
+/** A {@link Tensor} is a scalar, or a list of tensors.
+ * 
+ * In particular, a {@link Tensor} does not have to be an array.
+ * Example structure: {0, {1, 2}, 3, {{4, 5}, 6}}
+ * 
+ * This generality allows to combine tensors
+ * 
+ * Tensor state = {x, y, theta}
+ * Tensor action = {steer, speed}
+ * 
+ * into one tensor
+ * 
+ * Tensor stateAction = {state, action}
+ * 
+ * If a {@link Tensor} is a multi-dimensional array, then the dot product is supported.
+ * Example of a tensor with regular array structure: {{1, 2, 3}, {4, 5, 6}} */
 public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function {@link Tensor#get(Integer...)}
    * to extract <em>all</em> elements from the respective dimension.
@@ -128,10 +143,9 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return number of entries on the first level; -1 for {@link Scalar}s */
   int length();
 
-  /** function checks if instance of tensor is a {@link Scalar}
-   * 
-   * <p>function is identical to the check
-   * length() == Scalar.LENGTH
+  /** <p>function is equivalent to the checks
+   * "length() == Scalar.LENGTH"
+   * "this instanceof Scalar"
    * 
    * @return true if this instanceof {@link Scalar} */
   boolean isScalar();

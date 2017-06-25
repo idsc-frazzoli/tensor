@@ -67,16 +67,15 @@ public class BernoulliDistributionTest extends TestCase {
       // ---
     }
   }
-
-  public void testInverseCdf() {
-    Scalar p = RationalScalar.of(1, 3);
-    AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) BernoulliDistribution.of(p);
-    RandomVariate.of(distribution, 20);
-    assertEquals(distribution.inverse_cdf().size(), 2);
-    assertEquals(distribution.inverse_cdf().get(RationalScalar.of(2, 3)), RealScalar.of(0));
-    assertEquals(distribution.inverse_cdf().get(RationalScalar.of(1, 1)), RealScalar.of(1));
-    assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(0, 3)).getValue(), RealScalar.of(0));
-    assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(2, 3)).getValue(), RealScalar.of(1));
-    assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(1, 1)), null);
-  }
+  // public void testInverseCdf() {
+  // Scalar p = RationalScalar.of(1, 3);
+  // AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) BernoulliDistribution.of(p);
+  // RandomVariate.of(distribution, 20);
+  // assertEquals(distribution.inverse_cdf().size(), 2);
+  // assertEquals(distribution.inverse_cdf().get(RationalScalar.of(2, 3)), RealScalar.of(0));
+  // assertEquals(distribution.inverse_cdf().get(RationalScalar.of(1, 1)), RealScalar.of(1));
+  // assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(0, 3)).getValue(), RealScalar.of(0));
+  // assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(2, 3)).getValue(), RealScalar.of(1));
+  // assertEquals(distribution.inverse_cdf().higherEntry(RationalScalar.of(1, 1)), null);
+  // }
 }
