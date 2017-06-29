@@ -38,6 +38,7 @@ public enum ResourceData {
    * @return url */
   // EXPERIMENTAL API not finalized
   public static URL url(String string) {
+    // jar:file:/home/datahaki/.m2/repository/ch/ethz/idsc/tensor/0.2.7/tensor-0.2.7.jar!/colorscheme/classic.csv
     return ResourceData.class.getResource(string);
   }
 

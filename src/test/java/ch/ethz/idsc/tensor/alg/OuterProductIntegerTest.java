@@ -15,4 +15,21 @@ public class OuterProductIntegerTest extends TestCase {
     }
     assertEquals(count, 6);
   }
+
+  public void testMore() {
+    int count1 = 0;
+    for (List<Integer> list : new OuterProductInteger(new int[] { 4, 1, 2, 3 })) {
+      // System.out.println(list);
+      ++count1;
+      list.get(0);
+    }
+    // System.out.println("---");
+    int count2 = 0;
+    for (List<Integer> list : new OuterProductInteger(new int[] { 4, 1, 2, 3 }, true)) {
+      // System.out.println(list);
+      ++count2;
+      list.get(0);
+    }
+    assertEquals(count1, count2);
+  }
 }

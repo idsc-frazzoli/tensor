@@ -6,8 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.IntStream;
 
-/** serves as the algorithm for OuterProduct */
-class OuterProductInteger implements Iterator<List<Integer>>, Iterable<List<Integer>> {
+/* package */ class OuterProductInteger implements Iterator<List<Integer>>, Iterable<List<Integer>> {
   final Integer[] myInteger;
   final int[] myInt;
   final int[] direction;
@@ -34,7 +33,7 @@ class OuterProductInteger implements Iterator<List<Integer>>, Iterable<List<Inte
     this.myInt = myInt;
     this.total = total;
     direction = new int[myInt.length];
-    for (int c0 : new IntRange(myInt.length))
+    for (int c0 = 0; c0 < myInt.length; ++c0)
       direction[c0] = forward ? myInt.length - c0 - 1 : c0;
   }
 
@@ -66,11 +65,4 @@ class OuterProductInteger implements Iterator<List<Integer>>, Iterable<List<Inte
   public Iterator<List<Integer>> iterator() {
     return this;
   }
-  // public static void main(String[] args) {
-  // for (List<Integer> myList : new OuterProductInteger(new int[] { 4, 1, 2, 3 }))
-  // System.out.println(myList);
-  // System.out.println("---");
-  // for (List<Integer> myList : new OuterProductInteger(new int[] { 4, 1, 2, 3 }, true))
-  // System.out.println(myList);
-  // }
 }

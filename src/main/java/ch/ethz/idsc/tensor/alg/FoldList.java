@@ -17,13 +17,13 @@ public enum FoldList {
    * @return */
   public static Tensor of(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {
     Tensor result = Tensors.empty();
-    if (tensor.length() == 0)
-      return result;
-    Tensor entry = tensor.get(0);
-    result.append(entry);
-    for (int index = 1; index < tensor.length(); ++index) {
-      entry = binaryOperator.apply(entry, tensor.get(index));
+    if (0 < tensor.length()) {
+      Tensor entry = tensor.get(0);
       result.append(entry);
+      for (int index = 1; index < tensor.length(); ++index) {
+        entry = binaryOperator.apply(entry, tensor.get(index));
+        result.append(entry);
+      }
     }
     return result;
   }

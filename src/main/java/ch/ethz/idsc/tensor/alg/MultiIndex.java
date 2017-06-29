@@ -4,7 +4,9 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Arrays;
 import java.util.List;
 
-class MultiIndex {
+import ch.ethz.idsc.tensor.Tensors;
+
+/* package */ class MultiIndex {
   // private
   final int[] size;
 
@@ -12,10 +14,10 @@ class MultiIndex {
     size = Arrays.copyOf(dims, dims.length);
   }
 
-  public MultiIndex(List<Integer> myList) {
-    size = new int[myList.size()];
+  public MultiIndex(List<Integer> list) {
+    size = new int[list.size()];
     int index = -1;
-    for (int val : myList)
+    for (int val : list)
       size[++index] = val;
   }
 
@@ -23,37 +25,17 @@ class MultiIndex {
     return size[index];
   }
 
-  // public MultiIndex drop(int index) {
-  // int[] dims = new int[size.length - 1];
-  // for (int pos : new IntRange(index))
-  // dims[pos] = size[pos];
-  // for (int pos : new IntRange(index + 1, size.length))
-  // dims[pos - 1] = size[pos];
-  // return new MultiIndex(dims);
-  // }
-  //
-  // public MultiIndex insert(int index, int value) {
-  // int[] dims = new int[size.length + 1];
-  // for (int pos : new IntRange(index))
-  // dims[pos] = size[pos];
-  // dims[index] = value;
-  // for (int pos : new IntRange(index, size.length))
-  // dims[pos + 1] = size[pos];
-  // return new MultiIndex(dims);
-  // }
   public MultiIndex permute(int... sigma) {
     // TODO assert that real permutation
     int[] dims = new int[size.length];
-    for (int index : new IntRange(size.length))
+    for (int index = 0; index < size.length; ++index)
       dims[sigma[index]] = size[index];
     return new MultiIndex(dims);
   }
 
   @Override
-  public boolean equals(Object myObject) {
-    return myObject != null //
-        && myObject instanceof MultiIndex //
-        && Arrays.equals(size, ((MultiIndex) myObject).size);
+  public boolean equals(Object object) {
+    return object instanceof MultiIndex && Arrays.equals(size, ((MultiIndex) object).size);
   }
 
   @Override
@@ -63,20 +45,6 @@ class MultiIndex {
 
   @Override
   public String toString() {
-    StringBuilder myStringBuilder = new StringBuilder();
-    myStringBuilder.append('[');
-    for (int index : new IntRange(size.length)) {
-      if (0 < index)
-        myStringBuilder.append(',');
-      myStringBuilder.append(size[index]);
-    }
-    myStringBuilder.append(']');
-    return myStringBuilder.toString();
+    return Tensors.vectorInt(size).toString();
   }
-  // public static void main(String[] args) {
-  // MultiIndex myMultiIndex = new MultiIndex(2, 3, 5);
-  // System.out.println(myMultiIndex);
-  // System.out.println(myMultiIndex.permute(2, 0, 1));
-  // System.out.println(myMultiIndex.insert(0, 0));
-  // }
 }

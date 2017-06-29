@@ -5,38 +5,21 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-class Size implements Iterable<MultiIndex> {
-  // private static int static_numel(int[] dims) {
-  // int numel = 1;
-  // for (int val : dims)
-  // numel *= val;
-  // return numel;
-  // }
+/* package */ class Size implements Iterable<MultiIndex> {
   final int[] size;
   private final int[] prod;
-  // final int numel;
 
   public Size(int... dims) {
     size = Arrays.copyOf(dims, dims.length);
     prod = new int[dims.length];
     if (0 < dims.length) {
-      prod[dims.length - 1 - 0] = 1;
-      for (int index : new IntRange(0, dims.length - 1))
-        prod[dims.length - 1 - (index + 1)] = prod[dims.length - 1 - index] * size[dims.length - 1 - index];
+      final int dmo = dims.length - 1;
+      prod[dmo - 0] = 1;
+      for (int index = 0; index < dmo; ++index)
+        prod[dmo - (index + 1)] = prod[dmo - index] * size[dmo - index];
     }
-    // numel = static_numel(dims); // OLDTODO simplify
   }
 
-  // @Deprecated
-  // public Size drop(int index) {
-  // return new Size(new MultiIndex(size).drop(index).size);
-  // }
-  //
-  // @Deprecated
-  // public Size insert(int index, int value) {
-  // return new Size(new MultiIndex(size).insert(index, value).size);
-  // }
-  //
   public Size permute(int... sigma) {
     return new Size(new MultiIndex(size).permute(sigma).size);
   }
@@ -47,43 +30,9 @@ class Size implements Iterable<MultiIndex> {
 
   public int indexOf(MultiIndex multiIndex) {
     int pos = 0;
-    for (int index : new IntRange(prod.length))
+    for (int index = 0; index < prod.length; ++index)
       pos += prod[index] * multiIndex.at(index);
     return pos;
-  }
-  // public int ndims() {
-  // return size.length;
-  // }
-  // public boolean isVectorWith(int num) {
-  // return ndims() == 1 && size[0] == num;
-  // }
-
-  // public boolean isMatrix() {
-  // return ndims() == 2;
-  // }
-  //
-  // public boolean isSquareMatrix() {
-  // return isMatrix() && size[0] == size[1];
-  // }
-  @Override
-  public boolean equals(Object myObject) {
-    return myObject != null //
-        && myObject instanceof Size //
-        && Arrays.equals(size, ((Size) myObject).size);
-  }
-
-  @Override
-  public int hashCode() {
-    return Arrays.hashCode(size);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder myStringBuilder = new StringBuilder();
-    myStringBuilder.append(new MultiIndex(size).toString());
-    myStringBuilder.append("..");
-    myStringBuilder.append(new MultiIndex(prod).toString());
-    return myStringBuilder.toString();
   }
 
   @Override
@@ -103,14 +52,18 @@ class Size implements Iterable<MultiIndex> {
     };
   }
 
-  public static void main(String[] args) {
-    Size mySize = new Size(new int[] { 4, 2, 3 });
-    System.out.println(mySize.toString());
-    System.out.println(mySize.indexOf(new MultiIndex(0, 0, 0)));
-    System.out.println(mySize.indexOf(new MultiIndex(3, 1, 2)));
-    // OuterProductInteger myOuterProductInteger = new OuterProductInteger(new int[] { 3, 2, 4 });
-    for (MultiIndex myMultiIndex : mySize) {
-      System.out.println(myMultiIndex + " " + mySize.indexOf(myMultiIndex));
-    }
+  @Override
+  public boolean equals(Object object) {
+    return object instanceof Size && Arrays.equals(size, ((Size) object).size);
+  }
+
+  @Override
+  public int hashCode() {
+    return Arrays.hashCode(size);
+  }
+
+  @Override
+  public String toString() {
+    return new MultiIndex(size) + ".." + new MultiIndex(prod);
   }
 }
