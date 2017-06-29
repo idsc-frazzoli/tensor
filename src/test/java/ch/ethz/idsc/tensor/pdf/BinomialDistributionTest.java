@@ -101,6 +101,7 @@ public class BinomialDistributionTest extends TestCase {
       double extreme = Math.nextDown(1);
       distribution.randomVariate(RealScalar.of(extreme));
       NavigableMap<Scalar, Scalar> navigableMap = distribution.inverse_cdf();
+      @SuppressWarnings("unused")
       Entry<Scalar, Scalar> entry = navigableMap.lastEntry();
       // System.out.println(n + " " + entry);
     }

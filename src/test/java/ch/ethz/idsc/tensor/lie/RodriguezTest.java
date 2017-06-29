@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.mat.MatrixExp;
+import ch.ethz.idsc.tensor.mat.RotationMatrix;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -13,6 +14,17 @@ public class RodriguezTest extends TestCase {
   private static void checkDiff(Tensor c) {
     Tensor d = Rodriguez.of(c).subtract(MatrixExp.of(Cross.of(c)));
     assertEquals(Chop.of(d), Array.zeros(3, 3));
+  }
+
+  public void testXY() {
+    Tensor m22 = RotationMatrix.of(RealScalar.ONE);
+    Tensor mat = Rodriguez.of(Tensors.vector(0, 0, 1));
+    Tensor blu = Tensors.of( //
+        mat.get(0).extract(0, 2), //
+        mat.get(1).extract(0, 2));
+    assertEquals(blu, m22);
+    // System.out.println(Pretty.of(m22.map(Round._2)));
+    // System.out.println(Pretty.of(mat.map(Round._2)));
   }
 
   public void testFormula() {

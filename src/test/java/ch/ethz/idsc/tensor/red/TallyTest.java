@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.red;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.NavigableMap;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -32,5 +33,12 @@ public class TallyTest extends TestCase {
     assertEquals((long) map.get(RealScalar.POSITIVE_INFINITY), 3);
     assertEquals((long) map.get(RealScalar.NEGATIVE_INFINITY), 1);
     assertEquals((long) map.get(RealScalar.of(1)), 1);
+  }
+
+  public void testSorted() {
+    Tensor vector = Tensors.vector(4, 2, 3, 7, 2, 5, 4, 2, 2, 5);
+    NavigableMap<Tensor, Long> navigableMap = Tally.sorted(vector);
+    Tensor keys = Tensor.of(navigableMap.keySet().stream());
+    assertEquals(keys, Tensors.vector(2, 3, 4, 5, 7));
   }
 }

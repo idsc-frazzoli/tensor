@@ -10,6 +10,9 @@ import ch.ethz.idsc.tensor.Tensor;
  * <p>The taylor series is
  * LogisticSigmoid[x] == 1/2 + x/4 - x^3/48 + x^5/480 + ...
  * 
+ * <p>The derivative is
+ * Exp[x] / ((1 + Exp[x])^2)
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/LogisticSigmoid.html">LogisticSigmoid</a> */
 public enum LogisticSigmoid implements ScalarUnaryOperator {
