@@ -89,10 +89,17 @@ public class BinomialDistributionTest extends TestCase {
     }
   }
 
-  public void testBug() {
+  public void testBug1() {
     assertTrue(10 < Tally.of(RandomVariate.of(BinomialDistribution.of(20, RationalScalar.of(2, 3)), 10000)).size());
+  }
+
+  public void testBug2() {
     assertTrue(20 < Tally.of(RandomVariate.of(BinomialDistribution.of(100, RationalScalar.of(2, 3)), 10000)).size());
-    assertTrue(50 < Tally.of(RandomVariate.of(BinomialDistribution.of(1207, RationalScalar.of(2, 3)), 10000)).size());
+  }
+
+  public void testBug3() {
+    int size = Tally.of(RandomVariate.of(BinomialDistribution.of(1207, RationalScalar.of(2, 3)), 10000)).size();
+    assertTrue(50 < size);
   }
 
   public void testSome() {

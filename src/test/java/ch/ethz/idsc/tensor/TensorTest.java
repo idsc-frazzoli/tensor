@@ -307,7 +307,7 @@ public class TensorTest extends TestCase {
 
   public void testMap() {
     Tensor a = Tensors.of(DoubleScalar.of(1e-20), Tensors.of(DoubleScalar.of(3e-19)));
-    Tensor b = a.map(Chop.function);
+    Tensor b = a.map(Chop._12);
     assertEquals(b, Tensors.of(RealScalar.ZERO, Tensors.of(RealScalar.ZERO)));
   }
 

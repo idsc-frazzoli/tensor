@@ -9,5 +9,5 @@ public interface ChopInterface { /* optional interface */
   /** @param threshold
    * @return {@link Scalar#zero()} if Scalar has numeric precision and
    * absolute value is strictly below threshold */
-  Scalar chop(double threshold);
+  Scalar chop(Chop chop);
 }

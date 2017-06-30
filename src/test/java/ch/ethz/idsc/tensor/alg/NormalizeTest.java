@@ -20,7 +20,7 @@ public class NormalizeTest extends TestCase {
   public void testVector2() {
     Tensor vector = Tensors.vector(3, 2, 1);
     Tensor n = Normalize.of(vector);
-    Scalar res = Chop.function.apply(Norm._2.of(n).subtract(RealScalar.ONE));
+    Scalar res = Chop._12.apply(Norm._2.of(n).subtract(RealScalar.ONE));
     assertEquals(res, res.zero());
   }
 

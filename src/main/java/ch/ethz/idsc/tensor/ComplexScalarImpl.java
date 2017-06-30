@@ -96,8 +96,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   }
 
   @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return ComplexScalar.of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
+  public Scalar chop(Chop chop) {
+    return ComplexScalar.of(chop.apply(re), chop.apply(im));
   }
 
   @Override // from ComplexEmbedding

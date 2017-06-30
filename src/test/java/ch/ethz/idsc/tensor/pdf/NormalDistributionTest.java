@@ -30,7 +30,7 @@ public class NormalDistributionTest extends TestCase {
     Distribution distribution = BinomialDistribution.of(1000, RealScalar.of(1 / 3.));
     Distribution normal = NormalDistribution.fit(distribution);
     assertEquals(Expectation.mean(distribution), Expectation.mean(normal));
-    assertTrue(Chop.isZeros(Expectation.variance(distribution).subtract(Expectation.variance(normal))));
+    assertTrue(Chop._12.allZero(Expectation.variance(distribution).subtract(Expectation.variance(normal))));
   }
 
   public void testCdf() {

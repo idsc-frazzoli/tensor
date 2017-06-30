@@ -8,14 +8,24 @@ import junit.framework.TestCase;
 
 public class ChopTest extends TestCase {
   public void testChop() {
-    Tensor v = Tensors.vectorDouble(1e-10, 1e-14, 1e-16);
-    Tensor c = v.map(Chop.function);
+    Tensor v = Tensors.vectorDouble(1e-10, 1e-12, 1e-14, 1e-16);
+    Tensor c = v.map(Chop._12);
     assertFalse(c.get(0).equals(RealScalar.ZERO));
-    assertTrue(c.get(1).equals(RealScalar.ZERO));
+    assertFalse(c.get(1).equals(RealScalar.ZERO));
     assertTrue(c.get(2).equals(RealScalar.ZERO));
+    assertTrue(c.get(3).equals(RealScalar.ZERO));
   }
 
   public void testExclusive() {
-    assertFalse(Chop.isZeros(RealScalar.of(Chop.THRESHOLD)));
+    assertFalse(Chop._12.allZero(RealScalar.of(Chop._12.threshold)));
+  }
+
+  public void testFail() {
+    try {
+      Chop.below(-1e-9);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

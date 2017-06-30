@@ -14,12 +14,12 @@ public class ExpectationTest extends TestCase {
     Scalar mean = Expectation.mean(distribution);
     {
       Scalar E_X = Expectation.of(s -> s, distribution);
-      assertTrue(Chop.isZeros(E_X.subtract(mean)));
+      assertTrue(Chop._12.allZero(E_X.subtract(mean)));
     }
     Scalar var = Expectation.variance(distribution);
     {
       Scalar Var = Expectation.of(s -> AbsSquared.of(s.subtract(mean)), distribution);
-      assertTrue(Chop.isZeros(Var.subtract(var)));
+      assertTrue(Chop._12.allZero(Var.subtract(var)));
     }
   }
 

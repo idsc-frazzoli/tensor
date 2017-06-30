@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
@@ -96,8 +97,8 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return Math.abs(value) < threshold ? ZERO : this;
+  public Scalar chop(Chop chop) {
+    return Math.abs(value) < chop.threshold ? ZERO : this;
   }
 
   @Override // from RoundingInterface

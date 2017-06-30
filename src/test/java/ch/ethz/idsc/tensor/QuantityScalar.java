@@ -127,8 +127,8 @@ public class QuantityScalar extends AbstractScalar implements //
   }
 
   @Override
-  public Scalar chop(double threshold) {
-    return of(Chop.of(value), unitMap);
+  public Scalar chop(Chop chop) {
+    return of(chop.apply(value), unitMap);
   }
 
   @Override

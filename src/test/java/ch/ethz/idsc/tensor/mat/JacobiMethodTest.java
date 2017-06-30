@@ -23,17 +23,17 @@ public class JacobiMethodTest extends TestCase {
     // testing determinant
     Scalar det = Det.of(matrix);
     Tensor prd = Total.prod(eigensys.values());
-    assertTrue(Chop.isZeros(det.subtract(prd)));
+    assertTrue(Chop._12.allZero(det.subtract(prd)));
     Tensor norm = Tensor.of(eigensys.vectors().flatten(0).map(Norm._2::of));
     Tensor delta = norm.subtract(Tensors.vector(i -> RealScalar.ONE, norm.length()));
-    assertTrue(Chop.isZeros(delta));
+    assertTrue(Chop._12.allZero(delta));
     // testing orthogonality
     final Tensor Vt = Transpose.of(eigensys.vectors());
     final int n = eigensys.values().length();
     Tensor VtV_I = Vt.dot(eigensys.vectors()).subtract(IdentityMatrix.of(n));
-    assertTrue(Chop.isZeros(VtV_I));
+    assertTrue(Chop._12.allZero(VtV_I));
     Tensor VVt_I = eigensys.vectors().dot(Vt).subtract(IdentityMatrix.of(n));
-    assertTrue(Chop.isZeros(VVt_I));
+    assertTrue(Chop._12.allZero(VVt_I));
   }
 
   public void testJacobiWithTensor1() {
@@ -68,7 +68,7 @@ public class JacobiMethodTest extends TestCase {
       checkEquation(matrix, eigsys);
       SingularValueDecomposition svd = SingularValueDecomposition.of(matrix);
       Tensor values = Reverse.of(Sort.of(svd.values()));
-      assertTrue(Chop.isZeros(eigsys.values().subtract(values)));
+      assertTrue(Chop._10.allZero(eigsys.values().subtract(values)));
     }
   }
 
@@ -79,7 +79,7 @@ public class JacobiMethodTest extends TestCase {
       checkEquation(matrix, eigsys);
       SingularValueDecomposition svd = SingularValueDecomposition.of(matrix);
       Tensor values = Reverse.of(Sort.of(svd.values()));
-      assertTrue(Chop.isZeros(eigsys.values().subtract(values)));
+      assertTrue(Chop._10.allZero(eigsys.values().subtract(values)));
     }
   }
 
