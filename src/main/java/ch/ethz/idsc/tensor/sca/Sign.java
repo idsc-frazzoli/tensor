@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sign.html">Sign</a> */
 public enum Sign implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   private static final Scalar NEGATIVE_ONE = RealScalar.ONE.negate();
 
@@ -27,6 +27,6 @@ public enum Sign implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their sign */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Sign.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

@@ -24,10 +24,10 @@ public enum Rodriguez {
    * @return MatrixExp[Cross[vector]] */
   public static Tensor of(Tensor vector) {
     Scalar beta = Norm._2.of(vector);
-    Scalar s1 = Sinc.function.apply(beta);
+    Scalar s1 = Sinc.FUNCTION.apply(beta);
     Tensor X1 = Cross.of(vector.multiply(s1));
-    Scalar h2 = Sinc.function.apply(beta.multiply(HALF));
-    Scalar r2 = Sqrt.function.apply(h2.multiply(h2).multiply(HALF));
+    Scalar h2 = Sinc.FUNCTION.apply(beta.multiply(HALF));
+    Scalar r2 = Sqrt.FUNCTION.apply(h2.multiply(h2).multiply(HALF));
     Tensor X2 = Cross.of(vector.multiply(r2));
     return ID3.add(X1).add(X2.dot(X2));
   }

@@ -23,23 +23,23 @@ public class FloorTest extends TestCase {
   public void testHash() {
     Tensor a = Tensors.of( //
         DoubleScalar.of(.123), DoubleScalar.of(3.343), DoubleScalar.of(-.123));
-    Tensor b = a.map(Floor.function);
-    Tensor c = a.map(Floor.function);
+    Tensor b = a.map(Floor.FUNCTION);
+    Tensor c = a.map(Floor.FUNCTION);
     assertEquals(b, c);
     assertEquals(b.hashCode(), c.hashCode());
   }
 
   public void testGetFloor() {
     Tensor v = Tensors.vectorDouble(3.5, 5.6, 9.12);
-    Scalar s = Floor.function.apply(v.Get(1));
+    Scalar s = Floor.FUNCTION.apply(v.Get(1));
     RealScalar rs = (RealScalar) s;
     assertEquals(rs.number().doubleValue(), 5.0);
   }
 
   public void testLarge() {
     Scalar scalar = DoubleScalar.of(1e30);
-    Scalar r = Round.function.apply(scalar);
-    Scalar f = Floor.function.apply(scalar);
+    Scalar r = Round.FUNCTION.apply(scalar);
+    Scalar f = Floor.FUNCTION.apply(scalar);
     assertEquals(r, f);
     assertEquals(r.toString(), "1000000000000000000000000000000");
   }
@@ -68,16 +68,16 @@ public class FloorTest extends TestCase {
   public void testFailInf() {
     {
       Scalar s = DoubleScalar.of(Double.POSITIVE_INFINITY);
-      assertEquals(Floor.function.apply(s), s);
+      assertEquals(Floor.FUNCTION.apply(s), s);
     }
     {
       Scalar s = DoubleScalar.of(Double.NEGATIVE_INFINITY);
-      assertEquals(Floor.function.apply(s), s);
+      assertEquals(Floor.FUNCTION.apply(s), s);
     }
   }
 
   public void testFailNaN() {
-    Scalar s = Floor.function.apply(DoubleScalar.of(Double.NaN));
+    Scalar s = Floor.FUNCTION.apply(DoubleScalar.of(Double.NaN));
     assertTrue(Double.isNaN(s.number().doubleValue()));
   }
 }

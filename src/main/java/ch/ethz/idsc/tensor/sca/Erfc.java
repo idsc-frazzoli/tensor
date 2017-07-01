@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Erfc.html">Erfc</a> */
 public enum Erfc implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   private static final Tensor coeffs = Tensors.vector( //
       1, //

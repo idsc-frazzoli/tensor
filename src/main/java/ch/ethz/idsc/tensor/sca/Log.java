@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Log.html">Log</a> */
 public enum Log implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -25,7 +25,7 @@ public enum Log implements ScalarUnaryOperator {
     }
     if (scalar instanceof ComplexScalar) {
       ComplexScalar z = (ComplexScalar) scalar;
-      return ComplexScalar.of(Log.function.apply(z.abs()), Arg.function.apply(z));
+      return ComplexScalar.of(Log.FUNCTION.apply(z.abs()), Arg.FUNCTION.apply(z));
     }
     throw TensorRuntimeException.of(scalar);
   }
@@ -34,6 +34,6 @@ public enum Log implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their logarithm */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Log.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

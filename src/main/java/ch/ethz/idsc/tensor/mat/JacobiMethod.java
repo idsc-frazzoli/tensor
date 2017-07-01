@@ -68,11 +68,11 @@ class JacobiMethod implements Eigensystem {
               t = A.Get(ip, iq).divide(h);
             } else {
               Scalar theta = HALF.multiply(h).divide(A.Get(ip, iq));
-              t = theta.abs().add(Hypot.bifunction.apply(theta, RealScalar.ONE)).invert();
+              t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).invert();
               if (theta.number().doubleValue() < 0)
                 t = t.negate();
             }
-            Scalar c = Hypot.bifunction.apply(t, RealScalar.ONE).Get().invert();
+            Scalar c = Hypot.BIFUNCTION.apply(t, RealScalar.ONE).Get().invert();
             Scalar s = t.multiply(c);
             Scalar tau = s.divide(c.add(RealScalar.ONE));
             final Scalar fh = t.multiply(A.Get(ip, iq));

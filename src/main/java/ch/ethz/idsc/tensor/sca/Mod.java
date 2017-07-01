@@ -32,7 +32,7 @@ public class Mod implements ScalarUnaryOperator {
 
   @Override
   public Scalar apply(Scalar scalar) {
-    Scalar loops = Floor.function.apply(scalar.subtract(d).divide(n));
+    Scalar loops = Floor.FUNCTION.apply(scalar.subtract(d).divide(n));
     return scalar.subtract(loops.multiply(n));
   }
 

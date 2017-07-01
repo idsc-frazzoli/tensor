@@ -21,13 +21,13 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < i; ++j) {
         Tensor lik = l.get(i).extract(0, j);
-        Tensor ljk = l.get(j).extract(0, j).map(Conjugate.function);
+        Tensor ljk = l.get(j).extract(0, j).map(Conjugate.FUNCTION);
         Scalar value = A.Get(i, j).subtract(lik.dot(d.extract(0, j).pmul(ljk)));
         if (Scalars.nonZero(value))
           l.set(value.divide(d.Get(j)), i, j);
       }
       Tensor lik = l.get(i).extract(0, i);
-      Tensor ljk = l.get(i).extract(0, i).map(Conjugate.function); // variable name is deliberate
+      Tensor ljk = l.get(i).extract(0, i).map(Conjugate.FUNCTION); // variable name is deliberate
       d.set(A.Get(i, i).subtract(lik.dot(d.extract(0, i).pmul(ljk))), i);
     }
   }

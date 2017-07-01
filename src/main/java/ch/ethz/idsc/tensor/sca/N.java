@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -13,7 +14,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/N.html">N</a> */
 public enum N implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -26,6 +27,16 @@ public enum N implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their decimal numerical */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(N.function);
+    return (T) tensor.map(FUNCTION);
+  }
+
+  /** shorthand alternative to {@link RealScalar#of(Number)}
+   * in order to construct a {@link DoubleScalar}
+   * 
+   * @param value in double precision
+   * @return scalar with double precision of given value */
+  // EXPERIMENTAL
+  /* package */ static Scalar of(double value) {
+    return DoubleScalar.of(value);
   }
 }

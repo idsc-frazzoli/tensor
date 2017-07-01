@@ -49,7 +49,7 @@ public enum Normalize {
    * @return vector of |vector|==1 subject to given norm, or zero-vector if |vector|==0 */
   public static Tensor unlessZero(Tensor vector, Function<Tensor, Scalar> function) {
     if (VectorQ.of(vector))
-      return vector.multiply(InvertUnlessZero.function.apply(function.apply(vector)));
+      return vector.multiply(InvertUnlessZero.FUNCTION.apply(function.apply(vector)));
     throw TensorRuntimeException.of(vector);
   }
 }

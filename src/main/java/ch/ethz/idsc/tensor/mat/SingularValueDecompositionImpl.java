@@ -105,7 +105,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(fi), k, i));
         Scalar s = Norm._2Squared.of(u.extract(i, rows).get(Tensor.ALL, i));
         Scalar f = u.Get(i, i);
-        p = CopySign.bifunction.apply(Sqrt.function.apply(s), f).negate();
+        p = CopySign.BIFUNCTION.apply(Sqrt.FUNCTION.apply(s), f).negate();
         Scalar h = f.multiply(p).subtract(s);
         u.set(f.subtract(p), i, i);
         Scalar fs = scale;
@@ -130,7 +130,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
         {
           Scalar s = Norm._2Squared.of(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
-          p = CopySign.bifunction.apply(Sqrt.function.apply(s), f).negate();
+          p = CopySign.BIFUNCTION.apply(Sqrt.FUNCTION.apply(s), f).negate();
           Scalar h = f.multiply(p).subtract(s);
           u.set(f.subtract(p), i, ip1);
           IntStream.range(ip1, cols).forEach(k -> r.set(u.Get(i, k).divide(h), k));
@@ -193,7 +193,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
           if (f.abs().number().doubleValue() <= eps)
             break;
           Scalar g = w.Get(i);
-          Scalar h = Hypot.bifunction.apply(f, g);
+          Scalar h = Hypot.BIFUNCTION.apply(f, g);
           w.set(h, i);
           h = h.invert();
           c = g.multiply(h);
@@ -216,8 +216,8 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
     Scalar h = r.Get(i);
     Scalar hy = h.multiply(y);
     Scalar f = y.subtract(z).multiply(y.add(z)).add(p.subtract(h).multiply(p.add(h))).divide(hy.add(hy));
-    p = Hypot.bifunction.apply(f, RealScalar.ONE);
-    f = x.subtract(z).multiply(x.add(z)).add(h.multiply(y.divide(f.add(CopySign.bifunction.apply(p, f))).subtract(h))).divide(x);
+    p = Hypot.BIFUNCTION.apply(f, RealScalar.ONE);
+    f = x.subtract(z).multiply(x.add(z)).add(h.multiply(y.divide(f.add(CopySign.BIFUNCTION.apply(p, f))).subtract(h))).divide(x);
     Scalar s = RealScalar.ONE;
     Scalar c = RealScalar.ONE;
     for (int j = l; j < i; ++j) {
@@ -226,7 +226,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       y = w.Get(jp1);
       h = s.multiply(p);
       p = c.multiply(p);
-      z = Hypot.bifunction.apply(f, h);
+      z = Hypot.BIFUNCTION.apply(f, h);
       r.set(z, j);
       c = f.divide(z);
       s = h.divide(z);
@@ -235,7 +235,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       p = p.multiply(c).subtract(x.multiply(s));
       h = y.multiply(s);
       y = y.multiply(c);
-      z = Hypot.bifunction.apply(f, h);
+      z = Hypot.BIFUNCTION.apply(f, h);
       w.set(z, j);
       if (!z.equals(RealScalar.ZERO)) {
         z = z.invert();

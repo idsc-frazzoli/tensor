@@ -68,6 +68,6 @@ enum StaticHelper {
       ComplexEmbedding complexEmbedding = (ComplexEmbedding) y;
       return Sign.of(complexEmbedding.real()).multiply(DoubleScalar.of(Math.PI / 2));
     }
-    return ArcTan.function.apply(y.divide(x));
+    return ArcTan.FUNCTION.apply(y.divide(x));
   }
 }

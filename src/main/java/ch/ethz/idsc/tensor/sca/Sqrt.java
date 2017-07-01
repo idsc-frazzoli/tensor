@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sqrt.html">Sqrt</a> */
 public enum Sqrt implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -24,7 +24,7 @@ public enum Sqrt implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their square root */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Sqrt.function);
+    return (T) tensor.map(FUNCTION);
   }
 
   /** @param value

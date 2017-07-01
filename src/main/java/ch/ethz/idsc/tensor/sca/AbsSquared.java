@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * the function AbsSquared is computed simply as
  * <code>abs(x) ^ 2</code> */
 public enum AbsSquared implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -27,6 +27,6 @@ public enum AbsSquared implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their absolute value */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(AbsSquared.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

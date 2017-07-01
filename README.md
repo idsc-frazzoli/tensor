@@ -183,7 +183,7 @@ Subsequently, the documentation is accessible through the file
 
 The library is used in the projects:
 * `matsim`
-* `owly`
+* `owly` and `owly3d`
 * `SwissTrolley+`
 * `subare`
 * `QueuingNetworks`

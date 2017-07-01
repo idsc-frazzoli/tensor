@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
 public enum InvertUnlessZero implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   /** @param scalar
    * @return Scalars.isZero(scalar) ? scalar : scalar.invert(); */
@@ -17,6 +17,6 @@ public enum InvertUnlessZero implements ScalarUnaryOperator {
 
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(InvertUnlessZero.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

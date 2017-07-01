@@ -108,14 +108,14 @@ public class QuantityScalar1Test extends TestCase {
   public void testHypot() {
     Scalar qs1 = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
     Scalar qs2 = QuantityScalar.of(RealScalar.of(0), "m", RealScalar.ONE);
-    assertEquals(Hypot.bifunction.apply(qs1, qs2), qs1);
+    assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs1);
   }
 
   public void testHypot2() {
     Scalar qs1 = QuantityScalar.of(RealScalar.of(3), "m", RealScalar.ONE);
     Scalar qs2 = QuantityScalar.of(RealScalar.of(4), "m", RealScalar.ONE);
     Scalar qs3 = QuantityScalar.of(RealScalar.of(5), "m", RealScalar.ONE);
-    assertEquals(Hypot.bifunction.apply(qs1, qs2), qs3);
+    assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs3);
   }
 
   public void testDiagon() {

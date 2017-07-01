@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Im.html">Im</a> */
 public enum Imag implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -23,6 +23,6 @@ public enum Imag implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their imaginary part */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Imag.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

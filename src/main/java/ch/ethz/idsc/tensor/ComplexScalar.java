@@ -44,6 +44,6 @@ public interface ComplexScalar extends Scalar, //
   static Scalar fromPolar(Scalar abs, Scalar arg) {
     if (abs instanceof ComplexScalar || arg instanceof ComplexScalar)
       throw TensorRuntimeException.of(abs, arg);
-    return abs.multiply(of(Cos.function.apply(arg), Sin.function.apply(arg)));
+    return abs.multiply(of(Cos.FUNCTION.apply(arg), Sin.FUNCTION.apply(arg)));
   }
 }

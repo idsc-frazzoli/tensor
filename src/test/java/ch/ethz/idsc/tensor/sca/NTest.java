@@ -26,4 +26,10 @@ public class NTest extends TestCase {
     assertEquals(c.toString(), "3+5*I");
     assertEquals(N.of(c).toString(), "3.0+5.0*I");
   }
+
+  public void testNof() {
+    Scalar value = N.of(1);
+    assertTrue(value instanceof DoubleScalar);
+    assertEquals(value, RealScalar.ONE);
+  }
 }

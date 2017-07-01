@@ -16,17 +16,17 @@ import ch.ethz.idsc.tensor.Tensor;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/LogisticSigmoid.html">LogisticSigmoid</a> */
 public enum LogisticSigmoid implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return RealScalar.ONE.add(Exp.function.apply(scalar.negate())).invert();
+    return RealScalar.ONE.add(Exp.FUNCTION.apply(scalar.negate())).invert();
   }
 
   /** @param tensor
    * @return tensor with all scalars replaced with their logistic sigmoid evaluation */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(LogisticSigmoid.function);
+    return (T) tensor.map(FUNCTION);
   }
 }
