@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.Optional;
+
 import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -15,7 +17,7 @@ import ch.ethz.idsc.tensor.red.Min;
  * Rescale[{-.7, .5, 1.2, 5.6, 1.8}] == {0., 0.190476, 0.301587, 1., 0.396825}
  * </code>
  * 
- * TODO Mathematica neatly manages \infinity
+ * Mathematica handles Infinity in a non-trivial way.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Rescale.html">Rescale</a> */
@@ -31,11 +33,18 @@ public enum Rescale {
       throw TensorRuntimeException.of(tensor);
     if (tensor.length() == 0)
       return Tensors.empty();
-    Scalar min = tensor.flatten(-1).map(Scalar.class::cast).filter(NumberQ::of).reduce(Min::of).get();
-    Scalar max = tensor.flatten(-1).map(Scalar.class::cast).filter(NumberQ::of).reduce(Max::of).get();
-    // boolean res = tensor.flatten(-1).filter(scalar -> !NumberQ.of(scalar)).findAny().isPresent();
-    // if (res)
-    // return of(tensor.map(s -> NumberQ.of(s) ? s : max));
+    Optional<Scalar> optional = tensor.flatten(-1) //
+        .map(Scalar.class::cast) //
+        .filter(NumberQ::of) //
+        .reduce(Min::of);
+    if (!optional.isPresent())
+      return tensor.map(Scalar::zero); // set all entries to 0
+    // ---
+    Scalar min = optional.get();
+    Scalar max = tensor.flatten(-1) //
+        .map(Scalar.class::cast) //
+        .filter(NumberQ::of) //
+        .reduce(Max::of).get(); // if a minimum exists, then there exists a maximum
     if (min.equals(max))
       return tensor.map(Scalar::zero); // set all entries to 0
     Scalar factor = max.subtract(min).invert();

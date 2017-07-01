@@ -5,15 +5,16 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** consistent with Mathematica
- * 
- * default threshold in Mathematica is 1e-10:
+/** default threshold in Mathematica is 1e-10:
  * Chop[1.000*^-10] != 0
  * Chop[0.999*^-10] == 0
  * 
  * symbolic expressions are not chopped:
  * Chop[1/1000000000000000] != 0, but
  * Chop[1/1000000000000000.] == 0
+ * 
+ * unlike in Mathematica, the tensor library does not predefine a default threshold
+ * for each use of chop, the application has to specify the threshold
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Chop.html">Chop</a> */
@@ -30,6 +31,12 @@ public class Chop implements ScalarUnaryOperator {
   public static final Chop _12 = below(1e-12);
   public static final Chop _13 = below(1e-13);
   public static final Chop _14 = below(1e-14);
+  public static final Chop _15 = below(1e-15);
+  public static final Chop _20 = below(1e-20);
+  public static final Chop _30 = below(1e-30);
+  public static final Chop _50 = below(1e-50);
+  // EXPERIMENTAL API not finalized
+  public static final Chop NONE = below(0);
 
   /** @param threshold
    * @return function that performs the chop operation at given threshold */
@@ -54,6 +61,15 @@ public class Chop implements ScalarUnaryOperator {
     if (scalar instanceof ChopInterface)
       return ((ChopInterface) scalar).chop(this);
     return scalar;
+  }
+
+  /** @param lhs
+   * @param rhs
+   * @return true, if difference between lhs and rhs is entry-wise below chop threshold
+   * @throws Exception if difference of lhs and rhs cannot be computed,
+   * for example due to different dimensions */
+  public boolean close(Tensor lhs, Tensor rhs) {
+    return allZero(lhs.subtract(rhs));
   }
 
   /** @param tensor

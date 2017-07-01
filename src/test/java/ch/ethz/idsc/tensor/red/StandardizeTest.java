@@ -11,6 +11,6 @@ public class StandardizeTest extends TestCase {
   public void testSimple() {
     Tensor res = Standardize.of(Tensors.vector(6.5, 3.8, 6.6, 5.7, 6.0, 6.4, 5.3));
     assertTrue(Chop._12.allZero(Mean.of(res)));
-    assertTrue(Chop._12.allZero(Variance.ofVector(res).subtract(RealScalar.ONE)));
+    assertTrue(Chop._12.close(Variance.ofVector(res), RealScalar.ONE));
   }
 }
