@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -12,7 +13,7 @@ import junit.framework.TestCase;
 
 public class TransposeTest extends TestCase {
   public void testScalar() {
-    Tensor v = RealScalar.NEGATIVE_INFINITY;
+    Tensor v = DoubleScalar.NEGATIVE_INFINITY;
     try {
       Transpose.of(v, new Integer[] {});
       assertTrue(false);

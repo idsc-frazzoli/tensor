@@ -17,6 +17,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * zero().inverse() throws a {@link TensorRuntimeException}. */
 public final class RationalScalar extends AbstractRealScalar implements //
     ExactNumberQInterface, NInterface {
+  /** real scalar -1 as a {@link RationalScalar} */
+  public static final Scalar NEGATIVE_ONE = of(-1, 1);
+
   // method _of is private because BigFraction has package visibility
   private static Scalar _of(BigFraction bigFraction) {
     return new RationalScalar(bigFraction);

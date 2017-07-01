@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -88,8 +89,8 @@ public class ScalarUnaryOperatorTest extends TestCase {
   }
 
   public void testSimple() {
-    _checkOps(RealScalar.INDETERMINATE);
-    _checkOps(RealScalar.POSITIVE_INFINITY);
-    _checkOps(RealScalar.NEGATIVE_INFINITY);
+    _checkOps(DoubleScalar.INDETERMINATE);
+    _checkOps(DoubleScalar.POSITIVE_INFINITY);
+    _checkOps(DoubleScalar.NEGATIVE_INFINITY);
   }
 }

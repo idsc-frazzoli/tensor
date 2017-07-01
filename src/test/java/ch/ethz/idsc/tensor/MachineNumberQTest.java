@@ -30,8 +30,8 @@ public class MachineNumberQTest extends TestCase {
   }
 
   public void testCorner() {
-    assertFalse(MachineNumberQ.of(RealScalar.POSITIVE_INFINITY));
-    assertFalse(MachineNumberQ.of(RealScalar.NEGATIVE_INFINITY));
+    assertFalse(MachineNumberQ.of(DoubleScalar.POSITIVE_INFINITY));
+    assertFalse(MachineNumberQ.of(DoubleScalar.NEGATIVE_INFINITY));
     assertFalse(MachineNumberQ.of(RealScalar.of(Double.NaN)));
   }
 }

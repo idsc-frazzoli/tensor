@@ -24,18 +24,9 @@ public interface RealScalar extends Scalar, //
     ArcTanInterface, ArgInterface, Comparable<Scalar>, ComplexEmbedding, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface {
   /** real scalar 0 as a {@link RationalScalar} */
-  static final Scalar ZERO = RealScalar.of(0);
+  static final Scalar ZERO = RationalScalar.of(0, 1);
   /** real scalar 1 as a {@link RationalScalar} */
-  static final Scalar ONE = RealScalar.of(1);
-  /** real scalar -1 as a {@link RationalScalar} */
-  static final Scalar NEGATIVE_ONE = RealScalar.of(-1);
-  /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
-  static final Scalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
-  /** real scalar that encodes -Infinity. value is backed by Double.NEGATIVE_INFINITY */
-  static final Scalar NEGATIVE_INFINITY = of(Double.NEGATIVE_INFINITY);
-  /** real scalar that encodes NaN. value is backed by Double.NaN == 0.0d / 0.0
-   * field name inspired by Mathematica::Indeterminate */
-  static final Scalar INDETERMINATE = of(Double.NaN);
+  static final Scalar ONE = RationalScalar.of(1, 1);
 
   /** @param number
    * @return scalar with best possible accuracy to describe number */

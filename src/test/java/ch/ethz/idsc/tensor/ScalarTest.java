@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 public class ScalarTest extends TestCase {
   public void testIsScalar() {
-    assertTrue(RealScalar.POSITIVE_INFINITY.isScalar());
+    assertTrue(DoubleScalar.POSITIVE_INFINITY.isScalar());
   }
 
   public void testGet() {

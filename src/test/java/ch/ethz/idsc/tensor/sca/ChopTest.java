@@ -32,12 +32,12 @@ public class ChopTest extends TestCase {
   }
 
   public void testNaN() {
-    Scalar s = (DoubleScalar) Chop._05.apply(RealScalar.INDETERMINATE);
+    Scalar s = (DoubleScalar) Chop._05.apply(DoubleScalar.INDETERMINATE);
     assertTrue(Double.isNaN(s.number().doubleValue()));
   }
 
   public void testInf() {
-    Scalar s = (DoubleScalar) Chop._05.apply(RealScalar.NEGATIVE_INFINITY);
+    Scalar s = (DoubleScalar) Chop._05.apply(DoubleScalar.NEGATIVE_INFINITY);
     assertTrue(Double.isInfinite(s.number().doubleValue()));
   }
 }

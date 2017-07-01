@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -64,16 +65,16 @@ public class HypotTest extends TestCase {
   }
 
   public void testNaNdivNaN() {
-    Scalar s1 = RealScalar.INDETERMINATE;
-    Scalar s2 = RealScalar.INDETERMINATE;
+    Scalar s1 = DoubleScalar.INDETERMINATE;
+    Scalar s2 = DoubleScalar.INDETERMINATE;
     Scalar s3 = s1.divide(s2);
     assertEquals(s3.toString(), "NaN");
   }
 
   public void testInfNan() {
-    Scalar s1 = RealScalar.POSITIVE_INFINITY;
+    Scalar s1 = DoubleScalar.POSITIVE_INFINITY;
     assertFalse(Scalars.isZero(s1));
-    Scalar s2 = RealScalar.INDETERMINATE;
+    Scalar s2 = DoubleScalar.INDETERMINATE;
     assertFalse(Scalars.isZero(s2));
     try {
       Scalar s3 = Hypot.BIFUNCTION.apply(s1, s2); // NaN+NaN*I
