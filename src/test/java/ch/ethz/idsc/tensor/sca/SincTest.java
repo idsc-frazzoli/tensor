@@ -11,7 +11,7 @@ public class SincTest extends TestCase {
   private static Scalar checkBoth(Scalar scalar) {
     Scalar c = Sinc.function.apply(scalar);
     Scalar s = Sin.function.apply(scalar).divide(scalar);
-    assertEquals(Chop.of(c.subtract(s)), RealScalar.ZERO);
+    assertEquals(Chop._12.of(c.subtract(s)), RealScalar.ZERO);
     return c;
   }
 

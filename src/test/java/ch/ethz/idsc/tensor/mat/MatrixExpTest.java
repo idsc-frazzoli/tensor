@@ -22,7 +22,7 @@ public class MatrixExpTest extends TestCase {
     Tensor bu = Tensors.matrixDouble(mat);
     Tensor o = MatrixExp.of(bu);
     assertEquals( //
-        Chop.of(o.dot(Transpose.of(o)).subtract(IdentityMatrix.of(o.length()))), //
+        Chop._12.of(o.dot(Transpose.of(o)).subtract(IdentityMatrix.of(o.length()))), //
         Array.zeros(Dimensions.of(o)));
   }
 

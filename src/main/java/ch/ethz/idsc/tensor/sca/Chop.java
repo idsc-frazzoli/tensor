@@ -37,12 +37,16 @@ public class Chop implements ScalarUnaryOperator {
     return new Chop(threshold);
   }
 
-  public final double threshold;
+  private final double threshold;
 
   private Chop(double threshold) {
     if (threshold < 0)
       throw new RuntimeException();
     this.threshold = threshold;
+  }
+
+  public double threshold() {
+    return threshold;
   }
 
   @Override
@@ -65,15 +69,7 @@ public class Chop implements ScalarUnaryOperator {
   /** @param tensor
    * @return */
   @SuppressWarnings("unchecked")
-  public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(_10);
-  }
-
-  /** @param tensor
-   * @param threshold
-   * @return */
-  // @Deprecated
-  public static Tensor of(Tensor tensor, double threshold) {
-    return tensor.map(below(threshold));
+  public <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(this);
   }
 }

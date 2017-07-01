@@ -13,12 +13,12 @@ public class FourierMatrixTest extends TestCase {
     Tensor zeros = Array.zeros(n, n);
     Tensor original = FourierMatrix.of(n);
     assertTrue(SymmetricMatrixQ.of(original));
-    Tensor matrix = Chop.of(original);
+    Tensor matrix = Chop._12.of(original);
     assertTrue(SymmetricMatrixQ.of(matrix));
     Tensor invert = ConjugateTranspose.of(matrix);
     assertTrue(SymmetricMatrixQ.of(matrix));
-    assertEquals(Chop.of(matrix.dot(invert).subtract(IdentityMatrix.of(n))), zeros);
-    assertEquals(Chop.of(Inverse.of(matrix).subtract(invert)), zeros);
+    assertEquals(Chop._12.of(matrix.dot(invert).subtract(IdentityMatrix.of(n))), zeros);
+    assertEquals(Chop._12.of(Inverse.of(matrix).subtract(invert)), zeros);
   }
 
   public void testSeveral() {

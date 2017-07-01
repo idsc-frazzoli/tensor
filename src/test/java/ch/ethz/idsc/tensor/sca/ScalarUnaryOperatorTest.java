@@ -31,7 +31,7 @@ public class ScalarUnaryOperatorTest extends TestCase {
     ArcTan.of(tensor);
     ArcTanh.of(tensor);
     Ceiling.of(tensor);
-    Chop.of(tensor);
+    Chop._12.of(tensor);
     try {
       Clip.UNIT.apply(tensor);
     } catch (Exception exception) {

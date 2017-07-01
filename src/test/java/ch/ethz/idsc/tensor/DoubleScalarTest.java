@@ -28,10 +28,10 @@ public class DoubleScalarTest extends TestCase {
 
   public void testChop() {
     Scalar s = DoubleScalar.of(3.14);
-    assertEquals(Chop.of(s), s);
+    assertEquals(Chop._12.of(s), s);
     Scalar r = DoubleScalar.of(1e-14);
-    assertEquals(Chop.of(r), r.zero());
-    assertEquals(Chop.of(RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(Chop._12.of(r), r.zero());
+    assertEquals(Chop._12.of(RealScalar.ZERO), RealScalar.ZERO);
   }
 
   public void testEquality() {

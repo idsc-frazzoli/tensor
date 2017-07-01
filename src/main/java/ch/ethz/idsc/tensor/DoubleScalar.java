@@ -98,7 +98,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from ChopInterface
   public Scalar chop(Chop chop) {
-    return Math.abs(value) < chop.threshold ? ZERO : this;
+    return Math.abs(value) < chop.threshold() ? ZERO : this;
   }
 
   @Override // from RoundingInterface

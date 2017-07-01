@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 public class RodriguezTest extends TestCase {
   private static void checkDiff(Tensor c) {
     Tensor d = Rodriguez.of(c).subtract(MatrixExp.of(Cross.of(c)));
-    assertEquals(Chop.of(d), Array.zeros(3, 3));
+    assertEquals(Chop._12.of(d), Array.zeros(3, 3));
   }
 
   public void testXY() {

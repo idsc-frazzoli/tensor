@@ -39,7 +39,7 @@ public class SqrtTest extends TestCase {
     Scalar scalar = ComplexScalar.of(0, 2);
     Scalar root = Sqrt.function.apply(scalar);
     Scalar res = ComplexScalar.of(1, 1);
-    assertEquals(Chop.of(root.subtract(res)), RealScalar.ZERO);
+    assertEquals(Chop._12.of(root.subtract(res)), RealScalar.ZERO);
   }
 
   public void testZero() {

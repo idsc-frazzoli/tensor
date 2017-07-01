@@ -35,19 +35,19 @@ public class SingularValueDecompositionTest extends TestCase {
     // System.out.println("V " + V.dimensions());
     Tensor W = DiagonalMatrix.of(w);
     // System.out.println("UtU");
-    Tensor UtU = Chop.of(Transpose.of(U).dot(U).subtract(IdentityMatrix.of(N)));
+    Tensor UtU = Chop._12.of(Transpose.of(U).dot(U).subtract(IdentityMatrix.of(N)));
     assertEquals(UtU, Array.zeros(N, N));
     // System.out.println("VVt");
-    Tensor VVt = Chop.of(V.dot(Transpose.of(V)).subtract(IdentityMatrix.of(N)));
+    Tensor VVt = Chop._12.of(V.dot(Transpose.of(V)).subtract(IdentityMatrix.of(N)));
     assertEquals(VVt, Array.zeros(N, N));
     // System.out.println("VtV");
-    Tensor VtV = Chop.of(Transpose.of(V).dot(V).subtract(IdentityMatrix.of(N)));
+    Tensor VtV = Chop._12.of(Transpose.of(V).dot(V).subtract(IdentityMatrix.of(N)));
     assertEquals(VtV, Array.zeros(N, N));
     // System.out.println("UWVt");
-    Tensor UWVt = Chop.of(U.dot(W).dot(Transpose.of(V)).subtract(A));
+    Tensor UWVt = Chop._12.of(U.dot(W).dot(Transpose.of(V)).subtract(A));
     assertEquals(UWVt, Array.zeros(Dimensions.of(UWVt)));
     // System.out.println("UW_AV");
-    Tensor UW_AV = Chop.of(U.dot(W).subtract(A.dot(V)));
+    Tensor UW_AV = Chop._12.of(U.dot(W).subtract(A.dot(V)));
     assertEquals(UW_AV, Array.zeros(Dimensions.of(UW_AV)));
     // System.out.println("AiA");
     // Tensor AiA = svd.pseudoInverse().dot(A).map(Scalars::chop);
@@ -58,7 +58,7 @@ public class SingularValueDecompositionTest extends TestCase {
         .filter(s -> s.number().doubleValue() < 0).findAny().isPresent());
     if (MatrixRank.of(svd) < N) {
       Tensor res = A.dot(Transpose.of(NullSpace.of(svd)));
-      assertEquals(Chop.of(res), Array.zeros(Dimensions.of(res)));
+      assertEquals(Chop._12.of(res), Array.zeros(Dimensions.of(res)));
     }
     return svd;
   }
@@ -108,7 +108,7 @@ public class SingularValueDecompositionTest extends TestCase {
     assertEquals(MatrixRank.of(svd), 3);
     Tensor nls = NullSpace.of(svd);
     Tensor nul = A.dot(nls.get(0));
-    assertEquals(Chop.of(nul), Array.zeros(n));
+    assertEquals(Chop._12.of(nul), Array.zeros(n));
   }
 
   // test may occasionally fail, depends on the numerical precision using in Chop
@@ -120,7 +120,7 @@ public class SingularValueDecompositionTest extends TestCase {
     Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop.below(1e-9));
     assertEquals(dif, Array.zeros(Dimensions.of(dif)));
     assertEquals(MatrixRank.of(svd), n);
-    Tensor res = Chop.of(PseudoInverse.of(svd).dot(mat).subtract(IdentityMatrix.of(n)));
+    Tensor res = Chop._12.of(PseudoInverse.of(svd).dot(mat).subtract(IdentityMatrix.of(n)));
     assertEquals(res, Array.zeros(n, n));
   }
 

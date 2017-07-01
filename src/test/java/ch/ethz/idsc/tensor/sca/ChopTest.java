@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -17,7 +19,7 @@ public class ChopTest extends TestCase {
   }
 
   public void testExclusive() {
-    assertFalse(Chop._12.allZero(RealScalar.of(Chop._12.threshold)));
+    assertFalse(Chop._12.allZero(RealScalar.of(Chop._12.threshold())));
   }
 
   public void testFail() {
@@ -27,5 +29,15 @@ public class ChopTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testNaN() {
+    Scalar s = (DoubleScalar) Chop._05.apply(RealScalar.INDETERMINATE);
+    assertTrue(Double.isNaN(s.number().doubleValue()));
+  }
+
+  public void testInf() {
+    Scalar s = (DoubleScalar) Chop._05.apply(RealScalar.NEGATIVE_INFINITY);
+    assertTrue(Double.isInfinite(s.number().doubleValue()));
   }
 }

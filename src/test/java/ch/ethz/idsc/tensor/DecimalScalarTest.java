@@ -65,11 +65,11 @@ public class DecimalScalarTest extends TestCase {
     Scalar s23 = sc2.divide(sc3);
     Scalar r23 = RationalScalar.of(2, 3);
     Scalar d23 = DoubleScalar.of(Math.nextUp(2. / 3));
-    assertEquals(Chop.of(r23.subtract(s23)), RealScalar.ZERO);
-    assertEquals(Chop.of(s23.subtract(r23)), RealScalar.ZERO);
+    assertEquals(Chop._12.of(r23.subtract(s23)), RealScalar.ZERO);
+    assertEquals(Chop._12.of(s23.subtract(r23)), RealScalar.ZERO);
     // assertEquals(s23, r23);
-    assertEquals(Chop.of(d23.subtract(s23)), RealScalar.ZERO);
-    assertEquals(Chop.of(s23.subtract(d23)), RealScalar.ZERO);
+    assertEquals(Chop._12.of(d23.subtract(s23)), RealScalar.ZERO);
+    assertEquals(Chop._12.of(s23.subtract(d23)), RealScalar.ZERO);
     // assertEquals(d23, s23);
     // assertEquals(s23, d23);
   }

@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.pdf.BinCounts;
 import ch.ethz.idsc.tensor.pdf.CDF;
 
 /** inspired by

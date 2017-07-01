@@ -106,7 +106,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   /***************************************************/
   @Override // from ChopInterface
   public Scalar chop(Chop chop) {
-    return value.abs().doubleValue() < chop.threshold ? ZERO : this;
+    return value.abs().doubleValue() < chop.threshold() ? ZERO : this;
   }
 
   @Override // from RoundingInterface
