@@ -49,7 +49,7 @@ public enum Transpose {
     int[] size = new int[dims.size()];
     for (int index = 0; index < size.length; ++index)
       size[index] = dims.get(index);
-    Size mySize = new Size(size);
+    Size mySize = Size.of(size);
     Size tensorSize = mySize.permute(sigma);
     Tensor data = Tensor.of(tensor.flatten(-1));
     int[] inverse = new int[sigma.length];

@@ -41,7 +41,7 @@ public class QuantityScalar1Test extends TestCase {
     Scalar qs2 = QuantityScalar.of(RealScalar.of(-4), "m", RealScalar.ONE);
     Scalar qs3 = QuantityScalar.of(RealScalar.of(4), "m", RealScalar.ONE);
     Tensor vec = Tensors.of(qs1, qs2);
-    assertEquals(Norm.Infinity.of(vec), qs3);
+    assertEquals(Norm.INFINITY.of(vec), qs3);
   }
 
   public void testSqrt() {

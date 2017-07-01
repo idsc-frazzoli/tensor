@@ -9,14 +9,14 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** the Cholesky decomposition of a hermitian matrix establishes matrices L and D with
  * 
- * matrix == L . D . L*
+ * <code>matrix == L . D . L*</code>
  * 
- * matrix == getL().dot(getD().pmul(ConjugateTranspose.of(getL())))
+ * <code>matrix == getL().dot(getD().pmul(ConjugateTranspose.of(getL())))</code>
  * 
  * <p>The decomposition is robust for positive definite matrices.
  * 
  * <p>For some hermitian matrices the decomposition cannot be established.
- * An example that fails (also in Mathematica) is {{0, 1}, {1, 0}}.
+ * An example that fails (also in Mathematica) is <code>{{0, 1}, {1, 0}}</code>.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/CholeskyDecomposition.html">CholeskyDecomposition</a> */

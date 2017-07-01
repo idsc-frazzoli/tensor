@@ -66,4 +66,13 @@ public class ScalarTest extends TestCase {
     assertFalse(ComplexScalar.of(RationalScalar.of(5, 3), RationalScalar.of(5, 3)).equals(null));
     assertFalse(Integer.valueOf(1233).equals(null));
   }
+
+  public void testIteratorFail() {
+    try {
+      for (Tensor self : RealScalar.ZERO)
+        System.out.println(self);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

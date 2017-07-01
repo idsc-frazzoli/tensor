@@ -16,26 +16,6 @@ import ch.ethz.idsc.tensor.Tensors;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Binomial.html">Binomial</a> */
 public class Binomial {
-  /** Mathematica::Binomial[n, m]
-   * 
-   * @param n scalar that satisfies IntegerQ
-   * @param m scalar that satisfies IntegerQ, and m <= n
-   * @return binomial coefficient defined by n and m */
-  public static Scalar of(Scalar n, Scalar m) {
-    return of(Scalars.intValueExact(n), Scalars.intValueExact(m));
-  }
-
-  /** Mathematica::Binomial[n, m]
-   * 
-   * @param n
-   * @param m <= n
-   * @return binomial coefficient defined by n and m */
-  public static Scalar of(int n, int m) {
-    if (n < m)
-      throw new RuntimeException(String.format("Binomial[%d,%d]", n, m));
-    return _binomial(n).over(m);
-  }
-
   /** @param n non-negative integer
    * @return binomial function that computes n choose k */
   public static Binomial of(Scalar n) {
@@ -48,6 +28,26 @@ public class Binomial {
     if (n < 0)
       throw new RuntimeException(String.format("Binomial[%d]", n));
     return _binomial(n);
+  }
+
+  /** <code>Mathematica::Binomial[n, m]</code>
+   * 
+   * @param n scalar that satisfies IntegerQ
+   * @param m scalar that satisfies IntegerQ, and m <= n
+   * @return binomial coefficient defined by n and m */
+  public static Scalar of(Scalar n, Scalar m) {
+    return of(Scalars.intValueExact(n), Scalars.intValueExact(m));
+  }
+
+  /** <code>Mathematica::Binomial[n, m]</code>
+   * 
+   * @param n
+   * @param m <= n
+   * @return binomial coefficient defined by n and m */
+  public static Scalar of(int n, int m) {
+    if (n < m)
+      throw new RuntimeException(String.format("Binomial[%d,%d]", n, m));
+    return _binomial(n).over(m);
   }
 
   /***************************************************/

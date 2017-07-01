@@ -25,4 +25,8 @@ public enum CopySign implements BiFunction<Scalar, Scalar, Scalar> {
     int sb = ((RealScalar) b).signInt();
     return 0 <= sb ? (0 <= sa ? a : a.negate()) : (0 <= sa ? a.negate() : a);
   }
+
+  public static Scalar of(Scalar a, Scalar b) {
+    return BIFUNCTION.apply(a, b);
+  }
 }

@@ -27,7 +27,7 @@ public enum Sinc implements ScalarUnaryOperator {
   public Scalar apply(Scalar scalar) {
     if (Scalars.lessThan(scalar.abs(), THRESHOLD))
       return Multinomial.horner(SERIES, N.FUNCTION.apply(scalar));
-    return Sin.FUNCTION.apply(scalar).divide(scalar);
+    return Sin.of(scalar).divide(scalar);
   }
 
   /** @param tensor

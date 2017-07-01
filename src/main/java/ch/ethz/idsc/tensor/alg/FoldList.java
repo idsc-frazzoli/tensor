@@ -10,7 +10,9 @@ import ch.ethz.idsc.tensor.Tensors;
  * <a href="https://reference.wolfram.com/language/ref/FoldList.html">FoldList</a> */
 public enum FoldList {
   ;
-  /** FoldList[f, {a, b, c, ...}] gives {a, f[a, b], f[f[a, b], c], ...}
+  /** <pre>
+   * FoldList[f, {a, b, c, ...}] gives {a, f[a, b], f[f[a, b], c], ...}
+   * </pre>
    * 
    * @param binaryOperator
    * @param tensor

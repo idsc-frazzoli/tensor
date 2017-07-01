@@ -5,12 +5,20 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.Tensors;
+
+/** utility class for {@link Transpose} */
 /* package */ class Size implements Iterable<MultiIndex> {
+  public static Size of(int... dims) {
+    return new Size(Arrays.copyOf(dims, dims.length));
+  }
+
+  /***************************************************/
   final int[] size;
   private final int[] prod;
 
-  public Size(int... dims) {
-    size = Arrays.copyOf(dims, dims.length);
+  private Size(int... dims) {
+    size = dims;
     prod = new int[dims.length];
     if (0 < dims.length) {
       final int dmo = dims.length - 1;
@@ -21,7 +29,7 @@ import java.util.stream.Stream;
   }
 
   public Size permute(int... sigma) {
-    return new Size(new MultiIndex(size).permute(sigma).size);
+    return new Size(MultiIndex.static_permute(size, sigma));
   }
 
   public Size permute(Integer... sigma) {
@@ -38,6 +46,7 @@ import java.util.stream.Stream;
   @Override
   public Iterator<MultiIndex> iterator() {
     return new Iterator<MultiIndex>() {
+      // invoking constructor of OuterProductInteger is verified
       OuterProductInteger outerProductInteger = new OuterProductInteger(size, true);
 
       @Override
@@ -53,17 +62,7 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public boolean equals(Object object) {
-    return object instanceof Size && Arrays.equals(size, ((Size) object).size);
-  }
-
-  @Override
-  public int hashCode() {
-    return Arrays.hashCode(size);
-  }
-
-  @Override
   public String toString() {
-    return new MultiIndex(size) + ".." + new MultiIndex(prod);
+    return Tensors.vectorInt(size) + ".." + Tensors.vectorInt(prod);
   }
 }

@@ -18,7 +18,7 @@ public class Norm2Test extends TestCase {
     assertEquals(Norm._2.of(Scalars.fromString("-3/7")), Scalars.fromString("3/7"));
     Scalar rs = Norm._2.of(ComplexScalar.of(RealScalar.ONE, RealScalar.of(2))); // <- sqrt(5)
     assertEquals(rs, Scalars.fromString("2.23606797749979"));
-    assertEquals(Norm._2Squared.of(Scalars.fromString("-3/7")), Scalars.fromString("9/49"));
+    assertEquals(Norm._2SQUARED.of(Scalars.fromString("-3/7")), Scalars.fromString("9/49"));
   }
 
   public void testVector1() {
@@ -31,7 +31,7 @@ public class Norm2Test extends TestCase {
         RealScalar.ONE, RealScalar.of(2)), DoubleScalar.of(1.5));
     assertEquals(Norm._2.of(A), Scalars.fromString("2.6925824035672523"));
     Tensor a = Tensors.vector(2, 3, 4);
-    assertEquals(Norm._2Squared.of(a), a.dot(a));
+    assertEquals(Norm._2SQUARED.of(a), a.dot(a));
   }
 
   public void testVector3() {

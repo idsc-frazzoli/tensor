@@ -17,6 +17,24 @@ import ch.ethz.idsc.tensor.sca.Floor;
 public enum BinCounts {
   ;
   /** counts elements in the intervals:
+   * [0, 1) [1, 2) [2, 3) ...
+   * 
+   * Important: negative scalars in the input vector are ignored without a warning.
+   * 
+   * @param vector of non-negative scalars
+   * @return */
+  public static Tensor of(Tensor vector) {
+    if (vector.length() == 0)
+      return Tensors.empty();
+    NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector));
+    int length = Math.max(0, navigableMap.lastKey().Get().number().intValue() + 1);
+    return Tensors.vector(index -> {
+      Scalar key = RealScalar.of(index);
+      return navigableMap.containsKey(key) ? RealScalar.of(navigableMap.get(key)) : RealScalar.ZERO;
+    }, length);
+  }
+
+  /** counts elements in the intervals:
    * [0, width) [width 2*width) [2*width 3*width) ...
    * 
    * Example:
@@ -27,6 +45,7 @@ public enum BinCounts {
    * @param vector of non-negative scalars
    * @param width of a single bin, strictly positive number
    * @return */
+  // EXPERIMENTAL API not finalized
   public static Tensor of(Tensor vector, Scalar width) {
     if (Scalars.lessEquals(width, RealScalar.ZERO))
       throw TensorRuntimeException.of(width);

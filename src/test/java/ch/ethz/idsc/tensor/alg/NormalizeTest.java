@@ -50,7 +50,7 @@ public class NormalizeTest extends TestCase {
 
   public void testNormInf() {
     Tensor d = Tensors.vector(1, 1, 1).multiply(RealScalar.of(2));
-    Tensor n = Normalize.of(d, Norm.Infinity);
+    Tensor n = Normalize.of(d, Norm.INFINITY);
     assertEquals(n, Tensors.vector(1, 1, 1));
   }
 

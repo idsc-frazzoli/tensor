@@ -26,7 +26,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       // ---
     }
     // Hypot prevents the incorrect evaluation: Norm_2[ {1e-300, 1e-300} ] == 0
-    return Sqrt.of(Norm._2Squared.of(vector));
+    return Sqrt.of(Norm._2SQUARED.of(vector));
   }
 
   @Override

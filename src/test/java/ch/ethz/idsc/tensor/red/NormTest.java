@@ -12,7 +12,7 @@ public class NormTest extends TestCase {
   public void testOneInfNorm1() {
     Tensor a = Tensors.vector(3, -4);
     assertEquals(Norm._1.of(a), Scalars.fromString("7"));
-    assertEquals(Norm.Infinity.of(a), Scalars.fromString("4"));
+    assertEquals(Norm.INFINITY.of(a), Scalars.fromString("4"));
   }
 
   public void testOneInfNorm2() {
@@ -20,7 +20,7 @@ public class NormTest extends TestCase {
     Tensor b = Tensors.vector(3, 4);
     Tensor c = Tensors.of(a, b);
     assertEquals(Norm._1.of(c), Scalars.fromString("6"));
-    assertEquals(Norm.Infinity.of(c), Scalars.fromString("7"));
+    assertEquals(Norm.INFINITY.of(c), Scalars.fromString("7"));
   }
 
   public void testOneInfNorm3() {
@@ -28,7 +28,7 @@ public class NormTest extends TestCase {
     Tensor b = Tensors.vector(3, 4, 2);
     Tensor c = Tensors.of(a, b);
     assertEquals(Norm._1.of(c), Scalars.fromString("10"));
-    assertEquals(Norm.Infinity.of(c), Scalars.fromString("11"));
+    assertEquals(Norm.INFINITY.of(c), Scalars.fromString("11"));
   }
 
   public void testCornerCases() {
@@ -42,13 +42,13 @@ public class NormTest extends TestCase {
     {
       assertEquals(Norm._1.of(z), z);
       assertEquals(Norm._2.of(z), z);
-      assertEquals(Norm.Infinity.of(z), z);
+      assertEquals(Norm.INFINITY.of(z), z);
     }
     {
       Tensor v = Tensors.of(z);
       assertEquals(Norm._1.of(v), z);
       assertEquals(Norm._2.of(v), z);
-      assertEquals(Norm.Infinity.of(v), z);
+      assertEquals(Norm.INFINITY.of(v), z);
     }
   }
 

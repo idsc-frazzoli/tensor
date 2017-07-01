@@ -9,8 +9,8 @@ import junit.framework.TestCase;
 
 public class SincTest extends TestCase {
   private static Scalar checkBoth(Scalar scalar) {
-    Scalar c = Sinc.FUNCTION.apply(scalar);
-    Scalar s = Sin.FUNCTION.apply(scalar).divide(scalar);
+    Scalar c = Sinc.of(scalar);
+    Scalar s = Sin.of(scalar).divide(scalar);
     assertEquals(Chop._12.of(c.subtract(s)), RealScalar.ZERO);
     return c;
   }
@@ -34,13 +34,13 @@ public class SincTest extends TestCase {
   }
 
   public void testZero() {
-    assertEquals(Sinc.FUNCTION.apply(RealScalar.ZERO), RealScalar.ONE);
+    assertEquals(Sinc.of(RealScalar.ZERO), RealScalar.ONE);
   }
 
   public void testComplex() {
-    checkBoth(Sinc.FUNCTION.apply(ComplexScalar.of(2, 3.)));
-    checkBoth(Sinc.FUNCTION.apply(ComplexScalar.of(-.002, 0.03)));
-    checkBoth(Sinc.FUNCTION.apply(ComplexScalar.of(.002, -0.003)));
-    checkBoth(Sinc.FUNCTION.apply(ComplexScalar.of(-.002, -0.003)));
+    checkBoth(Sinc.of(ComplexScalar.of(2, 3.)));
+    checkBoth(Sinc.of(ComplexScalar.of(-.002, 0.03)));
+    checkBoth(Sinc.of(ComplexScalar.of(.002, -0.003)));
+    checkBoth(Sinc.of(ComplexScalar.of(-.002, -0.003)));
   }
 }
