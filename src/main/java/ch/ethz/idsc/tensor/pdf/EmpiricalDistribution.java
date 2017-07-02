@@ -18,6 +18,9 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * The constructor here takes as input the unscaled pdf which is interpreted over the samples
  * 0, 1, 2, 3, ..., [length of unscaled pdf] - 1
  * 
+ * Mathematica also implement HistogramDistribution which has a continuous CDF.
+ * The CDF of EmpiricalDistribution has discontinuities.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/EmpiricalDistribution.html">EmpiricalDistribution</a> */
 public class EmpiricalDistribution extends EvaluatedDiscreteDistribution implements CDF {

@@ -3,7 +3,9 @@ package ch.ethz.idsc.tensor.red;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.NavigableMap;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -25,12 +27,19 @@ public class TallyTest extends TestCase {
 
   public void testInfty() {
     Tensor tensor = Tensors.of( //
-        RealScalar.POSITIVE_INFINITY, RealScalar.ONE, //
-        RealScalar.NEGATIVE_INFINITY, //
-        RealScalar.POSITIVE_INFINITY, RealScalar.POSITIVE_INFINITY);
+        DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE, //
+        DoubleScalar.NEGATIVE_INFINITY, //
+        DoubleScalar.POSITIVE_INFINITY, DoubleScalar.POSITIVE_INFINITY);
     Map<Tensor, Long> map = Tally.of(tensor);
-    assertEquals((long) map.get(RealScalar.POSITIVE_INFINITY), 3);
-    assertEquals((long) map.get(RealScalar.NEGATIVE_INFINITY), 1);
+    assertEquals((long) map.get(DoubleScalar.POSITIVE_INFINITY), 3);
+    assertEquals((long) map.get(DoubleScalar.NEGATIVE_INFINITY), 1);
     assertEquals((long) map.get(RealScalar.of(1)), 1);
+  }
+
+  public void testSorted() {
+    Tensor vector = Tensors.vector(4, 2, 3, 7, 2, 5, 4, 2, 2, 5);
+    NavigableMap<Tensor, Long> navigableMap = Tally.sorted(vector);
+    Tensor keys = Tensor.of(navigableMap.keySet().stream());
+    assertEquals(keys, Tensors.vector(2, 3, 4, 5, 7));
   }
 }

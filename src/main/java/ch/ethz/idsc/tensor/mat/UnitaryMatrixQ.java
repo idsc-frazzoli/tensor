@@ -15,6 +15,6 @@ public enum UnitaryMatrixQ {
    * @return true, if tensor is a matrix and tensor.ConjugateTranspose[tensor] is the identity matrix */
   public static boolean of(Tensor tensor) {
     return MatrixQ.of(tensor) && //
-        Chop.isZeros(tensor.dot(ConjugateTranspose.of(tensor)).subtract(IdentityMatrix.of(tensor.length())));
+        Chop._12.close(tensor.dot(ConjugateTranspose.of(tensor)), IdentityMatrix.of(tensor.length()));
   }
 }

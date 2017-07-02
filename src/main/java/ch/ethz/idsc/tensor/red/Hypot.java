@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * <p>Hypot is inspired by {@link Math#hypot(double, double)} */
 public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
-  bifunction;
+  BIFUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar a, Scalar b) {
@@ -31,7 +31,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
       return max; // if min == 0 return max
     // valid at this point: 0 < min <= max
     Scalar ratio = min.divide(max);
-    return max.multiply(Sqrt.function.apply(RealScalar.ONE.add(ratio.multiply(ratio))));
+    return max.multiply(Sqrt.FUNCTION.apply(RealScalar.ONE.add(ratio.multiply(ratio))));
   }
 
   /** function computes the 2-Norm of a vector
@@ -52,6 +52,10 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
     if (Scalars.isZero(max))
       return max;
     abs = abs.multiply(max.invert());
-    return max.multiply(Sqrt.function.apply((Scalar) abs.dot(abs)));
+    return max.multiply(Sqrt.FUNCTION.apply((Scalar) abs.dot(abs)));
+  }
+
+  public static Scalar of(Scalar a, Scalar b) {
+    return BIFUNCTION.apply(a, b);
   }
 }

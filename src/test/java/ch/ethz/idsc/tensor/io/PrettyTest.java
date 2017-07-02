@@ -1,8 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -51,7 +51,7 @@ public class PrettyTest extends TestCase {
     }
     System.out.println("---");
     {
-      System.out.println(Pretty.of(RealScalar.NEGATIVE_INFINITY));
+      System.out.println(Pretty.of(DoubleScalar.NEGATIVE_INFINITY));
     }
     System.out.println("---");
     {

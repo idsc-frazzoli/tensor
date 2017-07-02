@@ -65,7 +65,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     }
     if (exponent instanceof RealScalar)
       return RealScalar.of(Math.pow(number().doubleValue(), exponent.number().doubleValue()));
-    return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
+    return Exp.FUNCTION.apply(exponent.multiply(Log.FUNCTION.apply(this)));
   }
 
   /** @return {@link ComplexScalar} if negative */

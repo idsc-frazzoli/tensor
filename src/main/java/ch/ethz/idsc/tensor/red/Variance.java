@@ -19,7 +19,7 @@ public enum Variance {
     if (!VectorQ.of(vector))
       throw TensorRuntimeException.of(vector);
     Tensor mean = Mean.of(vector);
-    return Norm._2Squared.of(TensorMap.of(scalar -> scalar.subtract(mean), vector, 1)) //
+    return Norm._2SQUARED.of(TensorMap.of(scalar -> scalar.subtract(mean), vector, 1)) //
         .multiply(RationalScalar.of(1, vector.length() - 1));
   }
 }

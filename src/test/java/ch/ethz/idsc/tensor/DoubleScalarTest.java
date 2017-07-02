@@ -23,15 +23,16 @@ public class DoubleScalarTest extends TestCase {
 
   public void testZeroInvert() {
     Scalar nzero = DoubleScalar.of(0.0);
-    assertEquals(nzero.invert(), RealScalar.POSITIVE_INFINITY);
+    assertEquals(nzero.invert(), DoubleScalar.POSITIVE_INFINITY);
+    assertEquals(DoubleScalar.POSITIVE_INFINITY.invert(), nzero);
   }
 
   public void testChop() {
     Scalar s = DoubleScalar.of(3.14);
-    assertEquals(Chop.of(s), s);
+    assertEquals(Chop._12.of(s), s);
     Scalar r = DoubleScalar.of(1e-14);
-    assertEquals(Chop.of(r), r.zero());
-    assertEquals(Chop.of(RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(Chop._12.of(r), r.zero());
+    assertEquals(Chop._12.of(RealScalar.ZERO), RealScalar.ZERO);
   }
 
   public void testEquality() {
@@ -69,7 +70,7 @@ public class DoubleScalarTest extends TestCase {
 
   public void testNaN() {
     try {
-      DoubleScalar nan = (DoubleScalar) RealScalar.INDETERMINATE;
+      DoubleScalar nan = (DoubleScalar) DoubleScalar.INDETERMINATE;
       nan.isNonNegative();
       assertTrue(false);
     } catch (Exception exception) {

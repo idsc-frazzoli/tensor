@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
@@ -13,6 +14,14 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * zero().inverse() equals {@link RealScalar#POSITIVE_INFINITY} */
 public final class DoubleScalar extends AbstractRealScalar implements //
     ChopInterface, MachineNumberQInterface {
+  /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
+  public static final Scalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
+  /** real scalar that encodes -Infinity. value is backed by Double.NEGATIVE_INFINITY */
+  public static final Scalar NEGATIVE_INFINITY = of(Double.NEGATIVE_INFINITY);
+  /** real scalar that encodes NaN. value is backed by Double.NaN == 0.0d / 0.0
+   * field name inspired by Mathematica::Indeterminate */
+  public static final Scalar INDETERMINATE = of(Double.NaN);
+  // ---
   private static final Scalar DOUBLE_ZERO = of(0.);
 
   /** @param value
@@ -31,6 +40,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   /***************************************************/
+  /** DOUBLE_ZERO.invert() == Double.POSITIVE_INFINITY */
   @Override // from Scalar
   public Scalar invert() {
     return of(1 / value);
@@ -96,8 +106,8 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return Math.abs(value) < threshold ? ZERO : this;
+  public Scalar chop(Chop chop) {
+    return Math.abs(value) < chop.threshold() ? ZERO : this;
   }
 
   @Override // from RoundingInterface

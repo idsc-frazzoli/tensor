@@ -29,8 +29,8 @@ public class NumberQTest extends TestCase {
   }
 
   public void testCorner() {
-    assertFalse(NumberQ.of(RealScalar.POSITIVE_INFINITY));
-    assertFalse(NumberQ.of(RealScalar.NEGATIVE_INFINITY));
+    assertFalse(NumberQ.of(DoubleScalar.POSITIVE_INFINITY));
+    assertFalse(NumberQ.of(DoubleScalar.NEGATIVE_INFINITY));
     assertFalse(NumberQ.of(RealScalar.of(Double.NaN)));
   }
 }

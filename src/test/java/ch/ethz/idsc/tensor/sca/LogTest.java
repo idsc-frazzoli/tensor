@@ -16,6 +16,6 @@ public class LogTest extends TestCase {
   public void testLog() {
     Scalar s = DoubleScalar.of(-3);
     assertEquals(Log.of(s).toString(), "1.0986122886681098+3.141592653589793*I");
-    assertEquals(Log.of(RealScalar.ZERO), RealScalar.NEGATIVE_INFINITY);
+    assertEquals(Log.of(RealScalar.ZERO), DoubleScalar.NEGATIVE_INFINITY);
   }
 }

@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Floor.html">Floor</a> */
 public enum Floor implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   /** @param scalar instance if {@link RealScalar}
    * @return best integer scalar approximation to floor of scalar
@@ -27,6 +27,6 @@ public enum Floor implements ScalarUnaryOperator {
    * @return tensor with all entries replaced by their floor */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Floor.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

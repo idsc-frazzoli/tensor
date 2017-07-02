@@ -32,7 +32,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /***************************************************/
   @Override // from Scalar
   public Scalar abs() {
-    return Hypot.bifunction.apply(re, im);
+    return Hypot.BIFUNCTION.apply(re, im);
   }
 
   @Override // from Scalar
@@ -92,12 +92,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from RoundingInterface
   public Scalar ceiling() {
-    return ComplexScalar.of(Ceiling.function.apply(re), Ceiling.function.apply(im));
+    return ComplexScalar.of(Ceiling.FUNCTION.apply(re), Ceiling.FUNCTION.apply(im));
   }
 
   @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return ComplexScalar.of((Scalar) Chop.of(re, threshold), (Scalar) Chop.of(im, threshold));
+  public Scalar chop(Chop chop) {
+    return ComplexScalar.of(chop.apply(re), chop.apply(im));
   }
 
   @Override // from ComplexEmbedding
@@ -107,7 +107,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from RoundingInterface
   public Scalar floor() {
-    return ComplexScalar.of(Floor.function.apply(re), Floor.function.apply(im));
+    return ComplexScalar.of(Floor.FUNCTION.apply(re), Floor.FUNCTION.apply(im));
   }
 
   @Override // from ComplexEmbedding
@@ -127,7 +127,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from NInterface
   public Scalar n() {
-    return ComplexScalar.of(N.function.apply(re), N.function.apply(im));
+    return ComplexScalar.of(N.FUNCTION.apply(re), N.FUNCTION.apply(im));
   }
 
   @Override // from PowerInterface
@@ -136,7 +136,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       RationalScalar rationalScalar = (RationalScalar) exponent;
       return Scalars.binaryPower(RealScalar.ONE).apply(this, rationalScalar.numerator());
     }
-    return Exp.function.apply(exponent.multiply(Log.function.apply(this)));
+    return Exp.FUNCTION.apply(exponent.multiply(Log.FUNCTION.apply(this)));
   }
 
   @Override // from ComplexEmbedding
@@ -146,13 +146,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from RoundingInterface
   public Scalar round() {
-    return ComplexScalar.of(Round.function.apply(re), Round.function.apply(im));
+    return ComplexScalar.of(Round.FUNCTION.apply(re), Round.FUNCTION.apply(im));
   }
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
     return ComplexScalar.fromPolar( //
-        Sqrt.function.apply(abs()), //
+        Sqrt.FUNCTION.apply(abs()), //
         arg().divide(RealScalar.of(2)));
   }
 

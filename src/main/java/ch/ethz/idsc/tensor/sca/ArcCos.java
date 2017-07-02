@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArcCos.html">ArcCos</a> */
 public enum ArcCos implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   private static final Scalar I_NEGATE = ComplexScalar.I.negate();
 
@@ -23,14 +23,14 @@ public enum ArcCos implements ScalarUnaryOperator {
       if (-1 <= value && value <= 1)
         return DoubleScalar.of(Math.acos(value));
     }
-    Scalar o_x2 = Sqrt.function.apply(RealScalar.ONE.subtract(scalar.multiply(scalar)));
-    return I_NEGATE.multiply(Log.function.apply(scalar.add(ComplexScalar.I.multiply(o_x2))));
+    Scalar o_x2 = Sqrt.FUNCTION.apply(RealScalar.ONE.subtract(scalar.multiply(scalar)));
+    return I_NEGATE.multiply(Log.FUNCTION.apply(scalar.add(ComplexScalar.I.multiply(o_x2))));
   }
 
   /** @param tensor
    * @return tensor with all scalars replaced with their arc cos */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(ArcCos.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

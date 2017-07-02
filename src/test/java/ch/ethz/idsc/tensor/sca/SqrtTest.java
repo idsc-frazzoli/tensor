@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -15,8 +16,8 @@ import junit.framework.TestCase;
 public class SqrtTest extends TestCase {
   public void testNegative() {
     Scalar n2 = RealScalar.of(-2);
-    Scalar sr = Sqrt.function.apply(n2);
-    assertEquals(Rationalize.of(AbsSquared.function.apply(sr), 10000), RealScalar.of(2));
+    Scalar sr = Sqrt.FUNCTION.apply(n2);
+    assertEquals(Rationalize.of(AbsSquared.FUNCTION.apply(sr), 10000), RealScalar.of(2));
     assertEquals(Rationalize.of(sr.multiply(sr), 10000), n2);
   }
 
@@ -37,13 +38,13 @@ public class SqrtTest extends TestCase {
 
   public void testComplex() {
     Scalar scalar = ComplexScalar.of(0, 2);
-    Scalar root = Sqrt.function.apply(scalar);
+    Scalar root = Sqrt.FUNCTION.apply(scalar);
     Scalar res = ComplexScalar.of(1, 1);
-    assertEquals(Chop.of(root.subtract(res)), RealScalar.ZERO);
+    assertEquals(Chop._12.of(root.subtract(res)), RealScalar.ZERO);
   }
 
   public void testZero() {
-    assertEquals(RealScalar.ZERO, Sqrt.function.apply(RealScalar.ZERO));
+    assertEquals(RealScalar.ZERO, Sqrt.FUNCTION.apply(RealScalar.ZERO));
   }
 
   public void testRational() {
@@ -81,5 +82,15 @@ public class SqrtTest extends TestCase {
   public void testTensor() {
     Tensor r = Sqrt.of(Tensors.vector(1, 4, 9, 16));
     assertEquals(r, Tensors.vector(1, 2, 3, 4));
+  }
+
+  public void testInfty() {
+    Scalar res = Sqrt.of(DoubleScalar.POSITIVE_INFINITY);
+    assertEquals(res, DoubleScalar.POSITIVE_INFINITY);
+  }
+
+  public void testInftyNeg() {
+    Scalar res = Sqrt.of(DoubleScalar.NEGATIVE_INFINITY);
+    assertEquals(res, ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
   }
 }

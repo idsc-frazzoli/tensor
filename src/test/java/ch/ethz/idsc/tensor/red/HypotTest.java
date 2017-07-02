@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -14,7 +15,7 @@ import junit.framework.TestCase;
 
 public class HypotTest extends TestCase {
   private static void checkPair(double x, double y) {
-    Scalar res = Hypot.bifunction.apply(RealScalar.of(x), RealScalar.of(y));
+    Scalar res = Hypot.BIFUNCTION.apply(RealScalar.of(x), RealScalar.of(y));
     double jav = Math.hypot(x, y);
     assertEquals(res.number().doubleValue(), jav);
   }
@@ -55,7 +56,7 @@ public class HypotTest extends TestCase {
   public void testComplex() {
     Scalar c1 = ComplexScalar.of(1, -5);
     Scalar c2 = ComplexScalar.of(2, 4);
-    Scalar pair = Hypot.bifunction.apply(c1, c2);
+    Scalar pair = Hypot.BIFUNCTION.apply(c1, c2);
     assertEquals(Sqrt.of(RealScalar.of(46)), pair);
     Scalar func = Hypot.ofVector(Tensors.of(c1, c2));
     assertEquals(func, pair);
@@ -64,24 +65,24 @@ public class HypotTest extends TestCase {
   }
 
   public void testNaNdivNaN() {
-    Scalar s1 = RealScalar.INDETERMINATE;
-    Scalar s2 = RealScalar.INDETERMINATE;
+    Scalar s1 = DoubleScalar.INDETERMINATE;
+    Scalar s2 = DoubleScalar.INDETERMINATE;
     Scalar s3 = s1.divide(s2);
     assertEquals(s3.toString(), "NaN");
   }
 
   public void testInfNan() {
-    Scalar s1 = RealScalar.POSITIVE_INFINITY;
+    Scalar s1 = DoubleScalar.POSITIVE_INFINITY;
     assertFalse(Scalars.isZero(s1));
-    Scalar s2 = RealScalar.INDETERMINATE;
+    Scalar s2 = DoubleScalar.INDETERMINATE;
     assertFalse(Scalars.isZero(s2));
     try {
-      Scalar s3 = Hypot.bifunction.apply(s1, s2); // NaN+NaN*I
+      Scalar s3 = Hypot.BIFUNCTION.apply(s1, s2); // NaN+NaN*I
       assertTrue(s3 instanceof ComplexScalar);
       assertFalse(Scalars.isZero(s3));
       // System.out.println(s3);
       @SuppressWarnings("unused")
-      Scalar s4 = ArcTan.function.apply(s2);
+      Scalar s4 = ArcTan.FUNCTION.apply(s2);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -90,7 +91,7 @@ public class HypotTest extends TestCase {
 
   public void testDoubleNaNFail() {
     try {
-      ArcTan.function.apply(ComplexScalar.of(Double.NaN, Double.NaN));
+      ArcTan.FUNCTION.apply(ComplexScalar.of(Double.NaN, Double.NaN));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

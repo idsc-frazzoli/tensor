@@ -13,7 +13,7 @@ public class Clip implements ScalarUnaryOperator {
   /** clip function that maps to the unit interval [0, 1] */
   public static final Clip UNIT = function(RealScalar.ZERO, RealScalar.ONE);
   /** clip function that clips scalars to the interval [-1, 1] */
-  public static final Clip ABSOLUTE_ONE = function(RealScalar.NEGATIVE_ONE, RealScalar.ONE);
+  public static final Clip ABSOLUTE_ONE = function(RealScalar.ONE.negate(), RealScalar.ONE);
 
   /** @param min
    * @param max

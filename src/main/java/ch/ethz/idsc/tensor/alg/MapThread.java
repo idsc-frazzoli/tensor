@@ -17,8 +17,10 @@ public enum MapThread {
    * 
    * Implementation consistent with Mathematica.
    * In the special case that list is empty
+   * <pre>
    * MapThread[f, {}, 0] == f[]
    * MapThread[f, {}, 1] == {}
+   * </pre>
    * 
    * @param function
    * @param list

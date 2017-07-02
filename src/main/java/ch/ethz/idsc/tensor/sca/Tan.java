@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Tan.html">Tan</a> */
 public enum Tan implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -19,7 +19,7 @@ public enum Tan implements ScalarUnaryOperator {
       return DoubleScalar.of(Math.tan(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {
       ComplexScalar z = (ComplexScalar) scalar;
-      return Sin.function.apply(z).divide(Cos.function.apply(z));
+      return Sin.of(z).divide(Cos.of(z));
     }
     throw TensorRuntimeException.of(scalar);
   }
@@ -28,6 +28,6 @@ public enum Tan implements ScalarUnaryOperator {
    * @return tensor with all entries replaced by their tan */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Tan.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

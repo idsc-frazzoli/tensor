@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 public class MatrixPowerTest extends TestCase {
   private static boolean trunc(Tensor m, Tensor r) {
-    return Chop.of(m.subtract(r)).equals(Array.zeros(m.length(), m.length()));
+    return Chop._12.of(m.subtract(r)).equals(Array.zeros(m.length(), m.length()));
   }
 
   private static void checkLow(Tensor m) {

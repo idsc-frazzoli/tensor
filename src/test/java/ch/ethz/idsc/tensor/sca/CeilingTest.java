@@ -25,15 +25,15 @@ public class CeilingTest extends TestCase {
   public void testHash() {
     Tensor a = Tensors.of( //
         DoubleScalar.of(.123), DoubleScalar.of(3.343), DoubleScalar.of(-.123));
-    Tensor b = a.map(Ceiling.function);
-    Tensor c = a.map(Ceiling.function);
+    Tensor b = a.map(Ceiling.FUNCTION);
+    Tensor c = a.map(Ceiling.FUNCTION);
     assertEquals(b, c);
     assertEquals(b.hashCode(), c.hashCode());
   }
 
   public void testGetCeiling() {
     Tensor v = Tensors.vectorDouble(3.5, 5.6, 9.12);
-    Scalar s = Ceiling.function.apply(v.Get(1));
+    Scalar s = Ceiling.FUNCTION.apply(v.Get(1));
     RealScalar rs = (RealScalar) s;
     assertEquals(rs.number(), 6);
   }
@@ -70,16 +70,16 @@ public class CeilingTest extends TestCase {
   public void testNonFailInf() {
     {
       Scalar s = DoubleScalar.of(Double.POSITIVE_INFINITY);
-      assertEquals(Ceiling.function.apply(s), s);
+      assertEquals(Ceiling.FUNCTION.apply(s), s);
     }
     {
       Scalar s = DoubleScalar.of(Double.NEGATIVE_INFINITY);
-      assertEquals(Ceiling.function.apply(s), s);
+      assertEquals(Ceiling.FUNCTION.apply(s), s);
     }
   }
 
   public void testNonFailNaN() {
-    Scalar s = Ceiling.function.apply(DoubleScalar.of(Double.NaN));
+    Scalar s = Ceiling.FUNCTION.apply(DoubleScalar.of(Double.NaN));
     assertTrue(Double.isNaN(s.number().doubleValue()));
   }
 }

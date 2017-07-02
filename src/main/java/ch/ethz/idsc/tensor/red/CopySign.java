@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * inspired by
  * <a href="http://en.cppreference.com/w/cpp/numeric/math/copysign">std::copysign</a> */
 public enum CopySign implements BiFunction<Scalar, Scalar, Scalar> {
-  bifunction;
+  BIFUNCTION;
   // ---
   /** @param a is {@link RealScalar}
    * @param b is {@link RealScalar}
@@ -24,5 +24,9 @@ public enum CopySign implements BiFunction<Scalar, Scalar, Scalar> {
     int sa = ((RealScalar) a).signInt();
     int sb = ((RealScalar) b).signInt();
     return 0 <= sb ? (0 <= sa ? a : a.negate()) : (0 <= sa ? a.negate() : a);
+  }
+
+  public static Scalar of(Scalar a, Scalar b) {
+    return BIFUNCTION.apply(a, b);
   }
 }

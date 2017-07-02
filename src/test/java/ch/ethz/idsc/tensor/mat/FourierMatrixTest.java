@@ -13,12 +13,12 @@ public class FourierMatrixTest extends TestCase {
     Tensor zeros = Array.zeros(n, n);
     Tensor original = FourierMatrix.of(n);
     assertTrue(SymmetricMatrixQ.of(original));
-    Tensor matrix = Chop.of(original);
+    Tensor matrix = Chop._12.of(original);
     assertTrue(SymmetricMatrixQ.of(matrix));
     Tensor invert = ConjugateTranspose.of(matrix);
     assertTrue(SymmetricMatrixQ.of(matrix));
-    assertEquals(Chop.of(matrix.dot(invert).subtract(IdentityMatrix.of(n))), zeros);
-    assertEquals(Chop.of(Inverse.of(matrix).subtract(invert)), zeros);
+    assertEquals(Chop._12.of(matrix.dot(invert).subtract(IdentityMatrix.of(n))), zeros);
+    assertEquals(Chop._12.of(Inverse.of(matrix).subtract(invert)), zeros);
   }
 
   public void testSeveral() {
@@ -30,8 +30,8 @@ public class FourierMatrixTest extends TestCase {
   public void testNorm4() {
     Tensor m = FourierMatrix.of(4);
     assertEquals(Norm._1.of(m), RealScalar.of(2));
-    assertEquals(Norm._1.of(m), Norm.Infinity.of(m));
-    assertEquals(Norm._1.of(m), Norm.Frobenius.of(m));
+    assertEquals(Norm._1.of(m), Norm.INFINITY.of(m));
+    assertEquals(Norm._1.of(m), Norm.FROBENIUS.of(m));
     // Norm._2.of m == 1 is confirmed with Mathematica
   }
 }

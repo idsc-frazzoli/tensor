@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Exp.html">Exp</a> */
 public enum Exp implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -30,6 +30,6 @@ public enum Exp implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their exponential */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Exp.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

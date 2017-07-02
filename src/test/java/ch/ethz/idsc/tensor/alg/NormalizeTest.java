@@ -20,7 +20,7 @@ public class NormalizeTest extends TestCase {
   public void testVector2() {
     Tensor vector = Tensors.vector(3, 2, 1);
     Tensor n = Normalize.of(vector);
-    Scalar res = Chop.function.apply(Norm._2.of(n).subtract(RealScalar.ONE));
+    Scalar res = Chop._12.apply(Norm._2.of(n).subtract(RealScalar.ONE));
     assertEquals(res, res.zero());
   }
 
@@ -50,7 +50,7 @@ public class NormalizeTest extends TestCase {
 
   public void testNormInf() {
     Tensor d = Tensors.vector(1, 1, 1).multiply(RealScalar.of(2));
-    Tensor n = Normalize.of(d, Norm.Infinity);
+    Tensor n = Normalize.of(d, Norm.INFINITY);
     assertEquals(n, Tensors.vector(1, 1, 1));
   }
 

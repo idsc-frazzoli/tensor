@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Cos.html">Cos</a> */
 public enum Cos implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -34,6 +34,6 @@ public enum Cos implements ScalarUnaryOperator {
    * @return tensor with all entries replaced by their cos */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Cos.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

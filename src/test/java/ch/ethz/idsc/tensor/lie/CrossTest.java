@@ -2,11 +2,18 @@
 package ch.ethz.idsc.tensor.lie;
 
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.UnitVector;
+import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class CrossTest extends TestCase {
+  private static Tensor testOnly(Tensor a, Tensor b) {
+    return Cross.of(a).dot(b);
+  }
+
   public void testUnits() {
     Tensor v1 = UnitVector.of(3, 0);
     Tensor v2 = UnitVector.of(3, 1);
@@ -16,11 +23,21 @@ public class CrossTest extends TestCase {
     assertEquals(Cross.of(v3, v1), v2);
   }
 
-  public static void main(String[] args) {
-    Tensor ad = LieAlgebras.so3();
-    Tensor x = Tensors.vector(7, 2, -4);
-    Tensor y = Tensors.vector(-3, 5, 2);
-    System.out.println(ad);
-    System.out.println(ad.dot(x).dot(y));
+  public void testSimple() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int c = 0; c < 100; ++c) {
+      Tensor a = RandomVariate.of(distribution, 3);
+      Tensor b = RandomVariate.of(distribution, 3);
+      assertEquals(Cross.of(a, b), testOnly(a, b));
+    }
+  }
+
+  public void testSimple2() {
+    Distribution distribution = DiscreteUniformDistribution.of(-10, 10);
+    for (int c = 0; c < 100; ++c) {
+      Tensor a = RandomVariate.of(distribution, 3);
+      Tensor b = RandomVariate.of(distribution, 3);
+      assertEquals(Cross.of(a, b), testOnly(a, b));
+    }
   }
 }

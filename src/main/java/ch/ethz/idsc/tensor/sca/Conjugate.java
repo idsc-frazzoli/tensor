@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Conjugate.html">Conjugate</a> */
 public enum Conjugate implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -27,6 +27,6 @@ public enum Conjugate implements ScalarUnaryOperator {
    * @see ConjugateTranspose */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Conjugate.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

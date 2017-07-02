@@ -10,18 +10,18 @@ import ch.ethz.idsc.tensor.Tensor;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArcSinh.html">ArcSinh</a> */
 public enum ArcSinh implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    Scalar x2_o = Sqrt.function.apply(scalar.multiply(scalar).add(RealScalar.ONE));
-    return Log.function.apply(scalar.add(x2_o)); // add or subtract
+    Scalar x2_o = Sqrt.FUNCTION.apply(scalar.multiply(scalar).add(RealScalar.ONE));
+    return Log.FUNCTION.apply(scalar.add(x2_o)); // add or subtract
   }
 
   /** @param tensor
    * @return tensor with all scalars replaced with their arc sinh */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(ArcSinh.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

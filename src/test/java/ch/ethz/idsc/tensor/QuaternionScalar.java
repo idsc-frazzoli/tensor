@@ -102,12 +102,12 @@ class QuaternionScalar extends AbstractScalar implements //
 
   @Override
   public Scalar invert() {
-    return conjugate().divide(AbsSquared.function.apply(this));
+    return conjugate().divide(AbsSquared.FUNCTION.apply(this));
   }
 
   @Override
   public Scalar abs() {
-    return Sqrt.function.apply(AbsSquared.function.apply(this));
+    return Sqrt.FUNCTION.apply(AbsSquared.FUNCTION.apply(this));
   }
 
   @Override

@@ -6,8 +6,8 @@ import junit.framework.TestCase;
 
 public class RampTest extends TestCase {
   public void testSimple() {
-    assertEquals(Ramp.function.apply(RealScalar.ZERO), RealScalar.ZERO);
-    assertEquals(Ramp.function.apply(RealScalar.of(-6)), RealScalar.ZERO);
-    assertEquals(Ramp.function.apply(RealScalar.of(26)), RealScalar.of(26));
+    assertEquals(Ramp.FUNCTION.apply(RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(Ramp.FUNCTION.apply(RealScalar.of(-6)), RealScalar.ZERO);
+    assertEquals(Ramp.FUNCTION.apply(RealScalar.of(26)), RealScalar.of(26));
   }
 }

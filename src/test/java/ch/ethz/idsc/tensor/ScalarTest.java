@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 public class ScalarTest extends TestCase {
   public void testIsScalar() {
-    assertTrue(RealScalar.POSITIVE_INFINITY.isScalar());
+    assertTrue(DoubleScalar.POSITIVE_INFINITY.isScalar());
   }
 
   public void testGet() {
@@ -65,5 +65,14 @@ public class ScalarTest extends TestCase {
     assertFalse(RationalScalar.of(5, 3).equals(null));
     assertFalse(ComplexScalar.of(RationalScalar.of(5, 3), RationalScalar.of(5, 3)).equals(null));
     assertFalse(Integer.valueOf(1233).equals(null));
+  }
+
+  public void testIteratorFail() {
+    try {
+      for (Tensor self : RealScalar.ZERO)
+        System.out.println(self);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.img.ColorFormat;
 import junit.framework.TestCase;
 
 public class ColorFormatTest extends TestCase {

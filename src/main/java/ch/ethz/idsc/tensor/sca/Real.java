@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Re.html">Re</a> */
 public enum Real implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -23,6 +23,6 @@ public enum Real implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their real part */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Real.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

@@ -14,7 +14,7 @@ public enum VectorAngle {
    * @param v
    * @return angle between the vectors u and v */
   public static Scalar of(Tensor u, Tensor v) {
-    return ArcCos.function.apply( //
+    return ArcCos.FUNCTION.apply( //
         ((Scalar) u.dot(Conjugate.of(v))) //
             .divide(Norm._2.of(u).multiply(Norm._2.of(u))));
   }

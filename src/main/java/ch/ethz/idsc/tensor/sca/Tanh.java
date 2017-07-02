@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Tanh.html">Tanh</a> */
 public enum Tanh implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -27,7 +27,7 @@ public enum Tanh implements ScalarUnaryOperator {
       return DoubleScalar.of(Math.tanh(scalar.number().doubleValue()));
     if (scalar instanceof ComplexScalar) {
       ComplexScalar z = (ComplexScalar) scalar;
-      return Sinh.function.apply(z).divide(Cosh.function.apply(z));
+      return Sinh.FUNCTION.apply(z).divide(Cosh.FUNCTION.apply(z));
     }
     throw TensorRuntimeException.of(scalar);
   }
@@ -36,6 +36,6 @@ public enum Tanh implements ScalarUnaryOperator {
    * @return tensor with all entries replaced by their tanh */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Tanh.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

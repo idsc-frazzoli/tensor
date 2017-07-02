@@ -98,8 +98,8 @@ public class ScalarsTest extends TestCase {
   }
 
   public void testExtreme() {
-    checkInvariant(RealScalar.NEGATIVE_INFINITY.toString(), DoubleScalar.class);
-    checkInvariant(RealScalar.POSITIVE_INFINITY.toString(), DoubleScalar.class);
+    checkInvariant(DoubleScalar.NEGATIVE_INFINITY.toString(), DoubleScalar.class);
+    checkInvariant(DoubleScalar.POSITIVE_INFINITY.toString(), DoubleScalar.class);
   }
 
   public void testCompare() {

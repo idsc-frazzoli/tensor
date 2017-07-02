@@ -43,4 +43,14 @@ public class RescaleTest extends TestCase {
     Tensor res = Rescale.of(vec);
     assertTrue(2 < Tally.of(res).size());
   }
+
+  public void testAllInfty() {
+    Tensor tensor = Tensors.vector(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    assertTrue(Chop.NONE.allZero(Rescale.of(tensor)));
+  }
+
+  public void testAllInfty2() {
+    Tensor tensor = Tensors.vector(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    assertTrue(Chop.NONE.allZero(Rescale.of(tensor)));
+  }
 }

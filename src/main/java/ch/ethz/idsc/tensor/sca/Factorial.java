@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Factorial.html">Factorial</a> */
 public enum Factorial implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {

@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Cosh.html">Cosh</a> */
 public enum Cosh implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -34,6 +34,6 @@ public enum Cosh implements ScalarUnaryOperator {
    * @return tensor with all entries replaced by their cosh */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Cosh.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

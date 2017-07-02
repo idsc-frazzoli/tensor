@@ -31,6 +31,6 @@ public enum PseudoInverse {
 
   /** @return chop(scalar) == zero ? zero : scalar.invert() */
   /* package */ static Function<Scalar, Scalar> orInvert(double threshold) {
-    return InvertUnlessZero.function.compose(Chop.below(threshold));
+    return InvertUnlessZero.FUNCTION.compose(Chop.below(threshold));
   }
 }

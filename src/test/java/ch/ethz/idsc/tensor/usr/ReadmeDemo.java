@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Pretty;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 import ch.ethz.idsc.tensor.opt.LinearProgramming;
@@ -48,6 +49,14 @@ public class ReadmeDemo {
     // ---
     PDF pdf = PDF.of(distribution);
     System.out.println("P(X=3)=" + pdf.at(RealScalar.of(3)));
+  }
+
+  public static void demoCross() {
+    Tensor ad = LieAlgebras.so3();
+    Tensor x = Tensors.vector(7, 2, -4);
+    Tensor y = Tensors.vector(-3, 5, 2);
+    System.out.println(ad);
+    System.out.println(ad.dot(x).dot(y));
   }
 
   public static void main(String[] args) {

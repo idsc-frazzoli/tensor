@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Arg.html">Arg</a> */
 public enum Arg implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -23,6 +23,6 @@ public enum Arg implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their argument */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Arg.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

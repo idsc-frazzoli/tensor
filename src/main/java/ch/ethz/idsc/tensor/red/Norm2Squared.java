@@ -8,14 +8,14 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
 /* package */ class Norm2Squared extends RankAdapter<Scalar> {
   @Override
   public Scalar ofScalar(Scalar scalar) {
-    return AbsSquared.function.apply(scalar);
+    return AbsSquared.FUNCTION.apply(scalar);
   }
 
   @Override
   public Scalar ofVector(Tensor vector) {
     return vector.flatten(0) //
         .map(Scalar.class::cast) //
-        .map(AbsSquared.function) //
+        .map(AbsSquared.FUNCTION) //
         .reduce(Scalar::add) //
         .get();
   }

@@ -27,7 +27,7 @@ public class DistributionTest extends TestCase {
     // System.out.println( //
     // distribution.getClass().getSimpleName() + "\t" + N.of(limmean) + "\t" + N.of(dvar));
     assertTrue(Scalars.lessThan(dmean, RealScalar.of(.2)));
-    assertTrue(Scalars.lessThan(dvar, RealScalar.of(.2)));
+    assertTrue(Scalars.lessThan(dvar, RealScalar.of(.22)));
   }
 
   public void testDiscrete() {

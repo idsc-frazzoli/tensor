@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.red.Max;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Ramp.html">Ramp</a> */
 public enum Ramp implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -26,6 +26,6 @@ public enum Ramp implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their ramp */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Ramp.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

@@ -66,8 +66,8 @@ public class LinearSolveTest extends TestCase {
     {
       Tensor x = LinearSolve.of(A, b);
       Tensor err = A.dot(x).add(b.negate());
-      assertEquals(Chop.of(err), Tensors.vectorLong(0, 0, 0));
-      assertEquals(Chop.of(err), Array.zeros(3));
+      assertEquals(Chop._12.of(err), Tensors.vectorLong(0, 0, 0));
+      assertEquals(Chop._12.of(err), Array.zeros(3));
     }
     Tensor eye2 = Tensors.of( //
         Tensors.vectorDouble(1.0, 0.0, 0.0, 3), //
@@ -76,8 +76,8 @@ public class LinearSolveTest extends TestCase {
     Tensor sol = LinearSolve.of(A, eye3);
     {
       Tensor err = A.dot(sol).add(eye3.negate());
-      assertEquals(Chop.of(err), eye3.multiply(DoubleScalar.of(0)));
-      assertEquals(Chop.of(err), Array.zeros(Dimensions.of(eye3)));
+      assertEquals(Chop._12.of(err), eye3.multiply(DoubleScalar.of(0)));
+      assertEquals(Chop._12.of(err), Array.zeros(Dimensions.of(eye3)));
     }
   }
 

@@ -25,7 +25,7 @@ enum StandardNormalDistribution implements Distribution, PDF, CDF {
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     // 1/2 Erfc[-(x/Sqrt[2])]
-    return Erfc.function.apply(x.multiply(FACTOR)).multiply(HALF);
+    return Erfc.FUNCTION.apply(x.multiply(FACTOR)).multiply(HALF);
   }
 
   @Override // from CDF

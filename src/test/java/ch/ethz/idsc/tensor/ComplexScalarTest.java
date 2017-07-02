@@ -28,7 +28,7 @@ public class ComplexScalarTest extends TestCase {
     Scalar c = RationalScalar.of(1609, 3600); // 0.6685390373377192
     Tensor r = Sqrt.of(c);
     double d = Math.sqrt(c.number().doubleValue());
-    assertEquals(Chop.of(a.subtract(r)), RealScalar.ZERO);
+    assertEquals(Chop._12.apply(a.subtract(r)), RealScalar.ZERO);
     String prefix = "0.668539037337719";
     assertTrue(a.toString().startsWith(prefix));
     assertTrue(r.toString().startsWith(prefix));

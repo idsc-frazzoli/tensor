@@ -14,11 +14,11 @@ import junit.framework.TestCase;
 
 public class RoundTest extends TestCase {
   public void testDouble() {
-    assertEquals(Round.function.apply(DoubleScalar.of(11.3)), DoubleScalar.of(11));
-    assertEquals(Round.function.apply(DoubleScalar.of(11.5)), DoubleScalar.of(12));
-    assertEquals(Round.function.apply(DoubleScalar.of(-11.3)), DoubleScalar.of(-11));
-    assertEquals(Round.function.apply(DoubleScalar.of(-11.5)), DoubleScalar.of(-12)); // inconsistent with Math::round
-    assertEquals(Round.function.apply(DoubleScalar.of(-11.6)), DoubleScalar.of(-12));
+    assertEquals(Round.FUNCTION.apply(DoubleScalar.of(11.3)), DoubleScalar.of(11));
+    assertEquals(Round.FUNCTION.apply(DoubleScalar.of(11.5)), DoubleScalar.of(12));
+    assertEquals(Round.FUNCTION.apply(DoubleScalar.of(-11.3)), DoubleScalar.of(-11));
+    assertEquals(Round.FUNCTION.apply(DoubleScalar.of(-11.5)), DoubleScalar.of(-12)); // inconsistent with Math::round
+    assertEquals(Round.FUNCTION.apply(DoubleScalar.of(-11.6)), DoubleScalar.of(-12));
   }
 
   public void testLarge1() {

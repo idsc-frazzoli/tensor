@@ -10,8 +10,10 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/ListConvolve.html">ListConvolve</a> */
 public enum ListConvolve {
   ;
-  /** ListConvolve[{x, y}, {a, b, c, d, e, f}] ==
+  /** <pre>
+   * ListConvolve[{x, y}, {a, b, c, d, e, f}] ==
    * {b x + a y, c x + b y, d x + c y, e x + d y, f x + e y}
+   * </pre>
    * 
    * @param kernel
    * @param tensor

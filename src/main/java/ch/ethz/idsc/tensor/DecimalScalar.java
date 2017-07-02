@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
@@ -104,8 +105,8 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
 
   /***************************************************/
   @Override // from ChopInterface
-  public Scalar chop(double threshold) {
-    return value.abs().doubleValue() < threshold ? ZERO : this;
+  public Scalar chop(Chop chop) {
+    return value.abs().doubleValue() < chop.threshold() ? ZERO : this;
   }
 
   @Override // from RoundingInterface

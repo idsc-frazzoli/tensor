@@ -11,9 +11,11 @@ public enum Multinomial {
   ;
   /** the horner scheme improves speed and stability for the numeric evaluation of large polynomials
    * 
+   * <pre>
    * horner({a, b, c, d}, x)
    * == a + b*x + c*x^2 + d*x^3
    * == a + x*(b + x*(c + x*(d)))
+   * </pre>
    * 
    * @param coeffs of polynomial
    * @param scalar

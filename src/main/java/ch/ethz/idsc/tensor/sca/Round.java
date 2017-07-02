@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Round.html">Round</a> */
 public enum Round implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   public static final ScalarUnaryOperator _1 = Round.toMultipleOf(DecimalScalar.of("0.1"));
   public static final ScalarUnaryOperator _2 = Round.toMultipleOf(DecimalScalar.of("0.01"));
@@ -49,7 +49,7 @@ public enum Round implements ScalarUnaryOperator {
    * @return */
   public static ScalarUnaryOperator toMultipleOf(Scalar increment) {
     Scalar inverse = increment.invert();
-    return scalar -> function.apply(scalar.multiply(inverse)).multiply(increment);
+    return scalar -> FUNCTION.apply(scalar.multiply(inverse)).multiply(increment);
   }
 
   /** rounds all entries of tensor to nearest integers, with
@@ -59,6 +59,6 @@ public enum Round implements ScalarUnaryOperator {
    * @return tensor with all entries replaced by their rounded values */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Round.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

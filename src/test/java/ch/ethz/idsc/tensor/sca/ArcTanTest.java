@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class ArcTanTest extends TestCase {
   public void testReal() {
     Scalar s = RealScalar.of(-3);
-    Scalar r = ArcTan.function.apply(s);
+    Scalar r = ArcTan.FUNCTION.apply(s);
     // System.out.println(r);
     assertEquals(r, ArcTan.of(s));
     // -1.5707963267948966192 + 1.7627471740390860505 I
@@ -31,7 +31,7 @@ public class ArcTanTest extends TestCase {
 
   public void testComplex() {
     Scalar s = ComplexScalar.of(5, -7);
-    Scalar r = ArcTan.function.apply(s);
+    Scalar r = ArcTan.FUNCTION.apply(s);
     assertEquals(r, ArcTan.of(s));
     // 1.50273 - 0.0944406 I
     assertEquals(r, Scalars.fromString("1.502726846368326-0.09444062638970714*I"));

@@ -21,9 +21,9 @@ public enum FourierMatrix {
    * @return square matrix of dimensions [n x n] with complex entries
    * <code>(i,j) -> sqrt(1/n) exp(i * j * 2pi/n *I)</code> */
   public static Tensor of(int n) {
-    Scalar scalar = Sqrt.function.apply(RationalScalar.of(1, n));
+    Scalar scalar = Sqrt.FUNCTION.apply(RationalScalar.of(1, n));
     return Tensors.matrix((i, j) -> //
-    Exp.function.apply(ComplexScalar.of(RealScalar.ZERO, //
+    Exp.FUNCTION.apply(ComplexScalar.of(RealScalar.ZERO, //
         RationalScalar.of(2 * i * j, n).multiply(PI))).multiply(scalar), n, n);
   }
 

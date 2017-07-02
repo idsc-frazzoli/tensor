@@ -102,7 +102,7 @@ public class GaussScalarTest extends TestCase {
     Scalar s = GaussScalar.of(2, 7);
     assertEquals(Sqrt.of(a), s);
     Scalar n2 = Norm._2.of(Tensors.of(s));
-    Scalar n2s = Norm._2Squared.of(Tensors.of(s));
+    Scalar n2s = Norm._2SQUARED.of(Tensors.of(s));
     assertEquals(n2, s);
     assertEquals(n2s, a);
   }

@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
       return re;
     return _of(Tensors.matrix(new Scalar[][] { //
         { re /*                              */, im }, //
-        { Conjugate.function.apply(im).negate(), Conjugate.function.apply(re) } }));
+        { Conjugate.FUNCTION.apply(im).negate(), Conjugate.FUNCTION.apply(re) } }));
   }
 
   private static Scalar _of(Tensor skew) {

@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sinh.html">Sinh</a> */
 public enum Sinh implements ScalarUnaryOperator {
-  function;
+  FUNCTION;
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
@@ -34,6 +34,6 @@ public enum Sinh implements ScalarUnaryOperator {
    * @return tensor with all scalars replaced with their sinh */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(Sinh.function);
+    return (T) tensor.map(FUNCTION);
   }
 }

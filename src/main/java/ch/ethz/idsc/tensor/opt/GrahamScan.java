@@ -46,8 +46,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
         int cmp = Scalars.compare(angle(p1), angle(p2));
         return cmp != 0 ? cmp
             : Scalars.compare( //
-                Norm._2Squared.of(p1.subtract(point0)), //
-                Norm._2Squared.of(p2.subtract(point0)));
+                Norm._2SQUARED.of(p1.subtract(point0)), //
+                Norm._2SQUARED.of(p2.subtract(point0)));
       }
     });
     stack.push(point0);

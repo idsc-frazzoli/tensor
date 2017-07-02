@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-class SingularValueDecompositionImpl implements SingularValueDecomposition {
+/* package */ class SingularValueDecompositionImpl implements SingularValueDecomposition {
   private final int rows;
   private final int cols;
   private final Tensor u;
@@ -30,7 +30,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
   /** @param A
    * @param epsilon influences if levelW manipulates w and u
    * @param maxIterations */
-  SingularValueDecompositionImpl(Tensor A, double epsilon, int maxIterations) {
+  /* package */ SingularValueDecompositionImpl(Tensor A, double epsilon, int maxIterations) {
     List<Integer> dimensions = Dimensions.of(A);
     rows = dimensions.get(0);
     cols = dimensions.get(1);
@@ -103,9 +103,9 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       if (!scale.equals(RealScalar.ZERO)) {
         Scalar fi = scale.invert();
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(fi), k, i));
-        Scalar s = Norm._2Squared.of(u.extract(i, rows).get(Tensor.ALL, i));
+        Scalar s = Norm._2SQUARED.of(u.extract(i, rows).get(Tensor.ALL, i));
         Scalar f = u.Get(i, i);
-        p = CopySign.bifunction.apply(Sqrt.function.apply(s), f).negate();
+        p = CopySign.of(Sqrt.of(s), f).negate();
         Scalar h = f.multiply(p).subtract(s);
         u.set(f.subtract(p), i, i);
         Scalar fs = scale;
@@ -128,9 +128,9 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
         Scalar si = scale.invert();
         IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.multiply(si), i, k));
         {
-          Scalar s = Norm._2Squared.of(u.get(i).extract(ip1, cols));
+          Scalar s = Norm._2SQUARED.of(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
-          p = CopySign.bifunction.apply(Sqrt.function.apply(s), f).negate();
+          p = CopySign.of(Sqrt.of(s), f).negate();
           Scalar h = f.multiply(p).subtract(s);
           u.set(f.subtract(p), i, ip1);
           IntStream.range(ip1, cols).forEach(k -> r.set(u.Get(i, k).divide(h), k));
@@ -193,7 +193,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
           if (f.abs().number().doubleValue() <= eps)
             break;
           Scalar g = w.Get(i);
-          Scalar h = Hypot.bifunction.apply(f, g);
+          Scalar h = Hypot.of(f, g);
           w.set(h, i);
           h = h.invert();
           c = g.multiply(h);
@@ -216,8 +216,8 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
     Scalar h = r.Get(i);
     Scalar hy = h.multiply(y);
     Scalar f = y.subtract(z).multiply(y.add(z)).add(p.subtract(h).multiply(p.add(h))).divide(hy.add(hy));
-    p = Hypot.bifunction.apply(f, RealScalar.ONE);
-    f = x.subtract(z).multiply(x.add(z)).add(h.multiply(y.divide(f.add(CopySign.bifunction.apply(p, f))).subtract(h))).divide(x);
+    p = Hypot.of(f, RealScalar.ONE);
+    f = x.subtract(z).multiply(x.add(z)).add(h.multiply(y.divide(f.add(CopySign.of(p, f))).subtract(h))).divide(x);
     Scalar s = RealScalar.ONE;
     Scalar c = RealScalar.ONE;
     for (int j = l; j < i; ++j) {
@@ -226,7 +226,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       y = w.Get(jp1);
       h = s.multiply(p);
       p = c.multiply(p);
-      z = Hypot.bifunction.apply(f, h);
+      z = Hypot.of(f, h);
       r.set(z, j);
       c = f.divide(z);
       s = h.divide(z);
@@ -235,7 +235,7 @@ class SingularValueDecompositionImpl implements SingularValueDecomposition {
       p = p.multiply(c).subtract(x.multiply(s));
       h = y.multiply(s);
       y = y.multiply(c);
-      z = Hypot.bifunction.apply(f, h);
+      z = Hypot.of(f, h);
       w.set(z, j);
       if (!z.equals(RealScalar.ZERO)) {
         z = z.invert();

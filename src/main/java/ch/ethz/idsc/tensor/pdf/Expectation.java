@@ -10,7 +10,8 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** Careful:
- * does not work well for distributions with infinite support and exact probabilities,
+ * {@link Expectation} does not work well for distributions that have
+ * infinite support and at the same time exact probabilities,
  * for example: {@link GeometricDistribution}
  * 
  * <p>inspired by
