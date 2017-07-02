@@ -40,6 +40,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   /***************************************************/
+  /** DOUBLE_ZERO.invert() == Double.POSITIVE_INFINITY */
   @Override // from Scalar
   public Scalar invert() {
     return of(1 / value);

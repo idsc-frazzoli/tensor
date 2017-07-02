@@ -35,8 +35,7 @@ public enum N implements ScalarUnaryOperator {
    * 
    * @param value in double precision
    * @return scalar with double precision of given value */
-  // EXPERIMENTAL
-  /* package */ static Scalar of(double value) {
+  public static Scalar of(double value) {
     return DoubleScalar.of(value);
   }
 }

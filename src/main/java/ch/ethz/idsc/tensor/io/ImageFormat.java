@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.img.ColorFormat;
 
 /** The {@link Dimensions} of tensors that represent images are
  * <code>WIDTH x HEIGHT x 4</code>

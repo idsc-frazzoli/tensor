@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -81,5 +82,15 @@ public class SqrtTest extends TestCase {
   public void testTensor() {
     Tensor r = Sqrt.of(Tensors.vector(1, 4, 9, 16));
     assertEquals(r, Tensors.vector(1, 2, 3, 4));
+  }
+
+  public void testInfty() {
+    Scalar res = Sqrt.of(DoubleScalar.POSITIVE_INFINITY);
+    assertEquals(res, DoubleScalar.POSITIVE_INFINITY);
+  }
+
+  public void testInftyNeg() {
+    Scalar res = Sqrt.of(DoubleScalar.NEGATIVE_INFINITY);
+    assertEquals(res, ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
   }
 }

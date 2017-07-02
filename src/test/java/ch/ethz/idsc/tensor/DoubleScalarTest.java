@@ -24,6 +24,7 @@ public class DoubleScalarTest extends TestCase {
   public void testZeroInvert() {
     Scalar nzero = DoubleScalar.of(0.0);
     assertEquals(nzero.invert(), DoubleScalar.POSITIVE_INFINITY);
+    assertEquals(DoubleScalar.POSITIVE_INFINITY.invert(), nzero);
   }
 
   public void testChop() {
