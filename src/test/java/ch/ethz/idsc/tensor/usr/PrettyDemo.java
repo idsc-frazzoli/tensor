@@ -1,17 +1,13 @@
 // code by jph
-package ch.ethz.idsc.tensor.io;
+package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import junit.framework.TestCase;
+import ch.ethz.idsc.tensor.io.Pretty;
 
-public class PrettyTest extends TestCase {
-  public void testDummy() {
-    // ---
-  }
-
+public class PrettyDemo {
   public static void main(String[] args) {
     // Tensor m = Tensors.of(Tensors.vectorInt(2, -3, 4), Tensors.vectorDouble(2.3, -.2), Tensors.empty());
     {

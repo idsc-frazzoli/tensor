@@ -19,19 +19,20 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
 public enum Sinc implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Scalar THRESHOLD = RealScalar.of(0.05);
-  private static final Tensor SERIES = Tensors.vector(1, 0, -6, 0, 120, 0, -5040, 0, 362880, 0, -39916800) //
-      .map(InvertUnlessZero.FUNCTION);
+  /* package */ static final Scalar THRESHOLD = RealScalar.of(0.05);
+  private static final Tensor SERIES = //
+      Tensors.vector(1, 0, -6, 0, 120, 0, -5040, 0, 362880, 0, -39916800) //
+          .map(InvertUnlessZero.FUNCTION).map(N.FUNCTION);
 
   @Override
   public Scalar apply(Scalar scalar) {
     if (Scalars.lessThan(scalar.abs(), THRESHOLD))
-      return Multinomial.horner(SERIES, N.FUNCTION.apply(scalar));
+      return Multinomial.horner(SERIES, scalar);
     return Sin.of(scalar).divide(scalar);
   }
 
   /** @param tensor
-   * @return tensor with all scalars replaced with their sin */
+   * @return tensor with all scalars replaced with their sinc */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(FUNCTION);

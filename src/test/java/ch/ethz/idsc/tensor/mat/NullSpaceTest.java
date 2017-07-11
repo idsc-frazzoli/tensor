@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Reverse;
-import ch.ethz.idsc.tensor.io.Pretty;
 import junit.framework.TestCase;
 
 public class NullSpaceTest extends TestCase {
@@ -114,9 +113,5 @@ public class NullSpaceTest extends TestCase {
     for (Tensor v : nul)
       assertEquals(m.dot(v), Array.zeros(2));
     // System.out.println(Put.string(nul));
-  }
-
-  public static void main(String[] args) {
-    System.out.println(Pretty.of(NullSpace.of(Tensors.fromString("{{-1/3, 0, I}}"))));
   }
 }
