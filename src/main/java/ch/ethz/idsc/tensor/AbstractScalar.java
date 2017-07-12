@@ -10,12 +10,12 @@ import java.util.stream.Stream;
 public abstract class AbstractScalar implements Scalar {
   @Override // from Tensor
   public final Tensor copy() {
-    return this; // Scalar instances are immutable
+    return this; // instance of Scalar is immutable
   }
 
   @Override // from Tensor
   public final Tensor unmodifiable() {
-    return this; // Scalar instances are immutable
+    return this; // instance of Scalar is immutable
   }
 
   /** when using get() on {@link AbstractScalar} the list of arguments has to be empty */
