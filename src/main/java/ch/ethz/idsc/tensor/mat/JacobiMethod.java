@@ -52,7 +52,7 @@ class JacobiMethod implements Eigensystem {
           .map(Scalar.class::cast).map(Scalar::abs).reduce(Scalar::add) //
           .orElse(RealScalar.ZERO);
       if (Scalars.isZero(sum)) {
-        eigsrt();
+        sort();
         return;
       }
       Scalar tresh = (i < 4) ? sum.multiply(factor) : RealScalar.ZERO;
@@ -108,7 +108,9 @@ class JacobiMethod implements Eigensystem {
     A.set(h.add(s.multiply(g.subtract(h.multiply(tau)))), k, l);
   }
 
-  private void eigsrt() {
+  private void sort() {
+    // TODO use Ordering, reversed
+    // int[] order = Ordering.of(d);
     for (int i = 0; i < n - 1; ++i) {
       final int k = i + ArgMax.of(d.extract(i, n));
       if (k != i) {
