@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -26,5 +27,13 @@ public class ResourceDataTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testPrimes() {
+    Tensor primes = ResourceData.of("/number/primes.vector");
+    assertNotNull(primes);
+    List<Integer> dimensions = Dimensions.of(primes);
+    assertEquals(dimensions.size(), 1);
+    assertEquals(primes.Get(5), Scalars.fromString("13"));
   }
 }

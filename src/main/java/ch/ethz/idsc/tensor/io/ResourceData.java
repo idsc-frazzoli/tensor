@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** access to resource data included in the tensor library
@@ -13,6 +14,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * <p>List of available resources:
  * <pre>
  * /colorscheme/classic.csv
+ * /number/primes.vector
  * </pre>
  * 
  * <p>inspired by
@@ -28,8 +30,11 @@ public enum ResourceData {
   public static Tensor of(String string) {
     try {
       Filename filename = new Filename(new File(string));
+      InputStream inputStream = ResourceData.class.getResourceAsStream(string);
       if (filename.hasExtension("csv"))
-        return _csv(ResourceData.class.getResourceAsStream(string));
+        return _csv(inputStream);
+      if (filename.hasExtension("vector"))
+        return _vector(inputStream);
     } catch (Exception exception) {
       exception.printStackTrace();
     }
@@ -37,15 +42,15 @@ public enum ResourceData {
   }
 
   // helper function to read csv from stream
-  private static Tensor _csv(InputStream inputStream) {
-    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-    try {
-      Tensor tensor = CsvFormat.parse(bufferedReader.lines());
-      bufferedReader.close();
-      return tensor;
-    } catch (Exception exception) {
-      exception.printStackTrace();
+  private static Tensor _csv(InputStream inputStream) throws Exception {
+    try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+      return CsvFormat.parse(bufferedReader.lines());
     }
-    return null;
+  }
+
+  private static Tensor _vector(InputStream inputStream) throws Exception {
+    try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+      return Tensor.of(bufferedReader.lines().map(Scalars::fromString));
+    }
   }
 }
