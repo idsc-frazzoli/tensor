@@ -56,4 +56,13 @@ public class Norm2Test extends TestCase {
       // ---
     }
   }
+
+  public void testEmpty() {
+    try {
+      Norm._2.of(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

@@ -17,7 +17,6 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-// TODO sort according to magnitude
 /* package */ class SingularValueDecompositionImpl implements SingularValueDecomposition {
   private final int rows;
   private final int cols;

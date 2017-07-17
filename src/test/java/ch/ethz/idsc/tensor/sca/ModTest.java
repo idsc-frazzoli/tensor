@@ -36,6 +36,11 @@ public class ModTest extends TestCase {
     assertEquals(mod.apply(RealScalar.of(5)), RealScalar.of(5 - 2 * Math.PI));
   }
 
+  public void testPart() {
+    Mod mod = Mod.function(RealScalar.of(3), RealScalar.ONE);
+    assertEquals(mod.apply(RealScalar.ZERO), RealScalar.of(3));
+  }
+
   public void testRational1() {
     Scalar m = RationalScalar.of( //
         new BigInteger("816345827635482763548726354817635487162354876135284765"), //
@@ -88,7 +93,7 @@ public class ModTest extends TestCase {
     Mod mod = Mod.function(RealScalar.of(-5));
     @SuppressWarnings("unused")
     Scalar m = mod.apply(RealScalar.of(2));
-    // TODO desired behavior not clear
+    // desired behavior not clear
     // System.out.println(m);
   }
 
@@ -122,5 +127,20 @@ public class ModTest extends TestCase {
     _checkComplexSet(ComplexScalar.of(2, 3), 13);
     // _checkComplexSet(ComplexScalar.of(1, 3), 13); // not consistent with Mathematica
     // _checkComplexSet(ComplexScalar.of(2, 4), 13);
+  }
+
+  public void testFail() {
+    try {
+      Mod.function(RealScalar.ZERO);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Mod.function(RealScalar.ZERO, RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

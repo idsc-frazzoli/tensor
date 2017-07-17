@@ -15,17 +15,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override
   public Scalar ofVector(Tensor vector) {
-    // if (0 < vector.length()) {
-    // Scalar first = vector.Get(0).abs();
-    // if (first instanceof Comparable)
-    // return Hypot.ofVector(vector);
-    // }
     try {
+      // Hypot prevents the incorrect evaluation: Norm_2[ {1e-300, 1e-300} ] == 0
       return Hypot.ofVector(vector);
-    } catch (Exception e) {
-      // ---
+    } catch (Exception exception) {
+      // <- when vector is empty, or contains NaN
     }
-    // Hypot prevents the incorrect evaluation: Norm_2[ {1e-300, 1e-300} ] == 0
     return Sqrt.of(Norm._2SQUARED.of(vector));
   }
 

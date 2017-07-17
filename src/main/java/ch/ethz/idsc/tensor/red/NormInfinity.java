@@ -20,10 +20,10 @@ import ch.ethz.idsc.tensor.Tensor;
         .get();
   }
 
-  private static final Norm1 norm1 = new Norm1();
+  private static final Norm1 NORM1 = new Norm1();
 
   @Override
   public Scalar ofMatrix(Tensor matrix) {
-    return ofVector(Tensor.of(matrix.flatten(0).map(norm1::ofVector)));
+    return ofVector(Tensor.of(matrix.flatten(0).map(NORM1::ofVector)));
   }
 }
