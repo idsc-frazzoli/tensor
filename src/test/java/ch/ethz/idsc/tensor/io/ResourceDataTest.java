@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import junit.framework.TestCase;
 
 public class ResourceDataTest extends TestCase {
-  public void testColorschemeClassic() {
+  public void testColorschemeClassic() throws IOException {
     Tensor tensor = ResourceData.of("/colorscheme/classic.csv");
     assertNotNull(tensor);
     List<Integer> list = Dimensions.of(tensor);
@@ -29,11 +30,20 @@ public class ResourceDataTest extends TestCase {
     }
   }
 
-  public void testPrimes() {
+  public void testPrimes() throws IOException {
     Tensor primes = ResourceData.of("/number/primes.vector");
     assertNotNull(primes);
     List<Integer> dimensions = Dimensions.of(primes);
     assertEquals(dimensions.size(), 1);
     assertEquals(primes.Get(5), Scalars.fromString("13"));
+  }
+
+  public void testFail() {
+    try {
+      ResourceData.of("/number/exists.fail");
+      assertTrue(false);
+    } catch (IOException exception) {
+      // ---
+    }
   }
 }
