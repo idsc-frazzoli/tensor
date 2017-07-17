@@ -21,8 +21,8 @@ public class ArgMaxTest extends TestCase {
   }
 
   public void testMaxComparator() {
-    assertEquals(4, ArgMax.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Comparators.ascending()));
-    assertEquals(3, ArgMax.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 0, 8), Comparators.ascending()));
+    assertEquals(4, ArgMax.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Comparators.increasing()));
+    assertEquals(3, ArgMax.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 0, 8), Comparators.increasing()));
   }
 
   public void testInf() {

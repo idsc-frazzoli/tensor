@@ -19,8 +19,8 @@ public class ArgMinTest extends TestCase {
   }
 
   public void testMinComparator() {
-    assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Comparators.ascending()));
-    assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8), Comparators.ascending()));
+    assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Comparators.increasing()));
+    assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8), Comparators.increasing()));
   }
 
   public void testScalar() {

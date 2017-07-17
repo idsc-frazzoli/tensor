@@ -56,12 +56,7 @@ public enum Primitives {
   /** @param tensor
    * @return array of double values of all scalars in tensor */
   public static float[] toArrayFloat(Tensor tensor) {
-    List<Float> list = toListFloat(tensor);
-    float[] array = new float[list.size()];
-    int index = -1;
-    for (float value : list)
-      array[++index] = value;
-    return array;
+    return toFloatBuffer(tensor).array();
   }
 
   /** @param tensor

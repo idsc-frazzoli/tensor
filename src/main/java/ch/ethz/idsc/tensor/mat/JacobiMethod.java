@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
-import ch.ethz.idsc.tensor.red.ArgMax;
+import ch.ethz.idsc.tensor.alg.Ordering;
 import ch.ethz.idsc.tensor.red.Hypot;
 
 /** The Jacobi transformations of a real symmetric matrix establishes the
@@ -27,32 +27,34 @@ import ch.ethz.idsc.tensor.red.Hypot;
  * is the product of the successive Jacobi rotation matrices Pi. The diagonal
  * entries of D are the eigenvalues of A and the columns of V are the
  * eigenvectors of A. */
-class JacobiMethod implements Eigensystem {
+/* package */ class JacobiMethod implements Eigensystem {
   private static final int MAXITERATIONS = 50;
   private static final Scalar HALF = RationalScalar.of(1, 2);
   private static final Scalar HUNDRED = RealScalar.of(100);
   private static final Scalar EPS = RealScalar.of(Math.ulp(1));
   // ---
   private final int n;
-  private final Tensor V;
+  private Tensor V;
   private Tensor d;
 
   /** @param matrix symmetric and real valued */
-  /* package */ JacobiMethod(Tensor matrix) {
+  JacobiMethod(Tensor matrix) {
     Tensor A = matrix.copy();
     n = Dimensions.of(A).get(0);
     V = IdentityMatrix.of(n);
     Tensor z = Array.zeros(n);
     Tensor b = Tensors.vector(i -> matrix.get(i, i), n);
     d = b.copy();
-    Scalar factor = RealScalar.of(0.2).divide(RealScalar.of(n * n));
+    Scalar factor = RealScalar.of(0.2 / (n * n));
     for (int i = 0; i < MAXITERATIONS; ++i) {
       Scalar sum = IntStream.range(0, n - 1).boxed() //
           .flatMap(ip -> A.get(ip).extract(ip + 1, n).flatten(0)) //
           .map(Scalar.class::cast).map(Scalar::abs).reduce(Scalar::add) //
           .orElse(RealScalar.ZERO);
       if (Scalars.isZero(sum)) {
-        sort();
+        int[] order = Ordering.DECREASING.of(d);
+        d = Tensor.of(IntStream.of(order).boxed().map(d::get)).unmodifiable();
+        V = Tensor.of(IntStream.of(order).boxed().map(V::get)).unmodifiable();
         return;
       }
       Scalar tresh = (i < 4) ? sum.multiply(factor) : RealScalar.ZERO;
@@ -106,22 +108,6 @@ class JacobiMethod implements Eigensystem {
     Scalar h = A.Get(k, l);
     A.set(g.subtract(s.multiply(h.add(g.multiply(tau)))), i, j);
     A.set(h.add(s.multiply(g.subtract(h.multiply(tau)))), k, l);
-  }
-
-  private void sort() {
-    // TODO use Ordering, reversed
-    // int[] order = Ordering.of(d);
-    for (int i = 0; i < n - 1; ++i) {
-      final int k = i + ArgMax.of(d.extract(i, n));
-      if (k != i) {
-        Scalar max = d.Get(i);
-        d.set(d.get(k), i);
-        d.set(max, k);
-        Tensor vgi = V.get(i);
-        V.set(V.get(k), i);
-        V.set(vgi, k);
-      }
-    }
   }
 
   @Override

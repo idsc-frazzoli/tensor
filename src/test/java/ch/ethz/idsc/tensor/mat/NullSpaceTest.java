@@ -9,16 +9,23 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Reverse;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class NullSpaceTest extends TestCase {
-  public void testZerosUsingSvd() {
-    int n = 5;
-    // gives the symbolic identity matrix
-    Tensor nul = NullSpace.usingSvd(Array.zeros(n, n));
+  private static void _checkZeros(Tensor zeros) {
+    int n = zeros.length();
+    Tensor nul = NullSpace.usingSvd(zeros);
     assertEquals(Dimensions.of(nul), Arrays.asList(n, n));
     assertTrue(nul.get(0, 0) instanceof RationalScalar);
     assertEquals(nul, IdentityMatrix.of(n));
+  }
+
+  public void testZerosUsingSvd() {
+    for (int n = 1; n < 10; ++n) {
+      _checkZeros(Array.zeros(n, n));
+      _checkZeros(N.of(Array.zeros(n, n)));
+    }
   }
 
   public void testRowReduce() {
