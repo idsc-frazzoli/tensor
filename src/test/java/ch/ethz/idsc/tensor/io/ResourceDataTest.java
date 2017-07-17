@@ -14,20 +14,33 @@ import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import junit.framework.TestCase;
 
 public class ResourceDataTest extends TestCase {
-  public void testColorschemeClassic() throws IOException {
-    Tensor tensor = ResourceData.of("/colorscheme/classic.csv");
-    assertNotNull(tensor);
-    List<Integer> list = Dimensions.of(tensor);
-    assertEquals(list, Arrays.asList(256, 4));
-    Interpolation interpolation = LinearInterpolation.of(tensor);
-    Tensor result = interpolation.get(Tensors.vector(255));
-    assertEquals(result, Tensors.vector(255, 237, 237, 255));
+  private static void _checkColorscheme(Interpolation interpolation) {
     try {
       interpolation.get(Tensors.vector(256));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testColorschemeClassic() throws IOException {
+    Tensor tensor = ResourceData.of("/colorscheme/classic.csv");
+    assertNotNull(tensor);
+    List<Integer> list = Dimensions.of(tensor);
+    assertEquals(list, Arrays.asList(256, 4));
+    Interpolation interpolation = LinearInterpolation.of(tensor);
+    assertEquals(interpolation.get(Tensors.vector(255)), Tensors.vector(255, 237, 237, 255));
+    _checkColorscheme(interpolation);
+  }
+
+  public void testHue() throws IOException {
+    Tensor tensor = ResourceData.of("/colorscheme/hue.csv");
+    assertNotNull(tensor);
+    List<Integer> list = Dimensions.of(tensor);
+    assertEquals(list, Arrays.asList(256, 4));
+    Interpolation interpolation = LinearInterpolation.of(tensor);
+    assertEquals(interpolation.get(Tensors.vector(0)), Tensors.vector(255, 0, 0, 255));
+    _checkColorscheme(interpolation);
   }
 
   public void testPrimes() throws IOException {

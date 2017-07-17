@@ -10,13 +10,13 @@ import java.io.File;
 
   public Filename(File file) {
     this.file = file;
-    String myString = file.getName();
-    int index = myString.lastIndexOf('.');
+    String string = file.getName();
+    int index = string.lastIndexOf('.');
     if (0 <= index) {
-      title = myString.substring(0, index);
-      extension = myString.substring(index + 1);
+      title = string.substring(0, index);
+      extension = string.substring(index + 1);
     } else {
-      title = myString;
+      title = string;
       extension = "";
     }
   }
@@ -31,12 +31,12 @@ import java.io.File;
     return new File(file.getParentFile(), title + (string == null ? "" : "." + string));
   }
 
-  @Override
+  @Override // from Comparable<Filename>
   public int compareTo(Filename filename) {
     return file.compareTo(filename.file);
   }
 
-  @Override
+  @Override // from Object
   public boolean equals(Object object) {
     if (object instanceof Filename) {
       Filename filename = (Filename) object;
@@ -45,7 +45,7 @@ import java.io.File;
     return false;
   }
 
-  @Override
+  @Override // from Object
   public int hashCode() {
     return file.hashCode();
   }

@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * <p>List of available resources:
  * <pre>
  * /colorscheme/classic.csv
- * TODO /colorscheme/hue.csv
+ * /colorscheme/hue.csv
  * /number/primes.vector
  * </pre>
  * 
@@ -31,11 +31,11 @@ public enum ResourceData {
    * @return imported tensor, or null if resource could not be loaded
    * @throws IOException */
   public static Tensor of(String string) throws IOException {
-    Filename filename = new Filename(new File(string));
     InputStream inputStream = ResourceData.class.getResourceAsStream(string);
     if (inputStream == null)
       throw new IOException(string); // can't open resource
     try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+      Filename filename = new Filename(new File(string));
       if (filename.hasExtension("csv"))
         return CsvFormat.parse(bufferedReader.lines());
       if (filename.hasExtension("vector"))
