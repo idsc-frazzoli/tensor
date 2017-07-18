@@ -27,7 +27,7 @@ public class ReadmeDemo {
   }
 
   public static void demoNullspace() {
-    System.out.println(Pretty.of(NullSpace.of(Tensors.fromString("{{-1/3, 0, I}}"))));
+    System.out.println(Pretty.of(NullSpace.usingRowReduce(Tensors.fromString("{{-1/3, 0, I}}"))));
   }
 
   public static void demoSVD() {

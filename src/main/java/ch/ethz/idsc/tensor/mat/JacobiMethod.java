@@ -9,10 +9,10 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Ordering;
+import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Hypot;
 
 /** The Jacobi transformations of a real symmetric matrix establishes the
@@ -43,7 +43,7 @@ import ch.ethz.idsc.tensor.red.Hypot;
     n = Dimensions.of(A).get(0);
     V = IdentityMatrix.of(n);
     Tensor z = Array.zeros(n);
-    Tensor b = Tensors.vector(i -> matrix.get(i, i), n);
+    Tensor b = Diagonal.of(matrix);
     d = b.copy();
     Scalar factor = RealScalar.of(0.2 / (n * n));
     for (int i = 0; i < MAXITERATIONS; ++i) {

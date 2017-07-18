@@ -82,7 +82,7 @@ public class QuantityScalar2Test extends TestCase {
     Scalar qs2 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1);
-    Tensor nul = NullSpace.of(mat);
+    Tensor nul = NullSpace.usingRowReduce(mat);
     // System.out.println(nul);
     assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
   }
