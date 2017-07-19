@@ -86,10 +86,11 @@ public class QuantityScalar extends AbstractScalar implements //
       }
       if (unitMap.equals(quantityScalar.unitMap))
         return of(value.add(quantityScalar.value), unitMap);
+    } else {
+      // scalar is not QuantityScalar
+      if (Scalars.isZero(this) && Scalars.isZero(scalar))
+        return this;
     }
-    // TODO comment!!! and perhaps refactor
-    if (Scalars.isZero(this) && Scalars.isZero(scalar))
-      return this;
     throw TensorRuntimeException.of(this, scalar);
   }
 
@@ -197,10 +198,9 @@ public class QuantityScalar extends AbstractScalar implements //
       return value.equals(quantityScalar.value) && //
           unitMap.equals(quantityScalar.unitMap);
     }
-    if (object instanceof RealScalar) {
-      RealScalar realScalar = (RealScalar) object;
-      if (Scalars.isZero(this) && Scalars.isZero(realScalar))
-        return true; // TODO simplify
+    if (object instanceof Scalar) {
+      Scalar scalar = (Scalar) object;
+      return Scalars.isZero(this) && Scalars.isZero(scalar);
     }
     return false;
   }
