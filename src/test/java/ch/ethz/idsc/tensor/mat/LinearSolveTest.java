@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -157,5 +158,14 @@ public class LinearSolveTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testAny() {
+    Tensor m = Tensors.fromString("{{1, 0, -1}, {0,1,0}, {1,0,-1}}");
+    Tensor b = Tensors.fromString("{0,0,0}");
+    Tensor x = LinearSolve.any(m, b);
+    Scalar det = Det.of(m);
+    assertEquals(det, RealScalar.ZERO);
+    assertEquals(x, b);
   }
 }

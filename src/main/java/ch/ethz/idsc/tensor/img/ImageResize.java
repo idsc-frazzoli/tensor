@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.img;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -14,14 +15,16 @@ public enum ImageResize {
   /** function uses nearest neighbor interpolation
    * 
    * @param tensor
-   * @param factor
+   * @param factor positive integer
    * @return */
-  // EXPERIMENTAL API not finalized
   public static Tensor nearest(Tensor tensor, int factor) {
     if (factor <= 0)
       throw new RuntimeException();
     List<Integer> list = Dimensions.of(tensor);
-    return Tensors.matrix((i, j) -> tensor.get(i / factor, j / factor), //
+    int limit = Math.max(list.get(0), list.get(1)) * factor;
+    // precomputation of indices
+    int[] index = IntStream.range(0, limit).map(i -> i / factor).toArray();
+    return Tensors.matrix((i, j) -> tensor.get(index[i], index[j]), //
         list.get(0) * factor, //
         list.get(1) * factor);
   }

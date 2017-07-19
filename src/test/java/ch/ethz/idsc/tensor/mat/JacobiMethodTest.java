@@ -33,6 +33,8 @@ public class JacobiMethodTest extends TestCase {
     assertTrue(Chop._12.close(eigensys.vectors().dot(Vt), IdentityMatrix.of(n)));
     assertTrue(OrthogonalMatrixQ.of(eigensys.vectors()));
     assertTrue(OrthogonalMatrixQ.of(Vt));
+    // assert that values are sorted from max to min
+    assertEquals(eigensys.values(), Reverse.of(Sort.of(eigensys.values())));
   }
 
   public void testJacobiWithTensor1() {

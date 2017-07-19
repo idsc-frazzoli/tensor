@@ -24,28 +24,20 @@ public enum BinCounts {
    * @param vector of non-negative scalars
    * @return */
   public static Tensor of(Tensor vector) {
-    if (vector.length() == 0)
-      return Tensors.empty();
-    NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector));
-    int length = Math.max(0, navigableMap.lastKey().Get().number().intValue() + 1);
-    return Tensors.vector(index -> {
-      Scalar key = RealScalar.of(index);
-      return navigableMap.containsKey(key) ? RealScalar.of(navigableMap.get(key)) : RealScalar.ZERO;
-    }, length);
+    return of(vector, RealScalar.ONE);
   }
 
   /** counts elements in the intervals:
    * [0, width) [width 2*width) [2*width 3*width) ...
    * 
+   * Important: negative scalars in the input vector are ignored without a warning.
+   * 
    * Example:
    * BinCounts.of(Tensors.vector(6, 7, 1, 2, 3, 4, 2), RealScalar.of(2)) == {1, 3, 1, 2}
-   * 
-   * Important: negative scalars in the input vector are ignored without a warning.
    * 
    * @param vector of non-negative scalars
    * @param width of a single bin, strictly positive number
    * @return */
-  // EXPERIMENTAL API not finalized
   public static Tensor of(Tensor vector, Scalar width) {
     if (Scalars.lessEquals(width, RealScalar.ZERO))
       throw TensorRuntimeException.of(width);

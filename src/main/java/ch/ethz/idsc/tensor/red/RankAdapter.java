@@ -8,9 +8,9 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
 /* package */ class RankAdapter<Type> {
-  static final int RANK_SCALAR = 0;
-  static final int RANK_VECTOR = 1;
-  static final int RANK_MATRIX = 2;
+  private static final int RANK_SCALAR = 0;
+  private static final int RANK_VECTOR = 1;
+  private static final int RANK_MATRIX = 2;
 
   @SuppressWarnings("incomplete-switch")
   public final Type of(Tensor tensor) {

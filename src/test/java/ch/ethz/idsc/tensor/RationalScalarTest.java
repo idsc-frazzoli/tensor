@@ -28,6 +28,15 @@ public class RationalScalarTest extends TestCase {
     assertEquals(a.invert(), RationalScalar.of(-17, 3));
   }
 
+  public void testInvertFail() {
+    try {
+      RationalScalar.of(0, 1).invert();
+      assertTrue(false);
+    } catch (Exception exception) {
+      assertTrue(exception instanceof ArithmeticException);
+    }
+  }
+
   public void testNegate() {
     Scalar a = RationalScalar.of(3, 17);
     assertEquals(a.negate(), RationalScalar.of(3, -17));

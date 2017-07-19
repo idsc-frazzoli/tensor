@@ -45,10 +45,11 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
    * a rational number is the exact result.
    * 
    * @param vector
-   * @return 2-norm of vector */
+   * @return 2-norm of vector
+   * @throws Exception if vector is empty, or vector contains NaN */
   public static Scalar ofVector(Tensor vector) {
     Tensor abs = vector.map(Scalar::abs);
-    Scalar max = (Scalar) abs.flatten(0).reduce(Max::of).get();
+    Scalar max = abs.flatten(0).reduce(Max::of).get().Get();
     if (Scalars.isZero(max))
       return max;
     abs = abs.multiply(max.invert());

@@ -11,8 +11,7 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
-// TODO for problems without unique solution only test for value of cost function
-// TODO some tests are still incomplete
+// TODO tests should be improved over time
 public class LinearProgrammingTest extends TestCase {
   public void testCase4() {
     Tensor c = Tensors.vector(-3, -5, 0, 0, 0);

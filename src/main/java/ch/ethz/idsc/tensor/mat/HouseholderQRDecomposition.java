@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.mat;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -16,15 +15,13 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
-/* package */ class QRDecompositionImpl implements QRDecomposition {
-  private static final Function<Scalar, Scalar> CHOP = Chop.below(1e-12);
-  // ---
+/* package */ class HouseholderQRDecomposition implements QRDecomposition {
   private final int n;
   private final int m;
   private Tensor Qinv;
   private Tensor R;
 
-  QRDecompositionImpl(Tensor A) {
+  HouseholderQRDecomposition(Tensor A) {
     List<Integer> dims = Dimensions.of(A);
     n = dims.get(0);
     m = dims.get(1);
@@ -35,7 +32,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
       Qinv = H.dot(Qinv);
       R = H.dot(R);
       for (int j = k; j < n; ++j)
-        R.set(CHOP, j, k);
+        R.set(Chop._12, j, k);
     }
   }
 

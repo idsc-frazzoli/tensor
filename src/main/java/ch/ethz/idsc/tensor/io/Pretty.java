@@ -22,10 +22,10 @@ public class Pretty {
     return new Pretty(tensor).toString();
   }
 
-  final StringBuilder stringBuilder = new StringBuilder();
-  final String format;
+  /***************************************************/
+  private final StringBuilder stringBuilder = new StringBuilder();
+  private final String format;
   private int level = 0;
-  final int rank;
 
   private Pretty(Tensor tensor) {
     final int max = tensor.flatten(-1) //
@@ -33,7 +33,6 @@ public class Pretty {
         .mapToInt(String::length) //
         .max().orElse(0);
     format = " %" + max + "s ";
-    rank = TensorRank.of(tensor);
     if (Dimensions.isArray(tensor))
       recurArray(tensor);
     else

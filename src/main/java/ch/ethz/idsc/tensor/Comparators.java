@@ -13,7 +13,7 @@ public enum Comparators {
    * @see Comparator#naturalOrder
    * 
    * @return comparator that performs canonic ordering */
-  public static final <T> Comparator<T> ascending() {
+  public static final <T> Comparator<T> increasing() {
     return new Comparator<T>() {
       @Override
       public int compare(T a, T b) {
@@ -25,7 +25,7 @@ public enum Comparators {
   }
 
   /** @return comparator that performs reversed canonic ordering */
-  public static final <T> Comparator<T> descending() {
+  public static final <T> Comparator<T> decreasing() {
     return new Comparator<T>() {
       @Override
       public int compare(T a, T b) {

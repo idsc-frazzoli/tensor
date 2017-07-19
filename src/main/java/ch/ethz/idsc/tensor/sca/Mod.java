@@ -2,7 +2,9 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** our implementation is not consistent with Mathematica for negative, and complex n.
  * 
@@ -19,6 +21,8 @@ public class Mod implements ScalarUnaryOperator {
    * @param d
    * @return remainder on division by n with offset d */
   public static Mod function(Scalar n, Scalar d) {
+    if (Scalars.isZero(n))
+      throw TensorRuntimeException.of(n);
     return new Mod(n, d);
   }
 

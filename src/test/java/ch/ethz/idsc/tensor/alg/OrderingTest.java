@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 public class OrderingTest extends TestCase {
   public void testSimple() {
     Tensor vector = Tensors.vector(4, 2, 3, 0, 1);
-    int[] array = Ordering.of(vector);
+    int[] array = Ordering.INCREASING.of(vector);
     Tensor ascending = Tensor.of( //
         IntStream.range(0, array.length).boxed().map(index -> vector.Get(array[index])));
     assertEquals(ascending, Sort.of(vector));
@@ -24,7 +24,7 @@ public class OrderingTest extends TestCase {
   public void testRandom() {
     Distribution d = BinomialDistribution.of(12, RationalScalar.of(1, 3));
     Tensor vector = RandomVariate.of(d, 1000);
-    int[] array = Ordering.of(vector);
+    int[] array = Ordering.INCREASING.of(vector);
     Tensor ascending = Tensor.of( //
         IntStream.range(0, array.length).boxed().map(index -> vector.Get(array[index])));
     assertEquals(ascending, Sort.of(vector));
@@ -33,7 +33,7 @@ public class OrderingTest extends TestCase {
   public void testNormal() {
     Distribution d = NormalDistribution.standard();
     Tensor vector = RandomVariate.of(d, 1000);
-    int[] array = Ordering.of(vector);
+    int[] array = Ordering.INCREASING.of(vector);
     Tensor ascending = Tensor.of( //
         IntStream.range(0, array.length).boxed().map(index -> vector.Get(array[index])));
     assertEquals(ascending, Sort.of(vector));

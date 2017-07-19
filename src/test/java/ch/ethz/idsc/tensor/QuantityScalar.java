@@ -78,12 +78,18 @@ public class QuantityScalar extends AbstractScalar implements //
     if (Scalars.isZero(scalar) && Scalars.nonZero(this))
       return this;
     if (scalar instanceof QuantityScalar) {
-      if (Scalars.isZero(this) && Scalars.isZero(scalar))
-        return RealScalar.ZERO;
       QuantityScalar quantityScalar = (QuantityScalar) scalar;
+      if (Scalars.isZero(this) && Scalars.isZero(scalar)) {
+        if (unitMap.equals(quantityScalar.unitMap))
+          return this; // TODO make a test for this later
+        return RealScalar.ZERO;
+      }
       if (unitMap.equals(quantityScalar.unitMap))
         return of(value.add(quantityScalar.value), unitMap);
     }
+    // TODO comment!!! and perhaps refactor
+    if (Scalars.isZero(this) && Scalars.isZero(scalar))
+      return this;
     throw TensorRuntimeException.of(this, scalar);
   }
 
@@ -174,6 +180,7 @@ public class QuantityScalar extends AbstractScalar implements //
       if (unitMap.equals(quantityScalar.unitMap))
         return Scalars.compare(value, quantityScalar.value);
     }
+    // TODO too strict for pivot
     throw TensorRuntimeException.of(this, scalar);
   }
 
@@ -185,9 +192,15 @@ public class QuantityScalar extends AbstractScalar implements //
   @Override
   public boolean equals(Object object) {
     if (object instanceof QuantityScalar) {
+      // System.out.println("HERE " + this + " " + object);
       QuantityScalar quantityScalar = (QuantityScalar) object;
       return value.equals(quantityScalar.value) && //
           unitMap.equals(quantityScalar.unitMap);
+    }
+    if (object instanceof RealScalar) {
+      RealScalar realScalar = (RealScalar) object;
+      if (Scalars.isZero(this) && Scalars.isZero(realScalar))
+        return true; // TODO simplify
     }
     return false;
   }

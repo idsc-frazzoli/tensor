@@ -8,18 +8,26 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.alg.Reverse;
-import ch.ethz.idsc.tensor.io.Pretty;
+import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class NullSpaceTest extends TestCase {
-  public void testZerosUsingSvd() {
-    int n = 5;
-    // gives the symbolic identity matrix
-    Tensor nul = NullSpace.usingSvd(Array.zeros(n, n));
+  private static void _checkZeros(Tensor zeros) {
+    int n = zeros.length();
+    Tensor nul = NullSpace.usingSvd(zeros);
     assertEquals(Dimensions.of(nul), Arrays.asList(n, n));
     assertTrue(nul.get(0, 0) instanceof RationalScalar);
     assertEquals(nul, IdentityMatrix.of(n));
+  }
+
+  public void testZerosUsingSvd() {
+    for (int n = 1; n < 10; ++n) {
+      _checkZeros(Array.zeros(n, n));
+      _checkZeros(N.of(Array.zeros(n, n)));
+    }
   }
 
   public void testRowReduce() {
@@ -30,24 +38,28 @@ public class NullSpaceTest extends TestCase {
     for (Tensor v : r)
       assertEquals(m.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(r), Arrays.asList(2, 4));
+    assertFalse(NullSpace._isNumeric(r));
   }
 
   public void testZeros2() {
     Tensor m = Array.zeros(5, 5);
     Tensor r = NullSpace.of(m);
     assertEquals(r, IdentityMatrix.of(5));
+    assertFalse(NullSpace._isNumeric(r));
   }
 
   public void testIdentity() {
     Tensor m = IdentityMatrix.of(5);
     Tensor r = NullSpace.of(m);
     assertEquals(r, Tensors.empty());
+    assertFalse(NullSpace._isNumeric(r));
   }
 
   public void testIdentityReversed() {
     Tensor m = Reverse.of(IdentityMatrix.of(5));
     Tensor r = NullSpace.of(m);
     assertEquals(r, Tensors.empty());
+    assertFalse(NullSpace._isNumeric(r));
   }
 
   public void testWikipediaKernel() {
@@ -61,6 +73,7 @@ public class NullSpaceTest extends TestCase {
     for (Tensor v : nul)
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
+    assertFalse(NullSpace._isNumeric(nul));
   }
 
   public void testSome1() {
@@ -75,6 +88,7 @@ public class NullSpaceTest extends TestCase {
     for (Tensor v : nul)
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(1, 3));
+    assertFalse(NullSpace._isNumeric(nul));
   }
 
   public void testSome2() {
@@ -88,6 +102,7 @@ public class NullSpaceTest extends TestCase {
     for (Tensor v : nul)
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
+    assertFalse(NullSpace._isNumeric(nul));
   }
 
   public void testSome3() {
@@ -101,6 +116,7 @@ public class NullSpaceTest extends TestCase {
     for (Tensor v : nul)
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
+    assertFalse(NullSpace._isNumeric(nul));
   }
 
   public void testComplex() {
@@ -113,10 +129,22 @@ public class NullSpaceTest extends TestCase {
     assertEquals(Dimensions.of(nul), Arrays.asList(2, 4));
     for (Tensor v : nul)
       assertEquals(m.dot(v), Array.zeros(2));
+    assertFalse(NullSpace._isNumeric(nul));
     // System.out.println(Put.string(nul));
   }
 
-  public static void main(String[] args) {
-    System.out.println(Pretty.of(NullSpace.of(Tensors.fromString("{{-1/3, 0, I}}"))));
+  public void testMatsim() {
+    Tensor matrix = Tensors.matrixDouble(new double[][] { //
+        { 1.0, -0.2, -0.8 }, //
+        { -0.2, 1.0, -0.8 }, //
+        { -0.2, -0.8, 1.0 } });
+    Tensor nullspace = NullSpace.of(matrix);
+    assertEquals(Dimensions.of(nullspace), Arrays.asList(1, 3));
+    assertTrue(Chop._12.allZero(nullspace.get(0).subtract(Normalize.of(Tensors.vector(1, 1, 1)))));
+  }
+
+  public void testIsNumeric() {
+    assertTrue(NullSpace._isNumeric(Tensors.vector(1, 1, 1.)));
+    assertFalse(NullSpace._isNumeric(Tensors.vector(1, 1, 1)));
   }
 }

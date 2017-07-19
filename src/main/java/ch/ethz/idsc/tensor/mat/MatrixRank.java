@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -34,9 +35,10 @@ public enum MatrixRank {
 
   /** @return rank of matrix decomposed in svd */
   public static int of(SingularValueDecomposition svd) {
-    double w_threshold = svd.getThreshold();
+    Scalar w_threshold = DoubleScalar.of(svd.getThreshold());
     return (int) svd.values().flatten(0).map(Scalar.class::cast) //
-        .filter(value -> w_threshold <= value.abs().number().doubleValue()) //
+        .map(Scalar::abs) //
+        .filter(value -> Scalars.lessEquals(w_threshold, value)) //
         .count();
   }
 }

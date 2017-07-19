@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.mat.NegativeDefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.NegativeSemidefiniteMatrixQ;
@@ -53,6 +54,63 @@ public class QuantityScalar2Test extends TestCase {
     assertEquals(res, eye);
   }
 
+  public void testInverse2() {
+    // final Scalar one = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+    Scalar qs3 = QuantityScalar.of(RealScalar.of(3), "rad", RealScalar.ONE);
+    Scalar qs4 = QuantityScalar.of(RealScalar.of(4), "rad", RealScalar.ONE);
+    Tensor ve1 = Tensors.of(qs1.multiply(qs1), qs2.multiply(qs3));
+    Tensor ve2 = Tensors.of(qs2.multiply(qs3), qs4.multiply(qs4));
+    Tensor mat = Tensors.of(ve1, ve2);
+    Tensor eye = IdentityMatrix.of(2); // <- yey!
+    // System.out.println(Pretty.of(mat));
+    {
+      Tensor inv = LinearSolve.of(mat, eye);
+      Tensor res = mat.dot(inv);
+      // System.out.println(Pretty.of(res));
+      assertEquals(eye, res);
+      assertEquals(res, eye);
+    }
+    {
+      Inverse.of(mat);
+    }
+  }
+
+  public void testInverse3() {
+    // final Scalar one = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
+    // UnitMap
+    Scalar qs11 = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.of(2));
+    Scalar qs12 = QuantityScalar.of(RealScalar.of(2), UnitMap.of("m", RealScalar.ONE, "rad", RealScalar.ONE));
+    Scalar qs13 = QuantityScalar.of(RealScalar.of(3), UnitMap.of("m", RealScalar.ONE, "kg", RealScalar.ONE));
+    // ---
+    Scalar qs21 = QuantityScalar.of(RealScalar.of(4), UnitMap.of("m", RealScalar.ONE, "rad", RealScalar.ONE));
+    Scalar qs22 = QuantityScalar.of(RealScalar.of(2), "rad", RealScalar.of(2));
+    Scalar qs23 = QuantityScalar.of(RealScalar.of(2), UnitMap.of("rad", RealScalar.ONE, "kg", RealScalar.ONE));
+    // ---
+    Scalar qs31 = QuantityScalar.of(RealScalar.of(5), UnitMap.of("kg", RealScalar.ONE, "m", RealScalar.ONE));
+    Scalar qs32 = QuantityScalar.of(RealScalar.of(1), UnitMap.of("rad", RealScalar.ONE, "kg", RealScalar.ONE));
+    Scalar qs33 = QuantityScalar.of(RealScalar.of(7), "kg", RealScalar.of(2));
+    // ---
+    Tensor ve1 = Tensors.of(qs11, qs12, qs13);
+    Tensor ve2 = Tensors.of(qs21, qs22, qs23);
+    Tensor ve3 = Tensors.of(qs31, qs32, qs33);
+    Tensor mat = Tensors.of(ve1, ve2, ve3);
+    Tensor eye = IdentityMatrix.of(3);
+    // System.out.println(Pretty.of(mat));
+    {
+      Tensor inv = LinearSolve.of(mat, eye);
+      // System.out.println(Pretty.of(inv));
+      Tensor res = mat.dot(inv);
+      // System.out.println(Pretty.of(res));
+      assertEquals(eye, res);
+      assertEquals(res, eye);
+    }
+    {
+      Inverse.of(mat);
+    }
+  }
+
   public void testLinearSolve1() {
     Scalar qs1 = QuantityScalar.of(RealScalar.of(3), "m", RealScalar.ONE);
     Scalar qs2 = QuantityScalar.of(RealScalar.of(4), "s", RealScalar.ONE);
@@ -82,7 +140,7 @@ public class QuantityScalar2Test extends TestCase {
     Scalar qs2 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1);
-    Tensor nul = NullSpace.of(mat);
+    Tensor nul = NullSpace.usingRowReduce(mat);
     // System.out.println(nul);
     assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
   }
