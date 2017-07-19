@@ -16,6 +16,7 @@ public class UnitMap {
     this(Collections.singletonMap(unit, exponent));
   }
 
+  // TODO not final design
   public static UnitMap of(String unit1, Scalar exponent1, String unit2, Scalar exponent2) {
     Map<String, Scalar> map = new HashMap<>();
     map.put(unit1, exponent1);

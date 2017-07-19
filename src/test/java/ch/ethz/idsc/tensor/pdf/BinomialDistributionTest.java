@@ -114,6 +114,11 @@ public class BinomialDistributionTest extends TestCase {
     }
   }
 
+  // public void testDuasd() {
+  // double eps =
+  // Math.nextUp(0.0);
+  // System.out.println(eps);
+  // }
   public void testBlub() {
     BinomialDistribution.of(1200, RealScalar.of(.1));
     BinomialDistribution.of(1200, RealScalar.of(.9));

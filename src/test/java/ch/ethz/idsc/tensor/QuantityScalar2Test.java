@@ -111,6 +111,48 @@ public class QuantityScalar2Test extends TestCase {
     }
   }
 
+  public void testCholesky3() {
+    // final Scalar one = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
+    // HilbertMatrix.of(3).multiply(RealScalar.of(60));
+    // UnitMap
+    Scalar qs11 = QuantityScalar.of(RealScalar.of(60), "m", RealScalar.of(2));
+    Scalar qs12 = QuantityScalar.of(RealScalar.of(30), UnitMap.of("m", RealScalar.ONE, "rad", RealScalar.ONE));
+    Scalar qs13 = QuantityScalar.of(RealScalar.of(20), UnitMap.of("m", RealScalar.ONE, "kg", RealScalar.ONE));
+    // ---
+    Scalar qs21 = QuantityScalar.of(RealScalar.of(30), UnitMap.of("m", RealScalar.ONE, "rad", RealScalar.ONE));
+    Scalar qs22 = QuantityScalar.of(RealScalar.of(20), "rad", RealScalar.of(2));
+    Scalar qs23 = QuantityScalar.of(RealScalar.of(15), UnitMap.of("rad", RealScalar.ONE, "kg", RealScalar.ONE));
+    // ---
+    Scalar qs31 = QuantityScalar.of(RealScalar.of(20), UnitMap.of("kg", RealScalar.ONE, "m", RealScalar.ONE));
+    Scalar qs32 = QuantityScalar.of(RealScalar.of(15), UnitMap.of("rad", RealScalar.ONE, "kg", RealScalar.ONE));
+    Scalar qs33 = QuantityScalar.of(RealScalar.of(12), "kg", RealScalar.of(2));
+    // ---
+    Tensor ve1 = Tensors.of(qs11, qs12, qs13);
+    Tensor ve2 = Tensors.of(qs21, qs22, qs23);
+    Tensor ve3 = Tensors.of(qs31, qs32, qs33);
+    Tensor mat = Tensors.of(ve1, ve2, ve3);
+    Tensor eye = IdentityMatrix.of(3);
+    // System.out.println(Pretty.of(mat));
+    {
+      Tensor inv = LinearSolve.of(mat, eye);
+      // System.out.println(Pretty.of(inv));
+      Tensor res = mat.dot(inv);
+      // System.out.println(Pretty.of(res));
+      assertEquals(eye, res);
+      assertEquals(res, eye);
+    }
+    {
+      Inverse.of(mat);
+    }
+    {
+      // CholeskyDecomposition cd =
+      CholeskyDecomposition.of(mat);
+      // System.out.println(cd.det());
+      // System.out.println(cd.diagonal());
+      // System.out.println(Pretty.of(cd.getL()));
+    }
+  }
+
   public void testLinearSolve1() {
     Scalar qs1 = QuantityScalar.of(RealScalar.of(3), "m", RealScalar.ONE);
     Scalar qs2 = QuantityScalar.of(RealScalar.of(4), "s", RealScalar.ONE);
