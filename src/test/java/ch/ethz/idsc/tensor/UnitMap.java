@@ -16,6 +16,13 @@ public class UnitMap {
     this(Collections.singletonMap(unit, exponent));
   }
 
+  public static UnitMap of(String unit1, Scalar exponent1, String unit2, Scalar exponent2) {
+    Map<String, Scalar> map = new HashMap<>();
+    map.put(unit1, exponent1);
+    map.put(unit2, exponent2);
+    return new UnitMap(map);
+  }
+
   public UnitMap(Map<String, Scalar> map) {
     for (Entry<String, Scalar> entry : map.entrySet()) {
       Scalar exponent = entry.getValue();
