@@ -25,10 +25,20 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** the class is intended for testing and demonstration
  * 
- * implementation is consistent with Mathematica:
+ * the implementation is consistent with Mathematica:
  * NumberQ[Quantity[3, "Meters"]] == False
  * ExactNumberQ[Quantity[3, "Meters"]] == False
- * MachineNumberQ[Quantity[3.123, "Meters"]] == False */
+ * MachineNumberQ[Quantity[3.123, "Meters"]] == False
+ * 
+ * the convention of equality: "0[units] == 0 evaluates to true"
+ * is used in
+ * {@link #plus(Scalar)}
+ * {@link #compareTo(Scalar)}
+ * {@link #equals(Object)}
+ * 
+ * In particular, the rule allows to up-cast any
+ * {@link Scalar#zero()} to a zero with any unit,
+ * for instance 0 == 0[m^2] */
 public class QuantityScalar extends AbstractScalar implements //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
@@ -99,7 +109,7 @@ public class QuantityScalar extends AbstractScalar implements //
       }
       if (unitMap.equals(quantityScalar.unitMap))
         return of(value.add(quantityScalar.value), unitMap);
-    } else { // scalar is not an instance of QuantityScalar
+    } else { // <- scalar is not an instance of QuantityScalar
       if (Scalars.isZero(this) && Scalars.isZero(scalar))
         // return of value.add(scalar) is not required for symmetry
         // precision of this.value prevails over given scalar
@@ -192,6 +202,10 @@ public class QuantityScalar extends AbstractScalar implements //
       QuantityScalar quantityScalar = (QuantityScalar) scalar;
       if (unitMap.equals(quantityScalar.unitMap))
         return Scalars.compare(value, quantityScalar.value);
+    } else { // <- scalar is not an instance of QuantityScalar
+      if (Scalars.isZero(scalar))
+        // treats the cases: -3[m] < 0, and 0 < +2[s]
+        return Scalars.compare(value, scalar);
     }
     throw TensorRuntimeException.of(this, scalar);
   }
@@ -207,7 +221,7 @@ public class QuantityScalar extends AbstractScalar implements //
       QuantityScalar quantityScalar = (QuantityScalar) object;
       return value.equals(quantityScalar.value) && //
           unitMap.equals(quantityScalar.unitMap);
-    }
+    } // else
     if (object instanceof Scalar) {
       // the implementation of plus(...) uses the convention
       // that 0[kg] == 0 evaluates to true

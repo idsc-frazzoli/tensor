@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
@@ -43,6 +44,22 @@ public class QuantityScalar1Test extends TestCase {
     Scalar qs3 = QuantityScalar.of(RealScalar.of(4), "m", RealScalar.ONE);
     Tensor vec = Tensors.of(qs1, qs2);
     assertEquals(Norm.INFINITY.of(vec), qs3);
+  }
+
+  public void testNormInfMixed() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(-3), "m", RealScalar.ONE);
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+    Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
+    Scalar nin = Norm.INFINITY.of(vec);
+    Scalar act = QuantityScalar.of(RealScalar.of(3), "m", RealScalar.ONE);
+    assertEquals(nin, act);
+  }
+
+  public void testSort() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(-3), "m", RealScalar.ONE);
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+    Tensor vec = Tensors.of(RealScalar.ZERO, qs2, qs1);
+    assertEquals(Sort.of(vec), Tensors.of(qs1, RealScalar.ZERO, qs2));
   }
 
   public void testChop() {

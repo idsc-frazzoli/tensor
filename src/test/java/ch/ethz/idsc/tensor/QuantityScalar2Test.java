@@ -8,9 +8,11 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
+import ch.ethz.idsc.tensor.mat.Det;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
+import ch.ethz.idsc.tensor.mat.MatrixExp;
 import ch.ethz.idsc.tensor.mat.NegativeDefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.NegativeSemidefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.NullSpace;
@@ -145,11 +147,10 @@ public class QuantityScalar2Test extends TestCase {
       Inverse.of(mat);
     }
     {
-      // CholeskyDecomposition cd =
-      CholeskyDecomposition.of(mat);
-      // System.out.println(cd.det());
-      // System.out.println(cd.diagonal());
-      // System.out.println(Pretty.of(cd.getL()));
+      Scalar d1 = Det.of(mat); // 100[kg^2,m^2,rad^2]
+      CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
+      Scalar d2 = cd.det();
+      assertEquals(d1, d2);
     }
   }
 
@@ -200,6 +201,30 @@ public class QuantityScalar2Test extends TestCase {
     assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(mat));
     assertFalse(NegativeDefiniteMatrixQ.ofHermitian(mat));
     assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(mat));
+  }
+
+  public void testMatrixExp2() {
+    // Mathematica can't do this :-)
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(3), "m", RealScalar.ONE);
+    Tensor ve1 = Tensors.of(RealScalar.ZERO, qs1);
+    Tensor ve2 = Tensors.vector(0, 0);
+    Tensor mat = Tensors.of(ve1, ve2);
+    Tensor sol = MatrixExp.of(mat);
+    assertEquals(sol, mat.add(IdentityMatrix.of(2)));
+  }
+
+  public void testMatrixExp3() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
+    Scalar qs2 = QuantityScalar.of(RealScalar.of(3), "s", RealScalar.ONE);
+    Scalar qs3 = QuantityScalar.of(RealScalar.of(4), "m", RealScalar.ONE);
+    Scalar qs4 = QuantityScalar.of(RealScalar.of(5), "s", RealScalar.ONE);
+    Tensor mat = Tensors.of( //
+        Tensors.of(RealScalar.ZERO, qs1, qs3.multiply(qs4)), //
+        Tensors.of(RealScalar.ZERO, RealScalar.ZERO, qs2), //
+        Tensors.of(RealScalar.ZERO, RealScalar.ZERO, RealScalar.ZERO) //
+    );
+    Tensor actual = IdentityMatrix.of(3).add(mat).add(mat.dot(mat).multiply(RationalScalar.of(1, 2)));
+    assertEquals(MatrixExp.of(mat), actual);
   }
 
   public void testConvexHull() {
