@@ -36,4 +36,19 @@ public class MatrixExpTest extends TestCase {
         o.dot(Transpose.of(o)).subtract(IdentityMatrix.of(o.length())).map(Chop.below(1e-10)), //
         Array.zeros(Dimensions.of(o)));
   }
+
+  public void testFail() {
+    try {
+      MatrixExp.of(Array.zeros(4, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      MatrixExp.of(Array.zeros(3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

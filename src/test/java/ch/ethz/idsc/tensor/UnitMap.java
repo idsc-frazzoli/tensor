@@ -9,6 +9,8 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+/** class is intended for testing and demonstration
+ * the API is trimmed for elegance */
 public class UnitMap {
   private final NavigableMap<String, Scalar> navigableMap = new TreeMap<>();
 

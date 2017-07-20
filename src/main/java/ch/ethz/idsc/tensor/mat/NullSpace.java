@@ -40,7 +40,7 @@ public enum NullSpace {
    * @param matrix
    * @return vectors that span the nullspace */
   public static Tensor of(Tensor matrix) {
-    return _isNumeric(matrix) ? usingSvd(matrix) : usingRowReduce(matrix);
+    return StaticHelper.anyMachineNumberQ(matrix) ? usingSvd(matrix) : usingRowReduce(matrix);
   }
 
   /** @param matrix with exact precision entries
@@ -78,10 +78,5 @@ public enum NullSpace {
     return Tensor.of(IntStream.range(0, svd.values().length()).boxed() //
         .filter(index -> svd.values().Get(index).abs().number().doubleValue() < w_threshold) //
         .map(vt::get));
-  }
-
-  // helper function
-  /* package for testing */ static boolean _isNumeric(Tensor tensor) {
-    return tensor.flatten(-1).filter(MachineNumberQ::of).findAny().isPresent();
   }
 }

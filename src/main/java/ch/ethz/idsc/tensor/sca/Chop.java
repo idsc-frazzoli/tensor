@@ -52,6 +52,8 @@ public class Chop implements ScalarUnaryOperator {
     this.threshold = threshold;
   }
 
+  /** @return non-negative numeric threshold defining an open interval
+   * (-threshold, threshold) in which values are mapped to 0 */
   public double threshold() {
     return threshold;
   }

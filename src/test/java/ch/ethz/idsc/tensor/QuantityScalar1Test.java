@@ -5,13 +5,14 @@ import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Mod;
+import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Ramp;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
-// TODO test with complex content
 public class QuantityScalar1Test extends TestCase {
   public void testSimple() {
     Scalar qs1 = QuantityScalar.of(RealScalar.of(2), "m", RealScalar.ONE);
@@ -44,10 +45,31 @@ public class QuantityScalar1Test extends TestCase {
     assertEquals(Norm.INFINITY.of(vec), qs3);
   }
 
+  public void testChop() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(1e-9), "kg", RealScalar.ONE);
+    Scalar act = QuantityScalar.of(RealScalar.ZERO, "kg", RealScalar.ONE);
+    assertEquals(Chop._07.of(qs1), act);
+    assertEquals(Chop._10.of(qs1), qs1);
+  }
+
   public void testSqrt() {
     Scalar qs1 = QuantityScalar.of(RealScalar.of(9), "m", RealScalar.of(2));
     Scalar qs2 = QuantityScalar.of(RealScalar.of(3), "m", RealScalar.of(1));
     assertEquals(Sqrt.of(qs1), qs2);
+  }
+
+  public void testPower1() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(9), "m", RealScalar.of(2));
+    Scalar res = Power.of(qs1, RealScalar.of(3));
+    Scalar act = QuantityScalar.of(RealScalar.of(729), "m", RealScalar.of(6));
+    assertEquals(res, act);
+  }
+
+  public void testPower2() {
+    Scalar qs1 = QuantityScalar.of(RealScalar.of(-2), UnitMap.of("m", RealScalar.of(-3), "rad", RealScalar.ONE));
+    Scalar res = Power.of(qs1, RealScalar.of(3));
+    Scalar act = QuantityScalar.of(RealScalar.of(-8), UnitMap.of("m", RealScalar.of(-9), "rad", RealScalar.of(3)));
+    assertEquals(res, act);
   }
 
   public void testScale() {

@@ -1,8 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -44,6 +44,8 @@ public enum LinearSolve {
    * @return x with m.x == b
    * @throws TensorRuntimeException if such an x does not exist */
   public static Tensor any(Tensor m, Tensor b) {
+    if (StaticHelper.anyMachineNumberQ(m))
+      throw TensorRuntimeException.of("use LinearSolve::of for matrices with numeric precision", m, b);
     switch (TensorRank.of(b)) {
     case 1:
       return _vector(m, b);
@@ -60,14 +62,16 @@ public enum LinearSolve {
     int j = 0;
     int c0 = 0;
     while (c0 < cols) {
-      if (!r.Get(j, c0).equals(RealScalar.ZERO)) {
+      // if (!r.Get(j, c0).equals(RealScalar.ZERO)) {
+      if (Scalars.nonZero(r.Get(j, c0))) {
         x.set(r.Get(j, cols), c0);
         ++j;
       }
       ++c0;
     }
     for (; j < m.length(); ++j)
-      if (!r.Get(j, cols).equals(RealScalar.ZERO))
+      // if (!r.Get(j, cols).equals(RealScalar.ZERO))
+      if (Scalars.nonZero(r.Get(j, cols)))
         throw TensorRuntimeException.of(m, b);
     return x;
   }
