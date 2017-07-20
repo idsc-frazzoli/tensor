@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.ArrayQ;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
 /* package */ class RankAdapter<Type> {
@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
 
   @SuppressWarnings("incomplete-switch")
   public final Type of(Tensor tensor) {
-    if (Dimensions.isArray(tensor))
+    if (ArrayQ.of(tensor))
       switch (TensorRank.of(tensor)) {
       case RANK_SCALAR:
         return ofScalar((Scalar) tensor);

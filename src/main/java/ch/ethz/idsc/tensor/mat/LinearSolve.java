@@ -62,7 +62,6 @@ public enum LinearSolve {
     int j = 0;
     int c0 = 0;
     while (c0 < cols) {
-      // if (!r.Get(j, c0).equals(RealScalar.ZERO)) {
       if (Scalars.nonZero(r.Get(j, c0))) {
         x.set(r.Get(j, cols), c0);
         ++j;
@@ -70,7 +69,6 @@ public enum LinearSolve {
       ++c0;
     }
     for (; j < m.length(); ++j)
-      // if (!r.Get(j, cols).equals(RealScalar.ZERO))
       if (Scalars.nonZero(r.Get(j, cols)))
         throw TensorRuntimeException.of(m, b);
     return x;

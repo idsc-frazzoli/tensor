@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.ArrayQ;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
 /** Pretty helps to format tensors for easy reading in the console.
@@ -33,7 +33,7 @@ public class Pretty {
         .mapToInt(String::length) //
         .max().orElse(0);
     format = " %" + max + "s ";
-    if (Dimensions.isArray(tensor))
+    if (ArrayQ.of(tensor))
       recurArray(tensor);
     else
       recur(tensor);
@@ -43,7 +43,7 @@ public class Pretty {
     stringBuilder.append(spaces(level) + "[\n");
     ++level;
     for (Tensor entry : tensor)
-      if (Dimensions.isArray(entry))
+      if (ArrayQ.of(entry))
         recurArray(entry);
       else
         recur(entry);
