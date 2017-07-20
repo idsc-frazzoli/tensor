@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -35,6 +36,12 @@ public class ChopTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testComplex() {
+    assertTrue(Chop._05.close( //
+        Scalars.fromString("1.2+3.1*I"), //
+        Scalars.fromString("1.2+3.1000006*I")));
   }
 
   public void testNaN() {
