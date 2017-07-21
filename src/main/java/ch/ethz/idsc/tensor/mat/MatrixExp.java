@@ -8,8 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum MatrixExp {
   ;
   /** @param m square matrix
-   * @return exp(m) = I + m + m^2/2 + m^3/6 + ...
-   * result is provided in numeric precision */
+   * @return exp(m) = I + m + m^2/2 + m^3/6 + ... */
   public static Tensor of(Tensor m) {
     return SeriesMatrixExp.of(m);
   }

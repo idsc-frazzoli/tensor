@@ -127,6 +127,32 @@ gives
 
 ---
 
+Several algorithms work for scalars of type `Quantity`, i.e. numbers with physical units
+
+    Tensor matrix = Tensors.fromString( //
+        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
+        Quantity::fromString);
+    CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
+    System.out.println(cd.diagonal());
+    System.out.println(Pretty.of(cd.getL()));
+    System.out.println(cd.det());
+
+gives
+
+    {60[m^2], 5[rad^2], 1/3[kg^2]}
+    [
+     [             1              0              0 ]
+     [ 1/2[m^-1*rad]              1              0 ]
+     [  1/3[kg*m^-1]   1[kg*rad^-1]              1 ]
+    ]
+    100[kg^2*m^2*rad^2]
+
+Note:
+The tensor library features an implementation of `Quantity` for the purpose of demonstration and testing.
+The implementation of `Quantity` is not part of the core API.
+
+---
+
 Image synthesis
 
     int n = 251;

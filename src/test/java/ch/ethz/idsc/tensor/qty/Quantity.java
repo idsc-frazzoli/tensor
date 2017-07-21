@@ -1,8 +1,14 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.qty;
 
 import java.util.Objects;
 
+import ch.ethz.idsc.tensor.AbstractScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Ceiling;
@@ -38,28 +44,43 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * 
  * In particular, the rule allows to up-cast any
  * {@link Scalar#zero()} to a zero with any unit,
- * for instance 0 == 0[m^2] */
-public class QuantityScalar extends AbstractScalar implements //
+ * for instance 0 == 0[m^2]
+ * 
+ * <p>inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Quantity.html">Quantity</a> */
+public class Quantity extends AbstractScalar implements //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
-  private static final Scalar HALF = RationalScalar.of(1, 2);
-
-  /** @param value
-   * @param unit
-   * @param exponent
-   * @return */
-  public static Scalar of(Scalar value, String unit, Scalar exponent) {
-    return of(value, new UnitMap(unit, exponent));
+  public static Scalar fromString(String string) {
+    int index = string.indexOf(UnitMap.OPENING_BRACKET);
+    if (0 < index) {
+      Scalar value = Scalars.fromString(string.substring(0, index));
+      UnitMap unitMap = UnitMap.of(string.substring(index));
+      return of(value, unitMap);
+    }
+    return Scalars.fromString(string);
   }
 
-  public static Scalar of(Scalar value, UnitMap unitMap) {
-    return unitMap.isEmpty() ? value : new QuantityScalar(value, unitMap);
+  /** @param value
+   * @param string, for instance "[m*s^-2]"
+   * @return */
+  public static Scalar of(Scalar value, String string) {
+    return of(value, UnitMap.of(string));
+  }
+
+  /***************************************************/
+  private static final Scalar HALF = RationalScalar.of(1, 2);
+
+  private static Scalar of(Scalar value, UnitMap unitMap) {
+    return unitMap.isEmpty() ? value : new Quantity(value, unitMap);
   }
 
   private final Scalar value;
   private final UnitMap unitMap;
 
-  private QuantityScalar(Scalar value, UnitMap unitMap) {
+  private Quantity(Scalar value, UnitMap unitMap) {
+    if (unitMap.isEmpty())
+      throw TensorRuntimeException.of(value);
     this.value = value;
     this.unitMap = unitMap;
   }
@@ -95,8 +116,8 @@ public class QuantityScalar extends AbstractScalar implements //
       return scalar; // 0[m] + X(X!=0) gives X(X!=0)
     if (Scalars.nonZero(this) && Scalars.isZero(scalar))
       return this; // X(X!=0) + 0[m] gives X(X!=0)
-    if (scalar instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) scalar;
+    if (scalar instanceof Quantity) {
+      Quantity quantityScalar = (Quantity) scalar;
       if (Scalars.isZero(this) && Scalars.isZero(scalar)) {
         // explicit addition of zeros to ensure symmetry
         // for instance when numeric precision is different:
@@ -120,8 +141,8 @@ public class QuantityScalar extends AbstractScalar implements //
 
   @Override
   public Scalar multiply(Scalar scalar) {
-    if (scalar instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) scalar;
+    if (scalar instanceof Quantity) {
+      Quantity quantityScalar = (Quantity) scalar;
       return of(value.multiply(quantityScalar.value), unitMap.add(quantityScalar.unitMap));
     }
     return of(value.multiply(scalar), unitMap);
@@ -130,15 +151,15 @@ public class QuantityScalar extends AbstractScalar implements //
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     // Mathematica allows 2[m]^3[s], but the tensor library does not:
-    if (exponent instanceof QuantityScalar)
+    if (exponent instanceof Quantity)
       throw TensorRuntimeException.of(this, exponent);
     return of(Power.of(value, exponent), unitMap.multiply(exponent));
   }
 
   @Override // from ArcTanInterface
   public Scalar arcTan(Scalar x) {
-    if (x instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) x;
+    if (x instanceof Quantity) {
+      Quantity quantityScalar = (Quantity) x;
       if (unitMap.equals(quantityScalar.unitMap))
         return ArcTan.of(quantityScalar.value, value);
     }
@@ -198,8 +219,8 @@ public class QuantityScalar extends AbstractScalar implements //
 
   @Override
   public int compareTo(Scalar scalar) {
-    if (scalar instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) scalar;
+    if (scalar instanceof Quantity) {
+      Quantity quantityScalar = (Quantity) scalar;
       if (unitMap.equals(quantityScalar.unitMap))
         return Scalars.compare(value, quantityScalar.value);
     } else { // <- scalar is not an instance of QuantityScalar
@@ -217,8 +238,8 @@ public class QuantityScalar extends AbstractScalar implements //
 
   @Override
   public boolean equals(Object object) {
-    if (object instanceof QuantityScalar) {
-      QuantityScalar quantityScalar = (QuantityScalar) object;
+    if (object instanceof Quantity) {
+      Quantity quantityScalar = (Quantity) object;
       return value.equals(quantityScalar.value) && //
           unitMap.equals(quantityScalar.unitMap);
     } // else
@@ -233,6 +254,6 @@ public class QuantityScalar extends AbstractScalar implements //
 
   @Override
   public String toString() {
-    return value + "[" + unitMap + "]";
+    return value.toString() + unitMap;
   }
 }

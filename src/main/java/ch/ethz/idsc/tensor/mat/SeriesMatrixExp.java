@@ -12,23 +12,25 @@ import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
 
-/** matrix exponential via power series */
+/** matrix exponential via power series
+ * 
+ * @see {@link MatrixExp} */
 /* package */ class SeriesMatrixExp {
   static final int MAXITER = 100;
 
   /** @param m
    * @return */
-  public static Tensor of(Tensor m) {
+  static Tensor of(Tensor m) {
     final int n = m.length();
     Tensor sum = IdentityMatrix.of(n);
-    Tensor nxt = IdentityMatrix.of(n); // identity matrix
+    Tensor nxt = IdentityMatrix.of(n);
     for (int k = 1; k < MAXITER; ++k) {
       nxt = nxt.dot(m).multiply(RationalScalar.of(1, k));
       sum = sum.add(nxt);
-      Scalar norm = _maxAbsNumber(nxt);
-      if (Scalars.isZero(norm))
+      Scalar remainder = _maxAbsNumber(nxt);
+      if (Scalars.isZero(remainder))
         return sum;
-      if (Chop._40.allZero(N.of(norm)))
+      if (Chop._40.allZero(N.of(remainder)))
         return N.of(sum);
     }
     throw TensorRuntimeException.of(m);
