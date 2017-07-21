@@ -13,10 +13,22 @@ import ch.ethz.idsc.tensor.mat.MatrixExp;
 import ch.ethz.idsc.tensor.opt.ConvexHull;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
+import ch.ethz.idsc.tensor.opt.LinearProgramming;
 import ch.ethz.idsc.tensor.red.Quantile;
 import junit.framework.TestCase;
 
 public class Quantity5Test extends TestCase {
+  // MATLAB linprog example
+  public void testLinProgMatlab1() { // min c.x == -10/9
+    Tensor c = Tensors.fromString("{-1,-1/3}", Quantity::fromString);
+    Tensor m = Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}");
+    Tensor b = Tensors.fromString("{2[m], 1[m], 2[m], 1[m], -1[m], 2[m]}", Quantity::fromString);
+    Tensor x = LinearProgramming.minLessEquals(c, m, b);
+    // System.out.println(x); // {2/3[m], 4/3[m]}
+    assertEquals(x, Tensors.fromString("{2/3[m],4/3[m]}", Quantity::fromString));
+    // System.out.println(c.dot(x));
+  }
+
   public void testMatrixExp2() {
     // Mathematica can't do this :-)
     Scalar qs1 = Quantity.of(RealScalar.of(3), "[m]");

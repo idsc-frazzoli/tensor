@@ -5,6 +5,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
@@ -17,6 +18,7 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.red.ArgMax;
 import ch.ethz.idsc.tensor.red.ArgMin;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /** traditional simplex algorithm that performs poorly on Klee-Minty cube */
 /* package */ class SimplexMethod {
@@ -59,10 +61,10 @@ import ch.ethz.idsc.tensor.red.ArgMin;
       // System.out.println(Pretty.of(tab));
       Tensor c = tab.get(m).extract(0, n);
       final int j = ArgMin.of(c);
-      if (((RealScalar) c.Get(j)).signInt() == -1) {
+      if (((SignInterface) c.Get(j)).signInt() == -1) {
         { // check if unbounded
           int argmax = ArgMax.of(tab.get(Tensor.ALL, j).extract(0, m));
-          if (((RealScalar) tab.Get(argmax, j)).signInt() != 1)
+          if (((SignInterface) tab.Get(argmax, j)).signInt() != 1)
             throw TensorRuntimeException.of(tab); // problem unbounded
         }
         int p = simplexPivot.get(tab, j, n);
@@ -86,7 +88,9 @@ import ch.ethz.idsc.tensor.red.ArgMin;
 
   // helper function to check consistency
   private static boolean isOutsideRange(Tensor ind, int n) {
-    return ind.flatten(0).map(Scalar.class::cast).map(Scalar::number).map(Number::intValue) //
+    return ind.flatten(0) //
+        .map(Scalar.class::cast) //
+        .map(Scalars::intValueExact) //
         .filter(i -> n <= i).findFirst().isPresent();
   }
 }

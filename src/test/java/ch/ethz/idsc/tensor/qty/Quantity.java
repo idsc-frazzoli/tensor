@@ -65,7 +65,16 @@ public class Quantity extends AbstractScalar implements //
    * @param string, for instance "[m*s^-2]"
    * @return */
   public static Scalar of(Scalar value, String string) {
+    if (value instanceof Quantity)
+      throw TensorRuntimeException.of(value);
     return of(value, UnitMap.of(string));
+  }
+
+  /** @param number
+   * @param string, for instance "[kg^3*m*s^-2]"
+   * @return */
+  public static Scalar of(Number number, String string) {
+    return of(RealScalar.of(number), UnitMap.of(string));
   }
 
   /***************************************************/
@@ -203,8 +212,8 @@ public class Quantity extends AbstractScalar implements //
 
   @Override // from SignInterface
   public int signInt() {
-    RealScalar realScalar = (RealScalar) value;
-    return realScalar.signInt();
+    SignInterface signInterface = (SignInterface) value;
+    return signInterface.signInt();
   }
 
   @Override // from ComplexEmbedding

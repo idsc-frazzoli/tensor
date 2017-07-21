@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
+import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
@@ -178,5 +179,19 @@ public class Quantity3Test extends TestCase {
     Scalar res = Mod.function(qs2).apply(qs1);
     // System.out.println(res);
     assertEquals(res, qs3);
+  }
+
+  public void testCopySign1() {
+    Scalar qs1 = Quantity.of(RealScalar.of(5), "[s]");
+    Scalar qs2 = Quantity.of(RealScalar.of(-3), "[m]");
+    Scalar qs3 = CopySign.of(qs1, qs2);
+    assertEquals(qs3, qs1.negate());
+  }
+
+  public void testCopySign2() {
+    Scalar qs1 = Quantity.of(RealScalar.of(5), "[s]");
+    Scalar qs2 = RealScalar.of(-3);
+    Scalar qs3 = CopySign.of(qs1, qs2);
+    assertEquals(qs3, qs1.negate());
   }
 }

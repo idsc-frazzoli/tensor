@@ -78,7 +78,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
       while (true) {
         Scalar ccw = ccw(stack.peek(), top, point);
         SignInterface signInterface = (SignInterface) ccw;
-        if (signInterface.signInt() > 0) // if (!Scalars.lessEquals(ccw, RealScalar.ZERO))
+        if (0 < signInterface.signInt())
           break;
         top = stack.pop();
       }
