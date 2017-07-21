@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /* package */ class HouseholderQRDecomposition implements QRDecomposition {
   private final int n;
@@ -44,8 +45,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     Tensor delta = UnitVector.of(n, k).multiply(yn);
     final Tensor w;
     Scalar y0 = R.Get(k, k);
-    if (y0 instanceof RealScalar) {
-      RealScalar Y0 = (RealScalar) y0;
+    if (y0 instanceof SignInterface) {
+      SignInterface Y0 = (SignInterface) y0;
       w = y.add(Y0.signInt() != -1 ? delta : delta.negate());
     } else
       w = y.add(delta);

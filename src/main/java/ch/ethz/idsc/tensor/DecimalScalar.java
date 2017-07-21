@@ -161,7 +161,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
       RealScalar realScalar = (RealScalar) object;
       return number().doubleValue() == realScalar.number().doubleValue();
     }
-    return false;
+    return object == null ? false : object.equals(this);
   }
 
   @Override // from AbstractScalar

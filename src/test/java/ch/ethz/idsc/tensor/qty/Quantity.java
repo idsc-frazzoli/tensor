@@ -94,32 +94,32 @@ public class Quantity extends AbstractScalar implements //
     this.unitMap = unitMap;
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar negate() {
     return of(value.negate(), unitMap);
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar invert() {
     return of(value.invert(), unitMap.negate());
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar abs() {
     return of(value.abs(), unitMap);
   }
 
-  @Override
+  @Override // from Scalar
   public Number number() {
     return value.number();
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar zero() {
     return of(value.zero(), unitMap);
   }
 
-  @Override
+  @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (Scalars.isZero(this) && Scalars.nonZero(scalar))
       return scalar; // 0[m] + X(X!=0) gives X(X!=0)
@@ -148,7 +148,7 @@ public class Quantity extends AbstractScalar implements //
     throw TensorRuntimeException.of(this, scalar);
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof Quantity) {
       Quantity quantityScalar = (Quantity) scalar;
@@ -226,7 +226,17 @@ public class Quantity extends AbstractScalar implements //
     return of(Round.of(value), unitMap);
   }
 
-  @Override
+  /** @return value of quantity without units */
+  public Scalar value() {
+    return value;
+  }
+
+  /** @return units as string, for instance "[kg^-2*rad]" */
+  public String unitString() {
+    return unitMap.toString();
+  }
+
+  @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
     if (scalar instanceof Quantity) {
       Quantity quantityScalar = (Quantity) scalar;
@@ -240,12 +250,12 @@ public class Quantity extends AbstractScalar implements //
     throw TensorRuntimeException.of(this, scalar);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public int hashCode() {
     return Objects.hash(value, unitMap);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof Quantity) {
       Quantity quantityScalar = (Quantity) object;
@@ -261,7 +271,7 @@ public class Quantity extends AbstractScalar implements //
     return false;
   }
 
-  @Override
+  @Override // from AbstractScalar
   public String toString() {
     return value.toString() + unitMap;
   }
