@@ -14,9 +14,12 @@ import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Mod;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Ramp;
+import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
@@ -163,7 +166,6 @@ public class Quantity3Test extends TestCase {
     Scalar qs2 = Quantity.of(RealScalar.of(2), "[s]");
     Tensor vec = Tensors.of(qs1, qs2);
     DiagonalMatrix.of(vec);
-    // System.out.println(Pretty.of(mat));
   }
 
   public void testMod() {
@@ -171,7 +173,6 @@ public class Quantity3Test extends TestCase {
     Scalar qs2 = Quantity.of(RealScalar.of(3), "[s]");
     Scalar qs3 = Quantity.of(RealScalar.of(2), "[s]");
     Scalar res = Mod.function(qs2).apply(qs1);
-    // System.out.println(res);
     assertEquals(res, qs3);
   }
 
@@ -187,5 +188,21 @@ public class Quantity3Test extends TestCase {
     Scalar qs2 = RealScalar.of(-3);
     Scalar qs3 = CopySign.of(qs1, qs2);
     assertEquals(qs3, qs1.negate());
+  }
+
+  public void testComplex0() {
+    Scalar s = Quantity.fromString("0+0*I[m*s]");
+    assertTrue(s instanceof Quantity);
+    assertEquals(Real.of(s).toString(), "0[m*s]");
+    assertEquals(Imag.of(s).toString(), "0[m*s]");
+    assertEquals(Conjugate.of(s).toString(), "0[m*s]");
+  }
+
+  public void testComplex1() {
+    Scalar s = Quantity.fromString("3+5*I[m*s]");
+    assertTrue(s instanceof Quantity);
+    assertEquals(Real.of(s), Quantity.fromString("3[m*s]"));
+    assertEquals(Imag.of(s), Quantity.fromString("5[m*s]"));
+    assertEquals(Conjugate.of(s), Quantity.fromString("3-5*I[m*s]"));
   }
 }

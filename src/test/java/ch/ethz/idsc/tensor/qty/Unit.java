@@ -14,13 +14,13 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
 /** class is intended for testing and demonstration */
-/* package */ class UnitMap {
+/* package */ class Unit {
   static final char OPENING_BRACKET = '[';
   static final char CLOSING_BRACKET = ']';
 
   /** @param string, for instance "[m*s^-2]"
    * @return */
-  public static UnitMap of(String string) {
+  public static Unit of(String string) {
     if (OPENING_BRACKET != string.charAt(0))
       throw new RuntimeException();
     if (CLOSING_BRACKET != string.charAt(string.length() - 1))
@@ -42,17 +42,17 @@ import ch.ethz.idsc.tensor.Scalars;
       }
       map.put(unit.trim(), exponent);
     }
-    return new UnitMap(map);
+    return new Unit(map);
   }
 
-  public static UnitMap singleton(String unit, Scalar exponent) {
-    return new UnitMap(Collections.singletonMap(unit, exponent));
+  public static Unit singleton(String unit, Scalar exponent) {
+    return new Unit(Collections.singletonMap(unit, exponent));
   }
 
   // ---
   private final NavigableMap<String, Scalar> navigableMap = new TreeMap<>();
 
-  private UnitMap(Map<String, Scalar> map) {
+  private Unit(Map<String, Scalar> map) {
     for (Entry<String, Scalar> entry : map.entrySet()) {
       final String string = entry.getKey();
       if (string.isEmpty())
@@ -71,34 +71,34 @@ import ch.ethz.idsc.tensor.Scalars;
     return navigableMap.isEmpty();
   }
 
-  public UnitMap negate() {
+  public Unit negate() {
     Map<String, Scalar> map = new HashMap<>();
     for (Entry<String, Scalar> entry : navigableMap.entrySet())
       map.put(entry.getKey(), entry.getValue().negate());
-    return new UnitMap(map);
+    return new Unit(map);
   }
 
-  public UnitMap add(UnitMap unitMap) {
+  public Unit add(Unit unit) {
     Map<String, Scalar> map = new HashMap<>(navigableMap);
-    for (Entry<String, Scalar> entry : unitMap.navigableMap.entrySet()) {
-      String unit = entry.getKey();
-      if (map.containsKey(unit)) {
-        Scalar exponent = map.get(unit).add(entry.getValue());
+    for (Entry<String, Scalar> entry : unit.navigableMap.entrySet()) {
+      String key = entry.getKey();
+      if (map.containsKey(key)) {
+        Scalar exponent = map.get(key).add(entry.getValue());
         if (Scalars.nonZero(exponent))
-          map.put(unit, exponent);
+          map.put(key, exponent);
         else
-          map.remove(unit);
+          map.remove(key);
       } else
-        map.put(unit, entry.getValue());
+        map.put(key, entry.getValue());
     }
-    return new UnitMap(map);
+    return new Unit(map);
   }
 
-  public UnitMap multiply(Scalar factor) {
+  public Unit multiply(Scalar factor) {
     Map<String, Scalar> map = new HashMap<>();
     for (Entry<String, Scalar> entry : navigableMap.entrySet())
       map.put(entry.getKey(), entry.getValue().multiply(factor));
-    return new UnitMap(map);
+    return new Unit(map);
   }
 
   @Override
@@ -108,9 +108,9 @@ import ch.ethz.idsc.tensor.Scalars;
 
   @Override
   public boolean equals(Object object) {
-    if (object instanceof UnitMap) {
-      UnitMap unitMap = (UnitMap) object;
-      return navigableMap.equals(unitMap.navigableMap);
+    if (object instanceof Unit) {
+      Unit unit = (Unit) object;
+      return navigableMap.equals(unit.navigableMap);
     }
     return false;
   }

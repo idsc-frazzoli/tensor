@@ -4,6 +4,9 @@ package ch.ethz.idsc.tensor.qty;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Sort;
 import junit.framework.TestCase;
 
 public class Quantity1Test extends TestCase {
@@ -55,5 +58,11 @@ public class Quantity1Test extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testSort() {
+    Tensor vector = Tensors.of( //
+        Quantity.of(0, "[m]"), Quantity.of(9, "[m]"), Quantity.of(-3, "[m]"), Quantity.of(0, "[s]"), RealScalar.ZERO);
+    assertEquals(Sort.of(vector), Tensors.fromString("{-3[m], 0[m], 0[s], 0, 9[m]}", Quantity::fromString));
   }
 }

@@ -60,7 +60,6 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     while (true) {
       // System.out.println(Pretty.of(tab));
       Tensor c = tab.get(m).extract(0, n);
-      // final int j = ArgMin.of(c);
       final int j = ArgMin.of(numbers(c));
       if (((SignInterface) c.Get(j)).signInt() == -1) {
         { // check if unbounded

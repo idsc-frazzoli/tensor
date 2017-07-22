@@ -24,12 +24,11 @@ public class Quantity4Test extends TestCase {
   public void testMultinomial() {
     Scalar qs1;
     {
-      qs1 = Quantity.of(RealScalar.of(-4), "[m*s]");
+      qs1 = Quantity.of(-4, "[m*s]");
     }
-    Scalar qs2 = Quantity.of(RealScalar.of(3), "[m]");
-    Scalar val = Quantity.of(RealScalar.of(2), "[s]");
+    Scalar qs2 = Quantity.of(3, "[m]");
+    Scalar val = Quantity.of(2, "[s]");
     Scalar res = Multinomial.horner(Tensors.of(qs1, qs2), val);
-    // System.out.println(res);
     assertEquals(res.toString(), "2[m*s]");
   }
 
@@ -57,11 +56,9 @@ public class Quantity4Test extends TestCase {
     Tensor ve2 = Tensors.of(qs2.multiply(qs3), qs4.multiply(qs4));
     Tensor mat = Tensors.of(ve1, ve2);
     Tensor eye = IdentityMatrix.of(2); // <- yey!
-    // System.out.println(Pretty.of(mat));
     {
       Tensor inv = LinearSolve.of(mat, eye);
       Tensor res = mat.dot(inv);
-      // System.out.println(Pretty.of(res));
       assertEquals(eye, res);
       assertEquals(res, eye);
     }
@@ -84,6 +81,21 @@ public class Quantity4Test extends TestCase {
     {
       Inverse.of(mat);
     }
+  }
+
+  public void testCholesky2() {
+    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
+    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
+    Tensor ve1 = Tensors.of(qs2, qs1);
+    Tensor ve2 = Tensors.of(qs1, qs2);
+    Tensor mat = Tensors.of(ve1, ve2);
+    CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
+    assertTrue(Scalars.nonZero(cd.det()));
+    assertEquals(cd.diagonal().toString(), "{2[m], 3/2[m]}");
+    assertTrue(PositiveDefiniteMatrixQ.ofHermitian(mat));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(mat));
+    assertFalse(NegativeDefiniteMatrixQ.ofHermitian(mat));
+    assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(mat));
   }
 
   public void testCholesky3() {
@@ -109,8 +121,8 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testLinearSolve1() {
-    Scalar qs1 = Quantity.of(RealScalar.of(3), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(4), "[s]");
+    Scalar qs1 = Quantity.of(3, "[m]");
+    Scalar qs2 = Quantity.of(4, "[s]");
     Tensor ve1 = Tensors.of(qs1);
     Tensor mat = Tensors.of(ve1);
     Tensor rhs = Tensors.of(qs2);
@@ -119,17 +131,18 @@ public class Quantity4Test extends TestCase {
     assertEquals(res, rhs);
   }
 
-  public void testRowReduce() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
-    Tensor ve1 = Tensors.of(qs1, qs2);
-    // Tensor ve2 = Tensors.of(qs1, qs2);
-    Tensor mat = Tensors.of(ve1, ve1);
-    // Tensor nul = RowReduce.of(Transpose.of(mat));
-    Tensor nul = RowReduce.of(mat);
-    nul.map(a -> a);
-    // System.out.println(nul);
-    // assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
+  public void testRowReduce1() {
+    Tensor ve1 = Tensors.of(Quantity.of(1, "[m]"), Quantity.of(2, "[m]"));
+    Tensor ve2 = Tensors.of(Quantity.of(2, "[m]"), Quantity.of(10, "[m]"));
+    Tensor nul = RowReduce.of(Tensors.of(ve1, ve2));
+    assertEquals(nul, IdentityMatrix.of(2)); // consistent with Mathematica
+  }
+
+  public void testRowReduce2() {
+    Tensor ve1 = Tensors.of(Quantity.of(1, "[m]"), Quantity.of(2, "[m]"));
+    Tensor nul = RowReduce.of(Tensors.of(ve1, ve1));
+    assertEquals(nul, Tensors.fromString("{{1, 2}, {0[m], 0[m]}}", Quantity::fromString));
+    assertEquals(nul, Tensors.fromString("{{1, 2}, {0, 0}}"));
   }
 
   public void testNullspace() {
@@ -140,20 +153,5 @@ public class Quantity4Test extends TestCase {
     Tensor nul = NullSpace.usingRowReduce(mat);
     // System.out.println(nul);
     assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
-  }
-
-  public void testCholesky() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
-    Tensor ve1 = Tensors.of(qs2, qs1);
-    Tensor ve2 = Tensors.of(qs1, qs2);
-    Tensor mat = Tensors.of(ve1, ve2);
-    CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
-    assertTrue(Scalars.nonZero(cd.det()));
-    assertEquals(cd.diagonal().toString(), "{2[m], 3/2[m]}");
-    assertTrue(PositiveDefiniteMatrixQ.ofHermitian(mat));
-    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(mat));
-    assertFalse(NegativeDefiniteMatrixQ.ofHermitian(mat));
-    assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(mat));
   }
 }
