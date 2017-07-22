@@ -7,12 +7,13 @@ public enum Scalars {
   ;
   /** parses string to scalar
    * 
-   * Example:
+   * <p>Example:
    * "(3+2)*I/(-1+4)+8-I" -> ComplexScalar.of(8, 2/3) == "8+2/3*I"
+   * 
+   * <p>Not supported: {@link GaussScalar}
    * 
    * @param string
    * @return scalar */
-  // TODO this does not work for gaussScalar
   public static Scalar fromString(String string) {
     try {
       return ScalarParser.of(string);

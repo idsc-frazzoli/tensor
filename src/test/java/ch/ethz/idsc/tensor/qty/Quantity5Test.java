@@ -29,6 +29,19 @@ public class Quantity5Test extends TestCase {
     // System.out.println(c.dot(x));
   }
 
+  // MATLAB linprog example
+  public void testMatlab1() { // min c.x == -10/9
+    Tensor c = Tensors.fromString("{-1[m],-1/3[s]}", //
+        Quantity::fromString);
+    Tensor m = Tensors.fromString("{{1[m],1[s]},{1[m],1/4[s]},{1[m],-1[s]},{-1/4[m],-1[s]},{-1[m],-1[s]},{-1[m],1[s]}}", //
+        Quantity::fromString);
+    Tensor b = Tensors.vector(2, 1, 2, 1, -1, 2);
+    Tensor x = LinearProgramming.minLessEquals(c, m, b);
+    // System.out.println(x);
+    // assertEquals(x, Tensors.fromString("{2/3,4/3}"));
+    // System.out.println(c.dot(x));
+  }
+
   public void testMatrixExp2() {
     // Mathematica can't do this :-)
     Scalar qs1 = Quantity.of(RealScalar.of(3), "[m]");
@@ -54,7 +67,6 @@ public class Quantity5Test extends TestCase {
   }
 
   public void testConvexHull() {
-    // final Scalar one = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
     Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
     Scalar qs2 = Quantity.of(RealScalar.of(4), "[m]");
     Scalar qs3 = Quantity.of(RealScalar.of(2), "[m]");

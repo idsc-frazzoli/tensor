@@ -126,20 +126,20 @@ public class Quantity extends AbstractScalar implements //
     if (Scalars.nonZero(this) && Scalars.isZero(scalar))
       return this; // X(X!=0) + 0[m] gives X(X!=0)
     if (scalar instanceof Quantity) {
-      Quantity quantityScalar = (Quantity) scalar;
+      Quantity quantity = (Quantity) scalar;
       if (Scalars.isZero(this) && Scalars.isZero(scalar)) {
         // explicit addition of zeros to ensure symmetry
         // for instance when numeric precision is different:
         // 0[m] + 0.0[m] == 0.0[m]
         // 0[m] + 0.0[s] == 0.0
-        final Scalar zero = value.add(quantityScalar.value);
-        if (unitMap.equals(quantityScalar.unitMap))
+        final Scalar zero = value.add(quantity.value);
+        if (unitMap.equals(quantity.unitMap))
           return of(zero, unitMap); // 0[m] + 0[m] gives 0[m]
         return zero; // 0[m] + 0[s] gives 0
       }
-      if (unitMap.equals(quantityScalar.unitMap))
-        return of(value.add(quantityScalar.value), unitMap);
-    } else { // <- scalar is not an instance of QuantityScalar
+      if (unitMap.equals(quantity.unitMap))
+        return of(value.add(quantity.value), unitMap);
+    } else { // <- scalar is not an instance of Quantity
       if (Scalars.isZero(this) && Scalars.isZero(scalar))
         // return of value.add(scalar) is not required for symmetry
         // precision of this.value prevails over given scalar
@@ -151,8 +151,8 @@ public class Quantity extends AbstractScalar implements //
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof Quantity) {
-      Quantity quantityScalar = (Quantity) scalar;
-      return of(value.multiply(quantityScalar.value), unitMap.add(quantityScalar.unitMap));
+      Quantity quantity = (Quantity) scalar;
+      return of(value.multiply(quantity.value), unitMap.add(quantity.unitMap));
     }
     return of(value.multiply(scalar), unitMap);
   }
@@ -168,9 +168,9 @@ public class Quantity extends AbstractScalar implements //
   @Override // from ArcTanInterface
   public Scalar arcTan(Scalar x) {
     if (x instanceof Quantity) {
-      Quantity quantityScalar = (Quantity) x;
-      if (unitMap.equals(quantityScalar.unitMap))
-        return ArcTan.of(quantityScalar.value, value);
+      Quantity quantity = (Quantity) x;
+      if (unitMap.equals(quantity.unitMap))
+        return ArcTan.of(quantity.value, value);
     }
     throw TensorRuntimeException.of(x, this);
   }
@@ -238,14 +238,16 @@ public class Quantity extends AbstractScalar implements //
 
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
+    if (Scalars.isZero(this) || Scalars.isZero(scalar))
+      // treats the cases:
+      // 0[s^-1] < 1, and -2 < 0[kg]
+      // -3[m] < 0, and 0 < +2[s]
+      // -2[kg] < 0[V]
+      return Scalars.compare(value, scalar);
     if (scalar instanceof Quantity) {
-      Quantity quantityScalar = (Quantity) scalar;
-      if (unitMap.equals(quantityScalar.unitMap))
-        return Scalars.compare(value, quantityScalar.value);
-    } else { // <- scalar is not an instance of QuantityScalar
-      if (Scalars.isZero(scalar))
-        // treats the cases: -3[m] < 0, and 0 < +2[s]
-        return Scalars.compare(value, scalar);
+      Quantity quantity = (Quantity) scalar;
+      if (unitMap.equals(quantity.unitMap))
+        return Scalars.compare(value, quantity.value);
     }
     throw TensorRuntimeException.of(this, scalar);
   }
@@ -258,9 +260,9 @@ public class Quantity extends AbstractScalar implements //
   @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof Quantity) {
-      Quantity quantityScalar = (Quantity) object;
-      return value.equals(quantityScalar.value) && //
-          unitMap.equals(quantityScalar.unitMap);
+      Quantity quantity = (Quantity) object;
+      return value.equals(quantity.value) && //
+          unitMap.equals(quantity.unitMap);
     } // else
     if (object instanceof Scalar) {
       // the implementation of plus(...) uses the convention

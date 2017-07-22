@@ -2,9 +2,12 @@
 package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DecimalScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.ExactNumberQ;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.NumberQ;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import junit.framework.TestCase;
@@ -17,26 +20,20 @@ public class Quantity2Test extends TestCase {
   }
 
   public void testPlusSymmetry() {
-    _checkPlusSymmetry( //
-        Quantity.of(RealScalar.of(0), "[m]"), //
-        Quantity.of(RealScalar.of(0), "[kg]"));
-    _checkPlusSymmetry( //
-        Quantity.of(RealScalar.of(0), "[m]"), //
-        Quantity.of(RealScalar.of(2), "[kg]"));
+    _checkPlusSymmetry(Quantity.of(0, "[m]"), Quantity.of(0, "[kg]"));
+    _checkPlusSymmetry(Quantity.of(0, "[m]"), Quantity.of(2, "[kg]"));
     _checkPlusSymmetry( //
         Quantity.of(ComplexScalar.of(0, 0), "[m]"), //
         RealScalar.of(0));
     _checkPlusSymmetry( //
         Quantity.of(ComplexScalar.of(1, 3), "[m]"), //
         RealScalar.of(0));
-    _checkPlusSymmetry( //
-        Quantity.of(RealScalar.of(0), "[s]"), //
-        RealScalar.of(0.0));
+    _checkPlusSymmetry(Quantity.of(0, "[s]"), RealScalar.of(0.0));
   }
 
   public void testPlusUnits1() {
-    Scalar s1 = Quantity.of(RealScalar.of(0), "[m]"); //
-    Scalar s2 = Quantity.of(RealScalar.of(0), "[kg]");
+    Scalar s1 = Quantity.of(0, "[m]");
+    Scalar s2 = Quantity.of(0, "[kg]");
     _checkPlusSymmetry(s1, s2);
     assertEquals(s1.add(s2).toString(), RealScalar.ZERO.toString());
   }
@@ -88,6 +85,12 @@ public class Quantity2Test extends TestCase {
         RealScalar.of(0), true);
     _checkEquals(Quantity.of(RealScalar.of(0), "[s*kg^2]"), //
         RealScalar.of(2), false);
+  }
+
+  public void testEquals2() {
+    _checkEquals(RationalScalar.of(0, 1), Quantity.of(0, "[m]"), true);
+    _checkEquals(DoubleScalar.of(0.0), Quantity.of(0, "[m]"), true);
+    _checkEquals(DecimalScalar.of(0.0), Quantity.of(0, "[m]"), true);
   }
 
   public void testNumberQ() {

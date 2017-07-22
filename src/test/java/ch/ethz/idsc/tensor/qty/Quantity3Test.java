@@ -132,12 +132,6 @@ public class Quantity3Test extends TestCase {
     assertEquals(qs1.invert().toString(), "1/4[m^-1]");
   }
 
-  public void testCompare() {
-    Scalar qs1 = Quantity.of(RealScalar.of(2), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(3), "[m]");
-    assertTrue(Scalars.lessThan(qs1, qs2));
-  }
-
   public void testRamp() {
     Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
     Scalar qs2 = Quantity.of(RealScalar.of(-2), "[m]");

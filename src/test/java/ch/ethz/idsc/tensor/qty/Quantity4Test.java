@@ -49,7 +49,6 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testInverse2() {
-    // final Scalar one = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
     Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
     Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
     Scalar qs3 = Quantity.of(RealScalar.of(3), "[rad]");
@@ -72,8 +71,6 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testInverse3() {
-    // final Scalar one = QuantityScalar.of(RealScalar.of(1), "m", RealScalar.ONE);
-    // UnitMap
     Tensor mat = Tensors.fromString( //
         "{{1[m^2], 2[m*rad], 3[kg*m]}, {4[m*rad], 2[rad^2], 2[kg*rad]}, {5[kg*m], 1[kg*rad], 7[kg^2]}}", //
         Quantity::fromString);

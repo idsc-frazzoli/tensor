@@ -60,10 +60,11 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     while (true) {
       // System.out.println(Pretty.of(tab));
       Tensor c = tab.get(m).extract(0, n);
-      final int j = ArgMin.of(c);
+      // final int j = ArgMin.of(c);
+      final int j = ArgMin.of(numbers(c));
       if (((SignInterface) c.Get(j)).signInt() == -1) {
         { // check if unbounded
-          int argmax = ArgMax.of(tab.get(Tensor.ALL, j).extract(0, m));
+          int argmax = ArgMax.of(numbers(tab.get(Tensor.ALL, j).extract(0, m)));
           if (((SignInterface) tab.Get(argmax, j)).signInt() != 1)
             throw TensorRuntimeException.of(tab); // problem unbounded
         }
@@ -92,5 +93,13 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
         .map(Scalar.class::cast) //
         .map(Scalars::intValueExact) //
         .filter(i -> n <= i).findFirst().isPresent();
+  }
+
+  // helper function to determine pivot
+  private static Tensor numbers(Tensor vector) {
+    return Tensor.of(vector.flatten(0) //
+        .map(Scalar.class::cast) //
+        .map(Scalar::number) //
+        .map(RealScalar::of));
   }
 }
