@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import junit.framework.TestCase;
 
 public class Quantity2Test extends TestCase {
@@ -77,14 +78,10 @@ public class Quantity2Test extends TestCase {
   }
 
   public void testEquals() {
-    _checkEquals(Quantity.of(RealScalar.of(2), "[m]"), //
-        RealScalar.of(2), false);
-    _checkEquals(Quantity.of(RealScalar.of(0), "[m]"), //
-        RealScalar.of(0.0), true);
-    _checkEquals(Quantity.of(RealScalar.of(0), "[s]"), //
-        RealScalar.of(0), true);
-    _checkEquals(Quantity.of(RealScalar.of(0), "[s*kg^2]"), //
-        RealScalar.of(2), false);
+    _checkEquals(Quantity.of(2, "[m]"), RealScalar.of(2), false);
+    _checkEquals(Quantity.of(0, "[m]"), RealScalar.of(0.0), true);
+    _checkEquals(Quantity.of(0, "[s]"), RealScalar.of(0), true);
+    _checkEquals(Quantity.of(0, "[s*kg^2]"), RealScalar.of(2), false);
   }
 
   public void testEquals2() {
@@ -98,5 +95,13 @@ public class Quantity2Test extends TestCase {
     assertFalse(MachineNumberQ.of(s1));
     assertFalse(ExactNumberQ.of(s1));
     assertFalse(NumberQ.of(s1));
+  }
+
+  public void testCompareEquals() {
+    Scalar q1 = Quantity.of(0, "[s]");
+    Scalar q2 = Quantity.of(0, "[rad]");
+    int cmp = Scalars.compare(q1, q2);
+    assertEquals(cmp, 0);
+    assertTrue(q1.equals(q2));
   }
 }

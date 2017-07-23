@@ -54,6 +54,7 @@ public enum Sqrt implements ScalarUnaryOperator {
   }
 
   public static BigDecimal of(BigDecimal bigDecimal) {
+    // TODO magic constant
     return new SqrtBigDecimal(30).newtonRaphson(bigDecimal);
   }
 }

@@ -18,9 +18,9 @@ public class InverseTest extends TestCase {
     Random random = new Random();
     Tensor A = Tensors.matrix((i, j) -> DoubleScalar.of(random.nextGaussian()), n, n);
     Tensor Ai = Inverse.of(A);
-    assertEquals(A.dot(Ai).subtract(IdentityMatrix.of(A.length())).map(Chop.below(1e-10)), //
+    assertEquals(A.dot(Ai).subtract(IdentityMatrix.of(A.length())).map(Chop._10), //
         Array.zeros(Dimensions.of(A)));
-    assertEquals(Ai.dot(A).subtract(IdentityMatrix.of(A.length())).map(Chop.below(1e-10)), //
+    assertEquals(Ai.dot(A).subtract(IdentityMatrix.of(A.length())).map(Chop._10), //
         Array.zeros(Dimensions.of(A)));
   }
 

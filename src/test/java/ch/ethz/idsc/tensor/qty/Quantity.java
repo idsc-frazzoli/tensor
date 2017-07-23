@@ -117,6 +117,16 @@ public class Quantity extends AbstractScalar implements //
     return unit.toString();
   }
 
+  /***************************************************/
+  @Override // from Scalar
+  public Scalar multiply(Scalar scalar) {
+    if (scalar instanceof Quantity) {
+      Quantity quantity = (Quantity) scalar;
+      return of(value.multiply(quantity.value), unit.add(quantity.unit));
+    }
+    return of(value.multiply(scalar), unit);
+  }
+
   @Override // from Scalar
   public Scalar negate() {
     return of(value.negate(), unit);
@@ -142,6 +152,7 @@ public class Quantity extends AbstractScalar implements //
     return of(value.zero(), unit);
   }
 
+  /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (Scalars.isZero(this) && Scalars.nonZero(scalar))
@@ -171,15 +182,7 @@ public class Quantity extends AbstractScalar implements //
     throw TensorRuntimeException.of(this, scalar);
   }
 
-  @Override // from Scalar
-  public Scalar multiply(Scalar scalar) {
-    if (scalar instanceof Quantity) {
-      Quantity quantity = (Quantity) scalar;
-      return of(value.multiply(quantity.value), unit.add(quantity.unit));
-    }
-    return of(value.multiply(scalar), unit);
-  }
-
+  /***************************************************/
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     // Mathematica allows 2[m]^3[s], but the tensor library does not:
@@ -265,6 +268,7 @@ public class Quantity extends AbstractScalar implements //
     throw TensorRuntimeException.of(this, scalar);
   }
 
+  /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
     return Objects.hash(value, unit);
@@ -274,14 +278,13 @@ public class Quantity extends AbstractScalar implements //
   public boolean equals(Object object) {
     if (object instanceof Quantity) {
       Quantity quantity = (Quantity) object;
-      return value.equals(quantity.value) && //
-          unit.equals(quantity.unit);
-    } // else
+      if (Scalars.isZero(value) && Scalars.isZero(quantity.value)) // 0[s] == 0[m]
+        return true;
+      return value.equals(quantity.value) && unit.equals(quantity.unit); // 2[kg] == 2[kg]
+    }
     if (object instanceof Scalar) {
-      // the implementation of plus(...) uses the convention
-      // that 0[kg] == 0 evaluates to true
       Scalar scalar = (Scalar) object;
-      return Scalars.isZero(this) && Scalars.isZero(scalar); // 0[kg] == 0
+      return Scalars.isZero(value) && Scalars.isZero(scalar); // 0[V] == 0
     }
     return false;
   }

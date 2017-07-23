@@ -117,7 +117,7 @@ public class SingularValueDecompositionTest extends TestCase {
     Random rnd = new Random();
     Tensor mat = Tensors.matrix((r, c) -> DoubleScalar.of(rnd.nextGaussian()), n, n);
     SingularValueDecomposition svd = specialOps(mat);
-    Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop.below(1e-9));
+    Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop._09);
     assertEquals(dif, Array.zeros(Dimensions.of(dif)));
     assertEquals(MatrixRank.of(svd), n);
     Tensor res = Chop._12.of(PseudoInverse.of(svd).dot(mat).subtract(IdentityMatrix.of(n)));
@@ -136,7 +136,7 @@ public class SingularValueDecompositionTest extends TestCase {
     Random rnd = new Random();
     Tensor mat = Tensors.matrix((r, c) -> RationalScalar.of(rnd.nextInt(100) - 50, rnd.nextInt(100) + 1), 15, 15);
     SingularValueDecomposition svd = specialOps(mat);
-    Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop.below(1e-9));
+    Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop._08);
     assertEquals(dif, Array.zeros(Dimensions.of(dif)));
   }
 
@@ -151,9 +151,6 @@ public class SingularValueDecompositionTest extends TestCase {
         { RationalScalar.of(0, 1), RationalScalar.of(0, 1), RationalScalar.of(0, 1), RationalScalar.of(0, 1) } });
     SingularValueDecomposition svd = specialOps(mat.dot(B));
     assertEquals(MatrixRank.of(svd), 3);
-    // System.out.println(svd.getU());
-    // System.out.println(svd.getW());
-    // System.out.println(svd.getV());
   }
 
   public void testSo3() {

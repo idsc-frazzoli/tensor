@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 
 public class QRDecompositionTest extends TestCase {
   private static QRDecomposition specialOps(Tensor A) {
-    Function<Scalar, Scalar> chop = Chop.below(1e-10);
+    Function<Scalar, Scalar> chop = Chop._10;
     QRDecomposition qr = QRDecomposition.of(A);
     Tensor Q = qr.getQ();
     Tensor Qi = qr.getInverseQ();

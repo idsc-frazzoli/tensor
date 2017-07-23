@@ -36,7 +36,7 @@ public class MatrixExpTest extends TestCase {
     Tensor S = A.subtract(Transpose.of(A));
     Tensor o = MatrixExp.of(S);
     assertEquals( //
-        o.dot(Transpose.of(o)).subtract(IdentityMatrix.of(o.length())).map(Chop.below(1e-10)), //
+        o.dot(Transpose.of(o)).subtract(IdentityMatrix.of(o.length())).map(Chop._10), //
         Array.zeros(Dimensions.of(o)));
   }
 
