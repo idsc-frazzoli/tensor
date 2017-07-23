@@ -16,6 +16,7 @@ import ch.ethz.idsc.tensor.mat.VectorQ;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArrayQ.html">ArrayQ</a> */
+// EXPERIMENTAL
 public enum ArrayQ {
   ;
   /** Examples:

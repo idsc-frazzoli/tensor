@@ -48,13 +48,19 @@ public enum CsvFormat {
    * </pre>
    * results in the tensor {{10, 200, 3}, {78}, {-3, 2.3}}
    * 
-   * @param stream
+   * @param stream of lines of file
    * @return tensor with rows defined by the entries of the input stream */
   public static Tensor parse(Stream<String> stream) {
     return parse(stream, Tensors::fromString);
   }
 
-  /** @param stream
+  /** Default function for parsing:
+   * Tensors::fromString
+   * 
+   * Example for extended functionality:
+   * string -> Tensors.fromString(string, Quantity::fromString)
+   * 
+   * @param stream of lines of file
    * @param function that parses a string to a tensor
    * @return */
   public static Tensor parse(Stream<String> stream, Function<String, Tensor> function) {

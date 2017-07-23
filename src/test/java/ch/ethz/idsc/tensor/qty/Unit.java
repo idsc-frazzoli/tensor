@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
 /** class is intended for testing and demonstration */
-/* package */ class Unit {
+/* package */ class Unit implements Serializable {
   static final char OPENING_BRACKET = '[';
   static final char CLOSING_BRACKET = ']';
 
@@ -33,7 +34,7 @@ import ch.ethz.idsc.tensor.Scalars;
       int index = token.indexOf('^');
       final String unit;
       final Scalar exponent;
-      if (0 < index) {
+      if (0 <= index) {
         unit = token.substring(0, index);
         exponent = Scalars.fromString(token.substring(index + 1));
       } else {
@@ -115,7 +116,7 @@ import ch.ethz.idsc.tensor.Scalars;
     return false;
   }
 
-  private static String _exponentToString(Scalar exponent) {
+  private static String exponentString(Scalar exponent) {
     String string = exponent.toString();
     return string.equals("1") ? "" : "^" + string;
   }
@@ -123,7 +124,7 @@ import ch.ethz.idsc.tensor.Scalars;
   @Override
   public String toString() {
     return OPENING_BRACKET + navigableMap.entrySet().stream() //
-        .map(entry -> entry.getKey() + _exponentToString(entry.getValue())) //
+        .map(entry -> entry.getKey() + exponentString(entry.getValue())) //
         .collect(Collectors.joining("*")) + CLOSING_BRACKET;
   }
 }

@@ -8,12 +8,6 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.mat.Eigensystem;
 
-/* package */ interface OrderingInterface {
-  /** @param tensor
-   * @return stream of indices so that tensor[i0], tensor[i1], ... is ascending */
-  Stream<Integer> stream(Tensor tensor);
-}
-
 /** an application of Ordering is to arrange the eigenvalues in {@link Eigensystem}
  * in descending order.
  * 
@@ -37,4 +31,10 @@ public enum Ordering {
   public int[] of(Tensor vector) {
     return orderingInterface.stream(vector).mapToInt(index -> index).toArray();
   }
+}
+
+/* private */ interface OrderingInterface {
+  /** @param tensor
+   * @return stream of indices so that tensor[i0], tensor[i1], ... is ascending */
+  Stream<Integer> stream(Tensor tensor);
 }

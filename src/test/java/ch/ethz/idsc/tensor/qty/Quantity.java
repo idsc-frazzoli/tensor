@@ -9,6 +9,8 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.io.CsvFormat;
+import ch.ethz.idsc.tensor.io.ObjectFormat;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Ceiling;
@@ -53,6 +55,9 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * In particular, the rule allows to up-cast any
  * {@link Scalar#zero()} to a zero with any unit,
  * for instance 0 == 0[m^2] == 0[rad*s] == 0
+ * 
+ * <p>For export and import of tensors with scalars of type
+ * {@link Quantity} use {@link ObjectFormat} and {@link CsvFormat}.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Quantity.html">Quantity</a> */
@@ -100,6 +105,16 @@ public class Quantity extends AbstractScalar implements //
       throw TensorRuntimeException.of(value);
     this.value = value;
     this.unit = unit;
+  }
+
+  /** @return value of quantity without unit */
+  public Scalar value() {
+    return value;
+  }
+
+  /** @return units as string, for instance "[kg^-2*rad]" */
+  public String unitString() {
+    return unit.toString();
   }
 
   @Override // from Scalar
@@ -232,16 +247,6 @@ public class Quantity extends AbstractScalar implements //
   @Override // from RoundingInterface
   public Scalar round() {
     return of(Round.of(value), unit);
-  }
-
-  /** @return value of quantity without units */
-  public Scalar value() {
-    return value;
-  }
-
-  /** @return units as string, for instance "[kg^-2*rad]" */
-  public String unitString() {
-    return unit.toString();
   }
 
   @Override // from Comparable<Scalar>
