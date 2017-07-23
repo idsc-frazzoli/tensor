@@ -40,12 +40,29 @@ public class Quantity3Test extends TestCase {
     assertEquals(Norm._1.of(vec), qs3);
   }
 
+  public void testNorm1b() {
+    Tensor vec = Tensors.of( //
+        Quantity.of(-3, "[m]"), //
+        Quantity.of(0, "[s*rad]"), //
+        RealScalar.ZERO, //
+        Quantity.of(-4, "[m]") //
+    );
+    assertEquals(Norm._1.of(vec), Quantity.of(7, "[m]"));
+  }
+
   public void testNorm2() {
-    Scalar qs1 = Quantity.of(RealScalar.of(3), "[m^2]");
-    Scalar qs2 = Quantity.of(RealScalar.of(4), "[m^2]");
-    Scalar qs3 = Quantity.of(RealScalar.of(5), "[m^2]");
-    Tensor vec = Tensors.of(qs1, qs2);
-    assertEquals(Norm._2.of(vec), qs3);
+    Tensor vec = Tensors.of( //
+        Quantity.of(3, "[m^2]"), //
+        Quantity.of(0, "[s*rad]"), //
+        Quantity.of(-4, "[m^2]"), //
+        RealScalar.ZERO //
+    );
+    assertEquals(Norm._2.of(vec), Quantity.of(5, "[m^2]"));
+  }
+
+  public void testNorm2b() {
+    Tensor vec = Tensors.fromString("{0[m^2],0[s*rad],1}", Quantity::fromString);
+    assertEquals(Norm._2.of(vec), RealScalar.ONE);
   }
 
   public void testNormInf() {

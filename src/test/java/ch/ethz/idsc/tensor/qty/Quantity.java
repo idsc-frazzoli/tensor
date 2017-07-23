@@ -155,13 +155,13 @@ public class Quantity extends AbstractScalar implements //
   /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
-    if (Scalars.isZero(this) && Scalars.nonZero(scalar))
+    if (Scalars.isZero(value) && Scalars.nonZero(scalar))
       return scalar; // 0[m] + X(X!=0) gives X(X!=0)
-    if (Scalars.nonZero(this) && Scalars.isZero(scalar))
+    if (Scalars.nonZero(value) && Scalars.isZero(scalar))
       return this; // X(X!=0) + 0[m] gives X(X!=0)
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
-      if (Scalars.isZero(this) && Scalars.isZero(scalar)) {
+      if (Scalars.isZero(value) && Scalars.isZero(scalar)) {
         // explicit addition of zeros to ensure symmetry
         // for instance when numeric precision is different:
         // 0[m] + 0.0[m] == 0.0[m]
@@ -174,7 +174,7 @@ public class Quantity extends AbstractScalar implements //
       if (unit.equals(quantity.unit))
         return of(value.add(quantity.value), unit);
     } else { // <- scalar is not an instance of Quantity
-      if (Scalars.isZero(this) && Scalars.isZero(scalar))
+      if (Scalars.isZero(value) && Scalars.isZero(scalar))
         // return of value.add(scalar) is not required for symmetry
         // precision of this.value prevails over given scalar
         return this; // 0[kg] + 0 gives 0[kg]
@@ -254,7 +254,7 @@ public class Quantity extends AbstractScalar implements //
 
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
-    if (Scalars.isZero(this) || Scalars.isZero(scalar))
+    if (Scalars.isZero(value) || Scalars.isZero(scalar))
       // treats the cases:
       // 0[s^-1] < 1, and -2 < 0[kg]
       // -3[m] < 0, and 0 < +2[s]
