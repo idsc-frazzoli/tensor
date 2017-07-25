@@ -28,10 +28,7 @@ public class SortTest extends TestCase {
 
   public void testSortRows() {
     Tensor a = Tensors.fromString("{{4,1},{2,8},{9,0},{3,5}}");
-    // System.out.println(Pretty.of(a));
     Tensor s = Sort.of(a, FIRSTENTRYCOMPARATOR);
-    // System.out.println(s);
-    // System.out.println(Pretty.of(s));
     assertEquals(s, Tensors.fromString("{{2, 8}, {3, 5}, {4, 1}, {9, 0}}"));
   }
 }

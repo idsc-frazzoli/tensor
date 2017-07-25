@@ -26,6 +26,10 @@ public enum Round implements ScalarUnaryOperator {
   public static final ScalarUnaryOperator _3 = Round.toMultipleOf(DecimalScalar.of("0.001"));
   public static final ScalarUnaryOperator _4 = Round.toMultipleOf(DecimalScalar.of("0.0001"));
   public static final ScalarUnaryOperator _5 = Round.toMultipleOf(DecimalScalar.of("0.00001"));
+  public static final ScalarUnaryOperator _6 = Round.toMultipleOf(DecimalScalar.of("0.000001"));
+  public static final ScalarUnaryOperator _7 = Round.toMultipleOf(DecimalScalar.of("0.0000001"));
+  public static final ScalarUnaryOperator _8 = Round.toMultipleOf(DecimalScalar.of("0.00000001"));
+  public static final ScalarUnaryOperator _9 = Round.toMultipleOf(DecimalScalar.of("0.000000001"));
 
   // ---
   @Override

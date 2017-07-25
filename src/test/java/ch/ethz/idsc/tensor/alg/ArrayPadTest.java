@@ -28,6 +28,5 @@ public class ArrayPadTest extends TestCase {
     assertEquals(Dimensions.of(form), Arrays.asList(4, 2, 3));
     Tensor pad = ArrayPad.of(form, Arrays.asList(2, 1, 2), Arrays.asList(1, 3, 4));
     assertEquals(Dimensions.of(pad), Arrays.asList(2 + 4 + 1, 1 + 2 + 3, 2 + 3 + 4));
-    // System.out.println(Pretty.of(pad));
   }
 }

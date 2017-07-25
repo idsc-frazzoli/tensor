@@ -71,6 +71,5 @@ public class TensorImplTest extends TestCase {
   public void testExtract() {
     Tensor eye = IdentityMatrix.of(4).unmodifiable();
     eye.extract(2, 4).set(RealScalar.of(4), 1);
-    // System.out.println(Pretty.of(eye));
   }
 }

@@ -22,8 +22,6 @@ public class RodriguezTest extends TestCase {
         mat.get(0).extract(0, 2), //
         mat.get(1).extract(0, 2));
     assertEquals(blu, m22);
-    // System.out.println(Pretty.of(m22.map(Round._2)));
-    // System.out.println(Pretty.of(mat.map(Round._2)));
   }
 
   public void testFormula() {

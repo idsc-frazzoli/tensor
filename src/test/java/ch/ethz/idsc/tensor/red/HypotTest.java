@@ -80,7 +80,6 @@ public class HypotTest extends TestCase {
       Scalar s3 = Hypot.BIFUNCTION.apply(s1, s2); // NaN+NaN*I
       assertTrue(s3 instanceof ComplexScalar);
       assertFalse(Scalars.isZero(s3));
-      // System.out.println(s3);
       @SuppressWarnings("unused")
       Scalar s4 = ArcTan.FUNCTION.apply(s2);
       assertTrue(false);

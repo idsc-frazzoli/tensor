@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.io.Pretty;
 
 public class PrettyDemo {
   public static void main(String[] args) {
-    // Tensor m = Tensors.of(Tensors.vectorInt(2, -3, 4), Tensors.vectorDouble(2.3, -.2), Tensors.empty());
     {
       Tensor m = Tensors.of( //
           Tensors.vector(1, 2, 3), //
@@ -34,7 +33,6 @@ public class PrettyDemo {
       Tensor m = Tensors.of( //
           Tensors.of(RationalScalar.of(3, 2), Tensors.vector(2.3, .3, -.2)), //
           Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(-2.3, .3, -.2)));
-      // System.out.println(m.isArray());
       System.out.println(Pretty.of(m));
     }
     System.out.println("---");
@@ -42,7 +40,6 @@ public class PrettyDemo {
       Tensor m = Tensors.of( //
           Tensors.of(Tensors.vector(33.2), RationalScalar.of(3, 2), Tensors.vector(2.3, .3, -.2)), //
           Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(-2.3, .3, -.2)));
-      // System.out.println(m.isArray());
       System.out.println(Pretty.of(m));
     }
     System.out.println("---");

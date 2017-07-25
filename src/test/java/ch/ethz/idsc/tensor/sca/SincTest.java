@@ -62,7 +62,6 @@ public class SincTest extends TestCase {
     for (int c = 0; c < 100; ++c)
       val0 = Math.nextDown(val0);
     Scalar res0 = Sinc.of(DoubleScalar.of(val0));
-    // System.out.println(res1.subtract(res0));
     assertEquals(res1, res0);
   }
 }

@@ -127,7 +127,9 @@ gives
 
 ---
 
-Several algorithms work for scalars of type `Quantity`, i.e. numbers with physical units
+The tensor library features an implementation of `Quantity`, i.e. numbers with physical units, for the purpose of demonstration and testing.
+The implementation of `Quantity` is not part of the core API.
+Several algorithms work for scalars of type `Quantity`.
 
     Tensor matrix = Tensors.fromString( //
         "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
@@ -146,10 +148,6 @@ gives
      [  1/3[kg*m^-1]   1[kg*rad^-1]              1 ]
     ]
     100[kg^2*m^2*rad^2]
-
-Note:
-The tensor library features an implementation of `Quantity` for the purpose of demonstration and testing.
-The implementation of `Quantity` is not part of the core API.
 
 ---
 

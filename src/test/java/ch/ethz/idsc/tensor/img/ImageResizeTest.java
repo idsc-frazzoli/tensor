@@ -41,7 +41,6 @@ public class ImageResizeTest extends TestCase {
   public void testBlub() {
     Tensor tensor = Tensors.fromString("{{0, 1}, {0, 0}}");
     Tensor resize = ImageResize.nearest(tensor, 3);
-    // System.out.println(Pretty.of(resize));
     assertEquals(resize.get(1), Tensors.vector(0, 0, 0, 1, 1, 1));
     assertTrue(Chop.NONE.allZero(resize.get(Tensor.ALL, 2)));
     assertEquals(resize.get(Tensor.ALL, 3), Tensors.vector(1, 1, 1, 0, 0, 0));

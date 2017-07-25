@@ -151,16 +151,13 @@ public class ComplexScalarTest extends TestCase {
   }
 
   public void testToString() {
-    // Scalar c1 = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
     Scalar c2 = ComplexScalar.of(RealScalar.ZERO, RationalScalar.of(5, 8));
-    // System.out.println(c2);
     assertEquals(c2.toString(), "5/8*I");
   }
 
   public void testTensor() {
     Tensor u = Tensors.fromString("{I,3/4-5*I}");
     Tensor uc = Conjugate.of(u);
-    // System.out.println(uc.toString());
     assertEquals(uc.toString(), "{-I, 3/4+5*I}");
   }
 }

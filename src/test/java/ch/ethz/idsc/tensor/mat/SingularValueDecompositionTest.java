@@ -124,14 +124,6 @@ public class SingularValueDecompositionTest extends TestCase {
     assertEquals(res, Array.zeros(n, n));
   }
 
-  // public void testSvdC() {
-  // Random rnd = new Random();
-  // Tensor mat = TensorBuild.matrix(3, 3, (r, c) -> DoubleComplexScalar.of(rnd.nextGaussian(),rnd.nextGaussian()));
-  // SingularValueDecomposition svd = new SingularValueDecomposition(mat);
-  // specialOps(svd);
-  // Tensor dif = svd.pseudoInverse().subtract(Inverse.of(mat)).map(Scalars.chop(1e-10));
-  // assertEquals(dif, TensorBuild.zeros(dif.dimensions()));
-  // }
   public void testSvdR1() {
     Random rnd = new Random();
     Tensor mat = Tensors.matrix((r, c) -> RationalScalar.of(rnd.nextInt(100) - 50, rnd.nextInt(100) + 1), 15, 15);

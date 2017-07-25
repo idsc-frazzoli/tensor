@@ -14,7 +14,6 @@ public class OrthogonalizeTest extends TestCase {
   private static void _check(Tensor matrix) {
     Tensor q = Orthogonalize.of(matrix);
     assertEquals(Dimensions.of(matrix), Dimensions.of(q));
-    // System.out.println(Pretty.of(q));
     assertTrue(OrthogonalMatrixQ.of(q));
   }
 

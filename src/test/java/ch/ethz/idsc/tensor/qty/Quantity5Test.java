@@ -36,6 +36,7 @@ public class Quantity5Test extends TestCase {
     Tensor m = Tensors.fromString("{{1[m],1[s]},{1[m],1/4[s]},{1[m],-1[s]},{-1/4[m],-1[s]},{-1[m],-1[s]},{-1[m],1[s]}}", //
         Quantity::fromString);
     Tensor b = Tensors.vector(2, 1, 2, 1, -1, 2);
+    @SuppressWarnings("unused")
     Tensor x = LinearProgramming.minLessEquals(c, m, b);
     // System.out.println(x);
     // assertEquals(x, Tensors.fromString("{2/3,4/3}"));

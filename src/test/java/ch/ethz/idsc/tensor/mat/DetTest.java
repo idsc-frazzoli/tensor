@@ -84,7 +84,6 @@ public class DetTest extends TestCase {
         { -2, 3, +4, 0 }, //
         { +0, 2, -1, 2 }, //
     });
-    // System.out.println(Det.of(m));
     assertEquals(Det.of(m), RealScalar.of(0));
   }
 
@@ -95,7 +94,6 @@ public class DetTest extends TestCase {
         { -5, 3, +4 }, //
         { +0, 2, -1 } //
     });
-    // System.out.println(Det.of(m));
     assertEquals(Det.of(m), RealScalar.of(0));
   }
 

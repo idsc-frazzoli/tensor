@@ -19,14 +19,11 @@ public class OuterProductIntegerTest extends TestCase {
   public void testMore() {
     int count1 = 0;
     for (List<Integer> list : OuterProductInteger.of(new int[] { 4, 1, 2, 3 }, false)) {
-      // System.out.println(list);
       ++count1;
       list.get(0);
     }
-    // System.out.println("---");
     int count2 = 0;
     for (List<Integer> list : OuterProductInteger.of(new int[] { 4, 1, 2, 3 }, true)) {
-      // System.out.println(list);
       ++count2;
       list.get(0);
     }
