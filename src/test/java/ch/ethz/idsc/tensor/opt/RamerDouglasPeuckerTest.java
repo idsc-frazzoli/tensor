@@ -1,0 +1,64 @@
+// code by jph
+package ch.ethz.idsc.tensor.opt;
+
+import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Sort;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import junit.framework.TestCase;
+
+public class RamerDouglasPeuckerTest extends TestCase {
+  public void testSimple0() {
+    Tensor mat = Tensors.empty();
+    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
+  }
+
+  public void testSimple1() {
+    Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 } });
+    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
+  }
+
+  public void testSimple2() {
+    Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 }, { 5, 2 } });
+    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
+  }
+
+  public void testSimple3a() {
+    Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 }, { 3, 2 }, { 5, 2 } });
+    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), //
+        Tensors.matrixInt(new int[][] { { 1, 1 }, { 5, 2 } }));
+  }
+
+  public void testSimple3b() {
+    Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 }, { 3, 2 }, { 5, 2 } });
+    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(.1)), mat);
+  }
+
+  public void testRandom() {
+    int n = 20;
+    Tensor mat = Tensors.vector(i -> Tensors.vector(i, RandomVariate.of(NormalDistribution.standard()).number().doubleValue()), n);
+    Tensor res = RamerDouglasPeucker.of(mat, RealScalar.of(1));
+    Tensor col = res.get(Tensor.ALL, 0);
+    assertEquals(col, Sort.of(col));
+    assertTrue(col.length() < n);
+  }
+
+  public void testFail() {
+    try {
+      RamerDouglasPeucker.of(LieAlgebras.sl3(), RealScalar.of(.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      RamerDouglasPeucker.of(IdentityMatrix.of(3), RealScalar.of(.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+}

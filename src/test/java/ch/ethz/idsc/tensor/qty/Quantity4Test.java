@@ -7,7 +7,9 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
+import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
 import ch.ethz.idsc.tensor.mat.Det;
 import ch.ethz.idsc.tensor.mat.HermitianMatrixQ;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
@@ -20,6 +22,8 @@ import ch.ethz.idsc.tensor.mat.PositiveDefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.PositiveSemidefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.RowReduce;
 import ch.ethz.idsc.tensor.mat.SymmetricMatrixQ;
+import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class Quantity4Test extends TestCase {
@@ -130,10 +134,12 @@ public class Quantity4Test extends TestCase {
       assertEquals(mat.dot(inv), IdentityMatrix.of(3));
     }
     {
-      Scalar d1 = Det.of(mat); // 100[kg^2,m^2,rad^2]
       CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
-      Scalar d2 = cd.det();
-      assertEquals(d1, d2);
+      assertEquals(Det.of(mat), cd.det()); // 100[kg^2,m^2,rad^2]
+      Tensor lower = rows_pmul_v(cd.getL(), Sqrt.of(cd.diagonal()));
+      Tensor upper = Sqrt.of(cd.diagonal()).pmul(ConjugateTranspose.of(cd.getL()));
+      Tensor res = lower.dot(upper);
+      assertTrue(Chop._10.close(mat, res));
     }
     assertTrue(SymmetricMatrixQ.of(mat));
     assertTrue(HermitianMatrixQ.of(mat));
@@ -141,6 +147,28 @@ public class Quantity4Test extends TestCase {
     assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(mat));
     assertFalse(NegativeDefiniteMatrixQ.ofHermitian(mat));
     assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(mat));
+  }
+
+  private static Tensor rows_pmul_v(Tensor L, Tensor diag) {
+    return TensorMap.of(row -> row.pmul(diag), L, 1); // apply pmul on level 1
+  }
+
+  public void testCholeskyComplex() {
+    Tensor mat = Tensors.fromString("{{10[m^2],I[m*kg]},{-I[m*kg],10[kg^2]}}", Quantity::fromString);
+    CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
+    Tensor sdiag = Sqrt.of(cd.diagonal());
+    Tensor upper = sdiag.pmul(ConjugateTranspose.of(cd.getL()));
+    {
+      Tensor res = ConjugateTranspose.of(upper).dot(upper);
+      assertTrue(Chop._10.close(mat, res));
+    }
+    {
+      // the construction of the lower triangular matrix L . L* is not so convenient
+      // Tensor lower = Transpose.of(sdiag.pmul(Transpose.of(cd.getL())));
+      Tensor lower = rows_pmul_v(cd.getL(), sdiag);
+      Tensor res = lower.dot(upper);
+      assertTrue(Chop._10.close(mat, res));
+    }
   }
 
   public void testLinearSolve1() {
