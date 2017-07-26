@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Multinomial;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
 import ch.ethz.idsc.tensor.mat.Det;
+import ch.ethz.idsc.tensor.mat.HermitianMatrixQ;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
@@ -18,6 +19,7 @@ import ch.ethz.idsc.tensor.mat.NullSpace;
 import ch.ethz.idsc.tensor.mat.PositiveDefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.PositiveSemidefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.RowReduce;
+import ch.ethz.idsc.tensor.mat.SymmetricMatrixQ;
 import junit.framework.TestCase;
 
 public class Quantity4Test extends TestCase {
@@ -71,16 +73,27 @@ public class Quantity4Test extends TestCase {
     Tensor mat = Tensors.fromString( //
         "{{1[m^2], 2[m*rad], 3[kg*m]}, {4[m*rad], 2[rad^2], 2[kg*rad]}, {5[kg*m], 1[kg*rad], 7[kg^2]}}", //
         Quantity::fromString);
-    Tensor eye = IdentityMatrix.of(3);
     {
+      Tensor eye = IdentityMatrix.of(3);
       Tensor inv = LinearSolve.of(mat, eye);
       Tensor res = mat.dot(inv);
       assertEquals(eye, res);
       assertEquals(res, eye);
     }
     {
-      Inverse.of(mat);
+      Tensor eye = IdentityMatrix.of(3);
+      Tensor inv = LinearSolve.withoutAbs(mat, eye);
+      Tensor res = mat.dot(inv);
+      assertEquals(eye, res);
+      assertEquals(res, eye);
     }
+    {
+      Tensor inv = Inverse.of(mat);
+      assertEquals(mat.dot(inv), inv.dot(mat));
+      assertEquals(mat.dot(inv), IdentityMatrix.of(3));
+    }
+    assertFalse(HermitianMatrixQ.of(mat));
+    assertFalse(SymmetricMatrixQ.of(mat));
   }
 
   public void testCholesky2() {
@@ -92,6 +105,8 @@ public class Quantity4Test extends TestCase {
     CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
     assertTrue(Scalars.nonZero(cd.det()));
     assertEquals(cd.diagonal().toString(), "{2[m], 3/2[m]}");
+    assertTrue(SymmetricMatrixQ.of(mat));
+    assertTrue(HermitianMatrixQ.of(mat));
     assertTrue(PositiveDefiniteMatrixQ.ofHermitian(mat));
     assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(mat));
     assertFalse(NegativeDefiniteMatrixQ.ofHermitian(mat));
@@ -102,15 +117,17 @@ public class Quantity4Test extends TestCase {
     Tensor mat = Tensors.fromString( //
         "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
         Quantity::fromString);
-    Tensor eye = IdentityMatrix.of(3);
     {
+      Tensor eye = IdentityMatrix.of(3);
       Tensor inv = LinearSolve.of(mat, eye);
       Tensor res = mat.dot(inv);
       assertEquals(eye, res);
       assertEquals(res, eye);
     }
     {
-      Inverse.of(mat);
+      Tensor inv = Inverse.of(mat);
+      assertEquals(mat.dot(inv), inv.dot(mat));
+      assertEquals(mat.dot(inv), IdentityMatrix.of(3));
     }
     {
       Scalar d1 = Det.of(mat); // 100[kg^2,m^2,rad^2]
@@ -118,6 +135,12 @@ public class Quantity4Test extends TestCase {
       Scalar d2 = cd.det();
       assertEquals(d1, d2);
     }
+    assertTrue(SymmetricMatrixQ.of(mat));
+    assertTrue(HermitianMatrixQ.of(mat));
+    assertTrue(PositiveDefiniteMatrixQ.ofHermitian(mat));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(mat));
+    assertFalse(NegativeDefiniteMatrixQ.ofHermitian(mat));
+    assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(mat));
   }
 
   public void testLinearSolve1() {
