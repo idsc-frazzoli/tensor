@@ -64,9 +64,11 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 public class Quantity extends AbstractScalar implements //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
+  /** @param string for example "9.81[m*s^-2]"
+   * @return */
   public static Scalar fromString(String string) {
     int index = string.indexOf(Unit.OPENING_BRACKET);
-    if (0 < index) {
+    if (0 <= index) {
       Scalar value = Scalars.fromString(string.substring(0, index));
       Unit unit = Unit.of(string.substring(index));
       return of(value, unit);
@@ -75,7 +77,7 @@ public class Quantity extends AbstractScalar implements //
   }
 
   /** @param value
-   * @param string, for instance "[m*s^-2]"
+   * @param string for instance "[m*s^-2]"
    * @return */
   public static Scalar of(Scalar value, String string) {
     if (value instanceof Quantity)
@@ -84,7 +86,7 @@ public class Quantity extends AbstractScalar implements //
   }
 
   /** @param number
-   * @param string, for instance "[kg^3*m*s^-2]"
+   * @param string for instance "[kg^3*m*s^-2]"
    * @return */
   public static Scalar of(Number number, String string) {
     return of(RealScalar.of(number), Unit.of(string));

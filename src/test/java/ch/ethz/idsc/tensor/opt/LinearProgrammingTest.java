@@ -18,7 +18,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor m = Tensors.matrixInt(new int[][] { { 1, 5, 1, 0, 0 }, { 2, 1, 0, 1, 0 }, { 1, 1, 0, 0, 1 } });
     Tensor b = Tensors.vector(40, 20, 12);
     Tensor x = LinearProgramming.minEquals(c, m, b);
-    // mathematica {5, 7, 0, 3, 0}
+    // Mathematica {5, 7, 0, 3, 0}
     assertEquals(x, Tensors.vector(5, 7, 0, 3, 0));
   }
 
@@ -104,7 +104,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor m = Tensors.matrixInt(new int[][] { { 4, -1 }, { 2, 1 }, { -5, 2 }, { -1, -1 } });
     Tensor b = Tensors.vector(8, 10, 2, -1);
     Tensor x = LinearProgramming.minLessEquals(c, m, b);
-    // mathematica {2, 6}
+    // Mathematica {2, 6}
     assertEquals(x, Tensors.vector(2, 6)); // see page 847
     assertFalse(LinearProgramming.isFeasible(m, Array.zeros(2), b));
     assertTrue(LinearProgramming.isFeasible(m, Tensors.vector(3, 4), b));

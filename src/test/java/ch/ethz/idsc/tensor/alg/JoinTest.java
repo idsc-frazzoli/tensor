@@ -28,7 +28,7 @@ public class JoinTest extends TestCase {
   }
 
   public void testFail() {
-    // in mathematica Join of two or more scalars is not defined!
+    // in Mathematica Join of two or more scalars is not defined!
     try {
       Join.of(RealScalar.of(2), RealScalar.of(3));
       assertTrue(false);

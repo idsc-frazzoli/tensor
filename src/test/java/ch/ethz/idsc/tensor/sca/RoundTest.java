@@ -51,6 +51,14 @@ public class RoundTest extends TestCase {
     Scalar s = RealScalar.of(bi);
     Scalar r = Round.of(s);
     assertTrue(r instanceof RationalScalar);
+    assertEquals(s, r);
+  }
+
+  public void testMatsim() {
+    Scalar e = DoubleScalar.of(Math.exp(1));
+    Scalar b = e.multiply(RealScalar.of(new BigInteger("1000000000000000000000000000000000")));
+    Scalar r = Round.of(b);
+    assertEquals(r.toString(), "2718281828459045000000000000000000");
   }
 
   public void testToMultipleOf1() {

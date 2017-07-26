@@ -40,7 +40,7 @@ public enum Tensors {
    * @param length
    * @return vector of length with i-th entry == function.apply(i) */
   public static Tensor vector(Function<Integer, ? extends Tensor> function, int length) {
-    return Tensor.of(IntStream.range(0, length).boxed().map(function::apply));
+    return Tensor.of(IntStream.range(0, length).boxed().map(function));
   }
 
   /** @param values
