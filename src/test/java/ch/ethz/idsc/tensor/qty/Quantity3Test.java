@@ -139,12 +139,58 @@ public class Quantity3Test extends TestCase {
     assertTrue(qs3 instanceof RationalScalar);
   }
 
+  // Mathematica doesn't do this:
+  // ArcTan[Quantity[12, "Meters"], Quantity[4, "Meters"]] is not evaluated
   public void testArcTan() {
     Scalar qs1 = Quantity.of(RealScalar.of(12), "[m]");
     Scalar qs2 = Quantity.of(RealScalar.of(4), "[m]");
-    Scalar qs0 = Quantity.of(RealScalar.of(0), "[m]");
-    ArcTan.of(qs1, qs2);
-    ArcTan.of(qs0, qs1);
+    {
+      assertFalse(qs1 instanceof RealScalar);
+      Scalar res = ArcTan.of(qs1, qs2);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.close(res, RealScalar.of(0.32175055439664219340)));
+    }
+  }
+
+  public void testArcTanZero() {
+    Scalar qs1 = Quantity.of(RealScalar.of(12), "[m]");
+    Scalar qs0 = Quantity.of(RealScalar.of(0), "[s]");
+    {
+      Scalar res = ArcTan.of(RealScalar.ZERO, qs1);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
+    }
+    {
+      Scalar res = ArcTan.of(qs0, qs1);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
+    }
+    {
+      Scalar res = ArcTan.of(qs0, RealScalar.of(12));
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
+    }
+  }
+
+  public void testArcTanFail() {
+    try {
+      ArcTan.of(Quantity.of(RealScalar.of(12), "[m]"), Quantity.of(RealScalar.of(4), "[s]"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArcTan.of(Quantity.of(RealScalar.of(12), "[m]"), RealScalar.of(4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArcTan.of(RealScalar.of(12), Quantity.of(RealScalar.of(4), "[s]"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testInvert() {

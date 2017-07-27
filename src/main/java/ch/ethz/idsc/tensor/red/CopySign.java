@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
  * 
  * <p>The function appears in the Fortran language and old literature.
  * 
- * inspired by
+ * <p>inspired by
  * <a href="http://en.cppreference.com/w/cpp/numeric/math/copysign">std::copysign</a> */
 public enum CopySign implements BiFunction<Scalar, Scalar, Scalar> {
   BIFUNCTION;

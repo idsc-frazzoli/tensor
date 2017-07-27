@@ -13,7 +13,7 @@ public enum ArgMin {
 
   /** @param tensor
    * @param comparator
-   * @return index of maximum entry in tensor according to comparator,
+   * @return index of minimum entry in tensor according to comparator,
    * or -1 if tensor is empty */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> int of(Tensor tensor, Comparator<T> comparator) {
