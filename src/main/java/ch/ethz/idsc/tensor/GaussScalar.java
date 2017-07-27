@@ -24,6 +24,9 @@ public class GaussScalar extends AbstractScalar implements //
     }
   }
 
+  /** @param value
+   * @param prime
+   * @return value in finite field with prime number of elements */
   public static Scalar of(long value, long prime) {
     assertIsProbablePrime(prime);
     long _value = ((value % prime) + prime) % prime;
@@ -132,13 +135,13 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   /***************************************************/
-  /** @return value in the range 0, 1, ..., getPrime()-1 */
-  public long getValue() {
+  /** @return value in the range 0, 1, ..., prime()-1 */
+  public long value() {
     return value;
   }
 
   /** @return prime order of finite field */
-  public long getPrime() {
+  public long prime() {
     return prime;
   }
 

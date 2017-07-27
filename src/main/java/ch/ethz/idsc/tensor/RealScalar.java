@@ -28,8 +28,12 @@ public interface RealScalar extends Scalar, //
   /** real scalar 1 as a {@link RationalScalar} */
   static final Scalar ONE = RationalScalar.of(1, 1);
 
-  /** @param number
-   * @return scalar with best possible accuracy to describe number */
+  /** depending on the derived class of the given {@link Number},
+   * the value is encoded as {@link RationalScalar},
+   * {@link DoubleScalar}, or {@link DecimalScalar}.
+   * 
+   * @param number
+   * @return scalar with best possible accuracy to encode given number */
   static Scalar of(Number number) {
     if (number instanceof Integer || number instanceof Long)
       return RationalScalar.of(number.longValue(), 1);

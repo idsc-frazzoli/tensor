@@ -13,12 +13,41 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class ImageResizeTest extends TestCase {
-  public void testSimple() throws Exception {
+  public void testImage1() throws Exception {
     File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
     Tensor tensor = Import.of(file);
     assertEquals(Dimensions.of(tensor), Arrays.asList(15, 33, 4));
     Tensor image = ImageResize.nearest(tensor, 2);
     assertEquals(Dimensions.of(image), Arrays.asList(30, 66, 4));
+  }
+
+  public void testImage2() throws Exception {
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    Tensor tensor = Import.of(file);
+    assertEquals(Dimensions.of(tensor), Arrays.asList(15, 33, 4));
+    Tensor image = ImageResize.nearest(tensor, 3, 2);
+    assertEquals(Dimensions.of(image), Arrays.asList(45, 66, 4));
+  }
+
+  public void testBlub1() {
+    Tensor tensor = Tensors.fromString("{{0, 1}, {0, 0}}");
+    Tensor resize = ImageResize.nearest(tensor, 3);
+    assertEquals(resize.get(1), Tensors.vector(0, 0, 0, 1, 1, 1));
+    assertTrue(Chop.NONE.allZero(resize.get(Tensor.ALL, 2)));
+    assertEquals(resize.get(Tensor.ALL, 3), Tensors.vector(1, 1, 1, 0, 0, 0));
+    assertEquals(resize.get(Tensor.ALL, 4), Tensors.vector(1, 1, 1, 0, 0, 0));
+    assertEquals(resize.get(Tensor.ALL, 5), Tensors.vector(1, 1, 1, 0, 0, 0));
+  }
+
+  public void testBlub2() {
+    Tensor tensor = Tensors.fromString("{{0, 1}, {0, 0}}"); // dims=[2, 2]
+    Tensor resize = ImageResize.nearest(tensor, 2, 3); // dims=[4, 6]
+    assertEquals(resize.get(1), Tensors.vector(0, 0, 0, 1, 1, 1));
+    assertEquals(resize.get(Tensor.ALL, 1), Tensors.vector(0, 0, 0, 0));
+    assertTrue(Chop.NONE.allZero(resize.get(Tensor.ALL, 2)));
+    assertEquals(resize.get(Tensor.ALL, 3), Tensors.vector(1, 1, 0, 0));
+    assertEquals(resize.get(Tensor.ALL, 4), Tensors.vector(1, 1, 0, 0));
+    assertEquals(resize.get(Tensor.ALL, 5), Tensors.vector(1, 1, 0, 0));
   }
 
   public void testFail() {
@@ -36,15 +65,5 @@ public class ImageResizeTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
-  }
-
-  public void testBlub() {
-    Tensor tensor = Tensors.fromString("{{0, 1}, {0, 0}}");
-    Tensor resize = ImageResize.nearest(tensor, 3);
-    assertEquals(resize.get(1), Tensors.vector(0, 0, 0, 1, 1, 1));
-    assertTrue(Chop.NONE.allZero(resize.get(Tensor.ALL, 2)));
-    assertEquals(resize.get(Tensor.ALL, 3), Tensors.vector(1, 1, 1, 0, 0, 0));
-    assertEquals(resize.get(Tensor.ALL, 4), Tensors.vector(1, 1, 1, 0, 0, 0));
-    assertEquals(resize.get(Tensor.ALL, 5), Tensors.vector(1, 1, 1, 0, 0, 0));
   }
 }

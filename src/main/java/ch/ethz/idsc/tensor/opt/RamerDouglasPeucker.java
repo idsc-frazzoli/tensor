@@ -12,18 +12,16 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Last;
-import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.mat.MatrixQ;
 import ch.ethz.idsc.tensor.red.Norm;
 
-/** The algorithm is widely used in robotics to perform simplification and denoising
+/** Quote from Wikipedia:
+ * The algorithm is widely used in robotics to perform simplification and denoising
  * of range data acquired by a rotating range scanner.
  * In this field it is known as the split-and-merge algorithm and is attributed to Duda and Hart.
  * 
  * The expected complexity of this algorithm is O(n log n).
- * However, the worst-case complexity is O(n^2).
- * 
- * TODO cite wikipedia */
+ * However, the worst-case complexity is O(n^2). */
 public enum RamerDouglasPeucker {
   ;
   /** @param tensor
@@ -44,16 +42,22 @@ public enum RamerDouglasPeucker {
   }
 
   private static Tensor _of(Tensor tensor, Scalar epsilon) {
+    if (tensor.length() == 2)
+      return tensor;
     if (tensor.length() <= 1)
       throw TensorRuntimeException.of(tensor);
-    Tensor diff = Last.of(tensor).subtract(tensor.get(0));
-    Tensor vector = Normalize.unlessZero(diff, Norm._2);
-    // TODO not sure what to do when norm diff == 0
+    Tensor first = tensor.get(0);
+    Tensor last = Last.of(tensor);
+    Tensor diff = last.subtract(first);
+    Scalar norm = Norm._2.of(diff);
+    if (Scalars.isZero(norm)) // TODO not sure what to do when |diff| == 0
+      throw TensorRuntimeException.of(tensor);
+    Tensor vector = diff.multiply(norm.invert());
     Tensor cross2 = Tensors.of(vector.Get(1).negate(), vector.Get(0));
     Scalar dmax = RealScalar.ZERO;
     int split = -1;
     for (int index = 1; index < tensor.length() - 1; ++index) {
-      Tensor lever = tensor.get(index).subtract(tensor.get(0));
+      Tensor lever = tensor.get(index).subtract(first);
       Scalar dist = lever.dot(cross2).Get().abs();
       if (Scalars.lessThan(dmax, dist)) {
         dmax = dist;
@@ -61,10 +65,10 @@ public enum RamerDouglasPeucker {
       }
     }
     if (Scalars.lessThan(epsilon, dmax)) {
-      Tensor lo = of(tensor.extract(0, split + 1), epsilon);
-      Tensor hi = of(tensor.extract(split, tensor.length()), epsilon);
+      Tensor lo = _of(tensor.extract(0, split + 1), epsilon);
+      Tensor hi = _of(tensor.extract(split, tensor.length()), epsilon);
       return Join.of(lo.extract(0, lo.length() - 1), hi);
     }
-    return Tensors.of(tensor.get(0), Last.of(tensor));
+    return Tensors.of(first, last);
   }
 }

@@ -61,7 +61,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Quantity.html">Quantity</a> */
-public class Quantity extends AbstractScalar implements //
+public final class Quantity extends AbstractScalar implements //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
   /** @param string for example "9.81[m*s^-2]"

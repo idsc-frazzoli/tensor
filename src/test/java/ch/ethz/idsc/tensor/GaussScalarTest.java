@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class GaussScalarTest extends TestCase {
-  public void testSome() {
+  public void testInvert() {
     long prime = 7919;
     for (int v = 1; v < prime; ++v) {
       Scalar num = GaussScalar.of(v, prime);
@@ -23,6 +23,12 @@ public class GaussScalarTest extends TestCase {
       assertEquals(num.multiply(inv), GaussScalar.of(1, prime));
       assertEquals(inv.multiply(num), GaussScalar.of(1, prime));
     }
+  }
+
+  public void testGetter() {
+    GaussScalar num = (GaussScalar) GaussScalar.of(32, 193);
+    assertEquals(num.value(), 32);
+    assertEquals(num.prime(), 193);
   }
 
   public void testMatrix1() {
@@ -133,6 +139,7 @@ public class GaussScalarTest extends TestCase {
   public void testSerializable() throws Exception {
     Scalar a = GaussScalar.of(4, 7);
     assertEquals(a, Serialization.parse(Serialization.of(a)));
+    assertEquals(a, Serialization.copy(a));
   }
 
   public void testHash() {
