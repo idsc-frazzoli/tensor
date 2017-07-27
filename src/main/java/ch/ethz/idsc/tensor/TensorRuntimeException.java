@@ -32,6 +32,7 @@ public class TensorRuntimeException extends RuntimeException {
 
   // helper function
   private static String format(Tensor tensor) {
+    // FIXME toString produces out of memory exception for large tensors
     String string = tensor.toString();
     int length = string.length();
     if (MAX_LENGTH < length)
