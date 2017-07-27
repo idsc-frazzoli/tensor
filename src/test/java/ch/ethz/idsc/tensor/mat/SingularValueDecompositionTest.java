@@ -55,7 +55,7 @@ public class SingularValueDecompositionTest extends TestCase {
     // assertEquals(AiA, TensorBuild.zeros(AiA.dimensions()));
     // System.out.println(svd.toInfoString());
     assertFalse(w.flatten(-1).map(Scalar.class::cast) //
-        .filter(s -> s.number().doubleValue() < 0).findAny().isPresent());
+        .anyMatch(s -> s.number().doubleValue() < 0));
     if (MatrixRank.of(svd) < N) {
       Tensor res = A.dot(Transpose.of(NullSpace.of(svd)));
       assertEquals(Chop._12.of(res), Array.zeros(Dimensions.of(res)));

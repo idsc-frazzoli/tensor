@@ -42,8 +42,7 @@ public enum Dimensions {
   // helper function
   private static boolean _isArray(List<Set<Integer>> complete) {
     return !complete.stream().map(Set::size) //
-        .filter(size -> !size.equals(1)) //
-        .findAny().isPresent();
+        .anyMatch(size -> !size.equals(1));
   }
 
   /***************************************************/

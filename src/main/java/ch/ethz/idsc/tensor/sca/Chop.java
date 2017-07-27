@@ -80,9 +80,8 @@ public class Chop implements ScalarUnaryOperator {
   public boolean allZero(Tensor tensor) {
     return !tensor.flatten(-1) //
         .map(Scalar.class::cast) //
-        .map(this::apply) //
-        .filter(Scalars::nonZero) //
-        .findAny().isPresent();
+        .map(this) //
+        .anyMatch(Scalars::nonZero);
   }
 
   /** @param tensor

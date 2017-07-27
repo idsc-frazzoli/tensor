@@ -79,8 +79,7 @@ public enum LinearProgramming {
   public static boolean isNonNegative(Tensor vector) {
     return !vector.flatten(0) // all vector_i >= 0
         .map(SignInterface.class::cast) //
-        .filter(signInterface -> 0 > signInterface.signInt()) //
-        .findAny().isPresent();
+        .anyMatch(signInterface -> 0 > signInterface.signInt());
   }
 
   /** @param m
@@ -96,8 +95,7 @@ public enum LinearProgramming {
     // }
     status &= !m.dot(x).subtract(b).flatten(0) // all A.x <= b
         .map(SignInterface.class::cast) //
-        .filter(signInterface -> 0 < signInterface.signInt()) //
-        .findAny().isPresent();
+        .anyMatch(signInterface -> 0 < signInterface.signInt());
     return status;
   }
 }

@@ -48,7 +48,7 @@ public enum Join {
 
   // helper function called in base case of more general function of(...)
   private static Tensor _flatten(List<Tensor> list) {
-    if (list.stream().filter(Tensor::isScalar).findAny().isPresent())
+    if (list.stream().anyMatch(Tensor::isScalar))
       throw new RuntimeException();
     return Tensor.of(list.stream().flatMap(tensor -> tensor.flatten(0)));
   }

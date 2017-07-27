@@ -9,6 +9,6 @@ enum StaticHelper {
   /** @param tensor
    * @return true if any scalar in tensor evaluates MachineNumberQ as true */
   static boolean anyMachineNumberQ(Tensor tensor) {
-    return tensor.flatten(-1).filter(MachineNumberQ::of).findAny().isPresent();
+    return tensor.flatten(-1).anyMatch(MachineNumberQ::of);
   }
 }

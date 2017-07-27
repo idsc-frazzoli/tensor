@@ -91,7 +91,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     return ind.flatten(0) //
         .map(Scalar.class::cast) //
         .map(Scalars::intValueExact) //
-        .filter(i -> n <= i).findFirst().isPresent();
+        .anyMatch(i -> n <= i);
   }
 
   // helper function to determine pivot
