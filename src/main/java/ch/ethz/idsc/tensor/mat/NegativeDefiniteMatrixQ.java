@@ -16,7 +16,6 @@ public enum NegativeDefiniteMatrixQ {
     return MatrixQ.of(tensor) && //
         !CholeskyDecomposition.of(tensor).diagonal().flatten(0) //
             .map(SignInterface.class::cast) //
-            .filter(signInterface -> signInterface.signInt() >= 0) // Scalars.lessEquals(RealScalar.ZERO, scalar)) //
-            .findAny().isPresent();
+            .anyMatch(signInterface -> signInterface.signInt() >= 0);
   }
 }

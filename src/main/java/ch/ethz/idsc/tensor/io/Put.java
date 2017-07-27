@@ -12,6 +12,9 @@ import ch.ethz.idsc.tensor.Tensor;
 /** export of tensor to file, or a string compatible with Mathematica.
  * The output is similar to Tensor::toString and readable in any text editor.
  * 
+ * <p>The file format is intended for data exchange between
+ * Mathematica and the tensor library.
+ * 
  * <p>file is readable in Mathematica where the file is
  * imported using Mathematica::Get.
  * 

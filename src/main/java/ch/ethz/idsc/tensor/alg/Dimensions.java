@@ -17,8 +17,38 @@ public enum Dimensions {
   ;
   /** @return dimensions of this tensor */
   public static List<Integer> of(Tensor tensor) {
+    return _list(complete(tensor));
+  }
+
+  /** @param tensor
+   * @return true if tensor.length() == 0, and
+   * false if tensor contains entries or is a {@link Scalar} */
+  public static boolean isEmptyTensor(Tensor tensor) { // Marc's function
+    return tensor.length() == 0;
+  }
+
+  /***************************************************/
+  /** @return true if tensor structure is identical at all levels, else false.
+   * true for {@link Scalar}s */
+  /* package */ static boolean isArray(Tensor tensor) {
+    return _isArray(complete(tensor));
+  }
+
+  /* package */ static boolean isArrayWithRank(Tensor tensor, int rank) {
+    List<Set<Integer>> complete = complete(tensor);
+    return _list(complete).size() == rank && _isArray(complete);
+  }
+
+  // helper function
+  private static boolean _isArray(List<Set<Integer>> complete) {
+    return !complete.stream().map(Set::size) //
+        .anyMatch(size -> !size.equals(1));
+  }
+
+  /***************************************************/
+  private static List<Integer> _list(List<Set<Integer>> complete) {
     List<Integer> ret = new ArrayList<>();
-    for (Set<Integer> set : complete(tensor))
+    for (Set<Integer> set : complete)
       if (set.size() == 1) {
         int val = set.iterator().next(); // get unique element from set
         if (val == Scalar.LENGTH) // has scalar
@@ -27,22 +57,6 @@ public enum Dimensions {
       } else
         break;
     return ret;
-  }
-
-  /** @return true if tensor structure is identical at all levels, else false.
-   * true for {@link Scalar}s */
-  public static boolean isArray(Tensor tensor) {
-    return !complete(tensor).stream() //
-        .map(Set::size) //
-        .filter(size -> !size.equals(1)) //
-        .findAny().isPresent();
-  }
-
-  /** @param tensor
-   * @return true if tensor.length() == 0, and
-   * false if tensor contains entries or is a {@link Scalar} */
-  public static boolean isEmptyTensor(Tensor tensor) { // Marc's function
-    return tensor.length() == 0;
   }
 
   /** @param tensor

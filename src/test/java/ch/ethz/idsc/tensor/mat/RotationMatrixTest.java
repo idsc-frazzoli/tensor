@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 public class RotationMatrixTest extends TestCase {
   public void testSimple() {
     Tensor mat = RotationMatrix.of(RealScalar.of(.3));
-    // System.out.println(Pretty.of(mat));
     Tensor eye = mat.dot(Transpose.of(mat));
     assertEquals(eye, IdentityMatrix.of(2));
     assertTrue(OrthogonalMatrixQ.of(mat));

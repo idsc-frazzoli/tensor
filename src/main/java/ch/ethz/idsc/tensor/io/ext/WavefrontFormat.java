@@ -20,7 +20,7 @@ public enum WavefrontFormat {
       } else //
       if (line.startsWith("f ")) {
         wavefrontObjImpl.append_f(line.substring(2));
-      }
+      } else //
       if (line.startsWith("o ")) {
         wavefrontObjImpl.append_o(line.substring(2));
       }

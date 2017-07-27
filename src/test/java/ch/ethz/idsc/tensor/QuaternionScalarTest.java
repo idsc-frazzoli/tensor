@@ -14,6 +14,5 @@ public class QuaternionScalarTest extends TestCase {
     assertEquals(q2.invert().multiply(q2), RealScalar.ONE);
     assertEquals(q1.divide(q1), RealScalar.ONE);
     assertEquals(q2.divide(q2), RealScalar.ONE);
-    // System.out.println(q1q2);
   }
 }

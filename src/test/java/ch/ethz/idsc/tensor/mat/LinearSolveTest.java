@@ -53,7 +53,7 @@ public class LinearSolveTest extends TestCase {
         RealScalar.of(random.nextDouble()), //
         RealScalar.of(random.nextDouble())), n, n + 3);
     Tensor X = LinearSolve.of(A, b);
-    Tensor err = A.dot(X).add(b.negate()).map(Chop.below(1e-10));
+    Tensor err = A.dot(X).add(b.negate()).map(Chop._10);
     assertEquals(err, b.multiply(RealScalar.ZERO));
     assertEquals(err, Array.zeros(Dimensions.of(b)));
   }

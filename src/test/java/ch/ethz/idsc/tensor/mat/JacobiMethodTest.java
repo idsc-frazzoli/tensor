@@ -18,7 +18,7 @@ public class JacobiMethodTest extends TestCase {
   private static void checkEquation(Tensor matrix, Eigensystem eigensys) {
     Tensor Vi = Inverse.of(eigensys.vectors());
     Tensor res = Vi.dot(DiagonalMatrix.of(eigensys.values())).dot(eigensys.vectors());
-    assertEquals(res.subtract(matrix).map(Chop.below(1e-8)), matrix.multiply(RealScalar.ZERO));
+    assertEquals(res.subtract(matrix).map(Chop._08), matrix.multiply(RealScalar.ZERO));
     // ---
     // testing determinant
     Scalar det = Det.of(matrix);
@@ -59,7 +59,6 @@ public class JacobiMethodTest extends TestCase {
     expEigvc.append(Tensors.vector(-0.13313246690429592645, 0.30157797376766923332, -0.78307519514730625756, 0.52737056301918462298));
     checkEquation(tensor, eigsys);
     assertEquals(Chop._12.of(expEigvl.subtract(eigsys.values())), Array.zeros(4));
-    // assertEquals(Chop.of(expEigvc.subtract(eigsys.vectors())), Array.zeros(4, 4));
   }
 
   public void testHilberts() {

@@ -17,6 +17,7 @@ public enum Conjugate implements ScalarUnaryOperator {
       ComplexEmbedding complexEmbedding = (ComplexEmbedding) scalar;
       return complexEmbedding.conjugate();
     }
+    System.out.println(scalar.getClass().getName());
     throw TensorRuntimeException.of(scalar);
   }
 

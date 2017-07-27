@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Sign;
 
-enum StaticHelper {
+/* package */ enum StaticHelper {
   ;
   /** code from java.lang.Double */
   private static final String Digits = "(\\p{Digit}+)";

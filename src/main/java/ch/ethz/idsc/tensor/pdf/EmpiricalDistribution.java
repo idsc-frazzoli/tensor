@@ -38,9 +38,7 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
   private EmpiricalDistribution(Tensor unscaledPDF) {
     if (unscaledPDF.flatten(0) //
         .map(Scalar.class::cast) //
-        .filter(scalar -> Scalars.lessThan(scalar, RealScalar.ZERO)) //
-        .findAny() //
-        .isPresent())
+        .anyMatch(scalar -> Scalars.lessThan(scalar, RealScalar.ZERO)))
       throw TensorRuntimeException.of(unscaledPDF);
     Tensor accumulate = Accumulate.of(unscaledPDF);
     Scalar scale = Last.of(accumulate).Get().invert();

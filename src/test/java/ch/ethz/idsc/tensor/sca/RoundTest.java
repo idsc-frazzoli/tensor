@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import junit.framework.TestCase;
 
 public class RoundTest extends TestCase {
@@ -50,6 +51,14 @@ public class RoundTest extends TestCase {
     Scalar s = RealScalar.of(bi);
     Scalar r = Round.of(s);
     assertTrue(r instanceof RationalScalar);
+    assertEquals(s, r);
+  }
+
+  public void testMatsim() {
+    Scalar e = DoubleScalar.of(Math.exp(1));
+    Scalar b = e.multiply(RealScalar.of(new BigInteger("1000000000000000000000000000000000")));
+    Scalar r = Round.of(b);
+    assertEquals(r.toString(), "2718281828459045000000000000000000");
   }
 
   public void testToMultipleOf1() {
@@ -64,12 +73,29 @@ public class RoundTest extends TestCase {
     assertEquals(sr.toString(), "7/2");
   }
 
-  public void testMatlab() {
+  public void testRoundOptions() {
     Scalar pi = DoubleScalar.of(Math.PI);
     assertEquals(pi.map(Round._1).toString(), "3.1");
     assertEquals(pi.map(Round._2).toString(), "3.14");
     assertEquals(pi.map(Round._3).toString(), "3.142");
     assertEquals(pi.map(Round._4).toString(), "3.1416");
     assertEquals(pi.map(Round._5).toString(), "3.14159");
+    assertEquals(pi.map(Round._6).toString(), "3.141593");
+    assertEquals(pi.map(Round._7).toString(), "3.1415927");
+    assertEquals(pi.map(Round._8).toString(), "3.14159265");
+    assertEquals(pi.map(Round._9).toString(), "3.141592654");
+  }
+
+  public void testRoundOptions2() {
+    Scalar pi = Scalars.fromString("3.100000000000008");
+    assertEquals(pi.map(Round._1).toString(), "3.1");
+    assertEquals(pi.map(Round._2).toString(), "3.10");
+    assertEquals(pi.map(Round._3).toString(), "3.100");
+    assertEquals(pi.map(Round._4).toString(), "3.1000");
+    assertEquals(pi.map(Round._5).toString(), "3.10000");
+    assertEquals(pi.map(Round._6).toString(), "3.100000");
+    assertEquals(pi.map(Round._7).toString(), "3.1000000");
+    assertEquals(pi.map(Round._8).toString(), "3.10000000");
+    assertEquals(pi.map(Round._9).toString(), "3.100000000");
   }
 }

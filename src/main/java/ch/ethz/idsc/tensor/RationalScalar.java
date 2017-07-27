@@ -20,11 +20,6 @@ public final class RationalScalar extends AbstractRealScalar implements //
   /** real scalar -1 as a {@link RationalScalar} */
   public static final Scalar NEGATIVE_ONE = of(-1, 1);
 
-  // method _of is private because BigFraction has package visibility
-  private static Scalar _of(BigFraction bigFraction) {
-    return new RationalScalar(bigFraction);
-  }
-
   /** @param num
    * @param den
    * @return scalar encoding the exact fraction num / den */
@@ -37,6 +32,11 @@ public final class RationalScalar extends AbstractRealScalar implements //
    * @return scalar encoding the exact fraction num / den */
   public static Scalar of(long num, long den) {
     return _of(BigFraction.of(num, den));
+  }
+
+  // method _of is private because BigFraction has package visibility
+  private static Scalar _of(BigFraction bigFraction) {
+    return new RationalScalar(bigFraction);
   }
 
   private final BigFraction bigFraction;

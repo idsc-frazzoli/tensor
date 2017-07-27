@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/* package */ class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
+/* package */ final class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
     ChopInterface, ExactNumberQInterface, MachineNumberQInterface, NInterface {
   private final Scalar re;
   private final Scalar im;

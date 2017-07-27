@@ -105,7 +105,7 @@ public class BinomialDistributionTest extends TestCase {
   public void testSome() {
     for (int n = 10; n < 1200; n += 10) {
       EvaluatedDiscreteDistribution distribution = (EvaluatedDiscreteDistribution) BinomialDistribution.of(n, RealScalar.of(.333));
-      double extreme = Math.nextDown(1);
+      double extreme = Math.nextDown(1.0);
       distribution.randomVariate(RealScalar.of(extreme));
       NavigableMap<Scalar, Scalar> navigableMap = distribution.inverse_cdf();
       @SuppressWarnings("unused")

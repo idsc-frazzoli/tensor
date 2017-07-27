@@ -204,7 +204,11 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * <code>Dimensions.of(this) = [4, 3]</code>, and
    * <code>Dimensions.of(tensor) = [4, 3, 5, 2]</code> is feasible.
    * 
-   * <p>The operation is valid for tensors of equal dimensions.
+   * <p>pmul is consistent with Mathematica, for instance
+   * <pre>
+   * {a, b} {{1, 2, 3}, {4, 5, 6}} == {{a, 2 a, 3 a}, {4 b, 5 b, 6 b}}
+   * Dimensions[Array[1 &, {2, 3}] Array[1 &, {2, 3, 4}]] == {2, 3, 4}
+   * </pre>
    * 
    * @param tensor
    * @return this element-wise multiply input tensor. */

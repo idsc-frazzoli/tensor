@@ -23,7 +23,6 @@ public class ArcSinTest extends TestCase {
   public void testRealOutsideNeg() {
     Scalar s = RealScalar.of(-3);
     Scalar r = ArcSin.FUNCTION.apply(s);
-    // System.out.println(r);
     assertEquals(r, ArcSin.of(s));
     // -1.5707963267948966192 + 1.7627471740390860505 I
     assertEquals(r, Scalars.fromString("-1.5707963267948966+1.7627471740390872*I"));

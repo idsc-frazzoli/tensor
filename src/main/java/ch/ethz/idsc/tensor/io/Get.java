@@ -11,6 +11,9 @@ import ch.ethz.idsc.tensor.Tensor;
 /** import tensor expression that was created by {@link Put}.
  * The format is similar to Tensor::toString and readable in any text editor.
  * 
+ * <p>The file format is intended for data exchange between
+ * Mathematica and the tensor library.
+ * 
  * <p>example content
  * <pre>
  * {{2 + 9*I, 3 - I, 3 - 2.423*I},

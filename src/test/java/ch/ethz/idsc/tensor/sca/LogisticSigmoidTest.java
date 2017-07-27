@@ -15,6 +15,6 @@ public class LogisticSigmoidTest extends TestCase {
 
   public void testSimple() {
     Scalar big = LogisticSigmoid.FUNCTION.apply(RealScalar.of(0.5));
-    assertTrue(big.toString().startsWith("0.622459")); // from mathematica
+    assertTrue(big.toString().startsWith("0.622459")); // from Mathematica
   }
 }

@@ -34,7 +34,7 @@ public class ArcCosTest extends TestCase {
     assertEquals(r, ArcCos.of(s));
     // num/(double)den double conversion:
     // 0.9537320301189085............. + 2.846288828208389
-    // mathematica:
+    // Mathematica:
     // 0.95373203011890309673440616093 + 2.84628882820838653446176723296 I
     // bigDecimal double conversion:
     // 0.9537320301188659............. + 2.846288828208396

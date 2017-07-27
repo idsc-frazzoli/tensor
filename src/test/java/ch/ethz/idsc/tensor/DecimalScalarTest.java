@@ -19,13 +19,10 @@ public class DecimalScalarTest extends TestCase {
     Scalar sc4 = sc2.multiply(sc2);
     Scalar r23 = RationalScalar.of(2, 3);
     assertEquals(sc2, sc2c);
-    // System.out.println(sc4);
     Scalar sc4pr23 = sc4.add(r23);
     Scalar sc4mr23 = sc4.multiply(r23);
     assertTrue(sc4pr23 instanceof DecimalScalar);
     assertTrue(sc4mr23 instanceof DecimalScalar);
-    // System.out.println(sc4mr23);
-    // System.out.println(4 + 2 / 3.);
   }
 
   public void testDouble() {
@@ -38,9 +35,6 @@ public class DecimalScalarTest extends TestCase {
     Scalar sc4mr23 = sc4.multiply(r23);
     assertTrue(sc4pr23 instanceof DoubleScalar);
     assertTrue(sc4mr23 instanceof DoubleScalar);
-    // System.out.println(sc4pr23);
-    // System.out.println(sc4mr23);
-    // System.out.println(4 + 2 / 3.);
   }
 
   public void testInvert() {

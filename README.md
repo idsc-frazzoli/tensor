@@ -4,12 +4,12 @@
 
 Library for tensor computation in Java 8.
 
-Version `0.2.8`
+Version `0.2.9`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
 * scalars are real, or complex numbers, or from finite fields, etc.
-* values are encoded as exact fractions, or in double precision
+* values are encoded as exact fractions, in double precision, and as `java.math.BigDecimal`
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
 * import from and export to `Mathematica`, `CSV`-, and image files
 
@@ -64,7 +64,7 @@ Tensors of rank 3
     Tensor x = Tensors.vector(7, 2, -4);
     Tensor y = Tensors.vector(-3, 5, 2);
     System.out.println(ad);
-    System.out.println(ad.dot(x).dot(y)); // cross product of x and y
+    System.out.println(ad.dot(x).dot(y)); // coincides with cross product of x and y
 
 gives
 
@@ -127,6 +127,29 @@ gives
 
 ---
 
+The tensor library implements `Quantity`, i.e. numbers with physical units, for the purpose of demonstration and testing.
+Several algorithms are verified to work with scalars of type `Quantity`.
+
+    Tensor matrix = Tensors.fromString( //
+        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
+        Quantity::fromString);
+    CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
+    System.out.println(cd.diagonal());
+    System.out.println(Pretty.of(cd.getL()));
+    System.out.println(cd.det());
+
+gives
+
+    {60[m^2], 5[rad^2], 1/3[kg^2]}
+    [
+     [             1              0              0 ]
+     [ 1/2[m^-1*rad]              1              0 ]
+     [  1/3[kg*m^-1]   1[kg*rad^-1]              1 ]
+    ]
+    100[kg^2*m^2*rad^2]
+
+---
+
 Image synthesis
 
     int n = 251;
@@ -157,15 +180,15 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.2.8</version>
+        <version>0.2.9</version>
       </dependency>
     </dependencies>
 
-The source code is attached to the `jar` file for your convenience.
+The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.8/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.2.9/*
 
 ## Optional
 
@@ -183,10 +206,12 @@ Subsequently, the documentation is accessible through the file
 
 The library is used in the projects:
 * `matsim`
-* `owly` and `owly3d`
-* `SwissTrolley+`
 * `subare`
+* `owly`
+* `owly3d`
+* `SwissTrolley+`
+* `retina`
 * `QueuingNetworks`
 * `SimBus`
 
-The repository has over `930` unit tests.
+The repository has over `1000` unit tests.

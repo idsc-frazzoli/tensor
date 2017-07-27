@@ -200,41 +200,4 @@ public class TensorsTest extends TestCase {
     Tensor expected = Tensors.fromString("{{0, 1}, {}, {2+3*I}}");
     assertEquals(expected, actual);
   }
-  // public void testString() {
-  // Tensor asd2 = ArrayReshape.of(Tensors.vector(i -> RealScalar.of(i), 3 * 2 * 4), 3, 2, 4);
-  // System.out.println(asd2);
-  // System.out.println(Dimensions.of(asd2));
-  // Tensor asd = Transpose.of(asd2, 2, 1, 0);
-  // System.out.println(Dimensions.of(asd));
-  // System.out.println(Tensor.of(asd.flatten(-1)));
-  // // System.out.println(Pretty.of(asd.get(-1, -1, 0)));
-  // // System.out.println(Pretty.of(asd.get(-1, -1, 1)));
-  // // System.out.println(asd.toString());
-  // }
-  //
-  // public void testMatlab() {
-  // Tensor matlab2 = Tensors.fromString("[0, 8, 16, 4, 12, 20, 1, 9, 17, 5, 13, 21, 2, 10, 18, 6, 14, 22, 3, 11, 19, 7, 15, 23]");
-  // Tensor matlab = ArrayReshape.of(matlab2, 4, 2, 3);
-  // System.out.println("@102="+matlab.get(1,0,2));
-  // Tensor test = Tensors.vectorInt(1,2,3,4);
-  // System.out.println("--------------------");
-  // System.out.println(Pretty.of(test.dot(matlab)));
-  //
-  // System.out.println(Dimensions.of(matlab));
-  // System.out.println(Pretty.of(matlab.get(-1, -1, 0)));
-  // System.out.println(Pretty.of(matlab.get(-1, -1, 1)));
-  // System.out.println("--------------------");
-  // Tensor mathem = Transpose.of(matlab, 2, 1, 0);
-  // System.out.println("@201="+mathem.get(2,0,1));
-  // System.out.println(Dimensions.of(mathem));
-  //// for (int s = 0; s < 8; s++)
-  //// System.out.println(mathem.flatten(-1).skip(s).findFirst());
-  // System.out.println(Pretty.of(mathem.get(0)));
-  // System.out.println(Pretty.of(mathem.get(1)));
-  // Tensor mathemDot = mathem.dot(test);
-  // System.out.println(Pretty.of(Transpose.of(mathemDot)));
-  // Tensor backmat = Transpose.of(mathem, 2, 1, 0);
-  // // assertEquals(matlab, backmat);
-  // MathematicaFormat.of(mathem).forEach(System.out::println);
-  // }
 }

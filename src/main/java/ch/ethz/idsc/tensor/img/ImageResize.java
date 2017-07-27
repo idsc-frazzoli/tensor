@@ -18,14 +18,24 @@ public enum ImageResize {
    * @param factor positive integer
    * @return */
   public static Tensor nearest(Tensor tensor, int factor) {
-    if (factor <= 0)
-      throw new RuntimeException();
+    return nearest(tensor, factor, factor);
+  }
+
+  /** function uses nearest neighbor interpolation
+   * 
+   * @param tensor
+   * @param fx scaling along x axis
+   * @param fy scaling along y axis
+   * @return */
+  public static Tensor nearest(Tensor tensor, int fx, int fy) {
+    if (fx <= 0 || fy <= 0)
+      throw new RuntimeException(fx + " " + fy);
     List<Integer> list = Dimensions.of(tensor);
-    int limit = Math.max(list.get(0), list.get(1)) * factor;
     // precomputation of indices
-    int[] index = IntStream.range(0, limit).map(i -> i / factor).toArray();
-    return Tensors.matrix((i, j) -> tensor.get(index[i], index[j]), //
-        list.get(0) * factor, //
-        list.get(1) * factor);
+    int[] ix = IntStream.range(0, list.get(0) * fx).map(i -> i / fx).toArray();
+    int[] iy = IntStream.range(0, list.get(1) * fy).map(i -> i / fy).toArray();
+    return Tensors.matrix((i, j) -> tensor.get(ix[i], iy[j]), //
+        list.get(0) * fx, //
+        list.get(1) * fy);
   }
 }

@@ -59,7 +59,7 @@ public class EmpiricalDistributionTest extends TestCase {
   public void testNextDown() {
     AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
     EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(Math.PI, 2., 1., 1.123123, 3., 0, 0, 0));
-    Scalar s = distribution.randomVariate(RealScalar.of(Math.nextDown(1)));
+    Scalar s = distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
     assertEquals(s, RealScalar.of(4));
   }
 
@@ -76,14 +76,14 @@ public class EmpiricalDistributionTest extends TestCase {
     assertEquals(distribution.randomVariate(RealScalar.of(0)), RealScalar.of(2));
     assertEquals(distribution.randomVariate(RealScalar.of(Math.nextDown(.5))), RealScalar.of(2));
     assertEquals(distribution.randomVariate(RationalScalar.of(1, 2)), RealScalar.of(4));
-    assertEquals(distribution.randomVariate(RealScalar.of(Math.nextDown(1))), RealScalar.of(4));
+    assertEquals(distribution.randomVariate(RealScalar.of(Math.nextDown(1.0))), RealScalar.of(4));
   }
 
   public void testWrongReference() {
     try {
       AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
       EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
-      distribution.randomVariate(RealScalar.of(Math.nextDown(0)));
+      distribution.randomVariate(RealScalar.of(Math.nextDown(0.0)));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

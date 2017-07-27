@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 /** a decimal scalar encodes a number as {@link BigDecimal}
  * 
  * <p>{@link DecimalScalar} offers increased precision over {@link DoubleScalar} */
-public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
+public final class DecimalScalar extends AbstractRealScalar implements ChopInterface {
   private static final Scalar DECIMAL_ZERO = of(BigDecimal.ZERO);
   // perhaps make this member
   private static final MathContext CONTEXT = MathContext.DECIMAL128;
@@ -161,7 +161,7 @@ public class DecimalScalar extends AbstractRealScalar implements ChopInterface {
       RealScalar realScalar = (RealScalar) object;
       return number().doubleValue() == realScalar.number().doubleValue();
     }
-    return false;
+    return object == null ? false : object.equals(this);
   }
 
   @Override // from AbstractScalar

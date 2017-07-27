@@ -8,6 +8,16 @@ import java.util.stream.Stream;
 public class TensorRuntimeException extends RuntimeException {
   private static final int MAX_LENGTH = 32;
 
+  /** @param briefing
+   * @param tensors
+   * @return exception with message consisting of briefing and truncated string expressions of given tensors
+   * @throws Exception if any of the listed tensors is null */
+  public static TensorRuntimeException of(String briefing, Tensor... tensors) { // function suggested by @njenwei
+    return new TensorRuntimeException( //
+        (tensors.length == 0 ? briefing : briefing + ": ") + //
+            Stream.of(tensors).map(TensorRuntimeException::format).collect(Collectors.joining(", ")));
+  }
+
   /** @param tensors
    * @return exception with message consisting of truncated string expressions of given tensors
    * @throws Exception if any of the listed tensors is null */

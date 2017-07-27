@@ -34,6 +34,7 @@ public class Chop implements ScalarUnaryOperator {
   public static final Chop _15 = below(1e-15);
   public static final Chop _20 = below(1e-20);
   public static final Chop _30 = below(1e-30);
+  public static final Chop _40 = below(1e-40);
   public static final Chop _50 = below(1e-50);
   // EXPERIMENTAL API not finalized
   public static final Chop NONE = below(0);
@@ -52,6 +53,8 @@ public class Chop implements ScalarUnaryOperator {
     this.threshold = threshold;
   }
 
+  /** @return non-negative numeric threshold defining an open interval
+   * (-threshold, threshold) in which values are mapped to 0 */
   public double threshold() {
     return threshold;
   }
@@ -77,9 +80,8 @@ public class Chop implements ScalarUnaryOperator {
   public boolean allZero(Tensor tensor) {
     return !tensor.flatten(-1) //
         .map(Scalar.class::cast) //
-        .map(this::apply) //
-        .filter(Scalars::nonZero) //
-        .findAny().isPresent();
+        .map(this) //
+        .anyMatch(Scalars::nonZero);
   }
 
   /** @param tensor

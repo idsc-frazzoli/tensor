@@ -71,8 +71,6 @@ public class TransposeTest extends TestCase {
     Tensor mt = Transpose.of(m);
     mt.set(i -> RealScalar.ZERO, 1, 1);
     assertFalse(m.equals(mt));
-    // System.out.println(Pretty.of(m));
-    // System.out.println(Pretty.of(mt));
   }
 
   public void testZeros() {

@@ -40,7 +40,7 @@ public enum Tensors {
    * @param length
    * @return vector of length with i-th entry == function.apply(i) */
   public static Tensor vector(Function<Integer, ? extends Tensor> function, int length) {
-    return Tensor.of(IntStream.range(0, length).boxed().map(function::apply));
+    return Tensor.of(IntStream.range(0, length).boxed().map(function));
   }
 
   /** @param values
@@ -127,7 +127,7 @@ public enum Tensors {
         if (level == 1 && (chr == ',' || chr == Tensor.CLOSING_BRACKET)) {
           String entry = string.substring(beg, index).trim(); // trim is required
           if (!entry.isEmpty())
-            list.add(fromString(entry));
+            list.add(fromString(entry, function));
           beg = index + 1;
         }
         if (chr == Tensor.CLOSING_BRACKET)

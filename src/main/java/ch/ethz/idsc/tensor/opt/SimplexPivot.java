@@ -3,8 +3,10 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.io.Serializable;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 
 public interface SimplexPivot extends Serializable {
   /** nonbasic gradient method, or "steepest decent policy"
@@ -15,13 +17,13 @@ public interface SimplexPivot extends Serializable {
     @Override
     public int get(Tensor tab, int j, int n) {
       Integer pivot = null;
-      RealScalar min = null;
+      Scalar min = null;
       int m = tab.length() - 1;
       for (int i = 0; i < m; ++i) {
-        RealScalar tab_ij = (RealScalar) tab.Get(i, j);
-        if (tab_ij.signInt() == 1) {
-          RealScalar ratio = (RealScalar) tab.Get(i, n).divide(tab_ij);
-          if (min == null || 0 < min.compareTo(ratio)) {
+        Scalar tab_ij = tab.Get(i, j);
+        if (((SignInterface) tab_ij).signInt() == 1) {
+          Scalar ratio = tab.Get(i, n).divide(tab_ij);
+          if (min == null || 0 < Scalars.compare(min, ratio)) {
             min = ratio;
             pivot = i;
           }
@@ -37,7 +39,7 @@ public interface SimplexPivot extends Serializable {
     public int get(Tensor tab, int j, int n) {
       int m = tab.length() - 1;
       for (int i = 0; i < m; ++i) {
-        RealScalar tab_ij = (RealScalar) tab.Get(i, j);
+        SignInterface tab_ij = (SignInterface) tab.Get(i, j);
         if (tab_ij.signInt() == 1)
           return i;
       }

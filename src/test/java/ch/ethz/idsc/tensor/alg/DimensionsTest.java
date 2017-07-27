@@ -46,17 +46,6 @@ public class DimensionsTest extends TestCase {
     assertEquals(Dimensions.of(d), Arrays.asList(3));
   }
 
-  public void testIsArray() {
-    Tensor d = DoubleScalar.of(.12);
-    assertTrue(Dimensions.isArray(d));
-    assertTrue(Dimensions.isArray(Tensors.empty()));
-    Tensor a = Tensors.vectorLong(3, 2, 3);
-    assertTrue(Dimensions.isArray(a));
-    Tensor b = Tensors.vectorLong(3, 2);
-    Tensor c = Tensors.of(a, b);
-    assertFalse(Dimensions.isArray(c));
-  }
-
   public void testIsEmpty() {
     assertTrue(Dimensions.isEmptyTensor(Tensors.empty()));
     assertFalse(Dimensions.isEmptyTensor(RealScalar.ONE));

@@ -1,12 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /** !!! EXPERIMENTAL !!!
  * 
@@ -78,9 +78,8 @@ public enum LinearProgramming {
    * @return true if all entries in vector are non-negative */
   public static boolean isNonNegative(Tensor vector) {
     return !vector.flatten(0) // all vector_i >= 0
-        .map(RealScalar.class::cast) //
-        .filter(v -> 0 > v.signInt()) //
-        .findAny().isPresent();
+        .map(SignInterface.class::cast) //
+        .anyMatch(signInterface -> 0 > signInterface.signInt());
   }
 
   /** @param m
@@ -95,9 +94,8 @@ public enum LinearProgramming {
     // System.out.println("negative");
     // }
     status &= !m.dot(x).subtract(b).flatten(0) // all A.x <= b
-        .map(RealScalar.class::cast) //
-        .filter(v -> 0 < v.signInt()) //
-        .findAny().isPresent();
+        .map(SignInterface.class::cast) //
+        .anyMatch(signInterface -> 0 < signInterface.signInt());
     return status;
   }
 }
