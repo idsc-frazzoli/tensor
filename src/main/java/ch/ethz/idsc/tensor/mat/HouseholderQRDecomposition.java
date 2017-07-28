@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import java.util.List;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -13,8 +14,10 @@ import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /* package */ class HouseholderQRDecomposition implements QRDecomposition {
@@ -29,13 +32,16 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     m = dims.get(1);
     Qinv = IdentityMatrix.of(n);
     R = A;
+    // the m-th reflection is necessary in the case where A is non-square
     for (int k = 0; k < m; ++k) {
       Tensor H = reflect(k);
       Qinv = H.dot(Qinv);
       R = H.dot(R);
-      for (int j = k; j < n; ++j)
-        R.set(Chop._12, j, k);
     }
+    // chop lower entries to symbolic zero
+    for (int k = 0; k < m; ++k)
+      for (int i = k + 1; i < n; ++i)
+        R.set(Chop._12, i, k);
   }
 
   private Tensor reflect(int k) {
@@ -59,6 +65,30 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   // outer product: product of all pairs
   private static Tensor wcwt(Tensor w, Tensor cw) {
     return Tensors.matrix((i, j) -> w.Get(i).multiply(cw.Get(j)), w.length(), cw.length());
+  }
+
+  // suggestion of wikipedia
+  @SuppressWarnings("unused")
+  private Tensor _reflect(final int k) {
+    Tensor x = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
+    Scalar xn = Norm._2.of(x);
+    if (Scalars.isZero(xn))
+      return IdentityMatrix.of(n); // reflection reduces to identity, hopefully => det == 0
+    Scalar y0 = R.Get(k, k);
+    final Scalar alpha;
+    if (y0 instanceof SignInterface) {
+      SignInterface Y0 = (SignInterface) y0;
+      alpha = Y0.signInt() == -1 ? xn : xn.negate();
+    } else {
+      alpha = Exp.of(ComplexScalar.of(RealScalar.ZERO, Arg.of(y0))).multiply(xn).negate();
+    }
+    Tensor e = UnitVector.of(n, k);
+    final Tensor u = x.subtract(e.multiply(alpha));
+    Scalar un = Norm._2SQUARED.of(u);
+    Tensor v = u;
+    Tensor cv = Conjugate.of(v);
+    Scalar factor = RealScalar.of(2).divide(un);
+    return IdentityMatrix.of(n).subtract(wcwt(v, cv.multiply(factor)));
   }
 
   @Override

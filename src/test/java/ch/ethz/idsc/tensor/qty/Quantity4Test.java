@@ -20,9 +20,11 @@ import ch.ethz.idsc.tensor.mat.NegativeSemidefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.NullSpace;
 import ch.ethz.idsc.tensor.mat.PositiveDefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.PositiveSemidefiniteMatrixQ;
+import ch.ethz.idsc.tensor.mat.QRDecomposition;
 import ch.ethz.idsc.tensor.mat.RowReduce;
 import ch.ethz.idsc.tensor.mat.SymmetricMatrixQ;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
@@ -209,12 +211,19 @@ public class Quantity4Test extends TestCase {
   public void testEigensystem() {
     Tensor matrix = Tensors.fromString("{{10[m],-2[m]},{-2[m],4[m]}}", Quantity::fromString);
     assertTrue(SymmetricMatrixQ.of(matrix));
-    Eigensystem eig = Eigensystem.ofSymmetric(matrix);
-    assertTrue(eig.values().Get(0) instanceof Quantity);
-    assertTrue(eig.values().Get(1) instanceof Quantity);
+    {
+      Eigensystem eig = Eigensystem.ofSymmetric(matrix);
+      assertTrue(eig.values().Get(0) instanceof Quantity);
+      assertTrue(eig.values().Get(1) instanceof Quantity);
+    }
+    {
+      Eigensystem eig = Eigensystem.ofSymmetric(N.of(matrix));
+      assertTrue(eig.values().Get(0) instanceof Quantity);
+      assertTrue(eig.values().Get(1) instanceof Quantity);
+    }
   }
 
-  public void testEigensystemFail() {
+  public void testEigensystemMixed() {
     Tensor matrix = Tensors.fromString("{{10[m^2],2[m*kg]},{2[m*kg],4[kg^2]}}", Quantity::fromString);
     assertTrue(SymmetricMatrixQ.of(matrix));
     try {
@@ -222,6 +231,40 @@ public class Quantity4Test extends TestCase {
       assertTrue(false);
     } catch (Exception exception) {
       // ---
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  public void testQRDecomposition() {
+    Tensor matrix = Tensors.fromString( //
+        "{{ 12[s], -51[s], 4[s] }, { 6[s], 167[s], -68[s] }, { -4[s], 24[s], -41[s] } }", //
+        Quantity::fromString);
+    {
+      QRDecomposition qr = QRDecomposition.of(matrix);
+      assertTrue(qr.det() instanceof Quantity);
+      assertEquals(qr.getQ().dot(qr.getR()), matrix);
+      assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
+    }
+    {
+      QRDecomposition qr = QRDecomposition.of(N.of(matrix));
+      assertTrue(qr.det() instanceof Quantity);
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  public void testQRDecompositionMixed() {
+    Tensor matrix = Tensors.fromString( //
+        "{{ 12[s], -51[A], 4[m] }, { 6[s], 167[A], -68[m] }, { -4[s], 24[A], -41[m] } }", //
+        Quantity::fromString);
+    {
+      QRDecomposition qr = QRDecomposition.of(matrix);
+      assertTrue(qr.det() instanceof Quantity);
+      assertEquals(qr.getQ().dot(qr.getR()), matrix);
+      assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
+    }
+    {
+      QRDecomposition qr = QRDecomposition.of(N.of(matrix));
+      assertTrue(qr.det() instanceof Quantity);
     }
   }
 }

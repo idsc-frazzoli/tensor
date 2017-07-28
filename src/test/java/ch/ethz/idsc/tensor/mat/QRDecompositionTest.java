@@ -28,12 +28,11 @@ public class QRDecompositionTest extends TestCase {
     assertTrue(Chop._10.close(Q.dot(Qi), IdentityMatrix.of(A.length())));
     Scalar qrDet = Det.of(Q).multiply(Det.of(R));
     assertTrue(Chop._10.close(qrDet, Det.of(A)));
+    Tensor lower = LowerTriangularize.of(R, -1);
+    // System.out.println(Pretty.of(lower));
+    assertTrue(Chop.NONE.allZero(lower));
     if (Scalars.isZero(Imag.of(qrDet))) {
       assertTrue(Chop._10.close(qrDet, qr.det()));
-      // Scalar qrRef = ;
-      // System.out.println("---");
-      // System.out.println(qrDet);
-      // System.out.println(qrRef);
     }
     return qr;
   }
@@ -108,7 +107,10 @@ public class QRDecompositionTest extends TestCase {
     // example gives symbolic results
     Tensor matrix = Tensors.matrixInt(new int[][] { //
         { 12, -51, 4 }, { 6, 167, -68 }, { -4, 24, -41 } });
-    specialOps(matrix);
+    @SuppressWarnings("unused")
+    QRDecomposition qr = QRDecomposition.of(matrix);
+    // specialOps(matrix);
+    // System.out.println(Pretty.of(qr.getR()));
   }
 
   public void testEmpty() {
