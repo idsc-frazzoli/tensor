@@ -47,6 +47,7 @@ public class CholeskyDecompositionTest extends TestCase {
     assertEquals(cd.getL(), ltrue);
     assertEquals(cd.diagonal(), Tensors.vector(4, 1, 9));
     Serialization.of(cd);
+    assertTrue(Chop.NONE.allZero(UpperTriangularize.of(cd.getL(), 1)));
   }
 
   public void testMathematica1() {

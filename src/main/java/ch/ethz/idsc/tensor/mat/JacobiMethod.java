@@ -49,8 +49,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     d = b.copy();
     Scalar factor = RealScalar.of(0.2 / (n * n));
     for (int i = 0; i < MAXITERATIONS; ++i) {
-      Scalar sum = IntStream.range(0, n - 1).boxed() //
-          .flatMap(ip -> A.get(ip).extract(ip + 1, n).flatten(0)) //
+      Scalar sum = UpperTriangularize.of(A, 1).flatten(-1) //
           .map(Scalar.class::cast).map(Scalar::abs).reduce(Scalar::add) //
           .orElse(RealScalar.ZERO);
       if (Scalars.isZero(sum)) {
