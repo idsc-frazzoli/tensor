@@ -4,12 +4,14 @@ package ch.ethz.idsc.tensor.mat;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.alg.Reverse;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
@@ -146,5 +148,26 @@ public class NullSpaceTest extends TestCase {
   public void testIsNumeric() {
     assertTrue(StaticHelper.anyMachineNumberQ(Tensors.vector(1, 1, 1.)));
     assertFalse(StaticHelper.anyMachineNumberQ(Tensors.vector(1, 1, 1)));
+  }
+
+  public void testFail() {
+    try {
+      NullSpace.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      NullSpace.of(Tensors.vector(1, 2, 3, 1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      NullSpace.of(LieAlgebras.sl3());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

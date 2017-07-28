@@ -29,7 +29,9 @@ public enum Dimensions {
 
   /***************************************************/
   /** @return true if tensor structure is identical at all levels, else false.
-   * true for {@link Scalar}s */
+   * true for {@link Scalar}s
+   * 
+   * @see ArrayQ */
   /* package */ static boolean isArray(Tensor tensor) {
     return _isArray(complete(tensor));
   }

@@ -26,16 +26,16 @@ import junit.framework.TestCase;
 
 public class Quantity3Test extends TestCase {
   public void testSimple() {
-    Scalar qs1 = Quantity.of(RealScalar.of(2), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(3), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(5), "[m]");
+    Scalar qs1 = Quantity.of(2, "[m]");
+    Scalar qs2 = Quantity.of(3, "[m]");
+    Scalar qs3 = Quantity.of(5, "[m]");
     assertTrue(Scalars.isZero(qs1.add(qs2).subtract(qs3)));
   }
 
   public void testNorm1() {
-    Scalar qs1 = Quantity.of(RealScalar.of(-3), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(-4), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(7), "[m]");
+    Scalar qs1 = Quantity.of(-3, "[m]");
+    Scalar qs2 = Quantity.of(-4, "[m]");
+    Scalar qs3 = Quantity.of(7, "[m]");
     Tensor vec = Tensors.of(qs1, qs2);
     assertEquals(Norm._1.of(vec), qs3);
   }
@@ -66,75 +66,75 @@ public class Quantity3Test extends TestCase {
   }
 
   public void testNormInf() {
-    Scalar qs1 = Quantity.of(RealScalar.of(-3), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(-4), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(4), "[m]");
+    Scalar qs1 = Quantity.of(-3, "[m]");
+    Scalar qs2 = Quantity.of(-4, "[m]");
+    Scalar qs3 = Quantity.of(4, "[m]");
     Tensor vec = Tensors.of(qs1, qs2);
     assertEquals(Norm.INFINITY.of(vec), qs3);
   }
 
   public void testNormInfMixed() {
-    Scalar qs1 = Quantity.of(RealScalar.of(-3), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
+    Scalar qs1 = Quantity.of(-3, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
     Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
     Scalar nin = Norm.INFINITY.of(vec);
-    Scalar act = Quantity.of(RealScalar.of(3), "[m]");
+    Scalar act = Quantity.of(3, "[m]");
     assertEquals(nin, act);
   }
 
   public void testSort() {
-    Scalar qs1 = Quantity.of(RealScalar.of(-3), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
+    Scalar qs1 = Quantity.of(-3, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
     Tensor vec = Tensors.of(RealScalar.ZERO, qs2, qs1);
     assertEquals(Sort.of(vec), Tensors.of(qs1, RealScalar.ZERO, qs2));
   }
 
   public void testChop() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1e-9), "[kg]");
-    Scalar act = Quantity.of(RealScalar.ZERO, "[kg]");
+    Scalar qs1 = Quantity.of(1e-9, "[kg]");
+    Scalar act = Quantity.of(0, "[kg]");
     assertEquals(Chop._07.of(qs1), act);
     assertEquals(Chop._10.of(qs1), qs1);
   }
 
   public void testSqrt() {
-    Scalar qs1 = Quantity.of(RealScalar.of(9), "[m^2]");
-    Scalar qs2 = Quantity.of(RealScalar.of(3), "[m]");
+    Scalar qs1 = Quantity.of(9, "[m^2]");
+    Scalar qs2 = Quantity.of(3, "[m]");
     assertEquals(Sqrt.of(qs1), qs2);
   }
 
   public void testPower1() {
-    Scalar qs1 = Quantity.of(RealScalar.of(9), "[m^2]");
+    Scalar qs1 = Quantity.of(9, "[m^2]");
     Scalar res = Power.of(qs1, RealScalar.of(3));
-    Scalar act = Quantity.of(RealScalar.of(729), "[m^6]");
+    Scalar act = Quantity.of(729, "[m^6]");
     assertEquals(res, act);
   }
 
   public void testPower2() {
-    Scalar qs1 = Quantity.of(RealScalar.of(-2), "[m^-3*rad]");
+    Scalar qs1 = Quantity.of(-2, "[m^-3*rad]");
     Scalar res = Power.of(qs1, RealScalar.of(3));
-    Scalar act = Quantity.of(RealScalar.of(-8), "[m^-9*rad^3]");
+    Scalar act = Quantity.of(-8, "[m^-9*rad^3]");
     assertEquals(res, act);
   }
 
   public void testScale() {
-    Scalar qs1 = Quantity.of(RealScalar.of(3), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(4), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(5), "[m]");
+    Scalar qs1 = Quantity.of(3, "[m]");
+    Scalar qs2 = Quantity.of(4, "[m]");
+    Scalar qs3 = Quantity.of(5, "[m]");
     Tensor vec = Tensors.of(qs1, qs2, qs3);
     Tensor sca = vec.multiply(RealScalar.of(3));
     assertEquals(sca.toString(), "{9[m], 12[m], 15[m]}");
   }
 
   public void testMultiply() {
-    Scalar qs1 = Quantity.of(RealScalar.of(3), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(-2), "[s]");
+    Scalar qs1 = Quantity.of(3, "[m]");
+    Scalar qs2 = Quantity.of(-2, "[s]");
     assertEquals(qs1.multiply(qs2).toString(), "-6[m*s]");
   }
 
   public void testDivide() {
-    Scalar qs1 = Quantity.of(RealScalar.of(12), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(4), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(3), "[m^0]");
+    Scalar qs1 = Quantity.of(12, "[m]");
+    Scalar qs2 = Quantity.of(4, "[m]");
+    Scalar qs3 = Quantity.of(3, "[m^0]");
     assertEquals(qs1.divide(qs2), qs3);
     assertTrue(qs3 instanceof RationalScalar);
   }
@@ -142,8 +142,8 @@ public class Quantity3Test extends TestCase {
   // Mathematica doesn't do this:
   // ArcTan[Quantity[12, "Meters"], Quantity[4, "Meters"]] is not evaluated
   public void testArcTan() {
-    Scalar qs1 = Quantity.of(RealScalar.of(12), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(4), "[m]");
+    Scalar qs1 = Quantity.of(12, "[m]");
+    Scalar qs2 = Quantity.of(4, "[m]");
     {
       assertFalse(qs1 instanceof RealScalar);
       Scalar res = ArcTan.of(qs1, qs2);
@@ -152,13 +152,18 @@ public class Quantity3Test extends TestCase {
     }
   }
 
-  public void testArcTanZero() {
-    Scalar qs1 = Quantity.of(RealScalar.of(12), "[m]");
-    Scalar qs0 = Quantity.of(RealScalar.of(0), "[s]");
+  public void testArcTanZeroX() {
+    Scalar qs0 = Quantity.of(0, "[s]");
+    Scalar qs1 = Quantity.of(12, "[m]");
     {
       Scalar res = ArcTan.of(RealScalar.ZERO, qs1);
       assertTrue(res instanceof RealScalar);
       assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
+    }
+    {
+      Scalar res = ArcTan.of(RealScalar.ZERO, qs0);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.allZero(res));
     }
     {
       Scalar res = ArcTan.of(qs0, qs1);
@@ -172,21 +177,31 @@ public class Quantity3Test extends TestCase {
     }
   }
 
+  public void testArcTanZeroY() {
+    Scalar qs0 = Quantity.of(0, "[s]");
+    Scalar qs1 = Quantity.of(12, "[m]");
+    {
+      Scalar res = ArcTan.of(qs1, qs0);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.allZero(res));
+    }
+  }
+
   public void testArcTanFail() {
     try {
-      ArcTan.of(Quantity.of(RealScalar.of(12), "[m]"), Quantity.of(RealScalar.of(4), "[s]"));
+      ArcTan.of(Quantity.of(12, "[m]"), Quantity.of(4, "[s]"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      ArcTan.of(Quantity.of(RealScalar.of(12), "[m]"), RealScalar.of(4));
+      ArcTan.of(Quantity.of(12, "[m]"), RealScalar.of(4));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      ArcTan.of(RealScalar.of(12), Quantity.of(RealScalar.of(4), "[s]"));
+      ArcTan.of(RealScalar.of(12), Quantity.of(4, "[s]"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -194,60 +209,60 @@ public class Quantity3Test extends TestCase {
   }
 
   public void testInvert() {
-    Scalar qs1 = Quantity.of(RealScalar.of(4), "[m]");
+    Scalar qs1 = Quantity.of(4, "[m]");
     assertEquals(qs1.invert().toString(), "1/4[m^-1]");
   }
 
   public void testRamp() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(-2), "[m]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(-2, "[m]");
     assertEquals(Ramp.of(qs1), qs1);
     assertEquals(Ramp.of(qs2), qs1.zero());
   }
 
   public void testRound() {
-    Scalar qs1 = Quantity.of(RealScalar.of(2.333), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
+    Scalar qs1 = Quantity.of(2.333, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
     assertEquals(Round.of(qs1), qs2);
   }
 
   public void testHypot() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(0), "[m]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(0, "[m]");
     assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs1);
   }
 
   public void testHypot2() {
-    Scalar qs1 = Quantity.of(RealScalar.of(3), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(4), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(5), "[m]");
+    Scalar qs1 = Quantity.of(3, "[m]");
+    Scalar qs2 = Quantity.of(4, "[m]");
+    Scalar qs3 = Quantity.of(5, "[m]");
     assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs3);
   }
 
   public void testDiagon() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[s]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(2, "[s]");
     Tensor vec = Tensors.of(qs1, qs2);
     DiagonalMatrix.of(vec);
   }
 
   public void testMod() {
-    Scalar qs1 = Quantity.of(RealScalar.of(5), "[s]");
-    Scalar qs2 = Quantity.of(RealScalar.of(3), "[s]");
-    Scalar qs3 = Quantity.of(RealScalar.of(2), "[s]");
+    Scalar qs1 = Quantity.of(5, "[s]");
+    Scalar qs2 = Quantity.of(3, "[s]");
+    Scalar qs3 = Quantity.of(2, "[s]");
     Scalar res = Mod.function(qs2).apply(qs1);
     assertEquals(res, qs3);
   }
 
   public void testCopySign1() {
-    Scalar qs1 = Quantity.of(RealScalar.of(5), "[s]");
-    Scalar qs2 = Quantity.of(RealScalar.of(-3), "[m]");
+    Scalar qs1 = Quantity.of(5, "[s]");
+    Scalar qs2 = Quantity.of(-3, "[m]");
     Scalar qs3 = CopySign.of(qs1, qs2);
     assertEquals(qs3, qs1.negate());
   }
 
   public void testCopySign2() {
-    Scalar qs1 = Quantity.of(RealScalar.of(5), "[s]");
+    Scalar qs1 = Quantity.of(5, "[s]");
     Scalar qs2 = RealScalar.of(-3);
     Scalar qs3 = CopySign.of(qs1, qs2);
     assertEquals(qs3, qs1.negate());

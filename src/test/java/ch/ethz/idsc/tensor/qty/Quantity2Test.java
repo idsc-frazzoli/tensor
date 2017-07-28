@@ -40,23 +40,23 @@ public class Quantity2Test extends TestCase {
   }
 
   public void testPlusUnits2() {
-    Scalar s1 = Quantity.of(RealScalar.of(0), "[m]"); //
-    Scalar s2 = Quantity.of(RealScalar.of(0.0), "[kg]");
+    Scalar s1 = Quantity.of(0, "[m]"); //
+    Scalar s2 = Quantity.of(0.0, "[kg]");
     _checkPlusSymmetry(s1, s2);
     assertEquals(s1.add(s2).toString(), RealScalar.of(0.0).toString());
   }
 
   public void testPlusUnits3() {
-    Scalar s1 = Quantity.of(RealScalar.of(0), "[m]"); //
-    Scalar s2 = Quantity.of(RealScalar.of(0.0), "[m]");
+    Scalar s1 = Quantity.of(0, "[m]"); //
+    Scalar s2 = Quantity.of(0.0, "[m]");
     _checkPlusSymmetry(s1, s2);
     assertEquals(s1.add(s2).toString(), s2.toString()); // result in numeric precision
   }
 
   public void testPlusFail() {
     try {
-      Quantity.of(RealScalar.of(2), "[m]").add( //
-          Quantity.of(RealScalar.of(2), "[kg]"));
+      Quantity.of(2, "[m]").add( //
+          Quantity.of(2, "[kg]"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -64,7 +64,7 @@ public class Quantity2Test extends TestCase {
     try {
       _checkPlusSymmetry( //
           Quantity.of(ComplexScalar.of(1, 2), "[m]"), //
-          Quantity.of(RealScalar.of(2), "[kg]"));
+          Quantity.of(2, "[kg]"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -91,7 +91,7 @@ public class Quantity2Test extends TestCase {
   }
 
   public void testNumberQ() {
-    Scalar s1 = Quantity.of(RealScalar.of(3), "[m]"); //
+    Scalar s1 = Quantity.of(3, "[m]"); //
     assertFalse(MachineNumberQ.of(s1));
     assertFalse(ExactNumberQ.of(s1));
     assertFalse(NumberQ.of(s1));

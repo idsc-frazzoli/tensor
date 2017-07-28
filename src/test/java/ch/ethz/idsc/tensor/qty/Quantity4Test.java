@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -39,11 +38,11 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testLinearSolve() {
-    final Scalar one = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(4), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(2), "[m]");
-    Scalar qs4 = Quantity.of(RealScalar.of(-3), "[m]");
+    final Scalar one = Quantity.of(1, "[m]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(4, "[m]");
+    Scalar qs3 = Quantity.of(2, "[m]");
+    Scalar qs4 = Quantity.of(-3, "[m]");
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor ve2 = Tensors.of(qs3, qs4);
     Tensor mat = Tensors.of(ve1, ve2);
@@ -54,10 +53,10 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testInverse2() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(3), "[rad]");
-    Scalar qs4 = Quantity.of(RealScalar.of(4), "[rad]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
+    Scalar qs3 = Quantity.of(3, "[rad]");
+    Scalar qs4 = Quantity.of(4, "[rad]");
     Tensor ve1 = Tensors.of(qs1.multiply(qs1), qs2.multiply(qs3));
     Tensor ve2 = Tensors.of(qs2.multiply(qs3), qs4.multiply(qs4));
     Tensor mat = Tensors.of(ve1, ve2);
@@ -101,8 +100,8 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testCholesky2() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
     Tensor ve1 = Tensors.of(qs2, qs1);
     Tensor ve2 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1, ve2);
@@ -197,8 +196,8 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testNullspace() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1);
     Tensor nul = NullSpace.usingRowReduce(mat);

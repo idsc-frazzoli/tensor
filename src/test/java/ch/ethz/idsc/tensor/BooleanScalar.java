@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-/* package */ class BooleanScalar extends AbstractScalar implements Comparable<Scalar> {
+/* package */ final class BooleanScalar extends AbstractScalar implements Comparable<Scalar> {
   public static final Scalar TRUE = new BooleanScalar(true);
   public static final Scalar FALSE = new BooleanScalar(false);
 
