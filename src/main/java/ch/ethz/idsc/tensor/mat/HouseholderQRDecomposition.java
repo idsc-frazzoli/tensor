@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.mat;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -11,7 +10,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.UnitVector;
+import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.SignInterface;
@@ -41,7 +42,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     Tensor y = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
     Scalar yn = Norm._2.of(y);
     if (Scalars.isZero(yn))
-      return IdentityMatrix.of(n);
+      return IdentityMatrix.of(n); // reflection reduces to identity, hopefully => det == 0
     Tensor delta = UnitVector.of(n, k).multiply(yn);
     final Tensor w;
     Scalar y0 = R.Get(k, k);
@@ -79,11 +80,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   public Scalar det() {
     if (n != m)
       return RealScalar.ZERO;
-    // FIXME formula is wrong especially for complex input
-    Scalar scalar = IntStream.range(0, R.length()).boxed() //
-        .map(c0 -> R.Get(c0, c0)) //
-        .reduce(Scalar::multiply) //
-        .orElse(RealScalar.ZERO);
-    return scalar;
+    // TODO formula is wrong for complex input
+    Scalar scalar = Total.prod(Diagonal.of(R)).Get();
+    return m % 2 == 0 ? scalar : scalar.negate();
   }
 }

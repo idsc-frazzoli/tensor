@@ -66,7 +66,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
   static Scalar arcTan(Scalar x, Scalar y) {
     if (Scalars.isZero(x)) { // prevent division by zero
       ComplexEmbedding complexEmbedding = (ComplexEmbedding) y;
-      return Sign.of(complexEmbedding.real()).multiply(DoubleScalar.of(Math.PI / 2));
+      return Sign.FUNCTION.apply(complexEmbedding.real()).multiply(DoubleScalar.of(Math.PI / 2));
     }
     return ArcTan.FUNCTION.apply(y.divide(x));
   }

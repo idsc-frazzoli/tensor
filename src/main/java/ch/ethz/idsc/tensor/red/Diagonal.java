@@ -11,7 +11,8 @@ import ch.ethz.idsc.tensor.mat.SquareMatrixQ;
 public enum Diagonal {
   ;
   /** @param matrix square
-   * @return vector of entries on diagonal of given matrix */
+   * @return vector of entries on diagonal of given matrix
+   * @throws Exception if matrix is not a square matrix */
   public static Tensor of(Tensor matrix) {
     if (!SquareMatrixQ.of(matrix))
       throw TensorRuntimeException.of(matrix);

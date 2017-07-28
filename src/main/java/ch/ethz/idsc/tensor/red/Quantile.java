@@ -39,7 +39,7 @@ public enum Quantile {
     Scalar length = RealScalar.of(sorted.length());
     if (scalar instanceof RealScalar) {
       int index = Scalars.isZero(scalar) ? //
-          0 : (Integer) Ceiling.FUNCTION.apply(scalar.multiply(length)).subtract(RealScalar.ONE).number();
+          0 : (Integer) Ceiling.of(scalar.multiply(length)).subtract(RealScalar.ONE).number();
       return sorted.Get(index);
     }
     throw TensorRuntimeException.of(sorted, scalar);

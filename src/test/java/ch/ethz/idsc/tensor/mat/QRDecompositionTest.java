@@ -2,30 +2,38 @@
 package ch.ethz.idsc.tensor.mat;
 
 import java.util.Random;
-import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Imag;
 import junit.framework.TestCase;
 
 public class QRDecompositionTest extends TestCase {
   private static QRDecomposition specialOps(Tensor A) {
-    Function<Scalar, Scalar> chop = Chop._10;
     QRDecomposition qr = QRDecomposition.of(A);
     Tensor Q = qr.getQ();
     Tensor Qi = qr.getInverseQ();
     Tensor R = qr.getR();
-    assertEquals(A.subtract(Q.dot(R)).map(chop), Array.zeros(Dimensions.of(A)));
-    Tensor err = Q.dot(Qi).subtract(IdentityMatrix.of(A.length()));
-    assertEquals(err.map(chop), Array.zeros(Dimensions.of(err)));
+    assertTrue(Chop._10.close(Q.dot(R), A));
+    assertTrue(Chop._10.close(Q.dot(Qi), IdentityMatrix.of(A.length())));
     Scalar qrDet = Det.of(Q).multiply(Det.of(R));
-    assertEquals(qrDet.subtract(Det.of(A)).map(chop), RealScalar.ZERO);
+    assertTrue(Chop._10.close(qrDet, Det.of(A)));
+    if (Scalars.isZero(Imag.of(qrDet))) {
+      assertTrue(Chop._10.close(qrDet, qr.det()));
+      // Scalar qrRef = ;
+      // System.out.println("---");
+      // System.out.println(qrDet);
+      // System.out.println(qrRef);
+    }
     return qr;
   }
 
@@ -50,10 +58,10 @@ public class QRDecompositionTest extends TestCase {
     specialOps(A);
   }
 
-  public void testRandomReal5() {
-    Random rnd = new Random();
-    Tensor A = Tensors.matrix((i, j) -> RealScalar.of(rnd.nextDouble()), 5, 5);
-    specialOps(A);
+  public void testRandomRealSquare() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int d = 1; d <= 10; ++d)
+      specialOps(RandomVariate.of(distribution, d, d));
   }
 
   public void testDiag() {
@@ -93,5 +101,21 @@ public class QRDecompositionTest extends TestCase {
     assertEquals(qr.getR().get(3, 0), RealScalar.ZERO);
     assertEquals(qr.getR().get(3, 1), RealScalar.ZERO);
     assertEquals(qr.getR().get(3, 2), RealScalar.ZERO);
+  }
+
+  public void testWikipedia() {
+    // example gives symbolic results
+    Tensor matrix = Tensors.matrixInt(new int[][] { //
+        { 12, -51, 4 }, { 6, 167, -68 }, { -4, 24, -41 } });
+    specialOps(matrix);
+  }
+
+  public void testEmpty() {
+    try {
+      QRDecomposition.of(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

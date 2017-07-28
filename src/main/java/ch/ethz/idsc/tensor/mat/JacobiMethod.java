@@ -1,4 +1,5 @@
 // code by guedelmi
+// modified by jph
 package ch.ethz.idsc.tensor.mat;
 
 import java.util.stream.IntStream;
@@ -14,6 +15,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Ordering;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Hypot;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /** The Jacobi transformations of a real symmetric matrix establishes the
  * diagonal matrix D
@@ -71,7 +73,7 @@ import ch.ethz.idsc.tensor.red.Hypot;
             } else {
               Scalar theta = HALF.multiply(h).divide(A.Get(ip, iq));
               t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).invert();
-              if (theta.number().doubleValue() < 0)
+              if (((SignInterface) theta).signInt() == -1)
                 t = t.negate();
             }
             Scalar c = Hypot.BIFUNCTION.apply(t, RealScalar.ONE).Get().invert();

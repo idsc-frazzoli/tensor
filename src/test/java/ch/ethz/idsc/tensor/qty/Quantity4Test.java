@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
 import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
 import ch.ethz.idsc.tensor.mat.Det;
+import ch.ethz.idsc.tensor.mat.Eigensystem;
 import ch.ethz.idsc.tensor.mat.HermitianMatrixQ;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.Inverse;
@@ -203,5 +204,24 @@ public class Quantity4Test extends TestCase {
     Tensor nul = NullSpace.usingRowReduce(mat);
     // System.out.println(nul);
     assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
+  }
+
+  public void testEigensystem() {
+    Tensor matrix = Tensors.fromString("{{10[m],-2[m]},{-2[m],4[m]}}", Quantity::fromString);
+    assertTrue(SymmetricMatrixQ.of(matrix));
+    Eigensystem eig = Eigensystem.ofSymmetric(matrix);
+    assertTrue(eig.values().Get(0) instanceof Quantity);
+    assertTrue(eig.values().Get(1) instanceof Quantity);
+  }
+
+  public void testEigensystemFail() {
+    Tensor matrix = Tensors.fromString("{{10[m^2],2[m*kg]},{2[m*kg],4[kg^2]}}", Quantity::fromString);
+    assertTrue(SymmetricMatrixQ.of(matrix));
+    try {
+      Eigensystem.ofSymmetric(matrix);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
