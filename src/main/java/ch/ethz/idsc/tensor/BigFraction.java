@@ -89,4 +89,8 @@ import java.util.Objects;
     }
     return false;
   }
+
+  public int signum() {
+    return num.signum();
+  }
 }

@@ -30,11 +30,6 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return this;
   }
 
-  @Override // from SignInterface
-  public final int signInt() {
-    return isNonNegative() ? (Scalars.isZero(this) ? 0 : 1) : -1;
-  }
-
   /***************************************************/
   // methods are non-final because overriding classes may support better precision
   @Override // from ArcTanInterface
@@ -73,7 +68,10 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return Exp.FUNCTION.apply(exponent.multiply(Log.FUNCTION.apply(this)));
   }
 
-  /** @return {@link ComplexScalar} if negative */
+  /** implementation is used by {@link DoubleScalar},
+   * and is a fallback option for {@link RationalScalar}
+   * 
+   * @return {@link ComplexScalar} if negative */
   @Override // from SqrtInterface
   public Scalar sqrt() {
     if (isNonNegative())
@@ -83,5 +81,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   /***************************************************/
   /** @return true if this scalar is zero, or strictly greater zero, false otherwise */
-  protected abstract boolean isNonNegative();
+  protected final boolean isNonNegative() {
+    return 0 <= signInt();
+  }
 }

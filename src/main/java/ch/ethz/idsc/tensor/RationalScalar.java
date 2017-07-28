@@ -99,12 +99,6 @@ public final class RationalScalar extends AbstractRealScalar implements //
   }
 
   /***************************************************/
-  @Override // from AbstractRealScalar
-  protected boolean isNonNegative() {
-    return 0 <= bigFraction.num.signum();
-  }
-
-  /***************************************************/
   @Override // from RoundingInterface
   public Scalar ceiling() {
     return of(toBigDecimal(0, RoundingMode.CEILING).toBigIntegerExact(), BigInteger.ONE);
@@ -164,16 +158,21 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return of(toBigDecimal(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
   }
 
+  @Override // from SignInterface
+  public int signInt() {
+    return bigFraction.signum();
+  }
+
   /** Example: sqrt(16/25) == 4/5
    * 
    * @return {@link RationalScalar} precision if numerator and denominator are both squares */
   @Override // from AbstractRealScalar
   public Scalar sqrt() {
     try {
-      boolean pos = isNonNegative();
-      BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
+      boolean isNonNegative = isNonNegative();
+      BigInteger sqrtnum = Sqrt.of(isNonNegative ? bigFraction.num : bigFraction.num.negate());
       BigInteger sqrtden = Sqrt.of(bigFraction.den);
-      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
+      return isNonNegative ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---
     }

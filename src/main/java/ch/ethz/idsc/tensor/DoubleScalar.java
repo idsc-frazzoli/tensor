@@ -77,14 +77,6 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   /***************************************************/
-  @Override // from AbstractRealScalar
-  protected boolean isNonNegative() {
-    if (Double.isNaN(value))
-      throw TensorRuntimeException.of(this);
-    return 0 <= value;
-  }
-
-  /***************************************************/
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
     if (Double.isNaN(value))
@@ -124,6 +116,13 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   public Scalar round() {
     return isMachineNumber() ? //
         RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE) : this;
+  }
+
+  @Override // from SignInterface
+  public int signInt() {
+    if (isNaN())
+      throw TensorRuntimeException.of(this);
+    return value < 0 ? -1 : (0 == value ? 0 : 1);
   }
 
   /***************************************************/

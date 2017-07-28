@@ -18,6 +18,7 @@ import ch.ethz.idsc.tensor.sca.Imag;
 import junit.framework.TestCase;
 
 public class QRDecompositionTest extends TestCase {
+  @SuppressWarnings("deprecation")
   private static QRDecomposition specialOps(Tensor A) {
     QRDecomposition qr = QRDecomposition.of(A);
     Tensor Q = qr.getQ();
