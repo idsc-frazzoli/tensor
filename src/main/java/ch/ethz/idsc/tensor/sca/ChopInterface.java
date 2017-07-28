@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * 
  * the interface is optional: the identity function is
  * used if the interface is not implemented. */
-public interface ChopInterface {
+public interface ChopInterface { /* optional interface */
   /** @param threshold
    * @return {@link Scalar#zero()} if Scalar has numeric precision and
    * absolute value is strictly below threshold defined by {@link Chop#threshold()} */

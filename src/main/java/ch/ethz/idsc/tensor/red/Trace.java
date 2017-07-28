@@ -24,9 +24,11 @@ public enum Trace {
   ;
   /** @param tensor
    * @param d0
-   * @param d1
+   * @param d1 != d0
    * @return stream of slices of tensor along dimensions d0 and d1 */
   public static Stream<Tensor> stream(Tensor tensor, int d0, int d1) {
+    if (d0 == d1)
+      throw new RuntimeException(d0 + "==" + d1);
     List<Integer> dimensions = Dimensions.of(tensor);
     final int length = dimensions.get(d0);
     if (length != dimensions.get(d1))

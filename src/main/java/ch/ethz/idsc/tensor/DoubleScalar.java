@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
 /** scalar with double precision, 64-bit, MATLAB style
  * 
- * zero().inverse() equals {@link RealScalar#POSITIVE_INFINITY} */
+ * zero().inverse() equals {@link DoubleScalar#POSITIVE_INFINITY} */
 public final class DoubleScalar extends AbstractRealScalar implements //
     ChopInterface, MachineNumberQInterface {
   /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
