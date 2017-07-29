@@ -23,7 +23,7 @@ public class ReverseTest extends TestCase {
     Tensor m = Array.of(index -> RealScalar.of(r.nextInt(100)), n, n, n, n);
     Tensor v = Reverse.of(IdentityMatrix.of(n));
     Tensor t1 = BasisTransform.ofForm(m, v);
-    Tensor t2 = Transpose.apply(m, Reverse::of);
+    Tensor t2 = StaticHelper.nestRank(m, Reverse::of);
     Tensor t3 = Reverse.all(m);
     assertEquals(t1, t2);
     assertEquals(t1, t3);

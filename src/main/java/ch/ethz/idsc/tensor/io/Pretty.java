@@ -17,7 +17,8 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
  * <a href="https://reference.wolfram.com/language/ref/MatrixForm.html">MatrixForm</a> */
 public class Pretty {
   /** @param tensor
-   * @return string expression of tensor for use in System.out.println */
+   * @return string expression of tensor for use in System.out.println
+   * @see Put#string(Tensor) */
   public static String of(Tensor tensor) {
     return new Pretty(tensor).toString();
   }

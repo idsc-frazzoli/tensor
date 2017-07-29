@@ -23,6 +23,8 @@ public enum Factorial implements ScalarUnaryOperator {
   // ---
   private static Tensor MEMO = Tensors.vector(1); // initialize value for 0!
 
+  /** @param scalar non-negative integer
+   * @throws Exception if scalar is not a non-negative integer */
   @Override
   public Scalar apply(Scalar scalar) {
     int index = Scalars.intValueExact(scalar);
