@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import java.util.stream.IntStream;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -47,7 +48,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     Tensor z = Array.zeros(n);
     Tensor b = Diagonal.of(matrix);
     d = b.copy();
-    Scalar factor = RealScalar.of(0.2 / (n * n));
+    Scalar factor = DoubleScalar.of(0.2 / (n * n));
     for (int i = 0; i < MAXITERATIONS; ++i) {
       Scalar sum = UpperTriangularize.of(A, 1).flatten(-1) //
           .map(Scalar.class::cast).map(Scalar::abs).reduce(Scalar::add) //

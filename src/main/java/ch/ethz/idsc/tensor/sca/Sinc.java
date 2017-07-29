@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
 public enum Sinc implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  /* package */ static final Scalar THRESHOLD = RealScalar.of(0.05);
+  /* package */ static final Scalar THRESHOLD = DoubleScalar.of(0.05);
   private static final Tensor SERIES = //
       Tensors.vector(1, 0, -6, 0, 120, 0, -5040, 0, 362880, 0, -39916800) //
           .map(InvertUnlessZero.FUNCTION).map(N.FUNCTION);

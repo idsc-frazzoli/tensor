@@ -14,6 +14,7 @@ public class FactorialTest extends TestCase {
     assertEquals(Factorial.of(RealScalar.of(2)), RealScalar.of(2));
     assertEquals(Factorial.of(RealScalar.of(3)), RealScalar.of(6));
     assertEquals(Factorial.of(RealScalar.of(4)), RealScalar.of(24));
+    assertEquals(Factorial.of(RealScalar.of(10)), RealScalar.of(3628800));
   }
 
   public void testOf1() {

@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -56,7 +57,7 @@ public enum Expectation {
     Scalar cumprob = RealScalar.ZERO;
     int sample = discreteDistribution.lowerBound();
     while (!DiscreteCDF.isFinished(p_equals, cumprob)) {
-      Scalar x = RealScalar.of(sample);
+      Scalar x = RationalScalar.of(sample, 1);
       p_equals = discreteDistribution.p_equals(sample);
       cumprob = cumprob.add(p_equals);
       T delta = (T) function.apply(x).multiply(p_equals);

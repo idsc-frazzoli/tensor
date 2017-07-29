@@ -1,11 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Last;
 
 /** the tensor library defines factorial only for non-negative integers
  * 
@@ -19,17 +21,19 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum Factorial implements ScalarUnaryOperator {
   FUNCTION;
   // ---
+  private static Tensor MEMO = Tensors.vector(1); // initialize value for 0!
+
   @Override
   public Scalar apply(Scalar scalar) {
-    if (Scalars.intValueExact(scalar) < 0)
+    int index = Scalars.intValueExact(scalar);
+    if (index < 0)
       throw TensorRuntimeException.of(scalar);
-    // TODO use memo function
-    Scalar product = RealScalar.ONE;
-    while (!scalar.equals(RealScalar.ZERO)) {
-      product = product.multiply(scalar);
-      scalar = Decrement.ONE.apply(scalar);
-    }
-    return product;
+    if (MEMO.length() <= index)
+      synchronized (FUNCTION) {
+        while (MEMO.length() <= index)
+          MEMO.append(Last.of(MEMO).multiply(RationalScalar.of(MEMO.length(), 1)));
+      }
+    return MEMO.Get(index);
   }
 
   /** @param tensor

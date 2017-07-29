@@ -21,6 +21,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ final class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
     ChopInterface, ExactNumberQInterface, MachineNumberQInterface, NInterface {
+  private static final Scalar HALF = RationalScalar.of(1, 2);
+  // ---
   private final Scalar re;
   private final Scalar im;
 
@@ -151,9 +153,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
-    return ComplexScalar.fromPolar( //
-        Sqrt.FUNCTION.apply(abs()), //
-        arg().divide(RealScalar.of(2)));
+    return ComplexScalar.fromPolar(Sqrt.FUNCTION.apply(abs()), arg().multiply(HALF));
   }
 
   /***************************************************/

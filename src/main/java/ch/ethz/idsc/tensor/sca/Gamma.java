@@ -5,7 +5,10 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** implementation only works for positive integers
+/** Euler gamma function
+ * Gamma[x + 1] == x Gamma[x] for x real and positive
+ * 
+ * implementation only works for positive integers
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Gamma.html">Gamma</a> */

@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 
 /** fallback option to robustly generate random variates from a
@@ -34,6 +34,6 @@ import ch.ethz.idsc.tensor.Scalar;
     for (int index = 0; index < n; ++index)
       if (random.nextDouble() < p_success)
         ++k;
-    return RealScalar.of(k);
+    return RationalScalar.of(k, 1);
   }
 }

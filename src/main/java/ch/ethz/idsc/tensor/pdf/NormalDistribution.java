@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -51,7 +52,7 @@ public class NormalDistribution implements Distribution, //
 
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
-    return mean.add(RealScalar.of(random.nextGaussian()).multiply(sigma));
+    return mean.add(DoubleScalar.of(random.nextGaussian()).multiply(sigma));
   }
 
   @Override // from MeanInterface

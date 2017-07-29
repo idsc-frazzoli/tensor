@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -13,7 +14,7 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
     MeanInterface, PDF, RandomVariateInterface {
   @Override // from RandomVariateInterface
   public final Scalar randomVariate(Random random) {
-    return randomVariate(RealScalar.of(random.nextDouble()));
+    return randomVariate(DoubleScalar.of(random.nextDouble()));
   }
 
   /** @param reference in the half-open interval [0, 1)
