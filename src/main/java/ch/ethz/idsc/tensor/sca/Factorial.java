@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Last;
 
@@ -25,9 +24,14 @@ public enum Factorial implements ScalarUnaryOperator {
    * @throws Exception if scalar is not a non-negative integer */
   @Override
   public Scalar apply(Scalar scalar) {
-    int index = Scalars.intValueExact(scalar);
+    return of(Scalars.intValueExact(scalar));
+  }
+
+  /** @param index
+   * @return */
+  public static Scalar of(int index) {
     if (index < 0)
-      throw TensorRuntimeException.of(scalar);
+      throw new RuntimeException("" + index);
     if (MEMO.length() <= index)
       synchronized (FUNCTION) {
         while (MEMO.length() <= index)

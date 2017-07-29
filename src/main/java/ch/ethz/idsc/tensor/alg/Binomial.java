@@ -4,14 +4,18 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.Gamma;
 
 /** binomial coefficient implemented for integer input
+ * 
+ * Gamma[n+1] / ( Gamma[m+1] Gamma[n-m+1] )
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Binomial.html">Binomial</a> */
@@ -32,11 +36,15 @@ public class Binomial {
 
   /** <code>Mathematica::Binomial[n, m]</code>
    * 
-   * @param n scalar that satisfies IntegerQ
-   * @param m scalar that satisfies IntegerQ, and m <= n
+   * @param n
+   * @param m, and m <= n
    * @return binomial coefficient defined by n and m */
   public static Scalar of(Scalar n, Scalar m) {
-    return of(Scalars.intValueExact(n), Scalars.intValueExact(m));
+    if (IntegerQ.of(n) && IntegerQ.of(m))
+      return of(Scalars.intValueExact(n), Scalars.intValueExact(m));
+    Scalar np1 = n.add(RealScalar.ONE);
+    return Gamma.FUNCTION.apply(np1).divide( //
+        Gamma.FUNCTION.apply(m.add(RealScalar.ONE)).multiply(Gamma.FUNCTION.apply(np1.subtract(m))));
   }
 
   /** <code>Mathematica::Binomial[n, m]</code>
@@ -45,8 +53,12 @@ public class Binomial {
    * @param m <= n
    * @return binomial coefficient defined by n and m */
   public static Scalar of(int n, int m) {
-    if (n < m)
+    if (n < m) {
+      if (0 <= n)
+        return RealScalar.ZERO;
+      // TODO this case is defined in Mathematica
       throw new RuntimeException(String.format("Binomial[%d,%d]", n, m));
+    }
     return _binomial(n).over(m);
   }
 

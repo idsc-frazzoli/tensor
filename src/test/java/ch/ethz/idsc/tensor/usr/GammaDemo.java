@@ -23,16 +23,17 @@ import ch.ethz.idsc.tensor.sca.Gamma;
 
 enum GammaDemo {
   ;
-  private static final int RES = 100;
+  private static final int RES = 200;
+  private static final int DEPTH = 2;
   // {x, -1.25, -0.6}, {y, -0.25, 0.25}
   private static final Tensor re = Subdivide.of(-1.25, -0.6, RES);
   private static final Tensor im = Subdivide.of(-0.25, +0.25, RES);
 
   public static Tensor fun(int x, int y) {
-    Scalar ofs = DoubleScalar.of(0.00001 / 7);
+    Scalar ofs = DoubleScalar.of(0); // 0.00001 / 7);
     Scalar seed = ComplexScalar.of(re.Get(x).add(ofs), im.Get(y).add(ofs));
     try {
-      Scalar nest = Nest.of(Gamma.FUNCTION, seed, 3);
+      Scalar nest = Nest.of(Gamma.FUNCTION, seed, DEPTH);
       if (NumberQ.of(nest)) {
         Scalar arg = Arg.of(nest);
         // System.out.println(seed + " " + nest + " " + arg);
@@ -54,6 +55,6 @@ enum GammaDemo {
     Tensor matrix = Tensors.matrix(GammaDemo::fun, RES + 1, RES + 1);
     System.out.println(Dimensions.of(matrix));
     Export.of(new File("/home/datahaki/Pictures/image.png"), //
-        ArrayPlot.of(matrix, ColorDataGradients.HUE));
+        ArrayPlot.of(matrix, ColorDataGradients.THERMOMETER));
   }
 }

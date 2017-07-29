@@ -15,7 +15,11 @@ import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 // EXPERIMENTAL
 public enum ColorDataGradients implements ColorDataFunction {
   CLASSIC("classic.csv"), //
+  GRAYSCALE("grayscale.csv"), //
   HUE("hue.csv"), //
+  PASTEL("pastel.csv"), //
+  RAINBOW("rainbow.csv"), //
+  THERMOMETER("thermometer.csv"), //
   ;
   private static final Tensor INDETERMINATE = Array.zeros(4).unmodifiable();
   // ---

@@ -9,9 +9,9 @@ import ch.ethz.idsc.tensor.alg.Rescale;
 public enum ArrayPlot {
   ;
   /** @param tensor
-   * @param colorData
+   * @param colorDataFunction
    * @return */
-  public static Tensor of(Tensor tensor, ColorDataFunction colorData) {
-    return Rescale.of(tensor).map(colorData);
+  public static Tensor of(Tensor tensor, ColorDataFunction colorDataFunction) {
+    return Rescale.of(tensor).map(colorDataFunction);
   }
 }

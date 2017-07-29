@@ -27,6 +27,12 @@ public class FactorialTest extends TestCase {
     assertEquals(result, Tensors.vector(1, 1, 2, 6, 24));
   }
 
+  public void testOfInteger() {
+    assertEquals(Factorial.of(0), RealScalar.ONE);
+    assertEquals(Factorial.of(1), RealScalar.ONE);
+    assertEquals(Factorial.of(2), RealScalar.of(2));
+  }
+
   public void testLarge() {
     Factorial.of(RealScalar.of(1000));
   }
