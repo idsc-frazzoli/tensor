@@ -12,6 +12,14 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Flatten.html">Flatten</a> */
 public enum Flatten {
   ;
+  /** Flatten[{{a, b, c}, {{d}, e}}] == {a, b, c, d, e}
+   * 
+   * @param tensor
+   * @return */
+  public static Tensor of(Tensor tensor) {
+    return of(tensor, -1);
+  }
+
   /** Remark: in the special case of level == 0, the
    * function returns an exact copy of the input tensor.
    * 
@@ -20,13 +28,5 @@ public enum Flatten {
    * @return */
   public static Tensor of(Tensor tensor, int level) {
     return Tensor.of(tensor.flatten(level));
-  }
-
-  /** Flatten[{{a, b, c}, {d, e}}] == {a, b, c, d, e}
-   * 
-   * @param tensor
-   * @return */
-  public static Tensor of(Tensor tensor) {
-    return of(tensor, -1);
   }
 }

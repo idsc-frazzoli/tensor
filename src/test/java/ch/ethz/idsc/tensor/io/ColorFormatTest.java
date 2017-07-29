@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.img.ColorFormat;
 import junit.framework.TestCase;
 
@@ -26,6 +27,16 @@ public class ColorFormatTest extends TestCase {
       assertEquals(color, color2);
       Tensor vector2 = ColorFormat.toVector(color2);
       assertEquals(vector, vector2);
+    }
+  }
+
+  public void testFail() {
+    ColorFormat.toColor(Tensors.vector(0, 0, 0, 255.9));
+    try {
+      ColorFormat.toColor(Tensors.vector(0, 0, 0, 256));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
     }
   }
 }

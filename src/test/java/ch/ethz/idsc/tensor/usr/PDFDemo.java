@@ -1,13 +1,21 @@
 // code by jph
-package ch.ethz.idsc.tensor.pdf;
+package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.Pretty;
+import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
+import ch.ethz.idsc.tensor.pdf.CDF;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.GeometricDistribution;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.PDF;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Round;
 
-/* package */ class _PDF_Demo {
+enum PDFDemo {
+  ;
   public static void main(String[] args) {
     { // random variate from a distribution
       Distribution distribution = NormalDistribution.of(RealScalar.of(-2), RealScalar.of(3));
