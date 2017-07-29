@@ -17,7 +17,8 @@ import ch.ethz.idsc.tensor.sca.Increment;
  * [0, Dimensions.of(tensor).get(d) - 1] */
 public class LinearInterpolation extends AbstractInterpolation {
   /** @param tensor
-   * @return */
+   * @return
+   * @throws Exception if tensor == null */
   public static Interpolation of(Tensor tensor) {
     return new LinearInterpolation(tensor);
   }
@@ -26,6 +27,8 @@ public class LinearInterpolation extends AbstractInterpolation {
   private final Tensor tensor;
 
   private LinearInterpolation(Tensor tensor) {
+    if (tensor == null)
+      throw new RuntimeException();
     this.tensor = tensor;
   }
 

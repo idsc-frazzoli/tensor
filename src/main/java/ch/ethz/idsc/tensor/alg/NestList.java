@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -12,14 +12,15 @@ public enum NestList {
   ;
   /** gives a list of the results of applying f to x 0 through n times
    * 
-   * @param function
+   * @param unaryOperator
    * @param x
-   * @param n
-   * @return */
-  public static Tensor of(Function<Tensor, Tensor> function, Tensor x, int n) {
+   * @param n non-negative
+   * @return tensor of length n + 1 */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> Tensor of(UnaryOperator<T> unaryOperator, T x, int n) {
     Tensor tensor = Tensors.of(x);
     for (int index = 0; index < n; ++index)
-      tensor.append(function.apply(Last.of(tensor)));
+      tensor.append(unaryOperator.apply((T) Last.of(tensor)));
     return tensor;
   }
 }

@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.io.Pretty;
 public class MatlabExportDemo {
   private static final String ROOT = "/home/datahaki/";
 
-  public void exportVector() {
+  static void exportVector() {
     Tensor tensor = Tensors.of(RealScalar.ZERO, ComplexScalar.of(3, 4));
     Pretty.of(tensor);
     // System.out.println(Pretty.of(tensor));
@@ -29,7 +29,7 @@ public class MatlabExportDemo {
     }
   }
 
-  public void exportMatrix() {
+  static void exportMatrix() {
     Tensor tensor = Tensors.matrix((i, j) -> RationalScalar.of(i * 5 + j, 1), 6, 5);
     Pretty.of(tensor);
     // System.out.println(Pretty.of(tensor));
@@ -41,7 +41,7 @@ public class MatlabExportDemo {
     }
   }
 
-  public void export3D() {
+  static void export3D() {
     Tensor tensor = Partition.of(Tensors.matrix((i, j) -> RationalScalar.of(i * 5 + j, 1), 6, 5), 3);
     Pretty.of(tensor);
     // System.out.println(Pretty.of(tensor));

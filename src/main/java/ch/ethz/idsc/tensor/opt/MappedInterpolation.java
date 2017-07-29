@@ -27,6 +27,8 @@ public class MappedInterpolation extends AbstractInterpolation {
   private final Function<Tensor, Tensor> function;
 
   /* package */ MappedInterpolation(Tensor tensor, Function<Tensor, Tensor> function) {
+    if (tensor == null)
+      throw new RuntimeException();
     this.tensor = tensor;
     this.function = function;
   }

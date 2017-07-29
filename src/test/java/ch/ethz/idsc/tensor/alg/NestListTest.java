@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.sca.Cos;
 import junit.framework.TestCase;
 
 public class NestListTest extends TestCase {
-  public void testSimple() {
+  public void testLength() {
     Tensor list = NestList.of(Cos::of, RealScalar.ONE, 4);
     assertEquals(list.length(), 5);
   }

@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Export;
 
-public class ImageExportDemo {
+enum ImageExportDemo {
+  ;
   private static final String ROOT = "/home/datahaki/";
 
   public static void _im1() throws Exception {

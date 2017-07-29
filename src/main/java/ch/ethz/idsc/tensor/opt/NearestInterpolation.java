@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.sca.Round;
 public enum NearestInterpolation {
   ;
   /** @param tensor
-   * @return */
+   * @return
+   * @throws Exception if tensor == null */
   public static Interpolation of(Tensor tensor) {
     return new MappedInterpolation(tensor, Round::of);
   }

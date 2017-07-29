@@ -19,6 +19,13 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
  *
  * <p>the function is not defined at non-positive integers
  * Gamma[0], Gamma[-1], Gamma[-2] == ComplexInfinity
+ * For input of this type, an Exception is thrown.
+ * 
+ * <p>the implementation throws an exception for input with
+ * real part of large magnitude.
+ * 
+ * <p>typically the implementation gives precision within ~10^-8
+ * of the magnitude of the input.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Gamma.html">Gamma</a> */
@@ -26,7 +33,8 @@ public enum Gamma implements ScalarUnaryOperator {
   FUNCTION;
   // ---
   /** EulerGamma is the negative of the derivative D[Gamma[x]] at x == 1 */
-  public static final Scalar EULERGAMMA = DoubleScalar.of(0.577215664901532860606512090082);
+  @SuppressWarnings("unused")
+  private static final Scalar EULERGAMMA = DoubleScalar.of(0.577215664901532860606512090082);
   private static final Scalar NEGATIVE_THREE = RealScalar.of(-3);
   /** series around x == 3 */
   private static final Tensor SERIES = Tensors.vector(2, //
@@ -49,9 +57,13 @@ public enum Gamma implements ScalarUnaryOperator {
   );
   private static final Scalar LO = DoubleScalar.of(2.5);
   private static final Scalar HI = DoubleScalar.of(3.5);
+  private static final Clip CLIP = Clip.function(-200, 200);
 
   @Override
   public Scalar apply(Scalar scalar) {
+    Scalar round = Round.of(scalar);
+    if (scalar.equals(round))
+      scalar = round;
     if (IntegerQ.of(scalar)) {
       int value = Scalars.intValueExact(scalar);
       if (value <= 0)
@@ -62,6 +74,8 @@ public enum Gamma implements ScalarUnaryOperator {
 
   private static Scalar evaluate(Scalar scalar) {
     Scalar real = Real.FUNCTION.apply(scalar);
+    if (!CLIP.apply(real).equals(real))
+      throw TensorRuntimeException.of(scalar);
     // recursion is not necessary, could use loop
     if (Scalars.lessThan(real, LO))
       return evaluate(scalar.add(RealScalar.ONE)).divide(scalar);

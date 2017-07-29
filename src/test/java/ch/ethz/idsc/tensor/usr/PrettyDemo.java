@@ -7,7 +7,8 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Pretty;
 
-public class PrettyDemo {
+enum PrettyDemo {
+  ;
   public static void main(String[] args) {
     {
       Tensor m = Tensors.of( //

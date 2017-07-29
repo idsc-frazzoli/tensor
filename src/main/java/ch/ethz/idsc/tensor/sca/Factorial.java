@@ -9,10 +9,8 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Last;
 
-/** the tensor library defines factorial only for non-negative integers
- * 
- * Mathematica::Factorial also works on decimals, for instance
- * 3.21! == 7.85918
+/** the tensor library defines factorial only for non-negative integers.
+ * For input with decimal or complex numbers use {@link Gamma}.
  * 
  * Mathematica::FunctionExpand[x!] == Gamma[1 + x]
  * 

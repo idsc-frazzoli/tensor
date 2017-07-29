@@ -37,7 +37,7 @@ public class ResourceDataTest extends TestCase {
     Tensor tensor = ResourceData.of("/colorscheme/hue.csv");
     assertNotNull(tensor);
     List<Integer> list = Dimensions.of(tensor);
-    assertEquals(list, Arrays.asList(256, 4));
+    assertEquals(list, Arrays.asList(7, 4));
     Interpolation interpolation = LinearInterpolation.of(tensor);
     assertEquals(interpolation.get(Tensors.vector(0)), Tensors.vector(255, 0, 0, 255));
     _checkColorscheme(interpolation);
@@ -51,12 +51,7 @@ public class ResourceDataTest extends TestCase {
     assertEquals(primes.Get(5), Scalars.fromString("13"));
   }
 
-  public void testFail() {
-    try {
-      ResourceData.of("/number/exists.fail");
-      assertTrue(false);
-    } catch (IOException exception) {
-      // ---
-    }
+  public void testFailNull() {
+    assertNull(ResourceData.of("/number/exists.fail"));
   }
 }
