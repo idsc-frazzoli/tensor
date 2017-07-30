@@ -22,7 +22,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
    * field name inspired by Mathematica::Indeterminate */
   public static final Scalar INDETERMINATE = of(Double.NaN);
   // ---
-  private static final Scalar DOUBLE_ZERO = of(0.);
+  private static final Scalar DOUBLE_ZERO = of(0.0);
 
   /** @param value
    * @return new instance of {@link DoubleScalar} */
@@ -43,7 +43,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   /** DOUBLE_ZERO.invert() == Double.POSITIVE_INFINITY */
   @Override // from Scalar
   public Scalar invert() {
-    return of(1 / value);
+    return of(1.0 / value);
   }
 
   @Override // from Scalar
@@ -56,6 +56,14 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     if (scalar instanceof RealScalar)
       return of(value * scalar.number().doubleValue());
     return scalar.multiply(this);
+  }
+
+  // implementation exists because 4.9E-324 / 4.9E-324 != 4.9E-324 * (1 / 4.9E-324)
+  @Override // from Scalar
+  public Scalar divide(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return of(value / scalar.number().doubleValue());
+    return super.divide(scalar);
   }
 
   @Override // from Scalar
@@ -142,6 +150,10 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   public boolean isNaN() {
     return Double.isNaN(value);
+  }
+
+  public double value() {
+    return value;
   }
 
   /***************************************************/

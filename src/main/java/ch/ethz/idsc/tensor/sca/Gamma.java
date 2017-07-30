@@ -24,7 +24,7 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
  * <p>the implementation throws an exception for input with
  * real part of large magnitude.
  * 
- * <p>typically the implementation gives precision within ~10^-8
+ * <p>typically the implementation gives precision within ~1E^-8
  * of the magnitude of the input.
  * 
  * <p>inspired by

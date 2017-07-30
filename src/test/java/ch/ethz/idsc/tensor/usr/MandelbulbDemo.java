@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -17,29 +16,29 @@ import ch.ethz.idsc.tensor.red.Norm;
 enum MandelbulbDemo {
   ;
   // ---
-  private static final int RES = 256;
+  private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 40;
   private static final int EXPONENT = 8;
-  private static final Tensor RE = Subdivide.of(-1.0, +1.0, RES - 1);
-  private static final Tensor IM = Subdivide.of(-1.0, +1.0, RES - 1);
-  private static final Scalar THREE = RealScalar.of(5.0);
+  private static final Tensor RE = Subdivide.of(0.0, +1.0, RES - 1);
+  private static final Tensor IM = Subdivide.of(0.0, +1.0, RES - 1);
+  private static final Scalar THRESHOLD = RealScalar.of(5.0);
 
   private static Scalar function(int x, int y) {
-    final Tensor c = Tensors.of(RE.Get(x), IM.Get(y), RealScalar.of(.45));
+    final Tensor c = Tensors.of(RE.Get(x), IM.Get(y), RealScalar.of(.505));
     Tensor X = Tensors.vector(0, 0, 0);
     Scalar nrm = null;
     for (int index = 0; index < DEPTH; ++index) {
       X = NylanderPower.of(X.add(c), EXPONENT);
-      if (Scalars.lessThan(THREE, Norm._2SQUARED.of(X)))
-        return DoubleScalar.INDETERMINATE;
-      if (index == 2)
+      if (Scalars.lessThan(THRESHOLD, Norm._2SQUARED.of(X)))
+        return RealScalar.ZERO;
+      if (index == 6)
         nrm = Norm._2SQUARED.of(X.add(c)); //
     }
     return nrm;
   }
 
   public static void main(String[] args) throws Exception {
-    Tensor matrix = Tensors.matrix(MandelbulbDemo::function, RES, RES);
+    Tensor matrix = StaticHelper.parallel(MandelbulbDemo::function, RES, RES);
     Export.of(UserHome.Pictures("mandelbulbdemo.png"), //
         ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
   }

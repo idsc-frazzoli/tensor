@@ -22,7 +22,6 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
   // ---
   @Override
   public Scalar apply(Scalar a, Scalar b) {
-    // return ofVector(Tensors.of(a,b));
     Scalar ax = a.abs();
     Scalar ay = b.abs();
     Scalar min = Min.of(ax, ay);

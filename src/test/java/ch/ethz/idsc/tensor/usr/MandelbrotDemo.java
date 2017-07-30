@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
@@ -39,7 +38,7 @@ enum MandelbrotDemo {
   }
 
   public static void main(String[] args) throws Exception {
-    Tensor matrix = Tensors.matrix(MandelbrotDemo::function, RES, RES);
+    Tensor matrix = StaticHelper.parallel(MandelbrotDemo::function, RES, RES);
     Export.of(UserHome.Pictures("mandelbrotdemo.png"), //
         ArrayPlot.of(matrix, ColorDataGradients.RAINBOW));
   }

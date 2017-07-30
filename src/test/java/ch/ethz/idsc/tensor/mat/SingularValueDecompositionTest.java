@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class SingularValueDecompositionTest extends TestCase {
-  private static SingularValueDecomposition specialOps(Tensor A) {
+  static SingularValueDecomposition specialOps(Tensor A) {
     SingularValueDecomposition svd = SingularValueDecomposition.of(A);
     // System.out.println(svd.toInfoString());
     List<Integer> dims = Dimensions.of(A);

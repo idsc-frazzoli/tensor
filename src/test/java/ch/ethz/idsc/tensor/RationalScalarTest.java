@@ -146,4 +146,10 @@ public class RationalScalarTest extends TestCase {
     @SuppressWarnings("unused")
     long nothing = (Long) r.number();
   }
+
+  public void testMixedDivision() {
+    Scalar zero = RealScalar.ZERO;
+    Scalar eps = DoubleScalar.of(Math.nextUp(0.0));
+    assertEquals(zero.divide(eps), zero);
+  }
 }

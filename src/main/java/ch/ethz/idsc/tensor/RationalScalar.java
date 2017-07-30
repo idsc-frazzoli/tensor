@@ -66,6 +66,14 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return scalar.multiply(this);
   }
 
+  @Override
+  public Scalar divide(Scalar scalar) {
+    // TODO not final implementation
+    if (scalar instanceof DoubleScalar)
+      return DoubleScalar.of(number().doubleValue()).divide(scalar);
+    return super.divide(scalar);
+  }
+
   @Override // from Scalar
   public Number number() {
     if (IntegerQ.of(this)) {

@@ -8,10 +8,12 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Factorial;
 import ch.ethz.idsc.tensor.sca.Power;
 
-/** inspired by
+/** presumeably:
+ * ErlangDistribution[k, lambda] == GammaDistribution[k, 1 / lambda]
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ErlangDistribution.html">ErlangDistribution</a> */
 public class ErlangDistribution implements Distribution, MeanInterface, PDF, VarianceInterface {
-  // TODO provide more interfaces
   /** @param k positive integer
    * @param lambda
    * @return */
@@ -31,7 +33,7 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
     factor = Power.of(lambda, k).divide(Factorial.of(k - 1));
   }
 
-  @Override
+  @Override // from PDF
   public Scalar at(Scalar x) {
     if (Scalars.lessEquals(x, RealScalar.ZERO))
       return RealScalar.ZERO;
@@ -39,12 +41,12 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
         .multiply(Power.of(x, k.subtract(RealScalar.ONE))).multiply(factor);
   }
 
-  @Override
+  @Override // from MeanInterface
   public Scalar mean() {
     return k.divide(lambda);
   }
 
-  @Override
+  @Override // from VarianceInterface
   public Scalar variance() {
     return k.divide(lambda.multiply(lambda));
   }

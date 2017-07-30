@@ -10,4 +10,10 @@ public class UnitStepTest extends TestCase {
     assertEquals(UnitStep.of(RealScalar.of(0)), RealScalar.ONE);
     assertEquals(UnitStep.of(RealScalar.of(.134)), RealScalar.ONE);
   }
+
+  public void testPredicate() {
+    assertTrue(UnitStep.isNonNegative(RealScalar.ZERO));
+    assertTrue(UnitStep.isNonNegative(RealScalar.ONE));
+    assertFalse(UnitStep.isNonNegative(RealScalar.ONE.negate()));
+  }
 }

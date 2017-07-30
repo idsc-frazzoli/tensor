@@ -15,7 +15,32 @@ Features:
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
 
-## Examples
+## Gallery
+
+<table>
+<tr>
+<td>
+
+![gammademo](https://user-images.githubusercontent.com/4012178/28755698-bdb96546-7560-11e7-88d5-2d143e155e75.png)
+
+Gamma
+
+<td>
+
+![inversetrigdemo2](https://user-images.githubusercontent.com/4012178/28755697-bdb72d58-7560-11e7-8a70-3ef9d82ff48c.png)
+
+Trigonometry
+
+<td>
+
+![mandelbulbdemo](https://user-images.githubusercontent.com/4012178/28755696-bd98789a-7560-11e7-8ebc-001c37f0a4fd.png)
+
+Nylander Power
+
+</tr>
+</table>
+
+## Example Code
 
 Solving systems of linear equations
 

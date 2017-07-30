@@ -73,6 +73,12 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
     return scalar.multiply(this);
   }
 
+  @Override
+  public Scalar divide(Scalar scalar) {
+    // TODO similar to DoubleScalar
+    return super.divide(scalar);
+  }
+
   @Override // from Scalar
   public Number number() {
     return value;

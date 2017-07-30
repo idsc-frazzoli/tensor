@@ -11,15 +11,9 @@ import junit.framework.TestCase;
 public class SingularValueDecompositionExtTest extends TestCase {
   private static void _check(Tensor matrix) {
     assertTrue(SquareMatrixQ.of(matrix));
-    SingularValueDecomposition.of(matrix);
+    SingularValueDecompositionTest.specialOps(matrix);
     Tensor svd = IdentityMatrix.of(matrix.length()).subtract(Transpose.of(matrix));
-    try {
-      SingularValueDecomposition.of(svd);
-      System.out.println("SingularValueDecomposition works!");
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+    SingularValueDecompositionTest.specialOps(svd);
   }
 
   public void testSimple() throws Exception {

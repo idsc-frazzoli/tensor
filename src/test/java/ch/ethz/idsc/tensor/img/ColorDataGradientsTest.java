@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -37,6 +38,12 @@ public class ColorDataGradientsTest extends TestCase {
       }
       try {
         cdf.apply(RealScalar.of(1.1));
+        assertTrue(false);
+      } catch (Exception exception) {
+        // ---
+      }
+      try {
+        cdf.apply(ComplexScalar.of(0.5, 0.5));
         assertTrue(false);
       } catch (Exception exception) {
         // ---

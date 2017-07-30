@@ -17,4 +17,18 @@ public class SignTest extends TestCase {
     assertEquals(Sign.of(RealScalar.of(3 - 3)), RealScalar.ZERO);
     assertEquals(Sign.of(RealScalar.of(9 - 3)), RealScalar.ONE);
   }
+
+  public void testInfinity() {
+    assertEquals(Sign.of(DoubleScalar.POSITIVE_INFINITY), RealScalar.of(+1));
+    assertEquals(Sign.of(DoubleScalar.NEGATIVE_INFINITY), RealScalar.of(-1));
+  }
+
+  public void testFail() {
+    try {
+      Sign.of(DoubleScalar.INDETERMINATE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

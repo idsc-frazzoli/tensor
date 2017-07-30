@@ -109,8 +109,9 @@ public abstract class AbstractScalar implements Scalar {
     return add(tensor.negate());
   }
 
+  /** not final because for {@link DoubleScalar} division should be carried out directly */
   @Override // from Scalar
-  public final Scalar divide(Scalar scalar) {
+  public Scalar divide(Scalar scalar) {
     // return scalar.invert().multiply(this); // also possible when commuting
     return multiply(scalar.invert());
   }
