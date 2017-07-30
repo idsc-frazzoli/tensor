@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
-import java.io.File;
-
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -42,7 +40,7 @@ enum MandelbrotDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = Tensors.matrix(MandelbrotDemo::function, RES, RES);
-    Export.of(new File("/home/datahaki/Pictures/mandelbrotdemo.png"), //
+    Export.of(UserHome.Pictures("mandelbrotdemo.png"), //
         ArrayPlot.of(matrix, ColorDataGradients.RAINBOW));
   }
 }

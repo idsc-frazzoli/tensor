@@ -1,7 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class ColorDataGradientsTest extends TestCase {
@@ -10,6 +13,16 @@ public class ColorDataGradientsTest extends TestCase {
       cdf.apply(RealScalar.ZERO);
       cdf.apply(RealScalar.ONE);
     }
+  }
+
+  public void testUnmodifiable() {
+    Tensor copy = ColorDataGradients.CLASSIC.apply(DoubleScalar.INDETERMINATE);
+    try {
+      ColorDataGradients.CLASSIC.apply(DoubleScalar.INDETERMINATE).set(Increment.ONE, 1);
+    } catch (Exception exception) {
+      // ---
+    }
+    assertEquals(copy, ColorDataGradients.CLASSIC.apply(DoubleScalar.INDETERMINATE));
   }
 
   public void testFail() {

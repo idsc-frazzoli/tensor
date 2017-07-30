@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
-import java.io.File;
-
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -42,7 +40,7 @@ enum MandelbulbDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = Tensors.matrix(MandelbulbDemo::function, RES, RES);
-    Export.of(new File("/home/datahaki/Pictures/mandelbulbdemo.png"), //
+    Export.of(UserHome.Pictures("mandelbulbdemo.png"), //
         ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
   }
 }

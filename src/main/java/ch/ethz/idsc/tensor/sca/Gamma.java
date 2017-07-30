@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.IntegerQ;
+import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -35,9 +35,9 @@ public enum Gamma implements ScalarUnaryOperator {
   /** EulerGamma is the negative of the derivative D[Gamma[x]] at x == 1 */
   @SuppressWarnings("unused")
   private static final Scalar EULERGAMMA = DoubleScalar.of(0.577215664901532860606512090082);
-  private static final Scalar NEGATIVE_THREE = RealScalar.of(-3);
+  static final Scalar NEGATIVE_THREE = RealScalar.of(-3);
   /** series around x == 3 */
-  private static final Tensor SERIES = Tensors.vector(2, //
+  static final Tensor SERIES = Tensors.vector(2, //
       1.84556867019693427878697581983519513792, //
       1.24646499595134652897125503275406212275, //
       0.57499416892061222754655452970695120715, //
@@ -55,18 +55,18 @@ public enum Gamma implements ScalarUnaryOperator {
       -1.63147521008274372795419896867E-8, // <- negative coefficient
       8.62349738997827269892882654395E-9 //
   );
-  private static final Scalar LO = DoubleScalar.of(2.5);
-  private static final Scalar HI = DoubleScalar.of(3.5);
-  private static final Clip CLIP = Clip.function(-200, 200);
+  static final Scalar LO = DoubleScalar.of(2.5);
+  static final Scalar HI = DoubleScalar.of(3.5);
+  private static final Mod MOD = Mod.function(RealScalar.ONE, LO);
+  private static final Scalar HALF_P = DoubleScalar.of(+0.5);
+  private static final Scalar HALF_N = DoubleScalar.of(-0.5);
 
   @Override
   public Scalar apply(Scalar scalar) {
-    Scalar round = Round.of(scalar);
-    if (scalar.equals(round))
+    Scalar round = Round.of(Real.of(scalar));
+    if (scalar.equals(round)) { // ..., -2, -1, 0, 1, 2, ...
       scalar = round;
-    if (IntegerQ.of(scalar)) {
-      int value = Scalars.intValueExact(scalar);
-      if (value <= 0)
+      if (Scalars.lessEquals(scalar, RealScalar.ZERO)) // ..., -2, -1, 0
         throw TensorRuntimeException.of(scalar);
     }
     return evaluate(scalar);
@@ -74,16 +74,19 @@ public enum Gamma implements ScalarUnaryOperator {
 
   private static Scalar evaluate(Scalar scalar) {
     Scalar real = Real.FUNCTION.apply(scalar);
-    if (!CLIP.apply(real).equals(real))
-      throw TensorRuntimeException.of(scalar);
-    // recursion is not necessary, could use loop
-    if (Scalars.lessThan(real, LO))
-      return evaluate(scalar.add(RealScalar.ONE)).divide(scalar);
-    if (Scalars.lessThan(HI, real)) {
-      Scalar decrement = scalar.subtract(RealScalar.ONE);
-      return evaluate(decrement).multiply(decrement);
+    Scalar hxi = Imag.FUNCTION.apply(scalar);
+    Scalar hxr = MOD.apply(real);
+    Scalar hx = ComplexScalar.of(hxr, hxi);
+    Scalar value = Multinomial.horner(SERIES, hx.add(NEGATIVE_THREE));
+    while (Scalars.lessThan(Real.of(real.subtract(hx)), HALF_N) && NumberQ.of(value) && Scalars.nonZero(value)) {
+      hx = hx.subtract(RealScalar.ONE);
+      value = value.divide(hx);
     }
-    return Multinomial.horner(SERIES, scalar.add(NEGATIVE_THREE));
+    while (Scalars.lessThan(HALF_P, Real.of(real.subtract(hx))) && NumberQ.of(value)) {
+      value = value.multiply(hx);
+      hx = hx.add(RealScalar.ONE);
+    }
+    return value;
   }
 
   /** @param tensor
