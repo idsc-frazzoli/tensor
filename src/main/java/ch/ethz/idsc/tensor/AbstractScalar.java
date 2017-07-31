@@ -110,14 +110,22 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   @Override // from Scalar
-  public final Scalar divide(Scalar scalar) {
-    // return scalar.invert().multiply(this); // also possible when commuting
+  public final Tensor map(Function<Scalar, ? extends Tensor> function) {
+    return function.apply(this);
+  }
+
+  /***************************************************/
+  /** not final because for {@link DoubleScalar} division should be carried out directly */
+  @Override // from Scalar
+  public Scalar divide(Scalar scalar) {
     return multiply(scalar.invert());
   }
 
-  @Override // from Scalar
-  public final Tensor map(Function<Scalar, ? extends Tensor> function) {
-    return function.apply(this);
+  /** @param scalar
+   * @return */
+  // EXPERIMENTAL
+  public Scalar under(Scalar scalar) {
+    return invert().multiply(scalar);
   }
 
   /***************************************************/

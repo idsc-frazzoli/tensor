@@ -11,7 +11,19 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
 /** scalar with double precision, 64-bit, MATLAB style
  * 
- * zero().inverse() equals {@link RealScalar#POSITIVE_INFINITY} */
+ * The value of {@link DoubleScalar} is backed by a double type.
+ * double types are <em>not</em> closed under multiplicative inversion:
+ * <pre>
+ * a / b != a * (1.0 / b)
+ * </pre>
+ * For instance, the smallest double is 4.9E-324.
+ * but 1.0 / 4.9E-324 == Infinity
+ * 
+ * The range of double values closed under inversion are at least
+ * [Double.MIN_NORMAL, Double.MAX_VALUE], i.e.
+ * [2.2250738585072014E-308, 1.7976931348623157E308]
+ * 
+ * zero().inverse() equals {@link DoubleScalar#POSITIVE_INFINITY} */
 public final class DoubleScalar extends AbstractRealScalar implements //
     ChopInterface, MachineNumberQInterface {
   /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
@@ -22,7 +34,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
    * field name inspired by Mathematica::Indeterminate */
   public static final Scalar INDETERMINATE = of(Double.NaN);
   // ---
-  private static final Scalar DOUBLE_ZERO = of(0.);
+  private static final Scalar DOUBLE_ZERO = of(0.0);
 
   /** @param value
    * @return new instance of {@link DoubleScalar} */
@@ -43,7 +55,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   /** DOUBLE_ZERO.invert() == Double.POSITIVE_INFINITY */
   @Override // from Scalar
   public Scalar invert() {
-    return of(1 / value);
+    return of(1.0 / value);
   }
 
   @Override // from Scalar
@@ -56,6 +68,23 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     if (scalar instanceof RealScalar)
       return of(value * scalar.number().doubleValue());
     return scalar.multiply(this);
+  }
+
+  // implementation exists because 4.9E-324 / 4.9E-324 != 4.9E-324 * (1 / 4.9E-324)
+  @Override // from Scalar
+  public Scalar divide(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return of(value / scalar.number().doubleValue());
+    // return super.divide(scalar);
+    AbstractScalar abstractScalar = (AbstractScalar) scalar;
+    return abstractScalar.under(this);
+  }
+
+  @Override
+  public Scalar under(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return of(scalar.number().doubleValue() / value);
+    return scalar.divide(this);
   }
 
   @Override // from Scalar
@@ -74,14 +103,6 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     if (scalar instanceof RealScalar)
       return of(value + scalar.number().doubleValue());
     return scalar.add(this);
-  }
-
-  /***************************************************/
-  @Override // from AbstractRealScalar
-  protected boolean isNonNegative() {
-    if (Double.isNaN(value))
-      throw TensorRuntimeException.of(this);
-    return 0 <= value;
   }
 
   /***************************************************/
@@ -126,6 +147,13 @@ public final class DoubleScalar extends AbstractRealScalar implements //
         RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE) : this;
   }
 
+  @Override // from SignInterface
+  public int signInt() {
+    if (isNaN())
+      throw TensorRuntimeException.of(this);
+    return value < 0 ? -1 : (0 == value ? 0 : 1);
+  }
+
   /***************************************************/
   private BigDecimal bigDecimal() {
     return BigDecimal.valueOf(value);
@@ -143,6 +171,10 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   public boolean isNaN() {
     return Double.isNaN(value);
+  }
+
+  public double value() {
+    return value;
   }
 
   /***************************************************/

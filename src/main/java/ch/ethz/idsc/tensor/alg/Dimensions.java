@@ -29,7 +29,9 @@ public enum Dimensions {
 
   /***************************************************/
   /** @return true if tensor structure is identical at all levels, else false.
-   * true for {@link Scalar}s */
+   * true for {@link Scalar}s
+   * 
+   * @see ArrayQ */
   /* package */ static boolean isArray(Tensor tensor) {
     return _isArray(complete(tensor));
   }
@@ -37,6 +39,11 @@ public enum Dimensions {
   /* package */ static boolean isArrayWithRank(Tensor tensor, int rank) {
     List<Set<Integer>> complete = complete(tensor);
     return _list(complete).size() == rank && _isArray(complete);
+  }
+
+  /* package */ static boolean isArrayWithDimensions(Tensor tensor, List<Integer> dims) {
+    List<Set<Integer>> complete = complete(tensor);
+    return _list(complete).equals(dims) && _isArray(complete);
   }
 
   // helper function

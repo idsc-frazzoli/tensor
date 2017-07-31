@@ -73,6 +73,12 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
     return scalar.multiply(this);
   }
 
+  @Override
+  public Scalar divide(Scalar scalar) {
+    // TODO similar to DoubleScalar
+    return super.divide(scalar);
+  }
+
   @Override // from Scalar
   public Number number() {
     return value;
@@ -99,11 +105,11 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
 
   /***************************************************/
   @Override // from AbstractRealScalar
-  protected boolean isNonNegative() {
-    return 0 <= value.signum();
+  public Scalar arg() {
+    // TODO perhaps return better precision
+    return super.arg();
   }
 
-  /***************************************************/
   @Override // from ChopInterface
   public Scalar chop(Chop chop) {
     return value.abs().doubleValue() < chop.threshold() ? ZERO : this;
@@ -134,6 +140,11 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
   @Override // from RoundingInterface
   public Scalar round() {
     return RationalScalar.of(value.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
+  }
+
+  @Override // from SignInterface
+  public int signInt() {
+    return value.signum();
   }
 
   @Override // from SqrtInterface

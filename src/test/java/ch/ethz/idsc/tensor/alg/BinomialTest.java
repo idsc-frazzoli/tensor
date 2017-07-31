@@ -4,9 +4,11 @@ package ch.ethz.idsc.tensor.alg;
 import java.math.BigInteger;
 import java.util.stream.IntStream;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class BinomialTest extends TestCase {
@@ -37,16 +39,23 @@ public class BinomialTest extends TestCase {
     // System.out.println(Binomial.MEMO_REUSE);
   }
 
+  public void testOrder() {
+    assertEquals(Binomial.of(0, 0), RealScalar.ONE);
+    assertEquals(Binomial.of(0, 7), RealScalar.ZERO);
+    assertEquals(Binomial.of(3, 7), RealScalar.ZERO);
+    // case defined in Mathematica
+    // System.out.println(Binomial.of(-3, 7));
+  }
+
+  public void testDecimal() {
+    assertTrue(Chop._08.close(Binomial.of(RealScalar.of(10.21), RealScalar.of(3)), DoubleScalar.of(128.66999350000037)));
+    assertTrue(Chop._08.close(Binomial.of(RealScalar.of(8.81), RealScalar.of(11.3)), DoubleScalar.of(0.0011937860196171754)));
+  }
+
   public void testFailNK() {
     try {
-      Binomial.of(RealScalar.of(10.21), RealScalar.of(3));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Binomial.of(3, 7);
-      assertTrue(false);
+      // ;
+      // assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

@@ -14,6 +14,7 @@ public class FactorialTest extends TestCase {
     assertEquals(Factorial.of(RealScalar.of(2)), RealScalar.of(2));
     assertEquals(Factorial.of(RealScalar.of(3)), RealScalar.of(6));
     assertEquals(Factorial.of(RealScalar.of(4)), RealScalar.of(24));
+    assertEquals(Factorial.of(RealScalar.of(10)), RealScalar.of(3628800));
   }
 
   public void testOf1() {
@@ -24,6 +25,16 @@ public class FactorialTest extends TestCase {
   public void testOf2() {
     Tensor result = Factorial.of(Tensors.vector(0, 1, 2, 3, 4));
     assertEquals(result, Tensors.vector(1, 1, 2, 6, 24));
+  }
+
+  public void testOfInteger() {
+    assertEquals(Factorial.of(0), RealScalar.ONE);
+    assertEquals(Factorial.of(1), RealScalar.ONE);
+    assertEquals(Factorial.of(2), RealScalar.of(2));
+  }
+
+  public void testLarge() {
+    Factorial.of(RealScalar.of(1000));
   }
 
   public void testFail() {

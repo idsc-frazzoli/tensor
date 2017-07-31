@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 // EXPERIMENTAL
-class QuaternionScalar extends AbstractScalar implements //
+final class QuaternionScalar extends AbstractScalar implements //
     ComplexEmbedding {
   public static Scalar of(Number re, Number im, Number jm, Number km) {
     return of( //

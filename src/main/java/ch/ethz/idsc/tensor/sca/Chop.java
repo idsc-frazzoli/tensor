@@ -32,6 +32,10 @@ public class Chop implements ScalarUnaryOperator {
   public static final Chop _13 = below(1e-13);
   public static final Chop _14 = below(1e-14);
   public static final Chop _15 = below(1e-15);
+  public static final Chop _16 = below(1e-16);
+  public static final Chop _17 = below(1e-17);
+  public static final Chop _18 = below(1e-18);
+  public static final Chop _19 = below(1e-19);
   public static final Chop _20 = below(1e-20);
   public static final Chop _30 = below(1e-30);
   public static final Chop _40 = below(1e-40);
@@ -61,8 +65,10 @@ public class Chop implements ScalarUnaryOperator {
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof ChopInterface)
-      return ((ChopInterface) scalar).chop(this);
+    if (scalar instanceof ChopInterface) {
+      ChopInterface chopInterface = (ChopInterface) scalar;
+      return chopInterface.chop(this);
+    }
     return scalar;
   }
 

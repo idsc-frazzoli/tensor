@@ -48,12 +48,12 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return RealScalar.of(max - 1 + min).multiply(RationalScalar.of(1, 2));
+    return RationalScalar.of(max - 1 + min, 2);
   }
 
   @Override // from VarianceInterface
   public Scalar variance() {
-    Scalar width = RealScalar.of(max - 1 - min);
+    Scalar width = RationalScalar.of(max - 1 - min, 1);
     return width.multiply(RealScalar.of(2).add(width)).multiply(RationalScalar.of(1, 12));
   }
 
@@ -76,13 +76,13 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    Scalar num = Ceiling.of(x).subtract(RealScalar.of(min));
+    Scalar num = Ceiling.of(x).subtract(RationalScalar.of(min, 1));
     return (Scalar) num.multiply(p).map(Clip.UNIT);
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
-    Scalar num = RealScalar.ONE.add(Floor.of(x)).subtract(RealScalar.of(min));
+    Scalar num = RealScalar.ONE.add(Floor.of(x)).subtract(RationalScalar.of(min, 1));
     return (Scalar) num.multiply(p).map(Clip.UNIT);
   }
 }

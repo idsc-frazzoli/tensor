@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.io.ResourceData;
 import junit.framework.TestCase;
 
 public class LinearInterpolationTest extends TestCase {
@@ -67,5 +68,14 @@ public class LinearInterpolationTest extends TestCase {
     interpolation.get(Tensors.vector(0.3, 1.8, 0.3));
     // System.out.println(res);
     // res.append(null);
+  }
+
+  public void testFail() {
+    try {
+      LinearInterpolation.of(ResourceData.of("/colorscheme_nocan/hue.csv"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

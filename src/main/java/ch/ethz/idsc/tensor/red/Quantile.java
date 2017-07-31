@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -36,10 +37,10 @@ public enum Quantile {
   }
 
   private static Scalar _of(Tensor sorted, Scalar scalar) {
-    Scalar length = RealScalar.of(sorted.length());
+    Scalar length = RationalScalar.of(sorted.length(), 1);
     if (scalar instanceof RealScalar) {
       int index = Scalars.isZero(scalar) ? //
-          0 : (Integer) Ceiling.FUNCTION.apply(scalar.multiply(length)).subtract(RealScalar.ONE).number();
+          0 : (Integer) Ceiling.of(scalar.multiply(length)).subtract(RealScalar.ONE).number();
       return sorted.Get(index);
     }
     throw TensorRuntimeException.of(sorted, scalar);

@@ -6,8 +6,9 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
-// EXPERIMENTAL
-enum Unitize implements ScalarUnaryOperator {
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Unitize.html">Unitize</a> */
+public enum Unitize implements ScalarUnaryOperator {
   FUNCTION;
   // ---
   @Override

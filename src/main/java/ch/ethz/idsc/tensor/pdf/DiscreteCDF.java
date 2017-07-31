@@ -6,6 +6,7 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.ExactNumberQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -17,7 +18,7 @@ import ch.ethz.idsc.tensor.Scalars;
 /* package */ class DiscreteCDF implements CDF {
   // 0.9999999999999999
   // .^....^....^....^.
-  /* package for testing */ static final Scalar CDF_NUMERIC_THRESHOLD = RealScalar.of(1e-14);
+  /* package for testing */ static final Scalar CDF_NUMERIC_THRESHOLD = DoubleScalar.of(1e-14);
   // ---
   private final DiscreteDistribution discreteDistribution;
   private final NavigableMap<Scalar, Scalar> cdf = new TreeMap<>();
@@ -41,7 +42,7 @@ import ch.ethz.idsc.tensor.Scalars;
   private Scalar p_function(Scalar x, Function<Scalar, Entry<Scalar, Scalar>> function) {
     if (cdf.isEmpty()) {
       int first = discreteDistribution.lowerBound();
-      cdf.put(RealScalar.of(first), discreteDistribution.p_equals(first));
+      cdf.put(RationalScalar.of(first, 1), discreteDistribution.p_equals(first));
     }
     Entry<Scalar, Scalar> ceiling = cdf.ceilingEntry(x);
     if (cdf_finished || ceiling != null) {

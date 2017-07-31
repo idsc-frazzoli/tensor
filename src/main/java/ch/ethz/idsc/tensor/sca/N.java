@@ -18,8 +18,10 @@ public enum N implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof NInterface)
-      return ((NInterface) scalar).n();
+    if (scalar instanceof NInterface) {
+      NInterface nInterface = (NInterface) scalar;
+      return nInterface.n();
+    }
     return scalar;
   }
 
@@ -35,7 +37,7 @@ public enum N implements ScalarUnaryOperator {
    * 
    * @param value in double precision
    * @return scalar with double precision of given value */
-  public static Scalar of(double value) {
+  /* package */ static Scalar of(double value) {
     return DoubleScalar.of(value);
   }
 }

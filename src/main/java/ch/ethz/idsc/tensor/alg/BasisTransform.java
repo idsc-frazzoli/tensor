@@ -11,7 +11,7 @@ public enum BasisTransform {
    * @param v matrix
    * @return tensor of form with respect to basis v */
   public static Tensor ofForm(Tensor form, Tensor v) {
-    return Transpose.apply(form, tensor -> tensor.dot(v));
+    return StaticHelper.nestRank(form, tensor -> tensor.dot(v));
   }
 
   /** @param matrix is (1,1)-tensor

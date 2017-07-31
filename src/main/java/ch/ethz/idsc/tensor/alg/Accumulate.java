@@ -11,7 +11,7 @@ public enum Accumulate {
    * Accumulate.of[{a, b, c, d}] == {a, a + b, a + b + c, a + b + c + d}
    * </pre>
    * 
-   * <p>concept as Matlab::cumsum
+   * <p>concept as MATLAB::cumsum
    * 
    * @param tensor
    * @return */
@@ -23,7 +23,7 @@ public enum Accumulate {
    * Accumulate.prod[{a, b, c, d}] == {a, a * b, a * b * c, a * b * c * d}
    * </pre>
    * 
-   * <p>concept as Matlab::cumprod
+   * <p>concept as MATLAB::cumprod
    * 
    * @param tensor
    * @return */

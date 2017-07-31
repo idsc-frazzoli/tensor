@@ -51,13 +51,20 @@ import java.util.Objects;
         den.multiply(bigFraction.den));
   }
 
-  /** multiplication
-   * applies gcd 1x
+  /** multiplication, applies gcd 1x
    * 
    * @param bigFraction
    * @return */
   public BigFraction multiply(BigFraction bigFraction) {
     return of(num.multiply(bigFraction.num), den.multiply(bigFraction.den));
+  }
+
+  /** division, applies gcd 1x
+   * 
+   * @param bigFraction
+   * @return */
+  public BigFraction divide(BigFraction bigFraction) {
+    return of(num.multiply(bigFraction.den), den.multiply(bigFraction.num));
   }
 
   /** @return reciprocal == den/num */
@@ -88,5 +95,9 @@ import java.util.Objects;
       return num.equals(bigFraction.num) && den.equals(bigFraction.den); // sufficient since in normal form
     }
     return false;
+  }
+
+  public int signum() {
+    return num.signum();
   }
 }

@@ -61,11 +61,33 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
-    if (scalar instanceof RationalScalar)
-      return _of(bigFraction.multiply(((RationalScalar) scalar).bigFraction));
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return _of(bigFraction.multiply(rationalScalar.bigFraction));
+    }
     return scalar.multiply(this);
   }
 
+  @Override
+  public Scalar divide(Scalar scalar) {
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return _of(bigFraction.divide(rationalScalar.bigFraction));
+    }
+    AbstractScalar abstractScalar = (AbstractScalar) scalar;
+    return abstractScalar.under(this);
+  }
+
+  @Override
+  public Scalar under(Scalar scalar) {
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return _of(rationalScalar.bigFraction.divide(bigFraction));
+    }
+    return scalar.divide(this);
+  }
+
+  // under
   @Override // from Scalar
   public Number number() {
     if (IntegerQ.of(this)) {
@@ -96,12 +118,6 @@ public final class RationalScalar extends AbstractRealScalar implements //
     if (scalar instanceof RationalScalar)
       return _of(bigFraction.add(((RationalScalar) scalar).bigFraction));
     return scalar.add(this);
-  }
-
-  /***************************************************/
-  @Override // from AbstractRealScalar
-  protected boolean isNonNegative() {
-    return 0 <= bigFraction.num.signum();
   }
 
   /***************************************************/
@@ -164,16 +180,21 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return of(toBigDecimal(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
   }
 
+  @Override // from SignInterface
+  public int signInt() {
+    return bigFraction.signum();
+  }
+
   /** Example: sqrt(16/25) == 4/5
    * 
    * @return {@link RationalScalar} precision if numerator and denominator are both squares */
   @Override // from AbstractRealScalar
   public Scalar sqrt() {
     try {
-      boolean pos = isNonNegative();
-      BigInteger sqrtnum = Sqrt.of(pos ? bigFraction.num : bigFraction.num.negate());
+      boolean isNonNegative = isNonNegative();
+      BigInteger sqrtnum = Sqrt.of(isNonNegative ? bigFraction.num : bigFraction.num.negate());
       BigInteger sqrtden = Sqrt.of(bigFraction.den);
-      return pos ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
+      return isNonNegative ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---
     }

@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -15,7 +16,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum ArcTan implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Scalar I_HALF = ComplexScalar.I.divide(RealScalar.of(2));
+  private static final Scalar I_HALF = ComplexScalar.I.multiply(RationalScalar.of(1, 2));
 
   @Override
   public Scalar apply(Scalar scalar) {

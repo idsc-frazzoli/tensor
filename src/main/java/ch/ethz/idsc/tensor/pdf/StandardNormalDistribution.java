@@ -1,8 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Erfc;
@@ -11,10 +11,10 @@ import ch.ethz.idsc.tensor.sca.Exp;
 enum StandardNormalDistribution implements Distribution, PDF, CDF {
   INSTANCE;
   // ---
-  private static final Scalar den = RealScalar.of(0.398942280401432677939946059934);
-  private static final Scalar div = RealScalar.of(-0.5);
+  private static final Scalar den = DoubleScalar.of(0.398942280401432677939946059934);
+  private static final Scalar div = DoubleScalar.of(-0.5);
   private static final Scalar HALF = RationalScalar.of(1, 2);
-  private static final Scalar FACTOR = RealScalar.of(-Math.sqrt(0.5));
+  private static final Scalar FACTOR = DoubleScalar.of(-Math.sqrt(0.5));
 
   // ---
   @Override // from PDF

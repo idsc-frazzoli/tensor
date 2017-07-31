@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.MatrixQ;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import junit.framework.TestCase;
 
@@ -21,6 +22,14 @@ public class MatrixQTest extends TestCase {
     assertTrue(MatrixQ.of(Tensors.fromString("{{1}}")));
     assertTrue(MatrixQ.of(Tensors.fromString("{{1,1,3},{7,2,9}}")));
     assertFalse(MatrixQ.of(Tensors.fromString("{{1,1},{7,2,9}}")));
+  }
+
+  public void testMatrixSize() {
+    assertTrue(MatrixQ.ofSize(Tensors.fromString("{{1}}"), 1, 1));
+    assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1}}"), 1, 2));
+    assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1}}"), 2, 1));
+    assertTrue(MatrixQ.ofSize(Tensors.fromString("{{1,1,3},{7,2,9}}"), 2, 3));
+    assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1,1},{7,2,9}}"), 2, 2));
   }
 
   public void testAd() {

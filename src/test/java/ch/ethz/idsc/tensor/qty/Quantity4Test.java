@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -11,6 +10,7 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.mat.CholeskyDecomposition;
 import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
 import ch.ethz.idsc.tensor.mat.Det;
+import ch.ethz.idsc.tensor.mat.Eigensystem;
 import ch.ethz.idsc.tensor.mat.HermitianMatrixQ;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.Inverse;
@@ -20,9 +20,11 @@ import ch.ethz.idsc.tensor.mat.NegativeSemidefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.NullSpace;
 import ch.ethz.idsc.tensor.mat.PositiveDefiniteMatrixQ;
 import ch.ethz.idsc.tensor.mat.PositiveSemidefiniteMatrixQ;
+import ch.ethz.idsc.tensor.mat.QRDecomposition;
 import ch.ethz.idsc.tensor.mat.RowReduce;
 import ch.ethz.idsc.tensor.mat.SymmetricMatrixQ;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
@@ -39,11 +41,11 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testLinearSolve() {
-    final Scalar one = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(4), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(2), "[m]");
-    Scalar qs4 = Quantity.of(RealScalar.of(-3), "[m]");
+    final Scalar one = Quantity.of(1, "[m]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(4, "[m]");
+    Scalar qs3 = Quantity.of(2, "[m]");
+    Scalar qs4 = Quantity.of(-3, "[m]");
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor ve2 = Tensors.of(qs3, qs4);
     Tensor mat = Tensors.of(ve1, ve2);
@@ -54,10 +56,10 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testInverse2() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
-    Scalar qs3 = Quantity.of(RealScalar.of(3), "[rad]");
-    Scalar qs4 = Quantity.of(RealScalar.of(4), "[rad]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
+    Scalar qs3 = Quantity.of(3, "[rad]");
+    Scalar qs4 = Quantity.of(4, "[rad]");
     Tensor ve1 = Tensors.of(qs1.multiply(qs1), qs2.multiply(qs3));
     Tensor ve2 = Tensors.of(qs2.multiply(qs3), qs4.multiply(qs4));
     Tensor mat = Tensors.of(ve1, ve2);
@@ -101,8 +103,8 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testCholesky2() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
     Tensor ve1 = Tensors.of(qs2, qs1);
     Tensor ve2 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1, ve2);
@@ -197,12 +199,72 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testNullspace() {
-    Scalar qs1 = Quantity.of(RealScalar.of(1), "[m]");
-    Scalar qs2 = Quantity.of(RealScalar.of(2), "[m]");
+    Scalar qs1 = Quantity.of(1, "[m]");
+    Scalar qs2 = Quantity.of(2, "[m]");
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1);
     Tensor nul = NullSpace.usingRowReduce(mat);
     // System.out.println(nul);
     assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
+  }
+
+  public void testEigensystem() {
+    Tensor matrix = Tensors.fromString("{{10[m],-2[m]},{-2[m],4[m]}}", Quantity::fromString);
+    assertTrue(SymmetricMatrixQ.of(matrix));
+    {
+      Eigensystem eig = Eigensystem.ofSymmetric(matrix);
+      assertTrue(eig.values().Get(0) instanceof Quantity);
+      assertTrue(eig.values().Get(1) instanceof Quantity);
+    }
+    {
+      Eigensystem eig = Eigensystem.ofSymmetric(N.of(matrix));
+      assertTrue(eig.values().Get(0) instanceof Quantity);
+      assertTrue(eig.values().Get(1) instanceof Quantity);
+    }
+  }
+
+  public void testEigensystemMixed() {
+    Tensor matrix = Tensors.fromString("{{10[m^2],2[m*kg]},{2[m*kg],4[kg^2]}}", Quantity::fromString);
+    assertTrue(SymmetricMatrixQ.of(matrix));
+    try {
+      Eigensystem.ofSymmetric(matrix);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  public void testQRDecomposition() {
+    Tensor matrix = Tensors.fromString( //
+        "{{ 12[s], -51[s], 4[s] }, { 6[s], 167[s], -68[s] }, { -4[s], 24[s], -41[s] } }", //
+        Quantity::fromString);
+    {
+      QRDecomposition qr = QRDecomposition.of(matrix);
+      assertTrue(qr.det() instanceof Quantity);
+      assertEquals(qr.getQ().dot(qr.getR()), matrix);
+      assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
+    }
+    {
+      QRDecomposition qr = QRDecomposition.of(N.of(matrix));
+      assertTrue(qr.det() instanceof Quantity);
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  public void testQRDecompositionMixed() {
+    Tensor matrix = Tensors.fromString( //
+        "{{ 12[s], -51[A], 4[m] }, { 6[s], 167[A], -68[m] }, { -4[s], 24[A], -41[m] } }", //
+        Quantity::fromString);
+    {
+      QRDecomposition qr = QRDecomposition.of(matrix);
+      assertTrue(qr.det() instanceof Quantity);
+      assertEquals(qr.getQ().dot(qr.getR()), matrix);
+      assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
+    }
+    {
+      QRDecomposition qr = QRDecomposition.of(N.of(matrix));
+      assertTrue(qr.det() instanceof Quantity);
+    }
   }
 }

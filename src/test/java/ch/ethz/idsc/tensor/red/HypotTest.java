@@ -10,14 +10,26 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class HypotTest extends TestCase {
-  private static void checkPair(double x, double y) {
+  private static void _checkPair(double x, double y) {
     Scalar res = Hypot.BIFUNCTION.apply(RealScalar.of(x), RealScalar.of(y));
     double jav = Math.hypot(x, y);
-    assertEquals(res.number().doubleValue(), jav);
+    assertTrue(Chop._17.close(res, RealScalar.of(jav)));
+  }
+
+  private static void checkPair(double x, double y) {
+    _checkPair(x, y);
+    _checkPair(y, x);
+    _checkPair(x, -y);
+    _checkPair(y, -x);
+    _checkPair(-x, y);
+    _checkPair(-y, x);
+    _checkPair(-x, -y);
+    _checkPair(-y, -x);
   }
 
   public void testBasic() {
@@ -25,6 +37,11 @@ public class HypotTest extends TestCase {
     checkPair(0, 1e-300);
     checkPair(0, 0);
     checkPair(1, 1);
+    // System.out.println(1/Math.nextDown(0.0));
+    checkPair(Math.nextDown(0.0), 0);
+    checkPair(Math.nextDown(0.f), 0);
+    checkPair(Math.nextUp(0.0), 0);
+    checkPair(Math.nextUp(0.f), 0);
   }
 
   private static void checkVectorExact(Tensor vec) {

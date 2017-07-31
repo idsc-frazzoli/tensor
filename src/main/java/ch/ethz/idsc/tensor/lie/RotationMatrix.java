@@ -18,8 +18,8 @@ public enum RotationMatrix {
    * [ cos -sin]
    * [ sin +cos] */
   public static Tensor of(Scalar theta) {
-    Scalar cos = Cos.of(theta);
-    Scalar sin = Sin.of(theta);
+    Scalar cos = Cos.FUNCTION.apply(theta);
+    Scalar sin = Sin.FUNCTION.apply(theta);
     return Tensors.of( //
         Tensors.of(cos, sin.negate()), //
         Tensors.of(sin, cos));

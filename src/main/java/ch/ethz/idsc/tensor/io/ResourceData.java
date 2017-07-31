@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -24,22 +23,22 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ResourceData {
   ;
   /** Example use:
-   * Tensor tensor = ResourceData.of("/colorscheme/classic.csv");
-   * Interpolation interpolation = LinearInterpolation.of(tensor);
+   * Interpolation interpolation = LinearInterpolation.of(ResourceData.of("/colorscheme/classic.csv"));
    * 
    * @param string
-   * @return imported tensor, or null if resource could not be loaded
-   * @throws IOException */
-  public static Tensor of(String string) throws IOException {
+   * @return imported tensor, or null if resource could not be loaded */
+  public static Tensor of(String string) {
     InputStream inputStream = ResourceData.class.getResourceAsStream(string);
     if (inputStream == null)
-      throw new IOException(string); // can't open resource
+      return null;
     try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
       Filename filename = new Filename(new File(string));
       if (filename.hasExtension("csv"))
         return CsvFormat.parse(bufferedReader.lines());
       if (filename.hasExtension("vector"))
         return Tensor.of(bufferedReader.lines().map(Scalars::fromString));
+    } catch (Exception exception) {
+      exception.printStackTrace();
     }
     return null;
   }

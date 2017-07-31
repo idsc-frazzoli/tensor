@@ -11,6 +11,8 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Gamma;
 import junit.framework.TestCase;
 
 public class Quantity2Test extends TestCase {
@@ -40,23 +42,23 @@ public class Quantity2Test extends TestCase {
   }
 
   public void testPlusUnits2() {
-    Scalar s1 = Quantity.of(RealScalar.of(0), "[m]"); //
-    Scalar s2 = Quantity.of(RealScalar.of(0.0), "[kg]");
+    Scalar s1 = Quantity.of(0, "[m]"); //
+    Scalar s2 = Quantity.of(0.0, "[kg]");
     _checkPlusSymmetry(s1, s2);
     assertEquals(s1.add(s2).toString(), RealScalar.of(0.0).toString());
   }
 
   public void testPlusUnits3() {
-    Scalar s1 = Quantity.of(RealScalar.of(0), "[m]"); //
-    Scalar s2 = Quantity.of(RealScalar.of(0.0), "[m]");
+    Scalar s1 = Quantity.of(0, "[m]"); //
+    Scalar s2 = Quantity.of(0.0, "[m]");
     _checkPlusSymmetry(s1, s2);
     assertEquals(s1.add(s2).toString(), s2.toString()); // result in numeric precision
   }
 
   public void testPlusFail() {
     try {
-      Quantity.of(RealScalar.of(2), "[m]").add( //
-          Quantity.of(RealScalar.of(2), "[kg]"));
+      Quantity.of(2, "[m]").add( //
+          Quantity.of(2, "[kg]"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -64,7 +66,7 @@ public class Quantity2Test extends TestCase {
     try {
       _checkPlusSymmetry( //
           Quantity.of(ComplexScalar.of(1, 2), "[m]"), //
-          Quantity.of(RealScalar.of(2), "[kg]"));
+          Quantity.of(2, "[kg]"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -91,7 +93,7 @@ public class Quantity2Test extends TestCase {
   }
 
   public void testNumberQ() {
-    Scalar s1 = Quantity.of(RealScalar.of(3), "[m]"); //
+    Scalar s1 = Quantity.of(3, "[m]"); //
     assertFalse(MachineNumberQ.of(s1));
     assertFalse(ExactNumberQ.of(s1));
     assertFalse(NumberQ.of(s1));
@@ -103,5 +105,46 @@ public class Quantity2Test extends TestCase {
     int cmp = Scalars.compare(q1, q2);
     assertEquals(cmp, 0);
     assertTrue(q1.equals(q2));
+  }
+
+  public void testGammaFail() {
+    try {
+      Gamma.of(Quantity.of(3, "[m*s]"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Gamma.of(Quantity.of(-2, "[m]")); // <- fails for the wrong reason
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Gamma.of(Quantity.of(-2.12, "[m^2]"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testClip() {
+    Scalar min = Quantity.of(-3, "[m]");
+    Scalar max = Quantity.of(2, "[m]");
+    Clip clip = Clip.function(min, max);
+    assertEquals(clip.apply(Quantity.of(-5, "[m]")), min);
+    assertEquals(clip.apply(Quantity.of(5, "[m]")), max);
+    Scalar value = Quantity.of(-1, "[m]");
+    assertEquals(clip.apply(value), value);
+  }
+
+  private static boolean _isNonNegative(Scalar scalar) {
+    return Scalars.lessEquals(scalar.zero(), scalar);
+  }
+
+  public void testPredicate() {
+    assertTrue(_isNonNegative(Quantity.of(3, "[m^2]")));
+    assertTrue(_isNonNegative(Quantity.of(0, "[s*kg]")));
+    assertFalse(_isNonNegative(Quantity.of(-3, "[m]")));
   }
 }

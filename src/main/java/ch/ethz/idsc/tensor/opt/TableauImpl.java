@@ -94,10 +94,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     int n = dims.get(1) - 1;
     Tensor x = Array.zeros(n);
     for (int j = 0; j < n; ++j) {
-      int len = (int) tab.get(-1, j).flatten(0) //
+      int len = Math.toIntExact(tab.get(-1, j).flatten(0) //
           .map(Scalar.class::cast) //
           .filter(Scalars::isZero) //
-          .count();
+          .count());
       if (len == m)
         x.set(tab.get(ArgMax.of(tab.get(-1, j)), n), j);
     }

@@ -80,12 +80,12 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return RealScalar.of(n).multiply(p);
+    return RationalScalar.of(n, 1).multiply(p);
   }
 
   @Override // from VarianceInterface
   public Scalar variance() {
-    return RealScalar.of(n).multiply(p).multiply(RealScalar.ONE.subtract(p));
+    return RationalScalar.of(n, 1).multiply(p).multiply(RealScalar.ONE.subtract(p));
   }
 
   @Override // from DiscreteDistribution

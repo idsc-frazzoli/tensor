@@ -9,9 +9,10 @@ import ch.ethz.idsc.tensor.io.GifSequenceWriter;
 import ch.ethz.idsc.tensor.io.ImageFormat;
 import ch.ethz.idsc.tensor.io.Import;
 
-public class GifSequenceWriterDemo {
+enum GifSequenceWriterDemo {
+  ;
   public static void main(String[] args2) {
-    File root = new File("/home/datahaki/Pictures/racetrack2");
+    File root = UserHome.Pictures("racetrack2");
     String[] files = root.list();
     Arrays.sort(files);
     try {

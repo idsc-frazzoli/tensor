@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -28,7 +28,7 @@ public enum Erfc implements ScalarUnaryOperator {
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (Scalars.lessThan(scalar.abs(), RealScalar.of(.7))) // error < 10^-9
+    if (Scalars.lessThan(scalar.abs(), DoubleScalar.of(.7))) // error < 10^-9
       return Multinomial.horner(coeffs, scalar);
     // TODO implement
     throw TensorRuntimeException.of(scalar);

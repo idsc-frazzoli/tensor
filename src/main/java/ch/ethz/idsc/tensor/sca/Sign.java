@@ -11,14 +11,13 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum Sign implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Scalar NEGATIVE_ONE = RealScalar.ONE.negate();
+  private static final Scalar[] LOOKUP = { RealScalar.ONE.negate(), RealScalar.ZERO, RealScalar.ONE };
 
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof SignInterface) {
       SignInterface signInterface = (SignInterface) scalar;
-      int sign = signInterface.signInt();
-      return sign == 0 ? RealScalar.ZERO : (sign == 1 ? RealScalar.ONE : NEGATIVE_ONE);
+      return LOOKUP[1 + signInterface.signInt()];
     }
     throw TensorRuntimeException.of(scalar);
   }

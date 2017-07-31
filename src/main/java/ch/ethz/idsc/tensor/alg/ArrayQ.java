@@ -3,8 +3,6 @@ package ch.ethz.idsc.tensor.alg;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.mat.MatrixQ;
-import ch.ethz.idsc.tensor.mat.VectorQ;
 
 /** ArrayQ is <em>not</em> consistent with Mathematica for scalar input:
  * 

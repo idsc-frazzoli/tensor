@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * For example, a {@link RationalScalar} implements the function isExactNumber() to return true.
  * 
  * <p>a {@link Scalar} that does not implement {@link ExactNumberQInterface} is assumed to
- * not represent an exact quantity by {@link ExactNumberQ}. */
+ * <em>not</em> represent an exact quantity by {@link ExactNumberQ}. */
 public interface ExactNumberQInterface { /* optional interface */
   /** @return true, if scalar is encoded in exact precision */
   boolean isExactNumber();

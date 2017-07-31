@@ -76,6 +76,13 @@ public class DoubleScalarTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+    try {
+      DoubleScalar nan = (DoubleScalar) DoubleScalar.INDETERMINATE;
+      nan.signInt();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testCompareFail() {

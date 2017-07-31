@@ -12,20 +12,22 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** A {@link Tensor} is a scalar, or a list of tensors.
  * 
- * In particular, a {@link Tensor} does not have to be an array.
- * Example structure: {0, {1, 2}, 3, {{4, 5}, 6}}
+ * <p>In particular, a {@link Tensor} does not have to be an array.
+ * Example structure: <code>{0, {1, 2}, 3, {{4, 5}, 6}}</code>
  * 
- * This generality allows to combine tensors
- * 
+ * <p>This generality allows to combine tensors
+ * <pre>
  * Tensor state = {x, y, theta}
  * Tensor action = {steer, speed}
- * 
+ * </pre>
  * into one tensor
- * 
+ * <pre>
  * Tensor stateAction = {state, action}
+ * </pre>
  * 
- * If a {@link Tensor} is a multi-dimensional array, then the dot product is supported.
- * Example of a tensor with regular array structure: {{1, 2, 3}, {4, 5, 6}} */
+ * <p>If a {@link Tensor} is a multi-dimensional array, then the dot product is supported.
+ * Example of a tensor with regular array structure:
+ * <code>{{1, 2, 3}, {4, 5, 6}}</code> */
 public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function {@link Tensor#get(Integer...)}
    * to extract <em>all</em> elements from the respective dimension.
@@ -35,9 +37,9 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * 
    * Constant ALL <em>cannot</em> be used in {@link Tensor#set(Tensor, Integer...)} */
   static final int ALL = 0xA110CA7E;
-  /** opening bracket of vector */
+  /** curly opening bracket of vector */
   static final char OPENING_BRACKET = '{';
-  /** closing bracket of vector */
+  /** curly closing bracket of vector */
   static final char CLOSING_BRACKET = '}';
 
   /** constructs a tensor that holds the tensors of the input stream.
@@ -74,10 +76,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
   /** non-negative index[...] refer to the position in the tensor
    * 
    * Special value:
-   * index[dim] == Tensor.ALL refers to all entries of tensor dimension dim
+   * <code>index[dim] == Tensor.ALL</code> refers to all entries of tensor dimension dim
    * 
    * @param index
-   * @return copy of this[index[0],index[1],...,All] */
+   * @return copy of this[index[0], index[1], ..., All] */
   Tensor get(Integer... index);
 
   /** same as function get(...) except that return type is cast to {@link Scalar}.
@@ -96,8 +98,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * 
    * <p>For instance,
    * <ul>
-   * <li>matrix.set(scalar, 3, 4) represents the assignment matrix[3, 4]=scalar
-   * <li>matrix.set(row, 6) represents the assignment matrix[6, :]=row
+   * <li><code>matrix.set(scalar, 3, 4)</code> represents the assignment <code>matrix[3, 4]=scalar</code>
+   * <li><code>matrix.set(row, 6)</code> represents the assignment <code>matrix[6, :]=row</code>
    * </ul>
    * 
    * @param tensor
@@ -109,6 +111,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * The operation is invalid if this tensor has been cast as unmodifiable.
    * 
    * <p>set(...) allows to implement in-place operations such as <code>a += 3;</code>
+   * 
+   * <p>the operation may change the structure/dimensions/rank of the tensor.
    * 
    * @param function
    * @param index
@@ -122,7 +126,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * <p>append(...) can be used to append to a sub-tensor of this instance via
    * {@link Tensor#set(Function, Integer...)}.
    * For example:
-   * matrix.set(entry -> entry.append(tensor), index);
+   * <pre>matrix.set(entry -> entry.append(tensor), index);</pre>
    * 
    * <p>the operation does not succeed for an unmodifiable instance of this.
    * An exception is thrown when append is invoked on a {@link Scalar}.
@@ -137,15 +141,16 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * We deviate from this to avoid the ambiguity with length of an empty list:
    * <code>Length[{}] == 0</code>
    * 
-   * <p>In order to check if a tensor is an empty vector:
-   * Length[{}] == 0
+   * <p>In order to check if a tensor is an empty vector use <code>tensor.length() == 0</code>.
    * 
    * @return number of entries on the first level; -1 for {@link Scalar}s */
   int length();
 
   /** <p>function is equivalent to the checks
-   * "length() == Scalar.LENGTH"
-   * "this instanceof Scalar"
+   * <ul>
+   * <li><code>length() == Scalar.LENGTH</code>
+   * <li><code>this instanceof Scalar</code>
+   * </ul>
    * 
    * @return true if this instanceof {@link Scalar} */
   boolean isScalar();
@@ -153,7 +158,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
   /** stream access to the entries at given level of this tensor.
    * entries at given level can be tensors or scalars.
    * 
-   * For the input level == -1, the return stream consists
+   * For the input <code>level == -1</code>, the return stream consists
    * of all {@link Scalar}s in this tensor.
    * 
    * If this tensor has been marked as unmodifiable, the elements of
@@ -182,7 +187,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
 
   /** tensor addition
    * 
-   * addition is commutative: a.add(b) equals b.add(a)
+   * addition is commutative: <code>a.add(b) equals b.add(a)</code>
    * 
    * @param tensor
    * @return this plus input tensor */
@@ -201,8 +206,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * dimensions of this.
    * 
    * <p>For instance,
-   * <code>Dimensions.of(this) = [4, 3]</code>, and
-   * <code>Dimensions.of(tensor) = [4, 3, 5, 2]</code> is feasible.
+   * <ul>
+   * <li><code>Dimensions.of(this) = [4, 3]</code>, and
+   * <li><code>Dimensions.of(tensor) = [4, 3, 5, 2]</code> is feasible.
+   * </ul>
    * 
    * <p>pmul is consistent with Mathematica, for instance
    * <pre>
@@ -222,8 +229,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
 
   /** dot product as in Mathematica
    * 
-   * <p>For instance,
-   * <pre>[n1,n2,n3,n4,n5] . [n5,n6,...,n9] == [n1,n2,n3,n4,n6,...,n9]</pre>
+   * <p>The {@link Dimensions} of the dotted tensors reduce according to the pattern
+   * <code>[n1,n2,n3,n4,n5] . [n5,n6,...,n9] == [n1,n2,n3,n4,n6,...,n9]</code>
    * 
    * @param tensor
    * @return dot product between this and input tensor */

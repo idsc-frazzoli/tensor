@@ -130,6 +130,25 @@ public final class Quantity extends AbstractScalar implements //
   }
 
   @Override // from Scalar
+  public Scalar divide(Scalar scalar) {
+    if (scalar instanceof Quantity) {
+      Quantity quantity = (Quantity) scalar;
+      return of(value.divide(quantity.value), unit.add(quantity.unit.negate()));
+    }
+    return of(value.divide(scalar), unit);
+  }
+
+  @Override
+  public Scalar under(Scalar scalar) {
+    AbstractScalar abstractScalar = (AbstractScalar) value;
+    if (scalar instanceof Quantity) {
+      Quantity quantity = (Quantity) scalar;
+      return of(abstractScalar.under(quantity.value), unit.negate().add(quantity.unit));
+    }
+    return of(abstractScalar.under(scalar), unit);
+  }
+
+  @Override // from Scalar
   public Scalar negate() {
     return of(value.negate(), unit);
   }
@@ -199,7 +218,7 @@ public final class Quantity extends AbstractScalar implements //
       x = zero(); // in case x == 0[?], attach same units as this to x
     if (x instanceof Quantity) {
       Quantity quantity = (Quantity) x;
-      if (unit.equals(quantity.unit))
+      if (unit.equals(quantity.unit) || Scalars.isZero(value))
         return ArcTan.of(quantity.value, value);
     }
     throw TensorRuntimeException.of(x, this);

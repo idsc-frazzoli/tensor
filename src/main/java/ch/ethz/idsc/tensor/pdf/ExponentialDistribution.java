@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -39,7 +40,7 @@ public class ExponentialDistribution implements Distribution, //
   /* package for testing */ Scalar randomVariate(double reference) {
     // {@link Random#nextDouble()} samples uniformly from the range 0.0 (inclusive) to 1.0d (exclusive)
     double uniform = Math.nextUp(reference);
-    return Log.of(RealScalar.of(uniform)).divide(lambda_negate);
+    return Log.of(DoubleScalar.of(uniform)).divide(lambda_negate);
   }
 
   @Override // from MeanInterface

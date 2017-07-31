@@ -13,7 +13,13 @@ public enum UnitStep implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return Scalars.lessThan(scalar, scalar.zero()) ? RealScalar.ZERO : RealScalar.ONE;
+    return isNonNegative(scalar) ? RealScalar.ONE : RealScalar.ZERO;
+  }
+
+  /** @param scalar
+   * @return true if scalar is zero or greater, i.e. scalar.zero() <= scalar */
+  static boolean isNonNegative(Scalar scalar) {
+    return Scalars.lessEquals(scalar.zero(), scalar);
   }
 
   /** @param tensor

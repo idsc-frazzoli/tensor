@@ -17,7 +17,7 @@ public class PowerIterationTest extends TestCase {
     Eigensystem eigsys = Eigensystem.ofSymmetric(m);
     Tensor v = eigsys.vectors().get(0).unmodifiable();
     Tensor x = PowerIteration.of(m);
-    assertTrue(Chop._12.allZero(x.dot(v).Get().abs().subtract(RealScalar.ONE)));
+    assertTrue(Chop._12.close(x.dot(v).Get().abs(), RealScalar.ONE));
   }
 
   public void testNegative() {

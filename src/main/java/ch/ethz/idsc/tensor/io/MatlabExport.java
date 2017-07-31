@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 /** vectors, i.e. tensors or rank 1, are exported to MATLAB as column vectors
  * 
  * certain scalar's are not supported by the function Scalar::toString:
- * Double.POSITIVE_INFINITY -> results in "Infinity" whereas Matlab requires "Inf"
+ * Double.POSITIVE_INFINITY -> results in "Infinity" whereas MATLAB requires "Inf"
  * the user must provide a customized scalar to string mapping to cover these cases.
  * 
  * Hint:
@@ -53,7 +53,7 @@ public enum MatlabExport {
     }
     list.add("a=zeros(" + dims + ");");
     int count = 0;
-    for (Tensor scalar : Flatten.of(Transpose.of(tensor, sigma), -1))
+    for (Tensor scalar : Flatten.of(Transpose.of(tensor, sigma)))
       list.add("a(" + (++count) + ")=" + function.apply(scalar.Get()) + ";");
     return list.stream();
   }

@@ -10,7 +10,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 public enum ConjugateTranspose {
   ;
   /** @param matrix
-   * @return transpose of matrix with entries conjugated */
+   * @return transpose of matrix with entries conjugated
+   * @see Conjugate */
   public static Tensor of(Tensor matrix) {
     return Conjugate.of(Transpose.of(matrix));
   }
