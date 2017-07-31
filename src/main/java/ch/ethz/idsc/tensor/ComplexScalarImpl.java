@@ -34,14 +34,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /***************************************************/
   @Override // from Scalar
   public Scalar abs() {
-    return Hypot.BIFUNCTION.apply(re, im);
+    return Hypot.BIFUNCTION.apply(re, im); // complex modulus
   }
 
   @Override // from Scalar
   public Scalar invert() {
-    // TODO numerically not the best solution
-    Scalar mag = re.multiply(re).add(im.multiply(im));
-    return ComplexScalar.of(re.divide(mag), im.negate().divide(mag));
+    // the textbook solution results is not numerically stable:
+    // Scalar mag = re.multiply(re).add(im.multiply(im));
+    // return ComplexScalar.of(re.divide(mag), im.negate().divide(mag));
+    return ComplexScalar.of( //
+        Scalars.isZero(re) ? re : re.add(im.divide(re).multiply(im)).invert(), //
+        Scalars.isZero(im) ? im : im.add(re.divide(im).multiply(re)).invert().negate());
   }
 
   @Override // from Scalar
@@ -79,7 +82,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     }
     if (scalar instanceof RealScalar)
       return ComplexScalar.of(re.add(scalar), im);
-    throw TensorRuntimeException.of(this, scalar);
+    return scalar.add(this);
   }
 
   /***************************************************/

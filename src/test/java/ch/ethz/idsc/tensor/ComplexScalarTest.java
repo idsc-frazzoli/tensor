@@ -71,8 +71,8 @@ public class ComplexScalarTest extends TestCase {
     Random random = new Random();
     Tensor A = Tensors.matrix((i, j) -> //
     ComplexScalar.of( //
-        RealScalar.of(random.nextInt(15)), //
-        RealScalar.of(random.nextInt(15))), n, n);
+        RealScalar.of(random.nextInt(35)), //
+        RealScalar.of(random.nextInt(35))), n, n);
     Tensor b = Tensors.matrix((i, j) -> ComplexScalar.of(//
         random.nextInt(15), //
         random.nextInt(15)), n, n + 3);
@@ -161,11 +161,15 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(uc.toString(), "{-I, 3/4+5*I}");
   }
 
-  @SuppressWarnings("unused")
   public void testDivision1() {
     Scalar zero = RealScalar.ZERO;
-    Scalar eps = ComplexScalar.of(0, Math.nextUp(0.0));
-    // Scalar result = zero.divide(eps);
-    // System.out.println(result);
+    Scalar eps = ComplexScalar.of(0, 5.562684646268010E-309);
+    assertEquals(zero.divide(eps), RealScalar.ZERO);
+  }
+
+  public void testDivision2() {
+    Scalar reps = RealScalar.of(5.562684646268010E-309);
+    Scalar ieps = ComplexScalar.of(0, 5.562684646268010E-309);
+    assertEquals(reps.divide(ieps), ComplexScalar.of(0, -1));
   }
 }

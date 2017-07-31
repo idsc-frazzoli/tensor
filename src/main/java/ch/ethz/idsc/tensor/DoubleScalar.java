@@ -19,9 +19,9 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * For instance, the smallest double is 4.9E-324.
  * but 1.0 / 4.9E-324 == Infinity
  * 
- * The range of double values closed under inversion are at least
- * [Double.MIN_NORMAL, Double.MAX_VALUE], i.e.
- * [2.2250738585072014E-308, 1.7976931348623157E308]
+ * The range of double values closed under 2x inversion, i.e.
+ * value == 1.0 / (1.0 / value) is
+ * [5.562684646268010E-309, 1.7976931348623151E308]
  * 
  * zero().inverse() equals {@link DoubleScalar#POSITIVE_INFINITY} */
 public final class DoubleScalar extends AbstractRealScalar implements //

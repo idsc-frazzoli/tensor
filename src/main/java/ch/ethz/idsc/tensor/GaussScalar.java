@@ -87,10 +87,6 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value + gaussScalar.value, prime);
     }
-    if (Scalars.isZero(scalar)) // plus not commutative 0'7 + 0 == 0'7
-      return this;
-    if (scalar.equals(RealScalar.ONE))
-      return of(value + 1, prime);
     throw TensorRuntimeException.of(this, scalar);
   }
 
