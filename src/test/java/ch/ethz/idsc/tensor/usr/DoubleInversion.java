@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.usr;
 import junit.framework.TestCase;
 
 //The value of 1.0 / (1.0 / x) will differ from x by no more than 1 unit in the last place.
-public class DoubleInversion extends TestCase {
+class DoubleInversion extends TestCase {
   public static double invertTwice(double value) {
     double inverse = 1.0 / value;
     return 1.0 / inverse;
@@ -51,7 +51,7 @@ public class DoubleInversion extends TestCase {
       // System.out.println(max);
     }
     {
-      double asd = invertTwice(1E-323);
+      // double asd = invertTwice(1E-323);
       System.out.println("HERE" + (1.0 / 1E-310));
     }
     // double below = Math.nextDown(Double.MIN_NORMAL);

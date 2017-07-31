@@ -161,6 +161,7 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(uc.toString(), "{-I, 3/4+5*I}");
   }
 
+  @SuppressWarnings("unused")
   public void testDivision1() {
     Scalar zero = RealScalar.ZERO;
     Scalar eps = ComplexScalar.of(0, Math.nextUp(0.0));
