@@ -41,6 +41,11 @@ public enum Dimensions {
     return _list(complete).size() == rank && _isArray(complete);
   }
 
+  /* package */ static boolean isArrayWithDimensions(Tensor tensor, List<Integer> dims) {
+    List<Set<Integer>> complete = complete(tensor);
+    return _list(complete).equals(dims) && _isArray(complete);
+  }
+
   // helper function
   private static boolean _isArray(List<Set<Integer>> complete) {
     return !complete.stream().map(Set::size) //

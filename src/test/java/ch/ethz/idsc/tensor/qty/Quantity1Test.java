@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -72,6 +74,47 @@ public class Quantity1Test extends TestCase {
     Quantity quantity = (Quantity) Quantity.fromString("-7+3*I[kg^-2*m*s]");
     String string = quantity.unitString();
     assertEquals(string, "[kg^-2*m*s]");
+  }
+
+  private static void _checkDivision(Scalar s1, Scalar s2) {
+    AbstractScalar q1 = (AbstractScalar) s1;
+    AbstractScalar q2 = (AbstractScalar) s2;
+    assertEquals(q1.divide(q2), q2.under(q1));
+    assertEquals(q2.divide(q1), q1.under(q2));
+  }
+
+  public void testDivisionUnder() {
+    _checkDivision(Quantity.of(1, "[m]"), Quantity.of(2, "[s]"));
+    _checkDivision(Quantity.of(1, "[m]"), DoubleScalar.of(2.0));
+    _checkDivision(Quantity.of(1, "[m]"), RealScalar.of(2));
+    double eps = Math.nextUp(0.0);
+    _checkDivision(Quantity.of(eps, "[m]"), Quantity.of(2, "[s]"));
+    _checkDivision(Quantity.of(eps, "[m]"), DoubleScalar.of(2.0));
+    _checkDivision(Quantity.of(eps, "[m]"), RealScalar.of(2));
+    // ---
+    _checkDivision(Quantity.of(1, "[m]"), Quantity.of(eps, "[s]"));
+    _checkDivision(Quantity.of(1, "[m]"), DoubleScalar.of(eps));
+    _checkDivision(Quantity.of(1, "[m]"), RealScalar.of(eps));
+    // ---
+    _checkDivision(Quantity.of(0, "[m]"), Quantity.of(eps, "[s]"));
+    _checkDivision(Quantity.of(0, "[m]"), DoubleScalar.of(eps));
+    _checkDivision(Quantity.of(0.0, "[m]"), Quantity.of(eps, "[s]"));
+    _checkDivision(Quantity.of(0.0, "[m]"), DoubleScalar.of(eps));
+    // ---
+    _checkDivision(Quantity.of(eps, "[m]"), Quantity.of(eps, "[s]"));
+    _checkDivision(Quantity.of(eps, "[m]"), DoubleScalar.of(eps));
+  }
+
+  public void testDivision1() {
+    Scalar quantity = Quantity.of(0, "[m]");
+    Scalar eps = DoubleScalar.of(Math.nextUp(0.0));
+    assertTrue(Scalars.isZero(quantity.divide(eps)));
+  }
+
+  public void testDivision2() {
+    Scalar zero = DoubleScalar.of(0.0);
+    Scalar eps = Quantity.of(Math.nextUp(0.0), "[m]");
+    assertTrue(Scalars.isZero(zero.divide(eps)));
   }
 
   public void testEmptyFail() {

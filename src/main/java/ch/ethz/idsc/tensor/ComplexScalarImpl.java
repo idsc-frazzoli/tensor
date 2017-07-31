@@ -39,8 +39,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar invert() {
-    Scalar mag = re.multiply(re).add(im.multiply(im)).invert();
-    return ComplexScalar.of(re.multiply(mag), im.negate().multiply(mag));
+    // TODO numerically not the best solution
+    Scalar mag = re.multiply(re).add(im.multiply(im));
+    return ComplexScalar.of(re.divide(mag), im.negate().divide(mag));
   }
 
   @Override // from Scalar

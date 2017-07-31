@@ -61,19 +61,33 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
-    if (scalar instanceof RationalScalar)
-      return _of(bigFraction.multiply(((RationalScalar) scalar).bigFraction));
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return _of(bigFraction.multiply(rationalScalar.bigFraction));
+    }
     return scalar.multiply(this);
   }
 
   @Override
   public Scalar divide(Scalar scalar) {
-    // TODO not final implementation
-    if (scalar instanceof DoubleScalar)
-      return DoubleScalar.of(number().doubleValue()).divide(scalar);
-    return super.divide(scalar);
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return _of(bigFraction.divide(rationalScalar.bigFraction));
+    }
+    AbstractScalar abstractScalar = (AbstractScalar) scalar;
+    return abstractScalar.under(this);
   }
 
+  @Override
+  public Scalar under(Scalar scalar) {
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return _of(rationalScalar.bigFraction.divide(bigFraction));
+    }
+    return scalar.divide(this);
+  }
+
+  // under
   @Override // from Scalar
   public Number number() {
     if (IntegerQ.of(this)) {

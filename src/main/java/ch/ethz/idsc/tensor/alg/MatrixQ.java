@@ -1,8 +1,9 @@
 // code by jph
-package ch.ethz.idsc.tensor.mat;
+package ch.ethz.idsc.tensor.alg;
+
+import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.ArrayQ;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixQ.html">MatrixQ</a> */
@@ -12,5 +13,14 @@ public enum MatrixQ {
    * @return true if tensor is a matrix */
   public static boolean of(Tensor tensor) {
     return ArrayQ.ofRank(tensor, 2);
+  }
+
+  /** @param tensor
+   * @param rows
+   * @param cols
+   * @return */
+  // EXPERIMENTAL
+  public static boolean ofSize(Tensor tensor, int rows, int cols) {
+    return Dimensions.isArrayWithDimensions(tensor, Arrays.asList(rows, cols));
   }
 }

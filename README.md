@@ -40,7 +40,7 @@ Nylander Power
 </tr>
 </table>
 
-## Example Code
+## Code Examples
 
 Solving systems of linear equations
 
@@ -239,4 +239,4 @@ The library is used in the projects:
 * `QueuingNetworks`
 * `SimBus`
 
-The repository has over `1060` unit tests.
+The repository has over `1070` unit tests.

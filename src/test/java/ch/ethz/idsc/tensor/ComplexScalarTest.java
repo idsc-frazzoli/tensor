@@ -160,4 +160,11 @@ public class ComplexScalarTest extends TestCase {
     Tensor uc = Conjugate.of(u);
     assertEquals(uc.toString(), "{-I, 3/4+5*I}");
   }
+
+  public void testDivision1() {
+    Scalar zero = RealScalar.ZERO;
+    Scalar eps = ComplexScalar.of(0, Math.nextUp(0.0));
+    // Scalar result = zero.divide(eps);
+    // System.out.println(result);
+  }
 }

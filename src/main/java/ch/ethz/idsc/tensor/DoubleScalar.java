@@ -11,6 +11,18 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
 /** scalar with double precision, 64-bit, MATLAB style
  * 
+ * The value of {@link DoubleScalar} is backed by a double type.
+ * double types are <em>not</em> closed under multiplicative inversion:
+ * <pre>
+ * a / b != a * (1.0 / b)
+ * </pre>
+ * For instance, the smallest double is 4.9E-324.
+ * but 1.0 / 4.9E-324 == Infinity
+ * 
+ * The range of double values closed under inversion are at least
+ * [Double.MIN_NORMAL, Double.MAX_VALUE], i.e.
+ * [2.2250738585072014E-308, 1.7976931348623157E308]
+ * 
  * zero().inverse() equals {@link DoubleScalar#POSITIVE_INFINITY} */
 public final class DoubleScalar extends AbstractRealScalar implements //
     ChopInterface, MachineNumberQInterface {
@@ -63,7 +75,16 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   public Scalar divide(Scalar scalar) {
     if (scalar instanceof RealScalar)
       return of(value / scalar.number().doubleValue());
-    return super.divide(scalar);
+    // return super.divide(scalar);
+    AbstractScalar abstractScalar = (AbstractScalar) scalar;
+    return abstractScalar.under(this);
+  }
+
+  @Override
+  public Scalar under(Scalar scalar) {
+    if (scalar instanceof RealScalar)
+      return of(scalar.number().doubleValue() / value);
+    return scalar.divide(this);
   }
 
   @Override // from Scalar
