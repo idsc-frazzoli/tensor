@@ -121,6 +121,11 @@ public final class Quantity extends AbstractScalar implements //
 
   /***************************************************/
   @Override // from Scalar
+  public Scalar negate() {
+    return of(value.negate(), unit);
+  }
+
+  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
@@ -145,11 +150,6 @@ public final class Quantity extends AbstractScalar implements //
       return of(value.under(quantity.value), unit.negate().add(quantity.unit));
     }
     return of(value.under(scalar), unit.negate());
-  }
-
-  @Override // from Scalar
-  public Scalar negate() {
-    return of(value.negate(), unit);
   }
 
   @Override // from Scalar

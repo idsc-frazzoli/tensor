@@ -37,24 +37,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return Hypot.BIFUNCTION.apply(re, im);
   }
 
-  /** @param c
+  /** function is motivated by the expression c / (c^2 + d^2)
+   * for c != 0 the term simplifies to 1 / (c + d^2 / c)
+   * the function computes the denominator c + d^2 / c == c + d / c * d
+   * 
+   * @param c non-zero
    * @param d
-   * @return c + d ^ 2 / c == c + d / c * d */
+   * @return c + d / c * d */
   private static Scalar c_dcd(Scalar c, Scalar d) {
     if (Scalars.isZero(c))
-      throw TensorRuntimeException.of(c); // TODO remove later
+      throw TensorRuntimeException.of(c); // TODO check remove later
     return c.add(d.divide(c).multiply(d));
-  }
-
-  @Override // from Scalar
-  public Scalar invert() {
-    // the textbook solution results is not numerically stable:
-    // Scalar mag = re.multiply(re).add(im.multiply(im));
-    // return ComplexScalar.of(re.divide(mag), im.negate().divide(mag));
-    // using the assumption that im is never zero
-    return ComplexScalar.of( //
-        Scalars.isZero(re) ? re : c_dcd(re, im).invert(), //
-        c_dcd(im, re).invert().negate());
   }
 
   @Override // from Scalar
@@ -95,15 +88,18 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public Scalar under(Scalar scalar) {
     if (scalar instanceof ComplexScalarImpl)
       return scalar.divide(this);
-    if (scalar instanceof RealScalar) {
-      boolean czero = Scalars.isZero(re);
-      Scalar r1 = czero ? re : c_dcd(re, im);
-      Scalar r2 = c_dcd(im, re);
-      Scalar res_re1 = czero ? scalar.multiply(re) : scalar.divide(r1);
-      Scalar res_im2 = scalar.divide(r2).negate();
-      return ComplexScalar.of(res_re1, res_im2);
-    }
+    if (scalar instanceof RealScalar)
+      return ComplexScalar.of( //
+          Scalars.isZero(re) ? scalar.multiply(re) : scalar.divide(c_dcd(re, im)), //
+          scalar.divide(c_dcd(im, re)).negate());
     return super.under(scalar);
+  }
+
+  @Override // from Scalar
+  public Scalar invert() {
+    return ComplexScalar.of( //
+        Scalars.isZero(re) ? re : c_dcd(re, im).invert(), //
+        c_dcd(im, re).invert().negate()); // using the assumption that im is never zero
   }
 
   @Override // from Scalar

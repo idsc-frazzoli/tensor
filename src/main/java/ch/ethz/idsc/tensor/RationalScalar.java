@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * a RationalScalar represents an integer fraction, for instance 17/42, or -6/1.
  * 
- * zero().inverse() throws a {@link ArithmeticException}. */
+ * zero().invert() throws a {@link ArithmeticException}. */
 public final class RationalScalar extends AbstractRealScalar implements //
     ExactNumberQInterface, NInterface {
   /** real scalar -1 as a {@link RationalScalar} */
@@ -50,11 +50,6 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   /***************************************************/
   @Override // from Scalar
-  public Scalar invert() {
-    return _of(bigFraction.invert());
-  }
-
-  @Override // from Scalar
   public Scalar negate() {
     return _of(bigFraction.negate());
   }
@@ -86,6 +81,11 @@ public final class RationalScalar extends AbstractRealScalar implements //
       return _of(rationalScalar.bigFraction.divide(bigFraction));
     }
     return scalar.divide(this);
+  }
+
+  @Override // from Scalar
+  public Scalar invert() {
+    return _of(bigFraction.invert());
   }
 
   @Override // from Scalar

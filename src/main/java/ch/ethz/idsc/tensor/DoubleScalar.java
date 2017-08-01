@@ -23,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * value == 1.0 / (1.0 / value) is
  * [5.562684646268010E-309, 1.7976931348623151E308]
  * 
- * zero().inverse() equals {@link DoubleScalar#POSITIVE_INFINITY} */
+ * zero().invert() equals {@link DoubleScalar#POSITIVE_INFINITY} */
 public final class DoubleScalar extends AbstractRealScalar implements //
     ChopInterface, MachineNumberQInterface {
   /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
@@ -52,12 +52,6 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   /***************************************************/
-  /** DOUBLE_ZERO.invert() == Double.POSITIVE_INFINITY */
-  @Override // from Scalar
-  public Scalar invert() {
-    return of(1.0 / value);
-  }
-
   @Override // from Scalar
   public Scalar negate() {
     return of(-value);
@@ -83,6 +77,12 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     if (scalar instanceof RealScalar)
       return of(scalar.number().doubleValue() / value);
     return scalar.divide(this);
+  }
+
+  /** DOUBLE_ZERO.invert() == Double.POSITIVE_INFINITY */
+  @Override // from Scalar
+  public Scalar invert() {
+    return of(1.0 / value);
   }
 
   @Override // from Scalar

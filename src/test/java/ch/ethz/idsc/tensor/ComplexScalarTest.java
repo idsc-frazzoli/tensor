@@ -162,7 +162,8 @@ public class ComplexScalarTest extends TestCase {
   }
 
   private static void _assertDivideSymmetric(Scalar s1, Scalar s2) {
-    assertEquals(s1.divide(s2), s2.under(s1));
+    // boolean equals = s1.divide(s2).equals(s2.under(s1));
+    assertEquals(s1.divide(s2).toString(), s2.under(s1).toString());
   }
 
   public void testDivision1() {
@@ -209,5 +210,41 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(reps.divide(ieps), ComplexScalar.of(0, -1));
     _assertDivideSymmetric(ieps, reps);
     _assertDivideSymmetric(reps, ieps);
+  }
+
+  @SuppressWarnings("unused")
+  private static Scalar textbookInversion(Scalar s1) {
+    ComplexScalarImpl c = (ComplexScalarImpl) s1;
+    Scalar mag = c.real().multiply(c.real()).add(c.imag().multiply(c.imag()));
+    return ComplexScalar.of(c.real().divide(mag), c.imag().negate().divide(mag));
+  }
+
+  public void testInversion() {
+    assertEquals(ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY).invert(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ZERO, DoubleScalar.NEGATIVE_INFINITY).invert(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ONE, DoubleScalar.POSITIVE_INFINITY).invert(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ONE, DoubleScalar.NEGATIVE_INFINITY).invert(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ZERO).invert(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ZERO).invert(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE).invert(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ONE).invert(), RealScalar.ZERO);
+    // mathematica also does not simplify 1 / (inf+inf*I)
+    // assertEquals(ComplexScalar.of( //
+    // DoubleScalar.POSITIVE_INFINITY, DoubleScalar.POSITIVE_INFINITY).invert(), RealScalar.ZERO);
+  }
+
+  public void testDivisionInf1() {
+    _assertDivideSymmetric( //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
+    _assertDivideSymmetric( //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.NEGATIVE_INFINITY), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
+    _assertDivideSymmetric( //
+        ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, DoubleScalar.NEGATIVE_INFINITY), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
+    _assertDivideSymmetric( //
+        ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ZERO), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
   }
 }

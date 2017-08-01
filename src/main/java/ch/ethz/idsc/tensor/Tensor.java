@@ -146,7 +146,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return number of entries on the first level; -1 for {@link Scalar}s */
   int length();
 
-  /** <p>function is equivalent to the checks
+  /** <p>function is equivalent to the predicates
    * <ul>
    * <li><code>length() == Scalar.LENGTH</code>
    * <li><code>this instanceof Scalar</code>
@@ -221,16 +221,16 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return this element-wise multiply input tensor. */
   Tensor pmul(Tensor tensor);
 
-  /** scalar multiplication, i.e. scaling, of tensor entries
+  /** scalar multiplication, i.e. scaling of tensor entries
    * 
    * @param scalar
-   * @return tensor with elements of this tensor multiplied with scalar */
+   * @return tensor with elements of this tensor multiplied with given scalar */
   Tensor multiply(Scalar scalar);
 
-  /** scalar division, i.e. scaling, of tensor entries
+  /** scalar division, i.e. scaling of tensor entries by reciprocal of given scalar
    * 
    * @param scalar
-   * @return tensor with elements of this tensor multiplied with scalar */
+   * @return tensor with elements of this tensor divided by given scalar */
   Tensor divide(Scalar scalar);
 
   /** dot product as in Mathematica
