@@ -74,8 +74,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
       RationalScalar rationalScalar = (RationalScalar) scalar;
       return _of(bigFraction.divide(rationalScalar.bigFraction));
     }
-    AbstractScalar abstractScalar = (AbstractScalar) scalar;
-    return abstractScalar.under(this);
+    return scalar.under(this);
   }
 
   @Override

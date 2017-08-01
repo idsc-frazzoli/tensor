@@ -11,11 +11,15 @@ import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.sca.N;
 
-public class DefaultColorDataGradient implements ColorDataFunction {
+public class ColorDataGradient implements ColorDataFunction {
   private static final Tensor TRANSPARENT = Array.zeros(4).unmodifiable();
 
+  /** colors are generated using {@link LinearInterpolation} of given tensor
+   * 
+   * @param tensor n x 4 where each row contains {r,g,b,a} with values ranging in [0, 255]
+   * @return */
   public static ColorDataFunction of(Tensor tensor) {
-    return new DefaultColorDataGradient(tensor);
+    return new ColorDataGradient(tensor);
   }
 
   // ---
@@ -23,7 +27,7 @@ public class DefaultColorDataGradient implements ColorDataFunction {
   private final Interpolation interpolation;
   private final Scalar scale;
 
-  private DefaultColorDataGradient(Tensor tensor) {
+  private ColorDataGradient(Tensor tensor) {
     this.tensor = N.of(tensor);
     interpolation = LinearInterpolation.of(this.tensor);
     scale = DoubleScalar.of(tensor.length() - 1);

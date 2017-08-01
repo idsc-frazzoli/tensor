@@ -37,14 +37,7 @@ public class Quantity5Test extends TestCase {
         Quantity::fromString);
     Tensor b = Tensors.vector(2, 1, 2, 1, -1, 2);
     // @SuppressWarnings("unused")
-    try {
-      LinearProgramming.minLessEquals(c, m, b);
-      System.out.println("works now!?"); // TODO investigate
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    //
+    LinearProgramming.minLessEquals(c, m, b);
     // System.out.println(x);
     // assertEquals(x, Tensors.fromString("{2/3,4/3}"));
     // System.out.println(c.dot(x));

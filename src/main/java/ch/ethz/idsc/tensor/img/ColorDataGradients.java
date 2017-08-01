@@ -10,7 +10,9 @@ public enum ColorDataGradients implements ColorDataFunction {
   CLASSIC("classic.csv"), //
   COPPER("copper.csv"), //
   GRAYSCALE("grayscale.csv"), //
-  HUE("hue.csv"), // <- periodic
+  /** hsluv is hue with brightness equalized, see hsluv.org */
+  HSLUV("hsluv.csv"), // <- cyclic
+  HUE("hue.csv"), // <- cyclic
   PASTEL("pastel.csv"), //
   PINK("pink.csv"), //
   RAINBOW("rainbow.csv"), //
@@ -20,8 +22,7 @@ public enum ColorDataGradients implements ColorDataFunction {
   private final ColorDataFunction colorDataFunction;
 
   private ColorDataGradients(String string) {
-    Tensor tensor = ResourceData.of("/colorscheme/" + string);
-    colorDataFunction = DefaultColorDataGradient.of(tensor);
+    colorDataFunction = ColorDataGradient.of(ResourceData.of("/colorscheme/" + string));
   }
 
   @Override

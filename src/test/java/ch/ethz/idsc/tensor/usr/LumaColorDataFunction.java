@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.img.ColorDataFunction;
-import ch.ethz.idsc.tensor.img.DefaultColorDataGradient;
+import ch.ethz.idsc.tensor.img.ColorDataGradient;
 import ch.ethz.idsc.tensor.sca.Clip;
 
 // EXPERIMENTAL
@@ -26,6 +26,6 @@ import ch.ethz.idsc.tensor.sca.Clip;
       color = color.map(CLIP);
       nrm.append(color);
     }
-    return DefaultColorDataGradient.of(tensor);
+    return ColorDataGradient.of(tensor);
   }
 }

@@ -38,6 +38,6 @@ enum GammaDemo {
     Tensor matrix = StaticHelper.parallel(GammaDemo::function, RES, RES);
     System.out.println((System.nanoTime() - tic) * 1e-9);
     Export.of(UserHome.Pictures("gammademo.png"), //
-        ArrayPlot.of(matrix, ColorDataGradients.HUE));
+        ArrayPlot.of(matrix, ColorDataGradients.HSLUV));
   }
 }

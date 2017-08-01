@@ -138,14 +138,13 @@ public final class Quantity extends AbstractScalar implements //
     return of(value.divide(scalar), unit);
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar under(Scalar scalar) {
-    AbstractScalar abstractScalar = (AbstractScalar) value;
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
-      return of(abstractScalar.under(quantity.value), unit.negate().add(quantity.unit));
+      return of(value.under(quantity.value), unit.negate().add(quantity.unit));
     }
-    return of(abstractScalar.under(scalar), unit);
+    return of(value.under(scalar), unit.negate());
   }
 
   @Override // from Scalar

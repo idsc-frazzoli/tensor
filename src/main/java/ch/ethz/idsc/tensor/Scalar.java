@@ -55,6 +55,9 @@ public interface Scalar extends Tensor {
    * @return this divided by input scalar */
   Scalar divide(Scalar scalar);
 
+  // TODO document
+  Scalar under(Scalar scalar);
+
   /** absolute value
    * 
    * @return typically distance from zero as {@link RealScalar},

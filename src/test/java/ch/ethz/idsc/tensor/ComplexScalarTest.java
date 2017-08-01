@@ -167,9 +167,37 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(zero.divide(eps), RealScalar.ZERO);
   }
 
-  public void testDivision2() {
-    Scalar reps = RealScalar.of(5.562684646268010E-309);
-    Scalar ieps = ComplexScalar.of(0, 5.562684646268010E-309);
+  public void testDivision2a() {
+    double eps = 5.562684646268010E-309;
+    Scalar reps = RealScalar.of(eps);
+    Scalar ieps = ComplexScalar.of(0, eps);
+    assertEquals(reps.divide(ieps), ComplexScalar.of(0, -1));
+    assertEquals(ieps.divide(reps), ComplexScalar.of(0, 1));
+  }
+
+  public void testDivision3() {
+    Scalar reps = ComplexScalar.of(0, Double.MIN_VALUE);
+    assertEquals(reps.divide(reps), RealScalar.ONE);
+  }
+
+  public void testDivision4() {
+    final double eps = Double.MIN_VALUE;
+    {
+      Scalar reps = ComplexScalar.of(eps, eps);
+      Scalar ieps = ComplexScalar.of(0, eps);
+      assertEquals(reps.divide(ieps), ComplexScalar.of(1, -1));
+    }
+    {
+      Scalar reps = ComplexScalar.of(eps, eps);
+      assertEquals(reps.divide(reps), RealScalar.ONE);
+    }
+  }
+
+  public void testDivision2b() {
+    double eps = Double.MIN_VALUE; // 5.562684646268010E-309
+    Scalar reps = RealScalar.of(eps);
+    Scalar ieps = ComplexScalar.of(0, eps);
+    assertEquals(ieps.divide(reps), ComplexScalar.of(0, 1));
     assertEquals(reps.divide(ieps), ComplexScalar.of(0, -1));
   }
 }

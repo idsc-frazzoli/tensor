@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
-import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -76,9 +75,7 @@ public class Quantity1Test extends TestCase {
     assertEquals(string, "[kg^-2*m*s]");
   }
 
-  private static void _checkDivision(Scalar s1, Scalar s2) {
-    AbstractScalar q1 = (AbstractScalar) s1;
-    AbstractScalar q2 = (AbstractScalar) s2;
+  private static void _checkDivision(Scalar q1, Scalar q2) {
     assertEquals(q1.divide(q2), q2.under(q1));
     assertEquals(q2.divide(q1), q1.under(q2));
   }

@@ -75,9 +75,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   public Scalar divide(Scalar scalar) {
     if (scalar instanceof RealScalar)
       return of(value / scalar.number().doubleValue());
-    // return super.divide(scalar);
-    AbstractScalar abstractScalar = (AbstractScalar) scalar;
-    return abstractScalar.under(this);
+    return scalar.under(this);
   }
 
   @Override

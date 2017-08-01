@@ -37,14 +37,24 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return Hypot.BIFUNCTION.apply(re, im); // complex modulus
   }
 
+  /** @param c
+   * @param d
+   * @return */
+  private static Scalar c_dcd(Scalar c, Scalar d) {
+    if (Scalars.isZero(c))
+      throw TensorRuntimeException.of(c); // TODO remove later
+    return c.add(d.divide(c).multiply(d));
+  }
+
   @Override // from Scalar
   public Scalar invert() {
     // the textbook solution results is not numerically stable:
     // Scalar mag = re.multiply(re).add(im.multiply(im));
     // return ComplexScalar.of(re.divide(mag), im.negate().divide(mag));
+    // using the assumption that re and im are not simultaneously zero
     return ComplexScalar.of( //
-        Scalars.isZero(re) ? re : re.add(im.divide(re).multiply(im)).invert(), //
-        Scalars.isZero(im) ? im : im.add(re.divide(im).multiply(re)).invert().negate());
+        Scalars.isZero(re) ? re : c_dcd(re, im).invert(), //
+        c_dcd(im, re).invert().negate());
   }
 
   @Override // from Scalar
@@ -61,6 +71,36 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
           re.multiply(z.imag()).add(im.multiply(z.real())));
     }
     return ComplexScalar.of(re.multiply(scalar), im.multiply(scalar));
+  }
+
+  @Override
+  public Scalar divide(Scalar scalar) {
+    if (scalar instanceof ComplexScalarImpl) {
+      ComplexScalarImpl z = (ComplexScalarImpl) scalar;
+      boolean czero = Scalars.isZero(z.re);
+      Scalar r1 = czero ? z.re : c_dcd(z.re, z.im);
+      Scalar r2 = c_dcd(z.im, z.re);
+      Scalar res_re1 = czero ? re.multiply(z.re) : re.divide(r1);
+      Scalar res_re2 = im.divide(r2);
+      Scalar res_im1 = czero ? im.multiply(z.re) : im.divide(r1);
+      Scalar res_im2 = re.divide(r2).negate();
+      return ComplexScalar.of(res_re1.add(res_re2), res_im1.add(res_im2));
+    }
+    return ComplexScalar.of(re.divide(scalar), im.divide(scalar));
+  }
+
+  @Override
+  public Scalar under(Scalar scalar) {
+    // TODO complex scalar
+    if (scalar instanceof RealScalar) {
+      boolean czero = Scalars.isZero(re);
+      Scalar r1 = czero ? re : c_dcd(re, im);
+      Scalar r2 = c_dcd(im, re);
+      Scalar res_re1 = czero ? scalar.multiply(re) : scalar.divide(r1);
+      Scalar res_im2 = scalar.divide(r2).negate();
+      return ComplexScalar.of(res_re1, res_im2);
+    }
+    return super.under(scalar);
   }
 
   @Override // from Scalar

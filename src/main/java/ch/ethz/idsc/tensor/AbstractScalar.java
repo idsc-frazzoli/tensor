@@ -115,17 +115,16 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   /***************************************************/
-  /** not final because for {@link DoubleScalar} division should be carried out directly */
+  // non-final default implementations
+  // ---
   @Override // from Scalar
   public Scalar divide(Scalar scalar) {
-    return multiply(scalar.invert());
+    return multiply(scalar.invert()); // default implementation not numerically stable
   }
 
-  /** @param scalar
-   * @return */
-  // EXPERIMENTAL
+  @Override // from Scalar
   public Scalar under(Scalar scalar) {
-    return invert().multiply(scalar);
+    return invert().multiply(scalar); // default implementation not numerically stable
   }
 
   /***************************************************/
