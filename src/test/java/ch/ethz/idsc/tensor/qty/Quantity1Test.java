@@ -114,6 +114,12 @@ public class Quantity1Test extends TestCase {
     assertTrue(Scalars.isZero(zero.divide(eps)));
   }
 
+  public void testDivision3() {
+    Scalar s1 = ComplexScalar.of(1, 2);
+    Scalar s2 = Quantity.of(3, "[m]");
+    assertEquals(s1.divide(s2), s2.under(s1));
+  }
+
   public void testEmptyFail() {
     try {
       Quantity.of(3.14, "[]"); // at the moment empty brackets are not supported

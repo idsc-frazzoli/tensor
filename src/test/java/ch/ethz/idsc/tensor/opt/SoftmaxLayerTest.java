@@ -12,15 +12,6 @@ import ch.ethz.idsc.tensor.sca.Round;
 import junit.framework.TestCase;
 
 public class SoftmaxLayerTest extends TestCase {
-  public void testEmptyFail() {
-    try {
-      SoftmaxLayer.of(Tensors.empty());
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void testMathematica() {
     Tensor tensor = Tensors.vector(0.1, 4.5, -0.2, 3.3, 5.4);
     Tensor actual = SoftmaxLayer.of(tensor);
@@ -32,5 +23,23 @@ public class SoftmaxLayerTest extends TestCase {
     Tensor tensor = Range.of(-3, 6);
     Tensor actual = SoftmaxLayer.of(tensor);
     assertEquals(Total.of(actual), RealScalar.ONE);
+  }
+
+  public void testEmptyFail() {
+    try {
+      SoftmaxLayer.of(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testScalarFail() {
+    try {
+      SoftmaxLayer.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

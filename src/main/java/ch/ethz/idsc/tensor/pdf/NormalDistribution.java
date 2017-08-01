@@ -40,14 +40,14 @@ public class NormalDistribution implements Distribution, //
   // ---
   private final Scalar mean;
   private final Scalar sigma;
-  private final Scalar sigma_invert;
+  // private final Scalar sigma_invert;
 
   private NormalDistribution(Scalar mean, Scalar sigma) {
     if (Scalars.lessEquals(sigma, RealScalar.ZERO))
       throw TensorRuntimeException.of(sigma);
     this.mean = mean;
     this.sigma = sigma;
-    this.sigma_invert = sigma.invert();
+    // this.sigma_invert = sigma.invert();
   }
 
   @Override // from RandomVariateInterface
@@ -63,7 +63,7 @@ public class NormalDistribution implements Distribution, //
   @Override // from PDF
   public Scalar at(Scalar x) {
     return StandardNormalDistribution.INSTANCE.at( //
-        x.subtract(mean).multiply(sigma_invert)).multiply(sigma_invert);
+        x.subtract(mean).divide(sigma)).divide(sigma);
   }
 
   @Override // from VarianceInterface
@@ -73,7 +73,7 @@ public class NormalDistribution implements Distribution, //
 
   @Override
   public Scalar p_lessThan(Scalar x) {
-    return StandardNormalDistribution.INSTANCE.p_lessThan(x.subtract(mean).multiply(sigma_invert));
+    return StandardNormalDistribution.INSTANCE.p_lessThan(x.subtract(mean).divide(sigma));
   }
 
   @Override

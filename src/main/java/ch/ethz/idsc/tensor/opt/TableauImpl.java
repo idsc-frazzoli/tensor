@@ -72,7 +72,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
           }
         // System.out.println("pivot row is " + pivot_row);
         // normalize
-        tab.set(tab.get(pivot).multiply(tab.Get(pivot, j).invert()), pivot);
+        tab.set(tab.get(pivot).divide(tab.Get(pivot, j)), pivot);
         for (int i = 0; i < m + 1; ++i)
           if (i != pivot)
             tab.set(tab.get(i).subtract(tab.get(pivot).multiply(tab.Get(i, j))), i);

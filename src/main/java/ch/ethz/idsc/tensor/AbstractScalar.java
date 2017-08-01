@@ -99,6 +99,7 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   /***************************************************/
+  // final default implementations
   @Override // from Scalar
   public final Scalar add(Tensor tensor) {
     return plus((Scalar) tensor);
@@ -119,12 +120,12 @@ public abstract class AbstractScalar implements Scalar {
   // ---
   @Override // from Scalar
   public Scalar divide(Scalar scalar) {
-    return multiply(scalar.invert()); // default implementation not numerically stable
+    return multiply(scalar.invert());
   }
 
   @Override // from Scalar
   public Scalar under(Scalar scalar) {
-    return invert().multiply(scalar); // default implementation not numerically stable
+    return invert().multiply(scalar);
   }
 
   /***************************************************/

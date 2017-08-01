@@ -161,10 +161,15 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(uc.toString(), "{-I, 3/4+5*I}");
   }
 
+  private static void _assertDivideSymmetric(Scalar s1, Scalar s2) {
+    assertEquals(s1.divide(s2), s2.under(s1));
+  }
+
   public void testDivision1() {
     Scalar zero = RealScalar.ZERO;
     Scalar eps = ComplexScalar.of(0, 5.562684646268010E-309);
     assertEquals(zero.divide(eps), RealScalar.ZERO);
+    _assertDivideSymmetric(zero, eps);
   }
 
   public void testDivision2a() {
@@ -173,6 +178,8 @@ public class ComplexScalarTest extends TestCase {
     Scalar ieps = ComplexScalar.of(0, eps);
     assertEquals(reps.divide(ieps), ComplexScalar.of(0, -1));
     assertEquals(ieps.divide(reps), ComplexScalar.of(0, 1));
+    _assertDivideSymmetric(reps, ieps);
+    _assertDivideSymmetric(ieps, reps);
   }
 
   public void testDivision3() {
@@ -186,6 +193,7 @@ public class ComplexScalarTest extends TestCase {
       Scalar reps = ComplexScalar.of(eps, eps);
       Scalar ieps = ComplexScalar.of(0, eps);
       assertEquals(reps.divide(ieps), ComplexScalar.of(1, -1));
+      _assertDivideSymmetric(reps, ieps);
     }
     {
       Scalar reps = ComplexScalar.of(eps, eps);
@@ -199,5 +207,7 @@ public class ComplexScalarTest extends TestCase {
     Scalar ieps = ComplexScalar.of(0, eps);
     assertEquals(ieps.divide(reps), ComplexScalar.of(0, 1));
     assertEquals(reps.divide(ieps), ComplexScalar.of(0, -1));
+    _assertDivideSymmetric(ieps, reps);
+    _assertDivideSymmetric(reps, ieps);
   }
 }

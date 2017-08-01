@@ -48,14 +48,31 @@ public interface Scalar extends Tensor {
    * @throws ArithmeticException if scalar equals to 0, or cannot be inverted */
   Scalar invert();
 
-  /** implemented as
+  /** a.divide(b) == a / b
+   * 
+   * the default implementation is a / b == a * (b ^ -1) as
    * <code>multiply(scalar.invert())</code>
+   * 
+   * 
+   * Due to numerical considerations the ratio is sometimes best
+   * computed directly, see documentation of {@link DoubleScalar}.
    * 
    * @param scalar
    * @return this divided by input scalar */
+  @Override // from Tensor
   Scalar divide(Scalar scalar);
 
-  // TODO document
+  /** a.under(b) == b / a
+   * 
+   * the default implementation is b / a == (a ^ -1) * b as
+   * <code>invert().multiply(scalar)</code>
+   * 
+   * function exists so that a scalar implementation can delegate
+   * the computation of divide to the class of the input scalar:
+   * a.divide(b) == b.under(a)
+   * 
+   * @param scalar
+   * @return input scalar divided by this */
   Scalar under(Scalar scalar);
 
   /** absolute value

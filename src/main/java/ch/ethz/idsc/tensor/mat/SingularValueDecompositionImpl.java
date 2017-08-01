@@ -101,8 +101,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     if (i < rows) {
       scale = Norm._1.of(u.extract(i, rows).get(Tensor.ALL, i));
       if (!scale.equals(RealScalar.ZERO)) {
-        Scalar fi = scale.invert();
-        IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(fi), k, i));
+        Scalar fi = scale;
+        IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(fi), k, i));
         Scalar s = Norm._2SQUARED.of(u.extract(i, rows).get(Tensor.ALL, i));
         Scalar f = u.Get(i, i);
         p = CopySign.of(Sqrt.of(s), f).negate();
@@ -125,8 +125,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     if (i < rows && ip1 != cols) {
       scale = Norm._1.of(u.get(i).extract(ip1, cols));
       if (!scale.equals(RealScalar.ZERO)) {
-        Scalar si = scale.invert();
-        IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.multiply(si), i, k));
+        Scalar si = scale;
+        IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.divide(si), i, k));
         {
           Scalar s = Norm._2SQUARED.of(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
@@ -170,12 +170,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     if (p.equals(RealScalar.ZERO))
       IntStream.range(i, rows).forEach(j -> u.set(RealScalar.ZERO, j, i));
     else {
-      Scalar gi = p.invert();
+      Scalar gi = p;
       for (int j = ip1; j < cols; ++j) {
         Scalar s = (Scalar) u.extract(ip1, rows).get(Tensor.ALL, i).dot(u.extract(ip1, rows).get(Tensor.ALL, j));
-        _addscaled(i, rows, u, i, j, s.divide(u.Get(i, i)).multiply(gi));
+        _addscaled(i, rows, u, i, j, s.divide(u.Get(i, i)).divide(gi));
       }
-      IntStream.range(i, rows).forEach(j -> u.set(x -> x.multiply(gi), j, i));
+      IntStream.range(i, rows).forEach(j -> u.set(x -> x.divide(gi), j, i));
     }
     u.set(Increment.ONE, i, i);
   }
@@ -195,9 +195,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
           Scalar g = w.Get(i);
           Scalar h = Hypot.of(f, g);
           w.set(h, i);
-          h = h.invert();
-          c = g.multiply(h);
-          s = f.negate().multiply(h);
+          c = g.divide(h);
+          s = f.divide(h).negate();
           _rotate(u, rows, c, s, i, l - 1);
         }
         return l;
@@ -238,9 +237,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       z = Hypot.of(f, h);
       w.set(z, j);
       if (!z.equals(RealScalar.ZERO)) {
-        z = z.invert();
-        c = f.multiply(z);
-        s = h.multiply(z);
+        c = f.divide(z);
+        s = h.divide(z);
       }
       _rotate(u, rows, c, s, jp1, j);
       f = c.multiply(p).add(s.multiply(y));

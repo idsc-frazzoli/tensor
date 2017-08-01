@@ -12,6 +12,7 @@ public enum InvertUnlessZero implements ScalarUnaryOperator {
    * @return Scalars.isZero(scalar) ? scalar : scalar.invert(); */
   @Override
   public Scalar apply(Scalar scalar) {
+    // FIXME possibly check if scalar.invert() is a number, otherwise 0
     return Scalars.isZero(scalar) ? scalar : scalar.invert();
   }
 

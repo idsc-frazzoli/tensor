@@ -33,13 +33,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   /***************************************************/
   @Override // from Scalar
-  public Scalar abs() {
-    return Hypot.BIFUNCTION.apply(re, im); // complex modulus
+  public Scalar abs() { // "complex modulus"
+    return Hypot.BIFUNCTION.apply(re, im);
   }
 
   /** @param c
    * @param d
-   * @return */
+   * @return c + d ^ 2 / c == c + d / c * d */
   private static Scalar c_dcd(Scalar c, Scalar d) {
     if (Scalars.isZero(c))
       throw TensorRuntimeException.of(c); // TODO remove later
@@ -51,7 +51,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     // the textbook solution results is not numerically stable:
     // Scalar mag = re.multiply(re).add(im.multiply(im));
     // return ComplexScalar.of(re.divide(mag), im.negate().divide(mag));
-    // using the assumption that re and im are not simultaneously zero
+    // using the assumption that im is never zero
     return ComplexScalar.of( //
         Scalars.isZero(re) ? re : c_dcd(re, im).invert(), //
         c_dcd(im, re).invert().negate());
@@ -73,7 +73,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ComplexScalar.of(re.multiply(scalar), im.multiply(scalar));
   }
 
-  @Override
+  @Override // from AbstractScalar
   public Scalar divide(Scalar scalar) {
     if (scalar instanceof ComplexScalarImpl) {
       ComplexScalarImpl z = (ComplexScalarImpl) scalar;
@@ -86,12 +86,15 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       Scalar res_im2 = re.divide(r2).negate();
       return ComplexScalar.of(res_re1.add(res_re2), res_im1.add(res_im2));
     }
-    return ComplexScalar.of(re.divide(scalar), im.divide(scalar));
+    if (scalar instanceof RealScalar)
+      return ComplexScalar.of(re.divide(scalar), im.divide(scalar));
+    return scalar.under(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public Scalar under(Scalar scalar) {
-    // TODO complex scalar
+    if (scalar instanceof ComplexScalarImpl)
+      return scalar.divide(this);
     if (scalar instanceof RealScalar) {
       boolean czero = Scalars.isZero(re);
       Scalar r1 = czero ? re : c_dcd(re, im);
@@ -110,7 +113,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar zero() {
-    return re.zero(); // not symmetric, since re is chosen over im...
+    return re.zero().add(im.zero());
   }
 
   /***************************************************/

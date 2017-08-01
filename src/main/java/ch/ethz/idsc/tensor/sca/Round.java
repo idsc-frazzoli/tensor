@@ -52,8 +52,7 @@ public enum Round implements ScalarUnaryOperator {
    * @param increment
    * @return */
   public static ScalarUnaryOperator toMultipleOf(Scalar increment) {
-    Scalar inverse = increment.invert();
-    return scalar -> FUNCTION.apply(scalar.multiply(inverse)).multiply(increment);
+    return scalar -> FUNCTION.apply(scalar.divide(increment)).multiply(increment);
   }
 
   /** rounds all entries of tensor to nearest integers, with

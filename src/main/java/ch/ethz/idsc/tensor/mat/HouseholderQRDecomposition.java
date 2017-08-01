@@ -59,7 +59,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
       w = y.add(delta);
     Tensor cw = Conjugate.of(w);
     Scalar cwy = (Scalar) cw.dot(y);
-    return IdentityMatrix.of(n).subtract(wcwt(w, cw.multiply(cwy.invert())));
+    return IdentityMatrix.of(n).subtract(wcwt(w, cw.divide(cwy)));
   }
 
   // outer product: product of all pairs

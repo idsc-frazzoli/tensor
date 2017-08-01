@@ -39,7 +39,7 @@ public enum Normalize {
    * @return vector / function(vector) */
   public static Tensor of(Tensor vector, Function<Tensor, Scalar> function) {
     if (VectorQ.of(vector))
-      return vector.multiply(function.apply(vector).invert());
+      return vector.divide(function.apply(vector));
     throw TensorRuntimeException.of(vector);
   }
 

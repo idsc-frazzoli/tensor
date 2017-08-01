@@ -68,25 +68,26 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return scalar.multiply(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public Scalar divide(Scalar scalar) {
     if (scalar instanceof RationalScalar) {
+      // default implementation in AbstractScalar uses 2x gcd
       RationalScalar rationalScalar = (RationalScalar) scalar;
       return _of(bigFraction.divide(rationalScalar.bigFraction));
     }
     return scalar.under(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public Scalar under(Scalar scalar) {
     if (scalar instanceof RationalScalar) {
+      // default implementation in AbstractScalar uses 2x gcd
       RationalScalar rationalScalar = (RationalScalar) scalar;
       return _of(rationalScalar.bigFraction.divide(bigFraction));
     }
     return scalar.divide(this);
   }
 
-  // under
   @Override // from Scalar
   public Number number() {
     if (IntegerQ.of(this)) {

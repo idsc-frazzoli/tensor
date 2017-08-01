@@ -51,7 +51,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
     Scalar max = abs.flatten(0).reduce(Max::of).get().Get();
     if (Scalars.isZero(max))
       return max;
-    abs = abs.multiply(max.invert());
+    abs = abs.divide(max);
     return max.multiply(Sqrt.FUNCTION.apply((Scalar) abs.dot(abs)));
   }
 

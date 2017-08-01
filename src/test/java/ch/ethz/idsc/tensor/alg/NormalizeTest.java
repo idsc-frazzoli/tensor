@@ -42,6 +42,13 @@ public class NormalizeTest extends TestCase {
     }
   }
 
+  public void testEps() {
+    Tensor vector = Tensors.vector(0, Double.MIN_VALUE, 0);
+    assertEquals(Normalize.of(vector, Norm._1), Tensors.vector(0, 1, 0));
+    assertEquals(Normalize.of(vector, Norm._2), Tensors.vector(0, 1, 0));
+    assertEquals(Normalize.of(vector, Norm.INFINITY), Tensors.vector(0, 1, 0));
+  }
+
   public void testNorm1() {
     Tensor v = Tensors.vector(1, 1, 1);
     Tensor n = Normalize.of(v, Norm._1);

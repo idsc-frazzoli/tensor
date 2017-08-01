@@ -44,7 +44,7 @@ public enum BinCounts {
       throw TensorRuntimeException.of(width);
     if (vector.length() == 0)
       return Tensors.empty();
-    NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector.multiply(width.invert())));
+    NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector.divide(width)));
     int length = Math.max(0, navigableMap.lastKey().Get().number().intValue() + 1);
     return Tensors.vector(index -> {
       Scalar key = RationalScalar.of(index, 1);

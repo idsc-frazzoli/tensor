@@ -206,6 +206,11 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
+  public Tensor divide(Scalar scalar) {
+    return Tensor.of(list.stream().map(entry -> entry.divide(scalar)));
+  }
+
+  @Override
   public Tensor dot(Tensor tensor) {
     return _dot(Dimensions.of(this), (TensorImpl) tensor);
   }

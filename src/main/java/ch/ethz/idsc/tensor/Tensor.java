@@ -227,6 +227,12 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return tensor with elements of this tensor multiplied with scalar */
   Tensor multiply(Scalar scalar);
 
+  /** scalar division, i.e. scaling, of tensor entries
+   * 
+   * @param scalar
+   * @return tensor with elements of this tensor multiplied with scalar */
+  Tensor divide(Scalar scalar);
+
   /** dot product as in Mathematica
    * 
    * <p>The {@link Dimensions} of the dotted tensors reduce according to the pattern

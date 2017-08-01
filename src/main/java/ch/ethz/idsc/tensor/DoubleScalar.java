@@ -71,14 +71,14 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   }
 
   // implementation exists because 4.9E-324 / 4.9E-324 != 4.9E-324 * (1 / 4.9E-324)
-  @Override // from Scalar
+  @Override // from AbstractScalar
   public Scalar divide(Scalar scalar) {
     if (scalar instanceof RealScalar)
       return of(value / scalar.number().doubleValue());
     return scalar.under(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public Scalar under(Scalar scalar) {
     if (scalar instanceof RealScalar)
       return of(scalar.number().doubleValue() / value);

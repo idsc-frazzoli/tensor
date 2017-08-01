@@ -19,13 +19,14 @@ public enum GaussianMatrix {
    * 
    * @param r
    * @return */
+  // TODO not tested
   public static Tensor of(int r) {
     final Scalar sigma = RationalScalar.of(r, 2);
-    final Scalar factor = AbsSquared.of(sigma).multiply(RealScalar.of(2)).invert().negate();
+    final Scalar factor = AbsSquared.of(sigma).multiply(RealScalar.of(2)).negate();
     final int m = 2 * r + 1;
     final Tensor offset = Tensors.vector(-r, -r);
     Tensor matrix = Array.of(list -> Norm._2SQUARED.of(Tensors.vector(list).add(offset)), m, m) //
-        .multiply(factor).map(Exp.FUNCTION);
-    return matrix.multiply(matrix.flatten(-1).reduce(Tensor::add).get().Get().invert());
+        .divide(factor).map(Exp.FUNCTION);
+    return matrix.divide(matrix.flatten(-1).reduce(Tensor::add).get().Get());
   }
 }
