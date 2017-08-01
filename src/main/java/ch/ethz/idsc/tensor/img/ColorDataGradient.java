@@ -11,6 +11,8 @@ import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.sca.N;
 
+/** ColorDataGradient generates colors using linear interpolation
+ * on a given table of rgba values */
 public class ColorDataGradient implements ColorDataFunction {
   private static final Tensor TRANSPARENT = Array.zeros(4).unmodifiable();
 

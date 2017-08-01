@@ -32,7 +32,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function {@link Tensor#get(Integer...)}
    * to extract <em>all</em> elements from the respective dimension.
    * 
-   * The value of ALL is deliberately not chosen to equal -1, since an index of -1
+   * <p>The value of ALL is deliberately not chosen to equal -1, since an index of -1
    * could likely be the result of a mistake in the application layer.
    * 
    * Constant ALL <em>cannot</em> be used in {@link Tensor#set(Tensor, Integer...)} */
@@ -75,7 +75,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
 
   /** non-negative index[...] refer to the position in the tensor
    * 
-   * Special value:
+   * <p>Special value:
    * <code>index[dim] == Tensor.ALL</code> refers to all entries of tensor dimension dim
    * 
    * @param index
@@ -103,8 +103,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * </ul>
    * 
    * @param tensor
-   * @param index
-   * @throws Exception if set() is invoked on an instance of {@link Scalar} */
+   * @param index non-empty
+   * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty */
   void set(Tensor tensor, Integer... index);
 
   /** replaces element x at index with <code>function.apply(x)</code>
@@ -115,8 +115,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * <p>the operation may change the structure/dimensions/rank of the tensor.
    * 
    * @param function
-   * @param index
-   * @throws Exception if set() is invoked on an instance of {@link Scalar}
+   * @param index non-empty
+   * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty
    * @see Tensor#set(Tensor, Integer...) */
   <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index);
 

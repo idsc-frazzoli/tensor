@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** access to resource data included in the tensor library
  * 
- * <p>List of available resources:
+ * <p>Examples of available resources:
  * <pre>
  * /colorscheme/classic.csv
  * /colorscheme/hue.csv

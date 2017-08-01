@@ -14,6 +14,7 @@ public enum ColorDataGradients implements ColorDataFunction {
    * the alpine color scheme was added August 1st */
   ALPINE("alpine.csv"), //
   CLASSIC("classic.csv"), //
+  CMYK("cmyk.csv"), //
   COPPER("copper.csv"), //
   GRAYSCALE("grayscale.csv"), //
   /** hsluv is hue with brightness equalized, see hsluv.org */
@@ -22,6 +23,7 @@ public enum ColorDataGradients implements ColorDataFunction {
   PASTEL("pastel.csv"), //
   PINK("pink.csv"), //
   RAINBOW("rainbow.csv"), //
+  SUNSET("sunset.csv"), //
   THERMOMETER("thermometer.csv"), //
   ;
   // ---

@@ -116,8 +116,6 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @SuppressWarnings("unchecked")
   // package visibility in order to override in unmodifiable()
   /* package */ <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
-    if (index.isEmpty())
-      return;
     int head = index.get(0);
     if (index.size() == 1)
       list.set(head, function.apply((T) get(head)));

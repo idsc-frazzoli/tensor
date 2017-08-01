@@ -314,4 +314,24 @@ public class TensorTest extends TestCase {
   public void testToString() {
     assertEquals(Tensors.vector(2, 3, 4).toString(), "{2, 3, 4}");
   }
+
+  public void testSetTensorLevel0() {
+    Tensor vector = Tensors.vector(2, 3, 4);
+    try {
+      vector.set(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testSetFunctionLevel0() {
+    Tensor vector = Tensors.vector(2, 3, 4);
+    try {
+      vector.set(t -> RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
