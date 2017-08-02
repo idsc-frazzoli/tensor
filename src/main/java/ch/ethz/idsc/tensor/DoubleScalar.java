@@ -34,7 +34,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
    * field name inspired by Mathematica::Indeterminate */
   public static final Scalar INDETERMINATE = of(Double.NaN);
   // ---
-  private static final Scalar DOUBLE_ZERO = of(0.0);
+  private static final Scalar DOUBLE_ZERO = of(+0.0);
 
   /** @param value
    * @return new instance of {@link DoubleScalar} */
@@ -112,7 +112,9 @@ public final class DoubleScalar extends AbstractRealScalar implements //
       double other = scalar.number().doubleValue();
       if (Double.isNaN(other))
         throw TensorRuntimeException.of(this, scalar);
-      return Double.compare(number().doubleValue(), other);
+      if (value == other) // +0.0 == -0.0
+        return 0;
+      return Double.compare(value, other);
     }
     @SuppressWarnings("unchecked")
     Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
@@ -178,7 +180,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
-    return Double.hashCode(value);
+    return Double.hashCode(value == 0.0 ? 0.0 : value); // +0.0 and -0.0 have identical hash value
   }
 
   @Override // from AbstractScalar

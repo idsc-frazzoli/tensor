@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.alg.DeleteDuplicates;
 import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -66,6 +67,25 @@ public class DoubleScalarTest extends TestCase {
     Scalar a = RealScalar.of(0);
     Scalar b = RealScalar.of(7.2);
     assertEquals(Max.of(a, b), b);
+  }
+
+  public void testNegativeZero() {
+    Scalar d1 = DoubleScalar.of(0.0);
+    Scalar d2 = DoubleScalar.of(-0.0);
+    assertEquals(d1.toString(), "0.0");
+    assertEquals(d2.toString(), "-0.0"); // -0.0 is tolerated as value
+    assertTrue(Scalars.isZero(d1));
+    assertTrue(Scalars.isZero(d2));
+    assertEquals(d1.subtract(d2).toString(), "0.0");
+    assertEquals(d2.subtract(d1).toString(), "-0.0"); // -0.0 is tolerated as value
+    assertTrue(Scalars.compare(d1, d2) == 0);
+    assertTrue(d1.hashCode() == d2.hashCode());
+    assertEquals(d1.hashCode(), d2.hashCode());
+  }
+
+  public void testDeleteDuplicates() {
+    Tensor vector = DeleteDuplicates.of(Tensors.vectorDouble(0.0, -0.0, 0.0, -0.0));
+    assertEquals(vector.length(), 1);
   }
 
   public void testNaN() {

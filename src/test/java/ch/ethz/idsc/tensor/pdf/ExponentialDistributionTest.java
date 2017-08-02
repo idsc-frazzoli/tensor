@@ -67,24 +67,22 @@ public class ExponentialDistributionTest extends TestCase {
     assertTrue(-2000 < log);
   }
 
-  private static void _checkCorner(Distribution distribution) {
-    ExponentialDistribution exponentialDistribution = (ExponentialDistribution) distribution;
+  private static void _checkCorner(Scalar lambda) {
+    ExponentialDistribution exponentialDistribution = (ExponentialDistribution) ExponentialDistribution.of(lambda);
     Scalar from0 = exponentialDistribution.randomVariate(0);
     assertTrue(MachineNumberQ.of(from0));
     assertTrue(Scalars.lessThan(RealScalar.ZERO, from0));
-    // TODO this doesn't work with double precision, investigate
-    double max = Math.nextDown(1f);
+    double max = Math.nextDown(1.0);
     Scalar from1 = exponentialDistribution.randomVariate(max);
-    // System.out.println(from1);
-    assertTrue(Scalars.lessThan(RealScalar.ZERO, from1));
+    assertTrue(Scalars.lessEquals(RealScalar.ZERO, from1));
     assertFalse(Scalars.lessThan(RealScalar.ZERO, exponentialDistribution.randomVariate(1)));
   }
 
   public void testCornerCase() {
-    _checkCorner(ExponentialDistribution.of(RealScalar.of(.00001)));
-    _checkCorner(ExponentialDistribution.of(RealScalar.of(.1)));
-    _checkCorner(ExponentialDistribution.of(RealScalar.of(1)));
-    _checkCorner(ExponentialDistribution.of(RealScalar.of(2)));
-    _checkCorner(ExponentialDistribution.of(RealScalar.of(700)));
+    _checkCorner(RealScalar.of(.00001));
+    _checkCorner(RealScalar.of(.1));
+    _checkCorner(RealScalar.of(1));
+    _checkCorner(RealScalar.of(2));
+    _checkCorner(RealScalar.of(700));
   }
 }

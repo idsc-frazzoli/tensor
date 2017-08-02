@@ -3,12 +3,9 @@ package ch.ethz.idsc.tensor.usr;
 
 import junit.framework.TestCase;
 
-//The value of 1.0 / (1.0 / x) will differ from x by no more than 1 unit in the last place.
+// class is not treated as test by maven
+// extending from TestCase allows access to assert functions
 class DoubleInversion extends TestCase {
-  public void testDummy() {
-    // ---
-  }
-
   private static boolean invertible(double value) {
     return Double.isFinite(1.0 / value);
   }
@@ -120,7 +117,6 @@ class DoubleInversion extends TestCase {
     System.out.println(1 / Double.MIN_NORMAL);
     System.out.println(1 / Double.MAX_VALUE);
     // ---
-    // double eps =
     {
       double value = MIN_INVERTIBLE2X;
       for (int c = 0; c < 1000; ++c) {
@@ -140,14 +136,6 @@ class DoubleInversion extends TestCase {
     {
       double inf = Math.nextUp(Double.MAX_VALUE);
       assertEquals(inf, Double.POSITIVE_INFINITY);
-      // gives infinity
-      // System.out.println(max);
     }
-    {
-      // double asd = invertTwice(1E-323);
-      System.out.println("HERE" + (1.0 / 1E-310));
-    }
-    // double below = Math.nextDown(Double.MIN_NORMAL);
-    // System.out.println(1/below);
   }
 }

@@ -45,8 +45,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
    * @param d
    * @return c + d / c * d */
   private static Scalar c_dcd(Scalar c, Scalar d) {
-    if (Scalars.isZero(c))
-      throw TensorRuntimeException.of(c); // TODO check remove later
+    // if (Scalars.isZero(c)) // <- consistency check during development
+    // throw TensorRuntimeException.of(c);
     return c.add(d.divide(c).multiply(d));
   }
 
