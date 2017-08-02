@@ -5,6 +5,10 @@ import junit.framework.TestCase;
 
 //The value of 1.0 / (1.0 / x) will differ from x by no more than 1 unit in the last place.
 class DoubleInversion extends TestCase {
+  public void testDummy() {
+    // ---
+  }
+
   private static boolean invertible(double value) {
     return Double.isFinite(1.0 / value);
   }

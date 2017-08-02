@@ -14,7 +14,7 @@ public enum ColorDataGradients implements ColorDataFunction {
    * the alpine color scheme was added August 1st */
   ALPINE("alpine.csv"), //
   CLASSIC("classic.csv"), //
-  CMYK("cmyk.csv"), //
+  CMYK_REVERSED("cmyk_reversed.csv"), //
   COPPER("copper.csv"), //
   GRAYSCALE("grayscale.csv"), //
   /** hsluv is hue with brightness equalized, see hsluv.org */

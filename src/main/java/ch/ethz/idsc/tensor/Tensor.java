@@ -93,13 +93,16 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return copy of this[index[0],index[1],...,All] */
   Tensor get(List<Integer> index);
 
-  /** set tensor as element at location this[index[0], index[1], ...].
+  /** set copy of tensor as element at location this[index[0], index[1], ...].
    * The operation is invalid if this tensor has been cast as unmodifiable.
+   * 
+   * <p>Tensor.ALL in the index array refers to all elements along that dimension.
    * 
    * <p>For instance,
    * <ul>
    * <li><code>matrix.set(scalar, 3, 4)</code> represents the assignment <code>matrix[3, 4]=scalar</code>
    * <li><code>matrix.set(row, 6)</code> represents the assignment <code>matrix[6, :]=row</code>
+   * <li><code>matrix.set(col, Tensor.ALL, 5)</code> represents the assignment <code>matrix[:, 5]=col</code>
    * </ul>
    * 
    * @param tensor
@@ -109,6 +112,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
 
   /** replaces element x at index with <code>function.apply(x)</code>
    * The operation is invalid if this tensor has been cast as unmodifiable.
+   * 
+   * <p>Tensor.ALL in the index array refers to all elements along that dimension.
    * 
    * <p>set(...) allows to implement in-place operations such as <code>a += 3;</code>
    * 

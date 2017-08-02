@@ -5,8 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Numel;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class TensorTest extends TestCase {
@@ -313,6 +317,51 @@ public class TensorTest extends TestCase {
 
   public void testToString() {
     assertEquals(Tensors.vector(2, 3, 4).toString(), "{2, 3, 4}");
+  }
+
+  public void testSetNotByRef() {
+    Tensor a = Tensors.vector(1);
+    Tensor row = Tensors.vector(1, 2, 3, 4);
+    a.set(row, 0);
+    Tensor copy = a.copy();
+    row.set(s -> s.multiply(RealScalar.ZERO), 2);
+    assertEquals(a, copy);
+  }
+
+  public void testSetAllLast() {
+    Tensor a = Tensors.vector(0, 1, 3, 4);
+    Tensor row = Tensors.vector(5, 6, 7, 8);
+    a.set(row, Tensor.ALL);
+    assertEquals(a, row);
+  }
+
+  public void testSet333() {
+    Tensor ad = LieAlgebras.sl3();
+    Tensor mat = HilbertMatrix.of(3);
+    ad.set(mat, Tensor.ALL, 2);
+    assertEquals(Dimensions.of(ad), Arrays.asList(3, 3, 3));
+    assertEquals(ad.get(Tensor.ALL, 2), mat);
+  }
+
+  public void testSetFunctionAllLast() {
+    Tensor a = Tensors.vector(0, 1, 3, 4, 9);
+    a.set(Increment.ONE, Tensor.ALL);
+    Tensor b = Tensors.vector(1, 2, 4, 5, 10);
+    assertEquals(a, b);
+  }
+
+  public void testSetAll() {
+    Tensor matrix = HilbertMatrix.of(4, 6);
+    Tensor column = Tensors.vector(3, 2, 1, 0);
+    matrix.set(column, Tensor.ALL, 2);
+    assertEquals(matrix.get(Tensor.ALL, 2), column);
+  }
+
+  public void testSetFunctionAll() {
+    Tensor matrix = HilbertMatrix.of(4, 6);
+    Tensor column = Tensors.vector(3, 4, 5, 6);
+    matrix.set(t -> t.Get().invert(), Tensor.ALL, 2);
+    assertEquals(matrix.get(Tensor.ALL, 2), column);
   }
 
   public void testSetTensorLevel0() {

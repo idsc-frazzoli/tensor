@@ -103,9 +103,19 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   /* package */ void _set(Tensor tensor, List<Integer> index) {
     final int head = index.get(0);
     if (index.size() == 1)
-      list.set(head, tensor);
-    else
-      ((TensorImpl) list.get(head))._set(tensor, index.subList(1, index.size()));
+      if (head == ALL) {
+        TensorImpl impl = (TensorImpl) tensor;
+        _range(impl).forEach(pos -> list.set(pos, impl.list.get(pos).copy()));
+      } else
+        list.set(head, tensor.copy());
+    else {
+      List<Integer> sublist = index.subList(1, index.size());
+      if (head == ALL) {
+        TensorImpl impl = (TensorImpl) tensor;
+        _range(impl).forEach(pos -> ((TensorImpl) list.get(pos))._set(impl.list.get(pos), sublist));
+      } else
+        ((TensorImpl) list.get(head))._set(tensor, sublist);
+    }
   }
 
   @Override
@@ -116,11 +126,19 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @SuppressWarnings("unchecked")
   // package visibility in order to override in unmodifiable()
   /* package */ <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
-    int head = index.get(0);
+    final int head = index.get(0);
     if (index.size() == 1)
-      list.set(head, function.apply((T) get(head)));
-    else
-      ((TensorImpl) list.get(head))._set(function, index.subList(1, index.size()));
+      if (head == ALL)
+        IntStream.range(0, length()).forEach(pos -> list.set(pos, function.apply((T) list.get(pos)).copy()));
+      else
+        list.set(head, function.apply((T) list.get(head)).copy());
+    else {
+      List<Integer> sublist = index.subList(1, index.size());
+      if (head == ALL)
+        list.stream().map(TensorImpl.class::cast).forEach(impl -> impl._set(function, sublist));
+      else
+        ((TensorImpl) list.get(head))._set(function, sublist);
+    }
   }
 
   @Override
