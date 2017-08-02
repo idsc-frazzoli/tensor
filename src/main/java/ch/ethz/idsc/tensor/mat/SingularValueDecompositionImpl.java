@@ -253,7 +253,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar z = w.Get(i);
     if (z.number().doubleValue() < 0) {
       w.set(z.negate(), i);
-      IntStream.range(0, cols).forEach(j -> v.set(x -> x.negate(), j, i));
+      v.set(Tensor::negate, Tensor.ALL, i);
     }
   }
 

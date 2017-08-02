@@ -39,7 +39,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     // phase 2
     tab = Join.of(1, //
         TensorMap.of(row -> row.extract(0, n), tab.extract(0, m), 1), //
-        Partition.of(tab.get(-1, n + m).extract(0, m), 1));
+        Partition.of(tab.get(Tensor.ALL, n + m).extract(0, m), 1));
     tab.append(Join.of(c, Tensors.of(RealScalar.ZERO)));
     tab = simplex(tab);
     return get_current_x(tab);
@@ -57,7 +57,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
       Tensor c = tab.get(m).extract(0, n);
       final int j = ArgMin.of(c);
       if (((SignInterface) c.Get(j)).signInt() == -1) {
-        int argmax = ArgMax.of(tab.get(-1, j).extract(0, m));
+        int argmax = ArgMax.of(tab.get(Tensor.ALL, j).extract(0, m));
         if (((SignInterface) tab.Get(argmax, j)).signInt() != 1)
           throw TensorRuntimeException.of(tab); // problem unbounded
         Integer pivot = null;
@@ -94,12 +94,12 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     int n = dims.get(1) - 1;
     Tensor x = Array.zeros(n);
     for (int j = 0; j < n; ++j) {
-      int len = Math.toIntExact(tab.get(-1, j).flatten(0) //
+      int len = Math.toIntExact(tab.get(Tensor.ALL, j).flatten(0) //
           .map(Scalar.class::cast) //
           .filter(Scalars::isZero) //
           .count());
       if (len == m)
-        x.set(tab.get(ArgMax.of(tab.get(-1, j)), n), j);
+        x.set(tab.get(ArgMax.of(tab.get(Tensor.ALL, j)), n), j);
     }
     return x;
   }

@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.ArrayQ;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Numel;
+import ch.ethz.idsc.tensor.alg.TensorRank;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -335,12 +337,72 @@ public class TensorTest extends TestCase {
     assertEquals(a, row);
   }
 
+  public void testSetMultiAll0() {
+    Tensor a = Array.zeros(2, 3);
+    Tensor b = Array.zeros(2, 1);
+    a.set(b, Tensor.ALL, 2);
+    Tensor c = Tensors.fromString("{{0, 0, {0}}, {0, 0, {0}}}");
+    assertEquals(a, c);
+  }
+
+  public void testSetMultiAll1() {
+    Tensor a = Array.zeros(2, 3, 4, 5);
+    Tensor b = Array.zeros(3, 5, 1);
+    a.set(b, 1, Tensor.ALL, 2, Tensor.ALL);
+    assertFalse(ArrayQ.of(a));
+    List<Integer> dims = Dimensions.of(a.get(1, Tensor.ALL, 2, Tensor.ALL));
+    assertEquals(dims, Dimensions.of(b));
+  }
+
+  public void testSetMultiAll2() {
+    Tensor a = Array.zeros(2, 3, 4, 5);
+    Tensor b = Array.zeros(2, 4, 1);
+    a.set(b, Tensor.ALL, 2, Tensor.ALL, 2);
+    assertFalse(ArrayQ.of(a));
+    List<Integer> dims = Dimensions.of(a.get(Tensor.ALL, 2, Tensor.ALL, 2));
+    assertEquals(dims, Dimensions.of(b));
+  }
+
+  public void testSetAllFail() {
+    Tensor a = Tensors.vector(0, 1, 3, 4);
+    Tensor c = a.copy();
+    try {
+      a.set(Tensors.vector(5, 6, 7, 8, 9), Tensor.ALL);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    assertEquals(a, c);
+    try {
+      a.set(Tensors.vector(5, 6, 7), Tensor.ALL);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    assertEquals(a, c);
+  }
+
   public void testSet333() {
     Tensor ad = LieAlgebras.sl3();
     Tensor mat = HilbertMatrix.of(3);
     ad.set(mat, Tensor.ALL, 2);
     assertEquals(Dimensions.of(ad), Arrays.asList(3, 3, 3));
     assertEquals(ad.get(Tensor.ALL, 2), mat);
+  }
+
+  public void testSetSelf() {
+    Tensor a = Tensors.vector(1); // 1
+    assertTrue(TensorRank.of(a) == 1);
+    a.set(a, 0);
+    assertTrue(TensorRank.of(a) == 2);
+    a.set(a, Tensor.ALL);
+    assertTrue(TensorRank.of(a) == 2);
+    a.set(a, 0);
+    assertTrue(TensorRank.of(a) == 3);
+    a.set(a, Tensor.ALL);
+    a.set(a, 0);
+    a.set(a, 0);
+    assertTrue(TensorRank.of(a) == 5);
   }
 
   public void testSetFunctionAllLast() {
@@ -360,7 +422,7 @@ public class TensorTest extends TestCase {
   public void testSetFunctionAll() {
     Tensor matrix = HilbertMatrix.of(4, 6);
     Tensor column = Tensors.vector(3, 4, 5, 6);
-    matrix.set(t -> t.Get().invert(), Tensor.ALL, 2);
+    matrix.set(Scalar::invert, Tensor.ALL, 2);
     assertEquals(matrix.get(Tensor.ALL, 2), column);
   }
 
