@@ -8,8 +8,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Factorial;
 import ch.ethz.idsc.tensor.sca.Power;
 
-/** presumeably:
- * ErlangDistribution[k, lambda] == GammaDistribution[k, 1 / lambda]
+/** ErlangDistribution[k, lambda] == GammaDistribution[k, 1 / lambda]
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ErlangDistribution.html">ErlangDistribution</a> */

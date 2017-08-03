@@ -3,16 +3,26 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.red.Norm;
-import ch.ethz.idsc.tensor.sca.InvertUnlessZero;
+import ch.ethz.idsc.tensor.sca.Chop;
 
-/** inspired by
+/** norms of resulting vectors deviate from 1 numerically
+ * observed deviations are
+ * 0.9999999999999998
+ * 1.0000000000000004
+ * 1.0000000000000009
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Normalize.html">Normalize</a> */
 public enum Normalize {
   ;
+  private static final Chop PRECISION = Chop._15; // magic const
+
   /** @param vector
    * @return normalized form of vector with respect to 2-norm */
   public static Tensor of(Tensor vector) {
@@ -36,19 +46,29 @@ public enum Normalize {
 
   /** @param vector
    * @param function
-   * @return vector / function(vector) */
+   * @return result = vector*scale with positive scale such that function(result) == 1 (or numerically close to 1) */
   public static Tensor of(Tensor vector, Function<Tensor, Scalar> function) {
-    if (VectorQ.of(vector))
-      return vector.divide(function.apply(vector));
-    throw TensorRuntimeException.of(vector);
+    if (VectorQ.of(vector)) {
+      Scalar norm = function.apply(vector);
+      int count = 0;
+      while (!PRECISION.close(norm, RealScalar.ONE)) {
+        vector = vector.divide(function.apply(vector));
+        norm = function.apply(vector);
+        ++count;
+        if (5 < count) // in the tests the maximum observed count == 2
+          throw TensorRuntimeException.of("no convergence", norm, vector);
+      }
+      return 0 < count ? vector : vector.copy();
+    }
+    throw TensorRuntimeException.of(vector); // input is not a vector
   }
 
   /** @param vector
-   * @param norm
-   * @return vector of |vector|==1 subject to given norm, or zero-vector if |vector|==0 */
+   * @param function
+   * @return copy of vector if function(vector) == 0, else same as {@link #of(Tensor, Function)} */
   public static Tensor unlessZero(Tensor vector, Function<Tensor, Scalar> function) {
     if (VectorQ.of(vector))
-      return vector.multiply(InvertUnlessZero.FUNCTION.apply(function.apply(vector)));
-    throw TensorRuntimeException.of(vector);
+      return Scalars.isZero(function.apply(vector)) ? vector.copy() : of(vector, function);
+    throw TensorRuntimeException.of(vector); // input is not a vector
   }
 }

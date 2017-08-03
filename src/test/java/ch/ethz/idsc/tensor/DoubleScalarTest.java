@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.alg.DeleteDuplicates;
+import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -81,6 +82,24 @@ public class DoubleScalarTest extends TestCase {
     assertTrue(Scalars.compare(d1, d2) == 0);
     assertTrue(d1.hashCode() == d2.hashCode());
     assertEquals(d1.hashCode(), d2.hashCode());
+    assertEquals(d1.negate().toString(), "-0.0");
+    assertEquals(d2.negate().toString(), "0.0");
+    // System.out.println(RealScalar.ZERO.subtract(d1));
+    // System.out.println(RealScalar.ZERO.subtract(d2));
+    // System.out.println(d1.subtract(RealScalar.ZERO));
+    // System.out.println(d2.subtract(RealScalar.ZERO));
+  }
+
+  public void testNegZeroString() {
+    Scalar scalar = Scalars.fromString("-0.0");
+    assertTrue(scalar instanceof DoubleScalar);
+    assertEquals(scalar.toString(), "0.0");
+  }
+
+  public void testNegZeroSort() {
+    Tensor vector = Tensors.vectorDouble(0.0, -0.0, -0.0, 0.0, -0.0, 0.0);
+    Tensor sorted = Sort.of(vector);
+    assertEquals(vector.toString(), sorted.toString());
   }
 
   public void testDeleteDuplicates() {

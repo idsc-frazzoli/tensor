@@ -16,7 +16,7 @@ enum QuantityDemo {
     CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));
-    System.out.println(cd.det());
+    System.out.println(cd.det().divide(Quantity.of(20, "[m^2*rad]")));
   }
 
   public static void main(String[] args) {

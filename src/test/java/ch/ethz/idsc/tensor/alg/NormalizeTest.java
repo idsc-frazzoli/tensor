@@ -6,22 +6,41 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class NormalizeTest extends TestCase {
+  // function requires that vector != 0
+  private static void _checkNormalize(Tensor vector, Norm norm) {
+    Scalar n = norm.of(Normalize.of(vector, norm));
+    // System.out.println(n);
+    assertTrue(Chop._13.close(n, RealScalar.ONE));
+    assertTrue(Chop._13.close(norm.of(Normalize.unlessZero(vector, norm)), RealScalar.ONE));
+  }
+
+  private static void _checkNormalizeAllNorms(Tensor vector) {
+    _checkNormalize(vector, Norm._1);
+    _checkNormalize(vector, Norm.INFINITY);
+    _checkNormalize(vector, Norm._2);
+  }
+
   public void testVector1() {
     Tensor vector = Tensors.vector(3, 3, 3, 3);
     Tensor n = Normalize.of(vector);
     assertEquals(n.toString(), "{1/2, 1/2, 1/2, 1/2}");
+    _checkNormalizeAllNorms(vector);
+    _checkNormalizeAllNorms(Tensors.vector(3, 2, 1));
   }
 
   public void testVector2() {
-    Tensor vector = Tensors.vector(3, 2, 1);
-    Tensor n = Normalize.of(vector);
-    Scalar res = Chop._12.apply(Norm._2.of(n).subtract(RealScalar.ONE));
-    assertEquals(res, res.zero());
+    Distribution d = NormalDistribution.standard();
+    _checkNormalizeAllNorms(RandomVariate.of(d, 1000));
+    _checkNormalizeAllNorms(RandomVariate.of(d, 10000));
+    _checkNormalizeAllNorms(RandomVariate.of(d, 100000));
   }
 
   public void testEmpty() {
@@ -49,16 +68,26 @@ public class NormalizeTest extends TestCase {
     assertEquals(Normalize.of(vector, Norm.INFINITY), Tensors.vector(0, 1, 0));
   }
 
+  public void testEps2() {
+    _checkNormalizeAllNorms(Tensors.vector(0, -Double.MIN_VALUE, 0, 0, 0));
+    _checkNormalizeAllNorms(Tensors.vector(0, 0, Double.MIN_VALUE));
+    _checkNormalizeAllNorms(Tensors.vector(0, Double.MIN_VALUE, Double.MIN_VALUE));
+    _checkNormalizeAllNorms(Tensors.vector(Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE));
+  }
+
   public void testNorm1() {
     Tensor v = Tensors.vector(1, 1, 1);
     Tensor n = Normalize.of(v, Norm._1);
     assertEquals(n, Tensors.fromString("{1/3, 1/3, 1/3}"));
+    _checkNormalizeAllNorms(v);
   }
 
   public void testNormInf() {
     Tensor d = Tensors.vector(1, 1, 1).multiply(RealScalar.of(2));
     Tensor n = Normalize.of(d, Norm.INFINITY);
     assertEquals(n, Tensors.vector(1, 1, 1));
+    _checkNormalizeAllNorms(d);
+    _checkNormalizeAllNorms(n);
   }
 
   public void testOk1() {

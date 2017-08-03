@@ -9,7 +9,9 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Gamma;
 import ch.ethz.idsc.tensor.sca.Power;
 
-/** GammaDistribution[1, lambda] == ExponentialDistribution[1 / lambda]
+/** special cases of the Gamma distribution are
+ * GammaDistribution[1, lambda] == ExponentialDistribution[1 / lambda]
+ * GammaDistribution[k, lambda] == ErlangDistribution[k, 1 / lambda] for k positive integer
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/GammaDistribution.html">GammaDistribution</a> */
@@ -20,6 +22,8 @@ public class GammaDistribution implements Distribution, MeanInterface, PDF, Vari
   public static Distribution of(Scalar alpha, Scalar beta) {
     if (Scalars.lessEquals(alpha, RealScalar.ZERO) || Scalars.lessEquals(beta, RealScalar.ZERO))
       throw TensorRuntimeException.of(alpha, beta);
+    if (alpha.equals(RealScalar.ONE))
+      return ExponentialDistribution.of(beta.invert());
     return new GammaDistribution(alpha, beta);
   }
 

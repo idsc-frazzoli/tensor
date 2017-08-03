@@ -23,7 +23,19 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * value == 1.0 / (1.0 / value) is
  * [5.562684646268010E-309, 1.7976931348623151E308]
  * 
- * zero().invert() equals {@link DoubleScalar#POSITIVE_INFINITY} */
+ * zero().invert() equals {@link DoubleScalar#POSITIVE_INFINITY}
+ * 
+ * The numeric zero has a sign, i.e. positive +0.0 and negative -0.0 exist
+ * The implementation of DoubleScalar uses the following rules:
+ * <ul>
+ * <li>DoubleScalar.of(-0.0) is backed by the double value -0.0
+ * <li>DoubleScalar.of(-0.0) equals DoubleScalar.of(0.0)
+ * <li>their hashCode is also identical
+ * <li>Scalars.compare(DoubleScalar.of(-0.0), DoubleScalar.of(0.0)) gives 0
+ * </ul>
+ * 
+ * Special case:
+ * Scalars.fromString("-0.0") gives DoubleScalar.of(0.0) */
 public final class DoubleScalar extends AbstractRealScalar implements //
     ChopInterface, MachineNumberQInterface {
   /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
@@ -34,7 +46,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
    * field name inspired by Mathematica::Indeterminate */
   public static final Scalar INDETERMINATE = of(Double.NaN);
   // ---
-  private static final Scalar DOUBLE_ZERO = of(+0.0);
+  private static final Scalar DOUBLE_ZERO = of(0.0); // positive numeric zero
 
   /** @param value
    * @return new instance of {@link DoubleScalar} */
