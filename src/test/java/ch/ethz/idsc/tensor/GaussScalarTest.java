@@ -15,11 +15,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class GaussScalarTest extends TestCase {
-  public void testInvert() {
+  public void testReciprocal() {
     long prime = 7919;
     for (int v = 1; v < prime; ++v) {
       Scalar num = GaussScalar.of(v, prime);
-      Scalar inv = num.invert();
+      Scalar inv = num.reciprocal();
       assertEquals(num.multiply(inv), GaussScalar.of(1, prime));
       assertEquals(inv.multiply(num), GaussScalar.of(1, prime));
     }

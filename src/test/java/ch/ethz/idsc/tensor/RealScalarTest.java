@@ -70,7 +70,7 @@ public class RealScalarTest extends TestCase {
   }
 
   public void testInvertInfinity() {
-    assertEquals(DoubleScalar.POSITIVE_INFINITY.invert(), RealScalar.ZERO);
-    assertEquals(DoubleScalar.NEGATIVE_INFINITY.invert(), RealScalar.ZERO);
+    assertEquals(DoubleScalar.POSITIVE_INFINITY.reciprocal(), RealScalar.ZERO);
+    assertEquals(DoubleScalar.NEGATIVE_INFINITY.reciprocal(), RealScalar.ZERO);
   }
 }

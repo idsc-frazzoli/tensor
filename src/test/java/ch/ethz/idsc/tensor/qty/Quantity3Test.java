@@ -209,9 +209,9 @@ public class Quantity3Test extends TestCase {
     }
   }
 
-  public void testInvert() {
+  public void testReciprocal() {
     Scalar qs1 = Quantity.of(4, "[m]");
-    assertEquals(qs1.invert().toString(), "1/4[m^-1]");
+    assertEquals(qs1.reciprocal().toString(), "1/4[m^-1]");
   }
 
   public void testRamp() {

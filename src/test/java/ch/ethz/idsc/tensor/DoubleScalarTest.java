@@ -23,10 +23,10 @@ public class DoubleScalarTest extends TestCase {
     assertTrue(a.add(b).equals(c));
   }
 
-  public void testZeroInvert() {
+  public void testZeroReciprocal() {
     Scalar nzero = DoubleScalar.of(0.0);
-    assertEquals(nzero.invert(), DoubleScalar.POSITIVE_INFINITY);
-    assertEquals(DoubleScalar.POSITIVE_INFINITY.invert(), nzero);
+    assertEquals(nzero.reciprocal(), DoubleScalar.POSITIVE_INFINITY);
+    assertEquals(DoubleScalar.POSITIVE_INFINITY.reciprocal(), nzero);
   }
 
   public void testChop() {

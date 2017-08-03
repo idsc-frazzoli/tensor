@@ -22,9 +22,9 @@ public class McScalarTest extends TestCase {
     assertEquals(s1.multiply(r), r.multiply(s1));
   }
 
-  public void testInvert() {
+  public void testReciprocal() {
     Scalar s1 = McScalar.of(RationalScalar.of(2, 9), RealScalar.of(-3));
-    Scalar s3 = s1.invert();
+    Scalar s3 = s1.reciprocal();
     assertEquals(s3.multiply(s1), RealScalar.ONE);
   }
 

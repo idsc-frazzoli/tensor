@@ -85,7 +85,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   }
 
   @Override
-  public Scalar invert() {
+  public Scalar reciprocal() {
     return _of(Inverse.of(skew));
   }
 

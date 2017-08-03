@@ -37,7 +37,7 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
     return of(new BigDecimal(string));
   }
 
-  static BigDecimal approx(RationalScalar rationalScalar) {
+  private static BigDecimal approx(RationalScalar rationalScalar) {
     BigDecimal num = new BigDecimal(rationalScalar.numerator());
     BigDecimal den = new BigDecimal(rationalScalar.denominator());
     return num.divide(den, CONTEXT);
@@ -50,11 +50,6 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
   }
 
   /***************************************************/
-  @Override // from Scalar
-  public Scalar invert() {
-    return of(BigDecimal.ONE.divide(value, CONTEXT));
-  }
-
   @Override // from Scalar
   public Scalar negate() {
     return of(value.negate());
@@ -71,6 +66,11 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
       return of(value.multiply(approx(rationalScalar)));
     }
     return scalar.multiply(this);
+  }
+
+  @Override // from Scalar
+  public Scalar reciprocal() {
+    return of(BigDecimal.ONE.divide(value, CONTEXT));
   }
 
   @Override // from Scalar

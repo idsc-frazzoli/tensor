@@ -96,10 +96,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   }
 
   @Override // from Scalar
-  public Scalar invert() {
+  public Scalar reciprocal() {
     return ComplexScalar.of( //
-        Scalars.isZero(re) ? re : c_dcd(re, im).invert(), //
-        c_dcd(im, re).invert().negate()); // using the assumption that im is never zero
+        Scalars.isZero(re) ? re : c_dcd(re, im).reciprocal(), //
+        c_dcd(im, re).reciprocal().negate()); // using the assumption that im is never zero
   }
 
   @Override // from Scalar

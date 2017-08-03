@@ -101,7 +101,7 @@ final class QuaternionScalar extends AbstractScalar implements //
   }
 
   @Override
-  public Scalar invert() {
+  public Scalar reciprocal() {
     return conjugate().divide(AbsSquared.FUNCTION.apply(this));
   }
 

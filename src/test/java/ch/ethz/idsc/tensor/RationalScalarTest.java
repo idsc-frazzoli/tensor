@@ -23,14 +23,14 @@ public class RationalScalarTest extends TestCase {
     assertEquals(Total.of(v), DoubleScalar.of(s.number().doubleValue()));
   }
 
-  public void testInvert() {
+  public void testReciprocal() {
     Scalar a = RationalScalar.of(3, -17);
-    assertEquals(a.invert(), RationalScalar.of(-17, 3));
+    assertEquals(a.reciprocal(), RationalScalar.of(-17, 3));
   }
 
   public void testInvertFail() {
     try {
-      RationalScalar.of(0, 1).invert();
+      RationalScalar.of(0, 1).reciprocal();
       assertTrue(false);
     } catch (Exception exception) {
       assertTrue(exception instanceof ArithmeticException);

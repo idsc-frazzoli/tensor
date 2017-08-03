@@ -48,7 +48,7 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from Scalar
-  public Scalar invert() {
+  public Scalar reciprocal() {
     return of(new ExtendedGcd(value, prime).x, prime);
   }
 

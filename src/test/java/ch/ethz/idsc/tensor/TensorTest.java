@@ -459,7 +459,7 @@ public class TensorTest extends TestCase {
   public void testSetFunctionAll() {
     Tensor matrix = HilbertMatrix.of(4, 6);
     Tensor column = Tensors.vector(3, 4, 5, 6);
-    matrix.set(Scalar::invert, Tensor.ALL, 2);
+    matrix.set(Scalar::reciprocal, Tensor.ALL, 2);
     assertEquals(matrix.get(Tensor.ALL, 2), column);
   }
 

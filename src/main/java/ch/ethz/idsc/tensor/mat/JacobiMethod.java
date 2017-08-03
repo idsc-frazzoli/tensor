@@ -72,11 +72,11 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
               t = A.Get(ip, iq).divide(h);
             } else {
               Scalar theta = HALF.multiply(h).divide(A.Get(ip, iq));
-              t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).invert();
+              t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).reciprocal();
               if (((SignInterface) theta).signInt() == -1)
                 t = t.negate();
             }
-            Scalar c = Hypot.BIFUNCTION.apply(t, RealScalar.ONE).Get().invert();
+            Scalar c = Hypot.BIFUNCTION.apply(t, RealScalar.ONE).Get().reciprocal();
             Scalar s = t.multiply(c);
             Scalar tau = s.divide(c.add(RealScalar.ONE));
             final Scalar fh = t.multiply(A.Get(ip, iq));

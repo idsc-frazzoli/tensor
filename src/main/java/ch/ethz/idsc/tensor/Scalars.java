@@ -71,7 +71,7 @@ public enum Scalars {
 
       @Override
       public Scalar invert(Scalar scalar) {
-        return scalar.invert();
+        return scalar.reciprocal();
       }
 
       @Override

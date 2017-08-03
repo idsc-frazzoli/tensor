@@ -24,7 +24,7 @@ package ch.ethz.idsc.tensor;
   }
 
   @Override
-  public Scalar invert() {
+  public Scalar reciprocal() {
     return this; // or throw ?
   }
 

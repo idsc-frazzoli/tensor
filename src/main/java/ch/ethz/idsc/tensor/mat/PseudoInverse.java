@@ -29,7 +29,7 @@ public enum PseudoInverse {
     return Tensor.of(svd.getV().flatten(0).map(row -> row.pmul(wi))).dot(Transpose.of(svd.getU()));
   }
 
-  /** @return chop(scalar) == zero ? zero : scalar.invert() */
+  /** @return chop(scalar) == zero ? zero : scalar.reciprocal() */
   /* package */ static Function<Scalar, Scalar> orInvert(double threshold) {
     return InvertUnlessZero.FUNCTION.compose(Chop.below(threshold));
   }

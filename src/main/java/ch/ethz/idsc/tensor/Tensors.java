@@ -112,7 +112,7 @@ public enum Tensors {
    * @param function that parses a string to a scalar
    * @return */
   public static Tensor fromString(final String string, Function<String, Scalar> function) {
-    // TODO implement using stack
+    // could implement using stack?
     if (string.startsWith(OPENING_BRACKET_STRING)) {
       List<Tensor> list = new ArrayList<>();
       int level = 0;

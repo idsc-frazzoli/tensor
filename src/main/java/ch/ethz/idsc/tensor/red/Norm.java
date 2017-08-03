@@ -3,7 +3,9 @@ package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** Each norm is defined at least for scalars, vectors, and matrices.
@@ -51,8 +53,10 @@ public enum Norm {
    * @param p
    * @return p-norm of vector */
   public static Scalar ofVector(Tensor vector, Scalar p) {
+    if (Scalars.lessThan(p, RealScalar.ONE))
+      throw TensorRuntimeException.of(p);
     return Power.of( //
         (Scalar) Total.of(vector.map(Scalar::abs).map(Power.function(p))), //
-        p.invert());
+        p.reciprocal());
   }
 }

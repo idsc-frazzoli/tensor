@@ -64,7 +64,7 @@ public class UniformDistribution implements Distribution, //
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    return width.invert();
+    return width.reciprocal();
   }
 
   @Override // from CDF

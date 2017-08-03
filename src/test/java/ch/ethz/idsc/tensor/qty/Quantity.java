@@ -153,8 +153,8 @@ public final class Quantity extends AbstractScalar implements //
   }
 
   @Override // from Scalar
-  public Scalar invert() {
-    return of(value.invert(), unit.negate());
+  public Scalar reciprocal() {
+    return of(value.reciprocal(), unit.negate());
   }
 
   @Override // from Scalar

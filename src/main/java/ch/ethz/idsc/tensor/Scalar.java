@@ -41,7 +41,7 @@ public interface Scalar extends Tensor {
   /** a.divide(b) == a / b
    * 
    * <p>The default implementation is a / b == a * (b ^ -1) as
-   * <code>multiply(scalar.invert())</code>
+   * <code>multiply(scalar.reciprocal())</code>
    * 
    * <p>Implementations of {@link Scalar} may override the default
    * implementation due to improved numerical stability or speed,
@@ -56,7 +56,7 @@ public interface Scalar extends Tensor {
   /** a.under(b) == b / a
    * 
    * <p>The default implementation is b / a == (a ^ -1) * b as
-   * <code>invert().multiply(scalar)</code>
+   * <code>reciprocal().multiply(scalar)</code>
    * 
    * <p>The application layer is discouraged from using the method.
    * The application layer should use divide instead.
@@ -71,26 +71,29 @@ public interface Scalar extends Tensor {
 
   /** multiplicative inverse except for {@link Scalar#zero()}
    * 
-   * <p>For zero().invert() there are two possible outcomes
+   * <p>The application layer is encouraged to use {@link #divide(Scalar)}
+   * instead of the reciprocal whenever possible.
+   * The use of divide typically leads to more accurate results
+   * than the use of the reciprocal.
+   * 
+   * <p>For zero().reciprocal() there are two possible outcomes
    * 1) throw an exception, example {@link RationalScalar}
    * 2) result is encoded as "Infinity", example {@link DoubleScalar}
    * 
    * <p>The inverse is subject to numerical constraints, for instance
    * 1.0 / 4.9E-324 == Infinity
    * 
-   * <p>The use of {@link Scalar#divide(Scalar)} typically leads to more
-   * accurate results that the use of the reciprocal.
-   * The application is encouraged to use divide instead of the
-   * reciprocal whenever possible.
+   * <p>Quote from Wikipedia: "The term reciprocal was in common use at
+   * least as far back as the 3rd edition of Encyclopædia Britannica (1797)
+   * to describe two numbers whose product is 1."
    * 
    * @return multiplicative inverse of this scalar
    * @throws ArithmeticException if scalar equals to 0, or cannot be inverted */
-  Scalar invert(); // TODO rename to reciprocal() before next release?
+  Scalar reciprocal();
 
   /** absolute value
    * 
-   * @return typically distance from zero as {@link RealScalar},
-   * generally non-negative version of this.
+   * @return non-negative distance from zero of this
    * @throws TensorRuntimeException if absolute value is not defined
    * in the case of {@link StringScalar} for instance */
   Scalar abs();

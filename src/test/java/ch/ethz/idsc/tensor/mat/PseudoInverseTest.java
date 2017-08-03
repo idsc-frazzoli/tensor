@@ -27,7 +27,7 @@ public class PseudoInverseTest extends TestCase {
     assertEquals(Chop._12.of(result.subtract(actual)), Array.zeros(4, 3));
   }
 
-  public void testChopOrInvert() {
+  public void testChopOrReciprocal() {
     Function<Scalar, Scalar> func = PseudoInverse.orInvert(.5);
     assertEquals(func.apply(RealScalar.of(-.5)), RealScalar.of(-2));
     assertEquals(func.apply(RealScalar.of(-.4)), RealScalar.of(0));

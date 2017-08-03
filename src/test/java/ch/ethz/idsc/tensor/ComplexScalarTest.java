@@ -220,17 +220,17 @@ public class ComplexScalarTest extends TestCase {
   }
 
   public void testInversion() {
-    assertEquals(ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY).invert(), RealScalar.ZERO);
-    assertEquals(ComplexScalar.of(RealScalar.ZERO, DoubleScalar.NEGATIVE_INFINITY).invert(), RealScalar.ZERO);
-    assertEquals(ComplexScalar.of(RealScalar.ONE, DoubleScalar.POSITIVE_INFINITY).invert(), RealScalar.ZERO);
-    assertEquals(ComplexScalar.of(RealScalar.ONE, DoubleScalar.NEGATIVE_INFINITY).invert(), RealScalar.ZERO);
-    assertEquals(ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ZERO).invert(), RealScalar.ZERO);
-    assertEquals(ComplexScalar.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ZERO).invert(), RealScalar.ZERO);
-    assertEquals(ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE).invert(), RealScalar.ZERO);
-    assertEquals(ComplexScalar.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ONE).invert(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ZERO, DoubleScalar.NEGATIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ONE, DoubleScalar.POSITIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ONE, DoubleScalar.NEGATIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ZERO).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ZERO).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ONE).reciprocal(), RealScalar.ZERO);
     // mathematica also does not simplify 1 / (inf+inf*I)
     // assertEquals(ComplexScalar.of( //
-    // DoubleScalar.POSITIVE_INFINITY, DoubleScalar.POSITIVE_INFINITY).invert(), RealScalar.ZERO);
+    // DoubleScalar.POSITIVE_INFINITY, DoubleScalar.POSITIVE_INFINITY).reciprocal(), RealScalar.ZERO);
   }
 
   public void testDivisionInf1() {

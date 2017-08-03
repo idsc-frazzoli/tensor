@@ -37,12 +37,12 @@ public class DecimalScalarTest extends TestCase {
     assertTrue(sc4mr23 instanceof DoubleScalar);
   }
 
-  public void testInvert() {
+  public void testReciprocal() {
     BigDecimal d = BigDecimal.ONE;
     Scalar sc1 = DecimalScalar.of(d);
     Scalar sc2 = sc1.add(sc1);
     Scalar sc3 = sc2.add(sc1);
-    Scalar s13 = sc3.invert();
+    Scalar s13 = sc3.reciprocal();
     Scalar r13 = RationalScalar.of(1, 3);
     Scalar d13 = DoubleScalar.of(1. / 3);
     assertEquals(r13, s13);

@@ -120,12 +120,12 @@ public abstract class AbstractScalar implements Scalar {
   // ---
   @Override // from Scalar
   public Scalar divide(Scalar scalar) {
-    return multiply(scalar.invert());
+    return multiply(scalar.reciprocal());
   }
 
   @Override // from Scalar
   public Scalar under(Scalar scalar) {
-    return invert().multiply(scalar);
+    return reciprocal().multiply(scalar);
   }
 
   /***************************************************/

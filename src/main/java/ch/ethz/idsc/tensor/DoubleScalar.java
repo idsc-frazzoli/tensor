@@ -23,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * value == 1.0 / (1.0 / value) is
  * [5.562684646268010E-309, 1.7976931348623151E308]
  * 
- * zero().invert() equals {@link DoubleScalar#POSITIVE_INFINITY}
+ * zero().reciprocal() equals {@link DoubleScalar#POSITIVE_INFINITY}
  * 
  * The numeric zero has a sign, i.e. positive +0.0 and negative -0.0 exist
  * The implementation of DoubleScalar uses the following rules:
@@ -91,9 +91,9 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return scalar.divide(this);
   }
 
-  /** DOUBLE_ZERO.invert() == Double.POSITIVE_INFINITY */
+  /** DOUBLE_ZERO.reciprocal() == Double.POSITIVE_INFINITY */
   @Override // from Scalar
-  public Scalar invert() {
+  public Scalar reciprocal() {
     return of(1.0 / value);
   }
 

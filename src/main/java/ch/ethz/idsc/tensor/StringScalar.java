@@ -28,7 +28,7 @@ public final class StringScalar extends AbstractScalar {
   }
 
   @Override // from Scalar
-  public Scalar invert() {
+  public Scalar reciprocal() {
     throw TensorRuntimeException.of(this);
   }
 
