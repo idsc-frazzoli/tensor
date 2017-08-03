@@ -31,15 +31,15 @@ public class FloorTest extends TestCase {
 
   public void testGetFloor() {
     Tensor v = Tensors.vectorDouble(3.5, 5.6, 9.12);
-    Scalar s = Floor.FUNCTION.apply(v.Get(1));
+    Scalar s = Floor.of(v.Get(1));
     RealScalar rs = (RealScalar) s;
     assertEquals(rs.number().doubleValue(), 5.0);
   }
 
   public void testLarge() {
     Scalar scalar = DoubleScalar.of(1e30);
-    Scalar r = Round.FUNCTION.apply(scalar);
-    Scalar f = Floor.FUNCTION.apply(scalar);
+    Scalar r = Round.of(scalar);
+    Scalar f = Floor.of(scalar);
     assertEquals(r, f);
     assertEquals(r.toString(), "1000000000000000000000000000000");
   }

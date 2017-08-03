@@ -50,6 +50,43 @@ public class TensorTest extends TestCase {
     assertEquals(a.get(Tensor.ALL, 1), Tensors.fromString("{4, 2, 8}"));
   }
 
+  public void testGetAllSimple() {
+    Tensor a = Array.zeros(3, 4);
+    Tensor c = a.get(Tensor.ALL, 2);
+    c.set(RealScalar.ONE, 1);
+    assertEquals(a, Array.zeros(3, 4));
+  }
+
+  public void testGetAll1() {
+    Tensor a = Array.zeros(3).unmodifiable();
+    a.get().set(RealScalar.ONE, 1);
+    // a.get(1).set(RealScalar.ONE, 1); // scalar is immutable
+    Tensor b = a.get(Tensor.ALL);
+    b.set(Tensors.vector(1, 2, 3), Tensor.ALL);
+    assertEquals(b, Tensors.vector(1, 2, 3));
+    assertEquals(a, Array.zeros(3));
+  }
+
+  public void testGetAll2() {
+    Tensor a = Array.zeros(3, 4).unmodifiable();
+    a.get().set(RealScalar.ONE, 1);
+    a.get(1).set(RealScalar.ONE, 1);
+    a.get(Tensor.ALL).set(Tensors.vector(1, 2, 3), Tensor.ALL);
+    a.get(Tensor.ALL, 2).set(RealScalar.ONE, 1);
+    a.get(2, Tensor.ALL).set(Tensors.vector(1, 2, 3, 4), Tensor.ALL);
+    a.get(Tensor.ALL, Tensor.ALL).set(Array.of(l -> RealScalar.ONE, 3, 4), Tensor.ALL, Tensor.ALL);
+    assertEquals(a, Array.zeros(3, 4));
+  }
+
+  public void testGetAll3() {
+    Tensor a = Array.zeros(3, 4, 3).unmodifiable();
+    a.get().set(RealScalar.ONE, 1);
+    a.get(1).set(RealScalar.ONE, 1);
+    a.get(Tensor.ALL).set(Tensors.vector(1, 2, 3), Tensor.ALL);
+    a.get(Tensor.ALL, 2).set(RealScalar.ONE, 1);
+    a.get(2, Tensor.ALL).set(Tensors.vector(1, 2, 3, 4), Tensor.ALL);
+  }
+
   private static Scalar incr(Scalar a) {
     return a.add(RealScalar.ONE);
   }

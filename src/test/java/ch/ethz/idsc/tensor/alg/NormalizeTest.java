@@ -39,8 +39,7 @@ public class NormalizeTest extends TestCase {
   public void testVector2() {
     Distribution d = NormalDistribution.standard();
     _checkNormalizeAllNorms(RandomVariate.of(d, 1000));
-    _checkNormalizeAllNorms(RandomVariate.of(d, 10000));
-    _checkNormalizeAllNorms(RandomVariate.of(d, 100000));
+    _checkNormalizeAllNorms(RandomVariate.of(d, 50000));
   }
 
   public void testEmpty() {

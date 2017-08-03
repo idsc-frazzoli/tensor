@@ -68,7 +68,9 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return new immutable instance of this tensor */
   Tensor unmodifiable();
 
-  /** duplicate mutable content of this tensor into new instance
+  /** duplicate mutable content of this tensor into new instance.
+   * Modifications to the copy do not effect the original instance.
+   * A copy of an unmodifiable tensor is modifiable
    * 
    * @return clone of this */
   Tensor copy();

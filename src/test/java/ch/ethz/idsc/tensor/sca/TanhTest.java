@@ -18,9 +18,8 @@ public class TanhTest extends TestCase {
   }
 
   public void testComplex() {
-    Scalar c = Tanh.FUNCTION.apply(ComplexScalar.of(2, 3.));
-    // Mathematica
-    Scalar s = Scalars.fromString("0.965385879022133 - 0.009884375038322494*I");
+    Scalar c = Tanh.of(ComplexScalar.of(2, 3.));
+    Scalar s = Scalars.fromString("0.965385879022133 - 0.009884375038322494*I"); // Mathematica
     assertTrue(Chop._13.close(c, s));
   }
 }

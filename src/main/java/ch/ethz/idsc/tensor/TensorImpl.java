@@ -82,16 +82,15 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override
   public Tensor get(List<Integer> index) {
-    // _get(...).copy prevents the possibility getting references to sub tensor and then modifying it...
-    return index.isEmpty() ? copy() : _get(index).copy();
+    return index.isEmpty() ? copy() : _get(index);
   }
 
   private Tensor _get(List<Integer> index) {
-    List<Integer> next = index.subList(1, index.size());
+    List<Integer> sublist = index.subList(1, index.size());
     final int head = index.get(0);
     if (head == ALL)
-      return Tensor.of(list.stream().map(tensor -> tensor.get(next)));
-    return list.get(head).get(next);
+      return Tensor.of(list.stream().map(tensor -> tensor.get(sublist)));
+    return list.get(head).get(sublist);
   }
 
   @Override
