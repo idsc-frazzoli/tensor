@@ -21,7 +21,10 @@ public class VectorQTest extends TestCase {
 
   public void testVectorAndLength() {
     assertTrue(VectorQ.ofLength(Tensors.empty(), 0));
+    assertFalse(VectorQ.ofLength(Tensors.empty(), 1));
     assertTrue(VectorQ.ofLength(Tensors.vector(2, 3, 1), 3));
+    assertFalse(VectorQ.ofLength(Tensors.vector(2, 3, 1), 4));
+    assertFalse(VectorQ.ofLength(IdentityMatrix.of(3), 3));
   }
 
   public void testMisc() {

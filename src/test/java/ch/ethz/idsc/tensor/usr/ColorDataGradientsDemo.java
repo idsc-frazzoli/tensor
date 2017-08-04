@@ -15,10 +15,11 @@ import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.img.ImageResize;
 import ch.ethz.idsc.tensor.io.Export;
 
+/** export of available {@link ColorDataGradients} to a single image */
 enum ColorDataGradientsDemo {
   ;
   public static void main(String[] args) throws IOException {
-    Tensor arr = Array.of(l -> RealScalar.of(l.get(1)), 10, 256);
+    Tensor arr = Array.of(list -> RealScalar.of(list.get(1)), 10, 256);
     Tensor image = Tensors.empty();
     for (ColorDataFunction cdf : ColorDataGradients.values())
       image.append(ArrayPlot.of(arr, cdf));

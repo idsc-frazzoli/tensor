@@ -117,6 +117,7 @@ public abstract class AbstractScalar implements Scalar {
 
   /***************************************************/
   // non-final default implementations
+  // override for precision or speed
   // ---
   @Override // from Scalar
   public Scalar divide(Scalar scalar) {

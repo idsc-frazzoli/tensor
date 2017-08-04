@@ -40,7 +40,9 @@ public class Chop implements ScalarUnaryOperator {
   public static final Chop _30 = below(1e-30);
   public static final Chop _40 = below(1e-40);
   public static final Chop _50 = below(1e-50);
-  // EXPERIMENTAL API not finalized
+  /** NONE is the identity {@link ScalarUnaryOperator}
+   * NONE is used to check for <em>exact</em> zero content:
+   * Chop.NONE.allZero(tensor) */
   public static final Chop NONE = below(0);
 
   /** @param threshold

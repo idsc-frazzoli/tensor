@@ -135,7 +135,7 @@ final class QuaternionScalar extends AbstractScalar implements //
     return im;
   }
 
-  // EXPERIMENTAL, not finalized
+  // API not finalized
   public Tensor vectorPart() {
     return Tensors.of(im, jm, km);
   }

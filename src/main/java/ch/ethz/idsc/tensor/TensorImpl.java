@@ -12,8 +12,8 @@ import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
-/** implementation of tensor interface
- * parallel stream processing is used for dot() */
+/** reference implementation of the interface Tensor
+ * parallel stream processing is used in dot product */
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---
@@ -26,27 +26,27 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @Override
   public Tensor unmodifiable() {
     return new TensorImpl(Collections.unmodifiableList(list)) {
-      @Override
+      @Override // from TensorImpl
       public Tensor unmodifiable() {
         return this;
       }
 
-      @Override
+      @Override // from TensorImpl
       void _set(Tensor tensor, List<Integer> index) {
         throw new UnsupportedOperationException("unmodifiable");
       }
 
-      @Override
+      @Override // from TensorImpl
       <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
         throw new UnsupportedOperationException("unmodifiable");
       }
 
-      @Override
+      @Override // from TensorImpl
       Stream<Tensor> _flatten0() {
         return list.stream().map(Tensor::unmodifiable);
       }
 
-      @Override
+      @Override // from TensorImpl
       public Iterator<Tensor> iterator() {
         return new Iterator<Tensor>() {
           int index = 0;
@@ -167,12 +167,6 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
     return list.stream().flatMap(tensor -> tensor.flatten(level - 1));
   }
 
-  // function wrap does not copy data!
-  // for now, function not used and hidden, because many accidental errors can happen
-  /* package */ Tensor wrap(int fromIndex, int toIndex) {
-    return new TensorImpl(list.subList(fromIndex, toIndex));
-  }
-
   @Override
   public Tensor extract(int fromIndex, int toIndex) {
     return Tensor.of(list.subList(fromIndex, toIndex).stream());
@@ -205,24 +199,26 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
+  public Tensor subtract(Tensor tensor) {
+    // return add(tensor.negate());
+    TensorImpl impl = (TensorImpl) tensor;
+    return Tensor.of(_range(impl).map(index -> list.get(index).subtract(impl.list.get(index))));
+  }
+
+  @Override
   public Tensor pmul(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
     return Tensor.of(_range(impl).map(index -> list.get(index).pmul(impl.list.get(index))));
   }
 
   @Override
-  public Tensor subtract(Tensor tensor) {
-    return add(tensor.negate());
-  }
-
-  @Override
   public Tensor multiply(Scalar scalar) {
-    return Tensor.of(list.stream().map(entry -> entry.multiply(scalar)));
+    return Tensor.of(list.stream().map(tensor -> tensor.multiply(scalar)));
   }
 
   @Override
   public Tensor divide(Scalar scalar) {
-    return Tensor.of(list.stream().map(entry -> entry.divide(scalar)));
+    return Tensor.of(list.stream().map(tensor -> tensor.divide(scalar)));
   }
 
   @Override
@@ -264,7 +260,6 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override // from Object
   public boolean equals(Object object) {
-    // null check not required
     if (object instanceof TensorImpl) {
       TensorImpl tensor = (TensorImpl) object;
       return list.equals(tensor.list);

@@ -38,7 +38,6 @@ public enum Mean {
    *
    * @param tensor
    * @return average of entries in tensor, or Optional.empty() if tensor is empty */
-  // EXPERIMENTAL
   public static Optional<Tensor> optional(Tensor tensor) {
     return tensor.length() == 0 ? Optional.empty() : Optional.of(of(tensor));
   }

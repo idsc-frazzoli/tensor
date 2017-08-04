@@ -37,11 +37,18 @@ public class MeanTest extends TestCase {
     }
   }
 
-  public void testEmpty2() {
+  public void testEmpty2a() {
     Optional<Tensor> optional = Mean.optional(Tensors.empty());
     assertFalse(optional.isPresent());
     Scalar s = optional.orElse(RealScalar.ZERO).Get();
     assertEquals(s, RealScalar.ZERO);
+  }
+
+  public void testEmpty2b() {
+    Optional<Tensor> optional = Mean.optional(Tensors.vector(2, 3, 4));
+    assertTrue(optional.isPresent());
+    Scalar s = optional.get().Get();
+    assertEquals(s, RealScalar.of(3));
   }
 
   public void testEmpty3() {

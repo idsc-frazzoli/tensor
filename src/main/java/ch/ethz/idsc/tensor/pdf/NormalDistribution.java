@@ -31,7 +31,6 @@ public class NormalDistribution implements Distribution, //
   /** @param distribution
    * @return {@link NormalDistribution} that has the same mean and variance
    * as input distribution */
-  // EXPERIMENTAL API not finalized
   public static Distribution fit(Distribution distribution) {
     return new NormalDistribution( //
         Expectation.mean(distribution), Sqrt.of(Expectation.variance(distribution)));

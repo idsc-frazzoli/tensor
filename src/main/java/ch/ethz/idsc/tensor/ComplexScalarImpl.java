@@ -207,7 +207,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    // null check not required
     if (object instanceof ComplexScalarImpl) {
       ComplexScalarImpl complexScalar = (ComplexScalarImpl) object;
       return re.equals(complexScalar.real()) && im.equals(complexScalar.imag());
