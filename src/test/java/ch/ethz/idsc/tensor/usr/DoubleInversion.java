@@ -118,6 +118,9 @@ class DoubleInversion extends TestCase {
     System.out.println(1 / Double.MAX_VALUE);
     // ---
     {
+      System.out.println(Math.nextUp(1.0) - 1.0);
+    }
+    {
       double value = MIN_INVERTIBLE2X;
       for (int c = 0; c < 1000; ++c) {
         assertTrue(invertible(value));

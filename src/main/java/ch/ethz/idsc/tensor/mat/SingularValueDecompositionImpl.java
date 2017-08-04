@@ -18,6 +18,11 @@ import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class SingularValueDecompositionImpl implements SingularValueDecomposition {
+  /** Difference between 1.0 and the minimum double greater than 1.0
+   * DBL_EPSILON == 2.220446049250313E-16 */
+  private static final Scalar DBL_EPSILON = DoubleScalar.of(Math.nextUp(1.0) - 1.0);
+  private static final int MAXITERATIONS = 28;
+  // ---
   private final int rows;
   private final int cols;
   private final Tensor u;
@@ -30,7 +35,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /** @param A
    * @param epsilon influences if levelW manipulates w and u
    * @param maxIterations */
-  /* package */ SingularValueDecompositionImpl(Tensor A, double epsilon, int maxIterations) {
+  /* package */ SingularValueDecompositionImpl(Tensor A) {
     List<Integer> dimensions = Dimensions.of(A);
     rows = dimensions.get(0);
     cols = dimensions.get(1);
@@ -44,7 +49,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       initU1(i);
       initU2(i);
     }
-    double eps = Norm._1.of(Tensors.of(w, r)).multiply(DoubleScalar.of(epsilon)).number().doubleValue();
+    double eps = Norm._1.of(Tensors.of(w, r)).multiply(DBL_EPSILON).number().doubleValue();
     // ---
     v = Array.zeros(cols, cols);
     v.set(RealScalar.ONE, cols - 1, cols - 1);
@@ -57,11 +62,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       initU3(i);
     // ---
     for (int i = cols - 1; i >= 0; --i) {
-      for (int iteration = 0; iteration <= maxIterations; ++iteration) {
+      for (int iteration = 0; iteration <= MAXITERATIONS; ++iteration) {
         int l = levelW(i, eps);
         if (l == i)
           break;
-        if (iteration == maxIterations)
+        if (iteration == MAXITERATIONS)
           throw new RuntimeException("no convergence");
         rotateUV(l, i);
       }

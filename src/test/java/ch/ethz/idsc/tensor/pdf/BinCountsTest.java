@@ -26,8 +26,24 @@ public class BinCountsTest extends TestCase {
   }
 
   public void testNegative() {
-    assertEquals(BinCounts.of(Tensors.vector(-1e-10), RealScalar.ONE), Tensors.empty());
-    assertEquals(BinCounts.of(Tensors.vector(-1e-10, -10), RealScalar.ONE), Tensors.empty());
+    try {
+      assertEquals(BinCounts.of(Tensors.vector(-1e-10), RealScalar.ONE), Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      assertEquals(BinCounts.of(Tensors.vector(-1e-10, -10), RealScalar.ONE), Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      assertEquals(BinCounts.of(Tensors.vector(1, 2, 3, 4, 0, -3, 12, 32), RealScalar.ONE), Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testFail() {

@@ -142,8 +142,8 @@ public class NullSpaceTest extends TestCase {
         { -0.2, -0.8, 1.0 } });
     Tensor nullspace = NullSpace.of(matrix);
     assertEquals(Dimensions.of(nullspace), Arrays.asList(1, 3));
-    // System.out.println(Pretty.of(nullspace));
-    assertTrue(Chop._13.close(nullspace.get(0), Normalize.of(Tensors.vector(1, 1, 1))));
+    assertTrue(Chop._14.close(nullspace.get(0), Normalize.of(Tensors.vector(1, 1, 1))) //
+        || Chop._14.close(nullspace.get(0), Normalize.of(Tensors.vector(-1, -1, -1))));
   }
 
   public void testIsNumeric() {
