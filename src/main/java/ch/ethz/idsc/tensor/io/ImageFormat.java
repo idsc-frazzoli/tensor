@@ -3,10 +3,12 @@ package ch.ethz.idsc.tensor.io;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -42,8 +44,10 @@ public enum ImageFormat {
   /** @param bufferedImage grayscale image with dimensions [width x height]
    * @return tensor with dimensions [width x height] */
   public static Tensor fromGrayscale(BufferedImage bufferedImage) {
-    return Tensors.matrix((i, j) -> RealScalar.of(bufferedImage.getRGB(i, j) & 0xff), //
-        bufferedImage.getWidth(), bufferedImage.getHeight());
+    DataBufferByte dataBufferByte = (DataBufferByte) bufferedImage.getRaster().getDataBuffer();
+    ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
+    return Transpose.of(Tensors.matrix((i, j) -> RealScalar.of(byteBuffer.get() & 0xff), //
+        bufferedImage.getHeight(), bufferedImage.getWidth()));
   }
 
   /** image export works with PNG format.
@@ -62,23 +66,19 @@ public enum ImageFormat {
   // helper function
   private static BufferedImage toTYPE_BYTE_GRAY(Tensor tensor, List<Integer> dims) {
     BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_BYTE_GRAY);
-    int[] array = Primitives.toArrayInt(Transpose.of(tensor));
-    IntStream.range(0, array.length).parallel() //
-        .forEach(index -> array[index] = inflate(array[index]));
-    bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
+    DataBufferByte dataBufferByte = (DataBufferByte) bufferedImage.getRaster().getDataBuffer();
+    ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
+    Transpose.of(tensor).flatten(1) //
+        .map(Scalar.class::cast) //
+        .map(Scalar::number) //
+        .forEach(number -> byteBuffer.put(number.byteValue()));
     return bufferedImage;
-  }
-
-  // helper function
-  private static int inflate(int level) {
-    // if (level < 0 || 255 < level)
-    // throw new RuntimeException();
-    return (level << 16) | (level << 8) | level;
   }
 
   // helper function
   private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, List<Integer> dims) {
     BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_INT_ARGB);
+    // TODO use DataBufferByte
     Tensor res = TensorMap.of(vector -> RealScalar.of(ColorFormat.toInt(vector)), tensor, 2);
     int[] array = Primitives.toArrayInt(Transpose.of(res));
     bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));

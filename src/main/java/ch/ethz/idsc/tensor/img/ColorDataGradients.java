@@ -10,21 +10,22 @@ import ch.ethz.idsc.tensor.io.ResourceData;
 
 /** inspired by Mathematica::ColorData["Gradients"] */
 public enum ColorDataGradients implements ColorDataFunction {
+  /** classic is default */
+  CLASSIC("classic.csv"), //
+  HUE("hue.csv"), // <- cyclic
+  /** hsluv is hue with brightness equalized, see hsluv.org */
+  HSLUV("hsluv.csv"), // <- cyclic
+  SUNSET("sunset.csv"), //
+  RAINBOW("rainbow.csv"), //
+  CMYK_REVERSED("cmyk_reversed.csv"), //
+  THERMOMETER("thermometer.csv"), //
+  PASTEL("pastel.csv"), //
+  GRAYSCALE("grayscale.csv"), //
   /** the tensor library is made in Switzerland
    * the alpine color scheme was added August 1st */
   ALPINE("alpine.csv"), //
-  CLASSIC("classic.csv"), //
-  CMYK_REVERSED("cmyk_reversed.csv"), //
   COPPER("copper.csv"), //
-  GRAYSCALE("grayscale.csv"), //
-  /** hsluv is hue with brightness equalized, see hsluv.org */
-  HSLUV("hsluv.csv"), // <- cyclic
-  HUE("hue.csv"), // <- cyclic
-  PASTEL("pastel.csv"), //
   PINK("pink.csv"), //
-  RAINBOW("rainbow.csv"), //
-  SUNSET("sunset.csv"), //
-  THERMOMETER("thermometer.csv"), //
   ;
   // ---
   private final ColorDataFunction colorDataFunction;

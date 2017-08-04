@@ -69,6 +69,15 @@ public class RealScalarTest extends TestCase {
     assertEquals(RationalScalar.of(1, 1), RealScalar.of(BigInteger.ONE));
   }
 
+  public void testNumberByte() {
+    assertTrue(RealScalar.of(-1).number().byteValue() == (byte) 255);
+    assertTrue(RealScalar.of(0).number().byteValue() == (byte) 0);
+    assertTrue(RealScalar.of(1).number().byteValue() == (byte) 1);
+    assertTrue(RealScalar.of(128).number().byteValue() == (byte) 128);
+    assertTrue(RealScalar.of(255).number().byteValue() == (byte) 255);
+    assertTrue(RealScalar.of(256).number().byteValue() == (byte) 0);
+  }
+
   public void testInvertInfinity() {
     assertEquals(DoubleScalar.POSITIVE_INFINITY.reciprocal(), RealScalar.ZERO);
     assertEquals(DoubleScalar.NEGATIVE_INFINITY.reciprocal(), RealScalar.ZERO);
