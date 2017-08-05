@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** http://www.milefoot.com/math/complex/functionsofi.htm
  *
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sinh.html">Sinh</a> */
 public enum Sinh implements ScalarUnaryOperator {
   FUNCTION;

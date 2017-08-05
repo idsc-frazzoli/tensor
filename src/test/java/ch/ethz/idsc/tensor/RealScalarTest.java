@@ -78,6 +78,11 @@ public class RealScalarTest extends TestCase {
     assertTrue(RealScalar.of(256).number().byteValue() == (byte) 0);
   }
 
+  public void testNumberTypes() {
+    assertEquals(RealScalar.of((byte) 0xff), RealScalar.ONE.negate());
+    assertEquals(RealScalar.of((short) 0xffff), RealScalar.ONE.negate());
+  }
+
   public void testInvertInfinity() {
     assertEquals(DoubleScalar.POSITIVE_INFINITY.reciprocal(), RealScalar.ZERO);
     assertEquals(DoubleScalar.NEGATIVE_INFINITY.reciprocal(), RealScalar.ZERO);

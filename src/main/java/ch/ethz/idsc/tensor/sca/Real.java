@@ -5,7 +5,11 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** Real projects a given scalar to its real part.
+ * The scalar type is required to implement {@link ComplexEmbedding}
+ * in order for the operation to succeed.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Re.html">Re</a> */
 public enum Real implements ScalarUnaryOperator {
   FUNCTION;

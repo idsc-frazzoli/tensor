@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** http://www.milefoot.com/math/complex/functionsofi.htm
  *
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Cosh.html">Cosh</a> */
 public enum Cosh implements ScalarUnaryOperator {
   FUNCTION;

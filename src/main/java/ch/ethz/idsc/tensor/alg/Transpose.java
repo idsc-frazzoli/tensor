@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
@@ -21,11 +22,21 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
  * <a href="https://reference.wolfram.com/language/ref/Transpose.html">Transpose</a> */
 public enum Transpose {
   ;
-  /** @param matrix
-   * @return matrix transposed
-   * @throws Exception if input is not a matrix */
-  public static Tensor of(Tensor matrix) {
-    return of(matrix, 1, 0);
+  /** Remark:
+   * if the input tensor is a matrix, function Transpose.of(tensor)
+   * is identical albeit faster than Transpose.of(tensor, 1, 0).
+   * 
+   * <p>The function also operates on matrices with tensors as entries. Example:
+   * <pre>
+   * Transpose.of({{1, {2, 2}}, {{3}, 4}, {5, {6}}}) == {{1, {3}, 5}, {{2, 2}, 4, {6}}}
+   * </pre>
+   * 
+   * @param tensor
+   * @return tensor with the two first dimensions transposed and the remaining dimensions left as-is
+   * @throws Exception if input is a vector or scalar */
+  public static Tensor of(Tensor tensor) {
+    List<Integer> dims = Dimensions.of(tensor);
+    return Tensors.matrix((i, j) -> tensor.get(j, i), dims.get(1), dims.get(0));
   }
 
   /** transpose according to permutation sigma.

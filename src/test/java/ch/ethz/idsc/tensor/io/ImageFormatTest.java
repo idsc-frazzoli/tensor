@@ -19,6 +19,9 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataFunction;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
+import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Round;
 import junit.framework.TestCase;
 
@@ -58,9 +61,16 @@ public class ImageFormatTest extends TestCase {
     assertEquals(Dimensions.of(tensor), Arrays.asList(15, 9));
   }
 
-  public void testGrayBimap() {
+  public void testGrayBimap1() {
     Tensor scale = Array.of(list -> RealScalar.of(list.get(0)), 256, 20);
     assertEquals(scale, ImageFormat.fromGrayscale(ImageFormat.of(scale)));
+  }
+
+  public void testGrayBimap2() {
+    Distribution distribution = DiscreteUniformDistribution.of(0, 256);
+    Tensor image = RandomVariate.of(distribution, 20, 30);
+    Tensor bimap = ImageFormat.fromGrayscale(ImageFormat.of(image));
+    assertEquals(image, bimap);
   }
 
   public void testRGBAConvert() throws Exception {

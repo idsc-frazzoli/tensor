@@ -3,12 +3,9 @@ package ch.ethz.idsc.tensor.io;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.RealScalar;
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -24,8 +21,7 @@ import ch.ethz.idsc.tensor.img.ColorFormat;
  * <p>This convention is consistent with Java
  * {@link Graphics2D}, {@link BufferedImage}, ...
  * 
- * <p><code>Tensor::get(x, y)</code>
- * refers to the same pixel as
+ * <p><code>tensor.get(x, y)</code> refers to the same pixel as
  * <code>BufferedImage::getRGB(x, y)</code>
  * 
  * <p>Consistent also with the screen size, for instance 1280 x 720.
@@ -44,10 +40,7 @@ public enum ImageFormat {
   /** @param bufferedImage grayscale image with dimensions [width x height]
    * @return tensor with dimensions [width x height] */
   public static Tensor fromGrayscale(BufferedImage bufferedImage) {
-    DataBufferByte dataBufferByte = (DataBufferByte) bufferedImage.getRaster().getDataBuffer();
-    ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
-    return Transpose.of(Tensors.matrix((i, j) -> RealScalar.of(byteBuffer.get() & 0xff), //
-        bufferedImage.getHeight(), bufferedImage.getWidth()));
+    return Transpose.of(NativeImageFormat.fromGrayscale(bufferedImage));
   }
 
   /** image export works with PNG format.
@@ -59,20 +52,8 @@ public enum ImageFormat {
   public static BufferedImage of(Tensor tensor) {
     List<Integer> dims = Dimensions.of(tensor);
     if (dims.size() == 2)
-      return toTYPE_BYTE_GRAY(tensor, dims);
+      return NativeImageFormat.toTYPE_BYTE_GRAY(Transpose.of(tensor), dims.get(0), dims.get(1));
     return toTYPE_INT_ARGB(tensor, dims);
-  }
-
-  // helper function
-  private static BufferedImage toTYPE_BYTE_GRAY(Tensor tensor, List<Integer> dims) {
-    BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_BYTE_GRAY);
-    DataBufferByte dataBufferByte = (DataBufferByte) bufferedImage.getRaster().getDataBuffer();
-    ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
-    Transpose.of(tensor).flatten(1) //
-        .map(Scalar.class::cast) //
-        .map(Scalar::number) //
-        .forEach(number -> byteBuffer.put(number.byteValue()));
-    return bufferedImage;
   }
 
   // helper function

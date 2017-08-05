@@ -6,7 +6,11 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** implementation compliant to Java convention:
+/** Power exponentiates a given scalar by an exponent.
+ * The scalar type is required to implement {@link PowerInterface}
+ * in order for the operation to succeed.
+ * 
+ * <p>The implementation is compliant to the Java convention:
  * java.lang.Math.pow(0, 0) == 1
  * 
  * <p>not compliant with Mathematica

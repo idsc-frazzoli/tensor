@@ -12,8 +12,14 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class TransposeTest extends TestCase {
-  public void testScalar() {
+  public void testScalarFail() {
     Tensor v = DoubleScalar.NEGATIVE_INFINITY;
+    try {
+      Transpose.of(v);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
     try {
       Transpose.of(v, new Integer[] {});
       assertTrue(false);
@@ -28,6 +34,15 @@ public class TransposeTest extends TestCase {
     assertEquals(v, r);
   }
 
+  public void testVectorFail() {
+    try {
+      Transpose.of(Tensors.vector(2, 3, 4, 5));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testMatrix() {
     // [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]]
     Tensor m = Tensors.matrix((i, j) -> RealScalar.of(i * 4 + j), 3, 4);
@@ -35,6 +50,12 @@ public class TransposeTest extends TestCase {
     assertEquals(t.toString(), "{{0, 4, 8}, {1, 5, 9}, {2, 6, 10}, {3, 7, 11}}");
     Tensor r = Transpose.of(m);
     assertEquals(r.toString(), "{{0, 4, 8}, {1, 5, 9}, {2, 6, 10}, {3, 7, 11}}");
+  }
+
+  public void testMatrixWithVectors() {
+    Tensor tensor = Tensors.fromString("{{1,{2,2}},{{3},4},{5,{6}}}");
+    Tensor transp = Transpose.of(tensor);
+    assertEquals(transp, Tensors.fromString("{{1, {3}, 5}, {{2, 2}, 4, {6}}}"));
   }
 
   public void testTranspose2() {

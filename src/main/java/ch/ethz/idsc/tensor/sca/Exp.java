@@ -10,6 +10,8 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** gives the exponential
  * 
+ * <p>supported are {@link RealScalar}, and {@link ComplexScalar}.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Exp.html">Exp</a> */
 public enum Exp implements ScalarUnaryOperator {

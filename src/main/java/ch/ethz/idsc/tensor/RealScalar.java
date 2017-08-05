@@ -35,7 +35,10 @@ public interface RealScalar extends Scalar, //
    * @param number
    * @return scalar with best possible accuracy to encode given number */
   static Scalar of(Number number) {
-    if (number instanceof Integer || number instanceof Long)
+    if (number instanceof Integer || //
+        number instanceof Long || //
+        number instanceof Short || //
+        number instanceof Byte)
       return RationalScalar.of(number.longValue(), 1);
     if (number instanceof Float || number instanceof Double)
       return DoubleScalar.of(number.doubleValue());
@@ -43,6 +46,6 @@ public interface RealScalar extends Scalar, //
       return RationalScalar.of((BigInteger) number, BigInteger.ONE);
     if (number instanceof BigDecimal)
       return DecimalScalar.of((BigDecimal) number);
-    throw new IllegalArgumentException("" + number);
+    throw new IllegalArgumentException("" + number + " " + number.getClass());
   }
 }

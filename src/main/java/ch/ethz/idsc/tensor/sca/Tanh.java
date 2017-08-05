@@ -8,15 +8,19 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** Sinh[z]/Cosh[z] == Tanh[z] == (Exp[z] - Exp[-z])/(Exp[z] + Exp[-z])
+/** <pre>
+ * Tanh[z] == Sinh[z]/Cosh[z]
+ * Tanh[z] == (Exp[z] - Exp[-z])/(Exp[z] + Exp[-z])
+ * </pre>
  * 
- * tanh(x + y) = F(tanh(x), tanh(y))
- * 
+ * <pre>
+ * Tanh(x + y) = F(Tanh(x), tanh(y))
  * F(x,y) = (x + y)/(1 + xy)
+ * </pre>
  * 
- * formula for addition of velocities in special relativity (with the speed of light equal to 1)
+ * <p>formula for addition of velocities in special relativity (with the speed of light equal to 1)
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Tanh.html">Tanh</a> */
 public enum Tanh implements ScalarUnaryOperator {
   FUNCTION;
