@@ -34,7 +34,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   private static final int MAXITERATIONS = 50;
   private static final Scalar HALF = RationalScalar.of(1, 2);
   private static final Scalar HUNDRED = RealScalar.of(100);
-  private static final Scalar EPS = RealScalar.of(Math.ulp(1));
+  private static final Scalar EPS = DoubleScalar.of(Math.ulp(1));
   // ---
   private final int n;
   private Tensor V;

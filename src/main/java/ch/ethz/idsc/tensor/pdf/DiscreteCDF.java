@@ -57,7 +57,7 @@ import ch.ethz.idsc.tensor.Scalars;
       ++k;
       Scalar p_equals = discreteDistribution.p_equals(k);
       cumprob = cumprob.add(p_equals);
-      cdf.put(RealScalar.of(k), cumprob);
+      cdf.put(RationalScalar.of(k, 1), cumprob);
       cdf_finished |= isFinished(p_equals, cumprob);
     }
     return p_function(x, function);

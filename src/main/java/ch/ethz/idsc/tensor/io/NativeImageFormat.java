@@ -16,9 +16,12 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 /** {@link NativeImageFormat} is a helper class for {@link ImageFormat}.
  * 
  * <p>The {@link Dimensions} of tensors that represent native images are
- * <code>HEIGHT x WIDTH x 4</code>
+ * For grayscale:
+ * <code>HEIGHT x WIDTH</code>
  * 
- * <p>The 4 entries in the last dimension are RGBA.
+ * For color (not supported yet):
+ * <code>HEIGHT x WIDTH x 4</code>
+ * The 4 entries in the last dimension are RGBA.
  * 
  * <p><code>tensor.get(y, x)</code> refers to the same pixel as
  * <code>BufferedImage::getRGB(x, y)</code>

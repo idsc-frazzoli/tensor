@@ -21,6 +21,8 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /* package */ class HouseholderQRDecomposition implements QRDecomposition {
+  private static final Scalar TWO = RealScalar.of(2);
+  // ---
   private final int n;
   private final int m;
   private Tensor Qinv;
@@ -87,7 +89,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     Scalar un = Norm._2SQUARED.of(u);
     Tensor v = u;
     Tensor cv = Conjugate.of(v);
-    Scalar factor = RealScalar.of(2).divide(un);
+    Scalar factor = TWO.divide(un);
     return IdentityMatrix.of(n).subtract(wcwt(v, cv.multiply(factor)));
   }
 
