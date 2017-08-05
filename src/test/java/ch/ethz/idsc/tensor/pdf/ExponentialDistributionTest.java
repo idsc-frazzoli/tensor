@@ -14,7 +14,6 @@ import junit.framework.TestCase;
 public class ExponentialDistributionTest extends TestCase {
   public void testPositive() {
     Distribution distribution = ExponentialDistribution.of(RealScalar.ONE);
-    // PDF pdf = PDF.of(ExponentialDistribution.of(RealScalar.ONE));
     for (int c = 0; c < 100; ++c) {
       Scalar s = RandomVariate.of(distribution);
       assertTrue(Scalars.lessEquals(RealScalar.ZERO, s));
@@ -33,7 +32,6 @@ public class ExponentialDistributionTest extends TestCase {
   public void testMean() {
     Scalar lambda = RealScalar.of(2);
     Distribution distribution = ExponentialDistribution.of(lambda);
-    // PDF pdf = PDF.of(distribution);
     Tensor all = Tensors.empty();
     for (int c = 0; c < 2000; ++c) {
       Scalar s = RandomVariate.of(distribution);

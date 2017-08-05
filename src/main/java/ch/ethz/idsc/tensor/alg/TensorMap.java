@@ -12,6 +12,9 @@ public enum TensorMap {
   ;
   /** applies function to all entries of tensor at given level
    * 
+   * <p>function obtains references to entries of tensor.
+   * Modifications to the references are reflected in the input tensor.
+   * 
    * @param function
    * @param tensor
    * @param level

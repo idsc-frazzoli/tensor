@@ -11,6 +11,13 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class ArrayTest extends TestCase {
+  public void testEmpty1() {
+    assertEquals(Array.of(l -> {
+      assertTrue(l.isEmpty());
+      return RealScalar.ONE;
+    }), RealScalar.ONE);
+  }
+
   public void testArray() {
     Tensor table = Array.of(l -> RealScalar.of(l.get(0) * l.get(2)), 3, 2, 4);
     Tensor res = Tensors.fromString("{{{0, 0, 0, 0}, {0, 0, 0, 0}}, {{0, 1, 2, 3}, {0, 1, 2, 3}}, {{0, 2, 4, 6}, {0, 2, 4, 6}}}");
