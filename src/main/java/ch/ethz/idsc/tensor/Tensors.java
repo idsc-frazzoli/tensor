@@ -10,7 +10,9 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-/** utility class that provides constructors of tensors for convenience */
+/** utility class that provides constructors of tensors for convenience
+ * the methods have a deterministic construction process. no parallel
+ * processing is used. */
 public enum Tensors {
   ;
   /** @return new modifiable tensor instance with no entries, i.e. length() == 0 */
