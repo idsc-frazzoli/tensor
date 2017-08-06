@@ -17,7 +17,7 @@ public class OrderingTest extends TestCase {
     Tensor vector = Tensors.vector(4, 2, 3, 0, 1);
     int[] array = Ordering.INCREASING.of(vector);
     Tensor ascending = Tensor.of( //
-        IntStream.range(0, array.length).boxed().map(index -> vector.Get(array[index])));
+        IntStream.range(0, array.length).mapToObj(index -> vector.Get(array[index])));
     assertEquals(ascending, Sort.of(vector));
   }
 
@@ -26,7 +26,7 @@ public class OrderingTest extends TestCase {
     Tensor vector = RandomVariate.of(d, 1000);
     int[] array = Ordering.INCREASING.of(vector);
     Tensor ascending = Tensor.of( //
-        IntStream.range(0, array.length).boxed().map(index -> vector.Get(array[index])));
+        IntStream.range(0, array.length).mapToObj(index -> vector.Get(array[index])));
     assertEquals(ascending, Sort.of(vector));
   }
 
@@ -35,7 +35,7 @@ public class OrderingTest extends TestCase {
     Tensor vector = RandomVariate.of(d, 1000);
     int[] array = Ordering.INCREASING.of(vector);
     Tensor ascending = Tensor.of( //
-        IntStream.range(0, array.length).boxed().map(index -> vector.Get(array[index])));
+        IntStream.range(0, array.length).mapToObj(index -> vector.Get(array[index])));
     assertEquals(ascending, Sort.of(vector));
   }
 }

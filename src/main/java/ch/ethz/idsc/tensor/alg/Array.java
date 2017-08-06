@@ -48,8 +48,8 @@ public enum Array {
     int length = dimensions.get(0);
     if (length < 0)
       throw new IllegalArgumentException();
-    return Tensor.of(IntStream.range(0, length).boxed() //
-        .map(i -> zeros(dimensions.subList(1, dimensions.size()))));
+    return Tensor.of(IntStream.range(0, length) //
+        .mapToObj(i -> zeros(dimensions.subList(1, dimensions.size()))));
   }
 
   /** Examples:

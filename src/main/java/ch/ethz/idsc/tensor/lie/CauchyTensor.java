@@ -20,6 +20,6 @@ public enum CauchyTensor {
    * @throws Exception if input is not a vector */
   public static Tensor of(Tensor vector, int rank) {
     return Array.of(list -> list.stream().map(vector::Get).reduce(Scalar::add).get().reciprocal(), //
-        IntStream.range(0, rank).boxed().map(i -> vector.length()).collect(Collectors.toList()));
+        IntStream.range(0, rank).mapToObj(i -> vector.length()).collect(Collectors.toList()));
   }
 }

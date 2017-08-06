@@ -75,8 +75,8 @@ public enum NullSpace {
   public static Tensor of(SingularValueDecomposition svd) {
     double w_threshold = svd.getThreshold();
     Tensor vt = Transpose.of(svd.getV());
-    return Tensor.of(IntStream.range(0, svd.values().length()).boxed() //
+    return Tensor.of(IntStream.range(0, svd.values().length()) //
         .filter(index -> svd.values().Get(index).abs().number().doubleValue() < w_threshold) //
-        .map(vt::get));
+        .mapToObj(vt::get));
   }
 }

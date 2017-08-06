@@ -21,6 +21,6 @@ public enum HankelTensor {
       throw TensorRuntimeException.of(vector);
     int dim = last / rank + 1;
     return Array.of(list -> vector.Get(list.stream().reduce(Integer::sum).get()), //
-        IntStream.range(0, rank).boxed().map(i -> dim).collect(Collectors.toList()));
+        IntStream.range(0, rank).mapToObj(i -> dim).collect(Collectors.toList()));
   }
 }

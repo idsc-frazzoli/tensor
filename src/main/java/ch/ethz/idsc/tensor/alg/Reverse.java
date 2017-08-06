@@ -13,7 +13,7 @@ public enum Reverse {
    * @return tensor with entries on first level reversed */
   public static Tensor of(Tensor tensor) {
     int length = tensor.length();
-    return Tensor.of(IntStream.range(0, length).map(index -> length - index - 1).boxed().map(tensor::get));
+    return Tensor.of(IntStream.range(0, length).map(index -> length - index - 1).mapToObj(tensor::get));
   }
 
   /** @param tensor

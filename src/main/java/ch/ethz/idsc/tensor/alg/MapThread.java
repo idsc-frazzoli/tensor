@@ -33,7 +33,7 @@ public enum MapThread {
         throw new IllegalArgumentException();
       int length = 0 == unique ? 0 : list.get(0).length();
       return Tensor.of(IntStream.range(0, length) //
-          .boxed().map(index -> of(function, _extract(index, list), level - 1)));
+          .mapToObj(index -> of(function, _extract(index, list), level - 1)));
     }
     return function.apply(list);
   }

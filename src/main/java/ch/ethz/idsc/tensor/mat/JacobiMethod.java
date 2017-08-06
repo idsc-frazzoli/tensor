@@ -55,8 +55,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
           .orElse(RealScalar.ZERO);
       if (Scalars.isZero(sum)) {
         int[] order = Ordering.DECREASING.of(d);
-        d = Tensor.of(IntStream.of(order).boxed().map(d::get)).unmodifiable();
-        V = Tensor.of(IntStream.of(order).boxed().map(V::get)).unmodifiable();
+        d = Tensor.of(IntStream.of(order).mapToObj(d::get)).unmodifiable();
+        V = Tensor.of(IntStream.of(order).mapToObj(V::get)).unmodifiable();
         return;
       }
       Scalar tresh = (i < 4) ? sum.multiply(factor) : RealScalar.ZERO;
