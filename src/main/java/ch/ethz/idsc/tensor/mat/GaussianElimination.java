@@ -47,13 +47,13 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
       Scalar piv = lhs.Get(ind[c0], c0);
       if (Scalars.isZero(piv))
         throw TensorRuntimeException.of(matrix, piv);
-      _eliminate(c0, piv.invert());
+      _eliminate(c0, piv);
     }
   }
 
-  private void _eliminate(int c0, Scalar den) {
+  private void _eliminate(int c0, Scalar piv) {
     IntStream.range(c0 + 1, lhs.length()).boxed().parallel().forEach(c1 -> { //
-      Scalar fac = lhs.Get(ind[c1], c0).multiply(den).negate();
+      Scalar fac = lhs.Get(ind[c1], c0).divide(piv).negate();
       lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
       rhs.set(rhs.get(ind[c1]).add(rhs.get(ind[c0]).multiply(fac)), ind[c1]);
     });
@@ -75,13 +75,12 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
       _swap(pivot.get(c0, j, ind, lhs), c0);
       Scalar piv = lhs.Get(ind[c0], j);
       if (Scalars.nonZero(piv)) {
-        Scalar den = piv.invert();
         for (int c1 = 0; c1 < n; ++c1)
           if (c1 != c0) {
-            Scalar fac = lhs.Get(ind[c1], j).multiply(den).negate();
+            Scalar fac = lhs.Get(ind[c1], j).divide(piv).negate();
             lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
           }
-        lhs.set(lhs.get(ind[c0]).multiply(den), ind[c0]);
+        lhs.set(lhs.get(ind[c0]).divide(piv), ind[c0]);
         ++c0;
       }
     }
@@ -114,8 +113,8 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   Tensor solution() {
     Tensor sol = rhs.map(Scalar::zero); // all-zeros copy of rhs
     for (int c0 = ind.length - 1; 0 <= c0; --c0) {
-      Scalar factor = lhs.Get(ind[c0], c0).invert();
-      sol.set(rhs.get(ind[c0]).subtract(lhs.get(ind[c0]).dot(sol)).multiply(factor), c0);
+      Scalar factor = lhs.Get(ind[c0], c0);
+      sol.set(rhs.get(ind[c0]).subtract(lhs.get(ind[c0]).dot(sol)).divide(factor), c0);
     }
     return sol;
   }

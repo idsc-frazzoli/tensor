@@ -15,7 +15,15 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Dimensions.html">Dimensions</a> */
 public enum Dimensions {
   ;
-  /** @return dimensions of this tensor */
+  /** Examples:
+   * <pre>
+   * Dimensions.of[3.14] = {}
+   * Dimensions.of[{}] == {0}
+   * Dimensions.of[{1, 2, 3}] == {3}
+   * Dimensions.of[{{1, 2, 3}, {4, 5, 6}}] == {2, 3}
+   * </pre>
+   * 
+   * @return dimensions of this tensor */
   public static List<Integer> of(Tensor tensor) {
     return _list(complete(tensor));
   }

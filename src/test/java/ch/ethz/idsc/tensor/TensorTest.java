@@ -32,18 +32,6 @@ public class TensorTest extends TestCase {
     assertEquals(e.length(), 3);
   }
 
-  public void testGet() {
-    Tensor a = Tensors.matrixInt( //
-        new int[][] { { 3, 4 }, { 1, 2 }, { 9, 8 } });
-    assertEquals(a.get(0, 0), Tensors.fromString("3"));
-    assertEquals(a.get(1, 1), Tensors.fromString("2"));
-    assertEquals(a.get(0), Tensors.fromString("{3, 4}"));
-    assertEquals(a.get(1), Tensors.fromString("{1, 2}"));
-    assertEquals(a.get(2), Tensors.fromString("{9, 8}"));
-    assertEquals(a.get(Tensor.ALL, 0), Tensors.fromString("{3, 1, 9}"));
-    assertEquals(a.get(Tensor.ALL, 1), Tensors.fromString("{4, 2, 8}"));
-  }
-
   private static Scalar incr(Scalar a) {
     return a.add(RealScalar.ONE);
   }

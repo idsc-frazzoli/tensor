@@ -6,7 +6,7 @@ package ch.ethz.idsc.tensor.sca;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/* package */ class SqrtBigDecimal {
+/* package */ final class SqrtBigDecimal {
   final int digits;
   final BigDecimal precision;
 

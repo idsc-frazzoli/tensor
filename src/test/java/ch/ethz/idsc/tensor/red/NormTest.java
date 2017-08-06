@@ -58,4 +58,18 @@ public class NormTest extends TestCase {
     // 4.7071
     assertEquals(n, RealScalar.of(4.707100665786122));
   }
+
+  public void testNormP() {
+    Scalar n = Norm.ofVector(Tensors.vector(1, 2, 3), 1.23);
+    assertEquals(n, RealScalar.of(4.982125211204371));
+  }
+
+  public void testNormPFail() {
+    try {
+      Norm.ofVector(Tensors.vector(1, 2, 3), 0.99);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

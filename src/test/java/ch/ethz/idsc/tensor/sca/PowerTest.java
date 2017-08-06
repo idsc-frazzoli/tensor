@@ -62,8 +62,8 @@ public class PowerTest extends TestCase {
   }
 
   public void testNegative() {
-    assertEquals(Power.of(2, -4), RealScalar.of(16).invert());
-    assertEquals(Power.of(-4, -5), RealScalar.of(-1024).invert());
+    assertEquals(Power.of(2, -4), RealScalar.of(16).reciprocal());
+    assertEquals(Power.of(-4, -5), RealScalar.of(-1024).reciprocal());
   }
 
   public void testComplex() {

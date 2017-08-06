@@ -6,7 +6,13 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** Examples:
+ * <pre>
+ * Floor[+3.9] == +3
+ * Floor[-8.2] == -9
+ * </pre>
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Floor.html">Floor</a> */
 public enum Floor implements ScalarUnaryOperator {
   FUNCTION;

@@ -34,7 +34,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   private static final int MAXITERATIONS = 50;
   private static final Scalar HALF = RationalScalar.of(1, 2);
   private static final Scalar HUNDRED = RealScalar.of(100);
-  private static final Scalar EPS = RealScalar.of(Math.ulp(1));
+  private static final Scalar EPS = DoubleScalar.of(Math.ulp(1));
   // ---
   private final int n;
   private Tensor V;
@@ -72,11 +72,11 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
               t = A.Get(ip, iq).divide(h);
             } else {
               Scalar theta = HALF.multiply(h).divide(A.Get(ip, iq));
-              t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).invert();
+              t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).reciprocal();
               if (((SignInterface) theta).signInt() == -1)
                 t = t.negate();
             }
-            Scalar c = Hypot.BIFUNCTION.apply(t, RealScalar.ONE).Get().invert();
+            Scalar c = Hypot.BIFUNCTION.apply(t, RealScalar.ONE).Get().reciprocal();
             Scalar s = t.multiply(c);
             Scalar tau = s.divide(c.add(RealScalar.ONE));
             final Scalar fh = t.multiply(A.Get(ip, iq));

@@ -39,7 +39,7 @@ enum MandelbulbDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = StaticHelper.parallel(MandelbulbDemo::function, RES, RES);
-    Export.of(UserHome.Pictures("mandelbulbdemo.png"), //
-        ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
+    Export.of(UserHome.Pictures("mandelbulbdemo2.png"), //
+        ArrayPlot.of(matrix, ColorDataGradients.ALPINE));
   }
 }

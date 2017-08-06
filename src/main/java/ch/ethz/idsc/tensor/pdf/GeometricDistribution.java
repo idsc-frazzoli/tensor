@@ -33,7 +33,7 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return p.invert().subtract(RealScalar.ONE);
+    return p.reciprocal().subtract(RealScalar.ONE);
   }
 
   @Override // from VarianceInterface

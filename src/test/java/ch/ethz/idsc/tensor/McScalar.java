@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
 // EXPERIMENTAL towards a Quaternion scalar
-// TODO definition of ComplexEmbedding 
 /* package */ final class McScalar extends AbstractScalar implements ComplexEmbedding {
   public static Scalar of(Scalar re, Scalar im) {
     if (Scalars.isZero(im))
@@ -86,7 +85,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   }
 
   @Override
-  public Scalar invert() {
+  public Scalar reciprocal() {
     return _of(Inverse.of(skew));
   }
 

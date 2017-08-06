@@ -28,7 +28,7 @@ public final class StringScalar extends AbstractScalar {
   }
 
   @Override // from Scalar
-  public Scalar invert() {
+  public Scalar reciprocal() {
     throw TensorRuntimeException.of(this);
   }
 
@@ -66,7 +66,6 @@ public final class StringScalar extends AbstractScalar {
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    // null check not required
     if (object instanceof StringScalar) {
       StringScalar stringScalar = (StringScalar) object;
       return string.equals(stringScalar.string);

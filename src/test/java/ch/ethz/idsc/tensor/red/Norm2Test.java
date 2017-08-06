@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class Norm2Test extends TestCase {
@@ -43,8 +44,8 @@ public class Norm2Test extends TestCase {
     Tensor matrix = Tensors.matrix(new Number[][] { { 1, 2, 3 }, { 9, -3, 0 } });
     Scalar nrm = Norm._2.of(matrix);
     assertEquals(nrm, Norm._2.of(Transpose.of(matrix)));
-    // Mathematica: 9.49306
-    assertEquals(nrm, DoubleScalar.of(9.493062577750758));
+    // Mathematica: 9.493062577750756
+    assertTrue(Chop._14.close(nrm, DoubleScalar.of(9.493062577750756)));
   }
 
   public void testMatrix2() {

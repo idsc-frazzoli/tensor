@@ -33,15 +33,21 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   /***************************************************/
   @Override // from Scalar
-  public Scalar abs() {
+  public Scalar abs() { // "complex modulus"
     return Hypot.BIFUNCTION.apply(re, im);
   }
 
-  @Override // from Scalar
-  public Scalar invert() {
-    // TODO numerically not the best solution
-    Scalar mag = re.multiply(re).add(im.multiply(im));
-    return ComplexScalar.of(re.divide(mag), im.negate().divide(mag));
+  /** function is motivated by the expression c / (c^2 + d^2)
+   * for c != 0 the term simplifies to 1 / (c + d^2 / c)
+   * the function computes the denominator c + d^2 / c == c + d / c * d
+   * 
+   * @param c non-zero
+   * @param d
+   * @return c + d / c * d */
+  private static Scalar c_dcd(Scalar c, Scalar d) {
+    // if (Scalars.isZero(c)) // <- consistency check during development
+    // throw TensorRuntimeException.of(c);
+    return c.add(d.divide(c).multiply(d));
   }
 
   @Override // from Scalar
@@ -60,6 +66,42 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ComplexScalar.of(re.multiply(scalar), im.multiply(scalar));
   }
 
+  @Override // from AbstractScalar
+  public Scalar divide(Scalar scalar) {
+    if (scalar instanceof ComplexScalarImpl) {
+      ComplexScalarImpl z = (ComplexScalarImpl) scalar;
+      boolean czero = Scalars.isZero(z.re);
+      Scalar r1 = czero ? z.re : c_dcd(z.re, z.im);
+      Scalar r2 = c_dcd(z.im, z.re);
+      Scalar res_re1 = czero ? re.multiply(z.re) : re.divide(r1);
+      Scalar res_re2 = im.divide(r2);
+      Scalar res_im1 = czero ? im.multiply(z.re) : im.divide(r1);
+      Scalar res_im2 = re.divide(r2).negate();
+      return ComplexScalar.of(res_re1.add(res_re2), res_im1.add(res_im2));
+    }
+    if (scalar instanceof RealScalar)
+      return ComplexScalar.of(re.divide(scalar), im.divide(scalar));
+    return scalar.under(this);
+  }
+
+  @Override // from AbstractScalar
+  public Scalar under(Scalar scalar) {
+    if (scalar instanceof ComplexScalarImpl)
+      return scalar.divide(this);
+    if (scalar instanceof RealScalar)
+      return ComplexScalar.of( //
+          Scalars.isZero(re) ? scalar.multiply(re) : scalar.divide(c_dcd(re, im)), //
+          scalar.divide(c_dcd(im, re)).negate());
+    return super.under(scalar);
+  }
+
+  @Override // from Scalar
+  public Scalar reciprocal() {
+    return ComplexScalar.of( //
+        Scalars.isZero(re) ? re : c_dcd(re, im).reciprocal(), //
+        c_dcd(im, re).reciprocal().negate()); // using the assumption that im is never zero
+  }
+
   @Override // from Scalar
   public Number number() {
     throw TensorRuntimeException.of(this);
@@ -67,7 +109,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar zero() {
-    return re.zero(); // not symmetric, since re is chosen over im...
+    return re.zero().add(im.zero());
   }
 
   /***************************************************/
@@ -79,7 +121,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     }
     if (scalar instanceof RealScalar)
       return ComplexScalar.of(re.add(scalar), im);
-    throw TensorRuntimeException.of(this, scalar);
+    return scalar.add(this);
   }
 
   /***************************************************/
@@ -165,7 +207,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    // null check not required
     if (object instanceof ComplexScalarImpl) {
       ComplexScalarImpl complexScalar = (ComplexScalarImpl) object;
       return re.equals(complexScalar.real()) && im.equals(complexScalar.imag());

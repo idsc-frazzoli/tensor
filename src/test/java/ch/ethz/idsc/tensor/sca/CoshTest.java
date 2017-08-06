@@ -18,7 +18,7 @@ public class CoshTest extends TestCase {
   }
 
   public void testComplex() {
-    Scalar c = Cosh.FUNCTION.apply(ComplexScalar.of(2, 3.));
+    Scalar c = Cosh.of(ComplexScalar.of(2, 3.));
     // -3.72455 + 0.511823 I
     Scalar s = Scalars.fromString("-3.7245455049153224+0.5118225699873846*I");
     assertEquals(c, s);

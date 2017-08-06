@@ -6,7 +6,13 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** Examples:
+ * <pre>
+ * Ceiling[+3.9] == +4
+ * Ceiling[-8.2] == -8
+ * </pre>
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Ceiling.html">Ceiling</a> */
 public enum Ceiling implements ScalarUnaryOperator {
   FUNCTION;

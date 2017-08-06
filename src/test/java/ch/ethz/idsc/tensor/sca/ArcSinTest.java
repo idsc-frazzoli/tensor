@@ -9,13 +9,13 @@ import junit.framework.TestCase;
 
 public class ArcSinTest extends TestCase {
   public void testReal() {
-    assertEquals(ArcSin.FUNCTION.apply(Scalars.fromString("1")), RealScalar.of(Math.asin(1)));
-    assertEquals(ArcSin.FUNCTION.apply(Scalars.fromString("-1")), RealScalar.of(Math.asin(-1)));
+    assertEquals(ArcSin.of(Scalars.fromString("1")), RealScalar.of(Math.asin(1)));
+    assertEquals(ArcSin.of(Scalars.fromString("-1")), RealScalar.of(Math.asin(-1)));
   }
 
   public void testRealOutside() {
     Scalar s = RealScalar.of(3);
-    Scalar r = ArcSin.FUNCTION.apply(s);
+    Scalar r = ArcSin.of(s);
     // 1.5707963267948966192 - 1.7627471740390860505 I
     assertEquals(r, Scalars.fromString("1.5707963267948966-1.762747174039086*I"));
   }
@@ -38,7 +38,7 @@ public class ArcSinTest extends TestCase {
 
   public void testArcSinh() {
     Scalar s = ComplexScalar.of(5, -7);
-    Scalar r = ArcSinh.FUNCTION.apply(s);
+    Scalar r = ArcSinh.of(s);
     // 2.8441 - 0.947341 I
     Scalar a = Scalars.fromString("2.8440976626506527-0.9473406443130488*I");
     assertEquals(a, r);

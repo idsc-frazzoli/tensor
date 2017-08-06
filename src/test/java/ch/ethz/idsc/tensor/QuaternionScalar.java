@@ -101,7 +101,7 @@ final class QuaternionScalar extends AbstractScalar implements //
   }
 
   @Override
-  public Scalar invert() {
+  public Scalar reciprocal() {
     return conjugate().divide(AbsSquared.FUNCTION.apply(this));
   }
 
@@ -135,7 +135,7 @@ final class QuaternionScalar extends AbstractScalar implements //
     return im;
   }
 
-  // EXPERIMENTAL, not finalized
+  // API not finalized
   public Tensor vectorPart() {
     return Tensors.of(im, jm, km);
   }

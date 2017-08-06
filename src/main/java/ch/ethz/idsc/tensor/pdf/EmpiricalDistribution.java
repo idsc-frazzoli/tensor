@@ -41,9 +41,9 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
         .anyMatch(scalar -> Scalars.lessThan(scalar, RealScalar.ZERO)))
       throw TensorRuntimeException.of(unscaledPDF);
     Tensor accumulate = Accumulate.of(unscaledPDF);
-    Scalar scale = Last.of(accumulate).Get().invert();
-    pdf = unscaledPDF.multiply(scale);
-    cdf = accumulate.multiply(scale);
+    Scalar scale = Last.of(accumulate).Get();
+    pdf = unscaledPDF.divide(scale);
+    cdf = accumulate.divide(scale);
   }
 
   @Override // from MeanInterface

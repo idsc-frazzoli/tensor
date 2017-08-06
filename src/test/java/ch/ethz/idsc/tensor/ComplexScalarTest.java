@@ -71,8 +71,8 @@ public class ComplexScalarTest extends TestCase {
     Random random = new Random();
     Tensor A = Tensors.matrix((i, j) -> //
     ComplexScalar.of( //
-        RealScalar.of(random.nextInt(15)), //
-        RealScalar.of(random.nextInt(15))), n, n);
+        RealScalar.of(random.nextInt(35)), //
+        RealScalar.of(random.nextInt(35))), n, n);
     Tensor b = Tensors.matrix((i, j) -> ComplexScalar.of(//
         random.nextInt(15), //
         random.nextInt(15)), n, n + 3);
@@ -161,10 +161,90 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(uc.toString(), "{-I, 3/4+5*I}");
   }
 
+  private static void _assertDivideSymmetric(Scalar s1, Scalar s2) {
+    // boolean equals = s1.divide(s2).equals(s2.under(s1));
+    assertEquals(s1.divide(s2).toString(), s2.under(s1).toString());
+  }
+
   public void testDivision1() {
     Scalar zero = RealScalar.ZERO;
-    Scalar eps = ComplexScalar.of(0, Math.nextUp(0.0));
-    // Scalar result = zero.divide(eps);
-    // System.out.println(result);
+    Scalar eps = ComplexScalar.of(0, 5.562684646268010E-309);
+    assertEquals(zero.divide(eps), RealScalar.ZERO);
+    _assertDivideSymmetric(zero, eps);
+  }
+
+  public void testDivision2a() {
+    double eps = 5.562684646268010E-309;
+    Scalar reps = RealScalar.of(eps);
+    Scalar ieps = ComplexScalar.of(0, eps);
+    assertEquals(reps.divide(ieps), ComplexScalar.of(0, -1));
+    assertEquals(ieps.divide(reps), ComplexScalar.of(0, 1));
+    _assertDivideSymmetric(reps, ieps);
+    _assertDivideSymmetric(ieps, reps);
+  }
+
+  public void testDivision3() {
+    Scalar reps = ComplexScalar.of(0, Double.MIN_VALUE);
+    assertEquals(reps.divide(reps), RealScalar.ONE);
+  }
+
+  public void testDivision4() {
+    final double eps = Double.MIN_VALUE;
+    {
+      Scalar reps = ComplexScalar.of(eps, eps);
+      Scalar ieps = ComplexScalar.of(0, eps);
+      assertEquals(reps.divide(ieps), ComplexScalar.of(1, -1));
+      _assertDivideSymmetric(reps, ieps);
+    }
+    {
+      Scalar reps = ComplexScalar.of(eps, eps);
+      assertEquals(reps.divide(reps), RealScalar.ONE);
+    }
+  }
+
+  public void testDivision2b() {
+    double eps = Double.MIN_VALUE; // 5.562684646268010E-309
+    Scalar reps = RealScalar.of(eps);
+    Scalar ieps = ComplexScalar.of(0, eps);
+    assertEquals(ieps.divide(reps), ComplexScalar.of(0, 1));
+    assertEquals(reps.divide(ieps), ComplexScalar.of(0, -1));
+    _assertDivideSymmetric(ieps, reps);
+    _assertDivideSymmetric(reps, ieps);
+  }
+
+  @SuppressWarnings("unused")
+  private static Scalar textbookInversion(Scalar s1) {
+    ComplexScalarImpl c = (ComplexScalarImpl) s1;
+    Scalar mag = c.real().multiply(c.real()).add(c.imag().multiply(c.imag()));
+    return ComplexScalar.of(c.real().divide(mag), c.imag().negate().divide(mag));
+  }
+
+  public void testInversion() {
+    assertEquals(ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ZERO, DoubleScalar.NEGATIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ONE, DoubleScalar.POSITIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(RealScalar.ONE, DoubleScalar.NEGATIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ZERO).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ZERO).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE).reciprocal(), RealScalar.ZERO);
+    assertEquals(ComplexScalar.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ONE).reciprocal(), RealScalar.ZERO);
+    // mathematica also does not simplify 1 / (inf+inf*I)
+    // assertEquals(ComplexScalar.of( //
+    // DoubleScalar.POSITIVE_INFINITY, DoubleScalar.POSITIVE_INFINITY).reciprocal(), RealScalar.ZERO);
+  }
+
+  public void testDivisionInf1() {
+    _assertDivideSymmetric( //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
+    _assertDivideSymmetric( //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.NEGATIVE_INFINITY), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
+    _assertDivideSymmetric( //
+        ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, DoubleScalar.NEGATIVE_INFINITY), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
+    _assertDivideSymmetric( //
+        ComplexScalar.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ZERO), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
   }
 }

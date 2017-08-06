@@ -13,7 +13,9 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Multinomial;
 
 /** Euler gamma function
+ * <pre>
  * Gamma[x + 1] == x Gamma[x]
+ * </pre>
  * 
  * <p>implementation also works for {@link ComplexScalar}s
  *

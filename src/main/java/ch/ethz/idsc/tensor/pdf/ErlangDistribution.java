@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -8,8 +9,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Factorial;
 import ch.ethz.idsc.tensor.sca.Power;
 
-/** presumeably:
- * ErlangDistribution[k, lambda] == GammaDistribution[k, 1 / lambda]
+/** ErlangDistribution[k, lambda] == GammaDistribution[k, 1 / lambda]
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ErlangDistribution.html">ErlangDistribution</a> */
@@ -28,7 +28,7 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
   private final Scalar factor;
 
   private ErlangDistribution(int k, Scalar lambda) {
-    this.k = RealScalar.of(k);
+    this.k = RationalScalar.of(k, 1);
     this.lambda = lambda;
     factor = Power.of(lambda, k).divide(Factorial.of(k - 1));
   }

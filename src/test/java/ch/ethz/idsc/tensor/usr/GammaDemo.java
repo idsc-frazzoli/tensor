@@ -33,11 +33,8 @@ enum GammaDemo {
   }
 
   public static void main(String[] args) throws Exception {
-    // 3.90[s] serial vs. 2.43[s] parallel
-    long tic = System.nanoTime();
     Tensor matrix = StaticHelper.parallel(GammaDemo::function, RES, RES);
-    System.out.println((System.nanoTime() - tic) * 1e-9);
-    Export.of(UserHome.Pictures("gammademo.png"), //
+    Export.of(UserHome.Pictures("gammademos.png"), //
         ArrayPlot.of(matrix, ColorDataGradients.HUE));
   }
 }

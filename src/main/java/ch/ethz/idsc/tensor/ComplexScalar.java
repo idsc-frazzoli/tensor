@@ -15,7 +15,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * <p>number() is not supported
  * <p>{@link Comparable} is not provided */
 public interface ComplexScalar extends Scalar, //
-    ArcTanInterface, ArgInterface, ComplexEmbedding, PowerInterface, RoundingInterface, SqrtInterface {
+    ArcTanInterface, ArgInterface, ComplexEmbedding, PowerInterface, //
+    RoundingInterface, SqrtInterface {
   /** complex number I == 0+1*I */
   static final Scalar I = of(0, 1);
   /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */

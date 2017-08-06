@@ -22,9 +22,11 @@ public enum Tally {
   }
 
   /** function can be used to compute
-   * a histogram,
-   * a cumulative distribution function, see {@link CDF}, or
-   * {@link BinCounts}
+   * <ul>
+   * <li>a histogram,
+   * <li>a cumulative distribution function, see {@link CDF}, or
+   * <li>{@link BinCounts}
+   * </ul>
    * 
    * @param vector
    * @return navigable map that assigns entries of the vector their multiplicity in the vector */

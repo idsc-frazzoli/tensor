@@ -168,4 +168,12 @@ public class LinearSolveTest extends TestCase {
     assertEquals(det, RealScalar.ZERO);
     assertEquals(x, b);
   }
+
+  public void testEps() {
+    Tensor m = Tensors.matrixDouble(new double[][] { { Double.MIN_VALUE } });
+    Tensor b = Tensors.vectorDouble(new double[] { Double.MIN_VALUE });
+    Tensor r = LinearSolve.of(m, b);
+    assertEquals(r, Tensors.vector(1));
+    assertEquals(Det.of(m), DoubleScalar.of(Double.MIN_VALUE));
+  }
 }

@@ -12,8 +12,8 @@ import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
-/** implementation of tensor interface
- * parallel stream processing is used for dot() */
+/** reference implementation of the interface Tensor
+ * parallel stream processing is used in dot product */
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---
@@ -26,27 +26,27 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @Override
   public Tensor unmodifiable() {
     return new TensorImpl(Collections.unmodifiableList(list)) {
-      @Override
+      @Override // from TensorImpl
       public Tensor unmodifiable() {
         return this;
       }
 
-      @Override
+      @Override // from TensorImpl
       void _set(Tensor tensor, List<Integer> index) {
         throw new UnsupportedOperationException("unmodifiable");
       }
 
-      @Override
+      @Override // from TensorImpl
       <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
         throw new UnsupportedOperationException("unmodifiable");
       }
 
-      @Override
+      @Override // from TensorImpl
       Stream<Tensor> _flatten0() {
         return list.stream().map(Tensor::unmodifiable);
       }
 
-      @Override
+      @Override // from TensorImpl
       public Iterator<Tensor> iterator() {
         return new Iterator<Tensor>() {
           int index = 0;
@@ -82,16 +82,15 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override
   public Tensor get(List<Integer> index) {
-    // _get(...).copy prevents the possibility getting references to sub tensor and then modifying it...
-    return index.isEmpty() ? copy() : _get(index).copy();
+    return index.isEmpty() ? copy() : _get(index);
   }
 
   private Tensor _get(List<Integer> index) {
-    List<Integer> next = index.subList(1, index.size());
+    List<Integer> sublist = index.subList(1, index.size());
     final int head = index.get(0);
     if (head == ALL)
-      return Tensor.of(list.stream().map(tensor -> tensor.get(next)));
-    return list.get(head).get(next);
+      return Tensor.of(list.stream().map(tensor -> tensor.get(sublist)));
+    return list.get(head).get(sublist);
   }
 
   @Override
@@ -103,9 +102,19 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   /* package */ void _set(Tensor tensor, List<Integer> index) {
     final int head = index.get(0);
     if (index.size() == 1)
-      list.set(head, tensor);
-    else
-      ((TensorImpl) list.get(head))._set(tensor, index.subList(1, index.size()));
+      if (head == ALL) {
+        TensorImpl impl = (TensorImpl) tensor;
+        _range(impl).forEach(pos -> list.set(pos, impl.list.get(pos).copy()));
+      } else
+        list.set(head, tensor.copy());
+    else {
+      List<Integer> sublist = index.subList(1, index.size());
+      if (head == ALL) {
+        TensorImpl impl = (TensorImpl) tensor;
+        _range(impl).forEach(pos -> ((TensorImpl) list.get(pos))._set(impl.list.get(pos), sublist));
+      } else
+        ((TensorImpl) list.get(head))._set(tensor, sublist);
+    }
   }
 
   @Override
@@ -116,13 +125,19 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @SuppressWarnings("unchecked")
   // package visibility in order to override in unmodifiable()
   /* package */ <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
-    if (index.isEmpty())
-      return;
-    int head = index.get(0);
+    final int head = index.get(0);
     if (index.size() == 1)
-      list.set(head, function.apply((T) get(head)));
-    else
-      ((TensorImpl) list.get(head))._set(function, index.subList(1, index.size()));
+      if (head == ALL)
+        IntStream.range(0, length()).forEach(pos -> list.set(pos, function.apply((T) list.get(pos)).copy()));
+      else
+        list.set(head, function.apply((T) list.get(head)).copy());
+    else {
+      List<Integer> sublist = index.subList(1, index.size());
+      if (head == ALL)
+        list.stream().map(TensorImpl.class::cast).forEach(impl -> impl._set(function, sublist));
+      else
+        ((TensorImpl) list.get(head))._set(function, sublist);
+    }
   }
 
   @Override
@@ -150,12 +165,6 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
     if (level == 0)
       return _flatten0();
     return list.stream().flatMap(tensor -> tensor.flatten(level - 1));
-  }
-
-  // function wrap does not copy data!
-  // for now, function not used and hidden, because many accidental errors can happen
-  /* package */ Tensor wrap(int fromIndex, int toIndex) {
-    return new TensorImpl(list.subList(fromIndex, toIndex));
   }
 
   @Override
@@ -190,19 +199,26 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   @Override
+  public Tensor subtract(Tensor tensor) {
+    // return add(tensor.negate());
+    TensorImpl impl = (TensorImpl) tensor;
+    return Tensor.of(_range(impl).map(index -> list.get(index).subtract(impl.list.get(index))));
+  }
+
+  @Override
   public Tensor pmul(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
     return Tensor.of(_range(impl).map(index -> list.get(index).pmul(impl.list.get(index))));
   }
 
   @Override
-  public Tensor subtract(Tensor tensor) {
-    return add(tensor.negate());
+  public Tensor multiply(Scalar scalar) {
+    return Tensor.of(list.stream().map(tensor -> tensor.multiply(scalar)));
   }
 
   @Override
-  public Tensor multiply(Scalar scalar) {
-    return Tensor.of(list.stream().map(entry -> entry.multiply(scalar)));
+  public Tensor divide(Scalar scalar) {
+    return Tensor.of(list.stream().map(tensor -> tensor.divide(scalar)));
   }
 
   @Override
@@ -244,7 +260,6 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override // from Object
   public boolean equals(Object object) {
-    // null check not required
     if (object instanceof TensorImpl) {
       TensorImpl tensor = (TensorImpl) object;
       return list.equals(tensor.list);

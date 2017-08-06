@@ -114,18 +114,12 @@ public class BinomialDistributionTest extends TestCase {
     }
   }
 
-  // public void testDuasd() {
-  // double eps =
-  // Math.nextUp(0.0);
-  // System.out.println(eps);
-  // }
   public void testBlub() {
     BinomialDistribution.of(1200, RealScalar.of(.1));
     BinomialDistribution.of(1200, RealScalar.of(.9));
   }
 
   public void testInRange() {
-    // System.out.println("next down "+Math.nextDown(1.0));
     assertEquals(BinomialDistribution.of(1000, DoubleScalar.of(.5)).getClass(), BinomialDistribution.class);
     assertEquals(BinomialDistribution.of(2000, DoubleScalar.of(.1)).getClass(), BinomialDistribution.class);
     assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.01)).getClass(), BinomialDistribution.class);

@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * a RationalScalar represents an integer fraction, for instance 17/42, or -6/1.
  * 
- * zero().inverse() throws a {@link ArithmeticException}. */
+ * zero().reciprocal() throws a {@link ArithmeticException}. */
 public final class RationalScalar extends AbstractRealScalar implements //
     ExactNumberQInterface, NInterface {
   /** real scalar -1 as a {@link RationalScalar} */
@@ -50,11 +50,6 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   /***************************************************/
   @Override // from Scalar
-  public Scalar invert() {
-    return _of(bigFraction.invert());
-  }
-
-  @Override // from Scalar
   public Scalar negate() {
     return _of(bigFraction.negate());
   }
@@ -68,26 +63,31 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return scalar.multiply(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public Scalar divide(Scalar scalar) {
     if (scalar instanceof RationalScalar) {
+      // default implementation in AbstractScalar uses 2x gcd
       RationalScalar rationalScalar = (RationalScalar) scalar;
       return _of(bigFraction.divide(rationalScalar.bigFraction));
     }
-    AbstractScalar abstractScalar = (AbstractScalar) scalar;
-    return abstractScalar.under(this);
+    return scalar.under(this);
   }
 
-  @Override
+  @Override // from AbstractScalar
   public Scalar under(Scalar scalar) {
     if (scalar instanceof RationalScalar) {
+      // default implementation in AbstractScalar uses 2x gcd
       RationalScalar rationalScalar = (RationalScalar) scalar;
       return _of(rationalScalar.bigFraction.divide(bigFraction));
     }
     return scalar.divide(this);
   }
 
-  // under
+  @Override // from Scalar
+  public Scalar reciprocal() {
+    return _of(bigFraction.reciprocal());
+  }
+
   @Override // from Scalar
   public Number number() {
     if (IntegerQ.of(this)) {

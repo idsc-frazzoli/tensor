@@ -3,6 +3,7 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -68,9 +69,9 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
             throw TensorRuntimeException.of(tab); // problem unbounded
         }
         int p = simplexPivot.get(tab, j, n);
-        ind.set(RealScalar.of(j), p);
+        ind.set(RationalScalar.of(j, 1), p);
         // System.out.println(ind);
-        tab.set(tab.get(p).multiply(tab.Get(p, j).invert()), p); // normalize
+        tab.set(tab.get(p).divide(tab.Get(p, j)), p); // normalize
         for (int i = 0; i < tab.length(); ++i)
           if (i != p)
             tab.set(tab.get(i).subtract(tab.get(p).multiply(tab.Get(i, j))), i);

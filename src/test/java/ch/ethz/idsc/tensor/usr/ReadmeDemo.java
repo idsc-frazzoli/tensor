@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.Inverse;
@@ -21,22 +22,22 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 enum ReadmeDemo {
   ;
-  public static void demoInverse() {
+  static void demoInverse() {
     Tensor matrix = Tensors.matrixInt(new int[][] { { 2, -3, 2 }, { 4, 9, -3 }, { -1, 3, 2 } });
     System.out.println(Pretty.of(matrix));
     System.out.println(Pretty.of(Inverse.of(matrix)));
   }
 
-  public static void demoNullspace() {
+  static void demoNullspace() {
     System.out.println(Pretty.of(NullSpace.usingRowReduce(Tensors.fromString("{{-1/3, 0, I}}"))));
   }
 
-  public static void demoSVD() {
+  static void demoSVD() {
     Tensor matrix = Tensors.matrixInt(new int[][] { { 2, -3, 2 }, { 4, 9, -3 }, { -1, 3, 2 } });
     System.out.println(Pretty.of(SingularValueDecomposition.of(matrix).getU().map(Round._4)));
   }
 
-  public static void demoLP() {
+  static void demoLP() {
     Tensor x = LinearProgramming.maxLessEquals( //
         Tensors.fromString("[1, 1]"), //
         Tensors.fromString("[[4, -1],[2, 1],[-5, 2]]"), //
@@ -44,12 +45,12 @@ enum ReadmeDemo {
     System.out.println(x);
   }
 
-  public static void demoSqrt() {
+  static void demoSqrt() {
     Scalar fraction = RationalScalar.of(-9, 16);
     System.out.println(Sqrt.of(fraction));
   }
 
-  public static void demoPDF() {
+  static void demoPDF() {
     Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
     System.out.println(RandomVariate.of(distribution, 20));
     // ---
@@ -57,7 +58,7 @@ enum ReadmeDemo {
     System.out.println("P(X=3)=" + pdf.at(RealScalar.of(3)));
   }
 
-  public static void demoCross() {
+  static void demoCross() {
     Tensor ad = LieAlgebras.so3();
     Tensor x = Tensors.vector(7, 2, -4);
     Tensor y = Tensors.vector(-3, 5, 2);
@@ -65,10 +66,19 @@ enum ReadmeDemo {
     System.out.println(ad.dot(x).dot(y));
   }
 
+  static void demoAssign() {
+    Tensor matrix = Array.zeros(3, 4);
+    matrix.set(Tensors.vector(9, 8, 4, 5), 2);
+    matrix.set(Tensors.vector(6, 7, 8), Tensor.ALL, 1);
+    System.out.println(Pretty.of(matrix));
+    System.out.println(matrix.get(Tensor.ALL, 3));
+  }
+
   public static void main(String[] args) {
     // demoSqrt();
     // demoInverse();
     // demoPDF();
     // demoSVD();
+    // demoAssign();
   }
 }

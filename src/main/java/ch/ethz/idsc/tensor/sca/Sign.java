@@ -6,7 +6,10 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** Sign gives the signum of a scalar provided by the implementation of {@link SignInterface}.
+ * If the scalar type does not implement {@link SignInterface}, then an exception is thrown.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sign.html">Sign</a> */
 public enum Sign implements ScalarUnaryOperator {
   FUNCTION;

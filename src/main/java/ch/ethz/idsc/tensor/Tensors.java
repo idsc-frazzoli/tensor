@@ -10,7 +10,13 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-/** utility class that provides constructors of tensors for convenience */
+/** utility class that provides constructors of tensors for convenience.
+ * 
+ * <p>The methods are intentionally non-parallel to ensure a deterministic
+ * construction process.
+ * 
+ * <p>Parallel stream processing can lead to significant speed-up.
+ * Parallel stream processing has be decided case by case. */
 public enum Tensors {
   ;
   /** @return new modifiable tensor instance with no entries, i.e. length() == 0 */
@@ -112,7 +118,7 @@ public enum Tensors {
    * @param function that parses a string to a scalar
    * @return */
   public static Tensor fromString(final String string, Function<String, Scalar> function) {
-    // TODO implement using stack
+    // could implement using stack?
     if (string.startsWith(OPENING_BRACKET_STRING)) {
       List<Tensor> list = new ArrayList<>();
       int level = 0;

@@ -31,7 +31,6 @@ public class NormalDistribution implements Distribution, //
   /** @param distribution
    * @return {@link NormalDistribution} that has the same mean and variance
    * as input distribution */
-  // EXPERIMENTAL API not finalized
   public static Distribution fit(Distribution distribution) {
     return new NormalDistribution( //
         Expectation.mean(distribution), Sqrt.of(Expectation.variance(distribution)));
@@ -40,14 +39,12 @@ public class NormalDistribution implements Distribution, //
   // ---
   private final Scalar mean;
   private final Scalar sigma;
-  private final Scalar sigma_invert;
 
   private NormalDistribution(Scalar mean, Scalar sigma) {
     if (Scalars.lessEquals(sigma, RealScalar.ZERO))
       throw TensorRuntimeException.of(sigma);
     this.mean = mean;
     this.sigma = sigma;
-    this.sigma_invert = sigma.invert();
   }
 
   @Override // from RandomVariateInterface
@@ -63,7 +60,7 @@ public class NormalDistribution implements Distribution, //
   @Override // from PDF
   public Scalar at(Scalar x) {
     return StandardNormalDistribution.INSTANCE.at( //
-        x.subtract(mean).multiply(sigma_invert)).multiply(sigma_invert);
+        x.subtract(mean).divide(sigma)).divide(sigma);
   }
 
   @Override // from VarianceInterface
@@ -71,12 +68,12 @@ public class NormalDistribution implements Distribution, //
     return sigma.multiply(sigma);
   }
 
-  @Override
+  @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return StandardNormalDistribution.INSTANCE.p_lessThan(x.subtract(mean).multiply(sigma_invert));
+    return StandardNormalDistribution.INSTANCE.p_lessThan(x.subtract(mean).divide(sigma));
   }
 
-  @Override
+  @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
     return p_lessThan(x);
   }

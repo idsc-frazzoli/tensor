@@ -33,7 +33,7 @@ public class CeilingTest extends TestCase {
 
   public void testGetCeiling() {
     Tensor v = Tensors.vectorDouble(3.5, 5.6, 9.12);
-    Scalar s = Ceiling.FUNCTION.apply(v.Get(1));
+    Scalar s = Ceiling.of(v.Get(1));
     RealScalar rs = (RealScalar) s;
     assertEquals(rs.number(), 6);
   }
@@ -70,16 +70,16 @@ public class CeilingTest extends TestCase {
   public void testNonFailInf() {
     {
       Scalar s = DoubleScalar.of(Double.POSITIVE_INFINITY);
-      assertEquals(Ceiling.FUNCTION.apply(s), s);
+      assertEquals(Ceiling.of(s), s);
     }
     {
       Scalar s = DoubleScalar.of(Double.NEGATIVE_INFINITY);
-      assertEquals(Ceiling.FUNCTION.apply(s), s);
+      assertEquals(Ceiling.of(s), s);
     }
   }
 
   public void testNonFailNaN() {
-    Scalar s = Ceiling.FUNCTION.apply(DoubleScalar.of(Double.NaN));
+    Scalar s = Ceiling.of(DoubleScalar.of(Double.NaN));
     assertTrue(Double.isNaN(s.number().doubleValue()));
   }
 }

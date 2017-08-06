@@ -6,7 +6,11 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
 
-/** inspired by
+/** Conjugate maps a given scalar to its complex conjugate.
+ * The scalar type is required to implement {@link ComplexEmbedding}
+ * in order for the operation to succeed.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Conjugate.html">Conjugate</a> */
 public enum Conjugate implements ScalarUnaryOperator {
   FUNCTION;

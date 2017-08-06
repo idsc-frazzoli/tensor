@@ -68,7 +68,7 @@ import java.util.Objects;
   }
 
   /** @return reciprocal == den/num */
-  public BigFraction invert() {
+  public BigFraction reciprocal() {
     return of(den, num);
   }
 

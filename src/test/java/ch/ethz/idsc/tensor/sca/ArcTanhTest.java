@@ -8,12 +8,12 @@ import junit.framework.TestCase;
 
 public class ArcTanhTest extends TestCase {
   public void testReal() {
-    Scalar s = ArcTanh.FUNCTION.apply(RealScalar.of(.5));
+    Scalar s = ArcTanh.of(RealScalar.of(.5));
     assertEquals(s, RealScalar.of(0.5493061443340548));
   }
 
   public void testComplex() {
-    Scalar s = ArcTanh.FUNCTION.apply(ComplexScalar.of(5, -9));
+    Scalar s = ArcTanh.of(ComplexScalar.of(5, -9));
     // 0.0468657 - 1.48591 I
     assertEquals(s, ComplexScalar.of(0.04686573907359337, -1.4859071898107274));
   }

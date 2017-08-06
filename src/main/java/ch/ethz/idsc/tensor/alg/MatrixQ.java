@@ -19,7 +19,6 @@ public enum MatrixQ {
    * @param rows
    * @param cols
    * @return */
-  // EXPERIMENTAL
   public static boolean ofSize(Tensor tensor, int rows, int cols) {
     return Dimensions.isArrayWithDimensions(tensor, Arrays.asList(rows, cols));
   }

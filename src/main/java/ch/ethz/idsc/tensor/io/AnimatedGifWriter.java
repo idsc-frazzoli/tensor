@@ -1,9 +1,11 @@
-// code adapted by jph inspired by elliot kroo
+// code template by elliot kroo
+// adapted by jph
 package ch.ethz.idsc.tensor.io;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -15,16 +17,16 @@ import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
-import ch.ethz.idsc.tensor.Tensor;
-
-/** in Mathematica, animated gif sequences are created by Mathematica::Export */
-public class GifSequenceWriter implements ImageSequenceWriter {
-  /** @param file
+/** AnimatedGifWriter is a standalone implementation to generate animated .gif image files */
+public class AnimatedGifWriter implements AutoCloseable {
+  /** initializes animation to loops indefinitely
+   * 
+   * @param file with extension gif
    * @param period between frames in milliseconds
    * @return
    * @throws Exception */
-  public static GifSequenceWriter of(File file, int period) throws IOException {
-    return new GifSequenceWriter(new FileImageOutputStream(file), period, true);
+  public static AnimatedGifWriter of(File file, int period) throws IOException {
+    return new AnimatedGifWriter(new FileImageOutputStream(file), period, true);
   }
 
   private final ImageOutputStream imageOutputStream;
@@ -32,9 +34,10 @@ public class GifSequenceWriter implements ImageSequenceWriter {
   private final boolean loop;
   private final ImageWriter imageWriter;
   private final ImageWriteParam imageWriteParam;
+  /** assigned when first image is appended */
   private IIOMetadata iIOMetadata = null;
 
-  private GifSequenceWriter(ImageOutputStream imageOutputStream, int period, boolean loop) {
+  private AnimatedGifWriter(ImageOutputStream imageOutputStream, int period, boolean loop) {
     this.imageOutputStream = imageOutputStream;
     this.period = period;
     this.loop = loop;
@@ -42,7 +45,8 @@ public class GifSequenceWriter implements ImageSequenceWriter {
     imageWriteParam = imageWriter.getDefaultWriteParam();
   }
 
-  private void _initialize(int type) throws Exception {
+  // invoked when first image is appended
+  private void _initialize(int type) throws IOException {
     ImageTypeSpecifier imageTypeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(type);
     iIOMetadata = imageWriter.getDefaultImageMetadata(imageTypeSpecifier, imageWriteParam);
     String metadataFormatName = iIOMetadata.getNativeMetadataFormatName();
@@ -60,6 +64,7 @@ public class GifSequenceWriter implements ImageSequenceWriter {
     imageWriter.prepareWriteSequence(null);
   }
 
+  // helper function
   private static IIOMetadataNode _node(IIOMetadataNode root, String nodeName) {
     for (int i = 0; i < root.getLength(); ++i)
       if (root.item(i).getNodeName().equalsIgnoreCase(nodeName))
@@ -69,21 +74,20 @@ public class GifSequenceWriter implements ImageSequenceWriter {
     return node;
   }
 
-  @Override
-  public void append(BufferedImage bufferedImage) throws Exception {
-    if (iIOMetadata == null)
+  private boolean isEmpty() {
+    return Objects.isNull(iIOMetadata);
+  }
+
+  public void append(BufferedImage bufferedImage) throws IOException {
+    if (isEmpty())
       _initialize(bufferedImage.getType());
     imageWriter.writeToSequence(new IIOImage(bufferedImage, null, iIOMetadata), imageWriteParam);
   }
 
   @Override
-  public void append(Tensor tensor) throws Exception {
-    append(ImageFormat.of(tensor));
-  }
-
-  @Override
-  public void close() throws Exception {
-    imageWriter.endWriteSequence();
+  public void close() throws IOException {
+    if (!isEmpty())
+      imageWriter.endWriteSequence(); // operation invalid if no image was appended
     imageOutputStream.close();
   }
 }

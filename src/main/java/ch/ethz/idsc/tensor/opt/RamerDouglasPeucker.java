@@ -52,7 +52,7 @@ public enum RamerDouglasPeucker {
     Scalar norm = Norm._2.of(diff);
     if (Scalars.isZero(norm)) // TODO not sure what to do when |diff| == 0
       throw TensorRuntimeException.of(tensor);
-    Tensor vector = diff.multiply(norm.invert());
+    Tensor vector = diff.divide(norm);
     Tensor cross2 = Tensors.of(vector.Get(1).negate(), vector.Get(0));
     Scalar dmax = RealScalar.ZERO;
     int split = -1;

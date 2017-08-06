@@ -7,12 +7,16 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Max;
 
 /** Mathematica uses the definition
+ * <pre>
  * Ramp[x] == x * UnitStep[x]
+ * </pre>
  * 
  * The tensor library simply uses
+ * <pre>
  * Ramp[x] == Max[0, x]
+ * </pre>
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Ramp.html">Ramp</a> */
 public enum Ramp implements ScalarUnaryOperator {
   FUNCTION;

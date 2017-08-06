@@ -1,18 +1,21 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import java.util.Arrays;
+
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class ColorDataGradientsTest extends TestCase {
   public void testSimple() {
     for (ColorDataFunction cdf : ColorDataGradients.values()) {
-      cdf.apply(RealScalar.ZERO);
-      cdf.apply(RealScalar.ONE);
+      assertEquals(Dimensions.of(cdf.apply(RealScalar.ZERO)), Arrays.asList(4));
+      assertEquals(Dimensions.of(cdf.apply(RealScalar.ONE)), Arrays.asList(4));
     }
   }
 

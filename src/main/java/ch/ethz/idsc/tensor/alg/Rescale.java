@@ -47,7 +47,7 @@ public enum Rescale {
         .reduce(Max::of).get(); // if a minimum exists, then there exists a maximum
     if (min.equals(max))
       return tensor.map(Scalar::zero); // set all entries to 0
-    Scalar factor = max.subtract(min).invert();
-    return tensor.map(scalar -> scalar.subtract(min).multiply(factor));
+    Scalar factor = max.subtract(min);
+    return tensor.map(scalar -> scalar.subtract(min).divide(factor));
   }
 }

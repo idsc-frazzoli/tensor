@@ -22,7 +22,7 @@ public class MeanTest extends TestCase {
     Random rnd = new Random();
     Tensor tensor = Array.of(l -> RealScalar.of(100 + 100 * rnd.nextGaussian()), 10000);
     Scalar mean1 = Mean.of(tensor).Get();
-    Scalar mean2 = Total.of(tensor.multiply(RealScalar.of(tensor.length()).invert())).Get();
+    Scalar mean2 = Total.of(tensor.multiply(RealScalar.of(tensor.length()).reciprocal())).Get();
     // possibly use error relative to magnitude
     assertEquals(mean1.subtract(mean2).map(Chop._12), RealScalar.ZERO);
   }
@@ -37,11 +37,18 @@ public class MeanTest extends TestCase {
     }
   }
 
-  public void testEmpty2() {
+  public void testEmpty2a() {
     Optional<Tensor> optional = Mean.optional(Tensors.empty());
     assertFalse(optional.isPresent());
     Scalar s = optional.orElse(RealScalar.ZERO).Get();
     assertEquals(s, RealScalar.ZERO);
+  }
+
+  public void testEmpty2b() {
+    Optional<Tensor> optional = Mean.optional(Tensors.vector(2, 3, 4));
+    assertTrue(optional.isPresent());
+    Scalar s = optional.get().Get();
+    assertEquals(s, RealScalar.of(3));
   }
 
   public void testEmpty3() {

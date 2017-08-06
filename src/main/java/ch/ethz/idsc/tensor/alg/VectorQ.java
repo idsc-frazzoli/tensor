@@ -16,7 +16,6 @@ public enum VectorQ {
   /** @param tensor
    * @param length
    * @return true if tensor is a vector with given length */
-  // EXPERIMENTAL
   public static boolean ofLength(Tensor tensor, int length) {
     return tensor.length() == length && of(tensor);
   }

@@ -99,6 +99,7 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   /***************************************************/
+  // final default implementations
   @Override // from Scalar
   public final Scalar add(Tensor tensor) {
     return plus((Scalar) tensor);
@@ -111,21 +112,21 @@ public abstract class AbstractScalar implements Scalar {
 
   @Override // from Scalar
   public final Tensor map(Function<Scalar, ? extends Tensor> function) {
-    return function.apply(this);
+    return function.apply(this).copy();
   }
 
   /***************************************************/
-  /** not final because for {@link DoubleScalar} division should be carried out directly */
+  // non-final default implementations
+  // override for precision or speed
+  // ---
   @Override // from Scalar
   public Scalar divide(Scalar scalar) {
-    return multiply(scalar.invert());
+    return multiply(scalar.reciprocal());
   }
 
-  /** @param scalar
-   * @return */
-  // EXPERIMENTAL
+  @Override // from Scalar
   public Scalar under(Scalar scalar) {
-    return invert().multiply(scalar);
+    return reciprocal().multiply(scalar);
   }
 
   /***************************************************/

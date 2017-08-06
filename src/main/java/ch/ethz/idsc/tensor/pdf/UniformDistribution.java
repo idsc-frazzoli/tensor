@@ -26,6 +26,13 @@ public class UniformDistribution implements Distribution, //
     return new UniformDistribution(min, max);
   }
 
+  /** @param min < max
+   * @param max
+   * @return uniform distribution over the half-open interval [min, max) */
+  public static Distribution of(Number min, Number max) {
+    return of(RealScalar.of(min), RealScalar.of(max));
+  }
+
   /** @return uniform distribution over the half-open unit interval [0, 1) */
   public static Distribution unit() {
     return UNIT;
@@ -57,7 +64,7 @@ public class UniformDistribution implements Distribution, //
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    return width.invert();
+    return width.reciprocal();
   }
 
   @Override // from CDF

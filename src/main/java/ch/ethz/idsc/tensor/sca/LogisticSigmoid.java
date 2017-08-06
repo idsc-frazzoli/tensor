@@ -20,7 +20,7 @@ public enum LogisticSigmoid implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return RealScalar.ONE.add(Exp.FUNCTION.apply(scalar.negate())).invert();
+    return RealScalar.ONE.add(Exp.FUNCTION.apply(scalar.negate())).reciprocal();
   }
 
   /** @param tensor

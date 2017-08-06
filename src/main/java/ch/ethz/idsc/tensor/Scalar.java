@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 
 /** on top of the capabilities of a {@link Tensor} a scalar can be inverted
@@ -14,7 +15,7 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
  * do not change during the lifetime of the instance.
  * All setter functions throw an exception when invoked on a {@link Scalar}. */
 public interface Scalar extends Tensor {
-  /** Scalar::length returns LENGTH */
+  /** {@link Scalar#length()} returns LENGTH, as used in {@link Dimensions} */
   static final int LENGTH = -1;
 
   /** scalar addition
@@ -37,41 +38,76 @@ public interface Scalar extends Tensor {
   @Override // from Tensor
   Scalar negate();
 
-  /***************************************************/
-  /** multiplicative inverse except for {@link Scalar#zero()}
+  /** a.divide(b) == a / b
    * 
-   * for zero().inverse() there are two possible outcomes
-   * 1) throw an exception, example {@link RationalScalar}
-   * 2) result is encoded as "Infinity", example {@link DoubleScalar}
+   * <p>The default implementation is a / b == a * (b ^ -1) as
+   * <code>multiply(scalar.reciprocal())</code>
    * 
-   * @return multiplicative inverse of this scalar
-   * @throws ArithmeticException if scalar equals to 0, or cannot be inverted */
-  Scalar invert();
-
-  /** implemented as
-   * <code>multiply(scalar.invert())</code>
+   * <p>Implementations of {@link Scalar} may override the default
+   * implementation due to improved numerical stability or speed,
+   * for example {@link DoubleScalar}.
    * 
    * @param scalar
    * @return this divided by input scalar */
+  @Override // from Tensor
   Scalar divide(Scalar scalar);
+
+  /***************************************************/
+  /** a.under(b) == b / a
+   * 
+   * <p>The default implementation is b / a == (a ^ -1) * b as
+   * <code>reciprocal().multiply(scalar)</code>
+   * 
+   * <p>The application layer is discouraged from using the method.
+   * The application layer should use divide instead.
+   * 
+   * <p>Function exists so that a scalar implementation can delegate
+   * the computation of divide to the class of the input scalar:
+   * a.divide(b) == b.under(a)
+   * 
+   * @param scalar
+   * @return input scalar divided by this */
+  Scalar under(Scalar scalar);
+
+  /** multiplicative inverse except for {@link Scalar#zero()}
+   * 
+   * <p>The application layer is encouraged to use {@link #divide(Scalar)}
+   * instead of the reciprocal whenever possible.
+   * The use of divide typically leads to more accurate results
+   * than the use of the reciprocal.
+   * 
+   * <p>For zero().reciprocal() there are two possible outcomes
+   * 1) throw an exception, example {@link RationalScalar}
+   * 2) result is encoded as "Infinity", example {@link DoubleScalar}
+   * 
+   * <p>The inverse is subject to numerical constraints, for instance
+   * 1.0 / 4.9E-324 == Infinity
+   * 
+   * <p>Quote from Wikipedia: "The term reciprocal was in common use at
+   * least as far back as the 3rd edition of Encyclopædia Britannica (1797)
+   * to describe two numbers whose product is 1."
+   * 
+   * @return multiplicative inverse of this scalar
+   * @throws ArithmeticException if scalar equals to 0, or cannot be inverted */
+  Scalar reciprocal();
 
   /** absolute value
    * 
-   * @return typically distance from zero as {@link RealScalar},
-   * generally non-negative version of this.
+   * @return non-negative distance from zero of this
    * @throws TensorRuntimeException if absolute value is not defined
    * in the case of {@link StringScalar} for instance */
   Scalar abs();
 
-  /** classes should only override this if consistency is possible
-   * for instance:
-   * {@link ComplexScalar} would require two numbers, therefore
-   * returning a single number is not implemented.
+  /** classes should override this method only if consistency is possible
+   * for instance, a {@link ComplexScalar} would require two numbers:
+   * the real and imaginary part, therefore a complex scalar does not
+   * return a single number, but throws an exception.
    * 
-   * <p>two scalars that are equal should return two number()s that are equal numerically.
+   * <p>Two scalars that are equal should return two number()s that are
+   * equal numerically, for instance (double)2.0 == (int)2.
    * 
    * @return this representation as {@link Number}
-   * @throws TensorRuntimeException */
+   * @throws TensorRuntimeException if scalar type does not support method */
   Number number();
 
   /** zero() is provided for the implementation of generic functions and algorithms,

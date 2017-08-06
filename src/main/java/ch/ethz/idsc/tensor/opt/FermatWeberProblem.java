@@ -78,8 +78,8 @@ public class FermatWeberProblem implements Serializable {
     int index = ArgMin.of(dist);
     if (Scalars.isZero(dist.Get(index)))
       return point.copy();
-    Tensor distinv = weights.pmul(dist.map(Scalar::invert));
-    return distinv.dot(tensor).multiply(Total.of(distinv).Get().invert());
+    Tensor distinv = weights.pmul(dist.map(Scalar::reciprocal));
+    return distinv.dot(tensor).divide(Total.of(distinv).Get());
   }
 
   /** @param max_iterations beyond which optimization method stops

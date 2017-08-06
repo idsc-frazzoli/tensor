@@ -32,7 +32,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function {@link Tensor#get(Integer...)}
    * to extract <em>all</em> elements from the respective dimension.
    * 
-   * The value of ALL is deliberately not chosen to equal -1, since an index of -1
+   * <p>The value of ALL is deliberately not chosen to equal -1, since an index of -1
    * could likely be the result of a mistake in the application layer.
    * 
    * Constant ALL <em>cannot</em> be used in {@link Tensor#set(Tensor, Integer...)} */
@@ -68,14 +68,19 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return new immutable instance of this tensor */
   Tensor unmodifiable();
 
-  /** duplicate mutable content of this tensor into new instance
+  /** duplicate mutable content of this tensor into new instance.
+   * Modifications to the copy do not effect the original instance.
+   * A copy of an unmodifiable tensor is modifiable
+   * 
+   * <p>Remark: the call tensor.get(), i.e. tensor.get(Arrays.asList()) with
+   * an empty index list also returns a complete copy() of the tensor instance.
    * 
    * @return clone of this */
   Tensor copy();
 
   /** non-negative index[...] refer to the position in the tensor
    * 
-   * Special value:
+   * <p>Special value:
    * <code>index[dim] == Tensor.ALL</code> refers to all entries of tensor dimension dim
    * 
    * @param index
@@ -93,30 +98,35 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return copy of this[index[0],index[1],...,All] */
   Tensor get(List<Integer> index);
 
-  /** set tensor as element at location this[index[0], index[1], ...].
+  /** set copy of tensor as element at location this[index[0], index[1], ...].
    * The operation is invalid if this tensor has been cast as unmodifiable.
+   * 
+   * <p>Tensor.ALL in the index array refers to all elements along that dimension.
    * 
    * <p>For instance,
    * <ul>
    * <li><code>matrix.set(scalar, 3, 4)</code> represents the assignment <code>matrix[3, 4]=scalar</code>
    * <li><code>matrix.set(row, 6)</code> represents the assignment <code>matrix[6, :]=row</code>
+   * <li><code>matrix.set(col, Tensor.ALL, 5)</code> represents the assignment <code>matrix[:, 5]=col</code>
    * </ul>
    * 
    * @param tensor
-   * @param index
-   * @throws Exception if set() is invoked on an instance of {@link Scalar} */
+   * @param index non-empty
+   * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty */
   void set(Tensor tensor, Integer... index);
 
   /** replaces element x at index with <code>function.apply(x)</code>
    * The operation is invalid if this tensor has been cast as unmodifiable.
+   * 
+   * <p>Tensor.ALL in the index array refers to all elements along that dimension.
    * 
    * <p>set(...) allows to implement in-place operations such as <code>a += 3;</code>
    * 
    * <p>the operation may change the structure/dimensions/rank of the tensor.
    * 
    * @param function
-   * @param index
-   * @throws Exception if set() is invoked on an instance of {@link Scalar}
+   * @param index non-empty
+   * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty
    * @see Tensor#set(Tensor, Integer...) */
   <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index);
 
@@ -146,7 +156,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return number of entries on the first level; -1 for {@link Scalar}s */
   int length();
 
-  /** <p>function is equivalent to the checks
+  /** <p>function is equivalent to the predicates
    * <ul>
    * <li><code>length() == Scalar.LENGTH</code>
    * <li><code>this instanceof Scalar</code>
@@ -221,11 +231,17 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return this element-wise multiply input tensor. */
   Tensor pmul(Tensor tensor);
 
-  /** scalar multiplication, i.e. scaling, of tensor entries
+  /** scalar multiplication, i.e. scaling of tensor entries
    * 
    * @param scalar
-   * @return tensor with elements of this tensor multiplied with scalar */
+   * @return tensor with elements of this tensor multiplied with given scalar */
   Tensor multiply(Scalar scalar);
+
+  /** scalar division, i.e. scaling of tensor entries by reciprocal of given scalar
+   * 
+   * @param scalar
+   * @return tensor with elements of this tensor divided by given scalar */
+  Tensor divide(Scalar scalar);
 
   /** dot product as in Mathematica
    * 

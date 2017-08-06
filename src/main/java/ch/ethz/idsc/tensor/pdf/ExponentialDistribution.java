@@ -45,12 +45,12 @@ public class ExponentialDistribution implements Distribution, //
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return lambda.invert();
+    return lambda.reciprocal();
   }
 
   @Override // from VarianceInterface
   public Scalar variance() {
-    return lambda.multiply(lambda).invert();
+    return lambda.multiply(lambda).reciprocal();
   }
 
   @Override // from PDF

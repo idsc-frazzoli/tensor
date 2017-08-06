@@ -4,7 +4,7 @@
 
 Library for tensor computation in Java 8.
 
-Version `0.3.0`
+Version `0.3.1`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
@@ -69,6 +69,29 @@ gives results in machine precision
 
 ---
 
+The tensor library implements `Quantity`, i.e. numbers with physical units, for the purpose of demonstration and testing.
+Several algorithms are verified to work with scalars of type `Quantity`.
+
+    Tensor matrix = Tensors.fromString( //
+        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
+        Quantity::fromString);
+    CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
+    System.out.println(cd.diagonal());
+    System.out.println(Pretty.of(cd.getL()));
+    System.out.println(cd.det().divide(Quantity.of(20, "[m^2*rad]")));
+
+gives
+
+    {60[m^2], 5[rad^2], 1/3[kg^2]}
+    [
+     [             1              0              0 ]
+     [ 1/2[m^-1*rad]              1              0 ]
+     [  1/3[kg*m^-1]   1[kg*rad^-1]              1 ]
+    ]
+    5[kg^2*rad]
+
+---
+
 Linear programming
 
     Tensor x = LinearProgramming.maxLessEquals( //
@@ -80,6 +103,31 @@ Linear programming
 gives
 
     {4/3, 13/3}
+
+---
+
+Indices for the `set` and `get` functions start from zero like in C/Java:
+
+    Tensor matrix = Array.zeros(3, 4);
+    matrix.set(Tensors.vector(9, 8, 4, 5), 2);
+    matrix.set(Tensors.vector(6, 7, 8), Tensor.ALL, 1);
+    System.out.println(Pretty.of(matrix));
+
+gives
+
+    [
+     [ 0  6  0  0 ]
+     [ 0  7  0  0 ]
+     [ 9  8  4  5 ]
+    ]
+
+Extraction of the 4th column
+
+    System.out.println(matrix.get(Tensor.ALL, 3));
+
+gives the vector
+
+    {0, 0, 5}
 
 ---
 
@@ -152,29 +200,6 @@ gives
 
 ---
 
-The tensor library implements `Quantity`, i.e. numbers with physical units, for the purpose of demonstration and testing.
-Several algorithms are verified to work with scalars of type `Quantity`.
-
-    Tensor matrix = Tensors.fromString( //
-        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
-        Quantity::fromString);
-    CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
-    System.out.println(cd.diagonal());
-    System.out.println(Pretty.of(cd.getL()));
-    System.out.println(cd.det());
-
-gives
-
-    {60[m^2], 5[rad^2], 1/3[kg^2]}
-    [
-     [             1              0              0 ]
-     [ 1/2[m^-1*rad]              1              0 ]
-     [  1/3[kg*m^-1]   1[kg*rad^-1]              1 ]
-    ]
-    100[kg^2*m^2*rad^2]
-
----
-
 Image synthesis
 
     int n = 251;
@@ -205,7 +230,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.3.0</version>
+        <version>0.3.1</version>
       </dependency>
     </dependencies>
 
@@ -213,7 +238,7 @@ The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.3.0/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.3.1/*
 
 ## Optional
 
@@ -239,4 +264,4 @@ The library is used in the projects:
 * `QueuingNetworks`
 * `SimBus`
 
-The repository has over `1070` unit tests.
+The repository has over `1130` unit tests.

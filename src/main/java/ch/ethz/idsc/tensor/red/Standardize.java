@@ -13,6 +13,6 @@ enum Standardize {
     final Tensor mean = Mean.of(vector);
     Tensor center = Tensor.of(vector.flatten(0).map(entry -> entry.subtract(mean)));
     // StandardDeviation subtracts the mean internally
-    return center.multiply(StandardDeviation.ofVector(vector).Get().invert());
+    return center.divide(StandardDeviation.ofVector(vector).Get());
   }
 }

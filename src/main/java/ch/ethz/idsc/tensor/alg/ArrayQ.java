@@ -5,16 +5,16 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** ArrayQ is <em>not</em> consistent with Mathematica for scalar input:
- * 
+ * <pre>
  * Mathematica::ArrayQ[3] == False
  * Tensor::ArrayQ[Scalar] == True
+ * </pre>
  * 
- * The reason is that the tensor library considers {@link Scalar}s
+ * <p>The tensor library considers {@link Scalar}s
  * to be Tensors with regular (=array) structure of rank 0.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArrayQ.html">ArrayQ</a> */
-// EXPERIMENTAL
 public enum ArrayQ {
   ;
   /** Examples:

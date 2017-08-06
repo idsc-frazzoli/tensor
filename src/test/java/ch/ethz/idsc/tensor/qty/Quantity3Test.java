@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -208,9 +209,9 @@ public class Quantity3Test extends TestCase {
     }
   }
 
-  public void testInvert() {
+  public void testReciprocal() {
     Scalar qs1 = Quantity.of(4, "[m]");
-    assertEquals(qs1.invert().toString(), "1/4[m^-1]");
+    assertEquals(qs1.reciprocal().toString(), "1/4[m^-1]");
   }
 
   public void testRamp() {
@@ -282,5 +283,11 @@ public class Quantity3Test extends TestCase {
     assertEquals(Real.of(s), Quantity.fromString("3[m*s]"));
     assertEquals(Imag.of(s), Quantity.fromString("5[m*s]"));
     assertEquals(Conjugate.of(s), Quantity.fromString("3-5*I[m*s]"));
+  }
+
+  public void testComplex2() {
+    Scalar s1 = ComplexScalar.of(1, 2);
+    Scalar s2 = Quantity.fromString("0[m*s]");
+    assertEquals(s1, s1.add(s2));
   }
 }
