@@ -16,10 +16,17 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class NativeImageFormatTest extends TestCase {
-  public void testSimple() {
+  public void testSimpleGray() {
     Distribution distribution = DiscreteUniformDistribution.of(0, 256);
     Tensor image = RandomVariate.of(distribution, 100, 200);
     Tensor bimap = NativeImageFormat.fromGrayscale(NativeImageFormat.of(image));
+    assertEquals(image, bimap);
+  }
+
+  public void testSimpleColor() {
+    Distribution distribution = DiscreteUniformDistribution.of(0, 256);
+    Tensor image = RandomVariate.of(distribution, 100, 200, 4);
+    Tensor bimap = NativeImageFormat.from(NativeImageFormat.of(image));
     assertEquals(image, bimap);
   }
 
@@ -33,4 +40,49 @@ public class NativeImageFormatTest extends TestCase {
     assertEquals(tensor.Get(2, 2), RealScalar.of(94));
     assertEquals(Dimensions.of(tensor), Arrays.asList(9, 15));
   }
+  // public void testSimple2() {
+  // Distribution distribution = DiscreteUniformDistribution.of(0, 256);
+  // int n = 1000;
+  // Tensor image = RandomVariate.of(distribution, n, n);
+  // {
+  // NativeImageFormat.toTYPE_BYTE_GRAY(image, n, n);
+  // NativeImageFormat.toTYPE_BYTE_GRAY2(image, n, n);
+  // }
+  // {
+  // long tic = System.nanoTime();
+  // NativeImageFormat.toTYPE_BYTE_GRAY(image, n, n);
+  // System.out.println(" GR1 " + (System.nanoTime() - tic));
+  // }
+  // {
+  // long tic = System.nanoTime();
+  // NativeImageFormat.toTYPE_BYTE_GRAY2(image, n, n);
+  // System.out.println(" GR2 " + (System.nanoTime() - tic));
+  // }
+  // // assertEquals(image, bimap);
+  // }
+  // public void testColorBimap2() {
+  // Distribution distribution = DiscreteUniformDistribution.of(0, 256);
+  // Tensor image = RandomVariate.of(distribution, 256, 256, 4);
+  // {
+  // ImageFormat.toTYPE_INT_ARGB(image, 256, 256);
+  // NativeImageFormat.toTYPE_INT_ARGB(Transpose.of(image), 256, 256);
+  // NativeImageFormat.toTYPE_INT_ARGB(image, 256, 256);
+  // }
+  // // ---
+  // {
+  // long tic = System.nanoTime();
+  // ImageFormat.toTYPE_INT_ARGB(image, 256, 256);
+  // System.out.println(" IF " + (System.nanoTime() - tic));
+  // }
+  // {
+  // long tic = System.nanoTime();
+  // NativeImageFormat.toTYPE_INT_ARGB(Transpose.of(image), 256, 256);
+  // System.out.println("NIFT " + (System.nanoTime() - tic));
+  // }
+  // {
+  // long tic = System.nanoTime();
+  // NativeImageFormat.toTYPE_INT_ARGB(image, 256, 256);
+  // System.out.println("NIF " + (System.nanoTime() - tic));
+  // }
+  // }
 }

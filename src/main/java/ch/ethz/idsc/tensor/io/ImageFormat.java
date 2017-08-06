@@ -13,10 +13,13 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.img.ColorFormat;
 
-/** The {@link Dimensions} of tensors that represent images are
- * <code>WIDTH x HEIGHT x 4</code>
+/** The {@link Dimensions} of tensors that represent color images are
+ * <code>width x height x 4</code>
  * 
  * <p>The 4 entries in the last dimension are RGBA.
+ * 
+ * The {@link Dimensions} of tensors that represent gray scale images are
+ * <code>width x height</code>
  * 
  * <p>This convention is consistent with Java
  * {@link Graphics2D}, {@link BufferedImage}, ...
@@ -45,7 +48,7 @@ public enum ImageFormat {
 
   /** image export works with PNG format.
    * 
-   * <p>do not export to JPG, because the color channels are not compatible!
+   * <p>do not export color images to JPG, because the color channels are not compatible!
    * 
    * @param tensor
    * @return image of type BufferedImage.TYPE_BYTE_GRAY or BufferedImage.TYPE_INT_ARGB */
@@ -53,16 +56,15 @@ public enum ImageFormat {
     List<Integer> dims = Dimensions.of(tensor);
     if (dims.size() == 2)
       return NativeImageFormat.toTYPE_BYTE_GRAY(Transpose.of(tensor), dims.get(0), dims.get(1));
-    return toTYPE_INT_ARGB(tensor, dims);
+    return toTYPE_INT_ARGB(tensor, dims.get(0), dims.get(1));
   }
 
-  // helper function
-  private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, List<Integer> dims) {
-    BufferedImage bufferedImage = new BufferedImage(dims.get(0), dims.get(1), BufferedImage.TYPE_INT_ARGB);
-    // TODO use DataBufferByte
-    Tensor res = TensorMap.of(vector -> RealScalar.of(ColorFormat.toInt(vector)), tensor, 2);
-    int[] array = Primitives.toArrayInt(Transpose.of(res));
-    bufferedImage.setRGB(0, 0, dims.get(0), dims.get(1), array, 0, dims.get(0));
+  // implemented here to postpone transpose for as long as possible
+  private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, int width, int height) {
+    BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+    Tensor argb = TensorMap.of(vector -> RealScalar.of(ColorFormat.toInt(vector)), tensor, 2);
+    int[] array = Primitives.toArrayInt(Transpose.of(argb));
+    bufferedImage.setRGB(0, 0, width, height, array, 0, width);
     return bufferedImage;
   }
 }
