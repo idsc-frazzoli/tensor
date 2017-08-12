@@ -149,9 +149,9 @@ import java.util.stream.Stream;
     return index.length == 0 ? list.size() : _length(Arrays.asList(index));
   }
 
-  private int _length(List<Integer> index) { // input list has size at least one
-    TensorImpl impl = (TensorImpl) list.get(index.get(0));
-    return 1 == index.size() ? impl.list.size() : impl._length(index.subList(1, index.size()));
+  private int _length(List<Integer> index) {
+    Tensor entry = list.get(index.get(0)); // input list has size at least one
+    return 1 == index.size() ? entry.length() : ((TensorImpl) entry)._length(index.subList(1, index.size()));
   }
 
   @Override
