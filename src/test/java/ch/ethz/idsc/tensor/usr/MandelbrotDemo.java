@@ -13,6 +13,7 @@ import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.Arg;
+import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MandelbrotDemo {
   ;

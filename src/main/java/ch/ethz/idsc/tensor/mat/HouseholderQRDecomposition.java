@@ -93,22 +93,22 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     return IdentityMatrix.of(n).subtract(wcwt(v, cv.multiply(factor)));
   }
 
-  @Override
+  @Override // from QRDecomposition
   public Tensor getInverseQ() {
     return Qinv;
   }
 
-  @Override
+  @Override // from QRDecomposition
   public Tensor getR() {
     return R;
   }
 
-  @Override
+  @Override // from QRDecomposition
   public Tensor getQ() {
     return ConjugateTranspose.of(Qinv);
   }
 
-  @Override
+  @Override // from QRDecomposition
   public Scalar det() {
     if (n != m)
       return RealScalar.ZERO;

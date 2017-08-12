@@ -84,7 +84,7 @@ public class AnimatedGifWriter implements AutoCloseable {
     imageWriter.writeToSequence(new IIOImage(bufferedImage, null, iIOMetadata), imageWriteParam);
   }
 
-  @Override
+  @Override // from AutoCloseable
   public void close() throws IOException {
     if (!isEmpty())
       imageWriter.endWriteSequence(); // operation invalid if no image was appended

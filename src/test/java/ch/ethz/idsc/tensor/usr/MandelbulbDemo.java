@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.lie.NylanderPower;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MandelbulbDemo {
   ;

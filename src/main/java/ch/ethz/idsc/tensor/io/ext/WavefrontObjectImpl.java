@@ -14,17 +14,17 @@ class WavefrontObjectImpl implements WavefrontObject {
     this.string = string;
   }
 
-  @Override
+  @Override // from WavefrontObject
   public String name() {
     return string;
   }
 
-  @Override
+  @Override // from WavefrontObject
   public Tensor faces() {
     return faces.unmodifiable();
   }
 
-  @Override
+  @Override // from WavefrontObject
   public Tensor normals() {
     return normals.unmodifiable();
   }

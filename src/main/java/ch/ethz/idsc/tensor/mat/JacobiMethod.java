@@ -88,13 +88,13 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
             final int fip = ip;
             final int fiq = iq;
             IntStream.range(0, ip).parallel() //
-                .forEach(j -> rotate(A, s, tau, j, fip, j, fiq));
+                .forEach(j -> _rotate(A, s, tau, j, fip, j, fiq));
             IntStream.range(ip + 1, iq).parallel() //
-                .forEach(j -> rotate(A, s, tau, fip, j, j, fiq));
+                .forEach(j -> _rotate(A, s, tau, fip, j, j, fiq));
             IntStream.range(iq + 1, n).parallel() //
-                .forEach(j -> rotate(A, s, tau, fip, j, fiq, j));
+                .forEach(j -> _rotate(A, s, tau, fip, j, fiq, j));
             IntStream.range(0, n).parallel() //
-                .forEach(j -> rotate(V, s, tau, fip, j, fiq, j));
+                .forEach(j -> _rotate(V, s, tau, fip, j, fiq, j));
           }
         }
       }
@@ -105,20 +105,20 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     throw TensorRuntimeException.of(A);
   }
 
-  private static void rotate(Tensor A, Scalar s, Scalar tau, int i, int j, int k, int l) {
-    Scalar g = A.Get(i, j);
-    Scalar h = A.Get(k, l);
-    A.set(g.subtract(s.multiply(h.add(g.multiply(tau)))), i, j);
-    A.set(h.add(s.multiply(g.subtract(h.multiply(tau)))), k, l);
-  }
-
-  @Override
+  @Override // from Eigensystem
   public Tensor vectors() {
     return V;
   }
 
-  @Override
+  @Override // from Eigensystem
   public Tensor values() {
     return d;
+  }
+
+  private static void _rotate(Tensor A, Scalar s, Scalar tau, int i, int j, int k, int l) {
+    Scalar g = A.Get(i, j);
+    Scalar h = A.Get(k, l);
+    A.set(g.subtract(s.multiply(h.add(g.multiply(tau)))), i, j);
+    A.set(h.add(s.multiply(g.subtract(h.multiply(tau)))), k, l);
   }
 }

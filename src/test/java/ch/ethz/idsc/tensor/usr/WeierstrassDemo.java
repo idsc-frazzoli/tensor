@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum WeierstrassDemo {
   ;

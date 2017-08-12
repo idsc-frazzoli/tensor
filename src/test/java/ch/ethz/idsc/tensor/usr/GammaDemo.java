@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.red.Nest;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Gamma;
+import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** inspired by mathematica's documentation of Gamma */
 enum GammaDemo {

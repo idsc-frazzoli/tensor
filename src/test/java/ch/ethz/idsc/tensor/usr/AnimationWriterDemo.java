@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.io.AnimationWriter;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum AnimationWriterDemo {
   ;

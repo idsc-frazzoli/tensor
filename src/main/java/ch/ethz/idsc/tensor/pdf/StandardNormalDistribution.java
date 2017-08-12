@@ -11,15 +11,15 @@ import ch.ethz.idsc.tensor.sca.Exp;
 enum StandardNormalDistribution implements Distribution, PDF, CDF {
   INSTANCE;
   // ---
-  private static final Scalar den = DoubleScalar.of(0.398942280401432677939946059934);
-  private static final Scalar div = DoubleScalar.of(-0.5);
+  private static final Scalar DEN = DoubleScalar.of(0.398942280401432677939946059934);
+  private static final Scalar NEGATIVE_HALF = DoubleScalar.of(-0.5);
   private static final Scalar HALF = RationalScalar.of(1, 2);
   private static final Scalar FACTOR = DoubleScalar.of(-Math.sqrt(0.5));
 
   // ---
   @Override // from PDF
   public Scalar at(Scalar x) {
-    return den.multiply(Exp.of(AbsSquared.of(x).multiply(div)));
+    return DEN.multiply(Exp.of(AbsSquared.of(x).multiply(NEGATIVE_HALF)));
   }
 
   @Override // from CDF

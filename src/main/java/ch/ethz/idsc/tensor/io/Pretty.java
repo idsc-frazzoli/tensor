@@ -23,7 +23,7 @@ public class Pretty {
     return new Pretty(tensor).toString();
   }
 
-  /***************************************************/
+  // ---
   private final StringBuilder stringBuilder = new StringBuilder();
   private final String format;
   private int level = 0;

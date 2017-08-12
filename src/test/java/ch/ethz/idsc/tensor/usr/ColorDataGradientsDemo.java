@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.img.ColorDataFunction;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.img.ImageResize;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** export of available {@link ColorDataGradients} to a single image */
 enum ColorDataGradientsDemo {

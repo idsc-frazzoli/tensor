@@ -1,9 +1,9 @@
 // code by jph
-package ch.ethz.idsc.tensor.usr;
+package ch.ethz.idsc.tensor.utl;
 
 import java.io.File;
 
-/* package */ enum UserHome {
+public enum UserHome {
   ;
   public static File file(String filename) {
     return new File(System.getProperty("user.home"), filename);

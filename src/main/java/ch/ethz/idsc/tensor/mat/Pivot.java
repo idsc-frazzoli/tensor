@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.red.ArgMax;
 /* package */ interface Pivot {
   /** selects entry with largest absolute value */
   static final Pivot argMaxAbs = new Pivot() {
-    @Override
+    @Override // from Pivot
     public int get(int c0, int j, int[] ind, Tensor lhs) {
       return c0 + ArgMax.of( //
           Tensor.of(IntStream.range(c0, ind.length) //
@@ -25,7 +25,7 @@ import ch.ethz.idsc.tensor.red.ArgMax;
    * the return value is c0 in the case when the element at (ind[c0],j)
    * is non-zero, but also if none of the candidates is non-zero */
   static final Pivot firstNonZero = new Pivot() {
-    @Override
+    @Override // from Pivot
     public int get(int c0, int j, int[] ind, Tensor lhs) {
       return IntStream.range(c0, ind.length) //
           .filter(c1 -> Scalars.nonZero(lhs.Get(ind[c1], j))) //

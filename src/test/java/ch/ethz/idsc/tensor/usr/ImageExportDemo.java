@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum ImageExportDemo {
   ;

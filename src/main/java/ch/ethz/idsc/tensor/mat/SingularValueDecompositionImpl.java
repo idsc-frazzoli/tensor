@@ -74,28 +74,28 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     }
   }
 
-  @Override
+  @Override // from SingularValueDecomposition
   public Tensor getU() {
     return u.unmodifiable();
   }
 
-  @Override
+  @Override // from SingularValueDecomposition
   public Tensor values() {
     return w.unmodifiable();
   }
 
-  @Override
+  @Override // from SingularValueDecomposition
   public Tensor getV() {
     return v.unmodifiable();
   }
 
-  @Override
+  @Override // from SingularValueDecomposition
   public void setThreshold(double w_threshold) {
     this.w_threshold = w_threshold;
   }
 
   /** @return threshold strictly below which singular values are considered to be zero */
-  @Override
+  @Override // from SingularValueDecomposition
   public double getThreshold() {
     return w_threshold;
   }
