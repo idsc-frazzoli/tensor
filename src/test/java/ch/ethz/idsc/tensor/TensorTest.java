@@ -225,6 +225,12 @@ public class TensorTest extends TestCase {
     assertEquals(f, g);
   }
 
+  public void testDotIrregular() {
+    Tensor a = Tensors.vector(1, 2, 3);
+    Tensor b = Tensors.fromString("{{1,{2}},{2,{3}},{4,{5}}}");
+    assertEquals(a.dot(b), Tensors.fromString("{17, {23}}"));
+  }
+
   public void testHash() {
     Tensor a = Tensors.vectorLong(7, 2);
     Tensor b = Tensors.vectorLong(7, 2);
