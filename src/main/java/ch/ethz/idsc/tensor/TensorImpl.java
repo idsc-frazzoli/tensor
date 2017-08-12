@@ -10,10 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import ch.ethz.idsc.tensor.alg.Dimensions;
-
 /** reference implementation of the interface Tensor
- * parallel stream processing is used in dot product */
+ * parallel stream processing may be used in dot product */
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---
@@ -195,20 +193,20 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @Override
   public Tensor add(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
-    return Tensor.of(_range(impl).map(index -> list.get(index).add(impl.list.get(index))));
+    return Tensor.of(_range(impl).mapToObj(index -> list.get(index).add(impl.list.get(index))));
   }
 
   @Override
   public Tensor subtract(Tensor tensor) {
     // return add(tensor.negate());
     TensorImpl impl = (TensorImpl) tensor;
-    return Tensor.of(_range(impl).map(index -> list.get(index).subtract(impl.list.get(index))));
+    return Tensor.of(_range(impl).mapToObj(index -> list.get(index).subtract(impl.list.get(index))));
   }
 
   @Override
   public Tensor pmul(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
-    return Tensor.of(_range(impl).map(index -> list.get(index).pmul(impl.list.get(index))));
+    return Tensor.of(_range(impl).mapToObj(index -> list.get(index).pmul(impl.list.get(index))));
   }
 
   @Override
@@ -221,26 +219,25 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
     return Tensor.of(list.stream().map(tensor -> tensor.divide(scalar)));
   }
 
+  /** parallel stream processing can accelerate the computation of the dot-product
+   * however, for small vectors or matrices, serial computation is faster.
+   * A simple heuristic should determine whether parallel processing is beneficial. */
   @Override
   public Tensor dot(Tensor tensor) {
-    return _dot(Dimensions.of(this), (TensorImpl) tensor);
-  }
-
-  private Tensor _dot(List<Integer> dimensions, TensorImpl impl) {
-    if (1 < dimensions.size())
-      return Tensor.of(list.stream() //
-          .parallel() // parallel because of subsequent reduce
-          .map(entry -> ((TensorImpl) entry)._dot(dimensions.subList(1, dimensions.size()), impl)));
-    return _range(impl).map(index -> impl.list.get(index).multiply((Scalar) list.get(index))) //
-        .reduce(Tensor::add).orElse(RealScalar.ZERO);
+    if (list.isEmpty() || list.get(0).isScalar()) { // quick hint whether this is a vector
+      TensorImpl impl = (TensorImpl) tensor;
+      return _range(impl).mapToObj(index -> impl.list.get(index).multiply((Scalar) list.get(index))) //
+          .reduce(Tensor::add).orElse(RealScalar.ZERO);
+    }
+    return Tensor.of(list.stream().map(entry -> entry.dot(tensor)));
   }
 
   // helper function
-  private Stream<Integer> _range(TensorImpl impl) {
+  private IntStream _range(TensorImpl impl) {
     int length = list.size();
     if (length != impl.list.size()) // <- check is necessary otherwise error might be undetected
       throw TensorRuntimeException.of(this, impl); // dimensions mismatch
-    return IntStream.range(0, length).boxed();
+    return IntStream.range(0, length);
   }
 
   @Override

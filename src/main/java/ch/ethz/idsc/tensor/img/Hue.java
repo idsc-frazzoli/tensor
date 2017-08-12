@@ -4,64 +4,67 @@ package ch.ethz.idsc.tensor.img;
 
 import java.awt.Color;
 
-/** inspired by
+/** standalone implementation of hsv to rgb conversion
+ * 
+ * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Hue.html">Hue</a> */
 public enum Hue {
   ;
-  /** @param h is periodically mapped to [0, 1)
-   * @param s in [0, 1]
-   * @param v in [0, 1]
-   * @param a in [0, 1] */
-  public static Color of(double h, double s, double v, double a) {
+  /** when saturation is close or equal to zero, the rgb values equate to input val
+   * 
+   * @param hue is periodically mapped to [0, 1)
+   * @param sat in [0, 1] as "saturation"
+   * @param val in [0, 1] as "value"
+   * @param alpha in [0, 1] */
+  public static Color of(double hue, double sat, double val, double alpha) {
+    if (!Double.isFinite(hue))
+      throw new RuntimeException("h=" + hue);
+    // ---
     final double r;
     final double g;
     final double b;
-    if (s == 0) {
-      r = g = b = v;
-    } else {
-      h %= 1;
-      if (h < 0)
-        h += 1;
-      h *= 6;
-      int i = (int) h;
-      double f = h - i;
-      double aa = v * (1 - s);
-      double bb = v * (1 - s * f);
-      double cc = v * (1 - s * (1 - f));
-      switch (i) {
-      case 0:
-        r = v;
-        g = cc;
-        b = aa;
-        break;
-      case 1:
-        r = bb;
-        g = v;
-        b = aa;
-        break;
-      case 2:
-        r = aa;
-        g = v;
-        b = cc;
-        break;
-      case 3:
-        r = aa;
-        g = bb;
-        b = v;
-        break;
-      case 4:
-        r = cc;
-        g = aa;
-        b = v;
-        break;
-      case 5:
-      default:
-        r = v;
-        g = aa;
-        b = bb;
-        break;
-      }
+    hue %= 1;
+    if (hue < 0)
+      hue += 1;
+    hue *= 6;
+    int i = (int) hue; // if isNaN(h) then i == 0
+    double f = hue - i;
+    double aa = val * (1 - sat); // if s==0 then aa=v
+    double bb = val * (1 - sat * f); // if s==0 then bb=v
+    double cc = val * (1 - sat * (1 - f)); // if s==0 then cc=v
+    switch (i) {
+    case 0:
+      r = val;
+      g = cc;
+      b = aa;
+      break;
+    case 1:
+      r = bb;
+      g = val;
+      b = aa;
+      break;
+    case 2:
+      r = aa;
+      g = val;
+      b = cc;
+      break;
+    case 3:
+      r = aa;
+      g = bb;
+      b = val;
+      break;
+    case 4:
+      r = cc;
+      g = aa;
+      b = val;
+      break;
+    case 5:
+    default:
+      r = val;
+      g = aa;
+      b = bb;
+      break;
     }
-    return new Color((float) r, (float) g, (float) b, (float) a);
+    return new Color((float) r, (float) g, (float) b, (float) alpha);
   }
 }
