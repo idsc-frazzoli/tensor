@@ -43,7 +43,9 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   @Override // from Tensor
-  public final int length() {
+  public final int length(Integer... index) {
+    if (0 < index.length)
+      throw new IllegalArgumentException();
     return LENGTH;
   }
 

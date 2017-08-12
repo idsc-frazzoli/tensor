@@ -51,7 +51,7 @@ import java.util.stream.Stream;
 
           @Override
           public boolean hasNext() {
-            return index < length();
+            return index < list.size();
           }
 
           @Override
@@ -126,7 +126,7 @@ import java.util.stream.Stream;
     final int head = index.get(0);
     if (index.size() == 1)
       if (head == ALL)
-        IntStream.range(0, length()).forEach(pos -> list.set(pos, function.apply((T) list.get(pos)).copy()));
+        IntStream.range(0, list.size()).forEach(pos -> list.set(pos, function.apply((T) list.get(pos)).copy()));
       else
         list.set(head, function.apply((T) list.get(head)).copy());
     else {
@@ -145,8 +145,13 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public int length() {
-    return list.size();
+  public int length(Integer... index) {
+    return index.length == 0 ? list.size() : _length(Arrays.asList(index));
+  }
+
+  private int _length(List<Integer> index) { // input list has size at least one
+    TensorImpl impl = (TensorImpl) list.get(index.get(0));
+    return 1 == index.size() ? impl.list.size() : impl._length(index.subList(1, index.size()));
   }
 
   @Override

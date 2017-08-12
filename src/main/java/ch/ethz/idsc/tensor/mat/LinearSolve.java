@@ -56,7 +56,7 @@ public enum LinearSolve {
   }
 
   private static Tensor _vector(Tensor m, Tensor b) {
-    int cols = m.get(0).length();
+    int cols = m.length(0);
     Tensor r = RowReduce.of(Join.of(1, m, Partition.of(b, 1)));
     Tensor x = Array.zeros(cols);
     int j = 0;

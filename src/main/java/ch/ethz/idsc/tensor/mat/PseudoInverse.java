@@ -16,7 +16,7 @@ public enum PseudoInverse {
   /** @param matrix
    * @return pseudoinverse of matrix */
   public static Tensor of(Tensor matrix) {
-    return matrix.get(0).length() <= matrix.length() ? //
+    return matrix.length(0) <= matrix.length() ? //
         of(SingularValueDecomposition.of(matrix)) : //
         Transpose.of(of(Transpose.of(matrix)));
   }

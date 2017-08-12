@@ -36,7 +36,7 @@ public enum Det {
   // helper function
   private static Scalar _of(Tensor matrix, Pivot pivot) {
     final int n = matrix.length();
-    final int m = matrix.get(0).length();
+    final int m = matrix.length(0);
     if (m == 0)
       throw TensorRuntimeException.of(matrix);
     if (n == m) // square

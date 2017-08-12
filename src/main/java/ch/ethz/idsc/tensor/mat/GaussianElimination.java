@@ -66,7 +66,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   GaussianElimination(Tensor matrix, Pivot pivot) {
     lhs = matrix.copy();
     int n = lhs.length();
-    int m = lhs.get(0).length();
+    int m = lhs.length(0);
     ind = new int[n];
     rhs = null;
     IntStream.range(0, n).forEach(index -> ind[index] = index);

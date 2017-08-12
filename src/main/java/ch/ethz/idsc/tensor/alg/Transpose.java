@@ -46,7 +46,7 @@ public enum Transpose {
    * @return tensor with the two first dimensions transposed and the remaining dimensions left as-is
    * @throws Exception if input is a vector or scalar */
   public static Tensor of(Tensor tensor) {
-    int length = tensor.get(0).length(); // unnecessary copy of first row
+    int length = tensor.length(0);
     if (length == Scalar.LENGTH)
       throw TensorRuntimeException.of(tensor);
     return Tensors.vector(i -> tensor.get(Tensor.ALL, i), length);
