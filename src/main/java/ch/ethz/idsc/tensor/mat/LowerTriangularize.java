@@ -27,6 +27,6 @@ public enum LowerTriangularize {
    * @return */
   public static Tensor of(Tensor matrix, int k) {
     return Tensors.matrix((i, j) -> j - i <= k ? matrix.get(i, j) : RealScalar.ZERO, //
-        matrix.length(), Unprotect.length0(matrix));
+        matrix.length(), Unprotect.dimension1(matrix));
   }
 }

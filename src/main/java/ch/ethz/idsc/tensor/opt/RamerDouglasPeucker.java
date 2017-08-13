@@ -30,7 +30,7 @@ public enum RamerDouglasPeucker {
       return Tensors.empty();
     if (!MatrixQ.of(tensor))
       throw TensorRuntimeException.of(tensor);
-    if (Unprotect.length0(tensor) == 2) {
+    if (Unprotect.dimension1(tensor) == 2) {
       if (tensor.length() == 1)
         return tensor;
       return _of(tensor, epsilon);

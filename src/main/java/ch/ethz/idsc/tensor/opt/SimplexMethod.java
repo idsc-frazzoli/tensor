@@ -55,7 +55,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     this.tab = tab;
     this.ind = ind;
     m = tab.length() - 1;
-    n = Unprotect.length0(tab) - 1;
+    n = Unprotect.dimension1(tab) - 1;
     if (isOutsideRange(ind, n))
       throw TensorRuntimeException.of(ind);
     while (true) {

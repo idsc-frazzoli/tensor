@@ -14,7 +14,7 @@ public enum VectorQ {
    * @return true if tensor is a vector */
   public static boolean of(Tensor tensor) {
     try {
-      return tensor.length() == 0 || Unprotect.length0(tensor) == Scalar.LENGTH;
+      return tensor.length() == 0 || Unprotect.dimension1(tensor) == Scalar.LENGTH;
     } catch (Exception exception) {
       // ---
     }
@@ -24,7 +24,7 @@ public enum VectorQ {
   /** @param tensor
    * @throws Exception if given tensor is not a vector */
   public static void orThrow(Tensor tensor) {
-    if (tensor.length() != 0 && Unprotect.length0(tensor) != Scalar.LENGTH)
+    if (tensor.length() != 0 && Unprotect.dimension1(tensor) != Scalar.LENGTH)
       throw TensorRuntimeException.of(tensor);
   }
 

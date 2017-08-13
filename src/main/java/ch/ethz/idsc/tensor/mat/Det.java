@@ -35,7 +35,7 @@ public enum Det {
     if (!MatrixQ.of(matrix))
       throw TensorRuntimeException.of(matrix);
     final int n = matrix.length();
-    final int m = Unprotect.length0(matrix);
+    final int m = Unprotect.dimension1(matrix);
     if (m == 0)
       throw TensorRuntimeException.of(matrix);
     if (n == m) // square

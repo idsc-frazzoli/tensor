@@ -30,7 +30,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
    * @throws Exception if input is not a matrix */
   HouseholderQRDecomposition(Tensor A) {
     n = A.length();
-    m = Unprotect.length0(A);
+    m = Unprotect.dimension1(A);
     Qinv = IdentityMatrix.of(n);
     R = A;
     // the m-th reflection is necessary in the case where A is non-square

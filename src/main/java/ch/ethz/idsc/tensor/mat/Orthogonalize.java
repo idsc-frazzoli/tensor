@@ -15,7 +15,7 @@ public enum Orthogonalize {
    * @see UnitaryMatrixQ */
   public static Tensor of(Tensor matrix) {
     int dim0 = matrix.length();
-    int dim1 = Unprotect.length0(matrix);
+    int dim1 = Unprotect.dimension1(matrix);
     if (dim1 < dim0)
       throw TensorRuntimeException.of(matrix);
     // old impl

@@ -17,7 +17,7 @@ public enum ConvexHull {
   public static Tensor of(Tensor tensor) {
     if (tensor.length() == 0)
       return Tensors.empty();
-    if (Unprotect.length0(tensor) == 2)
+    if (Unprotect.dimension1(tensor) == 2)
       return new GrahamScan(tensor).getConvexHull();
     throw TensorRuntimeException.of(tensor);
   }

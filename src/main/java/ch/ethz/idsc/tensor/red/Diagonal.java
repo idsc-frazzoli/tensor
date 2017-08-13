@@ -17,6 +17,6 @@ public enum Diagonal {
   /** @param tensor
    * @return vector of entries on diagonal of given tensor */
   public static Tensor of(Tensor tensor) {
-    return Tensors.vector(i -> tensor.get(i, i), Math.min(tensor.length(), Unprotect.length0(tensor)));
+    return Tensors.vector(i -> tensor.get(i, i), Math.min(tensor.length(), Unprotect.dimension1(tensor)));
   }
 }

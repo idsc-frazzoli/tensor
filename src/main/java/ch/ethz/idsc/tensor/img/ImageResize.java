@@ -30,7 +30,7 @@ public enum ImageResize {
     if (fx <= 0 || fy <= 0)
       throw new RuntimeException(fx + " " + fy);
     int dim0 = tensor.length();
-    int dim1 = Unprotect.length0(tensor);
+    int dim1 = Unprotect.dimension1(tensor);
     // precomputation of indices
     int[] ix = IntStream.range(0, dim0 * fx).map(i -> i / fx).toArray();
     int[] iy = IntStream.range(0, dim1 * fy).map(i -> i / fy).toArray();

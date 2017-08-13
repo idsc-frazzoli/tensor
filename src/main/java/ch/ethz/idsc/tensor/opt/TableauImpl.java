@@ -22,7 +22,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 /* package */ class TableauImpl {
   public static Tensor of(Tensor c, Tensor A, Tensor b) {
     int m = A.length() - 1;
-    int n = Unprotect.length0(A) - 1;
+    int n = Unprotect.dimension1(A) - 1;
     Tensor tab;
     {
       tab = Join.of(1, A, IdentityMatrix.of(m), Partition.of(b, 1));
@@ -44,7 +44,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
   private static Tensor simplex(Tensor tab) {
     int m = tab.length() - 1;
-    int n = Unprotect.length0(tab) - 1;
+    int n = Unprotect.dimension1(tab) - 1;
     // int count = 0;
     while (true) {
       // System.out.println("********************************");
@@ -86,7 +86,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   // therefore the alternative implementation SimplexImpl was created
   private static Tensor get_current_x(Tensor tab) {
     int m = tab.length() - 1;
-    int n = Unprotect.length0(tab) - 1;
+    int n = Unprotect.dimension1(tab) - 1;
     Tensor x = Array.zeros(n);
     for (int j = 0; j < n; ++j) {
       int len = Math.toIntExact(tab.get(Tensor.ALL, j).flatten(0) //

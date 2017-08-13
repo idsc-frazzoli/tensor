@@ -12,6 +12,6 @@ public enum SquareMatrixQ {
   /** @param tensor
    * @return true if tensor is a square matrix, otherwise false */
   public static boolean of(Tensor tensor) {
-    return MatrixQ.of(tensor) && tensor.length() == Unprotect.length0(tensor);
+    return MatrixQ.of(tensor) && tensor.length() == Unprotect.dimension1(tensor);
   }
 }

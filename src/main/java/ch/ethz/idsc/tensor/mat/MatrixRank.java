@@ -16,7 +16,7 @@ public enum MatrixRank {
    * @return rank of matrix */
   public static int of(Tensor matrix) {
     int n = matrix.length();
-    int m = Unprotect.length0(matrix);
+    int m = Unprotect.dimension1(matrix);
     Tensor lhs = RowReduce.of(matrix);
     int j = 0;
     int c0 = 0;
@@ -30,7 +30,7 @@ public enum MatrixRank {
    * @return rank of matrix */
   public static int usingSvd(Tensor matrix) {
     int n = matrix.length();
-    int m = Unprotect.length0(matrix);
+    int m = Unprotect.dimension1(matrix);
     return of(SingularValueDecomposition.of(m <= n ? matrix : Transpose.of(matrix)));
   }
 

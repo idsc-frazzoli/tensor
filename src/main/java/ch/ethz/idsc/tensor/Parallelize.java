@@ -13,8 +13,10 @@ public enum Parallelize {
    * parallel stream processing can accelerate the computation of the dot-product
    * however, for small vectors or matrices, serial computation is faster.
    * 
-   * A simple heuristic can determine whether parallel processing is beneficial.
-   * For a pair of square matrices, the switch point is typically between 5x5 and 8x8.
+   * A simple heuristic can determine whether parallel processing is beneficial:
+   * For vector dot vector, use parallel if the vector length is greater than 200.
+   * For square matrix dot vector, use parallel if the matrix size exceeds 20.
+   * For dotting a pair of square matrices, use parallel if the matrix size exceeds 6.
    * 
    * @param lhs
    * @param rhs

@@ -27,7 +27,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override
   public Scalar ofMatrix(Tensor matrix) {
-    if (matrix.length() < Unprotect.length0(matrix))
+    if (matrix.length() < Unprotect.dimension1(matrix))
       matrix = Transpose.of(matrix);
     return SingularValueDecomposition.of(matrix) //
         .values().flatten(0) // values are non-negative

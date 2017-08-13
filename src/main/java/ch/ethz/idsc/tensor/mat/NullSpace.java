@@ -47,7 +47,7 @@ public enum NullSpace {
   /** @param matrix with exact precision entries
    * @return tensor of vectors that span the kernel of given matrix */
   public static Tensor usingRowReduce(Tensor matrix) {
-    return usingRowReduce(matrix, IdentityMatrix.of(Unprotect.length0(matrix)));
+    return usingRowReduce(matrix, IdentityMatrix.of(Unprotect.dimension1(matrix)));
   }
 
   /** @param matrix with exact precision entries
@@ -55,7 +55,7 @@ public enum NullSpace {
    * @return tensor of vectors that span the kernel of given matrix */
   public static Tensor usingRowReduce(Tensor matrix, Tensor identity) {
     final int n = matrix.length();
-    final int m = Unprotect.length0(matrix);
+    final int m = Unprotect.dimension1(matrix);
     Tensor lhs = RowReduce.of(Join.of(1, Transpose.of(matrix), identity));
     int j = 0;
     int c0 = 0;

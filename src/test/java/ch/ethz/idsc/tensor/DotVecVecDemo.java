@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.utl.Stopwatch;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
-enum DotMatMatDemo {
+enum DotVecVecDemo {
   ;
   public static void main(String[] args) throws IOException {
     Distribution distribution;
@@ -26,14 +26,14 @@ enum DotMatMatDemo {
       Parallelize.dot(a, b);
     }
     Tensor timing = Tensors.empty();
-    for (int dim = 0; dim < 40; ++dim) {
+    for (int dim = 0; dim < 200; ++dim) {
       System.out.println(dim);
       Stopwatch s_ser = new Stopwatch();
       Stopwatch s_par = new Stopwatch();
-      final int trials = 50;
+      final int trials = 200;
       for (int count = 0; count < trials; ++count) {
-        Tensor a = RandomVariate.of(distribution, dim, dim);
-        Tensor b = RandomVariate.of(distribution, dim, dim);
+        Tensor a = RandomVariate.of(distribution, dim);
+        Tensor b = RandomVariate.of(distribution, dim);
         s_ser.start();
         Tensor cs = a.dot(b);
         s_ser.stop();
@@ -45,6 +45,6 @@ enum DotMatMatDemo {
       }
       timing.append(Tensors.vector(s_ser.total() / trials, s_par.total() / trials));
     }
-    Put.of(UserHome.file("timing_matmat.txt"), Transpose.of(timing));
+    Put.of(UserHome.file("timing_vecvec.txt"), Transpose.of(timing));
   }
 }

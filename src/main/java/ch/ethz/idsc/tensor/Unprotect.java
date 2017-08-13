@@ -12,7 +12,7 @@ public enum Unprotect {
   /** @param tensor
    * @return
    * @throws Exception if tensor is a scalar, or first level entries don't have regular length */
-  public static int length0(Tensor tensor) {
+  public static int dimension1(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
     List<Tensor> list = impl.list;
     int length = list.get(0).length();

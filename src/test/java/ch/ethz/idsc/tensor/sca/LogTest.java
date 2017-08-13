@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -17,5 +18,11 @@ public class LogTest extends TestCase {
     Scalar s = DoubleScalar.of(-3);
     assertEquals(Log.of(s).toString(), "1.0986122886681098+3.141592653589793*I");
     assertEquals(Log.of(RealScalar.ZERO), DoubleScalar.NEGATIVE_INFINITY);
+  }
+
+  public void testComplex() {
+    Scalar s = ComplexScalar.of(2, 3);
+    Scalar r = Scalars.fromString("1.2824746787307681+0.982793723247329*I"); // mathematica
+    assertTrue(Chop._14.close(Log.of(s), r));
   }
 }

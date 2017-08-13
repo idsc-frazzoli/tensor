@@ -36,7 +36,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
    * @param maxIterations */
   /* package */ SingularValueDecompositionImpl(Tensor A) {
     rows = A.length();
-    cols = Unprotect.length0(A);
+    cols = Unprotect.dimension1(A);
     if (rows < cols)
       throw new IllegalArgumentException();
     u = A.copy();

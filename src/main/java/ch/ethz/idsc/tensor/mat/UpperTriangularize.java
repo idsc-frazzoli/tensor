@@ -27,6 +27,6 @@ public enum UpperTriangularize {
    * @return */
   public static Tensor of(Tensor matrix, int k) {
     return Tensors.matrix((i, j) -> k <= j - i ? matrix.get(i, j) : RealScalar.ZERO, //
-        matrix.length(), Unprotect.length0(matrix));
+        matrix.length(), Unprotect.dimension1(matrix));
   }
 }
