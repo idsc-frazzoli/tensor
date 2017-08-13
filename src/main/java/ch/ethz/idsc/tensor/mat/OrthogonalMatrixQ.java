@@ -14,7 +14,8 @@ public enum OrthogonalMatrixQ {
    * "A matrix m is orthogonal if m.Transpose[m] is the identity matrix."
    * 
    * @param tensor
-   * @return true, if tensor is a matrix and tensor.Transpose[tensor] is the identity matrix */
+   * @return true, if tensor is a matrix and tensor.Transpose[tensor] is the identity matrix
+   * @see UnitaryMatrixQ */
   public static boolean of(Tensor tensor) {
     return MatrixQ.of(tensor) && //
         Chop._12.close(tensor.dot(Transpose.of(tensor)), IdentityMatrix.of(tensor.length()));

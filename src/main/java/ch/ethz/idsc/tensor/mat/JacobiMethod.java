@@ -12,7 +12,6 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Ordering;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Hypot;
@@ -43,7 +42,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   /** @param matrix symmetric and real valued */
   JacobiMethod(Tensor matrix) {
     Tensor A = matrix.copy();
-    n = Dimensions.of(A).get(0);
+    n = A.length();
     V = IdentityMatrix.of(n);
     Tensor z = Array.zeros(n);
     Tensor b = Diagonal.of(matrix);

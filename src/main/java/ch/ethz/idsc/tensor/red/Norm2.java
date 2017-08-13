@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 import ch.ethz.idsc.tensor.sca.Sqrt;
@@ -26,7 +27,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override
   public Scalar ofMatrix(Tensor matrix) {
-    if (matrix.length() < matrix.length(0))
+    if (matrix.length() < Unprotect.length0(matrix))
       matrix = Transpose.of(matrix);
     return SingularValueDecomposition.of(matrix) //
         .values().flatten(0) // values are non-negative

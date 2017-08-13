@@ -198,4 +198,14 @@ public class SingularValueDecompositionTest extends TestCase {
     assertEquals(MatrixRank.usingSvd(IdentityMatrix.of(10)), 10);
     assertEquals(MatrixRank.usingSvd(DiagonalMatrix.of(Tensors.vector(1, 1, 1, 1, 0, 0))), 4);
   }
+
+  public void testFail() {
+    Tensor A = Tensors.fromString("{{1,2},{2,{3}}}");
+    try {
+      SingularValueDecomposition.of(A);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

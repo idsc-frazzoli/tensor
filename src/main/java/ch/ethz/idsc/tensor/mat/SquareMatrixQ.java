@@ -1,10 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import java.util.List;
-
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
 
 /** inspired by
@@ -16,7 +14,6 @@ public enum SquareMatrixQ {
   public static boolean of(Tensor tensor) {
     if (!MatrixQ.of(tensor))
       return false;
-    List<Integer> list = Dimensions.of(tensor);
-    return list.get(0).equals(list.get(1));
+    return tensor.length() == Unprotect.length0(tensor);
   }
 }

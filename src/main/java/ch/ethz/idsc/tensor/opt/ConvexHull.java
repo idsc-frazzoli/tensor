@@ -1,12 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.List;
-
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
 
 /** inspired by
@@ -21,8 +19,7 @@ public enum ConvexHull {
       return Tensors.empty();
     if (!MatrixQ.of(tensor))
       throw TensorRuntimeException.of(tensor);
-    List<Integer> dims = Dimensions.of(tensor);
-    if (dims.get(1) == 2)
+    if (Unprotect.length0(tensor) == 2)
       return new GrahamScan(tensor).getConvexHull();
     throw TensorRuntimeException.of(tensor);
   }

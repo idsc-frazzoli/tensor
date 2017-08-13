@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Transpose;
 
 /** inspired by
@@ -15,7 +16,7 @@ public enum MatrixRank {
    * @return rank of matrix */
   public static int of(Tensor matrix) {
     int n = matrix.length();
-    int m = matrix.length(0);
+    int m = Unprotect.length0(matrix);
     Tensor lhs = RowReduce.of(matrix);
     int j = 0;
     int c0 = 0;
@@ -29,7 +30,7 @@ public enum MatrixRank {
    * @return rank of matrix */
   public static int usingSvd(Tensor matrix) {
     int n = matrix.length();
-    int m = matrix.length(0);
+    int m = Unprotect.length0(matrix);
     return of(SingularValueDecomposition.of(m <= n ? matrix : Transpose.of(matrix)));
   }
 

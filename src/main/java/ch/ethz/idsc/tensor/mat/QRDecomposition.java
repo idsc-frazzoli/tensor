@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.alg.MatrixQ;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/QRDecomposition.html">QRDecomposition</a> */
@@ -12,7 +14,9 @@ public interface QRDecomposition extends Serializable {
   /** @param matrix
    * @return qr-decomposition of matrix */
   static QRDecomposition of(Tensor matrix) {
-    return new HouseholderQRDecomposition(matrix.unmodifiable());
+    if (!MatrixQ.of(matrix))
+      throw TensorRuntimeException.of(matrix);
+    return new HouseholderQRDecomposition(matrix);
   }
 
   /** @return orthogonal matrix */

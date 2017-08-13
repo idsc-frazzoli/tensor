@@ -3,16 +3,14 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.List;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Partition;
 import ch.ethz.idsc.tensor.alg.TensorMap;
@@ -23,9 +21,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /* package */ class TableauImpl {
   public static Tensor of(Tensor c, Tensor A, Tensor b) {
-    List<Integer> dims = Dimensions.of(A);
-    int m = dims.get(0);
-    int n = dims.get(1);
+    int m = A.length() - 1;
+    int n = Unprotect.length0(A) - 1;
     Tensor tab;
     {
       tab = Join.of(1, A, IdentityMatrix.of(m), Partition.of(b, 1));
@@ -46,9 +43,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   }
 
   private static Tensor simplex(Tensor tab) {
-    List<Integer> dims = Dimensions.of(tab);
-    int m = dims.get(0) - 1;
-    int n = dims.get(1) - 1;
+    int m = tab.length() - 1;
+    int n = Unprotect.length0(tab) - 1;
     // int count = 0;
     while (true) {
       // System.out.println("********************************");
@@ -89,9 +85,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   // this methodology is surprisingly robust, but still bad style
   // therefore the alternative implementation SimplexImpl was created
   private static Tensor get_current_x(Tensor tab) {
-    List<Integer> dims = Dimensions.of(tab);
-    int m = dims.get(0) - 1;
-    int n = dims.get(1) - 1;
+    int m = tab.length() - 1;
+    int n = Unprotect.length0(tab) - 1;
     Tensor x = Array.zeros(n);
     for (int j = 0; j < n; ++j) {
       int len = Math.toIntExact(tab.get(Tensor.ALL, j).flatten(0) //

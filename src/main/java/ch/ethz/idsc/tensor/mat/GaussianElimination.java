@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** Gaussian elimination is the most important algorithm of all time.
  * 
@@ -66,7 +67,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   GaussianElimination(Tensor matrix, Pivot pivot) {
     lhs = matrix.copy();
     int n = lhs.length();
-    int m = lhs.length(0);
+    int m = Unprotect.length0(lhs);
     ind = new int[n];
     rhs = null;
     IntStream.range(0, n).forEach(index -> ind[index] = index);

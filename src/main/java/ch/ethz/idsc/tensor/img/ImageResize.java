@@ -1,12 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
-import java.util.List;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ImageResize.html">ImageResize</a> */
@@ -30,12 +29,13 @@ public enum ImageResize {
   public static Tensor nearest(Tensor tensor, int fx, int fy) {
     if (fx <= 0 || fy <= 0)
       throw new RuntimeException(fx + " " + fy);
-    List<Integer> list = Dimensions.of(tensor);
+    int dim0 = tensor.length();
+    int dim1 = Unprotect.length0(tensor);
     // precomputation of indices
-    int[] ix = IntStream.range(0, list.get(0) * fx).map(i -> i / fx).toArray();
-    int[] iy = IntStream.range(0, list.get(1) * fy).map(i -> i / fy).toArray();
+    int[] ix = IntStream.range(0, dim0 * fx).map(i -> i / fx).toArray();
+    int[] iy = IntStream.range(0, dim1 * fy).map(i -> i / fy).toArray();
     return Tensors.matrix((i, j) -> tensor.get(ix[i], iy[j]), //
-        list.get(0) * fx, //
-        list.get(1) * fy);
+        dim0 * fx, //
+        dim1 * fy);
   }
 }

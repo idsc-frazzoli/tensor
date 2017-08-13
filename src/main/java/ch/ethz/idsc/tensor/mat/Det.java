@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
 
@@ -36,7 +37,7 @@ public enum Det {
   // helper function
   private static Scalar _of(Tensor matrix, Pivot pivot) {
     final int n = matrix.length();
-    final int m = matrix.length(0);
+    final int m = Unprotect.length0(matrix);
     if (m == 0)
       throw TensorRuntimeException.of(matrix);
     if (n == m) // square

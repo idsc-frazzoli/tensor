@@ -1,12 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import java.util.List;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/LowerTriangularize.html">LowerTriangularize</a> */
@@ -28,7 +26,7 @@ public enum LowerTriangularize {
    * @param k
    * @return */
   public static Tensor of(Tensor matrix, int k) {
-    List<Integer> dims = Dimensions.of(matrix);
-    return Tensors.matrix((i, j) -> j - i <= k ? matrix.get(i, j) : RealScalar.ZERO, dims.get(0), dims.get(1));
+    return Tensors.matrix((i, j) -> j - i <= k ? matrix.get(i, j) : RealScalar.ZERO, //
+        matrix.length(), Unprotect.length0(matrix));
   }
 }

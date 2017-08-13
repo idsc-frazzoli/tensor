@@ -156,7 +156,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @param index
    * @return number of entries at index; if index is empty, the number
    * of entries on the first level; {@link Scalar#LENGTH} for scalars */
-  int length(Integer... index);
+  int length();
 
   /** <p>function is equivalent to the predicates
    * <ul>

@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -15,7 +14,7 @@ import java.util.stream.Stream;
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---
-  private final List<Tensor> list;
+  /* package */ final List<Tensor> list; // accessed in UnmodifiableTensor
 
   /* package */ TensorImpl(List<Tensor> list) {
     this.list = list;
@@ -23,44 +22,7 @@ import java.util.stream.Stream;
 
   @Override
   public Tensor unmodifiable() {
-    return new TensorImpl(Collections.unmodifiableList(list)) {
-      @Override // from TensorImpl
-      public Tensor unmodifiable() {
-        return this;
-      }
-
-      @Override // from TensorImpl
-      void _set(Tensor tensor, List<Integer> index) {
-        throw new UnsupportedOperationException("unmodifiable");
-      }
-
-      @Override // from TensorImpl
-      <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
-        throw new UnsupportedOperationException("unmodifiable");
-      }
-
-      @Override // from TensorImpl
-      Stream<Tensor> _flatten0() {
-        return list.stream().map(Tensor::unmodifiable);
-      }
-
-      @Override // from TensorImpl
-      public Iterator<Tensor> iterator() {
-        return new Iterator<Tensor>() {
-          int index = 0;
-
-          @Override
-          public boolean hasNext() {
-            return index < list.size();
-          }
-
-          @Override
-          public Tensor next() {
-            return list.get(index++).unmodifiable();
-          }
-        };
-      }
-    };
+    return new UnmodifiableTensor(list);
   }
 
   @Override
@@ -145,13 +107,8 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public int length(Integer... index) {
-    return index.length == 0 ? list.size() : _length(Arrays.asList(index));
-  }
-
-  private int _length(List<Integer> index) {
-    Tensor entry = list.get(index.get(0)); // input list has size at least one
-    return 1 == index.size() ? entry.length() : ((TensorImpl) entry)._length(index.subList(1, index.size()));
+  public int length() {
+    return list.size();
   }
 
   @Override
@@ -277,5 +234,10 @@ import java.util.stream.Stream;
     stringBuilder.append(string);
     stringBuilder.append(CLOSING_BRACKET);
     return stringBuilder.toString(); // "{x, y, z}"
+  }
+
+  /***************************************************/
+  /* package */ int length0() {
+    return list.get(0).length();
   }
 }

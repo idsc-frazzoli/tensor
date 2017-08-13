@@ -1,15 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import java.util.List;
-
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Norm;
@@ -29,9 +27,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   private Tensor R;
 
   HouseholderQRDecomposition(Tensor A) {
-    List<Integer> dims = Dimensions.of(A);
-    n = dims.get(0);
-    m = dims.get(1);
+    n = A.length();
+    m = Unprotect.length0(A);
     Qinv = IdentityMatrix.of(n);
     R = A;
     // the m-th reflection is necessary in the case where A is non-square

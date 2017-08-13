@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor.mat;
 import java.io.Serializable;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.alg.MatrixQ;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/SingularValueDecomposition.html">SingularValueDecomposition</a> */
@@ -20,7 +22,9 @@ public interface SingularValueDecomposition extends Serializable {
    * @return singular value decomposition of matrix A
    * @throws if decomposition cannot be established */
   static SingularValueDecomposition of(Tensor A) {
-    return new SingularValueDecompositionImpl(A.unmodifiable());
+    if (!MatrixQ.of(A))
+      throw TensorRuntimeException.of(A);
+    return new SingularValueDecompositionImpl(A);
   }
 
   /** @return matrix of dimensions A, rows x cols */
