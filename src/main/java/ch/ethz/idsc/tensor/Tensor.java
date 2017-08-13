@@ -153,9 +153,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * 
    * <p>In order to check if a tensor is an empty vector use <code>tensor.length() == 0</code>.
    *
-   * @param index
-   * @return number of entries at index; if index is empty, the number
-   * of entries on the first level; {@link Scalar#LENGTH} for scalars */
+   * @return number of entries on the first level; {@link Scalar#LENGTH} for scalars */
   int length();
 
   /** <p>function is equivalent to the predicates

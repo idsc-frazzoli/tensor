@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-/** reference implementation of the interface Tensor
- * parallel stream processing may be used in dot product */
+/** reference implementation of the interface Tensor */
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---
-  /* package */ final List<Tensor> list; // accessed by UnmodifiableTensor
+  /** list is accessed by UnmodifiableTensor, ParallelDot, Unprotect */
+  /* package */ final List<Tensor> list;
 
   /* package */ TensorImpl(List<Tensor> list) {
     this.list = list;
@@ -181,9 +181,6 @@ import java.util.stream.Stream;
     return Tensor.of(list.stream().map(tensor -> tensor.divide(scalar)));
   }
 
-  /** parallel stream processing can accelerate the computation of the dot-product
-   * however, for small vectors or matrices, serial computation is faster.
-   * A simple heuristic should determine whether parallel processing is beneficial. */
   @Override
   public Tensor dot(Tensor tensor) {
     if (list.isEmpty() || list.get(0).isScalar()) { // quick hint whether this is a vector
