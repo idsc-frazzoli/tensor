@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---
-  /* package */ final List<Tensor> list; // accessed in UnmodifiableTensor
+  /* package */ final List<Tensor> list; // accessed by UnmodifiableTensor
 
   /* package */ TensorImpl(List<Tensor> list) {
     this.list = list;
@@ -234,10 +234,5 @@ import java.util.stream.Stream;
     stringBuilder.append(string);
     stringBuilder.append(CLOSING_BRACKET);
     return stringBuilder.toString(); // "{x, y, z}"
-  }
-
-  /***************************************************/
-  /* package */ int length0() {
-    return list.get(0).length();
   }
 }

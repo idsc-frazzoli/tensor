@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -116,6 +117,21 @@ public class QRDecompositionTest extends TestCase {
   public void testEmpty() {
     try {
       QRDecomposition.of(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFail() {
+    try {
+      QRDecomposition.of(Tensors.fromString("{{1,2},{3,4,5}}"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      QRDecomposition.of(LieAlgebras.sl3());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

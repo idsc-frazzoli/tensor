@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Reverse;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
@@ -188,5 +189,14 @@ public class DetTest extends TestCase {
   public void testHilbert2() {
     Scalar det = Det.withoutAbs(HilbertMatrix.of(8));
     assertEquals(det, Scalars.fromString("1/365356847125734485878112256000000"));
+  }
+
+  public void testFail() {
+    try {
+      Det.of(LieAlgebras.sl3());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

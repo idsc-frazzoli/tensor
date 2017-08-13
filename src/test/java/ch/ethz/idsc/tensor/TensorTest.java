@@ -32,15 +32,6 @@ public class TensorTest extends TestCase {
     assertEquals(e.length(), 3);
   }
 
-  public void testLength2() {
-    Tensor unstruct = Tensors.fromString("{{-1,0,1,2},{3,4,5}}");
-    assertEquals(unstruct.length(), 2);
-    assertEquals(Unprotect.length0(unstruct), 4);
-    // assertEquals(unstruct.length(1), 3);
-    // assertEquals(unstruct.length(1, 0), Scalar.LENGTH);
-    // assertEquals(unstruct.length(1, 2), Scalar.LENGTH);
-  }
-
   private static Scalar incr(Scalar a) {
     return a.add(RealScalar.ONE);
   }

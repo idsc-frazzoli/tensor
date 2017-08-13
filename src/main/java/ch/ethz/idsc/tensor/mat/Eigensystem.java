@@ -10,7 +10,8 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <a href="https://reference.wolfram.com/language/ref/Eigensystem.html">Eigensystem</a> */
 public interface Eigensystem extends Serializable {
   /** @param matrix symmetric and real valued
-   * @return */
+   * @return
+   * @throws Exception if input is not a symmetric matrix */
   static Eigensystem ofSymmetric(Tensor matrix) {
     if (!SymmetricMatrixQ.of(matrix))
       throw TensorRuntimeException.of(matrix);

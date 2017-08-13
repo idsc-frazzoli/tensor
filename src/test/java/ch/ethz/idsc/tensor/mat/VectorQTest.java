@@ -36,4 +36,13 @@ public class VectorQTest extends TestCase {
   public void testAd() {
     assertFalse(VectorQ.of(LieAlgebras.so3()));
   }
+
+  public void testEnsure() {
+    try {
+      VectorQ.orThrow(HilbertMatrix.of(3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

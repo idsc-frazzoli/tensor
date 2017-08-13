@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.SignInterface;
@@ -37,6 +38,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   private final Tensor point0;
 
   GrahamScan(Tensor tensor) {
+    VectorQ.orThrow(tensor.get(0));
     // list is permuted during computation
     List<Tensor> list = tensor.flatten(0).collect(Collectors.toList());
     point0 = Collections.min(list, MINY_MINX);
@@ -46,8 +48,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
         int cmp = Scalars.compare(angle(p1), angle(p2));
         return cmp != 0 ? cmp
             : Scalars.compare( //
-                Norm._2SQUARED.of(p1.subtract(point0)), //
-                Norm._2SQUARED.of(p2.subtract(point0)));
+                Norm._2.of(p1.subtract(point0)), //
+                Norm._2.of(p2.subtract(point0)));
       }
     });
     stack.push(point0);
@@ -62,15 +64,12 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     }
     if (point1 == null)
       return;
-    // System.out.println("seed1 " + k1);
     int k2 = k1 + 1;
     for (Tensor point : list.subList(k2, list.size()))
-      if (Scalars.isZero(ccw(point0, point1, point))) {
-        // System.out.println("co-lin");
+      if (Scalars.isZero(ccw(point0, point1, point)))
         ++k2;
-      } else
+      else
         break;
-    // System.out.println("seed2 " + k2);
     // ---
     stack.push(list.get(k2 - 1));
     for (Tensor point : list.subList(k2, list.size())) {

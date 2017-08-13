@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * are overloaded.
  * 
  * UnmodifiableTensorImpl does not duplicate memory. */
-/* package */ class UnmodifiableTensor extends TensorImpl {
+/* package */ final class UnmodifiableTensor extends TensorImpl {
   UnmodifiableTensor(List<Tensor> list) {
     super(Collections.unmodifiableList(list));
   }

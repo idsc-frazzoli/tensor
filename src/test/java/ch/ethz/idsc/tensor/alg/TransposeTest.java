@@ -192,4 +192,13 @@ public class TransposeTest extends TestCase {
       // ---
     }
   }
+
+  public void testFail2() {
+    try {
+      Transpose.of(Tensors.fromString("{{1,2},{3,4,5}}"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

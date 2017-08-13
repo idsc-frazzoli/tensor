@@ -200,9 +200,26 @@ public class SingularValueDecompositionTest extends TestCase {
   }
 
   public void testFail() {
-    Tensor A = Tensors.fromString("{{1,2},{2,{3}}}");
     try {
-      SingularValueDecomposition.of(A);
+      SingularValueDecomposition.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      SingularValueDecomposition.of(Tensors.vector(1, 2, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      SingularValueDecomposition.of(Tensors.fromString("{{1,2},{2,{3}}}"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      SingularValueDecomposition.of(Array.zeros(2, 3, 4));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

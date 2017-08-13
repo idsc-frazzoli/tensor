@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -42,6 +43,15 @@ public class InverseTest extends TestCase {
       Tensor Ai = Inverse.of(A, id);
       assertEquals(A.dot(Ai), id);
       assertEquals(Ai.dot(A), id);
+    }
+  }
+
+  public void testFail() {
+    try {
+      Inverse.of(LieAlgebras.sl3());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
     }
   }
 }

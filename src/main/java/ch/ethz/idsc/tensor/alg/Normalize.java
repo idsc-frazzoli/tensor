@@ -11,11 +11,13 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 
-/** norms of resulting vectors deviate from 1 numerically
- * observed deviations are
+/** norms of resulting vectors may deviate from 1 numerically.
+ * Observed deviations are
+ * <pre>
  * 0.9999999999999998
  * 1.0000000000000004
  * 1.0000000000000009
+ * </pre>
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Normalize.html">Normalize</a> */
@@ -48,27 +50,27 @@ public enum Normalize {
    * @param function
    * @return result = vector*scale with positive scale such that function(result) == 1 (or numerically close to 1) */
   public static Tensor of(Tensor vector, Function<Tensor, Scalar> function) {
-    if (VectorQ.of(vector)) {
-      Scalar norm = function.apply(vector);
-      int count = 0;
-      while (!PRECISION.close(norm, RealScalar.ONE)) {
-        vector = vector.divide(function.apply(vector));
-        norm = function.apply(vector);
-        ++count;
-        if (5 < count) // in the tests the maximum observed count == 2
-          throw TensorRuntimeException.of("no convergence", norm, vector);
-      }
-      return 0 < count ? vector : vector.copy();
+    VectorQ.orThrow(vector);
+    Scalar norm = function.apply(vector);
+    int count = 0;
+    while (!PRECISION.close(norm, RealScalar.ONE)) {
+      vector = vector.divide(function.apply(vector));
+      norm = function.apply(vector);
+      ++count;
+      if (5 < count) // in the tests the maximum observed count == 2
+        throw TensorRuntimeException.of("no convergence", norm, vector);
     }
-    throw TensorRuntimeException.of(vector); // input is not a vector
+    return 0 < count ? vector : vector.copy();
   }
 
   /** @param vector
    * @param function
    * @return copy of vector if function(vector) == 0, else same as {@link #of(Tensor, Function)} */
   public static Tensor unlessZero(Tensor vector, Function<Tensor, Scalar> function) {
-    if (VectorQ.of(vector))
-      return Scalars.isZero(function.apply(vector)) ? vector.copy() : of(vector, function);
-    throw TensorRuntimeException.of(vector); // input is not a vector
+    if (Scalars.isZero(function.apply(vector))) {
+      VectorQ.orThrow(vector);
+      return vector.copy();
+    }
+    return of(vector, function);
   }
 }

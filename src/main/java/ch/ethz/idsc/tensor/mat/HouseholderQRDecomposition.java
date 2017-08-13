@@ -26,6 +26,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   private Tensor Qinv;
   private Tensor R;
 
+  /** @param A
+   * @throws Exception if input is not a matrix */
   HouseholderQRDecomposition(Tensor A) {
     n = A.length();
     m = Unprotect.length0(A);

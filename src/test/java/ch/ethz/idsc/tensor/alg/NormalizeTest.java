@@ -115,6 +115,12 @@ public class NormalizeTest extends TestCase {
 
   public void testMatrixFail() {
     try {
+      Normalize.of(Tensors.fromString("{{1,2},{3,4,5}}"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       Normalize.of(HilbertMatrix.of(3));
       assertTrue(false);
     } catch (Exception exception) {

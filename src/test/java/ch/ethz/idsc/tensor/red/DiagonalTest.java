@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.MatrixQ;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
@@ -16,5 +18,9 @@ public class DiagonalTest extends TestCase {
 
   public void testRectangular() {
     assertEquals(Diagonal.of(Array.zeros(5, 12)), Array.zeros(5));
+  }
+
+  public void testLieAlgebra() {
+    assertTrue(MatrixQ.of(Diagonal.of(LieAlgebras.sl3())));
   }
 }
