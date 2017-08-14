@@ -29,8 +29,8 @@ public enum Subdivide {
    * @return tensor with n+1 entries obtained by subdividing the range
    * startInclusive to endInclusive into n equal parts. */
   public static Tensor of(Tensor startInclusive, Tensor endInclusive, int n) {
-    return Tensor.of(IntStream.rangeClosed(0, n).boxed() //
-        .map(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
+    return Tensor.of(IntStream.rangeClosed(0, n) //
+        .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
             .add(endInclusive.multiply(RationalScalar.of(count, n)))));
   }
 

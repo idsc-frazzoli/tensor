@@ -32,17 +32,17 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     }
   }
 
-  @Override
+  @Override // from CholeskyDecomposition
   public Tensor getL() {
     return l;
   }
 
-  @Override
+  @Override // from CholeskyDecomposition
   public Tensor diagonal() {
     return d;
   }
 
-  @Override
+  @Override // from CholeskyDecomposition
   public Scalar det() {
     return Total.prod(d).Get();
   }

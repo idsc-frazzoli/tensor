@@ -23,6 +23,7 @@ public class MappedInterpolation extends AbstractInterpolation {
     return new MappedInterpolation(tensor, function);
   }
 
+  // ---
   private final Tensor tensor;
   private final Function<Tensor, Tensor> function;
 

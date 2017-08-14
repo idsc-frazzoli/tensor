@@ -1,25 +1,22 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import java.util.List;
-
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Dimensions;
-import ch.ethz.idsc.tensor.alg.MatrixQ;
+import ch.ethz.idsc.tensor.Unprotect;
 
-/** inspired by
+/** consistent with Mathematica
+ * <pre>
+ * Diagonal[{{{0}, 1}, {2, 3}, {4, 5}}] == {{0}, 3}
+ * </pre>
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Diagonal.html">Diagonal</a> */
 public enum Diagonal {
   ;
-  /** @param matrix
-   * @return vector of entries on diagonal of given matrix
-   * @throws Exception if input tensor is not a matrix */
-  public static Tensor of(Tensor matrix) {
-    if (!MatrixQ.of(matrix))
-      throw TensorRuntimeException.of(matrix);
-    List<Integer> dims = Dimensions.of(matrix);
-    return Tensors.vector(i -> matrix.get(i, i), Math.min(dims.get(0), dims.get(1)));
+  /** @param tensor
+   * @return vector of entries on diagonal of given tensor */
+  public static Tensor of(Tensor tensor) {
+    return Tensors.vector(i -> tensor.get(i, i), Math.min(tensor.length(), Unprotect.dimension1(tensor)));
   }
 }

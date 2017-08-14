@@ -15,17 +15,17 @@ import ch.ethz.idsc.tensor.Tensor;
     gifAnimationWriter = AnimatedGifWriter.of(file, period);
   }
 
-  @Override
+  @Override // from AnimationWriter
   public void append(BufferedImage bufferedImage) throws Exception {
     gifAnimationWriter.append(bufferedImage);
   }
 
-  @Override
+  @Override // from AnimationWriter
   public void append(Tensor tensor) throws Exception {
     append(ImageFormat.of(tensor));
   }
 
-  @Override
+  @Override // from AutoCloseable
   public void close() throws Exception {
     gifAnimationWriter.close();
   }

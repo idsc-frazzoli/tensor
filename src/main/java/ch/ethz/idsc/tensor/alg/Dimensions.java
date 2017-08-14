@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import ch.ethz.idsc.tensor.Scalar;
@@ -25,7 +26,7 @@ public enum Dimensions {
    * 
    * @return dimensions of this tensor */
   public static List<Integer> of(Tensor tensor) {
-    return _list(complete(tensor));
+    return _list(_complete(tensor));
   }
 
   /** @param tensor
@@ -41,26 +42,29 @@ public enum Dimensions {
    * 
    * @see ArrayQ */
   /* package */ static boolean isArray(Tensor tensor) {
-    return _isArray(complete(tensor));
+    return _isArray(_complete(tensor));
   }
 
   /* package */ static boolean isArrayWithRank(Tensor tensor, int rank) {
-    List<Set<Integer>> complete = complete(tensor);
+    List<Set<Integer>> complete = _complete(tensor);
     return _list(complete).size() == rank && _isArray(complete);
   }
 
   /* package */ static boolean isArrayWithDimensions(Tensor tensor, List<Integer> dims) {
-    List<Set<Integer>> complete = complete(tensor);
+    List<Set<Integer>> complete = _complete(tensor);
     return _list(complete).equals(dims) && _isArray(complete);
   }
 
-  // helper function
-  private static boolean _isArray(List<Set<Integer>> complete) {
-    return !complete.stream().map(Set::size) //
-        .anyMatch(size -> !size.equals(1));
+  /* package */ static Optional<Integer> arrayRank(Tensor tensor) {
+    List<Set<Integer>> complete = _complete(tensor);
+    return _isArray(complete) ? Optional.of(_list(complete).size()) : Optional.empty();
   }
 
   /***************************************************/
+  private static boolean _isArray(List<Set<Integer>> complete) {
+    return complete.stream().mapToInt(Set::size).allMatch(size -> size == 1);
+  }
+
   private static List<Integer> _list(List<Set<Integer>> complete) {
     List<Integer> ret = new ArrayList<>();
     for (Set<Integer> set : complete)
@@ -77,7 +81,7 @@ public enum Dimensions {
   /** @param tensor
    * @return list of set of lengths on all levels
    * also includes length of scalars as Scalar.LENGTH == -1 */
-  private static List<Set<Integer>> complete(Tensor tensor) {
+  private static List<Set<Integer>> _complete(Tensor tensor) {
     return _sets(tensor, 0, new ArrayList<>());
   }
 

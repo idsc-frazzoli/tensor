@@ -20,14 +20,13 @@ public enum Total {
    * <p>Scalar input is not allowed.
    * For example, Total[3.14] throws an exception.
    * 
-   * 
    * @param tensor
    * @return total sum of tensor entries at first level, or 0 if tensor is empty
    * @throws TensorRuntimeException if input tensor is a scalar */
   public static Tensor of(Tensor tensor) {
     if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
-    return tensor.flatten(0).parallel().reduce(Tensor::add).orElse(RealScalar.ZERO);
+    return tensor.flatten(0).reduce(Tensor::add).orElse(RealScalar.ZERO);
   }
 
   /** The return value has {@link Dimensions} of input tensor reduced by 1.
@@ -50,6 +49,6 @@ public enum Total {
   public static Tensor prod(Tensor tensor) {
     if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
-    return tensor.flatten(0).parallel().reduce(Tensor::pmul).orElse(RealScalar.ONE);
+    return tensor.flatten(0).reduce(Tensor::pmul).orElse(RealScalar.ONE);
   }
 }

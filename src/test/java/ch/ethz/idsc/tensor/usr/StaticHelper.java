@@ -16,7 +16,7 @@ enum StaticHelper {
    * @param m number of columns
    * @return (n x m)-matrix with (i,j)th-entry == bifunction.apply(i,j) */
   static Tensor parallel(BiFunction<Integer, Integer, ? extends Tensor> biFunction, int n, int m) {
-    return Tensor.of(IntStream.range(0, n).parallel().boxed().map( //
-        i -> Tensor.of(IntStream.range(0, m).boxed().map(j -> biFunction.apply(i, j)))));
+    return Tensor.of(IntStream.range(0, n).parallel().mapToObj( //
+        i -> Tensor.of(IntStream.range(0, m).mapToObj(j -> biFunction.apply(i, j)))));
   }
 }

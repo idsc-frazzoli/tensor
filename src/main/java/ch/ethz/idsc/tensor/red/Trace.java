@@ -36,7 +36,7 @@ public enum Trace {
     List<Integer> index = IntStream.range(0, dimensions.size()) //
         .map(i -> Tensor.ALL) //
         .boxed().collect(Collectors.toList());
-    return IntStream.range(0, length).boxed().map(count -> {
+    return IntStream.range(0, length).mapToObj(count -> {
       index.set(d0, count);
       index.set(d1, count);
       return tensor.get(index);

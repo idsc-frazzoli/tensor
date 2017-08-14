@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.opt;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
@@ -49,7 +50,19 @@ public class RamerDouglasPeuckerTest extends TestCase {
 
   public void testFail() {
     try {
+      RamerDouglasPeucker.of(Tensors.fromString("{{{1},2}}"), RealScalar.of(.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       RamerDouglasPeucker.of(LieAlgebras.sl3(), RealScalar.of(.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      RamerDouglasPeucker.of(Array.zeros(3, 2, 4), RealScalar.of(.1));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

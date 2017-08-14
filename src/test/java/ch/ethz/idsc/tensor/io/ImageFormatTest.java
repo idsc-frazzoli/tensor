@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
@@ -26,11 +27,15 @@ import ch.ethz.idsc.tensor.sca.Round;
 import junit.framework.TestCase;
 
 public class ImageFormatTest extends TestCase {
-  public void testRGBAFile() throws Exception {
-    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+  static Tensor _readRGBA() throws IOException {
+    File file = new File(ImageFormatTest.class.getResource("/io/rgba15x33.png").getFile());
     assertTrue(file.isFile());
     BufferedImage bufferedImage = ImageIO.read(file);
-    Tensor tensor = ImageFormat.from(bufferedImage);
+    return ImageFormat.from(bufferedImage);
+  }
+
+  public void testRGBAFile() throws Exception {
+    Tensor tensor = _readRGBA();
     assertEquals(tensor.get(12, 19), Tensors.vector(118, 130, 146, 200));
     assertEquals(tensor.get(14, 0), Tensors.vector(254, 0, 0, 255)); // almost red, fe0000
     assertEquals(Dimensions.of(tensor), Arrays.asList(15, 33, 4));

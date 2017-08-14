@@ -52,19 +52,19 @@ public enum Tensors {
   /** @param values
    * @return tensor of {@link RationalScalar} with given values */
   public static Tensor vectorInt(int... values) {
-    return Tensor.of(IntStream.of(values).boxed().map(IntegerScalar::of));
+    return Tensor.of(IntStream.of(values).mapToObj(IntegerScalar::of));
   }
 
   /** @param values
    * @return tensor of {@link RationalScalar} with given values */
   public static Tensor vectorLong(long... values) {
-    return Tensor.of(LongStream.of(values).boxed().map(IntegerScalar::of));
+    return Tensor.of(LongStream.of(values).mapToObj(IntegerScalar::of));
   }
 
   /** @param values
    * @return tensor of {@link DoubleScalar} with given values */
   public static Tensor vectorDouble(double... values) {
-    return Tensor.of(DoubleStream.of(values).boxed().map(DoubleScalar::of));
+    return Tensor.of(DoubleStream.of(values).mapToObj(DoubleScalar::of));
   }
 
   /** @param biFunction
@@ -72,8 +72,8 @@ public enum Tensors {
    * @param m number of columns
    * @return (n x m)-matrix with (i,j)th-entry == bifunction.apply(i,j) */
   public static Tensor matrix(BiFunction<Integer, Integer, ? extends Tensor> biFunction, int n, int m) {
-    return Tensor.of(IntStream.range(0, n).boxed().map( //
-        i -> Tensor.of(IntStream.range(0, m).boxed().map(j -> biFunction.apply(i, j)))));
+    return Tensor.of(IntStream.range(0, n).mapToObj( //
+        i -> Tensor.of(IntStream.range(0, m).mapToObj(j -> biFunction.apply(i, j)))));
   }
 
   /** @param data

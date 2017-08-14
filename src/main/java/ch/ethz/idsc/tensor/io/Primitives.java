@@ -41,7 +41,7 @@ public enum Primitives {
    * @return */
   public static DoubleBuffer toDoubleBuffer(Tensor tensor) {
     DoubleBuffer doubleBuffer = DoubleBuffer.allocate(Numel.of(tensor));
-    toStreamNumber(tensor).map(Number::doubleValue).forEach(doubleBuffer::put);
+    toStreamNumber(tensor).mapToDouble(Number::doubleValue).forEach(doubleBuffer::put);
     doubleBuffer.flip();
     return doubleBuffer;
   }
@@ -69,7 +69,7 @@ public enum Primitives {
   }
 
   /***************************************************/
-  /** does not perform rounding, but uses Number::longValue
+  /** does not perform rounding, but uses Scalar::number().longValue()
    * 
    * @param tensor
    * @return list of long values of all scalars in tensor */
@@ -77,7 +77,7 @@ public enum Primitives {
     return toStreamNumber(tensor).map(Number::longValue).collect(Collectors.toList());
   }
 
-  /** does not perform rounding, but uses Number::longValue
+  /** does not perform rounding, but uses Scalar::number().longValue()
    * 
    * @param tensor
    * @return array of long values of all scalars in tensor */
@@ -89,13 +89,13 @@ public enum Primitives {
    * @return */
   public static LongBuffer toLongBuffer(Tensor tensor) {
     LongBuffer longBuffer = LongBuffer.allocate(Numel.of(tensor));
-    toStreamNumber(tensor).map(Number::longValue).forEach(longBuffer::put);
+    toStreamNumber(tensor).mapToLong(Number::longValue).forEach(longBuffer::put);
     longBuffer.flip();
     return longBuffer;
   }
 
   /***************************************************/
-  /** does not perform rounding, but uses Number::intValue
+  /** does not perform rounding, but uses Scalar::number().intValue()
    * 
    * @param tensor
    * @return list of int values of all scalars in tensor */
@@ -103,7 +103,7 @@ public enum Primitives {
     return toStreamNumber(tensor).map(Number::intValue).collect(Collectors.toList());
   }
 
-  /** does not perform rounding, but uses Number::intValue
+  /** does not perform rounding, but uses Scalar::number().intValue()
    * 
    * @param tensor
    * @return array of int values of all scalars in tensor */
@@ -115,7 +115,7 @@ public enum Primitives {
    * @return */
   public static IntBuffer toIntBuffer(Tensor tensor) {
     IntBuffer intBuffer = IntBuffer.allocate(Numel.of(tensor));
-    toStreamNumber(tensor).map(Number::intValue).forEach(intBuffer::put);
+    toStreamNumber(tensor).mapToInt(Number::intValue).forEach(intBuffer::put);
     intBuffer.flip();
     return intBuffer;
   }

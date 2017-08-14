@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.InvertUnlessZero;
@@ -16,7 +17,7 @@ public enum PseudoInverse {
   /** @param matrix
    * @return pseudoinverse of matrix */
   public static Tensor of(Tensor matrix) {
-    return matrix.get(0).length() <= matrix.length() ? //
+    return Unprotect.dimension1(matrix) <= matrix.length() ? //
         of(SingularValueDecomposition.of(matrix)) : //
         Transpose.of(of(Transpose.of(matrix)));
   }

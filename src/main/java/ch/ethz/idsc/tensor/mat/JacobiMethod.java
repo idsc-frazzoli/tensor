@@ -12,7 +12,6 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Ordering;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Hypot;
@@ -43,7 +42,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   /** @param matrix symmetric and real valued */
   JacobiMethod(Tensor matrix) {
     Tensor A = matrix.copy();
-    n = Dimensions.of(A).get(0);
+    n = A.length();
     V = IdentityMatrix.of(n);
     Tensor z = Array.zeros(n);
     Tensor b = Diagonal.of(matrix);
@@ -55,8 +54,8 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
           .orElse(RealScalar.ZERO);
       if (Scalars.isZero(sum)) {
         int[] order = Ordering.DECREASING.of(d);
-        d = Tensor.of(IntStream.of(order).boxed().map(d::get)).unmodifiable();
-        V = Tensor.of(IntStream.of(order).boxed().map(V::get)).unmodifiable();
+        d = Tensor.of(IntStream.of(order).mapToObj(d::get)).unmodifiable();
+        V = Tensor.of(IntStream.of(order).mapToObj(V::get)).unmodifiable();
         return;
       }
       Scalar tresh = (i < 4) ? sum.multiply(factor) : RealScalar.ZERO;
@@ -87,14 +86,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
             A.set(RealScalar.ZERO, ip, iq);
             final int fip = ip;
             final int fiq = iq;
-            IntStream.range(0, ip).parallel() //
-                .forEach(j -> rotate(A, s, tau, j, fip, j, fiq));
-            IntStream.range(ip + 1, iq).parallel() //
-                .forEach(j -> rotate(A, s, tau, fip, j, j, fiq));
-            IntStream.range(iq + 1, n).parallel() //
-                .forEach(j -> rotate(A, s, tau, fip, j, fiq, j));
-            IntStream.range(0, n).parallel() //
-                .forEach(j -> rotate(V, s, tau, fip, j, fiq, j));
+            IntStream.range(0, ip).forEach(j -> _rotate(A, s, tau, j, fip, j, fiq));
+            IntStream.range(ip + 1, iq).forEach(j -> _rotate(A, s, tau, fip, j, j, fiq));
+            IntStream.range(iq + 1, n).forEach(j -> _rotate(A, s, tau, fip, j, fiq, j));
+            IntStream.range(0, n).forEach(j -> _rotate(V, s, tau, fip, j, fiq, j));
           }
         }
       }
@@ -105,20 +100,20 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     throw TensorRuntimeException.of(A);
   }
 
-  private static void rotate(Tensor A, Scalar s, Scalar tau, int i, int j, int k, int l) {
-    Scalar g = A.Get(i, j);
-    Scalar h = A.Get(k, l);
-    A.set(g.subtract(s.multiply(h.add(g.multiply(tau)))), i, j);
-    A.set(h.add(s.multiply(g.subtract(h.multiply(tau)))), k, l);
-  }
-
-  @Override
+  @Override // from Eigensystem
   public Tensor vectors() {
     return V;
   }
 
-  @Override
+  @Override // from Eigensystem
   public Tensor values() {
     return d;
+  }
+
+  private static void _rotate(Tensor A, Scalar s, Scalar tau, int i, int j, int k, int l) {
+    Scalar g = A.Get(i, j);
+    Scalar h = A.Get(k, l);
+    A.set(g.subtract(s.multiply(h.add(g.multiply(tau)))), i, j);
+    A.set(h.add(s.multiply(g.subtract(h.multiply(tau)))), k, l);
   }
 }

@@ -20,23 +20,24 @@ public class MatrixPower extends BinaryPower<Tensor> {
     return new MatrixPower(m.length()).apply(m, exponent);
   }
 
+  // ---
   private final int n;
 
   private MatrixPower(int n) {
     this.n = n;
   }
 
-  @Override
+  @Override // from BinaryPower
   public Tensor zeroth() {
     return IdentityMatrix.of(n);
   }
 
-  @Override
+  @Override // from BinaryPower
   public Tensor invert(Tensor matrix) {
     return Inverse.of(matrix);
   }
 
-  @Override
+  @Override // from BinaryPower
   public Tensor multiply(Tensor matrix1, Tensor matrix2) {
     return matrix1.dot(matrix2);
   }

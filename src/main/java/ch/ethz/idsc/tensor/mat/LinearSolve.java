@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Partition;
@@ -56,7 +57,7 @@ public enum LinearSolve {
   }
 
   private static Tensor _vector(Tensor m, Tensor b) {
-    int cols = m.get(0).length();
+    int cols = Unprotect.dimension1(m);
     Tensor r = RowReduce.of(Join.of(1, m, Partition.of(b, 1)));
     Tensor x = Array.zeros(cols);
     int j = 0;

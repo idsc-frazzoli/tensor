@@ -11,6 +11,10 @@ public class ScalarTest extends TestCase {
     assertTrue(DoubleScalar.POSITIVE_INFINITY.isScalar());
   }
 
+  public void testLengthNegative() {
+    assertTrue(Scalar.LENGTH < 0);
+  }
+
   public void testGet() {
     Tensor t = RealScalar.of(3);
     Scalar s = t.Get();

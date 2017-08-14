@@ -10,9 +10,10 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/QRDecomposition.html">QRDecomposition</a> */
 public interface QRDecomposition extends Serializable {
   /** @param matrix
-   * @return qr-decomposition of matrix */
+   * @return qr-decomposition of matrix
+   * @throws Exception if input is not a matrix */
   static QRDecomposition of(Tensor matrix) {
-    return new HouseholderQRDecomposition(matrix.unmodifiable());
+    return new HouseholderQRDecomposition(matrix);
   }
 
   /** @return orthogonal matrix */

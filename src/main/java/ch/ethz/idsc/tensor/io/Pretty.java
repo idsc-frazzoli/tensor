@@ -23,7 +23,7 @@ public class Pretty {
     return new Pretty(tensor).toString();
   }
 
-  /***************************************************/
+  // ---
   private final StringBuilder stringBuilder = new StringBuilder();
   private final String format;
   private int level = 0;
@@ -82,6 +82,6 @@ public class Pretty {
 
   // helper function
   private static String spaces(int level) {
-    return IntStream.range(0, level).boxed().map(i -> " ").collect(Collectors.joining());
+    return IntStream.range(0, level).mapToObj(i -> " ").collect(Collectors.joining());
   }
 }

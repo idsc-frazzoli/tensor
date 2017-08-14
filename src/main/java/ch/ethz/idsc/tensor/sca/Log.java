@@ -36,4 +36,14 @@ public enum Log implements ScalarUnaryOperator {
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(FUNCTION);
   }
+
+  /** for natural logarithm use {@link Log},
+   * for base 10 use {@link Log10}.
+   * 
+   * @param base
+   * @return logarithm function with given base */
+  public static ScalarUnaryOperator base(Scalar base) {
+    Scalar log_b = Log.of(base);
+    return scalar -> Log.of(scalar).divide(log_b);
+  }
 }

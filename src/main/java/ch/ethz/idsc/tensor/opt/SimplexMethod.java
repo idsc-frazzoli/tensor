@@ -10,8 +10,8 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Partition;
 import ch.ethz.idsc.tensor.alg.Range;
@@ -55,7 +55,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     this.tab = tab;
     this.ind = ind;
     m = tab.length() - 1;
-    n = Dimensions.of(tab).get(1) - 1;
+    n = Unprotect.dimension1(tab) - 1;
     if (isOutsideRange(ind, n))
       throw TensorRuntimeException.of(ind);
     while (true) {

@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Partition;
 import ch.ethz.idsc.tensor.io.MatlabExport;
 import ch.ethz.idsc.tensor.io.Pretty;
+import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MatlabExportDemo {
   ;

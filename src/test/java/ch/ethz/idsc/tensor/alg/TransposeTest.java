@@ -161,6 +161,17 @@ public class TransposeTest extends TestCase {
     assertEquals(result, correct);
   }
 
+  public void testEmpty2() {
+    Tensor empty2 = Tensors.fromString("{{},{}}");
+    assertEquals(Transpose.of(empty2), Tensors.empty());
+    try {
+      Transpose.of(Transpose.of(empty2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFail() {
     try {
       Transpose.nonArray(Array.zeros(2, 3), 1);
@@ -176,6 +187,15 @@ public class TransposeTest extends TestCase {
     }
     try {
       Transpose.nonArray(Array.zeros(2, 3), 0, -1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFail2() {
+    try {
+      Transpose.of(Tensors.fromString("{{1,2},{3,4,5}}"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

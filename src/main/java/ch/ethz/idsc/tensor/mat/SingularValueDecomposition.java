@@ -18,9 +18,9 @@ public interface SingularValueDecomposition extends Serializable {
    * 
    * @param A is rows x cols matrix with rows >= cols
    * @return singular value decomposition of matrix A
-   * @throws if decomposition cannot be established */
+   * @throws Exception input is not a matrix, or if decomposition cannot be established */
   static SingularValueDecomposition of(Tensor A) {
-    return new SingularValueDecompositionImpl(A.unmodifiable());
+    return new SingularValueDecompositionImpl(A);
   }
 
   /** @return matrix of dimensions A, rows x cols */

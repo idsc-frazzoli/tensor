@@ -18,9 +18,16 @@ public class NormalDistribution implements Distribution, //
 
   /** @param mean
    * @param sigma standard deviation
-   * @return */
+   * @return instance of NormalDistribution with given characteristics */
   public static Distribution of(Scalar mean, Scalar sigma) {
     return new NormalDistribution(mean, sigma);
+  }
+
+  /** @param mean
+   * @param sigma standard deviation
+   * @return instance of NormalDistribution with given characteristics */
+  public static Distribution of(Number mean, Number sigma) {
+    return of(RealScalar.of(mean), RealScalar.of(sigma));
   }
 
   /** @return standard normal distribution with mean == 0, and standard deviation == variance == 1 */
@@ -29,8 +36,8 @@ public class NormalDistribution implements Distribution, //
   }
 
   /** @param distribution
-   * @return {@link NormalDistribution} that has the same mean and variance
-   * as input distribution */
+   * @return NormalDistribution that has the same mean and variance as input distribution
+   * @throws Exception if mean or variance of distribution cannot be established */
   public static Distribution fit(Distribution distribution) {
     return new NormalDistribution( //
         Expectation.mean(distribution), Sqrt.of(Expectation.variance(distribution)));

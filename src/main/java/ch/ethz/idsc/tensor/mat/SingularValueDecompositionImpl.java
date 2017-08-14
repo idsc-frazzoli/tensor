@@ -1,7 +1,6 @@
 // code adapted by jph
 package ch.ethz.idsc.tensor.mat;
 
-import java.util.List;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
@@ -9,8 +8,8 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
@@ -36,9 +35,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
    * @param epsilon influences if levelW manipulates w and u
    * @param maxIterations */
   /* package */ SingularValueDecompositionImpl(Tensor A) {
-    List<Integer> dimensions = Dimensions.of(A);
-    rows = dimensions.get(0);
-    cols = dimensions.get(1);
+    rows = A.length();
+    cols = Unprotect.dimension1(A);
     if (rows < cols)
       throw new IllegalArgumentException();
     u = A.copy();
@@ -74,28 +72,28 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     }
   }
 
-  @Override
+  @Override // from SingularValueDecomposition
   public Tensor getU() {
     return u.unmodifiable();
   }
 
-  @Override
+  @Override // from SingularValueDecomposition
   public Tensor values() {
     return w.unmodifiable();
   }
 
-  @Override
+  @Override // from SingularValueDecomposition
   public Tensor getV() {
     return v.unmodifiable();
   }
 
-  @Override
+  @Override // from SingularValueDecomposition
   public void setThreshold(double w_threshold) {
     this.w_threshold = w_threshold;
   }
 
   /** @return threshold strictly below which singular values are considered to be zero */
-  @Override
+  @Override // from SingularValueDecomposition
   public double getThreshold() {
     return w_threshold;
   }

@@ -1,15 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.List;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
@@ -32,9 +30,8 @@ public enum RamerDouglasPeucker {
       return Tensors.empty();
     if (!MatrixQ.of(tensor))
       throw TensorRuntimeException.of(tensor);
-    List<Integer> dims = Dimensions.of(tensor);
-    if (dims.get(1) == 2) {
-      if (dims.get(0) == 1)
+    if (Unprotect.dimension1(tensor) == 2) {
+      if (tensor.length() == 1)
         return tensor;
       return _of(tensor, epsilon);
     }

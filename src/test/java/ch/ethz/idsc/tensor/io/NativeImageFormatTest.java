@@ -10,12 +10,21 @@ import javax.imageio.ImageIO;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class NativeImageFormatTest extends TestCase {
+  public void testRGBAFile() throws Exception {
+    Tensor tensor = ImageFormatTest._readRGBA();
+    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    BufferedImage bufferedImage = ImageIO.read(file);
+    Tensor nif = NativeImageFormat.from(bufferedImage);
+    assertEquals(Transpose.of(tensor), nif);
+  }
+
   public void testSimpleGray() {
     Distribution distribution = DiscreteUniformDistribution.of(0, 256);
     Tensor image = RandomVariate.of(distribution, 100, 200);

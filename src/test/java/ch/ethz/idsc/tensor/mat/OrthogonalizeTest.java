@@ -35,6 +35,21 @@ public class OrthogonalizeTest extends TestCase {
     _check(matrix);
   }
 
+  public void testSpan() {
+    Tensor matrix = Tensors.fromString("{{1, 1, 1}}");
+    _check(matrix);
+    Orthogonalize.of(matrix);
+    // it would be nice if orthogonal result is vector scaled by a positive factor
+    // System.out.println(orth);
+    // System.out.println(matrix.pmul(orth.map(Scalar::reciprocal)));
+  }
+
+  public void testComplex() {
+    Tensor matrix = Tensors.fromString("{{1, 0, 1+2*I}, {-3*I, 1, 1}}");
+    Tensor orth = Orthogonalize.of(matrix);
+    assertTrue(UnitaryMatrixQ.of(orth));
+  }
+
   public void testFailVector() {
     try {
       Orthogonalize.of(Tensors.vector(1, 2, 3, 4));

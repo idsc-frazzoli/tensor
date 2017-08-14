@@ -31,9 +31,9 @@ public enum ArrayQ {
   /** @param tensor
    * @param rank
    * @return true, if tensor is an array of given rank
+   * @see TensorRank
    * @see VectorQ
-   * @see MatrixQ
-   * @see TensorRank */
+   * @see MatrixQ */
   public static boolean ofRank(Tensor tensor, int rank) {
     return Dimensions.isArrayWithRank(tensor, rank);
   }

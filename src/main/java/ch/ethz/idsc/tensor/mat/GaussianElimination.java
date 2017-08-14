@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** Gaussian elimination is the most important algorithm of all time.
  * 
@@ -52,7 +53,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   }
 
   private void _eliminate(int c0, Scalar piv) {
-    IntStream.range(c0 + 1, lhs.length()).boxed().parallel().forEach(c1 -> { //
+    IntStream.range(c0 + 1, lhs.length()).forEach(c1 -> { // deliberately without parallel
       Scalar fac = lhs.Get(ind[c1], c0).divide(piv).negate();
       lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
       rhs.set(rhs.get(ind[c1]).add(rhs.get(ind[c0]).multiply(fac)), ind[c1]);
@@ -66,7 +67,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   GaussianElimination(Tensor matrix, Pivot pivot) {
     lhs = matrix.copy();
     int n = lhs.length();
-    int m = lhs.get(0).length();
+    int m = Unprotect.dimension1(lhs);
     ind = new int[n];
     rhs = null;
     IntStream.range(0, n).forEach(index -> ind[index] = index);
@@ -97,13 +98,13 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
   /** @return lhs */
   Tensor lhs() {
-    return Tensor.of(IntStream.range(0, lhs.length()).map(i -> ind[i]).boxed().map(lhs::get));
+    return Tensor.of(IntStream.range(0, lhs.length()).map(i -> ind[i]).mapToObj(lhs::get));
   }
 
   /** @return determinant */
   Scalar det() {
-    Scalar scalar = IntStream.range(0, lhs.length()).boxed() //
-        .map(c0 -> lhs.Get(ind[c0], c0)) //
+    Scalar scalar = IntStream.range(0, lhs.length()) //
+        .mapToObj(c0 -> lhs.Get(ind[c0], c0)) //
         .reduce(Scalar::multiply) //
         .get();
     return transpositions % 2 == 0 ? scalar : scalar.negate();

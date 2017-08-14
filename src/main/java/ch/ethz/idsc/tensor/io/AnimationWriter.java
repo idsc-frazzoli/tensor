@@ -11,6 +11,10 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>in Mathematica, animated gif sequences are created by Mathematica::Export */
 public interface AnimationWriter extends AutoCloseable {
+  /** @param file
+   * @param period between frames in milliseconds
+   * @return
+   * @throws Exception */
   public static AnimationWriter of(File file, int period) throws Exception {
     Filename filename = new Filename(file);
     if (filename.hasExtension("gif"))

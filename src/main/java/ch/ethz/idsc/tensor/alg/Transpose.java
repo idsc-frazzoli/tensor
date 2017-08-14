@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
@@ -36,12 +37,20 @@ public enum Transpose {
    * Transpose.of({{1, {2, 2}}, {{3}, 4}, {5, {6}}}) == {{1, {3}, 5}, {{2, 2}, 4, {6}}}
    * </pre>
    * 
+   * <p>Special cases that are consistent with Mathematica:
+   * <pre>
+   * Transpose[{{},{}}] == {}
+   * Transpose[{}] throws an Exception
+   * </pre>
+   * 
    * @param tensor with rank at least 2
    * @return tensor with the two first dimensions transposed and the remaining dimensions left as-is
    * @throws Exception if input is a vector or scalar */
   public static Tensor of(Tensor tensor) {
-    List<Integer> dims = Dimensions.of(tensor);
-    return Tensors.matrix((i, j) -> tensor.get(j, i), dims.get(1), dims.get(0));
+    int length = Unprotect.dimension1(tensor);
+    if (length == Scalar.LENGTH)
+      throw TensorRuntimeException.of(tensor);
+    return Tensors.vector(i -> tensor.get(Tensor.ALL, i), length);
   }
 
   /** transpose according to permutation sigma.
@@ -94,7 +103,7 @@ public enum Transpose {
   // helper function
   private static List<Integer> inverse(List<Integer> list, Tensor sigma) {
     return IntStream.of(Ordering.INCREASING.of(sigma)) //
-        .boxed().map(list::get).collect(Collectors.toList());
+        .mapToObj(list::get).collect(Collectors.toList());
   }
 
   // helper function

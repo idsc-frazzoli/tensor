@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -10,14 +9,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import ch.ethz.idsc.tensor.alg.Dimensions;
-
-/** reference implementation of the interface Tensor
- * parallel stream processing is used in dot product */
+/** reference implementation of the interface Tensor */
 /* package */ class TensorImpl implements Tensor {
   private static final String DELIMITER = ", ";
   // ---
-  private final List<Tensor> list;
+  /** list is accessed by UnmodifiableTensor, ParallelDot, Unprotect */
+  /* package */ final List<Tensor> list;
 
   /* package */ TensorImpl(List<Tensor> list) {
     this.list = list;
@@ -25,44 +22,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override
   public Tensor unmodifiable() {
-    return new TensorImpl(Collections.unmodifiableList(list)) {
-      @Override // from TensorImpl
-      public Tensor unmodifiable() {
-        return this;
-      }
-
-      @Override // from TensorImpl
-      void _set(Tensor tensor, List<Integer> index) {
-        throw new UnsupportedOperationException("unmodifiable");
-      }
-
-      @Override // from TensorImpl
-      <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
-        throw new UnsupportedOperationException("unmodifiable");
-      }
-
-      @Override // from TensorImpl
-      Stream<Tensor> _flatten0() {
-        return list.stream().map(Tensor::unmodifiable);
-      }
-
-      @Override // from TensorImpl
-      public Iterator<Tensor> iterator() {
-        return new Iterator<Tensor>() {
-          int index = 0;
-
-          @Override
-          public boolean hasNext() {
-            return index < length();
-          }
-
-          @Override
-          public Tensor next() {
-            return list.get(index++).unmodifiable();
-          }
-        };
-      }
-    };
+    return new UnmodifiableTensor(list);
   }
 
   @Override
@@ -128,7 +88,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
     final int head = index.get(0);
     if (index.size() == 1)
       if (head == ALL)
-        IntStream.range(0, length()).forEach(pos -> list.set(pos, function.apply((T) list.get(pos)).copy()));
+        IntStream.range(0, list.size()).forEach(pos -> list.set(pos, function.apply((T) list.get(pos)).copy()));
       else
         list.set(head, function.apply((T) list.get(head)).copy());
     else {
@@ -195,20 +155,20 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   @Override
   public Tensor add(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
-    return Tensor.of(_range(impl).map(index -> list.get(index).add(impl.list.get(index))));
+    return Tensor.of(_range(impl).mapToObj(index -> list.get(index).add(impl.list.get(index))));
   }
 
   @Override
   public Tensor subtract(Tensor tensor) {
     // return add(tensor.negate());
     TensorImpl impl = (TensorImpl) tensor;
-    return Tensor.of(_range(impl).map(index -> list.get(index).subtract(impl.list.get(index))));
+    return Tensor.of(_range(impl).mapToObj(index -> list.get(index).subtract(impl.list.get(index))));
   }
 
   @Override
   public Tensor pmul(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
-    return Tensor.of(_range(impl).map(index -> list.get(index).pmul(impl.list.get(index))));
+    return Tensor.of(_range(impl).mapToObj(index -> list.get(index).pmul(impl.list.get(index))));
   }
 
   @Override
@@ -223,24 +183,20 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
   @Override
   public Tensor dot(Tensor tensor) {
-    return _dot(Dimensions.of(this), (TensorImpl) tensor);
-  }
-
-  private Tensor _dot(List<Integer> dimensions, TensorImpl impl) {
-    if (1 < dimensions.size())
-      return Tensor.of(list.stream() //
-          .parallel() // parallel because of subsequent reduce
-          .map(entry -> ((TensorImpl) entry)._dot(dimensions.subList(1, dimensions.size()), impl)));
-    return _range(impl).map(index -> impl.list.get(index).multiply((Scalar) list.get(index))) //
-        .reduce(Tensor::add).orElse(RealScalar.ZERO);
+    if (list.isEmpty() || list.get(0).isScalar()) { // quick hint whether this is a vector
+      TensorImpl impl = (TensorImpl) tensor;
+      return _range(impl).mapToObj(index -> impl.list.get(index).multiply((Scalar) list.get(index))) //
+          .reduce(Tensor::add).orElse(RealScalar.ZERO);
+    }
+    return Tensor.of(list.stream().map(entry -> entry.dot(tensor)));
   }
 
   // helper function
-  private Stream<Integer> _range(TensorImpl impl) {
+  private IntStream _range(TensorImpl impl) {
     int length = list.size();
     if (length != impl.list.size()) // <- check is necessary otherwise error might be undetected
       throw TensorRuntimeException.of(this, impl); // dimensions mismatch
-    return IntStream.range(0, length).boxed();
+    return IntStream.range(0, length);
   }
 
   @Override
