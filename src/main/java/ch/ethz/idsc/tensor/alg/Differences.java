@@ -19,7 +19,6 @@ public enum Differences {
    * @return the successive differences of elements in tensor */
   public static Tensor of(Tensor tensor) {
     return Tensor.of(IntStream.range(0, tensor.length() - 1) //
-        .parallel() //
         .mapToObj(index -> tensor.get(index + 1).subtract(tensor.get(index))));
   }
 }

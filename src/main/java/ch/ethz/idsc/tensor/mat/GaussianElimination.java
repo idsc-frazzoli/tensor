@@ -53,7 +53,7 @@ import ch.ethz.idsc.tensor.Unprotect;
   }
 
   private void _eliminate(int c0, Scalar piv) {
-    IntStream.range(c0 + 1, lhs.length()).parallel().forEach(c1 -> { //
+    IntStream.range(c0 + 1, lhs.length()).forEach(c1 -> { // deliberately without parallel
       Scalar fac = lhs.Get(ind[c1], c0).divide(piv).negate();
       lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
       rhs.set(rhs.get(ind[c1]).add(rhs.get(ind[c0]).multiply(fac)), ind[c1]);

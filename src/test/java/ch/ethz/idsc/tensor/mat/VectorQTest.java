@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
@@ -40,6 +41,15 @@ public class VectorQTest extends TestCase {
   public void testEnsure() {
     try {
       VectorQ.orThrow(HilbertMatrix.of(3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFail() {
+    try {
+      VectorQ.ofLength(Tensors.empty(), Scalar.LENGTH);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

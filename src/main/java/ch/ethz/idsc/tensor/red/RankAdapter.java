@@ -1,10 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.util.Optional;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.alg.ArrayQ;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
 /* package */ class RankAdapter<Type> {
@@ -14,8 +15,9 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
 
   @SuppressWarnings("incomplete-switch")
   public final Type of(Tensor tensor) {
-    if (ArrayQ.of(tensor))
-      switch (TensorRank.of(tensor)) {
+    Optional<Integer> rank = TensorRank.ofArray(tensor);
+    if (rank.isPresent())
+      switch (rank.get()) {
       case RANK_SCALAR:
         return ofScalar((Scalar) tensor);
       case RANK_VECTOR:

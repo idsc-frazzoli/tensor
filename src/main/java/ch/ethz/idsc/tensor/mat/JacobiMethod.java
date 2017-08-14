@@ -86,14 +86,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
             A.set(RealScalar.ZERO, ip, iq);
             final int fip = ip;
             final int fiq = iq;
-            IntStream.range(0, ip).parallel() //
-                .forEach(j -> _rotate(A, s, tau, j, fip, j, fiq));
-            IntStream.range(ip + 1, iq).parallel() //
-                .forEach(j -> _rotate(A, s, tau, fip, j, j, fiq));
-            IntStream.range(iq + 1, n).parallel() //
-                .forEach(j -> _rotate(A, s, tau, fip, j, fiq, j));
-            IntStream.range(0, n).parallel() //
-                .forEach(j -> _rotate(V, s, tau, fip, j, fiq, j));
+            IntStream.range(0, ip).forEach(j -> _rotate(A, s, tau, j, fip, j, fiq));
+            IntStream.range(ip + 1, iq).forEach(j -> _rotate(A, s, tau, fip, j, j, fiq));
+            IntStream.range(iq + 1, n).forEach(j -> _rotate(A, s, tau, fip, j, fiq, j));
+            IntStream.range(0, n).forEach(j -> _rotate(V, s, tau, fip, j, fiq, j));
           }
         }
       }

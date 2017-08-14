@@ -48,4 +48,12 @@ public class TensorRankTest extends TestCase {
   public void testRank3() {
     assertEquals(TensorRank.of(LieAlgebras.so3()), 3);
   }
+
+  public void testOfArray() {
+    assertFalse(TensorRank.ofArray(Tensors.fromString("{{1},2}")).isPresent());
+    assertEquals(TensorRank.ofArray(Tensors.fromString("{1,2}")).get(), (Integer) 1);
+    assertEquals(TensorRank.ofArray(Tensors.fromString("123")).get(), (Integer) 0);
+    assertEquals(TensorRank.ofArray(Tensors.fromString("{{1,2}}")).get(), (Integer) 2);
+    assertEquals(TensorRank.ofArray(Tensors.fromString("{{1,2},{2}}")).orElse(99), (Integer) 99);
+  }
 }

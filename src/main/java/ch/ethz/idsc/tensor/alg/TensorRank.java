@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.Optional;
+
 import ch.ethz.idsc.tensor.Tensor;
 
 /** implementation consistent with Mathematica
@@ -22,5 +24,11 @@ public enum TensorRank {
    * @return rank of this tensor */
   public static int of(Tensor tensor) {
     return Dimensions.of(tensor).size();
+  }
+
+  /** @param tensor
+   * @return rank of tensor if tensor is an array, else Optional.empty() */
+  public static Optional<Integer> ofArray(Tensor tensor) {
+    return Dimensions.arrayRank(tensor);
   }
 }

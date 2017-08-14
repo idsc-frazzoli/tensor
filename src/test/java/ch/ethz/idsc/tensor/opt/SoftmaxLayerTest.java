@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Round;
 import junit.framework.TestCase;
 
@@ -22,7 +23,7 @@ public class SoftmaxLayerTest extends TestCase {
   public void testSumOne() {
     Tensor tensor = Range.of(-3, 6);
     Tensor actual = SoftmaxLayer.of(tensor);
-    assertEquals(Total.of(actual), RealScalar.ONE);
+    assertTrue(Chop._15.close(Total.of(actual), RealScalar.ONE));
   }
 
   public void testEmptyFail() {
