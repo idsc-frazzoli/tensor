@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.NumberQ;
@@ -17,6 +18,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ColorDataFunction.html">ColorDataFunction</a> */
-public interface ColorDataFunction extends Function<Scalar, Tensor> {
+public interface ColorDataFunction extends Function<Scalar, Tensor>, Serializable {
   // ---
 }

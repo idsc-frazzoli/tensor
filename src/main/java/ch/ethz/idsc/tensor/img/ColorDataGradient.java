@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.N;
  * 
  * <p>In case NumberQ.of(scalar) == false then a transparent color is assigned. */
 public class ColorDataGradient implements ColorDataFunction {
-  private static final Tensor TRANSPARENT = Array.zeros(4).unmodifiable();
+  private static final Tensor TRANSPARENT = N.of(Array.zeros(4));
 
   /** colors are generated using {@link LinearInterpolation} of given tensor
    * 
@@ -40,7 +40,7 @@ public class ColorDataGradient implements ColorDataFunction {
   @Override
   public Tensor apply(Scalar scalar) {
     return NumberQ.of(scalar) ? //
-        interpolation.get(Tensors.of(scalar.multiply(scale))) : TRANSPARENT;
+        interpolation.get(Tensors.of(scalar.multiply(scale))) : TRANSPARENT.copy();
   }
 
   /** the application of this function is to derive a new color scheme

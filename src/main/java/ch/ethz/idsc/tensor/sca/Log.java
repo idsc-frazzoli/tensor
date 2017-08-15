@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
@@ -15,13 +16,20 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum Log implements ScalarUnaryOperator {
   FUNCTION;
   // ---
+  private static final Scalar PI = DoubleScalar.of(Math.PI);
+  static final double LO = 0.75;
+  static final double HI = 1.3;
+
   @Override
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof RealScalar) {
-      double value = scalar.number().doubleValue();
-      if (0 <= value)
+      if (Scalars.lessEquals(RealScalar.ZERO, scalar)) {
+        double value = scalar.number().doubleValue();
+        if (LO < value && value < HI)
+          return DoubleScalar.of(Math.log1p(scalar.subtract(RealScalar.ONE).number().doubleValue()));
         return DoubleScalar.of(Math.log(value));
-      return ComplexScalar.of(Math.log(-value), Math.PI);
+      }
+      return ComplexScalar.of(apply(scalar.negate()), PI);
     }
     if (scalar instanceof ComplexScalar) {
       ComplexScalar z = (ComplexScalar) scalar;

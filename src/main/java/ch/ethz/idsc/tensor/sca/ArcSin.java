@@ -7,9 +7,11 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** http://www.milefoot.com/math/complex/functionsofi.htm
+/** For real input in the interval [-1, 1] the returned angle is in the range -pi/2 through pi/2.
  * 
- * inspired by
+ * http://www.milefoot.com/math/complex/functionsofi.htm
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArcCos.html">ArcCos</a> */
 public enum ArcSin implements ScalarUnaryOperator {
   FUNCTION;
