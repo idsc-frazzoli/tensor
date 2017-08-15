@@ -23,7 +23,7 @@ public class HankelTensorTest extends TestCase {
     tensor.flatten(0).forEach(matrix -> assertTrue(SymmetricMatrixQ.of(matrix)));
   }
 
-  public void testFail() {
+  public void testFailVector() {
     try {
       HankelTensor.of(RealScalar.ONE, 1);
       assertTrue(false);
@@ -32,6 +32,15 @@ public class HankelTensorTest extends TestCase {
     }
     try {
       HankelTensor.of(Tensors.fromString("{{1,2}}"), 1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailRank() {
+    try {
+      HankelTensor.of(Tensors.vector(1, 2, 3, 4, 5, 6), 2);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

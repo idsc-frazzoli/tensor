@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Tensor;
@@ -28,7 +29,7 @@ public class MappedInterpolation extends AbstractInterpolation {
   private final Function<Tensor, Tensor> function;
 
   /* package */ MappedInterpolation(Tensor tensor, Function<Tensor, Tensor> function) {
-    if (tensor == null)
+    if (Objects.isNull(tensor))
       throw new RuntimeException();
     this.tensor = tensor;
     this.function = function;

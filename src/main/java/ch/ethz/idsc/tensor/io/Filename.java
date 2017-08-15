@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
+import java.util.Objects;
 
 /* package */ class Filename implements Comparable<Filename> {
   public final File file;
@@ -28,7 +29,7 @@ import java.io.File;
   /** @param string if null, produces file with title only, for instance to use as a directory
    * @return */
   public File withExtension(String string) {
-    return new File(file.getParentFile(), title + (string == null ? "" : "." + string));
+    return new File(file.getParentFile(), title + (Objects.isNull(string) ? "" : "." + string));
   }
 
   @Override // from Comparable<Filename>

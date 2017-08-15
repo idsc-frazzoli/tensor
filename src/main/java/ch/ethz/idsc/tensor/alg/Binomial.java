@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -75,7 +76,7 @@ public class Binomial {
   // function does not require synchronized
   private static Binomial _binomial(int n) {
     Binomial binomial = MEMO.get(n);
-    if (binomial == null) {
+    if (Objects.isNull(binomial)) {
       binomial = new Binomial(n);
       MEMO.put(n, binomial);
     } else

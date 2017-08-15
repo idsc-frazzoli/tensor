@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.opt;
 
 import java.util.List;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -27,7 +28,7 @@ public class LinearInterpolation extends AbstractInterpolation {
   private final Tensor tensor;
 
   private LinearInterpolation(Tensor tensor) {
-    if (tensor == null)
+    if (Objects.isNull(tensor))
       throw new RuntimeException();
     this.tensor = tensor;
   }

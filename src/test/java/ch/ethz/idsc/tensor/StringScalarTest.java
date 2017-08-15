@@ -11,4 +11,13 @@ public class StringScalarTest extends TestCase {
     assertEquals(d.length(), 4);
     assertEquals(d.toString(), "{asd, x, asd, x}");
   }
+
+  public void testFail() {
+    try {
+      StringScalar.of(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

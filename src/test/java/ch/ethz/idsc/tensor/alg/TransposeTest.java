@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
@@ -167,6 +168,20 @@ public class TransposeTest extends TestCase {
     try {
       Transpose.of(Transpose.of(empty2));
       assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRankFail() {
+    Transpose.of(LieAlgebras.so3(), 1, 2, 0);
+    try {
+      Transpose.of(LieAlgebras.so3(), 1, 0);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Transpose.of(LieAlgebras.so3(), 3, 2, 1, 0);
     } catch (Exception exception) {
       // ---
     }

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
@@ -233,7 +234,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
       RationalScalar rationalScalar = (RationalScalar) object;
       return bigFraction.equals(rationalScalar.bigFraction);
     }
-    return object == null ? false : object.equals(this);
+    return Objects.nonNull(object) && object.equals(this);
   }
 
   @Override // from AbstractScalar

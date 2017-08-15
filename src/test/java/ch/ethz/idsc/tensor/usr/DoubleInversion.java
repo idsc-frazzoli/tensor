@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 
 // class is not treated as test by maven
 // extending from TestCase allows access to assert functions
-class DoubleInversion extends TestCase {
+public class DoubleInversion extends TestCase {
   private static boolean invertible(double value) {
     return Double.isFinite(1.0 / value);
   }

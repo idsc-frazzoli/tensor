@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -61,7 +62,7 @@ public enum Expectation {
       p_equals = discreteDistribution.p_equals(sample);
       cumprob = cumprob.add(p_equals);
       T delta = (T) function.apply(x).multiply(p_equals);
-      value = value == null ? delta : (T) value.add(delta);
+      value = Objects.isNull(value) ? delta : (T) value.add(delta);
       ++sample;
     }
     return value;

@@ -5,6 +5,7 @@ package ch.ethz.idsc.tensor.opt;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -62,7 +63,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
       }
       ++k1;
     }
-    if (point1 == null)
+    if (Objects.isNull(point1))
       return;
     int k2 = k1 + 1;
     for (Tensor point : list.subList(k2, list.size()))

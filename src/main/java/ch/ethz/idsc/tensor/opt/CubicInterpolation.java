@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
@@ -14,7 +16,7 @@ class CubicInterpolation extends AbstractInterpolation {
   private final Tensor tensor;
 
   private CubicInterpolation(Tensor tensor) {
-    if (tensor == null)
+    if (Objects.isNull(tensor))
       throw new RuntimeException();
     this.tensor = tensor;
   }

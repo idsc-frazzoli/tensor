@@ -141,6 +141,12 @@ public class BinomialDistributionTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+    try {
+      BinomialDistribution.of(RealScalar.of(0.3), RationalScalar.of(1, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testFailP() {

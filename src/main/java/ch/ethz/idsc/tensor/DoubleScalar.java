@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
@@ -201,7 +202,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
       RealScalar realScalar = (RealScalar) object;
       return value == realScalar.number().doubleValue();
     }
-    return object == null ? false : object.equals(this);
+    return Objects.nonNull(object) && object.equals(this);
   }
 
   @Override // from AbstractScalar

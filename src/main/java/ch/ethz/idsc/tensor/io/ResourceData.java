@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -29,7 +30,7 @@ public enum ResourceData {
    * @return imported tensor, or null if resource could not be loaded */
   public static Tensor of(String string) {
     InputStream inputStream = ResourceData.class.getResourceAsStream(string);
-    if (inputStream == null)
+    if (Objects.isNull(inputStream))
       return null;
     try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
       Filename filename = new Filename(new File(string));

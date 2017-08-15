@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.opt;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -23,7 +24,7 @@ public interface SimplexPivot extends Serializable {
         Scalar tab_ij = tab.Get(i, j);
         if (((SignInterface) tab_ij).signInt() == 1) {
           Scalar ratio = tab.Get(i, n).divide(tab_ij);
-          if (min == null || 0 < Scalars.compare(min, ratio)) {
+          if (Objects.isNull(min) || 0 < Scalars.compare(min, ratio)) {
             min = ratio;
             pivot = i;
           }
