@@ -46,7 +46,7 @@ import ch.ethz.idsc.tensor.Scalars;
       cdf.put(RationalScalar.of(first, 1), discreteDistribution.p_equals(first));
     }
     Entry<Scalar, Scalar> ceiling = cdf.ceilingEntry(x);
-    if (cdf_finished || ceiling != null) {
+    if (cdf_finished || Objects.nonNull(ceiling)) {
       Entry<Scalar, Scalar> entry = function.apply(x);
       return Objects.isNull(entry) ? RealScalar.ZERO : entry.getValue();
     }

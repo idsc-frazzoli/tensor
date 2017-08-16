@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 enum ScalarParser {
@@ -60,9 +61,9 @@ enum ScalarParser {
       }
       return sum;
     }
-    if (times != null)
+    if (Objects.nonNull(times))
       return of(expr.substring(0, times)).multiply(of(expr.substring(times + 1)));
-    if (divide != null)
+    if (Objects.nonNull(divide))
       return of(expr.substring(0, divide)).divide(of(expr.substring(divide + 1)));
     if (expr.startsWith("(") && expr.endsWith(")"))
       return of(expr.substring(1, expr.length() - 1));
