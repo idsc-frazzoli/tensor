@@ -32,4 +32,8 @@ public class SubdivideTest extends TestCase {
     Tensor r = Tensors.fromString("{{10, 5}, {35/4, 15/2}, {15/2, 10}, {25/4, 25/2}, {5, 15}}");
     assertEquals(t, r);
   }
+
+  public void testRange() {
+    assertEquals(Range.of(1, 11), Subdivide.of(1, 10, 9));
+  }
 }

@@ -63,10 +63,6 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return of(value * gaussScalar.value, prime);
     }
-    if (Scalars.isZero(scalar)) // && Scalars.nonZero(this)
-      return zero();
-    if (scalar.equals(RealScalar.ONE))
-      return this;
     throw TensorRuntimeException.of(this, scalar);
   }
 

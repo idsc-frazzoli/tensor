@@ -5,8 +5,11 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Gamma;
+import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
@@ -21,5 +24,22 @@ public class NestTest extends TestCase {
     Scalar expected = ComplexScalar.of(0.024484718696096586, -0.3838080212320521);
     Scalar actual = Nest.of(Gamma.FUNCTION, ComplexScalar.of(.3, .9), 3);
     assertTrue(Chop._08.close(expected, actual));
+  }
+
+  public void testCopy() {
+    Tensor in = Array.zeros(2);
+    Tensor re = Nest.of(null, in, 0);
+    re.set(Increment.ONE, Tensor.ALL);
+    assertFalse(in.equals(re));
+    assertEquals(in, Array.zeros(2));
+  }
+
+  public void testFail() {
+    try {
+      Nest.of(Cos.FUNCTION, RealScalar.of(.3), -1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

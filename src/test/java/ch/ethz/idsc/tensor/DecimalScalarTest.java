@@ -3,7 +3,11 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
 
+import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Floor;
+import ch.ethz.idsc.tensor.sca.Imag;
+import ch.ethz.idsc.tensor.sca.Real;
 import junit.framework.TestCase;
 
 public class DecimalScalarTest extends TestCase {
@@ -72,11 +76,39 @@ public class DecimalScalarTest extends TestCase {
     // Mathematica N[Sqrt[2], 50] gives
     // 1.4142135623730950488016887242096980785696718753769
     String expected = "1.41421356237309504880168872420969807856967187537";
-    BigDecimal d = BigDecimal.ONE;
-    Scalar sc1 = DecimalScalar.of(d);
+    Scalar sc1 = DecimalScalar.of(BigDecimal.ONE);
     DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1);
     Scalar root2 = sc2.sqrt();
     assertTrue(root2.toString().startsWith(expected));
+  }
+
+  public void testSqrtNeg() {
+    // Mathematica N[Sqrt[2], 50] gives
+    // 1.4142135623730950488016887242096980785696718753769
+    String expected = "1.41421356237309504880168872420969807856967187537";
+    Scalar sc1 = DecimalScalar.of(BigDecimal.ONE);
+    DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1).negate();
+    Scalar root2 = sc2.sqrt();
+    assertEquals(Real.of(root2), RealScalar.ZERO);
+    assertTrue(Imag.of(root2).toString().startsWith(expected));
+  }
+
+  public void testZero1() {
+    assertEquals(RealScalar.of(BigDecimal.ONE).hashCode(), BigDecimal.ONE.hashCode());
+  }
+
+  public void testRounding() {
+    assertEquals(Ceiling.of(DecimalScalar.of(12.1)), RealScalar.of(13));
+    assertEquals(Ceiling.of(DecimalScalar.of(25)), RealScalar.of(25));
+    assertEquals(Floor.of(DecimalScalar.of(12.99)), RealScalar.of(12));
+    assertEquals(Floor.of(DecimalScalar.of(25)), RealScalar.of(25));
+  }
+
+  public void testCompare0() {
+    Scalar a = DecimalScalar.of(.1);
+    Scalar b = DecimalScalar.of(.2);
+    assertTrue(Scalars.lessThan(a, b));
+    assertFalse(Scalars.lessThan(b, a));
   }
 
   public void testCompare1() {

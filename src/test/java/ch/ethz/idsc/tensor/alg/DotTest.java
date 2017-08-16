@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class DotTest extends TestCase {
@@ -23,5 +24,13 @@ public class DotTest extends TestCase {
     Tensor m3 = Tensors.vector(i -> RealScalar.of(2 + 2 * i), 3);
     Tensor d1 = Dot.of(m1, m2, m3);
     assertEquals(d1, m1.dot(m2).dot(m3));
+  }
+
+  public void testCopy() {
+    Tensor in = Array.zeros(2);
+    Tensor re = Dot.of(in);
+    re.set(Increment.ONE, Tensor.ALL);
+    assertFalse(in.equals(re));
+    assertEquals(in, Array.zeros(2));
   }
 }

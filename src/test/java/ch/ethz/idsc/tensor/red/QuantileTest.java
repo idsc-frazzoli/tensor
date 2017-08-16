@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.red;
 
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -49,5 +50,16 @@ public class QuantileTest extends TestCase {
     Tensor deviation = quantile.subtract(weight);
     Scalar maxError = Norm.INFINITY.of(deviation);
     assertTrue(Scalars.lessThan(maxError, RealScalar.of(0.05)));
+  }
+
+  public void testFail() {
+    Tensor tensor = Tensors.vector(-3, 2, 1, 100);
+    Tensor weight = Tensors.of(RealScalar.ONE, ComplexScalar.of(1, 2));
+    try {
+      Quantile.of(tensor, weight);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -62,5 +63,14 @@ public class ArcTanTest extends TestCase {
   public void testCornerCases() {
     assertEquals(ArcTan.of(RealScalar.of(-5), RealScalar.ZERO), DoubleScalar.of(Math.PI));
     assertEquals(ArcTan.of(RealScalar.ZERO, RealScalar.ZERO), RealScalar.ZERO);
+  }
+
+  public void testFail() {
+    try {
+      ArcTan.of(RealScalar.of(5), GaussScalar.of(1, 7));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
