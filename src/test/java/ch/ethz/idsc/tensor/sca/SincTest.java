@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.StringScalar;
 import junit.framework.TestCase;
 
 public class SincTest extends TestCase {
@@ -63,5 +64,14 @@ public class SincTest extends TestCase {
       val0 = Math.nextDown(val0);
     Scalar res0 = Sinc.of(DoubleScalar.of(val0));
     assertEquals(res1, res0);
+  }
+
+  public void testTypeFail() {
+    try {
+      Sinc.of(StringScalar.of("some"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

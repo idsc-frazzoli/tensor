@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.StringScalar;
 import junit.framework.TestCase;
 
 public class PowerTest extends TestCase {
@@ -77,5 +78,14 @@ public class PowerTest extends TestCase {
   public void testFunction() {
     assertEquals(RealScalar.of(7).map(Power.function(.5)), Sqrt.of(RealScalar.of(7)));
     assertEquals(Power.function(.5).apply(RealScalar.of(7)), Sqrt.of(RealScalar.of(7)));
+  }
+
+  public void testTypeFail() {
+    try {
+      Power.of(StringScalar.of("some"), 0);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -79,5 +80,14 @@ public class FloorTest extends TestCase {
   public void testFailNaN() {
     Scalar s = Floor.FUNCTION.apply(DoubleScalar.of(Double.NaN));
     assertTrue(Double.isNaN(s.number().doubleValue()));
+  }
+
+  public void testTypeFail() {
+    try {
+      Floor.of(StringScalar.of("some"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

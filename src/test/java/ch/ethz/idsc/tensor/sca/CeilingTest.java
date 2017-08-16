@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -81,5 +82,14 @@ public class CeilingTest extends TestCase {
   public void testNonFailNaN() {
     Scalar s = Ceiling.of(DoubleScalar.of(Double.NaN));
     assertTrue(Double.isNaN(s.number().doubleValue()));
+  }
+
+  public void testTypeFail() {
+    try {
+      Ceiling.of(StringScalar.of("some"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
