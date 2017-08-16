@@ -110,6 +110,14 @@ public class TensorTest extends TestCase {
     }
   }
 
+  public void testExtractAsCopy() {
+    Tensor mat = Array.zeros(3, 3);
+    Tensor cpy = mat.copy();
+    Tensor ref = mat.extract(1, 3);
+    ref.set(entry -> Tensors.vector(1, 2), 1, 1);
+    assertEquals(mat, cpy);
+  }
+
   public void testAppend() {
     Tensor a0 = RealScalar.of(3);
     Tensor a1 = Tensors.empty();

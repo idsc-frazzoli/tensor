@@ -129,7 +129,7 @@ import java.util.stream.Stream;
 
   @Override
   public Tensor extract(int fromIndex, int toIndex) {
-    return Tensor.of(list.subList(fromIndex, toIndex).stream());
+    return Tensor.of(list.subList(fromIndex, toIndex).stream().map(Tensor::copy));
   }
 
   @Override
