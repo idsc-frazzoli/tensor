@@ -42,4 +42,9 @@ public class TallyTest extends TestCase {
     Tensor keys = Tensor.of(navigableMap.keySet().stream());
     assertEquals(keys, Tensors.vector(2, 3, 4, 5, 7));
   }
+
+  public void testNumZero() {
+    Tensor vector = Tensors.vector(-0.0, 0.0, -0.0);
+    assertEquals(Tally.of(vector).size(), 1);
+  }
 }

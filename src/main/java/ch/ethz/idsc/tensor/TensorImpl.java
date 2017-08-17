@@ -222,8 +222,8 @@ import java.util.stream.Stream;
   @Override // from Object
   public boolean equals(Object object) {
     if (object instanceof TensorImpl) {
-      TensorImpl tensor = (TensorImpl) object;
-      return list.equals(tensor.list);
+      TensorImpl impl = (TensorImpl) object;
+      return list.equals(impl.list);
     }
     return false;
   }
