@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ListCorrelate.html">ListCorrelate</a> */
@@ -22,10 +23,11 @@ public enum ListCorrelate {
   public static Tensor of(Tensor kernel, Tensor tensor) {
     List<Integer> mask = Dimensions.of(kernel);
     List<Integer> size = Dimensions.of(tensor);
+    Tensor refs = Unprotect.references(tensor);
     List<Integer> dimensions = IntStream.range(0, mask.size()) //
         .mapToObj(index -> size.get(index) - mask.get(index) + 1) //
         .collect(Collectors.toList());
-    return Array.of(index -> kernel.pmul(tensor.block(index, mask)).flatten(-1) //
+    return Array.of(index -> kernel.pmul(refs.block(index, mask)).flatten(-1) //
         .reduce(Tensor::add).get(), dimensions);
   }
 }

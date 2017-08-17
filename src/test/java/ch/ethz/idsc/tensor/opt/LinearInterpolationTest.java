@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.io.ResourceData;
+import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class LinearInterpolationTest extends TestCase {
@@ -20,6 +20,17 @@ public class LinearInterpolationTest extends TestCase {
     Interpolation interpolation = LinearInterpolation.of(tensor);
     Tensor res = interpolation.get(Tensors.empty());
     assertEquals(res, tensor);
+  }
+
+  public void testEmpty2() {
+    Tensor tensor = Tensors.vector(10, 20, 30, 40);
+    Tensor ori = tensor.copy();
+    Interpolation interpolation = LinearInterpolation.of(tensor);
+    Tensor res = interpolation.get(Tensors.empty());
+    res.set(Increment.ONE, Tensor.ALL);
+    assertEquals(tensor, ori);
+    assertFalse(tensor.equals(res));
+    assertEquals(interpolation.get(Tensors.empty()), ori);
   }
 
   public void testSimple() {
@@ -72,7 +83,7 @@ public class LinearInterpolationTest extends TestCase {
 
   public void testFail() {
     try {
-      LinearInterpolation.of(ResourceData.of("/colorscheme_nocan/hue.csv"));
+      LinearInterpolation.of(null);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
