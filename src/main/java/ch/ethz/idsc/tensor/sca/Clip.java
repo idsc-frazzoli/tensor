@@ -10,10 +10,18 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Clip.html">Clip</a> */
 public class Clip implements ScalarUnaryOperator {
+  private static final Clip UNIT = function(0, 1);
+  private static final Clip ABSOLUTE_ONE = function(-1, 1);
+
   /** clip function that maps to the unit interval [0, 1] */
-  public static final Clip UNIT = function(RealScalar.ZERO, RealScalar.ONE);
+  public static Clip unit() {
+    return UNIT;
+  }
+
   /** clip function that clips scalars to the interval [-1, 1] */
-  public static final Clip ABSOLUTE_ONE = function(RealScalar.ONE.negate(), RealScalar.ONE);
+  public static Clip absoluteOne() {
+    return ABSOLUTE_ONE;
+  }
 
   /** @param min
    * @param max
@@ -42,9 +50,11 @@ public class Clip implements ScalarUnaryOperator {
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (Scalars.lessThan(scalar, min))
+    boolean cmpMin = Scalars.lessThan(scalar, min);
+    boolean cmpMax = Scalars.lessThan(max, scalar);
+    if (cmpMin)
       return min;
-    if (Scalars.lessThan(max, scalar))
+    if (cmpMax)
       return max;
     return scalar;
   }

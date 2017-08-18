@@ -42,7 +42,7 @@ public class ScalarUnaryOperatorTest extends TestCase {
     Ceiling.of(tensor);
     Chop._12.of(tensor);
     try {
-      Clip.UNIT.apply(tensor);
+      Clip.unit().apply(tensor);
     } catch (Exception exception) {
       // ---
     }

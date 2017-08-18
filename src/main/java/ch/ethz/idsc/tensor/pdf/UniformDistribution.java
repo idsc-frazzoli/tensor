@@ -69,7 +69,7 @@ public class UniformDistribution implements Distribution, //
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return Clip.UNIT.apply(x.subtract(min).divide(width));
+    return Clip.unit().apply(x.subtract(min).divide(width));
   }
 
   @Override // from CDF

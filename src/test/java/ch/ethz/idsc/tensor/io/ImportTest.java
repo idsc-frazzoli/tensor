@@ -18,6 +18,6 @@ public class ImportTest extends TestCase {
   public void testPng() throws Exception {
     File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
     Tensor tensor = Import.of(file);
-    assertEquals(Dimensions.of(tensor), Arrays.asList(15, 33, 4));
+    assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
   }
 }

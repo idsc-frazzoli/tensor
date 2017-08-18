@@ -1,69 +1,87 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.nio.ByteBuffer;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
-import ch.ethz.idsc.tensor.alg.TensorMap;
-import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.img.ColorFormat;
 
-/** The {@link Dimensions} of tensors that represent color images are
- * <code>width x height x 4</code>
+/** ImageFormat uses the data alignment of {@link BufferedImage}.
  * 
- * <p>The 4 entries in the last dimension are RGBA.
+ * <p>The {@link Dimensions} of tensors that represent native images are
+ * For grayscale:
+ * <code>height x width</code>
  * 
- * The {@link Dimensions} of tensors that represent gray scale images are
- * <code>width x height</code>
+ * For color (not supported yet):
+ * <code>height x width x 4</code>
+ * The 4 entries in the last dimension are RGBA.
  * 
- * <p>This convention is consistent with Java
- * {@link Graphics2D}, {@link BufferedImage}, ...
- * 
- * <p><code>tensor.get(x, y)</code> refers to the same pixel as
+ * <p><code>tensor.get(y, x)</code> refers to the same pixel as
  * <code>BufferedImage::getRGB(x, y)</code>
- * 
- * <p>Consistent also with the screen size, for instance 1280 x 720.
  * 
  * <p>see also
  * <a href="https://reference.wolfram.com/language/ref/ImageData.html">ImageData</a> */
 public enum ImageFormat {
   ;
-  /** @param bufferedImage with dimensions [width x height]
-   * @return tensor with dimensions [width x height x 4] */
+  /** @param bufferedImage
+   * @return tensor with dimensions [height x width x 4] */
   public static Tensor from(BufferedImage bufferedImage) {
-    return Tensors.matrix((i, j) -> ColorFormat.toVector(bufferedImage.getRGB(i, j)), //
-        bufferedImage.getWidth(), bufferedImage.getHeight());
+    // TODO probably this can be done in a faster way
+    return Tensors.matrix((i, j) -> ColorFormat.toVector(bufferedImage.getRGB(j, i)), //
+        bufferedImage.getHeight(), bufferedImage.getWidth());
   }
 
   /** @param bufferedImage grayscale image with dimensions [width x height]
-   * @return tensor with dimensions [width x height] */
+   * @return tensor with dimensions [height x width] */
   public static Tensor fromGrayscale(BufferedImage bufferedImage) {
-    return Transpose.of(NativeImageFormat.fromGrayscale(bufferedImage));
+    WritableRaster writableRaster = bufferedImage.getRaster();
+    DataBufferByte dataBufferByte = (DataBufferByte) writableRaster.getDataBuffer();
+    ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
+    return Tensors.matrix((i, j) -> RealScalar.of(byteBuffer.get() & 0xff), //
+        bufferedImage.getHeight(), bufferedImage.getWidth());
   }
 
-  /** image export works with PNG format.
-   * 
-   * <p>do not export color images to JPG, because the color channels are not compatible!
-   * 
-   * @param tensor
+  /** @param tensor
    * @return image of type BufferedImage.TYPE_BYTE_GRAY or BufferedImage.TYPE_INT_ARGB */
   public static BufferedImage of(Tensor tensor) {
     List<Integer> dims = Dimensions.of(tensor);
     if (dims.size() == 2)
-      return NativeImageFormat.toTYPE_BYTE_GRAY(Transpose.of(tensor), dims.get(0), dims.get(1));
-    return toTYPE_INT_ARGB(tensor, dims.get(0), dims.get(1));
+      return toTYPE_BYTE_GRAY(tensor, dims.get(1), dims.get(0));
+    return toTYPE_INT_ARGB(tensor, dims.get(1), dims.get(0));
   }
 
-  // implemented here to postpone transpose for as long as possible
+  /** helper function also used in {@link ImageFormat}
+   * 
+   * @param tensor
+   * @param width
+   * @param height
+   * @return */
+  static BufferedImage toTYPE_BYTE_GRAY(Tensor tensor, int width, int height) {
+    BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+    WritableRaster writableRaster = bufferedImage.getRaster();
+    DataBufferByte dataBufferByte = (DataBufferByte) writableRaster.getDataBuffer();
+    byte[] bytes = dataBufferByte.getData();
+    ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+    tensor.flatten(1) //
+        .map(Scalar.class::cast) //
+        .map(Scalar::number) //
+        .forEach(number -> byteBuffer.put(number.byteValue()));
+    return bufferedImage;
+  }
+
+  // fast extraction of color information to buffered image
+  // method is typically twice at fast as the image generation in ImageFormat
   private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, int width, int height) {
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-    Tensor argb = TensorMap.of(vector -> RealScalar.of(ColorFormat.toInt(vector)), tensor, 2);
-    int[] array = Primitives.toArrayInt(Transpose.of(argb));
+    int[] array = tensor.flatten(1).mapToInt(ColorFormat::toInt).toArray();
     bufferedImage.setRGB(0, 0, width, height, array, 0, width);
     return bufferedImage;
   }
