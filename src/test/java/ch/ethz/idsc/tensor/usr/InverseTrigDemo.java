@@ -33,7 +33,7 @@ class InverseTrigDemo {
     this.scalarUnaryOperator = scalarUnaryOperator;
   }
 
-  Scalar function(int x, int y) {
+  Scalar function(int y, int x) {
     return Imag.of(scalarUnaryOperator.apply(Power.of(ComplexScalar.of(RE.Get(x), IM.Get(y)), EXPONENT)));
   }
 

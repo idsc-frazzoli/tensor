@@ -7,8 +7,6 @@ import java.awt.Color;
 import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.sca.N;
 
 /** standalone implementation of hsv to rgb conversion
  * 
@@ -17,12 +15,10 @@ import ch.ethz.idsc.tensor.sca.N;
 public enum Hue implements ColorDataFunction {
   COLORDATA;
   // ---
-  private static final Tensor TRANSPARENT = N.of(Array.zeros(4));
-
   @Override
   public Tensor apply(Scalar scalar) {
     return NumberQ.of(scalar) ? //
-        ColorFormat.toVector(of(scalar.number().doubleValue(), 1, 1, 1)) : TRANSPARENT.copy();
+        ColorFormat.toVector(of(scalar.number().doubleValue(), 1, 1, 1)) : ColorDataFunction.transparent();
   }
 
   /** when saturation is close or equal to zero, the rgb values equate to input val

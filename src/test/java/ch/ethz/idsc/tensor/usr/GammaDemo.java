@@ -23,7 +23,7 @@ enum GammaDemo {
   private static final Tensor RE = Subdivide.of(-1.25, -0.6, RES - 1);
   private static final Tensor IM = Subdivide.of(-0.25, +0.25, RES - 1);
 
-  private static Scalar function(int x, int y) {
+  private static Scalar function(int y, int x) {
     Scalar seed = ComplexScalar.of(RE.Get(x), IM.Get(y));
     try {
       return Arg.of(Nest.of(Gamma.FUNCTION, seed, DEPTH));

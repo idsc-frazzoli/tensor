@@ -24,7 +24,7 @@ enum MandelbrotDemo {
   private static final Tensor IM = Subdivide.of(+0.0, +0.4, RES - 1);
   private static final Scalar TWO = RealScalar.of(2.0);
 
-  private static Scalar function(int x, int y) {
+  private static Scalar function(int y, int x) {
     final Scalar c = ComplexScalar.of(RE.Get(x), IM.Get(y));
     Scalar arg = null;
     Scalar z = c;
