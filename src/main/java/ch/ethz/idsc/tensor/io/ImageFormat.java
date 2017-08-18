@@ -58,7 +58,7 @@ public enum ImageFormat {
     return toTYPE_INT_ARGB(tensor, dims.get(1), dims.get(0));
   }
 
-  /** helper function also used in {@link ImageFormat}
+  /** helper function also used in {@link TransposedImageFormat}
    * 
    * @param tensor
    * @param width
