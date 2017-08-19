@@ -15,7 +15,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * For export to MATLAB see {@link MatlabExport}.
  * There is no import from MATLAB built in the tensor library. */
-@Deprecated
 /* package */ enum MatFileFormat {
   ;
   static byte[] of(Tensor tensor) {

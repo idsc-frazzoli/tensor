@@ -20,12 +20,14 @@ import junit.framework.TestCase;
 public class ImageFormatTest extends TestCase {
   public void testRGBAFile() throws Exception {
     Tensor tensor = TransposedImageFormatTest._readRGBA();
-    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    String string = "/io/rgba15x33.png";
+    File file = new File(getClass().getResource(string).getFile());
     BufferedImage bufferedImage = ImageIO.read(file);
-    Tensor nif = ImageFormat.from(bufferedImage);
-    assertEquals(Transpose.of(tensor), nif);
+    Tensor image = ImageFormat.from(bufferedImage);
+    assertEquals(image, ResourceData.of(string));
+    assertEquals(Transpose.of(tensor), image);
     // confirmed with gimp
-    assertEquals(nif.get(32, 0), Tensors.vector(126, 120, 94, 255));
+    assertEquals(image.get(32, 0), Tensors.vector(126, 120, 94, 255));
   }
 
   public void testSimpleGray() {
@@ -43,9 +45,11 @@ public class ImageFormatTest extends TestCase {
   }
 
   public void testGrayFile() throws Exception {
-    File file = new File(getClass().getResource("/io/gray15x9.png").getFile());
+    String string = "/io/gray15x9.png";
+    File file = new File(getClass().getResource(string).getFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor tensor = ImageFormat.from(bufferedImage);
+    assertEquals(tensor, ResourceData.of(string));
     // confirmed with gimp
     assertEquals(tensor.Get(0, 2), RealScalar.of(175));
     assertEquals(tensor.Get(1, 2), RealScalar.of(109));

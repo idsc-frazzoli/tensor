@@ -13,12 +13,14 @@ import junit.framework.TestCase;
 
 public class PrimitivesTest extends TestCase {
   public void testToLong() {
-    Tensor a = Tensors.vector(-2, -3, 4, 5, 6, 11);
-    Tensor b = Tensors.vector(-2.5, -3.7, 4.3, 5.4, 6.2, 11.5);
+    Tensor a = Tensors.vector(-2, -3, 4, 5, 6, 11, Long.MAX_VALUE);
+    Tensor b = Tensors.vector(-2.5, -3.7, 4.3, 5.4, 6.2, 11.5, Long.MAX_VALUE);
     List<Long> listA = Primitives.toListLong(a);
     List<Long> listB = Primitives.toListLong(b);
     assertEquals(a, Tensors.vector(listA));
     assertEquals(a, Tensors.vector(listB));
+    long[] array = Primitives.toArrayLong(a);
+    assertEquals(array[6], Long.MAX_VALUE);
   }
 
   public void testToInteger() {
@@ -32,6 +34,15 @@ public class PrimitivesTest extends TestCase {
         new int[] { -2, -3, 4, 5, 6, 11 }));
     assertTrue(Arrays.equals(Primitives.toArrayInt(b), //
         new int[] { -2, -3, 4, 5, 6, 11 }));
+  }
+
+  public void testToDouble() {
+    Tensor tensor = Tensors.vector(Double.NaN, Math.PI, Double.POSITIVE_INFINITY);
+    double[] array = Primitives.toArrayDouble(tensor);
+    assertEquals(array.length, 3);
+    assertTrue(Double.isNaN(array[0]));
+    assertEquals(array[1], Math.PI);
+    assertEquals(array[2], Double.POSITIVE_INFINITY);
   }
 
   public void testConvert1() {

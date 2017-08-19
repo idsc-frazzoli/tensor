@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.StringScalar;
 import junit.framework.TestCase;
 
 public class RealTest extends TestCase {
@@ -21,5 +22,14 @@ public class RealTest extends TestCase {
     assertEquals(Imag.FUNCTION.apply(s), RealScalar.of(3.5));
     assertEquals(Real.of(s), RealScalar.of(11));
     assertEquals(Imag.of(s), RealScalar.of(3.5));
+  }
+
+  public void testFail() {
+    try {
+      Real.of(StringScalar.of("string"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

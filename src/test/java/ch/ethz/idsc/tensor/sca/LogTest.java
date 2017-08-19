@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -36,5 +37,14 @@ public class LogTest extends TestCase {
   public void testRange() {
     assertEquals(Math.log(Log.HI), Math.log1p(Log.HI - 1));
     assertEquals(Math.log(Log.LO), Math.log1p(Log.LO - 1));
+  }
+
+  public void testFail() {
+    try {
+      Log.of(GaussScalar.of(6, 7));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
