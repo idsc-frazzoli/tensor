@@ -5,7 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.Tensor;
 /** access to resource data in jar files, for instance,
  * the content included in the tensor library.
  * 
- * <p>Examples of available resources:
+ * <p>Examples of resources provided by the tensor library:
  * <pre>
  * /colorscheme/classic.csv
  * /colorscheme/hue.csv
@@ -32,26 +32,22 @@ public enum ResourceData {
    * @param string
    * @return imported tensor, or null if resource could not be loaded */
   public static Tensor of(String string) {
-    InputStream inputStream = ResourceData.class.getResourceAsStream(string);
-    if (Objects.isNull(inputStream))
-      return null;
-    final Filename filename = new Filename(new File(string));
-    if (filename.hasExtension("png")) {
-      try {
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
+      final Filename filename = new Filename(new File(string));
+      if (filename.hasExtension("png"))
         return ImageFormat.from(ImageIO.read(inputStream));
-      } catch (Exception exception) {
-        exception.printStackTrace();
-      }
-      return null;
-    }
-    try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
       if (filename.hasExtension("csv"))
-        return CsvFormat.parse(bufferedReader.lines());
+        return CsvFormat.parse(_lines(inputStream));
       if (filename.hasExtension("vector"))
-        return Tensor.of(bufferedReader.lines().map(Scalars::fromString));
+        return Tensor.of(_lines(inputStream).map(Scalars::fromString));
     } catch (Exception exception) {
-      exception.printStackTrace();
+      // ---
     }
     return null;
+  }
+
+  // helper function
+  private static Stream<String> _lines(InputStream inputStream) {
+    return new BufferedReader(new InputStreamReader(inputStream)).lines();
   }
 }

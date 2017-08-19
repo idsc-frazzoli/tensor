@@ -86,10 +86,7 @@ public class Chop implements ScalarUnaryOperator {
   /** @param tensor
    * @return true, if all entries of Chop.of(tensor) equal to {@link Scalar#zero()} */
   public boolean allZero(Tensor tensor) {
-    return !tensor.flatten(-1) //
-        .map(Scalar.class::cast) //
-        .map(this) //
-        .anyMatch(Scalars::nonZero);
+    return tensor.flatten(-1).map(Scalar.class::cast).map(this).allMatch(Scalars::isZero);
   }
 
   /** @param tensor

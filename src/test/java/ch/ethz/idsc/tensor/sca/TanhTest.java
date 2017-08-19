@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -21,5 +22,14 @@ public class TanhTest extends TestCase {
     Scalar c = Tanh.of(ComplexScalar.of(2, 3.));
     Scalar s = Scalars.fromString("0.965385879022133 - 0.009884375038322494*I"); // Mathematica
     assertTrue(Chop._13.close(c, s));
+  }
+
+  public void testFail() {
+    try {
+      Tanh.of(GaussScalar.of(3, 11));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

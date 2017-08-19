@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
@@ -13,7 +14,9 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Increment;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class SingularValueDecompositionImpl implements SingularValueDecomposition {
@@ -47,7 +50,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       initU1(i);
       initU2(i);
     }
-    double eps = Norm._1.of(Tensors.of(w, r)).multiply(DBL_EPSILON).number().doubleValue();
+    Chop chop = Chop.below(Norm._1.of(Tensors.of(w, r)).multiply(DBL_EPSILON).number().doubleValue());
     // ---
     v = Array.zeros(cols, cols);
     v.set(RealScalar.ONE, cols - 1, cols - 1);
@@ -61,7 +64,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     // ---
     for (int i = cols - 1; i >= 0; --i) {
       for (int iteration = 0; iteration <= MAXITERATIONS; ++iteration) {
-        int l = levelW(i, eps);
+        int l = levelW(i, chop);
         if (l == i)
           break;
         if (iteration == MAXITERATIONS)
@@ -103,7 +106,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar scale = RealScalar.ZERO;
     if (i < rows) {
       scale = Norm._1.of(u.extract(i, rows).get(Tensor.ALL, i));
-      if (!scale.equals(RealScalar.ZERO)) {
+      if (Scalars.nonZero(scale)) {
         Scalar fi = scale;
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(fi), k, i));
         Scalar s = Norm._2SQUARED.of(u.extract(i, rows).get(Tensor.ALL, i));
@@ -127,7 +130,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar scale = RealScalar.ZERO;
     if (i < rows && ip1 != cols) {
       scale = Norm._1.of(u.get(i).extract(ip1, cols));
-      if (!scale.equals(RealScalar.ZERO)) {
+      if (Scalars.nonZero(scale)) {
         Scalar si = scale;
         IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.divide(si), i, k));
         {
@@ -156,7 +159,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private void initV(int i) {
     final int ip1 = i + 1;
     Scalar p = r.Get(ip1);
-    if (!p.equals(RealScalar.ZERO)) {
+    if (Scalars.nonZero(p)) {
       IntStream.range(ip1, cols).forEach(j -> v.set(u.Get(i, j).divide(u.Get(i, ip1)).divide(p), j, i));
       for (int j = ip1; j < cols; ++j)
         _addscaled(ip1, cols, v, i, j, //
@@ -170,7 +173,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     final int ip1 = i + 1;
     IntStream.range(ip1, cols).forEach(j -> u.set(RealScalar.ZERO, i, j));
     Scalar p = w.Get(i);
-    if (p.equals(RealScalar.ZERO))
+    if (Scalars.isZero(p))
       IntStream.range(i, rows).forEach(j -> u.set(RealScalar.ZERO, j, i));
     else {
       Scalar gi = p;
@@ -183,17 +186,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     u.set(Increment.ONE, i, i);
   }
 
-  private int levelW(int k, double eps) {
+  private int levelW(int k, Chop chop) {
     for (int l = k; l > 0; --l) {
-      if (r.Get(l).abs().number().doubleValue() <= eps)
+      if (chop.allZero(r.Get(l)))
         return l;
-      if (w.Get(l - 1).abs().number().doubleValue() <= eps) {
+      if (chop.allZero(w.Get(l - 1))) {
         Scalar c = RealScalar.ZERO;
         Scalar s = RealScalar.ONE;
         for (int i = l; i < k + 1; ++i) {
           Scalar f = s.multiply(r.Get(i));
           r.set(c.multiply(r.Get(i)), i);
-          if (f.abs().number().doubleValue() <= eps)
+          if (chop.allZero(f))
             break;
           Scalar g = w.Get(i);
           Scalar h = Hypot.of(f, g);
@@ -239,7 +242,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       y = y.multiply(c);
       z = Hypot.of(f, h);
       w.set(z, j);
-      if (!z.equals(RealScalar.ZERO)) {
+      if (Scalars.nonZero(z)) {
         c = f.divide(z);
         s = h.divide(z);
       }
@@ -254,7 +257,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   private void positiveW(int i) {
     Scalar z = w.Get(i);
-    if (z.number().doubleValue() < 0) {
+    SignInterface signInterface = (SignInterface) z;
+    if (signInterface.signInt() < 0) {
       w.set(z.negate(), i);
       v.set(Tensor::negate, Tensor.ALL, i);
     }
