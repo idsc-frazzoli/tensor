@@ -38,9 +38,9 @@ import ch.ethz.idsc.tensor.img.ColorFormat;
   public static Tensor from(BufferedImage bufferedImage) {
     switch (bufferedImage.getType()) {
     case BufferedImage.TYPE_BYTE_GRAY:
-      return fromGrayscale(bufferedImage);
+      return Transpose.of(ImageFormat.from(bufferedImage));
     default:
-      return Tensors.matrix((i, j) -> ColorFormat.toVector(bufferedImage.getRGB(i, j)), //
+      return Tensors.matrix((x, y) -> ColorFormat.toVector(bufferedImage.getRGB(x, y)), //
           bufferedImage.getWidth(), bufferedImage.getHeight());
     }
   }
@@ -56,12 +56,6 @@ import ch.ethz.idsc.tensor.img.ColorFormat;
     if (dims.size() == 2)
       return ImageFormat.toTYPE_BYTE_GRAY(Transpose.of(tensor), dims.get(0), dims.get(1));
     return toTYPE_INT_ARGB(tensor, dims.get(0), dims.get(1));
-  }
-
-  /** @param bufferedImage grayscale image with dimensions [width x height]
-   * @return tensor with dimensions [width x height] */
-  private static Tensor fromGrayscale(BufferedImage bufferedImage) {
-    return Transpose.of(ImageFormat.from(bufferedImage));
   }
 
   // implemented here to postpone transpose for as long as possible

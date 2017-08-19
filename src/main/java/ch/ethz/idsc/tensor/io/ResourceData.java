@@ -7,10 +7,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+import javax.imageio.ImageIO;
+
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** access to resource data included in the tensor library
+/** access to resource data in jar files, for instance,
+ * the content included in the tensor library.
  * 
  * <p>Examples of available resources:
  * <pre>
@@ -32,8 +35,16 @@ public enum ResourceData {
     InputStream inputStream = ResourceData.class.getResourceAsStream(string);
     if (Objects.isNull(inputStream))
       return null;
+    final Filename filename = new Filename(new File(string));
+    if (filename.hasExtension("png")) {
+      try {
+        return ImageFormat.from(ImageIO.read(inputStream));
+      } catch (Exception exception) {
+        exception.printStackTrace();
+      }
+      return null;
+    }
     try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
-      Filename filename = new Filename(new File(string));
       if (filename.hasExtension("csv"))
         return CsvFormat.parse(bufferedReader.lines());
       if (filename.hasExtension("vector"))
