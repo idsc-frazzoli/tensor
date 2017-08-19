@@ -33,7 +33,7 @@ enum WeierstrassDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = StaticHelper.parallel(WeierstrassDemo::function, RES, RES);
-    Export.of(UserHome.Pictures("weierstrassdemo.png"), //
+    Export.of(UserHome.Pictures(WeierstrassDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.ALPINE));
   }
 }

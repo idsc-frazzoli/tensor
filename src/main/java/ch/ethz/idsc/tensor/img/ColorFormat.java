@@ -5,9 +5,9 @@ import java.awt.Color;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.ImageFormat;
-import ch.ethz.idsc.tensor.io.Primitives;
 
 /** mappings between {@link Tensor}, {@link Color}, and 0xAA:RR:GG:BB integer
  * 
@@ -35,7 +35,12 @@ public enum ColorFormat {
   /** @param vector with {@link Scalar} entries as {R, G, B, A}
    * @return int in hex 0xAA:RR:GG:BB */
   public static Color toColor(Tensor vector) {
-    int[] rgba = Primitives.toArrayInt(vector);
-    return new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
+    if (vector.length() != 4)
+      throw TensorRuntimeException.of(vector);
+    return new Color( //
+        vector.Get(0).number().intValue(), //
+        vector.Get(1).number().intValue(), //
+        vector.Get(2).number().intValue(), //
+        vector.Get(3).number().intValue());
   }
 }

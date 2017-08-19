@@ -31,22 +31,21 @@ import ch.ethz.idsc.tensor.img.ColorFormat;
  * <a href="https://reference.wolfram.com/language/ref/ImageData.html">ImageData</a> */
 public enum ImageFormat {
   ;
-  /** @param bufferedImage
-   * @return tensor with dimensions [height x width x 4] */
+  /** encode image as tensor. {@link Dimensions} of output are
+   * [height x width] for grayscale images of type BufferedImage.TYPE_BYTE_GRAY
+   * [height x width x 4] for color images
+   * 
+   * @param bufferedImage
+   * @return tensor encoding the color values of given bufferedImage */
   public static Tensor from(BufferedImage bufferedImage) {
-    // TODO probably this can be done in a faster way
-    return Tensors.matrix((i, j) -> ColorFormat.toVector(bufferedImage.getRGB(j, i)), //
-        bufferedImage.getHeight(), bufferedImage.getWidth());
-  }
-
-  /** @param bufferedImage grayscale image with dimensions [width x height]
-   * @return tensor with dimensions [height x width] */
-  public static Tensor fromGrayscale(BufferedImage bufferedImage) {
-    WritableRaster writableRaster = bufferedImage.getRaster();
-    DataBufferByte dataBufferByte = (DataBufferByte) writableRaster.getDataBuffer();
-    ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
-    return Tensors.matrix((i, j) -> RealScalar.of(byteBuffer.get() & 0xff), //
-        bufferedImage.getHeight(), bufferedImage.getWidth());
+    switch (bufferedImage.getType()) {
+    case BufferedImage.TYPE_BYTE_GRAY:
+      return fromGrayscale(bufferedImage);
+    default:
+      // TODO probably this can be done in a faster way
+      return Tensors.matrix((y, x) -> ColorFormat.toVector(bufferedImage.getRGB(x, y)), //
+          bufferedImage.getHeight(), bufferedImage.getWidth());
+    }
   }
 
   /** @param tensor
@@ -56,6 +55,16 @@ public enum ImageFormat {
     if (dims.size() == 2)
       return toTYPE_BYTE_GRAY(tensor, dims.get(1), dims.get(0));
     return toTYPE_INT_ARGB(tensor, dims.get(1), dims.get(0));
+  }
+
+  /** @param bufferedImage grayscale image with dimensions [width x height]
+   * @return tensor with dimensions [height x width] */
+  private static Tensor fromGrayscale(BufferedImage bufferedImage) {
+    WritableRaster writableRaster = bufferedImage.getRaster();
+    DataBufferByte dataBufferByte = (DataBufferByte) writableRaster.getDataBuffer();
+    ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
+    return Tensors.matrix((i, j) -> RealScalar.of(byteBuffer.get() & 0xff), //
+        bufferedImage.getHeight(), bufferedImage.getWidth());
   }
 
   /** helper function also used in {@link TransposedImageFormat}

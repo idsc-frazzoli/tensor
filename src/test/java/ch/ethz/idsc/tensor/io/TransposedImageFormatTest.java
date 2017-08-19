@@ -45,7 +45,7 @@ public class TransposedImageFormatTest extends TestCase {
     File file = new File(getClass().getResource("/io/gray15x9.png").getFile());
     assertTrue(file.isFile());
     BufferedImage bufferedImage = ImageIO.read(file);
-    Tensor tensor = TransposedImageFormat.fromGrayscale(bufferedImage);
+    Tensor tensor = TransposedImageFormat.from(bufferedImage);
     // confirmed with gimp
     assertEquals(tensor.Get(2, 0), RealScalar.of(175));
     assertEquals(tensor.Get(2, 1), RealScalar.of(109));
@@ -57,7 +57,7 @@ public class TransposedImageFormatTest extends TestCase {
     File file = new File(getClass().getResource("/io/gray15x9.jpg").getFile());
     assertTrue(file.isFile());
     BufferedImage bufferedImage = ImageIO.read(file);
-    Tensor tensor = TransposedImageFormat.fromGrayscale(bufferedImage);
+    Tensor tensor = TransposedImageFormat.from(bufferedImage);
     // confirmed with gimp
     assertEquals(tensor.Get(2, 0), RealScalar.of(84));
     assertEquals(tensor.Get(2, 1), RealScalar.of(66));
@@ -68,13 +68,13 @@ public class TransposedImageFormatTest extends TestCase {
 
   public void testGrayBimap1() {
     Tensor scale = Array.of(list -> RealScalar.of(list.get(0)), 256, 20);
-    assertEquals(scale, TransposedImageFormat.fromGrayscale(TransposedImageFormat.of(scale)));
+    assertEquals(scale, TransposedImageFormat.from(TransposedImageFormat.of(scale)));
   }
 
   public void testGrayBimap2() {
     Distribution distribution = DiscreteUniformDistribution.of(0, 256);
     Tensor image = RandomVariate.of(distribution, 20, 30);
-    Tensor bimap = TransposedImageFormat.fromGrayscale(TransposedImageFormat.of(image));
+    Tensor bimap = TransposedImageFormat.from(TransposedImageFormat.of(image));
     assertEquals(image, bimap);
   }
 

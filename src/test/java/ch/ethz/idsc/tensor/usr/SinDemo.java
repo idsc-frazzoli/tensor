@@ -29,7 +29,7 @@ enum SinDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = StaticHelper.parallel(SinDemo::function, RES, RES);
-    Export.of(UserHome.Pictures("sindemo.png"), //
-        ArrayPlot.of(matrix, ColorDataGradients.ALPINE));
+    Export.of(UserHome.Pictures(SinDemo.class.getSimpleName() + ".png"), //
+        ArrayPlot.of(matrix, ColorDataGradients.SUNSET));
   }
 }

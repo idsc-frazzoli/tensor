@@ -31,7 +31,7 @@ public class ImageFormatTest extends TestCase {
   public void testSimpleGray() {
     Distribution distribution = DiscreteUniformDistribution.of(0, 256);
     Tensor image = RandomVariate.of(distribution, 100, 200);
-    Tensor bimap = ImageFormat.fromGrayscale(ImageFormat.of(image));
+    Tensor bimap = ImageFormat.from(ImageFormat.of(image));
     assertEquals(image, bimap);
   }
 
@@ -45,7 +45,7 @@ public class ImageFormatTest extends TestCase {
   public void testGrayFile() throws Exception {
     File file = new File(getClass().getResource("/io/gray15x9.png").getFile());
     BufferedImage bufferedImage = ImageIO.read(file);
-    Tensor tensor = ImageFormat.fromGrayscale(bufferedImage);
+    Tensor tensor = ImageFormat.from(bufferedImage);
     // confirmed with gimp
     assertEquals(tensor.Get(0, 2), RealScalar.of(175));
     assertEquals(tensor.Get(1, 2), RealScalar.of(109));

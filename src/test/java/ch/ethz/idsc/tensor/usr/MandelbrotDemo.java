@@ -40,7 +40,7 @@ enum MandelbrotDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = StaticHelper.parallel(MandelbrotDemo::function, RES, RES);
-    Export.of(UserHome.Pictures("mandelbrotdemo.png"), //
+    Export.of(UserHome.Pictures(MandelbulbDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.RAINBOW));
   }
 }

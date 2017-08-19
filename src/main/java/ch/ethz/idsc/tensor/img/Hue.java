@@ -10,6 +10,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** standalone implementation of hsv to rgb conversion
  * 
+ * an input scalar that does not satisfy {@link NumberQ} is mapped to a transparent color
+ * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Hue.html">Hue</a> */
 public enum Hue implements ColorDataFunction {

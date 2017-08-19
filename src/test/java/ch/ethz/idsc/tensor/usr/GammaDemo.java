@@ -35,7 +35,7 @@ enum GammaDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = StaticHelper.parallel(GammaDemo::function, RES, RES);
-    Export.of(UserHome.Pictures("gammademos.png"), //
+    Export.of(UserHome.Pictures(GammaDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.HUE));
   }
 }

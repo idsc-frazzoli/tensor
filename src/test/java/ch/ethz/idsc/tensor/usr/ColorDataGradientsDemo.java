@@ -24,6 +24,6 @@ enum ColorDataGradientsDemo {
     for (ColorDataFunction cdf : ColorDataGradients.values())
       image.append(ArrayPlot.of(arr, cdf));
     image = Flatten.of(image, 1);
-    Export.of(UserHome.Pictures("gradients.png"), ImageResize.nearest(image, 2));
+    Export.of(UserHome.Pictures(ColorDataGradientsDemo.class.getSimpleName() + ".png"), ImageResize.nearest(image, 2));
   }
 }
