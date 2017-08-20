@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -22,5 +23,14 @@ public class SinhTest extends TestCase {
     // -3.59056 + 0.530921 I
     Scalar s = Scalars.fromString("-3.59056458998578+0.5309210862485197*I");
     assertEquals(c, s);
+  }
+
+  public void testFail() {
+    try {
+      Sinh.of(GaussScalar.of(6, 7));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Objects;
+
 /** StringScalar represents a string
  * no mathematical operations are possible
  * 
@@ -10,7 +12,7 @@ public final class StringScalar extends AbstractScalar {
   /** @param string
    * @return new instance of {@link StringScalar} representing string */
   public static Scalar of(String string) {
-    if (string == null)
+    if (Objects.isNull(string))
       throw new IllegalArgumentException();
     return new StringScalar(string);
   }

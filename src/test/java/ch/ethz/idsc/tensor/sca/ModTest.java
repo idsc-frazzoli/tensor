@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 
 public class ModTest extends TestCase {
   public void testSimple() {
-    Mod mod = Mod.function(RealScalar.of(4), RealScalar.of(-2));
+    Mod mod = Mod.function(4, -2);
     assertEquals(mod.apply(RealScalar.ONE), RealScalar.ONE);
     assertEquals(mod.apply(RealScalar.ONE.negate()), RealScalar.ONE.negate());
     assertEquals(mod.apply(RealScalar.of(3)), RealScalar.ONE.negate());
@@ -26,7 +26,7 @@ public class ModTest extends TestCase {
   }
 
   public void testPi() {
-    Mod mod = Mod.function(RealScalar.of(2 * Math.PI), RealScalar.of(-Math.PI));
+    Mod mod = Mod.function(2 * Math.PI, -Math.PI);
     assertEquals(mod.apply(RealScalar.ONE), RealScalar.ONE);
     assertEquals(mod.apply(RealScalar.ONE.negate()), RealScalar.ONE.negate());
     assertEquals(mod.apply(RealScalar.of(3)), RealScalar.of(3));
@@ -37,7 +37,7 @@ public class ModTest extends TestCase {
   }
 
   public void testPart() {
-    Mod mod = Mod.function(RealScalar.of(3), RealScalar.ONE);
+    Mod mod = Mod.function(3, 1);
     assertEquals(mod.apply(RealScalar.ZERO), RealScalar.of(3));
   }
 

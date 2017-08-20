@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.red.Min;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** Rescale so that all the list elements run from 0 to 1
  * 
@@ -23,6 +24,8 @@ import ch.ethz.idsc.tensor.red.Min;
  * <a href="https://reference.wolfram.com/language/ref/Rescale.html">Rescale</a> */
 public enum Rescale {
   ;
+  private static ScalarUnaryOperator NUMBERQ_ZERO = scalar -> NumberQ.of(scalar) ? scalar.zero() : scalar;
+
   /** Example:
    * Rescale[{10, 20, 30}] == {0, 1/2, 1}
    * 
@@ -38,7 +41,7 @@ public enum Rescale {
         .filter(NumberQ::of) //
         .reduce(Min::of);
     if (!optional.isPresent())
-      return tensor.map(Scalar::zero); // set all entries to 0
+      return tensor.map(NUMBERQ_ZERO); // set all number entries to 0
     // ---
     Scalar min = optional.get();
     Scalar max = tensor.flatten(-1) //
@@ -46,7 +49,7 @@ public enum Rescale {
         .filter(NumberQ::of) //
         .reduce(Max::of).get(); // if a minimum exists, then there exists a maximum
     if (min.equals(max))
-      return tensor.map(Scalar::zero); // set all entries to 0
+      return tensor.map(NUMBERQ_ZERO); // set all number entries to 0
     Scalar factor = max.subtract(min);
     return tensor.map(scalar -> scalar.subtract(min).divide(factor));
   }

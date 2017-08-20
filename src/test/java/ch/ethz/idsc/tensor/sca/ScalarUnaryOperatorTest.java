@@ -7,6 +7,10 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import junit.framework.TestCase;
 
+/** the purpose of the test is to demonstrate that
+ * none of the special input cases: NaN, Infty
+ * result in a stack overflow error when provided to the
+ * scalar unary operators */
 public class ScalarUnaryOperatorTest extends TestCase {
   static void _checkOps(Scalar tensor) {
     try {
@@ -30,18 +34,26 @@ public class ScalarUnaryOperatorTest extends TestCase {
       // ---
     }
     ArcTan.of(tensor);
-    ArcTanh.of(tensor);
+    try {
+      ArcTanh.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
     Ceiling.of(tensor);
     Chop._12.of(tensor);
     try {
-      Clip.UNIT.apply(tensor);
+      Clip.unit().apply(tensor);
     } catch (Exception exception) {
       // ---
     }
     Cos.of(tensor);
     Exp.of(tensor);
     Floor.of(tensor);
-    Log.of(tensor);
+    try {
+      Log.of(tensor);
+    } catch (Exception exception) {
+      // ---
+    }
     LogisticSigmoid.of(tensor);
     N.of(tensor);
     Power.of(tensor, RealScalar.of(.3));

@@ -23,7 +23,7 @@ enum GammaDemo {
   private static final Tensor RE = Subdivide.of(-1.25, -0.6, RES - 1);
   private static final Tensor IM = Subdivide.of(-0.25, +0.25, RES - 1);
 
-  private static Scalar function(int x, int y) {
+  private static Scalar function(int y, int x) {
     Scalar seed = ComplexScalar.of(RE.Get(x), IM.Get(y));
     try {
       return Arg.of(Nest.of(Gamma.FUNCTION, seed, DEPTH));
@@ -35,7 +35,7 @@ enum GammaDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = StaticHelper.parallel(GammaDemo::function, RES, RES);
-    Export.of(UserHome.Pictures("gammademos.png"), //
+    Export.of(UserHome.Pictures(GammaDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.HUE));
   }
 }

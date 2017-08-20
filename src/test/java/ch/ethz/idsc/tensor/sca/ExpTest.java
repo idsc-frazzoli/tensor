@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import junit.framework.TestCase;
@@ -16,5 +17,14 @@ public class ExpTest extends TestCase {
   public void testExpZero() {
     assertEquals(Exp.of(RealScalar.ZERO), RealScalar.ONE);
     assertEquals(Log.of(RealScalar.ONE), RealScalar.ZERO);
+  }
+
+  public void testFail() {
+    try {
+      Exp.of(GaussScalar.of(6, 7));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

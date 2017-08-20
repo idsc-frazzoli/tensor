@@ -110,6 +110,14 @@ public class TensorTest extends TestCase {
     }
   }
 
+  public void testExtractAsCopy() {
+    Tensor mat = Array.zeros(3, 3);
+    Tensor cpy = mat.copy();
+    Tensor ref = mat.extract(1, 3);
+    ref.set(entry -> Tensors.vector(1, 2), 1, 1);
+    assertEquals(mat, cpy);
+  }
+
   public void testAppend() {
     Tensor a0 = RealScalar.of(3);
     Tensor a1 = Tensors.empty();
@@ -229,6 +237,34 @@ public class TensorTest extends TestCase {
     Tensor a = Tensors.vector(1, 2, 3);
     Tensor b = Tensors.fromString("{{1,{2}},{2,{3}},{4,{5}}}");
     assertEquals(a.dot(b), Tensors.fromString("{17, {23}}"));
+  }
+
+  public void testExtractFail() {
+    Tensors.vector(1, 2, 3, 4, 5, 6).extract(3, 6);
+    Tensors.vector(1, 2, 3, 4, 5, 6).extract(6, 6);
+    try {
+      Tensors.vector(1, 2, 3, 4, 5, 6).extract(3, 7);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Tensors.vector(1, 2, 3, 4, 5, 6).extract(7, 6);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testBlock() {
+    Tensor a = Tensors.vector(1, 2, 3, 4, 5, 6);
+    assertEquals(a.block(Arrays.asList(2), Arrays.asList(2)), Tensors.vector(3, 4));
+    try {
+      a.block(Arrays.asList(1), Arrays.asList(2, 1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testHash() {

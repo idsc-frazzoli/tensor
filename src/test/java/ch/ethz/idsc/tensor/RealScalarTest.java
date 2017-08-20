@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.io.Serialization;
@@ -67,6 +68,7 @@ public class RealScalarTest extends TestCase {
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3));
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3L));
     assertEquals(RationalScalar.of(1, 1), RealScalar.of(BigInteger.ONE));
+    assertEquals(RationalScalar.of(1, 1), RealScalar.of(BigDecimal.ONE));
   }
 
   public void testNumberByte() {

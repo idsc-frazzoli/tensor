@@ -34,4 +34,13 @@ public class NylanderPowerTest extends TestCase {
     Tensor actual = NylanderPower.of(Tensors.vector(1.12, -2.23, 3.34), 8);
     assertTrue(Chop._08.close(expected, actual));
   }
+
+  public void testFail() {
+    try {
+      NylanderPower.of(Tensors.vector(1, 2, 3, 4), 3);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

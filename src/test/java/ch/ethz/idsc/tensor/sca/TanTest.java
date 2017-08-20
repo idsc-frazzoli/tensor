@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.StringScalar;
 import junit.framework.TestCase;
 
 public class TanTest extends TestCase {
@@ -21,5 +22,14 @@ public class TanTest extends TestCase {
     Scalar c = Tan.of(ComplexScalar.of(2, 3.));
     Scalar s = Scalars.fromString("-0.0037640256415042484 + 1.0032386273536098*I"); // Mathematica
     assertTrue(Chop._15.close(s, c));
+  }
+
+  public void testTypeFail() {
+    try {
+      Tan.of(StringScalar.of("some"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

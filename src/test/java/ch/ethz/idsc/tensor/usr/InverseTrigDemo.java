@@ -33,7 +33,7 @@ class InverseTrigDemo {
     this.scalarUnaryOperator = scalarUnaryOperator;
   }
 
-  Scalar function(int x, int y) {
+  Scalar function(int y, int x) {
     return Imag.of(scalarUnaryOperator.apply(Power.of(ComplexScalar.of(RE.Get(x), IM.Get(y)), EXPONENT)));
   }
 
@@ -51,7 +51,7 @@ class InverseTrigDemo {
       InverseTrigDemo itd = new InverseTrigDemo(ArcCosh.FUNCTION);
       collection.append(StaticHelper.parallel(itd::function, RES, RES));
     }
-    Export.of(UserHome.Pictures("inversetrigdemo2.png"), //
+    Export.of(UserHome.Pictures(InverseTrigDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(Mean.of(collection), ColorDataGradients.THERMOMETER));
   }
 }

@@ -101,18 +101,18 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public Tensor append(Tensor tensor) {
+  public final Tensor append(Tensor tensor) {
     list.add(tensor.copy());
     return this;
   }
 
   @Override
-  public int length() {
+  public final int length() {
     return list.size();
   }
 
   @Override
-  public boolean isScalar() {
+  public final boolean isScalar() {
     return false;
   }
 
@@ -121,7 +121,7 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public Stream<Tensor> flatten(int level) {
+  public final Stream<Tensor> flatten(int level) {
     if (level == 0)
       return _flatten0();
     return list.stream().flatMap(tensor -> tensor.flatten(level - 1));
@@ -129,22 +129,27 @@ import java.util.stream.Stream;
 
   @Override
   public Tensor extract(int fromIndex, int toIndex) {
-    return Tensor.of(list.subList(fromIndex, toIndex).stream());
+    return Tensor.of(list.subList(fromIndex, toIndex).stream().map(Tensor::copy));
   }
 
   @Override
   public Tensor block(List<Integer> fromIndex, List<Integer> dimensions) {
+    if (fromIndex.size() != dimensions.size())
+      throw new RuntimeException(fromIndex + " " + dimensions);
     return fromIndex.isEmpty() ? copy() : _block(fromIndex, dimensions);
   }
 
-  // helper function
-  private Tensor _block(List<Integer> fromIndex, List<Integer> dimensions) {
+  /** @param fromIndex non-empty
+   * @param dimensions of same size as fromIndex
+   * @return */
+  /* package */ Tensor _block(List<Integer> fromIndex, List<Integer> dimensions) {
     int toIndex = fromIndex.get(0) + dimensions.get(0);
     if (fromIndex.size() == 1)
       return extract(fromIndex.get(0), toIndex);
+    int size = fromIndex.size();
     return Tensor.of(list.subList(fromIndex.get(0), toIndex).stream() //
-        .map(tensor -> ((TensorImpl) tensor)._block( //
-            fromIndex.subList(1, fromIndex.size()), dimensions.subList(1, dimensions.size()))));
+        .map(TensorImpl.class::cast) //
+        .map(impl -> impl._block(fromIndex.subList(1, size), dimensions.subList(1, size))));
   }
 
   @Override
@@ -201,7 +206,7 @@ import java.util.stream.Stream;
 
   @Override
   public Tensor map(Function<Scalar, ? extends Tensor> function) {
-    return Tensor.of(flatten(0).map(tensor -> tensor.map(function)));
+    return Tensor.of(list.stream().map(tensor -> tensor.map(function)));
   }
 
   @Override
@@ -217,8 +222,8 @@ import java.util.stream.Stream;
   @Override // from Object
   public boolean equals(Object object) {
     if (object instanceof TensorImpl) {
-      TensorImpl tensor = (TensorImpl) object;
-      return list.equals(tensor.list);
+      TensorImpl impl = (TensorImpl) object;
+      return list.equals(impl.list);
     }
     return false;
   }

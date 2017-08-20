@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Map.Entry;
 import java.util.NavigableMap;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Function;
 
@@ -45,9 +46,9 @@ import ch.ethz.idsc.tensor.Scalars;
       cdf.put(RationalScalar.of(first, 1), discreteDistribution.p_equals(first));
     }
     Entry<Scalar, Scalar> ceiling = cdf.ceilingEntry(x);
-    if (cdf_finished || ceiling != null) {
+    if (cdf_finished || Objects.nonNull(ceiling)) {
       Entry<Scalar, Scalar> entry = function.apply(x);
-      return entry == null ? RealScalar.ZERO : entry.getValue();
+      return Objects.isNull(entry) ? RealScalar.ZERO : entry.getValue();
     }
     // <- ceiling == null, now integrate until finished or ceiling of x exists
     Entry<Scalar, Scalar> last = cdf.lastEntry();

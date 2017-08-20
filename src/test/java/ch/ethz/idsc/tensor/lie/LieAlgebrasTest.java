@@ -24,6 +24,11 @@ public class LieAlgebrasTest extends TestCase {
     assertEquals(JacobiIdentity.of(he3), Array.zeros(3, 3, 3, 3));
   }
 
+  public void testBracket() {
+    Tensor s = LieAlgebras.bracketMatrix(LieAlgebras.so3().get(0), LieAlgebras.so3().get(1));
+    assertEquals(s, LieAlgebras.so3().get(2));
+  }
+
   @Deprecated
   public static Tensor from(Tensor c) {
     // System.out.println(Tensor.of(a.flatten(1)).dimensions());

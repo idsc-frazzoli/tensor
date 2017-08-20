@@ -21,7 +21,7 @@ enum WeierstrassDemo {
   private static final Tensor RE = Subdivide.of(0.25, 1, RES - 1);
   private static final Tensor IM = Subdivide.of(0.25, 1, RES - 1);
 
-  private static Scalar function(int x, int y) {
+  private static Scalar function(int y, int x) {
     Scalar v = RE.Get(x);
     Scalar a = IM.Get(y);
     Scalar s = RealScalar.ZERO;
@@ -33,7 +33,7 @@ enum WeierstrassDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = StaticHelper.parallel(WeierstrassDemo::function, RES, RES);
-    Export.of(UserHome.Pictures("weierstrassdemo.png"), //
+    Export.of(UserHome.Pictures(WeierstrassDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.ALPINE));
   }
 }

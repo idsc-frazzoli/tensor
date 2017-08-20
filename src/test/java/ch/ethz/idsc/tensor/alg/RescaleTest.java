@@ -41,16 +41,35 @@ public class RescaleTest extends TestCase {
   public void testInfty() {
     Tensor vec = Tensors.vector(-.7, .5, 1.2, Double.POSITIVE_INFINITY, 1.8);
     Tensor res = Rescale.of(vec);
+    // System.out.println(res);
     assertTrue(2 < Tally.of(res).size());
   }
 
   public void testAllInfty() {
     Tensor tensor = Tensors.vector(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-    assertTrue(Chop.NONE.allZero(Rescale.of(tensor)));
+    Tensor scaled = Rescale.of(tensor);
+    assertEquals(tensor, scaled);
+    // System.out.println(scaled);
+    // assertTrue(Chop.NONE.allZero(scaled));
   }
 
   public void testAllInfty2() {
     Tensor tensor = Tensors.vector(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-    assertTrue(Chop.NONE.allZero(Rescale.of(tensor)));
+    Tensor scaled = Rescale.of(tensor);
+    assertEquals(tensor, scaled);
+    // System.out.println(scaled);
+    // assertTrue(Chop.NONE.allZero(scaled));
+  }
+
+  public void testMixed1() {
+    Tensor tensor = Tensors.vector(Double.NaN, Double.POSITIVE_INFINITY, 0, 1, 3, Double.NaN);
+    Tensor scaled = Rescale.of(tensor);
+    assertEquals(scaled.toString(), "{NaN, Infinity, 0, 1/3, 1, NaN}");
+  }
+
+  public void testMixed2() {
+    Tensor tensor = Tensors.vector(Double.NaN, 0, 0, 0, Double.NaN);
+    Tensor scaled = Rescale.of(tensor);
+    assertEquals(tensor.toString(), scaled.toString());
   }
 }

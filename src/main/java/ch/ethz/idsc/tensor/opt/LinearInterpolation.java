@@ -2,9 +2,11 @@
 package ch.ethz.idsc.tensor.opt;
 
 import java.util.List;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.Primitives;
 import ch.ethz.idsc.tensor.sca.Ceiling;
@@ -27,9 +29,9 @@ public class LinearInterpolation extends AbstractInterpolation {
   private final Tensor tensor;
 
   private LinearInterpolation(Tensor tensor) {
-    if (tensor == null)
+    if (Objects.isNull(tensor))
       throw new RuntimeException();
-    this.tensor = tensor;
+    this.tensor = Unprotect.references(tensor); // <- for faster block extraction
   }
 
   @Override // from AbstractInterpolation
@@ -39,11 +41,10 @@ public class LinearInterpolation extends AbstractInterpolation {
     Tensor width = above.subtract(floor).map(Increment.ONE);
     List<Integer> fromIndex = Primitives.toListInteger(floor);
     List<Integer> dimensions = Primitives.toListInteger(width);
-    Tensor block = tensor.block(fromIndex, dimensions);
+    Tensor block = tensor.block(fromIndex, dimensions); // <- copy() for empty fromIndex and dimensions
     Tensor weights = Transpose.of(Tensors.of( //
         above.subtract(index), //
-        index.subtract(floor) //
-    ));
+        index.subtract(floor)));
     for (Tensor weight : weights)
       block = block.length() == 1 ? block.get(0) : weight.dot(block);
     return block;

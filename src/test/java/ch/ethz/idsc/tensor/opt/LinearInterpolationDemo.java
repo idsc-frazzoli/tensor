@@ -1,0 +1,33 @@
+// code by jph
+package ch.ethz.idsc.tensor.opt;
+
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
+import ch.ethz.idsc.tensor.utl.Stopwatch;
+
+enum LinearInterpolationDemo {
+  ;
+  private static final Distribution distribution = UniformDistribution.unit();
+
+  private static long time(Tensor tensor) {
+    Interpolation interpolation = LinearInterpolation.of(tensor);
+    Stopwatch stopwatch = Stopwatch.started();
+    for (int c = 1; c < 20000; ++c) {
+      interpolation.Get(RandomVariate.of(distribution, 3));
+    }
+    return stopwatch.stop();
+  }
+
+  public static void main(String[] args) {
+    Tensor tensor = RandomVariate.of(distribution, 10, 10, 10);
+    {
+      System.out.println("unprot " + time(Unprotect.references(tensor)));
+      System.out.println("normal " + time(tensor));
+      System.out.println("unprot " + time(Unprotect.references(tensor)));
+      System.out.println("normal " + time(tensor));
+    }
+  }
+}

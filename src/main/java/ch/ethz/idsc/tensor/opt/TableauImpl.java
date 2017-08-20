@@ -3,6 +3,8 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -61,7 +63,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
         for (int i = 0; i < m; ++i)
           if (((SignInterface) tab.Get(i, j)).signInt() == 1) {
             Scalar value = tab.Get(i, n).divide(tab.Get(i, j));
-            if (min == null || 0 < Scalars.compare(min, value)) {
+            if (Objects.isNull(min) || 0 < Scalars.compare(min, value)) {
               min = value;
               pivot = i;
             }

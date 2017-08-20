@@ -29,13 +29,14 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * Example of a tensor with regular array structure:
  * <code>{{1, 2, 3}, {4, 5, 6}}</code> */
 public interface Tensor extends Iterable<Tensor>, Serializable {
-  /** constant ALL is used in the function {@link Tensor#get(Integer...)}
-   * to extract <em>all</em> elements from the respective dimension.
+  /** constant ALL is used in the function
+   * <ul>
+   * <li>{@link #get(Integer...)} to extract <em>all</em> elements from the respective dimension.
+   * <li>{@link #set(Function, Integer...)} to reassign <em>all</em> elements from the respective dimension.
+   * </ul>
    * 
    * <p>The value of ALL is deliberately not chosen to equal -1, since an index of -1
-   * could likely be the result of a mistake in the application layer.
-   * 
-   * Constant ALL <em>cannot</em> be used in {@link Tensor#set(Tensor, Integer...)} */
+   * could likely be the result of a mistake in the application layer. */
   static final int ALL = 0xA110CA7E;
   /** curly opening bracket of vector */
   static final char OPENING_BRACKET = '{';
@@ -127,16 +128,16 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @param function
    * @param index non-empty
    * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty
-   * @see Tensor#set(Tensor, Integer...) */
+   * @see #set(Tensor, Integer...) */
   <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index);
 
   /** appends a copy of input tensor to this instance.
    * The length() is incremented by 1.
    * 
    * <p>append(...) can be used to append to a sub-tensor of this instance via
-   * {@link Tensor#set(Function, Integer...)}.
+   * {@link #set(Function, Integer...)}.
    * For example:
-   * <pre>matrix.set(entry -> entry.append(tensor), index);</pre>
+   * <pre>matrix.set(row -> row.append(tensor), index);</pre>
    * 
    * <p>the operation does not succeed for an unmodifiable instance of this.
    * An exception is thrown when append is invoked on a {@link Scalar}.
@@ -237,7 +238,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return tensor with elements of this tensor multiplied with given scalar */
   Tensor multiply(Scalar scalar);
 
-  /** scalar division, i.e. scaling of tensor entries by reciprocal of given scalar
+  /** division of all scalars in this tensor by given scalar
+   * 
+   * <p>for scalar entries in double precision the function divide is numerically
+   * more accurate than {@link #multiply(Scalar)} with the reciprocal.
    * 
    * @param scalar
    * @return tensor with elements of this tensor divided by given scalar */

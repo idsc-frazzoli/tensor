@@ -12,7 +12,7 @@ public enum MatrixQ {
   /** @param tensor
    * @return true if tensor is a matrix */
   public static boolean of(Tensor tensor) {
-    return ArrayQ.ofRank(tensor, 2);
+    return Dimensions.isArrayWithRank(tensor, 2);
   }
 
   /** @param tensor

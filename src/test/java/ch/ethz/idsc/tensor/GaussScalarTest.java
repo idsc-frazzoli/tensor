@@ -97,6 +97,30 @@ public class GaussScalarTest extends TestCase {
     }
   }
 
+  public void testMultiplyFail() {
+    try {
+      GaussScalar.of(2, 7).multiply(RealScalar.of(.3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testCompareFail() {
+    try {
+      Scalars.compare(GaussScalar.of(2, 7), RealScalar.of(.3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Scalars.compare(RealScalar.of(.3), GaussScalar.of(2, 7));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testNegativePrime() { // this is a "feature"
     Scalar a = GaussScalar.of(2, -7);
     Scalar b = GaussScalar.of(3, -7);

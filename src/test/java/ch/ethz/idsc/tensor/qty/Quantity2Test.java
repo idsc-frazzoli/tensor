@@ -138,6 +138,25 @@ public class Quantity2Test extends TestCase {
     assertEquals(clip.apply(value), value);
   }
 
+  public void testClipZero() {
+    assertEquals(Clip.function(0, 0).apply(Quantity.of(-5, "[m]")), RealScalar.ZERO);
+  }
+
+  public void testClipFail() {
+    try {
+      Clip.unit().apply(Quantity.of(-5, "[m]"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Clip.absoluteOne().apply(Quantity.of(-5, "[m]"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   private static boolean _isNonNegative(Scalar scalar) {
     return Scalars.lessEquals(scalar.zero(), scalar);
   }

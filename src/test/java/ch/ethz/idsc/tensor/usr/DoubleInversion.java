@@ -1,11 +1,23 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
-import junit.framework.TestCase;
-
 // class is not treated as test by maven
 // extending from TestCase allows access to assert functions
-class DoubleInversion extends TestCase {
+enum DoubleInversion {
+  ;
+  private static void assertTrue(boolean status) {
+    if (!status)
+      throw new RuntimeException();
+  }
+
+  private static void assertFalse(boolean status) {
+    assertTrue(!status);
+  }
+
+  private static void assertEquals(double v1, double v2) {
+    assertTrue(v1 == v2);
+  }
+
   private static boolean invertible(double value) {
     return Double.isFinite(1.0 / value);
   }

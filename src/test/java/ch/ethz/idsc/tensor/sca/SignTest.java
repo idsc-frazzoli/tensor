@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.StringScalar;
 import junit.framework.TestCase;
 
 public class SignTest extends TestCase {
@@ -26,6 +27,15 @@ public class SignTest extends TestCase {
   public void testFail() {
     try {
       Sign.of(DoubleScalar.INDETERMINATE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testTypeFail() {
+    try {
+      Sign.of(StringScalar.of("string"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -4,12 +4,25 @@ package ch.ethz.idsc.tensor.img;
 
 import java.awt.Color;
 
+import ch.ethz.idsc.tensor.NumberQ;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
+
 /** standalone implementation of hsv to rgb conversion
+ * 
+ * an input scalar that does not satisfy {@link NumberQ} is mapped to a transparent color
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Hue.html">Hue</a> */
-public enum Hue {
-  ;
+public enum Hue implements ColorDataFunction {
+  COLORDATA;
+  // ---
+  @Override
+  public Tensor apply(Scalar scalar) {
+    return NumberQ.of(scalar) ? //
+        ColorFormat.toVector(of(scalar.number().doubleValue(), 1, 1, 1)) : ColorDataFunction.transparent();
+  }
+
   /** when saturation is close or equal to zero, the rgb values equate to input val
    * 
    * @param hue is periodically mapped to [0, 1)

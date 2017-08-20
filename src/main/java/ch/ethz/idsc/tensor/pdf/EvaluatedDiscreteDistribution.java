@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -30,7 +31,7 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
       inverse_cdf.put(p_equals(lowerBound()), RationalScalar.of(lowerBound(), 1));
     // ---
     Entry<Scalar, Scalar> higher = inverse_cdf.higherEntry(reference); // strictly higher
-    if (higher == null) {
+    if (Objects.isNull(higher)) {
       Entry<Scalar, Scalar> floor = inverse_cdf.floorEntry(reference); // less than or equal
       int sample = (Integer) floor.getValue().number();
       Scalar cumprob = floor.getKey();

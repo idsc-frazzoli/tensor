@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** Power exponentiates a given scalar by an exponent.
@@ -33,8 +32,6 @@ public enum Power {
       PowerInterface powerInterface = (PowerInterface) scalar;
       return powerInterface.power(exponent);
     }
-    if (Scalars.isZero(exponent))
-      return RealScalar.ONE; // <- not generic
     throw TensorRuntimeException.of(scalar, exponent);
   }
 

@@ -9,9 +9,11 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** http://www.milefoot.com/math/complex/functionsofi.htm
+/** For real input, the returned angle is in the range -pi/2 through pi/2.
  * 
- * inspired by
+ * http://www.milefoot.com/math/complex/functionsofi.htm
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArcTan.html">ArcTan</a> */
 public enum ArcTan implements ScalarUnaryOperator {
   FUNCTION;

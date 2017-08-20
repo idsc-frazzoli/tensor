@@ -15,8 +15,8 @@ public enum NegativeSemidefiniteMatrixQ {
    * @throws TensorRuntimeException if result cannot be established */
   public static boolean ofHermitian(Tensor tensor) {
     return MatrixQ.of(tensor) && //
-        !CholeskyDecomposition.of(tensor).diagonal().flatten(0) //
+        CholeskyDecomposition.of(tensor).diagonal().flatten(0) //
             .map(SignInterface.class::cast) //
-            .anyMatch(signInterface -> signInterface.signInt() > 0);
+            .allMatch(signInterface -> signInterface.signInt() <= 0);
   }
 }

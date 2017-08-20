@@ -52,4 +52,8 @@ public class ResourceDataTest extends TestCase {
   public void testFailNull() {
     assertNull(ResourceData.of("/number/exists.fail"));
   }
+
+  public void testUnknownExtension() {
+    assertNull(ResourceData.of("/io/extension.unknown"));
+  }
 }

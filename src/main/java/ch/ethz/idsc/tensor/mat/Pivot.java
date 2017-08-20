@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.red.ArgMax;
               .map(RealScalar::of))); // wrap as RealScalar for use in ArgMax
     }
   };
-  /** picks the first non Zero element in the column as pivot
+  /** picks the first non-zero element in the column as pivot
    * the return value is c0 in the case when the element at (ind[c0],j)
    * is non-zero, but also if none of the candidates is non-zero */
   static final Pivot firstNonZero = new Pivot() {

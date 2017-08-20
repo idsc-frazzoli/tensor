@@ -23,6 +23,12 @@ public class TensorMapTest extends TestCase {
     assertEquals(matrix, Array.zeros(3, 1));
   }
 
+  public void testTotal() {
+    Tensor tensor = Tensors.fromString("{{1,2,3},{4,5}}");
+    Tensor result = TensorMap.of(Total::of, tensor, 1);
+    assertEquals(result, Tensors.vector(6, 9));
+  }
+
   public void testIrregular() {
     Tensor array = Tensors.fromString("{{1,2,3},{8,9}}");
     Tensor result = TensorMap.of(row -> Total.of(row), array, 1);

@@ -16,11 +16,20 @@ import ch.ethz.idsc.tensor.Tensor;
  * <p>Do not use Import when exchanging {@link Tensor}s with
  * Mathematica. For that purpose use {@link Put} and {@link Get}.
  * 
+ * <p>In order to import content from jar files use {@link ResourceData}.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Import.html">Import</a> */
 public enum Import {
   ;
-  /** @param file source
+  /** supported extensions are
+   * <ul>
+   * <li>csv for {@link CsvFormat}
+   * <li>png for {@link ImageFormat}
+   * <li>tensor for {@link ObjectFormat}
+   * </ul>
+   * 
+   * @param file source
    * @return file content as {@link Tensor}
    * @throws ClassNotFoundException
    * @throws DataFormatException

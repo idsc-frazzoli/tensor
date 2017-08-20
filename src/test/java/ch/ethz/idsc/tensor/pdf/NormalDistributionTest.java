@@ -35,7 +35,18 @@ public class NormalDistributionTest extends TestCase {
 
   public void testCdf() {
     CDF distribution = (CDF) NormalDistribution.of(RealScalar.of(-10.2), RealScalar.of(2.3));
-    Scalar s = distribution.p_lessThan(RealScalar.of(-11));
+    Scalar x = RealScalar.of(-11);
+    Scalar s = distribution.p_lessThan(x);
+    assertEquals(s, distribution.p_lessEquals(x));
     assertTrue(s.toString().startsWith("0.363985"));
+  }
+
+  public void testFail() {
+    try {
+      NormalDistribution.of(5, -1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

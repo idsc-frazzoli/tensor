@@ -24,7 +24,7 @@ enum MandelbulbDemo {
   private static final Tensor IM = Subdivide.of(0.0, +1.0, RES - 1);
   private static final Scalar THRESHOLD = RealScalar.of(5.0);
 
-  private static Scalar function(int x, int y) {
+  private static Scalar function(int y, int x) {
     final Tensor c = Tensors.of(RE.Get(x), IM.Get(y), RealScalar.of(.505));
     Tensor X = Tensors.vector(0, 0, 0);
     Scalar nrm = null;
@@ -40,7 +40,7 @@ enum MandelbulbDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = StaticHelper.parallel(MandelbulbDemo::function, RES, RES);
-    Export.of(UserHome.Pictures("mandelbulbdemo2.png"), //
-        ArrayPlot.of(matrix, ColorDataGradients.ALPINE));
+    Export.of(UserHome.Pictures(MandelbulbDemo.class.getSimpleName() + ".png"), //
+        ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
   }
 }

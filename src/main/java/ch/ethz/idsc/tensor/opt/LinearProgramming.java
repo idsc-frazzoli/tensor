@@ -74,28 +74,19 @@ public enum LinearProgramming {
     return minLessEquals(c.negate(), m, b);
   }
 
-  /** @param vector
-   * @return true if all entries in vector are non-negative */
-  public static boolean isNonNegative(Tensor vector) {
-    return !vector.flatten(0) // all vector_i >= 0
-        .map(SignInterface.class::cast) //
-        .anyMatch(signInterface -> 0 > signInterface.signInt());
-  }
-
   /** @param m
    * @param x
    * @param b
    * @return true if x >= 0 and m.x <= b */
   public static boolean isFeasible(Tensor m, Tensor x, Tensor b) {
-    boolean status = true;
-    status &= isNonNegative(x);
-    // if (!status) {
-    // System.out.println(x);
-    // System.out.println("negative");
-    // }
-    status &= !m.dot(x).subtract(b).flatten(0) // all A.x <= b
+    return isNonNegative(x) && isNonNegative(b.subtract(m.dot(x)));
+  }
+
+  /** @param vector
+   * @return true if all entries in vector are non-negative */
+  /* package */ static boolean isNonNegative(Tensor vector) {
+    return vector.flatten(0) // all vector_i >= 0
         .map(SignInterface.class::cast) //
-        .anyMatch(signInterface -> 0 < signInterface.signInt());
-    return status;
+        .allMatch(signInterface -> 0 <= signInterface.signInt());
   }
 }
