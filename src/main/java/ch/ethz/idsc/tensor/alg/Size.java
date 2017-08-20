@@ -33,7 +33,7 @@ import ch.ethz.idsc.tensor.Tensors;
   }
 
   public Size permute(Integer... sigma) {
-    return permute(Stream.of(sigma).mapToInt(i -> i).toArray());
+    return permute(Stream.of(sigma).mapToInt(Integer::intValue).toArray());
   }
 
   public int indexOf(MultiIndex multiIndex) {

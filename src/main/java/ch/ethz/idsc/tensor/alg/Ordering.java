@@ -29,7 +29,7 @@ public enum Ordering {
   /** @param vector
    * @return array of indices i[:] so that vector[i[0]], vector[i[1]], ... is ordered */
   public int[] of(Tensor vector) {
-    return orderingInterface.stream(vector).mapToInt(index -> index).toArray();
+    return orderingInterface.stream(vector).mapToInt(Integer::intValue).toArray();
   }
 }
 

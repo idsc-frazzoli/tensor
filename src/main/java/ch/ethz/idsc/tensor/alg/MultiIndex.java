@@ -31,24 +31,25 @@ import ch.ethz.idsc.tensor.Tensors;
   }
 
   /***************************************************/
+  /** the content of size[] is not changed after construction */
   private final int[] size;
+
+  MultiIndex(List<Integer> list) {
+    size = list.stream().mapToInt(Integer::intValue).toArray();
+  }
 
   private MultiIndex(int... dims) {
     size = dims;
-  }
-
-  MultiIndex(List<Integer> list) {
-    size = new int[list.size()];
-    int index = -1;
-    for (int val : list)
-      size[++index] = val;
   }
 
   public int at(int index) {
     return size[index];
   }
 
-  // function does not assert that sigma encodes a permutation
+  /** function does not assert that sigma encodes a permutation
+   * 
+   * @param sigma
+   * @return */
   public MultiIndex permute(int... sigma) {
     return new MultiIndex(static_permute(size, sigma));
   }

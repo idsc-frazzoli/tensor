@@ -54,15 +54,15 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     // ---
     v = Array.zeros(cols, cols);
     v.set(RealScalar.ONE, cols - 1, cols - 1);
-    for (int i = cols - 2; i >= 0; --i) {
+    for (int i = cols - 2; 0 <= i; --i) {
       initV(i);
       v.set(RealScalar.ONE, i, i);
     }
     // ---
-    for (int i = Math.min(rows, cols) - 1; i >= 0; --i)
+    for (int i = Math.min(rows, cols) - 1; 0 <= i; --i)
       initU3(i);
     // ---
-    for (int i = cols - 1; i >= 0; --i) {
+    for (int i = cols - 1; 0 <= i; --i) {
       for (int iteration = 0; iteration <= MAXITERATIONS; ++iteration) {
         int l = levelW(i, chop);
         if (l == i)

@@ -18,7 +18,7 @@ import java.util.List;
   }
 
   public static OuterProductInteger forward(List<Integer> dimensions) {
-    return new OuterProductInteger(dimensions.stream().mapToInt(i -> i).toArray(), true);
+    return new OuterProductInteger(dimensions.stream().mapToInt(Integer::intValue).toArray(), true);
   }
 
   public static OuterProductInteger of(int[] size, boolean forward) {

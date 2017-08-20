@@ -17,6 +17,6 @@ public enum PositiveSemidefiniteMatrixQ {
     return MatrixQ.of(tensor) && //
         CholeskyDecomposition.of(tensor).diagonal().flatten(0) //
             .map(SignInterface.class::cast) //
-            .allMatch(signInterface -> signInterface.signInt() >= 0);
+            .allMatch(signInterface -> 0 <= signInterface.signInt());
   }
 }
