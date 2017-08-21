@@ -193,7 +193,8 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
-    return Double.hashCode(value == 0.0 ? 0.0 : value); // +0.0 and -0.0 have identical hash value
+    // ensure that +0.0 and -0.0 return same hash value
+    return Double.hashCode(value == 0.0 ? 0.0 : value);
   }
 
   @Override // from AbstractScalar

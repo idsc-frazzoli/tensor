@@ -110,7 +110,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   @Override // from Scalar
   public Scalar zero() {
-    return RealScalar.ZERO;
+    return ZERO;
   }
 
   /***************************************************/
