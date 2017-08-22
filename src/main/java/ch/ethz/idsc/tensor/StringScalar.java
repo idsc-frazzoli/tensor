@@ -8,7 +8,7 @@ import java.util.Objects;
  * 
  * <p>for instance, the first line of a csv file may contain column
  * headers which are imported as {@link StringScalar}s */
-public final class StringScalar extends AbstractScalar {
+public final class StringScalar extends AbstractScalar implements Comparable<Scalar> {
   /** @param string
    * @return new instance of {@link StringScalar} representing string */
   public static Scalar of(String string) {
@@ -57,6 +57,15 @@ public final class StringScalar extends AbstractScalar {
   /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
+    throw TensorRuntimeException.of(this, scalar);
+  }
+
+  @Override // from Comparable<Scalar>
+  public int compareTo(Scalar scalar) {
+    if (scalar instanceof StringScalar) {
+      StringScalar stringScalar = (StringScalar) scalar;
+      return string.compareTo(stringScalar.string);
+    }
     throw TensorRuntimeException.of(this, scalar);
   }
 

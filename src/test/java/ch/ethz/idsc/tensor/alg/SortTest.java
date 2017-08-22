@@ -5,6 +5,7 @@ import java.util.Comparator;
 
 import ch.ethz.idsc.tensor.Comparators;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -30,5 +31,13 @@ public class SortTest extends TestCase {
     Tensor a = Tensors.fromString("{{4,1},{2,8},{9,0},{3,5}}");
     Tensor s = Sort.of(a, FIRSTENTRYCOMPARATOR);
     assertEquals(s, Tensors.fromString("{{2, 8}, {3, 5}, {4, 1}, {9, 0}}"));
+  }
+
+  public void testStrings() {
+    Tensor vector = Tensors.of( //
+        StringScalar.of("c"), //
+        StringScalar.of("a"), //
+        StringScalar.of("b"));
+    assertEquals(Sort.of(vector).toString(), "{a, b, c}");
   }
 }
