@@ -39,7 +39,8 @@ public class ArcCosTest extends TestCase {
     // bigDecimal double conversion:
     // 0.9537320301188659............. + 2.846288828208396
     // _14 is insufficient on aarch64
-    System.out.println(r); // TODO remove when pass
+    // aarch64: 0.9537320301188748+2.8462888282083836*I
+    // x86_64 : 0.9537320301188659+2.846288828208396*I
     assertTrue(Chop._12.close(r, Scalars.fromString("0.9537320301188659+2.846288828208396*I")));
   }
 
