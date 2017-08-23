@@ -25,4 +25,13 @@ public class SerializationTest extends TestCase {
   public void testCopyNull() throws ClassNotFoundException, IOException {
     Serialization.parse(Serialization.of(null));
   }
+
+  public void testFail() {
+    try {
+      Serialization.parse(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

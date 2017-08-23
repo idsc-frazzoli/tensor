@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
-/** inspired by mathematica's documentation of DensityPlot */
+/** inspired by Mathematica's documentation of DensityPlot */
 class InverseTrigDemo {
   ;
   // ---

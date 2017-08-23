@@ -111,6 +111,7 @@ public class ComplexScalarTest extends TestCase {
   public void testSerializable() throws Exception {
     Scalar a = ComplexScalar.of(3, 5.2345);
     assertEquals(a, Serialization.parse(Serialization.of(a)));
+    assertEquals(a, Serialization.copy(a));
   }
 
   public void testConjugate() {

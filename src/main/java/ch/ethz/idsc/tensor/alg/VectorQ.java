@@ -13,19 +13,7 @@ public enum VectorQ {
   /** @param tensor
    * @return true if tensor is a vector */
   public static boolean of(Tensor tensor) {
-    try {
-      return tensor.length() == 0 || Unprotect.dimension1(tensor) == Scalar.LENGTH;
-    } catch (Exception exception) {
-      // ---
-    }
-    return false;
-  }
-
-  /** @param tensor
-   * @throws Exception if given tensor is not a vector */
-  public static void orThrow(Tensor tensor) {
-    if (tensor.length() != 0 && Unprotect.dimension1(tensor) != Scalar.LENGTH)
-      throw TensorRuntimeException.of(tensor);
+    return !tensor.isScalar() && tensor.flatten(0).allMatch(Tensor::isScalar);
   }
 
   /** @param tensor
@@ -35,5 +23,12 @@ public enum VectorQ {
     if (length < 0)
       throw new RuntimeException();
     return tensor.length() == length && of(tensor);
+  }
+
+  /** @param tensor
+   * @throws Exception if given tensor is not a vector */
+  public static void orThrow(Tensor tensor) {
+    if (tensor.length() != 0 && Unprotect.dimension1(tensor) != Scalar.LENGTH)
+      throw TensorRuntimeException.of(tensor);
   }
 }

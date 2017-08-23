@@ -19,14 +19,12 @@ public enum Serialization {
    * @return serialization of object
    * @throws IOException */
   public static <T extends Serializable> byte[] of(T object) throws IOException {
-    byte[] bytes = null;
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-    objectOutputStream.writeObject(object);
-    objectOutputStream.flush();
-    bytes = byteArrayOutputStream.toByteArray();
-    objectOutputStream.close();
-    return bytes;
+    try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
+      objectOutputStream.writeObject(object);
+      objectOutputStream.flush();
+      return byteArrayOutputStream.toByteArray();
+    }
   }
 
   /** decodes {@link Serializable} object from array of bytes,
@@ -39,14 +37,13 @@ public enum Serialization {
    * @return {@link Serializable} object encoded in input bytes
    * @throws ClassNotFoundException
    * @throws IOException */
+  @SuppressWarnings("unchecked")
   public static <T extends Serializable> T parse(byte[] bytes) //
       throws ClassNotFoundException, IOException {
     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-    ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-    @SuppressWarnings("unchecked")
-    T object = (T) objectInputStream.readObject();
-    objectInputStream.close();
-    return object;
+    try (ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
+      return (T) objectInputStream.readObject();
+    }
   }
 
   /** @param object that implements {@link Serializable}

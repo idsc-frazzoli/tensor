@@ -116,6 +116,7 @@ public class RationalScalarTest extends TestCase {
   public void testSerializable() throws Exception {
     Scalar a = RationalScalar.of(3, 5);
     assertEquals(a, Serialization.parse(Serialization.of(a)));
+    assertEquals(a, Serialization.copy(a));
   }
 
   public void testSort() {

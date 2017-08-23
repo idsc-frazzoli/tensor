@@ -28,4 +28,17 @@ public class ReverseTest extends TestCase {
     assertEquals(t1, t2);
     assertEquals(t1, t3);
   }
+
+  public void testEmpty() {
+    assertEquals(Tensors.empty(), Reverse.of(Tensors.empty()));
+  }
+
+  public void testFail() {
+    try {
+      Reverse.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

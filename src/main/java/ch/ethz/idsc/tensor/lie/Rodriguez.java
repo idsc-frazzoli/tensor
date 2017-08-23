@@ -21,7 +21,8 @@ public enum Rodriguez {
   private static final Scalar HALF = RationalScalar.of(1, 2);
 
   /** @param vector of length() == 3
-   * @return MatrixExp[Cross[vector]] */
+   * @return MatrixExp[Cross[vector]]
+   * @throws Exception if input vector length != 3 */
   public static Tensor of(Tensor vector) {
     Scalar beta = Norm._2.of(vector);
     Scalar s1 = Sinc.FUNCTION.apply(beta);
