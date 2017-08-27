@@ -22,7 +22,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     } catch (Exception exception) {
       // <- when vector is empty, or contains NaN
     }
-    return Sqrt.FUNCTION.apply(Norm._2SQUARED.of(vector));
+    return Sqrt.FUNCTION.apply(Norm2Squared.vector(vector));
   }
 
   @Override

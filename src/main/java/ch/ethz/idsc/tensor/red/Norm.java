@@ -22,8 +22,6 @@ public enum Norm {
   _1(new Norm1()), //
   /** 2-norm, uses SVD for matrices */
   _2(new Norm2()), //
-  _2SQUARED(new Norm2Squared()), // <- this is not a "norm"
-  FROBENIUS(new NormFrobenius()), //
   /** infinity-norm, for vectors max_i |a_i| */
   INFINITY(new NormInfinity()), //
   ;

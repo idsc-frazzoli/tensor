@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.SignInterface;
@@ -109,7 +110,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       if (Scalars.nonZero(scale)) {
         Scalar fi = scale;
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(fi), k, i));
-        Scalar s = Norm._2SQUARED.of(u.extract(i, rows).get(Tensor.ALL, i));
+        Scalar s = Norm2Squared.vector(u.extract(i, rows).get(Tensor.ALL, i));
         Scalar f = u.Get(i, i);
         p = CopySign.of(Sqrt.of(s), f).negate();
         Scalar h = f.multiply(p).subtract(s);
@@ -134,7 +135,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         Scalar si = scale;
         IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.divide(si), i, k));
         {
-          Scalar s = Norm._2SQUARED.of(u.get(i).extract(ip1, cols));
+          Scalar s = Norm2Squared.vector(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
           p = CopySign.of(Sqrt.of(s), f).negate();
           Scalar h = f.multiply(p).subtract(s);

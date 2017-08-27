@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -85,7 +86,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     }
     Tensor e = UnitVector.of(n, k);
     final Tensor u = x.subtract(e.multiply(alpha));
-    Scalar un = Norm._2SQUARED.of(u);
+    Scalar un = Norm2Squared.vector(u);
     Tensor v = u;
     Tensor cv = Conjugate.of(v);
     Scalar factor = TWO.divide(un);

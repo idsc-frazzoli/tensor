@@ -5,14 +5,15 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 
-/* package */ class Norm2Squared extends RankAdapter<Scalar> {
-  @Override
-  public Scalar ofScalar(Scalar scalar) {
-    return AbsSquared.FUNCTION.apply(scalar);
-  }
-
-  @Override
-  public Scalar ofVector(Tensor vector) {
+/** the square of Norm._2 is not a norm therefore the class does not
+ * implement {@link NormInterface}.
+ * 
+ * @see Norm
+ * @see AbsSquared */
+public enum Norm2Squared {
+  ;
+  // ---
+  public static Scalar vector(Tensor vector) {
     return vector.flatten(0) //
         .map(Scalar.class::cast) //
         .map(AbsSquared.FUNCTION) //
@@ -20,8 +21,7 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
         .get();
   }
 
-  @Override
-  public Scalar ofMatrix(Tensor matrix) {
+  public static Scalar matrix(Tensor matrix) {
     Scalar value = Norm._2.of(matrix);
     return value.multiply(value);
   }

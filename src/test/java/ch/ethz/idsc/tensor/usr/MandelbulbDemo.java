@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.lie.NylanderPower;
-import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MandelbulbDemo {
@@ -30,10 +30,10 @@ enum MandelbulbDemo {
     Scalar nrm = null;
     for (int index = 0; index < DEPTH; ++index) {
       X = NylanderPower.of(X.add(c), EXPONENT);
-      if (Scalars.lessThan(THRESHOLD, Norm._2SQUARED.of(X)))
+      if (Scalars.lessThan(THRESHOLD, Norm2Squared.vector(X)))
         return RealScalar.ZERO;
       if (index == 6)
-        nrm = Norm._2SQUARED.of(X.add(c)); //
+        nrm = Norm2Squared.vector(X.add(c)); //
     }
     return nrm;
   }
