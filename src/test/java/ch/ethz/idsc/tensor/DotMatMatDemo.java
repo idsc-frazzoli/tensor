@@ -28,8 +28,8 @@ enum DotMatMatDemo {
     Tensor timing = Tensors.empty();
     for (int dim = 0; dim < 40; ++dim) {
       System.out.println(dim);
-      Stopwatch s_ser = new Stopwatch();
-      Stopwatch s_par = new Stopwatch();
+      Stopwatch s_ser = Stopwatch.stopped();
+      Stopwatch s_par = Stopwatch.stopped();
       final int trials = 50;
       for (int count = 0; count < trials; ++count) {
         Tensor a = RandomVariate.of(distribution, dim, dim);
@@ -43,7 +43,7 @@ enum DotMatMatDemo {
         if (!Chop._12.close(cs, cp))
           throw TensorRuntimeException.of(cs);
       }
-      timing.append(Tensors.vector(s_ser.total() / trials, s_par.total() / trials));
+      timing.append(Tensors.vector(s_ser.display_nanoSeconds() / trials, s_par.display_nanoSeconds() / trials));
     }
     Put.of(UserHome.file("timing_matmat.txt"), Transpose.of(timing));
   }

@@ -31,7 +31,7 @@ enum TotalDemo {
     Tensor timing = Tensors.empty();
     for (int dim = 0; dim < 100; ++dim) {
       System.out.println(dim);
-      Stopwatch stopwatch = new Stopwatch();
+      Stopwatch stopwatch = Stopwatch.stopped();
       final int trials = 50;
       for (int count = 0; count < trials; ++count) {
         Tensor a = RandomVariate.of(distribution, dim, dim);
@@ -39,7 +39,7 @@ enum TotalDemo {
         Total.of(a);
         stopwatch.stop();
       }
-      timing.append(Tensors.vector(stopwatch.total() / trials));
+      timing.append(Tensors.vector(stopwatch.display_nanoSeconds() / trials));
     }
     Put.of(UserHome.file("timing_total_ser.txt"), Transpose.of(timing));
   }

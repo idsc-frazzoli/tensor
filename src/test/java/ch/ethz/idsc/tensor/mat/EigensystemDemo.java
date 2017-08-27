@@ -33,7 +33,7 @@ enum EigensystemDemo {
     Tensor timing = Tensors.empty();
     for (int dim = 1; dim <= 25; ++dim) {
       System.out.println(dim);
-      Stopwatch stopwatch = new Stopwatch();
+      Stopwatch stopwatch = Stopwatch.stopped();
       final int trials = 70 - dim;
       for (int count = 0; count < trials; ++count) {
         Tensor a = RandomVariate.of(distribution, dim, dim);
@@ -42,7 +42,7 @@ enum EigensystemDemo {
         Eigensystem.ofSymmetric(a);
         stopwatch.stop();
       }
-      timing.append(Tensors.vector(stopwatch.total() / trials));
+      timing.append(Tensors.vector(stopwatch.display_nanoSeconds() / trials));
     }
     Put.of(UserHome.file("timing_eigen_ser.txt"), Transpose.of(timing));
   }

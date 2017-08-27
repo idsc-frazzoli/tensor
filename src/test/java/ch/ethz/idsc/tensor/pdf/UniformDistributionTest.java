@@ -1,8 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.Random;
+
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import junit.framework.TestCase;
 
 public class UniformDistributionTest extends TestCase {
@@ -18,6 +21,12 @@ public class UniformDistributionTest extends TestCase {
     UniformDistribution distribution = (UniformDistribution) UniformDistribution.unit();
     assertEquals(distribution.mean(), RationalScalar.of(1, 2));
     assertEquals(distribution.variance(), RationalScalar.of(1, 12));
+  }
+
+  public void testRandomVariate() {
+    Scalar s1 = RandomVariate.of(UniformDistribution.of(0, 1), new Random(1000));
+    Scalar s2 = RandomVariate.of(UniformDistribution.unit(), new Random(1000));
+    assertEquals(s1, s2);
   }
 
   public void testFail() {

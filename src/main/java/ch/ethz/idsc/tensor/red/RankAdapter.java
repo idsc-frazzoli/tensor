@@ -13,7 +13,6 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
   private static final int RANK_VECTOR = 1;
   private static final int RANK_MATRIX = 2;
 
-  @SuppressWarnings("incomplete-switch")
   public final Type of(Tensor tensor) {
     Optional<Integer> rank = TensorRank.ofArray(tensor);
     if (rank.isPresent())
@@ -24,6 +23,7 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
         return ofVector(tensor);
       case RANK_MATRIX:
         return ofMatrix(tensor);
+      default:
       }
     return ofOther(tensor);
   }

@@ -8,6 +8,8 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.utl.Stopwatch;
 
+/** DEMO IS OBSOLETE SINCE LinearInterpolation
+ * INTERNALLY USES UNPROTECT */
 enum LinearInterpolationDemo {
   ;
   private static final Distribution distribution = UniformDistribution.unit();
@@ -18,7 +20,8 @@ enum LinearInterpolationDemo {
     for (int c = 1; c < 20000; ++c) {
       interpolation.Get(RandomVariate.of(distribution, 3));
     }
-    return stopwatch.stop();
+    stopwatch.stop();
+    return stopwatch.display_nanoSeconds();
   }
 
   public static void main(String[] args) {
