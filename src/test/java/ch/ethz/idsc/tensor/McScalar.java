@@ -48,7 +48,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 
   @Override
   public Scalar abs() {
-    return Norm._2.of(skew);
+    return Norm._2.matrix(skew);
   }
 
   @Override

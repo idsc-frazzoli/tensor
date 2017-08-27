@@ -38,7 +38,7 @@ public class Quantity3Test extends TestCase {
     Scalar qs2 = Quantity.of(-4, "[m]");
     Scalar qs3 = Quantity.of(7, "[m]");
     Tensor vec = Tensors.of(qs1, qs2);
-    assertEquals(Norm._1.of(vec), qs3);
+    assertEquals(Norm._1.vector(vec), qs3);
   }
 
   public void testNorm1b() {
@@ -48,7 +48,7 @@ public class Quantity3Test extends TestCase {
         RealScalar.ZERO, //
         Quantity.of(-4, "[m]") //
     );
-    assertEquals(Norm._1.of(vec), Quantity.of(7, "[m]"));
+    assertEquals(Norm._1.vector(vec), Quantity.of(7, "[m]"));
   }
 
   public void testNorm2() {

@@ -14,12 +14,12 @@ import junit.framework.TestCase;
 
 public class Norm2Test extends TestCase {
   public void testScalar() {
-    assertEquals(Norm._2.of(Scalars.fromString("0")), RealScalar.ZERO);
-    assertEquals(Norm._2.of(Scalars.fromString("-3.90512")), Scalars.fromString("3.90512"));
-    assertEquals(Norm._2.of(Scalars.fromString("-3/7")), Scalars.fromString("3/7"));
-    Scalar rs = Norm._2.of(ComplexScalar.of(RealScalar.ONE, RealScalar.of(2))); // <- sqrt(5)
+    assertEquals(Norm._2.of(Tensors.fromString("{0}")), RealScalar.ZERO);
+    assertEquals(Norm._2.of(Tensors.fromString("{-3.90512}")), Scalars.fromString("3.90512"));
+    assertEquals(Norm._2.of(Tensors.fromString("{-3/7}")), Scalars.fromString("3/7"));
+    Scalar rs = Norm._2.of(Tensors.of(ComplexScalar.of(RealScalar.ONE, RealScalar.of(2)))); // <- sqrt(5)
     assertEquals(rs, Scalars.fromString("2.23606797749979"));
-    // assertEquals(Norm._2SQUARED.of(Scalars.fromString("-3/7")), Scalars.fromString("9/49"));
+    assertEquals(Norm2Squared.vector(Tensors.of(Scalars.fromString("-3/7"))), Scalars.fromString("9/49"));
   }
 
   public void testVector1() {
@@ -42,8 +42,8 @@ public class Norm2Test extends TestCase {
 
   public void testMatrix1() {
     Tensor matrix = Tensors.matrix(new Number[][] { { 1, 2, 3 }, { 9, -3, 0 } });
-    Scalar nrm = Norm._2.of(matrix);
-    assertEquals(nrm, Norm._2.of(Transpose.of(matrix)));
+    Scalar nrm = Norm._2.matrix(matrix);
+    assertEquals(nrm, Norm._2.matrix(Transpose.of(matrix)));
     // Mathematica: 9.493062577750756
     assertTrue(Chop._14.close(nrm, DoubleScalar.of(9.493062577750756)));
   }
@@ -60,7 +60,7 @@ public class Norm2Test extends TestCase {
 
   public void testEmpty() {
     try {
-      Norm._2.of(Tensors.empty());
+      Norm._2.vector(Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.red.Frobenius;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -122,6 +123,15 @@ public class NormalizeTest extends TestCase {
     }
     try {
       Normalize.of(HilbertMatrix.of(3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMatrixFail2() {
+    try {
+      Normalize.unlessZero(Array.zeros(3, 3), Frobenius.NORM);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

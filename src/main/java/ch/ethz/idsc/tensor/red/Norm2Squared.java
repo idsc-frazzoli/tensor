@@ -22,7 +22,7 @@ public enum Norm2Squared {
   }
 
   public static Scalar matrix(Tensor matrix) {
-    Scalar value = Norm._2.of(matrix);
+    Scalar value = Norm._2.matrix(matrix);
     return value.multiply(value);
   }
 }

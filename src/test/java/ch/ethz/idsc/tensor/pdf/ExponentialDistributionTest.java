@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Mean;
-import ch.ethz.idsc.tensor.red.Norm;
 import junit.framework.TestCase;
 
 public class ExponentialDistributionTest extends TestCase {
@@ -39,7 +38,7 @@ public class ExponentialDistributionTest extends TestCase {
     }
     Scalar mean = lambda.reciprocal();
     assertEquals(Expectation.mean(distribution), mean);
-    Scalar diff = Norm._2.of(Mean.of(all).Get().subtract(mean));
+    Scalar diff = Mean.of(all).Get().subtract(mean).abs();
     assertTrue(Scalars.lessThan(diff, RealScalar.of(0.05)));
   }
 

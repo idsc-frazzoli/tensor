@@ -20,6 +20,6 @@ public enum Frobenius implements NormInterface {
   /** @param tensor of arbitrary rank
    * @return Frobenius norm of given tensor */
   public static Scalar of(Tensor tensor) {
-    return Norm._2.of(Tensor.of(tensor.flatten(-1)));
+    return Norm._2.vector(Tensor.of(tensor.flatten(-1)));
   }
 }

@@ -27,8 +27,8 @@ public class NormTest extends TestCase {
     Tensor a = Tensors.vector(1, 2, 8);
     Tensor b = Tensors.vector(3, 4, 2);
     Tensor c = Tensors.of(a, b);
-    assertEquals(Norm._1.of(c), Scalars.fromString("10"));
-    assertEquals(Norm.INFINITY.of(c), Scalars.fromString("11"));
+    assertEquals(Norm._1.matrix(c), Scalars.fromString("10"));
+    assertEquals(Norm.INFINITY.matrix(c), Scalars.fromString("11"));
   }
 
   public void testCornerCases() {
@@ -38,11 +38,6 @@ public class NormTest extends TestCase {
       assertTrue(false);
     } catch (Exception exception) {
       // ---
-    }
-    {
-      assertEquals(Norm._1.of(z), z);
-      assertEquals(Norm._2.of(z), z);
-      assertEquals(Norm.INFINITY.of(z), z);
     }
     {
       Tensor v = Tensors.of(z);
