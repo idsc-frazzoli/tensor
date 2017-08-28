@@ -30,10 +30,10 @@ enum MandelbulbDemo {
     Scalar nrm = null;
     for (int index = 0; index < DEPTH; ++index) {
       X = NylanderPower.of(X.add(c), EXPONENT);
-      if (Scalars.lessThan(THRESHOLD, Norm2Squared.vector(X)))
+      if (Scalars.lessThan(THRESHOLD, Norm2Squared.ofVector(X)))
         return RealScalar.ZERO;
       if (index == 6)
-        nrm = Norm2Squared.vector(X.add(c)); //
+        nrm = Norm2Squared.ofVector(X.add(c)); //
     }
     return nrm;
   }

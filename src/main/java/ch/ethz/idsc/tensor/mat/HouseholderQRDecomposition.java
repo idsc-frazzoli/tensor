@@ -86,7 +86,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     }
     Tensor e = UnitVector.of(n, k);
     final Tensor u = x.subtract(e.multiply(alpha));
-    Scalar un = Norm2Squared.vector(u);
+    Scalar un = Norm2Squared.ofVector(u);
     Tensor v = u;
     Tensor cv = Conjugate.of(v);
     Scalar factor = TWO.divide(un);

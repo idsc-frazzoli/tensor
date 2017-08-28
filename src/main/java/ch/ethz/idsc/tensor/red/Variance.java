@@ -18,7 +18,7 @@ public enum Variance {
   public static Tensor ofVector(Tensor vector) {
     VectorQ.orThrow(vector);
     Tensor mean = Mean.of(vector);
-    return Norm2Squared.vector(TensorMap.of(scalar -> scalar.subtract(mean), vector, 1)) //
+    return Norm2Squared.ofVector(TensorMap.of(scalar -> scalar.subtract(mean), vector, 1)) //
         .multiply(RationalScalar.of(1, vector.length() - 1));
   }
 }

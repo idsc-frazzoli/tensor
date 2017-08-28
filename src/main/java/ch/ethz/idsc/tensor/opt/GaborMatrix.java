@@ -30,7 +30,7 @@ public enum GaborMatrix {
     final Scalar factor = AbsSquared.of(sigma).multiply(TWO).negate();
     final int m = 2 * r + 1;
     final Tensor offset = Tensors.vector(-r, -r);
-    Tensor matrix = Array.of(list -> Norm2Squared.vector(Tensors.vector(list).add(offset)), m, m) //
+    Tensor matrix = Array.of(list -> Norm2Squared.ofVector(Tensors.vector(list).add(offset)), m, m) //
         .divide(factor).map(Exp.FUNCTION);
     Tensor weight = Array.of(list -> k.dot(Tensors.vector(list).add(offset)).subtract(phi), m, m) //
         .map(Cos.FUNCTION);

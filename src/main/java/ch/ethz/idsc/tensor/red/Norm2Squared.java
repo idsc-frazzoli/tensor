@@ -13,14 +13,14 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
 public enum Norm2Squared {
   ;
   // ---
-  public static Scalar vector(Tensor vector) {
+  public static Scalar ofVector(Tensor vector) {
     return vector.flatten(0) //
         .map(Scalar.class::cast) //
         .map(AbsSquared.FUNCTION) //
         .reduce(Scalar::add).get();
   }
 
-  public static Scalar matrix(Tensor matrix) {
+  public static Scalar ofMatrix(Tensor matrix) {
     Scalar value = Norm._2.ofMatrix(matrix);
     return value.multiply(value);
   }
