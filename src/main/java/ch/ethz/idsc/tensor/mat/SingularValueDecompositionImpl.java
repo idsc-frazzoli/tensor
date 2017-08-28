@@ -51,7 +51,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       initU1(i);
       initU2(i);
     }
-    Chop chop = Chop.below(Norm._1.matrix(Tensors.of(w, r)).multiply(DBL_EPSILON).number().doubleValue());
+    Chop chop = Chop.below(Norm._1.ofMatrix(Tensors.of(w, r)).multiply(DBL_EPSILON).number().doubleValue());
     // ---
     v = Array.zeros(cols, cols);
     v.set(RealScalar.ONE, cols - 1, cols - 1);
@@ -106,7 +106,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar p = RealScalar.ZERO;
     Scalar scale = RealScalar.ZERO;
     if (i < rows) {
-      scale = Norm._1.vector(u.extract(i, rows).get(Tensor.ALL, i));
+      scale = Norm._1.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
       if (Scalars.nonZero(scale)) {
         Scalar fi = scale;
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(fi), k, i));
@@ -130,7 +130,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar p = RealScalar.ZERO;
     Scalar scale = RealScalar.ZERO;
     if (i < rows && ip1 != cols) {
-      scale = Norm._1.vector(u.get(i).extract(ip1, cols));
+      scale = Norm._1.ofVector(u.get(i).extract(ip1, cols));
       if (Scalars.nonZero(scale)) {
         Scalar si = scale;
         IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.divide(si), i, k));

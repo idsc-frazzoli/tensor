@@ -55,7 +55,7 @@ public class ComplexScalarTest extends TestCase {
     Scalar c = ComplexScalar.of(RealScalar.of(2), RationalScalar.of(5, 8));
     assertEquals(Real.of(c), RealScalar.of(2));
     assertEquals(Imag.of(c), RationalScalar.of(5, 8));
-    assertEquals(Abs.of(c), Norm._2.vector(Tensors.of(RealScalar.of(2), RationalScalar.of(5, 8))));
+    assertEquals(Abs.of(c), Norm._2.ofVector(Tensors.of(RealScalar.of(2), RationalScalar.of(5, 8))));
     Scalar r = RealScalar.of(-6);
     assertEquals(Real.of(r), r);
     assertEquals(Imag.of(r), RealScalar.ZERO);

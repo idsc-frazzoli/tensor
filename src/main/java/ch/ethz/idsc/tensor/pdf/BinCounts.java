@@ -46,7 +46,7 @@ public enum BinCounts {
     Scalar first = navigableMap.firstKey().Get();
     if (Scalars.lessThan(first, first.zero()))
       throw TensorRuntimeException.of(vector);
-    int length = Math.max(0, navigableMap.lastKey().Get().number().intValue() + 1);
+    int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
     return Tensors.vector(index -> {
       Scalar key = RationalScalar.of(index, 1);
       return navigableMap.containsKey(key) ? RealScalar.of(navigableMap.get(key)) : RealScalar.ZERO;

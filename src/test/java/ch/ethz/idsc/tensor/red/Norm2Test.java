@@ -42,8 +42,8 @@ public class Norm2Test extends TestCase {
 
   public void testMatrix1() {
     Tensor matrix = Tensors.matrix(new Number[][] { { 1, 2, 3 }, { 9, -3, 0 } });
-    Scalar nrm = Norm._2.matrix(matrix);
-    assertEquals(nrm, Norm._2.matrix(Transpose.of(matrix)));
+    Scalar nrm = Norm._2.ofMatrix(matrix);
+    assertEquals(nrm, Norm._2.ofMatrix(Transpose.of(matrix)));
     // Mathematica: 9.493062577750756
     assertTrue(Chop._14.close(nrm, DoubleScalar.of(9.493062577750756)));
   }
@@ -60,7 +60,7 @@ public class Norm2Test extends TestCase {
 
   public void testEmpty() {
     try {
-      Norm._2.vector(Tensors.empty());
+      Norm._2.ofVector(Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

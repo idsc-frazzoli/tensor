@@ -17,12 +17,11 @@ public enum Norm2Squared {
     return vector.flatten(0) //
         .map(Scalar.class::cast) //
         .map(AbsSquared.FUNCTION) //
-        .reduce(Scalar::add) //
-        .get();
+        .reduce(Scalar::add).get();
   }
 
   public static Scalar matrix(Tensor matrix) {
-    Scalar value = Norm._2.matrix(matrix);
+    Scalar value = Norm._2.ofMatrix(matrix);
     return value.multiply(value);
   }
 }

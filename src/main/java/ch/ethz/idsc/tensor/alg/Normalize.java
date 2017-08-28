@@ -44,11 +44,11 @@ public enum Normalize {
    * VectorNorm(result) == 1 (or numerically close to 1) */
   public static Tensor of(Tensor vector, VectorNormInterface vectorNormInterface) {
     VectorQ.orThrow(vector);
-    Scalar norm = vectorNormInterface.vector(vector);
+    Scalar norm = vectorNormInterface.ofVector(vector);
     int count = 0;
     while (!PRECISION.close(norm, RealScalar.ONE)) {
-      vector = vector.divide(vectorNormInterface.vector(vector));
-      norm = vectorNormInterface.vector(vector);
+      vector = vector.divide(vectorNormInterface.ofVector(vector));
+      norm = vectorNormInterface.ofVector(vector);
       ++count;
       if (5 < count) // in the tests the maximum observed count == 2
         throw TensorRuntimeException.of("no convergence", norm, vector);
@@ -60,7 +60,7 @@ public enum Normalize {
    * @param function
    * @return copy of vector if function(vector) == 0, else same as {@link #of(Tensor, Function)} */
   public static Tensor unlessZero(Tensor vector, VectorNormInterface vectorNormInterface) {
-    if (Scalars.isZero(vectorNormInterface.vector(vector))) {
+    if (Scalars.isZero(vectorNormInterface.ofVector(vector))) {
       VectorQ.orThrow(vector);
       return vector.copy();
     }

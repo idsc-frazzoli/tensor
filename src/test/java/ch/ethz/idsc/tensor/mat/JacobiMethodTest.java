@@ -24,7 +24,7 @@ public class JacobiMethodTest extends TestCase {
     Scalar det = Det.of(matrix);
     Tensor prd = Total.prod(eigensys.values());
     assertTrue(Chop._12.close(det, prd));
-    Tensor norm = Tensor.of(eigensys.vectors().flatten(0).map(Norm._2::vector));
+    Tensor norm = Tensor.of(eigensys.vectors().flatten(0).map(Norm._2::ofVector));
     assertTrue(Chop._12.close(norm, Tensors.vector(i -> RealScalar.ONE, norm.length())));
     // testing orthogonality
     final Tensor Vt = Transpose.of(eigensys.vectors());

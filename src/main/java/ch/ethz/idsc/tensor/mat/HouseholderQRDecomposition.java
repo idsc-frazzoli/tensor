@@ -48,7 +48,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
   private Tensor reflect(int k) {
     Tensor y = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
-    Scalar yn = Norm._2.vector(y);
+    Scalar yn = Norm._2.ofVector(y);
     if (Scalars.isZero(yn))
       return IdentityMatrix.of(n); // reflection reduces to identity, hopefully => det == 0
     Tensor delta = UnitVector.of(n, k).multiply(yn);
@@ -73,7 +73,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   @SuppressWarnings("unused")
   private Tensor _reflect(final int k) {
     Tensor x = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
-    Scalar xn = Norm._2.vector(x);
+    Scalar xn = Norm._2.ofVector(x);
     if (Scalars.isZero(xn))
       return IdentityMatrix.of(n); // reflection reduces to identity, hopefully => det == 0
     Scalar y0 = R.Get(k, k);

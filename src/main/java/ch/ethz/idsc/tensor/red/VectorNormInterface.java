@@ -8,5 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** interface defines a norm for vectors */
 public interface VectorNormInterface extends Serializable {
-  Scalar vector(Tensor vector);
+  /** @param vector
+   * @return norm of vector */
+  Scalar ofVector(Tensor vector);
 }

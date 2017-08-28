@@ -24,7 +24,7 @@ public enum Rodriguez {
    * @return MatrixExp[Cross[vector]]
    * @throws Exception if input vector length != 3 */
   public static Tensor of(Tensor vector) {
-    Scalar beta = Norm._2.vector(vector);
+    Scalar beta = Norm._2.ofVector(vector);
     Scalar s1 = Sinc.FUNCTION.apply(beta);
     Tensor X1 = Cross.of(vector.multiply(s1));
     Scalar h2 = Sinc.FUNCTION.apply(beta.multiply(HALF));
