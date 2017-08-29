@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.VectorNorm;
+import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
@@ -157,6 +158,12 @@ public class Quantity3Test extends TestCase {
     Scalar qs3 = Quantity.of(3, "[m^0]");
     assertEquals(qs1.divide(qs2), qs3);
     assertTrue(qs3 instanceof RationalScalar);
+  }
+
+  public void testAbsSquared() {
+    Scalar qs1 = Quantity.fromString("3+4*I[s^2*m^-1]");
+    Scalar qs2 = AbsSquared.FUNCTION.apply(qs1);
+    assertEquals(qs2.toString(), "25[m^-2*s^4]");
   }
 
   // Mathematica doesn't do this:

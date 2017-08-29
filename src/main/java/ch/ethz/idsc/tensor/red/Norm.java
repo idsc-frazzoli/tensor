@@ -53,9 +53,9 @@ public enum Norm implements NormInterface {
     if (rank.isPresent())
       switch (rank.get()) {
       case 1:
-        return ofVector(tensor);
+        return normInterface.ofVector(tensor);
       case 2:
-        return ofMatrix(tensor);
+        return normInterface.ofMatrix(tensor);
       default:
       }
     throw TensorRuntimeException.of(tensor);
