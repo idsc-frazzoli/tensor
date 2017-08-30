@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.io.File;
 import java.util.Objects;
 
-/* package */ class Filename implements Comparable<Filename> {
+/* package */ class Filename {
   public final File file;
   public final String title;
   public final String extension;
@@ -30,24 +30,5 @@ import java.util.Objects;
    * @return */
   public File withExtension(String string) {
     return new File(file.getParentFile(), title + (Objects.isNull(string) ? "" : "." + string));
-  }
-
-  @Override // from Comparable<Filename>
-  public int compareTo(Filename filename) {
-    return file.compareTo(filename.file);
-  }
-
-  @Override // from Object
-  public boolean equals(Object object) {
-    if (object instanceof Filename) {
-      Filename filename = (Filename) object;
-      return file.equals(filename.file);
-    }
-    return false;
-  }
-
-  @Override // from Object
-  public int hashCode() {
-    return file.hashCode();
   }
 }

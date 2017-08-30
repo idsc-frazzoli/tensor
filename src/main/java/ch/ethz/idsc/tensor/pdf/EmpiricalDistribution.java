@@ -15,11 +15,13 @@ import ch.ethz.idsc.tensor.sca.Floor;
 /** Careful:
  * The constructor Mathematica::EmpiricalDistribution[data] has no direct equivalent in the tensor library.
  * 
- * The constructor here takes as input the unscaled pdf which is interpreted over the samples
+ * <p>The constructor here takes as input the unscaled pdf which is interpreted over the samples
+ * <pre>
  * 0, 1, 2, 3, ..., [length of unscaled pdf] - 1
+ * </pre>
  * 
- * Mathematica also implement HistogramDistribution which has a continuous CDF.
- * The CDF of EmpiricalDistribution has discontinuities.
+ * <p>Mathematica also implements HistogramDistribution which has a continuous CDF.
+ * In contrast, the CDF of tensor::EmpiricalDistribution has discontinuities.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/EmpiricalDistribution.html">EmpiricalDistribution</a> */

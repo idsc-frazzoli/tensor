@@ -112,6 +112,15 @@ public class EmpiricalDistributionTest extends TestCase {
       // ---
     }
     try {
+      EmpiricalDistribution.fromUnscaledPDF(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFail2() {
+    try {
       EmpiricalDistribution.fromUnscaledPDF(RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {

@@ -47,11 +47,18 @@ public class GeometricDistributionTest extends TestCase {
       // ---
     }
     try {
-      GeometricDistribution.of(RealScalar.ONE);
+      GeometricDistribution.of(RealScalar.of(1.1));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testOne() {
+    Distribution distribution = GeometricDistribution.of(RealScalar.ONE);
+    assertEquals(PDF.of(distribution).at(RealScalar.ZERO), RealScalar.ONE);
+    assertEquals(PDF.of(distribution).at(RealScalar.ONE), RealScalar.ZERO);
+    assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
   }
 
   public void testNumerics() {
