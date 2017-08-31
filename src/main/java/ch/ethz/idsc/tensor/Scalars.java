@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigInteger;
+
 import ch.ethz.idsc.tensor.alg.BinaryPower;
 
 public enum Scalars {
@@ -60,7 +62,22 @@ public enum Scalars {
     return compare(s1, s2) <= 0;
   }
 
-  /** @param one
+  /** @param scalar
+   * @return true if given scalar equals scalar.zero() */
+  public static boolean isZero(Scalar scalar) {
+    return scalar.equals(scalar.zero());
+  }
+
+  /** @param scalar
+   * @return true if given scalar does not equal scalar.zero() */
+  public static boolean nonZero(Scalar scalar) {
+    return !scalar.equals(scalar.zero());
+  }
+
+  /***************************************************/
+  /** utility to compute the power of a scalar type to an integer exponent
+   * 
+   * @param one
    * @return */
   public static BinaryPower<Scalar> binaryPower(Scalar one) {
     return new BinaryPower<Scalar>() {
@@ -81,40 +98,54 @@ public enum Scalars {
     };
   }
 
-  /** @param scalar
-   * @return true if given scalar equals scalar.zero() */
-  public static boolean isZero(Scalar scalar) {
-    return scalar.equals(scalar.zero());
-  }
-
-  /** @param scalar
-   * @return true if given scalar does not equal scalar.zero() */
-  public static boolean nonZero(Scalar scalar) {
-    return !scalar.equals(scalar.zero());
-  }
-
   /***************************************************/
-  /** exact conversion to primitive type int
+  /** exact conversion to primitive type {@code int}
+   * 
+   * <p>function succeeds if given scalar is
+   * <ul>
+   * <li>instance of {@link RationalScalar}, with
+   * <li>numerator sufficiently small to encode as {@code int}, and
+   * <li>denominator == 1
+   * </ul>
    * 
    * @param scalar
-   * @return int
-   * @throws Exception if exact conversion is not possible */
+   * @return int value that equals given scalar
+   * @throws Exception if exact conversion is not possible
+   * @see IntegerQ */
   public static int intValueExact(Scalar scalar) {
-    if (!IntegerQ.of(scalar))
-      throw TensorRuntimeException.of(scalar);
-    RationalScalar rationalScalar = (RationalScalar) scalar;
-    return rationalScalar.numerator().intValueExact();
+    return bigIntegerValueExact(scalar).intValueExact();
   }
 
-  /** exact conversion to primitive type long
+  /** exact conversion to primitive type {@code long}
+   * 
+   * <p>function succeeds if given scalar is
+   * <ul>
+   * <li>instance of {@link RationalScalar}, with
+   * <li>numerator sufficiently small to encode as {@code long}, and
+   * <li>denominator == 1
+   * </ul>
    * 
    * @param scalar
-   * @return long
-   * @throws Exception if exact conversion is not possible */
+   * @return long value that equals given scalar
+   * @throws Exception if exact conversion is not possible
+   * @see IntegerQ */
   public static long longValueExact(Scalar scalar) {
+    return bigIntegerValueExact(scalar).longValueExact();
+  }
+
+  /** exact conversion to type {@code BigInteger}
+   * 
+   * <p>function succeeds if given scalar is instance of
+   * {@link RationalScalar} with denominator == 1.
+   * 
+   * @param scalar
+   * @return BigInteger that equals given scalar
+   * @throws Exception if exact conversion is not possible
+   * @see IntegerQ */
+  public static BigInteger bigIntegerValueExact(Scalar scalar) {
     if (!IntegerQ.of(scalar))
       throw TensorRuntimeException.of(scalar);
     RationalScalar rationalScalar = (RationalScalar) scalar;
-    return rationalScalar.numerator().longValueExact();
+    return rationalScalar.numerator();
   }
 }

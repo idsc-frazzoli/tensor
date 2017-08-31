@@ -9,12 +9,15 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
-/** Each norm is defined at least for scalars, vectors, and matrices.
+/** The enumeration defines the 1-, 2-, and Infinity-norm for vectors, and matrices.
  * The return value is of type {@link RealScalar}.
  * 
  * <p>As in Mathematica, the norm of empty expressions is undefined:
  * Norm[{}] -> undefined
  * Norm[{{}}] -> undefined
+ * 
+ * <p>While Mathematica also defines the norm for Scalars, for instance Norm[-3 + 4 I] == 5,
+ * the tensor library insists that Scalar::abs is used for that purpose.
  * 
  * @see Frobenius#NORM
  * 
@@ -44,14 +47,23 @@ public enum Norm implements NormInterface {
     return normInterface.ofMatrix(matrix);
   }
 
-  /** entry point to compute the norm of given tensor
+  /** Hint: Whenever the application layer is aware of the rank of the given tensor,
+   * we recommend to invoke the norm computation directly via
+   * <ul>
+   * <li>Norm.X::ofVector
+   * <li>Norm.X::ofMatrix
+   * </ul>
    * 
-   * @param tensor is scalar, vector, or matrix
+   * <p>universal entry point to compute the norm of a tensor of rank 1 or 2
+   * 
+   * @param tensor is a vector or matrix
    * @return norm of given tensor */
   public Scalar of(Tensor tensor) {
     Optional<Integer> rank = TensorRank.ofArray(tensor);
     if (rank.isPresent())
       switch (rank.get()) {
+      // Norm.of(Scalar) is not supported to prevent mistakes.
+      // For scalars use Scalar::abs instead
       case 1:
         return normInterface.ofVector(tensor);
       case 2:

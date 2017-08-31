@@ -59,6 +59,8 @@ public class GeometricDistributionTest extends TestCase {
     assertEquals(PDF.of(distribution).at(RealScalar.ZERO), RealScalar.ONE);
     assertEquals(PDF.of(distribution).at(RealScalar.ONE), RealScalar.ZERO);
     assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
+    assertEquals(Expectation.mean(distribution), RealScalar.ZERO);
+    assertEquals(Expectation.variance(distribution), RealScalar.ZERO);
   }
 
   public void testNumerics() {

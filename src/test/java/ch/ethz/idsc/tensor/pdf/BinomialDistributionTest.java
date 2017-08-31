@@ -134,6 +134,14 @@ public class BinomialDistributionTest extends TestCase {
     distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
   }
 
+  public void testNZero() {
+    Distribution distribution = BinomialDistribution.of(0, RealScalar.ZERO);
+    assertEquals(Expectation.mean(distribution), RealScalar.ZERO);
+    assertEquals(Expectation.variance(distribution), RealScalar.ZERO);
+    assertEquals(PDF.of(distribution).at(RealScalar.ZERO), RealScalar.ONE);
+    assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
+  }
+
   public void testFailN() {
     try {
       BinomialDistribution.of(-1, RationalScalar.of(1, 3));

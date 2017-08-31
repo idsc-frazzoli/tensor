@@ -21,7 +21,12 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Join.html">Join</a> */
 public enum Join {
   ;
-  /** @param level
+  /** Example:
+   * <pre>
+   * Join[1, {{a, b}, {c}}, {{d, e}, {f, g}}] == {{a, b, d, e}, {c, f, g}}
+   * </pre>
+   * 
+   * @param level
    * @param tensors
    * @return joins tensors along dimension level */
   public static Tensor of(int level, Tensor... tensors) {

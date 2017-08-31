@@ -263,5 +263,6 @@ The library is used in the projects:
 * `retina`
 * `QueuingNetworks`
 * `SimBus`
+* `lcm-java`
 
 The repository has over `1270` unit tests.

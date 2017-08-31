@@ -20,7 +20,7 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
   /** @param p with 0 < p <= 1 denotes probability P(X==0) == p */
   public static Distribution of(Scalar p) {
     if (p.equals(RealScalar.ONE))
-      return BernoulliDistribution.of(RealScalar.ZERO);
+      return BinomialDistribution.of(0, p);
     if (Scalars.lessEquals(p, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, p))
       throw TensorRuntimeException.of(p);
     return new GeometricDistribution(p);

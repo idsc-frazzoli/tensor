@@ -72,16 +72,17 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return cdf_get(Scalars.intValueExact(Ceiling.of(x.subtract(RealScalar.ONE))));
+    return cdf_get(Ceiling.of(x.subtract(RealScalar.ONE)));
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
-    return cdf_get(Scalars.intValueExact(Floor.of(x)));
+    return cdf_get(Floor.of(x));
   }
 
   // helper function
-  private Scalar cdf_get(int index) {
+  private Scalar cdf_get(Scalar scalar) {
+    int index = Scalars.intValueExact(scalar);
     if (index < 0)
       return RealScalar.ZERO;
     if (cdf.length() <= index)
