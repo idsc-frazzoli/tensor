@@ -13,6 +13,8 @@ import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
 import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.VectorNorm;
+import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
@@ -38,7 +40,7 @@ public class Quantity3Test extends TestCase {
     Scalar qs2 = Quantity.of(-4, "[m]");
     Scalar qs3 = Quantity.of(7, "[m]");
     Tensor vec = Tensors.of(qs1, qs2);
-    assertEquals(Norm._1.of(vec), qs3);
+    assertEquals(Norm._1.ofVector(vec), qs3);
   }
 
   public void testNorm1b() {
@@ -48,7 +50,7 @@ public class Quantity3Test extends TestCase {
         RealScalar.ZERO, //
         Quantity.of(-4, "[m]") //
     );
-    assertEquals(Norm._1.of(vec), Quantity.of(7, "[m]"));
+    assertEquals(Norm._1.ofVector(vec), Quantity.of(7, "[m]"));
   }
 
   public void testNorm2() {
@@ -81,6 +83,24 @@ public class Quantity3Test extends TestCase {
     Scalar nin = Norm.INFINITY.of(vec);
     Scalar act = Quantity.of(3, "[m]");
     assertEquals(nin, act);
+  }
+
+  public void testNormP() {
+    Scalar qs1 = Quantity.of(-3, "[m]");
+    Scalar qs2 = Quantity.of(4, "[m]");
+    Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
+    Scalar lhs = VectorNorm.with(RationalScalar.of(7, 3)).ofVector(vec);
+    Scalar rhs = Quantity.fromString("4.774145448367236[m]");
+    assertTrue(Chop._13.close(lhs, rhs));
+  }
+
+  public void testNormP2() {
+    Scalar qs1 = Quantity.of(-3, "[m]");
+    Scalar qs2 = Quantity.of(4, "[m]");
+    Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
+    Scalar lhs = VectorNorm.with(Math.PI).ofVector(vec); // the result has unit [m^1.0]
+    Scalar rhs = Quantity.fromString("4.457284396597481[m]");
+    assertTrue(Chop._13.close(lhs, rhs));
   }
 
   public void testSort() {
@@ -138,6 +158,12 @@ public class Quantity3Test extends TestCase {
     Scalar qs3 = Quantity.of(3, "[m^0]");
     assertEquals(qs1.divide(qs2), qs3);
     assertTrue(qs3 instanceof RationalScalar);
+  }
+
+  public void testAbsSquared() {
+    Scalar qs1 = Quantity.fromString("3+4*I[s^2*m^-1]");
+    Scalar qs2 = AbsSquared.FUNCTION.apply(qs1);
+    assertEquals(qs2.toString(), "25[m^-2*s^4]");
   }
 
   // Mathematica doesn't do this:

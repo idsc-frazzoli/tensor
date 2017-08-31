@@ -35,9 +35,9 @@ public enum N implements ScalarUnaryOperator {
   /** shorthand alternative to {@link RealScalar#of(Number)}
    * in order to construct a {@link DoubleScalar}
    * 
-   * @param value in double precision
-   * @return scalar with double precision of given value */
-  /* package */ static Scalar of(double value) {
-    return DoubleScalar.of(value);
+   * @param number
+   * @return scalar with double value of given number */
+  /* package */ static Scalar of(Number number) {
+    return DoubleScalar.of(number.doubleValue());
   }
 }

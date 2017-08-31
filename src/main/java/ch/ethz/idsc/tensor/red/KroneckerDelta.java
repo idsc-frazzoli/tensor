@@ -3,10 +3,10 @@ package ch.ethz.idsc.tensor.red;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** not completely consistent with Mathematica since
  * Mathematica::KroneckerDelta[ ] == 1 (<-consistent)
@@ -18,7 +18,7 @@ public enum KroneckerDelta {
   ;
   /** @param scalar
    * @return function that maps input to 1 if input matches scalar, otherwise gives 0 */
-  public static Function<Scalar, Scalar> function(Scalar scalar) {
+  public static ScalarUnaryOperator function(Scalar scalar) {
     return value -> of(scalar, value);
   }
 

@@ -65,7 +65,7 @@ public class FermatWeberProblem implements Serializable {
     while (iteration < iteration_max) {
       Tensor next = weiszfeldStep();
       ++iteration;
-      double delta = Norm._2.of(point.subtract(next)).number().doubleValue();
+      double delta = Norm._2.ofVector(point.subtract(next)).number().doubleValue();
       point = next;
       if (delta <= tolerance)
         break;
@@ -74,7 +74,7 @@ public class FermatWeberProblem implements Serializable {
   }
 
   private Tensor weiszfeldStep() {
-    Tensor dist = Tensor.of(tensor.flatten(0).map(anchor -> Norm._2.of(anchor.subtract(point))));
+    Tensor dist = Tensor.of(tensor.flatten(0).map(anchor -> Norm._2.ofVector(anchor.subtract(point))));
     int index = ArgMin.of(dist);
     if (Scalars.isZero(dist.Get(index)))
       return point.copy();

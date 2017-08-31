@@ -19,7 +19,8 @@ enum DotMatVecDemo {
     Tensor b = Tensors.vector(1.0);
     Stopwatch s_ser = Stopwatch.started();
     a.dot(b);
-    System.out.println(s_ser.stop());
+    s_ser.stop();
+    System.out.println(s_ser.display_seconds());
   }
 
   public static void main(String[] args) throws IOException {
@@ -36,8 +37,8 @@ enum DotMatVecDemo {
     Tensor timing = Tensors.empty();
     for (int dim = 0; dim < 100; ++dim) {
       System.out.println(dim);
-      Stopwatch s_ser = new Stopwatch();
-      Stopwatch s_par = new Stopwatch();
+      Stopwatch s_ser = Stopwatch.stopped();
+      Stopwatch s_par = Stopwatch.stopped();
       final int trials = 100;
       for (int count = 0; count < trials; ++count) {
         Tensor a = RandomVariate.of(distribution, dim, dim);
@@ -51,7 +52,7 @@ enum DotMatVecDemo {
         if (!Chop._12.close(cs, cp))
           throw TensorRuntimeException.of(cs);
       }
-      timing.append(Tensors.vector(s_ser.total() / trials, s_par.total() / trials));
+      timing.append(Tensors.vector(s_ser.display_nanoSeconds() / trials, s_par.display_nanoSeconds() / trials));
     }
     Put.of(UserHome.file("timing_matvec.txt"), Transpose.of(timing));
     timeSingle();

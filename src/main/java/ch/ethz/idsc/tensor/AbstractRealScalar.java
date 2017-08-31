@@ -37,7 +37,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     if (x instanceof ComplexScalar)
       return StaticHelper.arcTan(x, this);
     if (Scalars.isZero(x))
-      x = RealScalar.ZERO;
+      x = ZERO;
     if (x instanceof RealScalar)
       return DoubleScalar.of(Math.atan2( //
           number().doubleValue(), // y
@@ -47,14 +47,14 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from ArgInterface
   public Scalar arg() {
-    return isNonNegative() ? RealScalar.ZERO : DoubleScalar.of(Math.PI);
+    return isNonNegative() ? ZERO : DoubleScalar.of(Math.PI);
   }
 
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     if (Scalars.isZero(this)) {
       if (Scalars.isZero(exponent))
-        return RealScalar.ONE; // <- not generic
+        return ONE; // <- not generic
       if (exponent instanceof ComplexEmbedding) {
         ComplexEmbedding complexEmbedding = (ComplexEmbedding) exponent;
         SignInterface signInterface = (SignInterface) complexEmbedding.real();

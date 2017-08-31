@@ -46,6 +46,7 @@ public class CsvFormatTest extends TestCase {
     assertEquals(r, p);
     Tensor ten = Serialization.parse(Serialization.of(s));
     assertEquals(s, ten);
+    assertEquals(s, Serialization.copy(s));
   }
 
   public void testParse() {

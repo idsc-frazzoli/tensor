@@ -81,6 +81,8 @@ enum DoubleInversion {
       double again = 1.0 / value;
       System.out.println(again);
     }
+    System.out.println(Double.hashCode(+0.0));
+    System.out.println(Double.hashCode(-0.0));
     System.exit(0);
     assertFalse(invertible(5.562684646268003E-309));
     assertTrue(invertible(MIN_INVERTIBLE2X));

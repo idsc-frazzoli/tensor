@@ -4,8 +4,10 @@ package ch.ethz.idsc.tensor.red;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.MapThread;
@@ -34,5 +36,22 @@ public class MaxTest extends TestCase {
     Tensor capped = matrix.map(Max.function(RealScalar.ZERO));
     Tensor blub = Tensors.matrixInt(new int[][] { { 0, 3, 0 }, { 2, 0, 7 } });
     assertEquals(capped, blub);
+  }
+
+  public void testFail() {
+    Scalar string = StringScalar.of("string");
+    Scalar gauss = GaussScalar.of(1, 3);
+    try {
+      Max.of(string, gauss);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Max.of(gauss, string);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.ArgMax;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
@@ -131,8 +132,8 @@ public class GaussScalarTest extends TestCase {
     Scalar a = GaussScalar.of(4, 7);
     Scalar s = GaussScalar.of(2, 7);
     assertEquals(Sqrt.of(a), s);
-    Scalar n2 = Norm._2.of(Tensors.of(s));
-    Scalar n2s = Norm._2SQUARED.of(Tensors.of(s));
+    Scalar n2 = Norm._2.ofVector(Tensors.of(s));
+    Scalar n2s = Norm2Squared.ofVector(Tensors.of(s));
     assertEquals(n2, s);
     assertEquals(n2s, a);
   }

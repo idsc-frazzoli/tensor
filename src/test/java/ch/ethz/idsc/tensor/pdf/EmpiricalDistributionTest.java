@@ -79,6 +79,12 @@ public class EmpiricalDistributionTest extends TestCase {
     assertEquals(distribution.randomVariate(RealScalar.of(Math.nextDown(1.0))), RealScalar.of(4));
   }
 
+  public void testVariance() {
+    Distribution distribution = (AbstractDiscreteDistribution) //
+    EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
+    assertEquals(Expectation.variance(distribution), RealScalar.ONE);
+  }
+
   public void testWrongReference() {
     try {
       AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
@@ -111,6 +117,15 @@ public class EmpiricalDistributionTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+    try {
+      EmpiricalDistribution.fromUnscaledPDF(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFail2() {
     try {
       EmpiricalDistribution.fromUnscaledPDF(RealScalar.ONE);
       assertTrue(false);

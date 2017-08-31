@@ -92,6 +92,12 @@ public class Quantity2Test extends TestCase {
     _checkEquals(DecimalScalar.of(0.0), Quantity.of(0, "[m]"), true);
   }
 
+  public void testEquals3() {
+    Scalar s1 = Quantity.of(2, "[m]");
+    Scalar s2 = Quantity.of(2, "[m^1.0]");
+    _checkEquals(s1, s2, true);
+  }
+
   public void testNumberQ() {
     Scalar s1 = Quantity.of(3, "[m]"); //
     assertFalse(MachineNumberQ.of(s1));

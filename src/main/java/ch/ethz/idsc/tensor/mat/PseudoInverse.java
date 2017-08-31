@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.InvertUnlessZero;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/PseudoInverse.html">PseudoInverse</a> */
@@ -31,7 +32,8 @@ public enum PseudoInverse {
   }
 
   /** @return chop(scalar) == zero ? zero : scalar.reciprocal() */
-  /* package */ static Function<Scalar, Scalar> orInvert(double threshold) {
-    return InvertUnlessZero.FUNCTION.compose(Chop.below(threshold));
+  /* package */ static ScalarUnaryOperator orInvert(double threshold) {
+    Function<Scalar, Scalar> function = InvertUnlessZero.FUNCTION.compose(Chop.below(threshold));
+    return scalar -> function.apply(scalar);
   }
 }

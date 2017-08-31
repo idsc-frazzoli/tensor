@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.SignInterface;
@@ -50,7 +51,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       initU1(i);
       initU2(i);
     }
-    Chop chop = Chop.below(Norm._1.of(Tensors.of(w, r)).multiply(DBL_EPSILON).number().doubleValue());
+    Chop chop = Chop.below(Norm._1.ofMatrix(Tensors.of(w, r)).multiply(DBL_EPSILON).number().doubleValue());
     // ---
     v = Array.zeros(cols, cols);
     v.set(RealScalar.ONE, cols - 1, cols - 1);
@@ -105,11 +106,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar p = RealScalar.ZERO;
     Scalar scale = RealScalar.ZERO;
     if (i < rows) {
-      scale = Norm._1.of(u.extract(i, rows).get(Tensor.ALL, i));
+      scale = Norm._1.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
       if (Scalars.nonZero(scale)) {
         Scalar fi = scale;
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(fi), k, i));
-        Scalar s = Norm._2SQUARED.of(u.extract(i, rows).get(Tensor.ALL, i));
+        Scalar s = Norm2Squared.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
         Scalar f = u.Get(i, i);
         p = CopySign.of(Sqrt.of(s), f).negate();
         Scalar h = f.multiply(p).subtract(s);
@@ -129,12 +130,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar p = RealScalar.ZERO;
     Scalar scale = RealScalar.ZERO;
     if (i < rows && ip1 != cols) {
-      scale = Norm._1.of(u.get(i).extract(ip1, cols));
+      scale = Norm._1.ofVector(u.get(i).extract(ip1, cols));
       if (Scalars.nonZero(scale)) {
         Scalar si = scale;
         IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.divide(si), i, k));
         {
-          Scalar s = Norm._2SQUARED.of(u.get(i).extract(ip1, cols));
+          Scalar s = Norm2Squared.ofVector(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
           p = CopySign.of(Sqrt.of(s), f).negate();
           Scalar h = f.multiply(p).subtract(s);

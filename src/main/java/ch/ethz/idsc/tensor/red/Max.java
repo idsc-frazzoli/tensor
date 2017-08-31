@@ -2,11 +2,11 @@
 package ch.ethz.idsc.tensor.red;
 
 import java.util.function.BinaryOperator;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public enum Max {
   ;
-  /** function function of(...) is a {@link BinaryOperator} that can be used in reduce()
+  /** function is a {@link BinaryOperator} that can be used in reduce()
    * 
    * @param a
    * @param b
@@ -17,7 +17,9 @@ public enum Max {
     return comparable.compareTo(b) < 0 ? b : a;
   }
 
-  public static <T> Function<T, T> function(T a) {
+  /** @param a
+   * @return function that maps input to the greater one among input and a */
+  public static <T> UnaryOperator<T> function(T a) {
     return b -> of(a, b);
   }
 }

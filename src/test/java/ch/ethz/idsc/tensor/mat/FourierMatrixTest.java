@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.red.Frobenius;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -29,9 +30,9 @@ public class FourierMatrixTest extends TestCase {
 
   public void testNorm4() {
     Tensor m = FourierMatrix.of(4);
-    assertEquals(Norm._1.of(m), RealScalar.of(2));
-    assertEquals(Norm._1.of(m), Norm.INFINITY.of(m));
-    assertEquals(Norm._1.of(m), Norm.FROBENIUS.of(m));
+    assertEquals(Norm._1.ofMatrix(m), RealScalar.of(2));
+    assertEquals(Norm._1.ofMatrix(m), Norm.INFINITY.of(m));
+    assertEquals(Norm._1.ofMatrix(m), Frobenius.NORM.of(m));
     // Norm._2.of m == 1 is confirmed with Mathematica
   }
 }

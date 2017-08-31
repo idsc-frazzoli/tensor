@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -47,7 +48,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
   private Tensor reflect(int k) {
     Tensor y = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
-    Scalar yn = Norm._2.of(y);
+    Scalar yn = Norm._2.ofVector(y);
     if (Scalars.isZero(yn))
       return IdentityMatrix.of(n); // reflection reduces to identity, hopefully => det == 0
     Tensor delta = UnitVector.of(n, k).multiply(yn);
@@ -72,7 +73,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   @SuppressWarnings("unused")
   private Tensor _reflect(final int k) {
     Tensor x = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
-    Scalar xn = Norm._2.of(x);
+    Scalar xn = Norm._2.ofVector(x);
     if (Scalars.isZero(xn))
       return IdentityMatrix.of(n); // reflection reduces to identity, hopefully => det == 0
     Scalar y0 = R.Get(k, k);
@@ -85,7 +86,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     }
     Tensor e = UnitVector.of(n, k);
     final Tensor u = x.subtract(e.multiply(alpha));
-    Scalar un = Norm._2SQUARED.of(u);
+    Scalar un = Norm2Squared.ofVector(u);
     Tensor v = u;
     Tensor cv = Conjugate.of(v);
     Scalar factor = TWO.divide(un);

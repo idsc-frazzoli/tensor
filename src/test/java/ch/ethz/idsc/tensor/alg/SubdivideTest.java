@@ -35,5 +35,6 @@ public class SubdivideTest extends TestCase {
 
   public void testRange() {
     assertEquals(Range.of(1, 11), Subdivide.of(1, 10, 9));
+    assertEquals(Reverse.of(Range.of(1, 11)), Subdivide.of(10, 1, 9));
   }
 }

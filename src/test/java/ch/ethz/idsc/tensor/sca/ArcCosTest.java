@@ -25,7 +25,7 @@ public class ArcCosTest extends TestCase {
     Scalar r = ArcCos.of(s);
     assertEquals(r, ArcCos.of(s));
     // 3.1415926535897932385 - 1.7627471740390860505 I
-    assertEquals(r, Scalars.fromString("3.141592653589793-1.762747174039086*I"));
+    assertTrue(Statics.PRECISION.close(r, Scalars.fromString("3.141592653589793-1.762747174039086*I")));
   }
 
   public void testComplex() {
@@ -38,7 +38,10 @@ public class ArcCosTest extends TestCase {
     // 0.95373203011890309673440616093 + 2.84628882820838653446176723296 I
     // bigDecimal double conversion:
     // 0.9537320301188659............. + 2.846288828208396
-    assertEquals(r, Scalars.fromString("0.9537320301188659+2.846288828208396*I"));
+    // _14 is insufficient on aarch64
+    // aarch64: 0.9537320301188748+2.8462888282083836*I
+    // x86_64 : 0.9537320301188659+2.846288828208396*I
+    assertTrue(Chop._12.close(r, Scalars.fromString("0.9537320301188659+2.846288828208396*I")));
   }
 
   public void testArcCosh() {

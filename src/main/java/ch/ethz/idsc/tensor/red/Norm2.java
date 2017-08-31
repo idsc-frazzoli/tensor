@@ -8,12 +8,9 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/* package */ class Norm2 extends RankAdapter<Scalar> {
-  @Override
-  public Scalar ofScalar(Scalar scalar) {
-    return scalar.abs();
-  }
-
+/** 2-norm, uses SVD for matrices */
+/* package */ enum Norm2 implements NormInterface {
+  INSTANCE;
   @Override
   public Scalar ofVector(Tensor vector) {
     try {
@@ -22,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     } catch (Exception exception) {
       // <- when vector is empty, or contains NaN
     }
-    return Sqrt.FUNCTION.apply(Norm._2SQUARED.of(vector));
+    return Sqrt.FUNCTION.apply(Norm2Squared.ofVector(vector));
   }
 
   @Override
@@ -32,7 +29,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return SingularValueDecomposition.of(matrix) //
         .values().flatten(0) // values are non-negative
         .map(Scalar.class::cast) //
-        .reduce(Max::of) //
-        .get();
+        .reduce(Max::of).get();
   }
 }

@@ -28,9 +28,9 @@ public enum Tally {
    * <li>{@link BinCounts}
    * </ul>
    * 
-   * @param vector
-   * @return navigable map that assigns entries of the vector their multiplicity in the vector */
-  public static NavigableMap<Tensor, Long> sorted(Tensor vector) {
-    return vector.flatten(0).collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting()));
+   * @param tensor
+   * @return navigable map that assigns entries of the tensor their multiplicity in the tensor */
+  public static NavigableMap<Tensor, Long> sorted(Tensor tensor) {
+    return tensor.flatten(0).collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting()));
   }
 }

@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.RealScalar;
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -27,8 +26,8 @@ public class NormTest extends TestCase {
     Tensor a = Tensors.vector(1, 2, 8);
     Tensor b = Tensors.vector(3, 4, 2);
     Tensor c = Tensors.of(a, b);
-    assertEquals(Norm._1.of(c), Scalars.fromString("10"));
-    assertEquals(Norm.INFINITY.of(c), Scalars.fromString("11"));
+    assertEquals(Norm._1.ofMatrix(c), Scalars.fromString("10"));
+    assertEquals(Norm.INFINITY.ofMatrix(c), Scalars.fromString("11"));
   }
 
   public void testCornerCases() {
@@ -40,36 +39,10 @@ public class NormTest extends TestCase {
       // ---
     }
     {
-      assertEquals(Norm._1.of(z), z);
-      assertEquals(Norm._2.of(z), z);
-      assertEquals(Norm.INFINITY.of(z), z);
-    }
-    {
       Tensor v = Tensors.of(z);
       assertEquals(Norm._1.of(v), z);
       assertEquals(Norm._2.of(v), z);
       assertEquals(Norm.INFINITY.of(v), z);
-    }
-  }
-
-  public void testOdd() {
-    Tensor tensor = Tensors.vector(2.3, 1.0, 3.2);
-    Scalar n = Norm.ofVector(tensor, 1.5);
-    // 4.7071
-    assertEquals(n, RealScalar.of(4.707100665786122));
-  }
-
-  public void testNormP() {
-    Scalar n = Norm.ofVector(Tensors.vector(1, 2, 3), 1.23);
-    assertEquals(n, RealScalar.of(4.982125211204371));
-  }
-
-  public void testNormPFail() {
-    try {
-      Norm.ofVector(Tensors.vector(1, 2, 3), 0.99);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
     }
   }
 }

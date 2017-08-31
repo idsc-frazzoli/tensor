@@ -33,11 +33,11 @@ public enum ResourceData {
    * @return imported tensor, or null if resource could not be loaded */
   public static Tensor of(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
-      final Filename filename = new Filename(new File(string));
-      if (filename.hasExtension("png"))
-        return ImageFormat.from(ImageIO.read(inputStream));
+      Filename filename = new Filename(new File(string)); // to determine file extension
       if (filename.hasExtension("csv"))
         return CsvFormat.parse(_lines(inputStream));
+      if (filename.hasExtension("png"))
+        return ImageFormat.from(ImageIO.read(inputStream));
       if (filename.hasExtension("vector"))
         return Tensor.of(_lines(inputStream).map(Scalars::fromString));
     } catch (Exception exception) {

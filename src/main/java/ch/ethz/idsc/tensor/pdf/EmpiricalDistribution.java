@@ -15,11 +15,13 @@ import ch.ethz.idsc.tensor.sca.Floor;
 /** Careful:
  * The constructor Mathematica::EmpiricalDistribution[data] has no direct equivalent in the tensor library.
  * 
- * The constructor here takes as input the unscaled pdf which is interpreted over the samples
+ * <p>The constructor here takes as input the unscaled pdf which is interpreted over the samples
+ * <pre>
  * 0, 1, 2, 3, ..., [length of unscaled pdf] - 1
+ * </pre>
  * 
- * Mathematica also implement HistogramDistribution which has a continuous CDF.
- * The CDF of EmpiricalDistribution has discontinuities.
+ * <p>Mathematica also implements HistogramDistribution which has a continuous CDF.
+ * In contrast, the CDF of tensor::EmpiricalDistribution has discontinuities.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/EmpiricalDistribution.html">EmpiricalDistribution</a> */
@@ -70,17 +72,17 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    int index = Scalars.intValueExact(Ceiling.of(x.subtract(RealScalar.ONE)));
-    if (index < 0)
-      return RealScalar.ZERO;
-    if (cdf.length() <= index)
-      return RealScalar.ONE;
-    return cdf.Get(index);
+    return cdf_get(Ceiling.of(x.subtract(RealScalar.ONE)));
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
-    int index = Scalars.intValueExact(Floor.of(x));
+    return cdf_get(Floor.of(x));
+  }
+
+  // helper function
+  private Scalar cdf_get(Scalar scalar) {
+    int index = Scalars.intValueExact(scalar);
     if (index < 0)
       return RealScalar.ZERO;
     if (cdf.length() <= index)
