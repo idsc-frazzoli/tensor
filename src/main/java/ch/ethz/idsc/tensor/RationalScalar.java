@@ -218,7 +218,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), scale, roundingMode);
   }
 
-  private BigDecimal toBigDecimal(MathContext mathContext) {
+  /* package */ BigDecimal toBigDecimal(MathContext mathContext) {
     return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), mathContext);
   }
 

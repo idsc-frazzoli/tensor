@@ -11,6 +11,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
 
 /* package */ enum StaticHelper {
   ;
+  /** Mathematica::N[pi,64] */
+  static final String N_PI_64 = "3.141592653589793238462643383279502884197169399375105820974944592";
   /** code from java.lang.Double */
   private static final String Digits = "(\\p{Digit}+)";
   private static final String HexDigits = "(\\p{XDigit}+)";

@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.Scalar;
@@ -53,10 +52,5 @@ public enum Sqrt implements ScalarUnaryOperator {
         a = mid.add(BigInteger.ONE);
     }
     return a.subtract(BigInteger.ONE);
-  }
-
-  public static BigDecimal of(BigDecimal bigDecimal) {
-    // TODO magic constant
-    return new SqrtBigDecimal(30).newtonRaphson(bigDecimal);
   }
 }

@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Real;
 import junit.framework.TestCase;
 
-public class DecimalScalarTest extends TestCase {
+public class DecimalScalar1Test extends TestCase {
   public void testZero() {
     assertEquals(RealScalar.ZERO, DecimalScalar.of(BigDecimal.ZERO));
   }
@@ -45,8 +45,10 @@ public class DecimalScalarTest extends TestCase {
     BigDecimal d = BigDecimal.ONE;
     Scalar sc1 = DecimalScalar.of(d);
     Scalar sc2 = sc1.add(sc1);
-    Scalar sc3 = sc2.add(sc1);
+    DecimalScalar sc3 = (DecimalScalar) sc2.add(sc1);
     Scalar s13 = sc3.reciprocal();
+    // System.out.println(sc3.precision());
+    // System.out.println(s13);
     Scalar r13 = RationalScalar.of(1, 3);
     Scalar d13 = DoubleScalar.of(1. / 3);
     assertEquals(r13, s13);
@@ -74,8 +76,8 @@ public class DecimalScalarTest extends TestCase {
 
   public void testSqrt() {
     // Mathematica N[Sqrt[2], 50] gives
-    // 1.4142135623730950488016887242096980785696718753769
-    String expected = "1.41421356237309504880168872420969807856967187537";
+    // ................1.4142135623730950488016887242096980785696718753769
+    String expected = "1.414213562373095048801688724209698";
     Scalar sc1 = DecimalScalar.of(BigDecimal.ONE);
     DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1);
     Scalar root2 = sc2.sqrt();
@@ -84,8 +86,8 @@ public class DecimalScalarTest extends TestCase {
 
   public void testSqrtNeg() {
     // Mathematica N[Sqrt[2], 50] gives
-    // 1.4142135623730950488016887242096980785696718753769
-    String expected = "1.41421356237309504880168872420969807856967187537";
+    // ................1.4142135623730950488016887242096980785696718753769
+    String expected = "1.414213562373095048801688724209698";
     Scalar sc1 = DecimalScalar.of(BigDecimal.ONE);
     DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1).negate();
     Scalar root2 = sc2.sqrt();

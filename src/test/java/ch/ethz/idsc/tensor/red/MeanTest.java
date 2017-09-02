@@ -24,7 +24,7 @@ public class MeanTest extends TestCase {
     Scalar mean1 = Mean.of(tensor).Get();
     Scalar mean2 = Total.of(tensor.multiply(RealScalar.of(tensor.length()).reciprocal())).Get();
     // possibly use error relative to magnitude
-    assertEquals(mean1.subtract(mean2).map(Chop._12), RealScalar.ZERO);
+    assertEquals(mean1.subtract(mean2).map(Chop._10), RealScalar.ZERO);
   }
 
   public void testEmpty1() {

@@ -12,6 +12,8 @@ import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class BooleanScalarTest extends TestCase {
@@ -61,6 +63,11 @@ public class BooleanScalarTest extends TestCase {
     assertTrue(10 < Total.of(zeroOne).Get().number().intValue());
   }
 
+  public void testNumberType() {
+    assertTrue(BooleanScalar.TRUE.number() instanceof Integer);
+    assertTrue(BooleanScalar.FALSE.number() instanceof Integer);
+  }
+
   public void testAccumulate() {
     Tensor values = RandomVariate.of(BinomialDistribution.of(10, RationalScalar.of(3, 7)), 200);
     Tensor result = Tensor.of(values.flatten(0) //
@@ -68,5 +75,21 @@ public class BooleanScalarTest extends TestCase {
         .map(s -> Scalars.lessThan(s, RealScalar.of(5))).map(BooleanScalar::of));
     Tensor accum = Accumulate.of(result);
     assertEquals(Last.of(accum), Total.of(result));
+  }
+
+  public void testExactNumberQ() {
+    assertTrue(ExactNumberQ.of(BooleanScalar.FALSE));
+    assertTrue(ExactNumberQ.of(BooleanScalar.TRUE));
+  }
+
+  public void testPower() {
+    assertEquals(Power.of(BooleanScalar.FALSE, 3), BooleanScalar.FALSE);
+    assertEquals(Power.of(BooleanScalar.TRUE, 3), BooleanScalar.TRUE);
+    assertEquals(Power.of(BooleanScalar.FALSE, 0), BooleanScalar.TRUE);
+  }
+
+  public void testSqrt() {
+    assertEquals(Sqrt.of(BooleanScalar.FALSE), BooleanScalar.FALSE);
+    assertEquals(Sqrt.of(BooleanScalar.TRUE), BooleanScalar.TRUE);
   }
 }

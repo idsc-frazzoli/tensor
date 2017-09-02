@@ -51,6 +51,7 @@ public class Chop implements ScalarUnaryOperator {
     return new Chop(threshold);
   }
 
+  // ---
   private final double threshold;
 
   private Chop(double threshold) {

@@ -10,15 +10,14 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
-import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** a decimal scalar encodes a number as {@link BigDecimal}
  * 
  * <p>{@link DecimalScalar} offers increased precision over {@link DoubleScalar} */
 public final class DecimalScalar extends AbstractRealScalar implements ChopInterface {
+  private static final MathContext DEFAULT_CONTEXT = MathContext.DECIMAL128;
   private static final Scalar DECIMAL_ZERO = of(BigDecimal.ZERO);
-  // perhaps make this member
-  private static final MathContext CONTEXT = MathContext.DECIMAL128;
+  private static final Scalar DECIMAL_PI = of(new BigDecimal(StaticHelper.N_PI_64, DEFAULT_CONTEXT));
 
   /** @param value
    * @return */
@@ -36,12 +35,6 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
    * @return scalar with value encoded as {@link BigDecimal(string)} */
   public static Scalar of(String string) {
     return of(new BigDecimal(string));
-  }
-
-  private static BigDecimal approx(RationalScalar rationalScalar) {
-    BigDecimal num = new BigDecimal(rationalScalar.numerator());
-    BigDecimal den = new BigDecimal(rationalScalar.denominator());
-    return num.divide(den, CONTEXT);
   }
 
   private final BigDecimal value;
@@ -64,14 +57,40 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
     }
     if (scalar instanceof RationalScalar) {
       RationalScalar rationalScalar = (RationalScalar) scalar;
-      return of(value.multiply(approx(rationalScalar)));
+      return of(value.multiply(rationalScalar.toBigDecimal(DEFAULT_CONTEXT)));
     }
     return scalar.multiply(this);
   }
 
   @Override // from Scalar
+  public Scalar divide(Scalar scalar) {
+    if (scalar instanceof DecimalScalar) {
+      DecimalScalar decimalScalar = (DecimalScalar) scalar;
+      return of(value.divide(decimalScalar.value, mathContextHint()));
+    }
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return of(value.divide(rationalScalar.toBigDecimal(DEFAULT_CONTEXT), mathContextHint()));
+    }
+    return scalar.under(this);
+  }
+
+  @Override // from Scalar
+  public Scalar under(Scalar scalar) {
+    if (scalar instanceof DecimalScalar) {
+      DecimalScalar decimalScalar = (DecimalScalar) scalar;
+      return of(decimalScalar.value.divide(value, mathContextHint()));
+    }
+    if (scalar instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) scalar;
+      return of(rationalScalar.toBigDecimal(DEFAULT_CONTEXT).divide(value, mathContextHint()));
+    }
+    return scalar.divide(this);
+  }
+
+  @Override // from Scalar
   public Scalar reciprocal() {
-    return of(BigDecimal.ONE.divide(value, CONTEXT));
+    return of(BigDecimal.ONE.divide(value, mathContextHint()));
   }
 
   @Override // from Scalar
@@ -84,6 +103,11 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
     return DECIMAL_ZERO;
   }
 
+  private MathContext mathContextHint() {
+    int precision = precision();
+    return precision <= 34 ? DEFAULT_CONTEXT : new MathContext(precision, RoundingMode.HALF_EVEN);
+  }
+
   /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
@@ -93,7 +117,7 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
     }
     if (scalar instanceof RationalScalar) {
       RationalScalar rationalScalar = (RationalScalar) scalar;
-      return of(value.add(approx(rationalScalar)));
+      return of(value.add(rationalScalar.toBigDecimal(mathContextHint())));
     }
     return scalar.add(this);
   }
@@ -101,8 +125,7 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
   /***************************************************/
   @Override // from AbstractRealScalar
   public Scalar arg() {
-    // TODO perhaps return better precision
-    return super.arg();
+    return isNonNegative() ? ZERO : DECIMAL_PI;
   }
 
   @Override // from ChopInterface
@@ -145,8 +168,13 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
   @Override // from SqrtInterface
   public Scalar sqrt() {
     if (isNonNegative())
-      return of(Sqrt.of(value));
-    return ComplexScalar.of(zero(), of(Sqrt.of(value.negate())));
+      return of(SqrtBigDecimal.of(value, mathContextHint()));
+    return ComplexScalar.of(zero(), of(SqrtBigDecimal.of(value.negate(), mathContextHint())));
+  }
+
+  /***************************************************/
+  public int precision() {
+    return value.precision();
   }
 
   /***************************************************/
