@@ -150,6 +150,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ComplexScalar.of(re, im.negate());
   }
 
+  @Override // from ExpInterface
+  public Scalar exp() {
+    // construct in polar coordinates
+    return ComplexScalar.fromPolar(Exp.FUNCTION.apply(real()), imag());
+  }
+
   @Override // from RoundingInterface
   public Scalar floor() {
     return ComplexScalar.of(Floor.FUNCTION.apply(re), Floor.FUNCTION.apply(im));

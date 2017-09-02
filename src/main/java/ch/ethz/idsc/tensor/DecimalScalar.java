@@ -155,6 +155,11 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
     return RationalScalar.of(StaticHelper.floor(value), BigInteger.ONE);
   }
 
+  @Override // from ExpInterface
+  public Scalar exp() {
+    return of(BigDecimalMath.exp(value, mathContextHint()));
+  }
+
   @Override // from RoundingInterface
   public Scalar round() {
     return RationalScalar.of(value.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
@@ -168,8 +173,8 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
   @Override // from SqrtInterface
   public Scalar sqrt() {
     if (isNonNegative())
-      return of(SqrtBigDecimal.of(value, mathContextHint()));
-    return ComplexScalar.of(zero(), of(SqrtBigDecimal.of(value.negate(), mathContextHint())));
+      return of(BigDecimalMath.sqrt(value, mathContextHint()));
+    return ComplexScalar.of(zero(), of(BigDecimalMath.sqrt(value.negate(), mathContextHint())));
   }
 
   /***************************************************/

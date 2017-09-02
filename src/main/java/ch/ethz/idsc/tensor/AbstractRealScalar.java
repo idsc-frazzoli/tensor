@@ -50,6 +50,11 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return isNonNegative() ? ZERO : DoubleScalar.of(Math.PI);
   }
 
+  @Override // from ExpInterface
+  public Scalar exp() {
+    return DoubleScalar.of(Math.exp(number().doubleValue()));
+  }
+
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     if (Scalars.isZero(this)) {
