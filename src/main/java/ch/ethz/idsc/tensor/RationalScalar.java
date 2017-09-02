@@ -166,7 +166,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
       RationalScalar exp = (RationalScalar) exponent;
       try {
         // intValueExact throws an exception when exp > Integer.MAX_VALUE
-        int expInt = exp.numerator().intValueExact();
+        int expInt = Scalars.intValueExact(exp);
         if (0 <= expInt)
           return RationalScalar.of( //
               numerator().pow(expInt), //

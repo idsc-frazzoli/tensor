@@ -14,7 +14,8 @@ import ch.ethz.idsc.tensor.sca.NInterface;
 /** a decimal scalar encodes a number as {@link BigDecimal}
  * 
  * <p>{@link DecimalScalar} offers increased precision over {@link DoubleScalar} */
-public final class DecimalScalar extends AbstractRealScalar implements ChopInterface {
+public final class DecimalScalar extends AbstractRealScalar implements //
+    ChopInterface, NInterface {
   private static final MathContext DEFAULT_CONTEXT = MathContext.DECIMAL128;
   private static final Scalar DECIMAL_ZERO = of(BigDecimal.ZERO);
   private static final Scalar DECIMAL_PI = of(new BigDecimal(StaticHelper.N_PI_64, DEFAULT_CONTEXT));
@@ -36,6 +37,7 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
   public static Scalar of(String string) {
     return of(new BigDecimal(string));
   }
+  // ---
 
   private final BigDecimal value;
 
@@ -104,7 +106,8 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
   }
 
   private MathContext mathContextHint() {
-    int precision = precision();
+    int precision = value.precision();
+    // 34 is the precision of the DEFAULT_CONTEXT == MathContext.DECIMAL128
     return precision <= 34 ? DEFAULT_CONTEXT : new MathContext(precision, RoundingMode.HALF_EVEN);
   }
 
@@ -160,6 +163,30 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
     return of(BigDecimalMath.exp(value, mathContextHint()));
   }
 
+  @Override // from NInterface
+  public Scalar n() {
+    // consistent with Mathematica: N[N[Pi, 50]] gives a machine number
+    return DoubleScalar.of(number().doubleValue());
+  }
+
+  @Override // from NInterface
+  public Scalar n(MathContext mathContext) {
+    return of(value.round(mathContext));
+  }
+
+  @Override
+  public Scalar power(Scalar exponent) {
+    if (IntegerQ.of(exponent))
+      try {
+        // intValueExact throws an exception when exp > Integer.MAX_VALUE
+        int expInt = Scalars.intValueExact(exponent);
+        return of(value.pow(expInt, mathContextHint()));
+      } catch (Exception exception) {
+        // ---
+      }
+    return super.power(exponent);
+  }
+
   @Override // from RoundingInterface
   public Scalar round() {
     return RationalScalar.of(value.setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE);
@@ -178,8 +205,9 @@ public final class DecimalScalar extends AbstractRealScalar implements ChopInter
   }
 
   /***************************************************/
-  public int precision() {
-    return value.precision();
+  /** @return BigDecimal value stored by instance */
+  public BigDecimal value() {
+    return value;
   }
 
   /***************************************************/

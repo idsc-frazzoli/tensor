@@ -3,12 +3,13 @@ package ch.ethz.idsc.tensor.sca;
 
 import java.math.MathContext;
 
+import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** provides the decimal representation of scalars that implement {@link NInterface}.
- * Supported types include {@link RationalScalar}.
+ * Supported types include {@link RationalScalar}, and {@link DecimalScalar}.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/N.html">N</a> */

@@ -187,6 +187,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return Double.isNaN(value);
   }
 
+  /** @return double value stored by instance */
   public double value() {
     return value;
   }
