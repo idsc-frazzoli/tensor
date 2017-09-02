@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
@@ -179,6 +180,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from NInterface
   public Scalar n() {
     return ComplexScalar.of(N.FUNCTION.apply(re), N.FUNCTION.apply(im));
+  }
+
+  @Override // from NInterface
+  public Scalar n(MathContext mathContext) {
+    return ComplexScalar.of(N.apply(re, mathContext), N.apply(im, mathContext));
   }
 
   @Override // from PowerInterface

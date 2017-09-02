@@ -155,6 +155,11 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return DoubleScalar.of(toBigDecimal(MathContext.DECIMAL64).doubleValue());
   }
 
+  @Override // from NInterface
+  public Scalar n(MathContext mathContext) {
+    return DecimalScalar.of(toBigDecimal(mathContext));
+  }
+
   @Override // from AbstractRealScalar
   public Scalar power(Scalar exponent) {
     if (IntegerQ.of(exponent)) {

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.math.MathContext;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
@@ -225,12 +226,12 @@ public final class Quantity extends AbstractScalar implements //
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
-    return of(Sqrt.of(value), unit.multiply(HALF));
+    return of(Sqrt.FUNCTION.apply(value), unit.multiply(HALF));
   }
 
   @Override // from RoundingInterface
   public Scalar ceiling() {
-    return of(Ceiling.of(value), unit);
+    return of(Ceiling.FUNCTION.apply(value), unit);
   }
 
   @Override // from ChopInterface
@@ -240,22 +241,27 @@ public final class Quantity extends AbstractScalar implements //
 
   @Override // from ComplexEmbedding
   public Scalar conjugate() {
-    return of(Conjugate.of(value), unit);
+    return of(Conjugate.FUNCTION.apply(value), unit);
   }
 
   @Override // from RoundingInterface
   public Scalar floor() {
-    return of(Floor.of(value), unit);
+    return of(Floor.FUNCTION.apply(value), unit);
   }
 
   @Override // from ComplexEmbedding
   public Scalar imag() {
-    return of(Imag.of(value), unit);
+    return of(Imag.FUNCTION.apply(value), unit);
   }
 
   @Override // from NInterface
   public Scalar n() {
-    return of(N.of(value), unit);
+    return of(N.FUNCTION.apply(value), unit);
+  }
+
+  @Override // from NInterface
+  public Scalar n(MathContext mathContext) {
+    return of(N.apply(value, mathContext), unit);
   }
 
   @Override // from SignInterface
@@ -266,12 +272,12 @@ public final class Quantity extends AbstractScalar implements //
 
   @Override // from ComplexEmbedding
   public Scalar real() {
-    return of(Real.of(value), unit);
+    return of(Real.FUNCTION.apply(value), unit);
   }
 
   @Override // from RoundingInterface
   public Scalar round() {
-    return of(Round.of(value), unit);
+    return of(Round.FUNCTION.apply(value), unit);
   }
 
   @Override // from Comparable<Scalar>
