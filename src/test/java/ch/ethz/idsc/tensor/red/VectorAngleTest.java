@@ -40,4 +40,23 @@ public class VectorAngleTest extends TestCase {
       // ---
     }
   }
+
+  public void testSingle() {
+    assertEquals(VectorAngle.of(Tensors.vector(1), Tensors.vector(2)), RealScalar.ZERO);
+    assertEquals(VectorAngle.of(Tensors.vector(1), Tensors.vector(-2)), RealScalar.of(Math.PI));
+  }
+
+  public void testZero() {
+    try {
+      VectorAngle.of(Tensors.vector(0, 0), Tensors.vector(1, 0));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      VectorAngle.of(Tensors.vector(0.0, 0.0), Tensors.vector(1.0, 0.0));
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

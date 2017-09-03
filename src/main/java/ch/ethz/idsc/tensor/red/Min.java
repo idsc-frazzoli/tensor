@@ -4,6 +4,13 @@ package ch.ethz.idsc.tensor.red;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
+/** Example use:
+ * <pre>
+ * vector.flatten(0).reduce(Min::of).get();
+ * </pre>
+ * 
+ * <p>inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Min.html">Min</a> */
 public enum Min {
   ;
   /** function is a {@link BinaryOperator} that can be used in reduce()
