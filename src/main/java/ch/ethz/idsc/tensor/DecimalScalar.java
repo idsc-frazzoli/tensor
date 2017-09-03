@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 
 /** a decimal scalar encodes a number as {@link BigDecimal}
@@ -148,8 +149,7 @@ public final class DecimalScalar extends AbstractRealScalar implements //
       return value.compareTo(decimalScalar.value);
     }
     @SuppressWarnings("unchecked")
-    Comparable<Scalar> comparable = (Comparable<Scalar>) //
-    (scalar instanceof NInterface ? ((NInterface) scalar).n() : scalar);
+    Comparable<Scalar> comparable = (Comparable<Scalar>) N.apply(scalar, mathContextHint());
     return -comparable.compareTo(this);
   }
 
@@ -223,6 +223,11 @@ public final class DecimalScalar extends AbstractRealScalar implements //
       // "equal() only if given BigDecimal's are equal in value and scale,
       // thus 2.0 is not equal to 2.00 when compared by equals()."
       return value.compareTo(decimalScalar.value) == 0;
+    }
+    if (object instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) object;
+      BigDecimal bigDecimal = rationalScalar.toBigDecimal(mathContextHint());
+      return value.compareTo(bigDecimal) == 0;
     }
     if (object instanceof RealScalar) {
       RealScalar realScalar = (RealScalar) object;

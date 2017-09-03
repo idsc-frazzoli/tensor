@@ -7,7 +7,9 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** inspired by
+/** Subdivide is consistent with Mathematica.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Subdivide.html">Subdivide</a> */
 public enum Subdivide {
   ;
@@ -27,7 +29,8 @@ public enum Subdivide {
    * @param endInclusive
    * @param n > 0
    * @return tensor with n+1 entries obtained by subdividing the range
-   * startInclusive to endInclusive into n equal parts. */
+   * startInclusive to endInclusive into n equal parts.
+   * @see Range */
   public static Tensor of(Tensor startInclusive, Tensor endInclusive, int n) {
     return Tensor.of(IntStream.rangeClosed(0, n) //
         .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //

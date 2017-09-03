@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+/** implementation is standalone */
 /* package */ enum BigDecimalMath {
   ;
   private static final BigDecimal TWO = BigDecimal.valueOf(2);

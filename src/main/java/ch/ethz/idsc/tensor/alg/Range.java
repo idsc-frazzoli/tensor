@@ -22,7 +22,8 @@ public enum Range {
    * 
    * @param startInclusive
    * @param endExclusive
-   * @return */
+   * @return
+   * @see Subdivide */
   public static Tensor of(long startInclusive, long endExclusive) {
     return Tensor.of(LongStream.range(startInclusive, endExclusive).mapToObj(RealScalar::of));
   }
