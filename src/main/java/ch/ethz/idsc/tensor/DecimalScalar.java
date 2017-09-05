@@ -12,9 +12,9 @@ import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 
-/** a decimal scalar encodes a number as {@link BigDecimal}
- * 
- * <p>{@link DecimalScalar} offers increased precision over {@link DoubleScalar} */
+/** a decimal scalar encodes a number as {@link BigDecimal}.
+ * Unless the precision is explicitly specified, MathContext.DECIMAL128 is used.
+ * In particular, {@link DecimalScalar} offers increased precision over {@link DoubleScalar}. */
 public final class DecimalScalar extends AbstractRealScalar implements //
     ChopInterface, NInterface {
   private static final MathContext DEFAULT_CONTEXT = MathContext.DECIMAL128;
@@ -30,6 +30,12 @@ public final class DecimalScalar extends AbstractRealScalar implements //
   /** @param value
    * @return scalar with value encoded as {@link BigDecimal#valueOf(double)} */
   public static Scalar of(double value) {
+    return of(BigDecimal.valueOf(value));
+  }
+
+  /** @param value
+   * @return scalar with value encoded as {@link BigDecimal#valueOf(long)} */
+  public static Scalar of(long value) {
     return of(BigDecimal.valueOf(value));
   }
 
@@ -149,7 +155,7 @@ public final class DecimalScalar extends AbstractRealScalar implements //
       return value.compareTo(decimalScalar.value);
     }
     @SuppressWarnings("unchecked")
-    Comparable<Scalar> comparable = (Comparable<Scalar>) N.apply(scalar, mathContextHint());
+    Comparable<Scalar> comparable = (Comparable<Scalar>) N.in(mathContextHint()).apply(scalar);
     return -comparable.compareTo(this);
   }
 

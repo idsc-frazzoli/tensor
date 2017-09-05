@@ -202,7 +202,7 @@ public class LinearProgrammingTest extends TestCase {
   // numeric test
   public void callKleeN(int n) {
     KleeMintyCube kmc = new KleeMintyCube(n);
-    Tensor x = LinearProgramming.maxLessEquals(N.of(kmc.c), N.of(kmc.m), N.of(kmc.b));
+    Tensor x = LinearProgramming.maxLessEquals(N.DOUBLE.of(kmc.c), N.DOUBLE.of(kmc.m), N.DOUBLE.of(kmc.b));
     assertEquals(x, kmc.x);
   }
 

@@ -55,7 +55,7 @@ public class FermatWeberProblem implements Serializable {
    * @param weights */
   public void setWeights(Tensor weights) {
     this.weights = weights;
-    point = N.of(Mean.of(weights.pmul(tensor))); // initial value
+    point = N.DOUBLE.of(Mean.of(weights.pmul(tensor))); // initial value
   }
 
   /** iteration based on Endre Vaszonyi Weiszfeld

@@ -210,6 +210,17 @@ gives
 
 ![gauss_scalar](https://cloud.githubusercontent.com/assets/4012178/26045629/63b756ee-394b-11e7-85f4-d9121905badd.png)
 
+---
+
+Several functions support evaluation to higher than machine precision for type `DecimalScalar`.
+
+    System.out.println(Exp.of(DecimalScalar.of(10)));
+    System.out.println(Sqrt.of(DecimalScalar.of(2)));
+
+gives
+
+    220255.6579480671651695790064528423
+    1.414213562373095048801688724209698
 
 ## Include in your project
 

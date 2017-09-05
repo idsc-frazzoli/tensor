@@ -256,12 +256,13 @@ public final class Quantity extends AbstractScalar implements //
 
   @Override // from NInterface
   public Scalar n() {
-    return of(N.FUNCTION.apply(value), unit);
+    return of(N.DOUBLE.apply(value), unit);
   }
 
   @Override // from NInterface
   public Scalar n(MathContext mathContext) {
-    return of(N.apply(value, mathContext), unit);
+    N n = N.in(mathContext);
+    return of(n.apply(value), unit);
   }
 
   @Override // from SignInterface

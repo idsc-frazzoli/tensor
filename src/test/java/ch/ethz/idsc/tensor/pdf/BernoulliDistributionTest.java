@@ -49,7 +49,7 @@ public class BernoulliDistributionTest extends TestCase {
     long v0 = map.get(RealScalar.ZERO);
     long v1 = map.get(RealScalar.ONE);
     Scalar ratio = RationalScalar.of(v1, v0 + v1);
-    Scalar dev = N.of(ratio.subtract(p).abs());
+    Scalar dev = N.DOUBLE.of(ratio.subtract(p).abs());
     assertTrue(Scalars.lessThan(dev, RealScalar.of(.07)));
   }
 

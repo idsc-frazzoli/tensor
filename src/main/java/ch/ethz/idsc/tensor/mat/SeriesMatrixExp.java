@@ -30,8 +30,8 @@ import ch.ethz.idsc.tensor.sca.N;
       Scalar remainder = _maxAbsNumber(nxt);
       if (Scalars.isZero(remainder))
         return sum;
-      if (Chop._40.allZero(N.of(remainder)))
-        return N.of(sum);
+      if (Chop._40.allZero(N.DOUBLE.of(remainder)))
+        return N.DOUBLE.of(sum);
     }
     throw TensorRuntimeException.of(m);
   }

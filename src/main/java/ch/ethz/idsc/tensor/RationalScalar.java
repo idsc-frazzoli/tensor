@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
-import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** a RationalScalar corresponds to an element from the field of rational numbers.
  * 
@@ -198,8 +197,8 @@ public final class RationalScalar extends AbstractRealScalar implements //
   public Scalar sqrt() {
     try {
       boolean isNonNegative = isNonNegative();
-      BigInteger sqrtnum = Sqrt.of(isNonNegative ? bigFraction.num : bigFraction.num.negate());
-      BigInteger sqrtden = Sqrt.of(bigFraction.den);
+      BigInteger sqrtnum = BigIntegerMath.sqrt(isNonNegative ? bigFraction.num : bigFraction.num.negate());
+      BigInteger sqrtden = BigIntegerMath.sqrt(bigFraction.den);
       return isNonNegative ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---

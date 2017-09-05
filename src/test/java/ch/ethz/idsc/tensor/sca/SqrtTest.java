@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import java.math.BigInteger;
-
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -56,28 +54,6 @@ public class SqrtTest extends TestCase {
   public void testReal() {
     assertEquals(((RealScalar) RealScalar.of(16 / 25.)).sqrt(), Scalars.fromString("4/5"));
     assertEquals(((RealScalar) RealScalar.of(-16 / 25.)).sqrt(), Scalars.fromString("4/5*I"));
-  }
-
-  public void testBigInteger() {
-    BigInteger r = Sqrt.of(new BigInteger("21065681101554527729739161805139578084"));
-    assertEquals(r, new BigInteger("4589736495873649578"));
-    assertEquals(Sqrt.of(BigInteger.ONE), BigInteger.ONE);
-    assertEquals(Sqrt.of(BigInteger.ZERO), BigInteger.ZERO);
-  }
-
-  public void testBigIntegerFail() {
-    try {
-      Sqrt.of(new BigInteger("21065681101554527729739161805139578083"));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Sqrt.of(new BigInteger("-16"));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
   }
 
   public void testTensor() {

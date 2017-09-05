@@ -29,7 +29,7 @@ public class ColorDataGradient implements ColorDataFunction {
   private final Scalar scale;
 
   private ColorDataGradient(Tensor tensor) {
-    this.tensor = N.of(tensor);
+    this.tensor = N.DOUBLE.of(tensor);
     interpolation = LinearInterpolation.of(this.tensor);
     scale = DoubleScalar.of(tensor.length() - 1);
   }

@@ -1,6 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
+import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -17,6 +22,8 @@ import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.HypergeometricDistribution;
 import ch.ethz.idsc.tensor.pdf.PDF;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
@@ -74,11 +81,21 @@ enum ReadmeDemo {
     System.out.println(matrix.get(Tensor.ALL, 3));
   }
 
+  static void demoDecimal() {
+    System.out.println(Exp.of(DecimalScalar.of(10)));
+    System.out.println(Sqrt.of(DecimalScalar.of(2)));
+    BigDecimal bd = new BigDecimal("2");
+    System.out.println(bd.precision());
+    Scalar a = N.in(new MathContext(100, RoundingMode.HALF_EVEN)).of(RealScalar.of(2));
+    System.out.println(Sqrt.of(a));
+  }
+
   public static void main(String[] args) {
     // demoSqrt();
     // demoInverse();
     // demoPDF();
     // demoSVD();
     // demoAssign();
+    // demoDecimal();
   }
 }

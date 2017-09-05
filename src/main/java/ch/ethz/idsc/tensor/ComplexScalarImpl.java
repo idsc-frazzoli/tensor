@@ -179,12 +179,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from NInterface
   public Scalar n() {
-    return ComplexScalar.of(N.FUNCTION.apply(re), N.FUNCTION.apply(im));
+    return ComplexScalar.of(N.DOUBLE.apply(re), N.DOUBLE.apply(im));
   }
 
   @Override // from NInterface
   public Scalar n(MathContext mathContext) {
-    return ComplexScalar.of(N.apply(re, mathContext), N.apply(im, mathContext));
+    N n = N.in(mathContext);
+    return ComplexScalar.of(n.apply(re), n.apply(im));
   }
 
   @Override // from PowerInterface

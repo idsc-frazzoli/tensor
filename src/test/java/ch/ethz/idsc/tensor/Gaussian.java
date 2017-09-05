@@ -100,12 +100,13 @@ public class Gaussian extends AbstractScalar implements //
   /***************************************************/
   @Override
   public Scalar n() {
-    return of(N.FUNCTION.apply(mean), N.FUNCTION.apply(variance));
+    return of(N.DOUBLE.apply(mean), N.DOUBLE.apply(variance));
   }
 
   @Override
   public Scalar n(MathContext mathContext) {
-    return of(N.apply(mean, mathContext), N.apply(variance, mathContext));
+    N n = N.in(mathContext);
+    return of(n.apply(mean), n.apply(variance));
   }
 
   /***************************************************/

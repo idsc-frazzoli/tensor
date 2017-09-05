@@ -22,7 +22,7 @@ public enum Sinc implements ScalarUnaryOperator {
   /* package */ static final Scalar THRESHOLD = DoubleScalar.of(0.05);
   private static final Tensor SERIES = //
       Tensors.vector(1, 0, -6, 0, 120, 0, -5040, 0, 362880, 0, -39916800) //
-          .map(InvertUnlessZero.FUNCTION).map(N.FUNCTION);
+          .map(InvertUnlessZero.FUNCTION).map(N.DOUBLE);
 
   @Override
   public Scalar apply(Scalar scalar) {

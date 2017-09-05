@@ -4,49 +4,51 @@ package ch.ethz.idsc.tensor.sca;
 import java.math.MathContext;
 
 import ch.ethz.idsc.tensor.DecimalScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** provides the decimal representation of scalars that implement {@link NInterface}.
  * Supported types include {@link RationalScalar}, and {@link DecimalScalar}.
  * 
+ * <p>In Mathematica, the N operator may be used with a parameter that specifies the precision.
+ * If the parameter is omitted the result is in machine precision, i.e. 64-bit double.
+ * <pre>
+ * Sqrt[N[2]] == 1.4142135623730951`
+ * Sqrt[N[2, 16]] == 1.41421356237309504880168872420969807857`16.30102999566398
+ * </pre>
+ * 
+ * <p>The tensor library uses the following notation:
+ * <pre>
+ * Sqrt.of(N.DOUBLE.of(2)) == 1.4142135623730951
+ * Sqrt.of(N.DECIMAL128.of(2)) == 1.414213562373095048801688724209698
+ * </pre>
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/N.html">N</a> */
-public enum N implements ScalarUnaryOperator {
-  FUNCTION;
-  // ---
-  @Override
-  public Scalar apply(Scalar scalar) {
-    if (scalar instanceof NInterface) {
-      NInterface nInterface = (NInterface) scalar;
-      return nInterface.n();
-    }
-    return scalar;
-  }
+public abstract class N implements ScalarUnaryOperator {
+  /** conversion to {@link DoubleScalar} */
+  public static final N DOUBLE = NDouble.INSTANCE;
+  /** conversion to {@link DecimalScalar} with higher than machine precision */
+  public static final N DECIMAL128 = new NDecimal(MathContext.DECIMAL128);
+  /** conversion to {@link DecimalScalar} equivalent to machine precision */
+  public static final N DECIMAL64 = new NDecimal(MathContext.DECIMAL64);
+  /** conversion to {@link DecimalScalar} with precision equivalent to 32-bit float */
+  public static final N DECIMAL32 = new NDecimal(MathContext.DECIMAL32);
 
-  /** @param tensor
-   * @return tensor with all scalars replaced with their decimal numerical */
-  @SuppressWarnings("unchecked")
-  public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(FUNCTION);
-  }
-
-  /** @param scalar
+  /** creates an instance of N that supplies {@link DecimalScalar}s with precision
+   * specified by mathContext.
+   * 
    * @param mathContext
-   * @return */
-  public static Scalar apply(Scalar scalar, MathContext mathContext) {
-    if (scalar instanceof NInterface) {
-      NInterface nInterface = (NInterface) scalar;
-      return nInterface.n(mathContext);
-    }
-    return scalar;
+   * @return conversion to precision in given context */
+  public static N in(MathContext mathContext) {
+    return new NDecimal(mathContext);
   }
 
   /** @param tensor
    * @return tensor with all scalars replaced with their decimal numerical */
   @SuppressWarnings("unchecked")
-  public static <T extends Tensor> T of(T tensor, MathContext mathContext) {
-    return (T) tensor.map(scalar -> apply(scalar, mathContext));
+  public <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(this);
   }
 }

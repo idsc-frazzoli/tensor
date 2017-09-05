@@ -84,7 +84,7 @@ public class CholeskyDecompositionTest extends TestCase {
   }
 
   public void testHilbertN1() {
-    checkDecomp(N.of(HilbertMatrix.of(16)));
+    checkDecomp(N.DOUBLE.of(HilbertMatrix.of(16)));
   }
 
   public void testDiag() {
@@ -104,6 +104,6 @@ public class CholeskyDecompositionTest extends TestCase {
 
   public void testComplex() {
     checkDecomp(Tensors.fromString("{{10,I},{-I,10}}"));
-    checkDecomp(N.of(Tensors.fromString("{{10,I},{-I,10}}")));
+    checkDecomp(N.DOUBLE.of(Tensors.fromString("{{10,I},{-I,10}}")));
   }
 }

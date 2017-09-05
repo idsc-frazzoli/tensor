@@ -26,8 +26,8 @@ public class DecimalScalar2Test extends TestCase {
 
   public void testN() {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL32));
-    assertEquals(N.of(s, MathContext.DECIMAL64), s);
-    assertTrue(N.of(s) instanceof DoubleScalar);
+    assertEquals(N.DECIMAL64.of(s), s);
+    assertTrue(N.DOUBLE.of(s) instanceof DoubleScalar);
   }
 
   public void testTrig() {

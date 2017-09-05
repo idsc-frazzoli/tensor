@@ -217,7 +217,7 @@ public class Quantity4Test extends TestCase {
       assertTrue(eig.values().Get(1) instanceof Quantity);
     }
     {
-      Eigensystem eig = Eigensystem.ofSymmetric(N.of(matrix));
+      Eigensystem eig = Eigensystem.ofSymmetric(N.DOUBLE.of(matrix));
       assertTrue(eig.values().Get(0) instanceof Quantity);
       assertTrue(eig.values().Get(1) instanceof Quantity);
     }
@@ -246,7 +246,7 @@ public class Quantity4Test extends TestCase {
       assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
     }
     {
-      QRDecomposition qr = QRDecomposition.of(N.of(matrix));
+      QRDecomposition qr = QRDecomposition.of(N.DOUBLE.of(matrix));
       assertTrue(qr.det() instanceof Quantity);
     }
   }
@@ -263,7 +263,7 @@ public class Quantity4Test extends TestCase {
       assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
     }
     {
-      QRDecomposition qr = QRDecomposition.of(N.of(matrix));
+      QRDecomposition qr = QRDecomposition.of(N.DOUBLE.of(matrix));
       assertTrue(qr.det() instanceof Quantity);
     }
   }
