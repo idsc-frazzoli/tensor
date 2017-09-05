@@ -210,6 +210,26 @@ public final class DecimalScalar extends AbstractRealScalar implements //
     return ComplexScalar.of(zero(), of(BigDecimalMath.sqrt(value.negate(), mathContextHint())));
   }
 
+  @Override // from TrigonometryInterface
+  public Scalar cos() {
+    return of(BigDecimalMath.cos(value, mathContextHint()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cosh() {
+    return of(BigDecimalMath.cosh(value, mathContextHint()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sin() {
+    return of(BigDecimalMath.sin(value, mathContextHint()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sinh() {
+    return of(BigDecimalMath.sinh(value, mathContextHint()));
+  }
+
   /***************************************************/
   /** @return BigDecimal value stored by instance */
   public BigDecimal value() {

@@ -84,6 +84,26 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return ComplexScalar.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
   }
 
+  @Override // from TrigonometryInterface
+  public Scalar cos() {
+    return DoubleScalar.of(Math.cos(number().doubleValue()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cosh() {
+    return DoubleScalar.of(Math.cosh(number().doubleValue()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sin() {
+    return DoubleScalar.of(Math.sin(number().doubleValue()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sinh() {
+    return DoubleScalar.of(Math.sinh(number().doubleValue()));
+  }
+
   /***************************************************/
   /** @return true if this scalar is zero, or strictly greater zero, false otherwise */
   protected final boolean isNonNegative() {

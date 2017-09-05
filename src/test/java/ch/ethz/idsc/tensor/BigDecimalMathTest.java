@@ -6,6 +6,11 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Cos;
+import ch.ethz.idsc.tensor.sca.Cosh;
+import ch.ethz.idsc.tensor.sca.Sin;
+import ch.ethz.idsc.tensor.sca.Sinh;
 import junit.framework.TestCase;
 
 public class BigDecimalMathTest extends TestCase {
@@ -65,5 +70,37 @@ public class BigDecimalMathTest extends TestCase {
     String m = "2.718281828459045235360287471352662";
     BigDecimal bd1 = BigDecimalMath.exp(BigDecimal.ONE, MathContext.DECIMAL128);
     assertEquals(bd1.toString(), m);
+  }
+
+  public void testSin() {
+    // mathematica: 0.90929742682568169539601986591174484270225497144789
+    // ............ 0.9092974268256816953960198659117451
+    Scalar s0 = Sin.of(RealScalar.of(2));
+    BigDecimal bd1 = BigDecimalMath.sin(BigDecimal.valueOf(2), MathContext.DECIMAL128);
+    Scalar s1 = DecimalScalar.of(bd1);
+    assertTrue(Chop._13.close(s0, s1));
+  }
+
+  public void testSinh() {
+    // mathematica: 0.90929742682568169539601986591174484270225497144789
+    // ............ 0.9092974268256816953960198659117451
+    Scalar s0 = Sinh.of(RealScalar.of(2));
+    BigDecimal bd1 = BigDecimalMath.sinh(BigDecimal.valueOf(2), MathContext.DECIMAL128);
+    Scalar s1 = DecimalScalar.of(bd1);
+    assertTrue(Chop._13.close(s0, s1));
+  }
+
+  public void testCos() {
+    Scalar s0 = Cos.of(RealScalar.of(2));
+    BigDecimal bd1 = BigDecimalMath.cos(BigDecimal.valueOf(2), MathContext.DECIMAL128);
+    Scalar s1 = DecimalScalar.of(bd1);
+    assertTrue(Chop._13.close(s0, s1));
+  }
+
+  public void testCosh() {
+    Scalar s0 = Cosh.of(RealScalar.of(2));
+    BigDecimal bd1 = BigDecimalMath.cosh(BigDecimal.valueOf(2), MathContext.DECIMAL128);
+    Scalar s1 = DecimalScalar.of(bd1);
+    assertTrue(Chop._13.close(s0, s1));
   }
 }

@@ -1,9 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import ch.ethz.idsc.tensor.ComplexScalar;
-import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -17,15 +14,9 @@ public enum Cos implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return DoubleScalar.of(Math.cos(scalar.number().doubleValue()));
-    if (scalar instanceof ComplexScalar) {
-      ComplexScalar z = (ComplexScalar) scalar;
-      double re = z.real().number().doubleValue();
-      double im = z.imag().number().doubleValue();
-      return ComplexScalar.of( //
-          Math.cos(re) * Math.cosh(im), //
-          -Math.sin(re) * Math.sinh(im));
+    if (scalar instanceof TrigonometryInterface) {
+      TrigonometryInterface trigonometryInterface = (TrigonometryInterface) scalar;
+      return trigonometryInterface.cos();
     }
     throw TensorRuntimeException.of(scalar);
   }

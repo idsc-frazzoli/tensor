@@ -51,4 +51,82 @@ import java.math.MathContext;
     }
     return xn1;
   }
+
+  /** computation of sine value using Taylor series
+   * 
+   * @param x
+   * @param mathContext
+   * @return */
+  static BigDecimal sin(BigDecimal x, MathContext mathContext) {
+    BigDecimal xn0 = BigDecimal.ZERO;
+    BigDecimal xn1 = x;
+    BigDecimal add = x;
+    final BigDecimal x2 = x.multiply(x, mathContext);
+    int count = 0;
+    int index = 1;
+    while (xn0.compareTo(xn1) != 0) {
+      xn0 = xn1;
+      add = add.multiply(x2).divide(BigDecimal.valueOf(++index * ++index), mathContext);
+      xn1 = ++count % 2 == 0 ? xn1.add(add, mathContext) : xn1.subtract(add, mathContext);
+    }
+    return xn1;
+  }
+
+  /** computation of sine value using Taylor series
+   * 
+   * @param x
+   * @param mathContext
+   * @return */
+  static BigDecimal sinh(BigDecimal x, MathContext mathContext) {
+    BigDecimal xn0 = BigDecimal.ZERO;
+    BigDecimal xn1 = x;
+    BigDecimal add = x;
+    final BigDecimal x2 = x.multiply(x, mathContext);
+    int index = 1;
+    while (xn0.compareTo(xn1) != 0) {
+      xn0 = xn1;
+      add = add.multiply(x2).divide(BigDecimal.valueOf(++index * ++index), mathContext);
+      xn1 = xn1.add(add, mathContext);
+    }
+    return xn1;
+  }
+
+  /** computation of cosine value using Taylor series
+   * 
+   * @param x
+   * @param mathContext
+   * @return */
+  static BigDecimal cos(BigDecimal x, MathContext mathContext) {
+    BigDecimal xn0 = BigDecimal.ZERO;
+    BigDecimal xn1 = BigDecimal.ONE;
+    BigDecimal add = BigDecimal.ONE;
+    final BigDecimal x2 = x.multiply(x, mathContext);
+    int count = 0;
+    int index = 0;
+    while (xn0.compareTo(xn1) != 0) {
+      xn0 = xn1;
+      add = add.multiply(x2).divide(BigDecimal.valueOf(++index * ++index), mathContext);
+      xn1 = ++count % 2 == 0 ? xn1.add(add, mathContext) : xn1.subtract(add, mathContext);
+    }
+    return xn1;
+  }
+
+  /** computation of cosine value using Taylor series
+   * 
+   * @param x
+   * @param mathContext
+   * @return */
+  static BigDecimal cosh(BigDecimal x, MathContext mathContext) {
+    BigDecimal xn0 = BigDecimal.ZERO;
+    BigDecimal xn1 = BigDecimal.ONE;
+    BigDecimal add = BigDecimal.ONE;
+    final BigDecimal x2 = x.multiply(x, mathContext);
+    int index = 0;
+    while (xn0.compareTo(xn1) != 0) {
+      xn0 = xn1;
+      add = add.multiply(x2).divide(BigDecimal.valueOf(++index * ++index), mathContext);
+      xn1 = xn1.add(add, mathContext);
+    }
+    return xn1;
+  }
 }
