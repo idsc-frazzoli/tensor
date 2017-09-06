@@ -63,7 +63,7 @@ public interface Scalar extends Tensor {
    * 
    * <p>Function exists so that a scalar implementation can delegate
    * the computation of divide to the class of the input scalar:
-   * a.divide(b) == b.under(a)
+   * <code>a.divide(b) == b.under(a)</code>
    * 
    * @param scalar
    * @return input scalar divided by this */

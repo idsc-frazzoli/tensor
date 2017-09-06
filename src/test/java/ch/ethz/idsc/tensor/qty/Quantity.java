@@ -19,6 +19,8 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.Cos;
+import ch.ethz.idsc.tensor.sca.Cosh;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;
@@ -29,8 +31,11 @@ import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sin;
+import ch.ethz.idsc.tensor.sca.Sinh;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
+import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
 
 /** {@link Quantity} represents a magnitude and unit.
  * The class is intended for testing and demonstration.
@@ -64,7 +69,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * <a href="https://reference.wolfram.com/language/ref/Quantity.html">Quantity</a> */
 public final class Quantity extends AbstractScalar implements //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
-    PowerInterface, RoundingInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
+    PowerInterface, RoundingInterface, SignInterface, SqrtInterface, //
+    TrigonometryInterface, Comparable<Scalar> {
   /** @param string for example "9.81[m*s^-2]"
    * @return */
   public static Scalar fromString(String string) {
@@ -279,6 +285,34 @@ public final class Quantity extends AbstractScalar implements //
   @Override // from RoundingInterface
   public Scalar round() {
     return of(Round.FUNCTION.apply(value), unit);
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cos() {
+    if (unit.equals(Units.RADIANS))
+      return Cos.of(value);
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cosh() {
+    if (unit.equals(Units.RADIANS))
+      return Cosh.of(value);
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sin() {
+    if (unit.equals(Units.RADIANS))
+      return Sin.of(value);
+    throw TensorRuntimeException.of(this);
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sinh() {
+    if (unit.equals(Units.RADIANS))
+      return Sinh.of(value);
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from Comparable<Scalar>
