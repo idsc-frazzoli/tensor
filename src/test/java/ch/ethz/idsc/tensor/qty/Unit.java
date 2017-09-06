@@ -5,17 +5,13 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
 /** class is intended for testing and demonstration */
-/* package */ class Unit implements Serializable {
+/* package */ interface Unit extends Serializable {
   static final char OPENING_BRACKET = '[';
   static final char CLOSING_BRACKET = ']';
 
@@ -30,7 +26,7 @@ import ch.ethz.idsc.tensor.Scalars;
     String[] split = string.split("\\*");
     Map<String, Scalar> map = new HashMap<>();
     for (int count = 0; count < split.length; ++count) {
-      String token = split[count];
+      final String token = split[count];
       int index = token.indexOf('^');
       final String unit;
       final Scalar exponent;
@@ -43,88 +39,30 @@ import ch.ethz.idsc.tensor.Scalars;
       }
       map.put(unit.trim(), exponent);
     }
-    return new Unit(map);
+    return new UnitImpl(map);
   }
 
   public static Unit singleton(String unit, Scalar exponent) {
-    return new Unit(Collections.singletonMap(unit, exponent));
+    return new UnitImpl(Collections.singletonMap(unit, exponent));
   }
 
-  // ---
-  private final NavigableMap<String, Scalar> navigableMap = new TreeMap<>();
+  /** @return true if unit is unit-less */
+  boolean isEmpty();
 
-  private Unit(Map<String, Scalar> map) {
-    for (Entry<String, Scalar> entry : map.entrySet()) {
-      final String string = entry.getKey();
-      if (string.isEmpty())
-        throw new RuntimeException();
-      if (0 <= string.indexOf(OPENING_BRACKET))
-        throw new RuntimeException();
-      if (0 <= string.indexOf(CLOSING_BRACKET))
-        throw new RuntimeException();
-      Scalar exponent = entry.getValue();
-      if (Scalars.nonZero(exponent))
-        navigableMap.put(entry.getKey(), exponent);
-    }
-  }
+  /** [kg*m^2] -> [kg^-1*m^-2]
+   * 
+   * @return */
+  Unit negate();
 
-  public boolean isEmpty() {
-    return navigableMap.isEmpty();
-  }
+  /** [m] + [s^2] -> [m*s^2]
+   * 
+   * @param unit
+   * @return */
+  Unit add(Unit unit);
 
-  public Unit negate() {
-    Map<String, Scalar> map = new HashMap<>();
-    for (Entry<String, Scalar> entry : navigableMap.entrySet())
-      map.put(entry.getKey(), entry.getValue().negate());
-    return new Unit(map);
-  }
-
-  public Unit add(Unit unit) {
-    Map<String, Scalar> map = new HashMap<>(navigableMap);
-    for (Entry<String, Scalar> entry : unit.navigableMap.entrySet()) {
-      String key = entry.getKey();
-      if (map.containsKey(key)) {
-        Scalar exponent = map.get(key).add(entry.getValue());
-        if (Scalars.nonZero(exponent))
-          map.put(key, exponent);
-        else
-          map.remove(key);
-      } else
-        map.put(key, entry.getValue());
-    }
-    return new Unit(map);
-  }
-
-  public Unit multiply(Scalar factor) {
-    Map<String, Scalar> map = new HashMap<>();
-    for (Entry<String, Scalar> entry : navigableMap.entrySet())
-      map.put(entry.getKey(), entry.getValue().multiply(factor));
-    return new Unit(map);
-  }
-
-  @Override
-  public int hashCode() {
-    return navigableMap.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object object) {
-    if (object instanceof Unit) {
-      Unit unit = (Unit) object;
-      return navigableMap.equals(unit.navigableMap);
-    }
-    return false;
-  }
-
-  private static String exponentString(Scalar exponent) {
-    String string = exponent.toString();
-    return string.equals("1") ? "" : "^" + string;
-  }
-
-  @Override
-  public String toString() {
-    return OPENING_BRACKET + navigableMap.entrySet().stream() //
-        .map(entry -> entry.getKey() + exponentString(entry.getValue())) //
-        .collect(Collectors.joining("*")) + CLOSING_BRACKET;
-  }
+  /** [m^2] * 3 -> [m^6]
+   * 
+   * @param factor
+   * @return */
+  Unit multiply(Scalar factor);
 }

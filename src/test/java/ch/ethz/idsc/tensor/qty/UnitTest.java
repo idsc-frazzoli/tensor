@@ -23,5 +23,23 @@ public class UnitTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+    try {
+      Unit.of("*");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Unit.of("^");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Unit.of(" ");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

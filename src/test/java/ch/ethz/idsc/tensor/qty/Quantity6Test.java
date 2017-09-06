@@ -13,6 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.io.CsvFormat;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Cosh;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
@@ -29,11 +30,19 @@ public class Quantity6Test extends TestCase {
   }
 
   public void testTrig() {
-    Scalar value = RealScalar.of(1.2);
-    _check(value, Sin::of, Math::sin);
-    _check(value, Cos::of, Math::cos);
-    _check(value, Sinh::of, Math::sinh);
-    _check(value, Cosh::of, Math::cosh);
+    for (Tensor _value : Tensors.vector(-2.323, -1, -.3, 0, .2, 1.2, 3., 4.456)) {
+      Scalar value = _value.Get();
+      _check(value, Sin::of, Math::sin);
+      _check(value, Cos::of, Math::cos);
+      _check(value, Sinh::of, Math::sinh);
+      _check(value, Cosh::of, Math::cosh);
+    }
+  }
+
+  public void testTrigDegree() {
+    Scalar a = Quantity.of(180, "[deg]");
+    assertTrue(Chop._13.close(Sin.of(a), RealScalar.ZERO));
+    assertTrue(Chop._13.close(Cos.of(a), RealScalar.ONE.negate()));
   }
 
   public void testTrigFail() {

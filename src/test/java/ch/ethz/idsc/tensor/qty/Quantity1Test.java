@@ -71,7 +71,7 @@ public class Quantity1Test extends TestCase {
 
   public void testUnitString() {
     Quantity quantity = (Quantity) Quantity.fromString("-7+3*I[kg^-2*m*s]");
-    String string = quantity.unitString();
+    String string = quantity.unit().toString();
     assertEquals(string, "[kg^-2*m*s]");
   }
 
