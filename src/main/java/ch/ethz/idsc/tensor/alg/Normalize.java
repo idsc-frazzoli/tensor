@@ -25,6 +25,8 @@ import ch.ethz.idsc.tensor.sca.Chop;
 public enum Normalize {
   ;
   private static final Chop PRECISION = Chop._15; // magic const
+  /** in the tests the maximum iteration count == 2 */
+  private static final int MAX_ITERATIONS = 5;
 
   /** @param vector
    * @return normalized form of vector with respect to 2-norm */
@@ -43,27 +45,27 @@ public enum Normalize {
    * @return result = vector*scale with positive scale such that
    * VectorNorm(result) == 1 (or numerically close to 1) */
   public static Tensor of(Tensor vector, VectorNormInterface vectorNormInterface) {
-    VectorQ.orThrow(vector);
-    Scalar norm = vectorNormInterface.ofVector(vector);
-    int count = 0;
-    while (!PRECISION.close(norm, RealScalar.ONE)) {
-      vector = vector.divide(vectorNormInterface.ofVector(vector));
-      norm = vectorNormInterface.ofVector(vector);
-      ++count;
-      if (5 < count) // in the tests the maximum observed count == 2
-        throw TensorRuntimeException.of("no convergence", norm, vector);
-    }
-    return 0 < count ? vector : vector.copy();
+    return normalize(vector, vectorNormInterface, vectorNormInterface.ofVector(vector));
   }
 
   /** @param vector
    * @param function
    * @return copy of vector if function(vector) == 0, else same as {@link #of(Tensor, Function)} */
   public static Tensor unlessZero(Tensor vector, VectorNormInterface vectorNormInterface) {
-    if (Scalars.isZero(vectorNormInterface.ofVector(vector))) {
-      VectorQ.orThrow(vector);
-      return vector.copy();
+    Scalar norm = vectorNormInterface.ofVector(vector); // throws exception if input is not a vector
+    return Scalars.isZero(norm) ? vector.copy() : normalize(vector, vectorNormInterface, norm);
+  }
+
+  // helper function
+  private static Tensor normalize(Tensor vector, VectorNormInterface vectorNormInterface, Scalar norm) {
+    int count = 0;
+    while (!PRECISION.close(norm, RealScalar.ONE)) {
+      vector = vector.divide(norm);
+      norm = vectorNormInterface.ofVector(vector);
+      ++count;
+      if (MAX_ITERATIONS < count)
+        throw TensorRuntimeException.of("no convergence", norm, vector);
     }
-    return of(vector, vectorNormInterface);
+    return 0 < count ? vector : vector.copy();
   }
 }

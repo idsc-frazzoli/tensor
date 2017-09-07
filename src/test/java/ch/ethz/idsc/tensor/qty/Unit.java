@@ -42,6 +42,7 @@ import ch.ethz.idsc.tensor.Scalars;
     return new UnitImpl(map);
   }
 
+  // function not used
   public static Unit singleton(String unit, Scalar exponent) {
     return new UnitImpl(Collections.singletonMap(unit, exponent));
   }
@@ -50,6 +51,8 @@ import ch.ethz.idsc.tensor.Scalars;
   boolean isEmpty();
 
   /** [kg*m^2] -> [kg^-1*m^-2]
+   * 
+   * function negate is equivalent to {@link #multiply(Scalar)} with factor -1
    * 
    * @return */
   Unit negate();

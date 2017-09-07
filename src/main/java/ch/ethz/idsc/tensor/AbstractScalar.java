@@ -54,7 +54,9 @@ public abstract class AbstractScalar implements Scalar {
 
   @Override // from Tensor
   public final Stream<Tensor> flatten(int level) {
-    return Stream.of(this);
+    if (level < 0)
+      return Stream.of(this);
+    throw TensorRuntimeException.of(this);
   }
 
   @Override // from Tensor

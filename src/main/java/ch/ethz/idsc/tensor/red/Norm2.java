@@ -17,6 +17,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       // Hypot prevents the incorrect evaluation: Norm_2[ {1e-300, 1e-300} ] == 0
       return Hypot.ofVector(vector);
     } catch (Exception exception) {
+      // <- when vector is a scalar
       // <- when vector is empty, or contains NaN
     }
     return Sqrt.FUNCTION.apply(Norm2Squared.ofVector(vector));

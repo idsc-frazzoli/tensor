@@ -18,6 +18,12 @@ public class UnitTest extends TestCase {
 
   public void testFail() {
     try {
+      Unit.of("[ m >");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       Unit.of("| m ]");
       assertTrue(false);
     } catch (Exception exception) {
@@ -41,5 +47,15 @@ public class UnitTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testEqualsHash() {
+    Unit kg1 = Unit.of("[kg]");
+    Unit kg2 = Unit.of("[kg]");
+    Unit m = Unit.of("[m]");
+    assertEquals(kg1, kg2);
+    assertEquals(kg1.hashCode(), kg2.hashCode());
+    assertFalse(kg1.equals(m));
+    assertFalse(kg1.equals(new Object()));
   }
 }

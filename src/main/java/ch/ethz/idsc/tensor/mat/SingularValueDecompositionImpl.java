@@ -24,7 +24,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /** Difference between 1.0 and the minimum double greater than 1.0
    * DBL_EPSILON == 2.220446049250313E-16 */
   private static final Scalar DBL_EPSILON = DoubleScalar.of(Math.nextUp(1.0) - 1.0);
-  private static final int MAXITERATIONS = 28;
+  private static final int MAX_ITERATIONS = 28;
   // ---
   private final int rows;
   private final int cols;
@@ -64,11 +64,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       initU3(i);
     // ---
     for (int i = cols - 1; 0 <= i; --i) {
-      for (int iteration = 0; iteration <= MAXITERATIONS; ++iteration) {
+      for (int iteration = 0; iteration <= MAX_ITERATIONS; ++iteration) {
         int l = levelW(i, chop);
         if (l == i)
           break;
-        if (iteration == MAXITERATIONS)
+        if (iteration == MAX_ITERATIONS)
           throw new RuntimeException("no convergence");
         rotateUV(l, i);
       }
