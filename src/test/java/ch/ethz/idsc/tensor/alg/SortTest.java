@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Comparator;
 
 import ch.ethz.idsc.tensor.Comparators;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -39,5 +40,14 @@ public class SortTest extends TestCase {
         StringScalar.of("a"), //
         StringScalar.of("b"));
     assertEquals(Sort.of(vector).toString(), "{a, b, c}");
+  }
+
+  public void testFail() {
+    try {
+      Sort.of(RealScalar.of(3.12));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

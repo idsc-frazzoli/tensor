@@ -175,6 +175,9 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * If this tensor has been marked as unmodifiable, the elements of
    * the stream are unmodifiable as well.
    * 
+   * If this tensor is an instance of {@link Scalar}, the given level
+   * must be negative otherwise an exception is thrown.
+   * 
    * @param level
    * @return non-parallel stream, the user may invoke .parallel() */
   Stream<Tensor> flatten(int level);

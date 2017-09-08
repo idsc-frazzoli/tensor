@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.Scalars;
 
   /** @param string, for instance "[m*s^-2]"
    * @return */
-  public static Unit of(String string) {
+  static Unit of(String string) {
     if (OPENING_BRACKET != string.charAt(0))
       throw new RuntimeException();
     if (CLOSING_BRACKET != string.charAt(string.length() - 1))
@@ -43,7 +43,7 @@ import ch.ethz.idsc.tensor.Scalars;
   }
 
   // function not used
-  public static Unit singleton(String unit, Scalar exponent) {
+  static Unit singleton(String unit, Scalar exponent) {
     return new UnitImpl(Collections.singletonMap(unit, exponent));
   }
 

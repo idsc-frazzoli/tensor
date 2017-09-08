@@ -47,4 +47,13 @@ public class TallyTest extends TestCase {
     Tensor vector = Tensors.vector(-0.0, 0.0, -0.0);
     assertEquals(Tally.of(vector).size(), 1);
   }
+
+  public void testFail() {
+    try {
+      Tally.of(RealScalar.of(3.1234));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

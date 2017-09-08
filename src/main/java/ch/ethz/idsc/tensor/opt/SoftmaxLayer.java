@@ -11,7 +11,8 @@ import ch.ethz.idsc.tensor.sca.Exp;
 public enum SoftmaxLayer {
   ;
   /** @param vector
-   * @return */
+   * @return
+   * @throws Exception if vector is empty */
   public static Tensor of(Tensor vector) {
     if (vector.length() == 0)
       throw TensorRuntimeException.of(vector);
