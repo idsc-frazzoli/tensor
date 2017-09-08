@@ -28,6 +28,6 @@ public enum Unprotect {
   public static Tensor references(Tensor tensor) {
     if (tensor instanceof UnmodifiableTensor)
       throw TensorRuntimeException.of(tensor);
-    return tensor.isScalar() ? tensor : ViewTensor.wrap(tensor);
+    return ScalarQ.of(tensor) ? tensor : ViewTensor.wrap(tensor);
   }
 }

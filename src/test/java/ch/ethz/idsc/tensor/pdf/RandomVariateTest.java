@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import junit.framework.TestCase;
@@ -44,6 +45,6 @@ public class RandomVariateTest extends TestCase {
     Distribution distribution = BinomialDistribution.of(3, RationalScalar.of(1, 2));
     Tensor array = RandomVariate.of(distribution, 1);
     assertEquals(Dimensions.of(array), Arrays.asList(1));
-    assertFalse(array.isScalar());
+    assertFalse(ScalarQ.of(array));
   }
 }

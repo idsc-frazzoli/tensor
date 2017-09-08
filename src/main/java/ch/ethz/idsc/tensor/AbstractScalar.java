@@ -48,11 +48,6 @@ public abstract class AbstractScalar implements Scalar {
   }
 
   @Override // from Tensor
-  public final boolean isScalar() {
-    return true;
-  }
-
-  @Override // from Tensor
   public final Stream<Tensor> stream() {
     throw TensorRuntimeException.of(this);
   }

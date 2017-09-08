@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.alg;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Unprotect;
@@ -13,7 +14,7 @@ public enum VectorQ {
   /** @param tensor
    * @return true if tensor is a vector */
   public static boolean of(Tensor tensor) {
-    return !tensor.isScalar() && tensor.stream().allMatch(Tensor::isScalar);
+    return !ScalarQ.of(tensor) && tensor.stream().allMatch(ScalarQ::of);
   }
 
   /** @param tensor

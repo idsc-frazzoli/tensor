@@ -157,15 +157,6 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return number of entries on the first level; {@link Scalar#LENGTH} for scalars */
   int length();
 
-  /** <p>function is equivalent to the predicates
-   * <ul>
-   * <li><code>length() == Scalar.LENGTH</code>
-   * <li><code>this instanceof Scalar</code>
-   * </ul>
-   * 
-   * @return true if this instanceof {@link Scalar} */
-  boolean isScalar();
-
   /** For instance, if this tensor is the vector {0, 8, 1}
    * the function stream() provides three scalars 0, 8, 1.
    * If this tensor is a matrix, the stream provides the rows.

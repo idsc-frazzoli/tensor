@@ -8,8 +8,8 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Flatten;
 import ch.ethz.idsc.tensor.alg.Transpose;
@@ -33,8 +33,7 @@ public enum MatlabExport {
    * @return lines of MATLAB function that returns tensor */
   @SuppressWarnings("incomplete-switch")
   public static Stream<String> of(Tensor tensor, Function<Scalar, String> function) {
-    if (tensor.isScalar())
-      throw TensorRuntimeException.of(tensor);
+    ScalarQ.thenThrow(tensor);
     List<String> list = new LinkedList<>();
     list.add("function a=anonymous");
     list.add("% auto-generated code. do not modify.");

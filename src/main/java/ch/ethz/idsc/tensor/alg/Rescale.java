@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.red.Min;
@@ -32,8 +32,7 @@ public enum Rescale {
    * @param tensor
    * @return */
   public static Tensor of(Tensor tensor) {
-    if (tensor.isScalar())
-      throw TensorRuntimeException.of(tensor);
+    ScalarQ.thenThrow(tensor);
     if (tensor.length() == 0)
       return Tensors.empty();
     Optional<Scalar> optional = tensor.flatten(-1) //
