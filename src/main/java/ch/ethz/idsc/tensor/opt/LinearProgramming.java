@@ -85,7 +85,7 @@ public enum LinearProgramming {
   /** @param vector
    * @return true if all entries in vector are non-negative */
   /* package */ static boolean isNonNegative(Tensor vector) {
-    return vector.flatten(0) // all vector_i >= 0
+    return vector.stream() // all vector_i >= 0
         .map(SignInterface.class::cast) //
         .allMatch(signInterface -> 0 <= signInterface.signInt());
   }

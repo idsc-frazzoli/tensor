@@ -37,8 +37,8 @@ import java.util.stream.Stream;
     throw new UnsupportedOperationException("unmodifiable");
   }
 
-  @Override // from TensorImpl
-  Stream<Tensor> _flatten0() {
+  @Override
+  public Stream<Tensor> stream() {
     return list.stream().map(Tensor::unmodifiable);
   }
 

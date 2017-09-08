@@ -25,20 +25,20 @@ public class FlattenTest extends TestCase {
     assertEquals(Flatten.of(ad, 0), ad);
     assertEquals(Dimensions.of(Flatten.of(ad, 1)), Arrays.asList(9, 3));
     assertEquals(Dimensions.of(Flatten.of(ad, 2)), Arrays.asList(27));
+    assertEquals(Dimensions.of(Flatten.of(ad, 3)), Arrays.asList(27));
     assertEquals(Dimensions.of(Flatten.of(ad)), Arrays.asList(27));
   }
 
   public void testSimpleMinusOne() {
     assertEquals(Flatten.of(Tensors.fromString("{{0,1,{{2},3}},{4,5}}")), Range.of(0, 6));
   }
-
-  public void testFail() {
-    Tensor ad = LieAlgebras.heisenberg3();
-    try {
-      Flatten.of(ad, 3);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
+  // public void testFail() {
+  // Tensor ad = LieAlgebras.heisenberg3();
+  // try {
+  // Flatten.of(ad, 3);
+  // assertTrue(false);
+  // } catch (Exception exception) {
+  // // ---
+  // }
+  // }
 }

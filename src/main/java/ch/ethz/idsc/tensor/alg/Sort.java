@@ -12,11 +12,11 @@ public enum Sort {
   /** @param tensor
    * @return tensor with entries sorted according to canonic ordering */
   public static Tensor of(Tensor tensor) {
-    return Tensor.of(tensor.flatten(0).sorted());
+    return Tensor.of(tensor.stream().sorted());
   }
 
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> Tensor of(Tensor tensor, Comparator<T> comparator) {
-    return Tensor.of(tensor.flatten(0).map(x -> (T) x).sorted(comparator));
+    return Tensor.of(tensor.stream().map(x -> (T) x).sorted(comparator));
   }
 }

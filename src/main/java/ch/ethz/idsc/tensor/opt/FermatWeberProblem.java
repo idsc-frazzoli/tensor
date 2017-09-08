@@ -74,7 +74,7 @@ public class FermatWeberProblem implements Serializable {
   }
 
   private Tensor weiszfeldStep() {
-    Tensor dist = Tensor.of(tensor.flatten(0).map(anchor -> Norm._2.ofVector(anchor.subtract(point))));
+    Tensor dist = Tensor.of(tensor.stream().map(anchor -> Norm._2.ofVector(anchor.subtract(point))));
     int index = ArgMin.of(dist);
     if (Scalars.isZero(dist.Get(index)))
       return point.copy();

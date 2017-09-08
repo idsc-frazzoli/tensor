@@ -21,7 +21,7 @@ public enum TensorMap {
    * @return */
   public static Tensor of(Function<Tensor, ? extends Tensor> function, Tensor tensor, int level) {
     if (0 < level)
-      return Tensor.of(tensor.flatten(0).map(entry -> of(function, entry, level - 1)));
+      return Tensor.of(tensor.stream().map(entry -> of(function, entry, level - 1)));
     return function.apply(tensor);
   }
 }

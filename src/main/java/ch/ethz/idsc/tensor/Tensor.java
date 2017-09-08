@@ -166,6 +166,17 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return true if this instanceof {@link Scalar} */
   boolean isScalar();
 
+  /** For instance, if this tensor is the vector {0, 8, 1}
+   * the function stream() provides three scalars 0, 8, 1.
+   * If this tensor is a matrix, the stream provides the rows.
+   * 
+   * If this tensor has been marked as unmodifiable, the elements of
+   * the stream are unmodifiable as well.
+   * 
+   * @return stream over the list of tensors of this instance
+   * @throws Exception if instance is a {@link Scalar} */
+  Stream<Tensor> stream();
+
   /** stream access to the entries at given level of this tensor.
    * entries at given level can be tensors or scalars.
    * 
@@ -175,8 +186,8 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * If this tensor has been marked as unmodifiable, the elements of
    * the stream are unmodifiable as well.
    * 
-   * If this tensor is an instance of {@link Scalar}, the given level
-   * must be negative otherwise an exception is thrown.
+   * Unlike {@link #stream()}, flatten(0) is allowed to be
+   * invoked on a {@link Scalar}.
    * 
    * @param level
    * @return non-parallel stream, the user may invoke .parallel() */

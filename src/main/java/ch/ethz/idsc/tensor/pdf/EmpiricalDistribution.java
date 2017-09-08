@@ -38,7 +38,7 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
   private final Tensor cdf;
 
   private EmpiricalDistribution(Tensor unscaledPDF) {
-    if (unscaledPDF.flatten(0) //
+    if (unscaledPDF.stream() //
         .map(Scalar.class::cast) //
         .anyMatch(scalar -> Scalars.lessThan(scalar, RealScalar.ZERO)))
       throw TensorRuntimeException.of(unscaledPDF);

@@ -41,7 +41,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   GrahamScan(Tensor tensor) {
     VectorQ.orThrow(tensor.get(0));
     // list is permuted during computation
-    List<Tensor> list = tensor.flatten(0).collect(Collectors.toList());
+    List<Tensor> list = tensor.stream().collect(Collectors.toList());
     point0 = Collections.min(list, MINY_MINX);
     Collections.sort(list, new Comparator<Tensor>() {
       @Override

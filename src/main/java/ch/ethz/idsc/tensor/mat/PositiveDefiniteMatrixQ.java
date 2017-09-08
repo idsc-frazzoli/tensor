@@ -15,7 +15,7 @@ public enum PositiveDefiniteMatrixQ {
    * @throws TensorRuntimeException if result cannot be established */
   public static boolean ofHermitian(Tensor tensor) {
     return MatrixQ.of(tensor) && //
-        CholeskyDecomposition.of(tensor).diagonal().flatten(0) //
+        CholeskyDecomposition.of(tensor).diagonal().stream() //
             .map(SignInterface.class::cast) //
             .allMatch(signInterface -> 0 < signInterface.signInt());
   }

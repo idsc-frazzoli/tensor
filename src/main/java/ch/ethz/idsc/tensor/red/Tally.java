@@ -24,7 +24,7 @@ public enum Tally {
    * @return map that assigns elements of tensor their multiplicity in tensor
    * @throws Exception if given tensor is a {@link Scalar} */
   public static Map<Tensor, Long> of(Tensor tensor) {
-    return tensor.flatten(0).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    return tensor.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
   }
 
   /** function can be used to compute
@@ -38,6 +38,6 @@ public enum Tally {
    * @return navigable map that assigns entries of the tensor their multiplicity in the tensor
    * @throws Exception if given tensor is a {@link Scalar} */
   public static NavigableMap<Tensor, Long> sorted(Tensor tensor) {
-    return tensor.flatten(0).collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting()));
+    return tensor.stream().collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting()));
   }
 }

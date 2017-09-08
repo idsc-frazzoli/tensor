@@ -32,6 +32,6 @@ public enum Reverse {
   public static Tensor all(Tensor tensor) {
     if (tensor.isScalar())
       return tensor;
-    return of(Tensor.of(tensor.flatten(0).map(Reverse::all)));
+    return of(Tensor.of(tensor.stream().map(Reverse::all)));
   }
 }

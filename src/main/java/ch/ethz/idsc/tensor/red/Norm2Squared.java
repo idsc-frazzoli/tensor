@@ -14,7 +14,7 @@ public enum Norm2Squared {
   ;
   // ---
   public static Scalar ofVector(Tensor vector) {
-    return vector.flatten(0) //
+    return vector.stream() //
         .map(Scalar.class::cast) //
         .map(AbsSquared.FUNCTION) //
         .reduce(Scalar::add).get();

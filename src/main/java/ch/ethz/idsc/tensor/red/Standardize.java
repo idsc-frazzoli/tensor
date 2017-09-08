@@ -11,7 +11,7 @@ enum Standardize {
    * @return result with Mean[result] == 0 and Variance[result] == 1 */
   public static Tensor of(Tensor vector) {
     final Tensor mean = Mean.of(vector);
-    Tensor center = Tensor.of(vector.flatten(0).map(entry -> entry.subtract(mean)));
+    Tensor center = Tensor.of(vector.stream().map(entry -> entry.subtract(mean)));
     // StandardDeviation subtracts the mean internally
     return center.divide(StandardDeviation.ofVector(vector).Get());
   }

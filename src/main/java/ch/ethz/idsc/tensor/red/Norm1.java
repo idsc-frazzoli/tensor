@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
   INSTANCE;
   @Override
   public Scalar ofVector(Tensor vector) {
-    return vector.flatten(0) //
+    return vector.stream() //
         .map(Scalar.class::cast) //
         .map(Scalar::abs) //
         .reduce(Scalar::add).get();
@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
 
   @Override
   public Scalar ofMatrix(Tensor matrix) {
-    return Total.of(Abs.of(matrix)).flatten(0) //
+    return Total.of(Abs.of(matrix)).stream() //
         .map(Scalar.class::cast) //
         .reduce(Max::of).get();
   }

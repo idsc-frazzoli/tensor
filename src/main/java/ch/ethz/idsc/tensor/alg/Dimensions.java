@@ -91,7 +91,7 @@ public enum Dimensions {
       sets.add(new HashSet<>());
     sets.get(level).add(tensor.length());
     if (!tensor.isScalar())
-      tensor.flatten(0).forEach(entry -> _sets(entry, level + 1, sets));
+      tensor.stream().forEach(entry -> _sets(entry, level + 1, sets));
     return sets;
   }
 }

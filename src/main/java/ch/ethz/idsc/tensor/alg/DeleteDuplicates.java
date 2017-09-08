@@ -18,6 +18,6 @@ public enum DeleteDuplicates {
   public static Tensor of(Tensor tensor) {
     if (tensor.isScalar())
       throw TensorRuntimeException.of(tensor);
-    return Tensor.of(tensor.flatten(0).distinct());
+    return Tensor.of(tensor.stream().distinct());
   }
 }

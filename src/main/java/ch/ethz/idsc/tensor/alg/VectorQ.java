@@ -13,7 +13,7 @@ public enum VectorQ {
   /** @param tensor
    * @return true if tensor is a vector */
   public static boolean of(Tensor tensor) {
-    return !tensor.isScalar() && tensor.flatten(0).allMatch(Tensor::isScalar);
+    return !tensor.isScalar() && tensor.stream().allMatch(Tensor::isScalar);
   }
 
   /** @param tensor

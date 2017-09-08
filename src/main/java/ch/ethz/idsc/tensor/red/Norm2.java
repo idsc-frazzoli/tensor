@@ -28,7 +28,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     if (matrix.length() < Unprotect.dimension1(matrix))
       matrix = Transpose.of(matrix);
     return SingularValueDecomposition.of(matrix) //
-        .values().flatten(0) // values are non-negative
+        .values().stream() // values are non-negative
         .map(Scalar.class::cast) //
         .reduce(Max::of).get();
   }

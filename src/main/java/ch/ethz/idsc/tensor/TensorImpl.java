@@ -116,14 +116,15 @@ import java.util.stream.Stream;
     return false;
   }
 
-  Stream<Tensor> _flatten0() {
+  @Override
+  public Stream<Tensor> stream() {
     return list.stream();
   }
 
   @Override
   public final Stream<Tensor> flatten(int level) {
     if (level == 0)
-      return _flatten0();
+      return stream();
     return list.stream().flatMap(tensor -> tensor.flatten(level - 1));
   }
 

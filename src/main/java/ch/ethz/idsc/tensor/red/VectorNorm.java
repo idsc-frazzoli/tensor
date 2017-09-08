@@ -49,7 +49,7 @@ public class VectorNorm implements VectorNormInterface {
 
   @Override
   public Scalar ofVector(Tensor vector) {
-    return Power.of(vector.flatten(0) //
+    return Power.of(vector.stream() //
         .map(Scalar.class::cast) //
         .map(Scalar::abs) //
         .map(p_power) //

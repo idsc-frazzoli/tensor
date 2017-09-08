@@ -89,7 +89,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
   // helper function to check consistency
   private static boolean isOutsideRange(Tensor ind, int n) {
-    return ind.flatten(0) //
+    return ind.stream() //
         .map(Scalar.class::cast) //
         .map(Scalars::intValueExact) //
         .anyMatch(i -> n <= i);
@@ -97,7 +97,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
   // helper function to determine pivot
   private static Tensor numbers(Tensor vector) {
-    return Tensor.of(vector.flatten(0) //
+    return Tensor.of(vector.stream() //
         .map(Scalar.class::cast) //
         .map(Scalar::number) //
         .map(RealScalar::of));
