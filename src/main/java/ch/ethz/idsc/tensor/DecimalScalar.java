@@ -262,8 +262,13 @@ public final class DecimalScalar extends AbstractRealScalar implements //
     return Objects.nonNull(object) && object.equals(this);
   }
 
+  /** BigDecimal precision of a double */
+  private static final int DOUBLE_PRECISION = 17;
+
   @Override // from AbstractScalar
   public String toString() {
-    return value.toString();
+    int precision = value.precision();
+    // TODO solution not elegant because result will be parsed as DoubleScalar
+    return value.toString() + (precision <= DOUBLE_PRECISION ? "" : "`" + precision);
   }
 }

@@ -15,6 +15,7 @@ enum ScalarParser {
   private static final char SUBTRACT = '-';
   private static final char MULTIPLY = '*';
   private static final char DIVIDE = '/';
+  private static final char DECIMAL_PRIME = '`';
   // ---
   private static final Pattern PATTERN_INTEGER = Pattern.compile("\\d+"); // optional sign is obsolete
   private static final Pattern PATTERN_DOUBLE = Pattern.compile(StaticHelper.fpRegex);
@@ -71,8 +72,11 @@ enum ScalarParser {
       return ComplexScalar.I;
     if (PATTERN_INTEGER.matcher(expr).matches()) // check integer
       return RationalScalar.of(new BigInteger(expr), BigInteger.ONE);
-    if (PATTERN_DOUBLE.matcher(expr).matches()) // check decimal
+    if (PATTERN_DOUBLE.matcher(expr).matches()) // check double
       return DoubleScalar.of(Double.parseDouble(expr));
+    final int prime = expr.indexOf(DECIMAL_PRIME); // check decimal
+    if (0 < prime)
+      return DecimalScalar.of(string.substring(0, prime));
     throw new RuntimeException(expr);
   }
 }

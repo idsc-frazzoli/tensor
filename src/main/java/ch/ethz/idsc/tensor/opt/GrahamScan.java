@@ -19,9 +19,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /** Quote from Wikipedia:
  * 
- * Graham's scan is a method of finding the convex hull
- * of a finite set of points in the plane with time complexity O(n log n).
- * It is named after Ronald Graham, who published the original algorithm in 1972.
+ * Graham's scan is a method of finding the convex hull of a finite set of points
+ * in the plane with time complexity O(n log n).
+ * 
+ * Ronald Graham published the original algorithm in 1972.
  * The algorithm finds all vertices of the convex hull ordered along its boundary.
  * It uses a stack to detect and remove concavities in the boundary efficiently.
  * 
@@ -35,22 +36,23 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     }
   };
   // ---
-  private final Stack<Tensor> stack = new Stack<Tensor>();
-  private final Tensor point0;
+  // TODO we can't easily switch to ArrayDeque since the stream()
+  // ... reverses the order when compared to Stack
+  // private final Deque<Tensor> deque = new ArrayDeque<Tensor>();
+  private final Stack<Tensor> stack = new Stack<>();
 
   GrahamScan(Tensor tensor) {
     VectorQ.orThrow(tensor.get(0));
     // list is permuted during computation
-    List<Tensor> list = tensor.stream().collect(Collectors.toList());
-    point0 = Collections.min(list, MINY_MINX);
+    final List<Tensor> list = tensor.stream().collect(Collectors.toList());
+    final Tensor point0 = Collections.min(list, MINY_MINX);
     Collections.sort(list, new Comparator<Tensor>() {
       @Override
       public int compare(Tensor p1, Tensor p2) {
-        int cmp = Scalars.compare(angle(p1), angle(p2));
-        return cmp != 0 ? cmp
-            : Scalars.compare( //
-                Norm._2.ofVector(p1.subtract(point0)), //
-                Norm._2.ofVector(p2.subtract(point0)));
+        Tensor d10 = p1.subtract(point0);
+        Tensor d20 = p2.subtract(point0);
+        int cmp = Scalars.compare(arg(d10), arg(d20));
+        return cmp != 0 ? cmp : Scalars.compare(Norm._2.ofVector(d10), Norm._2.ofVector(d20));
       }
     });
     stack.push(point0);
@@ -87,14 +89,14 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     }
   }
 
-  private Scalar angle(Tensor p2) {
-    return ArcTan.of( //
-        getX(p2).subtract(getX(point0)), //
-        getY(p2).subtract(getY(point0)));
+  /** @param point
+   * @return argument of complex number with (re = pointX, im = pointY) */
+  private static Scalar arg(Tensor point) {
+    return ArcTan.of(point.Get(0), point.Get(1));
   }
 
   /** Three points are a counter-clockwise turn if ccw > 0, clockwise if
-   * ccw < 0, and collinear if ccw = 0 because ccw is a determinant that
+   * ccw < 0, and co-linear if ccw = 0 because ccw is a determinant that
    * gives twice the signed area of the triangle formed by p1, p2 and p3.
    * (from Wikipedia)
    * 

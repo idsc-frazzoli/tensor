@@ -119,8 +119,9 @@ import java.util.stream.Stream;
   @Override
   public final Stream<Tensor> flatten(int level) {
     if (level == 0)
-      return stream();
-    return list.stream().flatMap(tensor -> tensor.flatten(level - 1));
+      return stream(); // UnmodifiableTensor overrides stream()
+    int ldecr = level - 1;
+    return list.stream().flatMap(tensor -> tensor.flatten(ldecr));
   }
 
   @Override

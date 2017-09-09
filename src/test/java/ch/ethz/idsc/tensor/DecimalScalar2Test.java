@@ -83,4 +83,13 @@ public class DecimalScalar2Test extends TestCase {
       for (int j = 0; j < vector.length(); ++j)
         _checkEqCmp(vector.Get(i), vector.Get(j));
   }
+
+  public void testPrecision() {
+    for (int value = 0; value < 10000; value += 31) {
+      DecimalScalar ds = (DecimalScalar) DecimalScalar.of(Math.sqrt(value));
+      String string = ds.toString();
+      Scalar dbl_s = Scalars.fromString(string);
+      assertEquals(ds, dbl_s);
+    }
+  }
 }

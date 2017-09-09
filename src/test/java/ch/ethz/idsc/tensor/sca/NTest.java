@@ -35,7 +35,7 @@ public class NTest extends TestCase {
 
   public void testContext() {
     Scalar d = N.DECIMAL128.of(RealScalar.of(3).reciprocal());
-    assertEquals(d.toString(), "0.3333333333333333333333333333333333");
+    assertEquals(d.toString(), "0.3333333333333333333333333333333333`34");
     Scalar d32 = N.DECIMAL32.apply(d);
     assertEquals(d32.toString(), "0.3333333");
   }
@@ -44,7 +44,7 @@ public class NTest extends TestCase {
     Scalar s = ComplexScalar.of(3, 7).reciprocal();
     assertTrue(ExactNumberQ.of(s));
     Scalar d = N.DECIMAL128.of(s);
-    // mathematica gives ...... 0.05172413793103448275862068965517241-0.12068965517241379310344827586206897 I
-    assertEquals(d.toString(), "0.05172413793103448275862068965517241-0.1206896551724137931034482758620690*I");
+    // mathematica gives ...... 0.05172413793103448275862068965517241...-0.12068965517241379310344827586206897 I
+    assertEquals(d.toString(), "0.05172413793103448275862068965517241`34-0.1206896551724137931034482758620690`34*I");
   }
 }

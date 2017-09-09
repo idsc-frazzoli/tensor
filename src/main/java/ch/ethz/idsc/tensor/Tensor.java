@@ -157,15 +157,18 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return number of entries on the first level; {@link Scalar#LENGTH} for scalars */
   int length();
 
-  /** For instance, if this tensor is the vector {0, 8, 1}
-   * the function stream() provides three scalars 0, 8, 1.
-   * If this tensor is a matrix, the stream provides the rows.
+  /** For instance, if this tensor is the vector {0, 8, 1}, the function
+   * stream() provides the three scalars 0, 8, 1 in a {@link Stream}.
+   * 
+   * If this tensor is a matrix, the stream provides the references
+   * to the rows of the matrix.
    * 
    * If this tensor has been marked as unmodifiable, the elements of
    * the stream are unmodifiable as well.
    * 
-   * @return stream over the list of tensors of this instance
-   * @throws Exception if instance is a {@link Scalar} */
+   * @return stream over tensors contained in the list of this instance
+   * @throws Exception if invoked on a {@link Scalar} instance, because
+   * a scalar does not contain a list of tensors */
   Stream<Tensor> stream();
 
   /** stream access to the entries at given level of this tensor.
@@ -177,8 +180,9 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * If this tensor has been marked as unmodifiable, the elements of
    * the stream are unmodifiable as well.
    * 
-   * Unlike {@link #stream()}, flatten(0) is allowed to be
-   * invoked on a {@link Scalar}.
+   * Unlike {@link #stream()}, function {@link #flatten(int)} may be
+   * invoked on a {@link Scalar}. In that case the return value is the
+   * stream with the scalar as single element.
    * 
    * @param level
    * @return non-parallel stream, the user may invoke .parallel() */

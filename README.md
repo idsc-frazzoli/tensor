@@ -267,13 +267,13 @@ Subsequently, the documentation is accessible through the file
 
 The library is used in the projects:
 * `matsim`
-* `subare`
 * `owly`
+* `subare`
 * `owly3d`
 * `SwissTrolley+`
 * `retina`
-* `QueuingNetworks`
+* `queuey`
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1330` unit tests.
+The repository has over `1340` unit tests.

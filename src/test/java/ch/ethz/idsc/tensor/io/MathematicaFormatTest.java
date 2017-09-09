@@ -7,10 +7,11 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -31,7 +32,7 @@ public class MathematicaFormatTest extends TestCase {
   private static void checkNonString(Tensor tensor) {
     Optional<Scalar> optional = tensor.flatten(-1) //
         .map(Scalar.class::cast) //
-        .filter(Scalars::isStringScalar) //
+        .filter(scalar -> scalar instanceof StringScalar) //
         .findAny();
     boolean containsStringScalar = optional.isPresent();
     if (containsStringScalar)
@@ -77,5 +78,13 @@ public class MathematicaFormatTest extends TestCase {
     String put = Put.string(tensor);
     Tensor recon = MathematicaFormat.parse(Stream.of(put));
     assertEquals(tensor, recon);
+  }
+
+  public void testPrime() throws IOException {
+    String string = getClass().getResource("/io/prime.mathematica").getPath();
+    Tensor tensor = Get.of(Paths.get(string));
+    tensor.stream().filter(scalar -> scalar instanceof DecimalScalar).findAny().get();
+    checkNonString(tensor);
+    assertEquals(tensor.toString(), Put.string(tensor));
   }
 }

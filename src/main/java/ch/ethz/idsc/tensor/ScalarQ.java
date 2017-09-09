@@ -4,7 +4,10 @@ package ch.ethz.idsc.tensor;
 /** predicate that determines if a given tensor is instance of {@link Scalar} */
 public enum ScalarQ {
   ;
-  /** @param tensor
+  /** alternative predicate is
+   * {@code tensor.length() == Scalar.LENGTH}
+   * 
+   * @param tensor
    * @return true if tensor is instance of {@link Scalar} */
   public static boolean of(Tensor tensor) {
     return tensor instanceof Scalar;
