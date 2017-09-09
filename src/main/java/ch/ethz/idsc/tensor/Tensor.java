@@ -111,9 +111,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * <li><code>matrix.set(col, Tensor.ALL, 5)</code> represents the assignment <code>matrix[:, 5]=col</code>
    * </ul>
    * 
-   * @param tensor
+   * @param tensor of which a copy replaces the existing element(s) of this instance
    * @param index non-empty
-   * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty */
+   * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty
+   * @throws Exception if this instance is unmodifiable */
   void set(Tensor tensor, Integer... index);
 
   /** replaces element x at index with <code>function.apply(x)</code>

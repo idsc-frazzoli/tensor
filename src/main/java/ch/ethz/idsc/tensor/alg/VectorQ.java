@@ -22,7 +22,7 @@ public enum VectorQ {
    * @return true if tensor is a vector with given length */
   public static boolean ofLength(Tensor tensor, int length) {
     if (length < 0)
-      throw new RuntimeException();
+      throw new RuntimeException("length " + length);
     return tensor.length() == length && of(tensor);
   }
 

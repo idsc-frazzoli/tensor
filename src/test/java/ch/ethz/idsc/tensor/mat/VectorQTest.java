@@ -39,6 +39,7 @@ public class VectorQTest extends TestCase {
   }
 
   public void testEnsure() {
+    VectorQ.orThrow(Tensors.empty());
     try {
       VectorQ.orThrow(HilbertMatrix.of(3));
       assertTrue(false);

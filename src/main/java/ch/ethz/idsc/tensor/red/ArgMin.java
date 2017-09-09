@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/ArgMin.html">ArgMin</a> */
 public enum ArgMin {
   ;
+  /** -1 is the Java standard, see also {@link String#indexOf(int)} */
   public static final int NOINDEX = -1;
 
   /** @param tensor

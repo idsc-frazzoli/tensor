@@ -2,9 +2,10 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Objects;
 
-/* package */ class Filename {
+/* package */ class Filename implements Serializable {
   public final File file;
   public final String title;
   public final String extension;

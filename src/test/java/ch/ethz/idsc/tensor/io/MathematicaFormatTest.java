@@ -83,7 +83,7 @@ public class MathematicaFormatTest extends TestCase {
   public void testPrime() throws IOException {
     String string = getClass().getResource("/io/prime.mathematica").getPath();
     Tensor tensor = Get.of(Paths.get(string));
-    tensor.stream().filter(scalar -> scalar instanceof DecimalScalar).findAny().get();
+    assertTrue(tensor.stream().anyMatch(scalar -> scalar instanceof DecimalScalar));
     checkNonString(tensor);
     assertEquals(tensor.toString(), Put.string(tensor));
   }

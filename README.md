@@ -219,8 +219,11 @@ Several functions support evaluation to higher than machine precision for type `
 
 gives
 
-    220255.6579480671651695790064528423
-    1.414213562373095048801688724209698
+    220255.6579480671651695790064528423`34
+    1.414213562373095048801688724209698`34
+
+The number after the prime indicates the precision of the decimal.
+The string representation is compatible with `Mathematica`.
 
 ## Include in your project
 
@@ -276,4 +279,4 @@ The library is used in the projects:
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1340` unit tests.
+The repository has over `1350` unit tests.

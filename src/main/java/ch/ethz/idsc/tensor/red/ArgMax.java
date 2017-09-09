@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/ArgMax.html">ArgMax</a> */
 public enum ArgMax {
   ;
+  /** -1 is the Java standard, see also {@link String#indexOf(int)} */
   public static final int NOINDEX = -1;
 
   /** @param tensor

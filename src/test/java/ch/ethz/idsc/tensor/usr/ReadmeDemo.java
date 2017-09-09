@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
-import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
@@ -84,8 +83,6 @@ enum ReadmeDemo {
   static void demoDecimal() {
     System.out.println(Exp.of(DecimalScalar.of(10)));
     System.out.println(Sqrt.of(DecimalScalar.of(2)));
-    BigDecimal bd = new BigDecimal("2");
-    System.out.println(bd.precision());
     Scalar a = N.in(new MathContext(100, RoundingMode.HALF_EVEN)).of(RealScalar.of(2));
     System.out.println(Sqrt.of(a));
   }

@@ -1,7 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -75,8 +78,12 @@ enum ScalarParser {
     if (PATTERN_DOUBLE.matcher(expr).matches()) // check double
       return DoubleScalar.of(Double.parseDouble(expr));
     final int prime = expr.indexOf(DECIMAL_PRIME); // check decimal
-    if (0 < prime)
-      return DecimalScalar.of(string.substring(0, prime));
+    if (0 < prime) {
+      int precision = (int) Math.round(Double.parseDouble(string.substring(prime + 1)));
+      MathContext mathContext = new MathContext(precision, RoundingMode.HALF_EVEN);
+      BigDecimal bigDecimal = new BigDecimal(string.substring(0, prime), mathContext);
+      return DecimalScalar.of(bigDecimal);
+    }
     throw new RuntimeException(expr);
   }
 }

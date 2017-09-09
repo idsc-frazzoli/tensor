@@ -33,7 +33,8 @@ public enum Import {
    * @return file content as {@link Tensor}
    * @throws ClassNotFoundException
    * @throws DataFormatException
-   * @throws IOException */
+   * @throws IOException
+   * @see Get */
   public static Tensor of(File file) //
       throws ClassNotFoundException, DataFormatException, IOException {
     Filename filename = new Filename(file);

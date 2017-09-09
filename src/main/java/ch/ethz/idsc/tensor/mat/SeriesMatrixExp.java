@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.N;
  * 
  * @see {@link MatrixExp} */
 /* package */ class SeriesMatrixExp {
-  static final int MAXITER = 100;
+  private static final int MAXITER = 100;
 
   /** @param m
    * @return */
