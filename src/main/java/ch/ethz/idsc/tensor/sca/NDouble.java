@@ -3,10 +3,11 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-class NDouble extends N {
+/* package */ class NDouble extends N {
   public static final N INSTANCE = new NDouble();
 
   private NDouble() {
+    // ---
   }
 
   @Override

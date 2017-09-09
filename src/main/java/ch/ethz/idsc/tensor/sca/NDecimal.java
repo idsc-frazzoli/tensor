@@ -5,10 +5,10 @@ import java.math.MathContext;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-class NDecimal extends N {
+/* package */ class NDecimal extends N {
   private final MathContext mathContext;
 
-  public NDecimal(MathContext mathContext) {
+  NDecimal(MathContext mathContext) {
     this.mathContext = mathContext;
   }
 
