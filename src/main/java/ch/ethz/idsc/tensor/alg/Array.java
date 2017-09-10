@@ -41,7 +41,8 @@ public enum Array {
   }
 
   /** @param dimensions
-   * @return tensor of {@link RealScalar#ZERO} with given dimensions */
+   * @return tensor of {@link RealScalar#ZERO} with given dimensions
+   * @throws Exception if any of the integer parameters is negative */
   public static Tensor zeros(List<Integer> dimensions) {
     if (dimensions.size() == 0)
       return RealScalar.ZERO;
@@ -52,12 +53,20 @@ public enum Array {
         .mapToObj(i -> zeros(dimensions.subList(1, dimensions.size()))));
   }
 
-  /** Examples:
+  /** Careful:
+   * {@link #zeros(Integer...)} is not consistent with MATLAB::zeros.
+   * In the tensor library, the number of integer parameters equals the rank
+   * of the returned tensor. In Matlab this is not the case.
+   * 
+   * Examples:
+   * <pre>
    * Array.zeros(3) == Tensors.vector(0, 0, 0) == {0, 0, 0}
    * Array.zeros(2, 3) == {{0, 0, 0}, {0, 0, 0}}
+   * </pre>
    * 
    * @param dimensions
-   * @return tensor of {@link RealScalar#ZERO} with given dimensions */
+   * @return tensor of {@link RealScalar#ZERO} with given dimensions
+   * @throws Exception if any of the integer parameters is negative */
   public static Tensor zeros(Integer... dimensions) {
     return zeros(Arrays.asList(dimensions));
   }

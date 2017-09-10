@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** implementation consistent with Mathematica
@@ -90,8 +91,8 @@ public enum Dimensions {
     if (sets.size() <= level)
       sets.add(new HashSet<>());
     sets.get(level).add(tensor.length());
-    if (!tensor.isScalar())
-      tensor.flatten(0).forEach(entry -> _sets(entry, level + 1, sets));
+    if (!ScalarQ.of(tensor))
+      tensor.stream().forEach(entry -> _sets(entry, level + 1, sets));
     return sets;
   }
 }

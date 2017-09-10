@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.red.Hypot;
@@ -9,6 +10,8 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.Cos;
+import ch.ethz.idsc.tensor.sca.Cosh;
 import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Floor;
@@ -17,6 +20,8 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Round;
+import ch.ethz.idsc.tensor.sca.Sin;
+import ch.ethz.idsc.tensor.sca.Sinh;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ final class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
@@ -150,6 +155,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ComplexScalar.of(re, im.negate());
   }
 
+  @Override // from ExpInterface
+  public Scalar exp() {
+    // construct in polar coordinates
+    return ComplexScalar.fromPolar(Exp.FUNCTION.apply(real()), imag());
+  }
+
   @Override // from RoundingInterface
   public Scalar floor() {
     return ComplexScalar.of(Floor.FUNCTION.apply(re), Floor.FUNCTION.apply(im));
@@ -172,7 +183,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from NInterface
   public Scalar n() {
-    return ComplexScalar.of(N.FUNCTION.apply(re), N.FUNCTION.apply(im));
+    return ComplexScalar.of(N.DOUBLE.apply(re), N.DOUBLE.apply(im));
+  }
+
+  @Override // from NInterface
+  public Scalar n(MathContext mathContext) {
+    N n = N.in(mathContext);
+    return ComplexScalar.of(n.apply(re), n.apply(im));
   }
 
   @Override // from PowerInterface
@@ -197,6 +214,34 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from SqrtInterface
   public Scalar sqrt() {
     return ComplexScalar.fromPolar(Sqrt.FUNCTION.apply(abs()), arg().multiply(HALF));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cos() {
+    return ComplexScalar.of( //
+        Cos.of(re).multiply(Cosh.of(im)), //
+        Sin.of(re).multiply(Sinh.of(im)).negate());
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cosh() {
+    return ComplexScalar.of( //
+        Cosh.of(re).multiply(Cos.of(im)), //
+        Sinh.of(re).multiply(Sin.of(im)));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sin() {
+    return ComplexScalar.of( //
+        Sin.of(re).multiply(Cosh.of(im)), //
+        Cos.of(re).multiply(Sinh.of(im)));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sinh() {
+    return ComplexScalar.of( //
+        Sinh.of(re).multiply(Cos.of(im)), //
+        Cosh.of(re).multiply(Sin.of(im)));
   }
 
   /***************************************************/

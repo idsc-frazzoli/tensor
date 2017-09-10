@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
@@ -16,28 +15,6 @@ public class TensorsTest extends TestCase {
     assertEquals(Tensors.fromString("{ 2 ,-3   , 4}"), Tensors.vector(2, -3, 4));
     assertEquals(Tensors.fromString("{   {2, -3, 4  }, {2.3,-.2   }, {  }   }"), //
         Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(2.3, -.2), Tensors.empty()));
-  }
-
-  public void testUnmodifiableSet() {
-    Tensor id = IdentityMatrix.of(3).unmodifiable();
-    try {
-      id.set(RealScalar.ZERO, 2, 2);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testUnmodifiableIterator() {
-    Tensor id = IdentityMatrix.of(3).unmodifiable();
-    Iterator<Tensor> iterator = id.iterator();
-    iterator.next();
-    try {
-      iterator.remove();
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
   }
 
   public void testEmpty() {

@@ -28,7 +28,7 @@ public class NullSpaceTest extends TestCase {
   public void testZerosUsingSvd() {
     for (int n = 1; n < 10; ++n) {
       _checkZeros(Array.zeros(n, n));
-      _checkZeros(N.of(Array.zeros(n, n)));
+      _checkZeros(N.DOUBLE.of(Array.zeros(n, n)));
     }
   }
 

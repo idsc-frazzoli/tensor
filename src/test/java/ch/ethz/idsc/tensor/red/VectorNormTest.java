@@ -47,4 +47,14 @@ public class VectorNormTest extends TestCase {
       // ---
     }
   }
+
+  public void testScalarFail() {
+    VectorNormInterface vni = VectorNorm.with(2.6);
+    try {
+      vni.ofVector(RealScalar.of(12));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

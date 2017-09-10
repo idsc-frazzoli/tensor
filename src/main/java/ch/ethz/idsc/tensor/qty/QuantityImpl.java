@@ -1,122 +1,56 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.math.MathContext;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.io.CsvFormat;
-import ch.ethz.idsc.tensor.io.ObjectFormat;
 import ch.ethz.idsc.tensor.sca.ArcTan;
-import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.ChopInterface;
-import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.Cos;
+import ch.ethz.idsc.tensor.sca.Cosh;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;
-import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Power;
-import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
-import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sin;
+import ch.ethz.idsc.tensor.sca.Sinh;
 import ch.ethz.idsc.tensor.sca.Sqrt;
-import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
-/** {@link Quantity} represents a magnitude and unit.
- * The class is intended for testing and demonstration.
- * <pre>
- * Mathematica::Quantity[8, "Kilograms"^2*"Meters"]
- * Tensor::Quantity.of(8, "[kg^2*m]")
- * </pre>
- * 
- * The implementation is consistent with Mathematica:
- * The NumberQ relations for {@link Quantity} evaluate to
- * <pre>
- * NumberQ[Quantity[3, "Meters"]] == False
- * ExactNumberQ[Quantity[3, "Meters"]] == False
- * MachineNumberQ[Quantity[3.123, "Meters"]] == False
- * </pre>
- * 
- * The convention of equality: "0[unit] == 0 evaluates to true"
- * is used in
- * {@link #plus(Scalar)}
- * {@link #compareTo(Scalar)}
- * {@link #equals(Object)}
- * 
- * In particular, the rule allows to up-cast any
- * {@link Scalar#zero()} to a zero with any unit,
- * for instance 0 == 0[m^2] == 0[rad*s] == 0
- * 
- * <p>For export and import of tensors with scalars of type
- * {@link Quantity} use {@link ObjectFormat} and {@link CsvFormat}.
- * 
- * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Quantity.html">Quantity</a> */
-public final class Quantity extends AbstractScalar implements //
-    ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
-    PowerInterface, RoundingInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
-  /** @param string for example "9.81[m*s^-2]"
-   * @return */
-  public static Scalar fromString(String string) {
-    int index = string.indexOf(Unit.OPENING_BRACKET);
-    if (0 <= index) {
-      Scalar value = Scalars.fromString(string.substring(0, index));
-      Unit unit = Unit.of(string.substring(index));
-      return of(value, unit);
-    }
-    return Scalars.fromString(string);
-  }
+// EXPERIMENTAL
+/* package */ class QuantityImpl extends AbstractScalar implements Quantity {
+  private static final Scalar HALF = RationalScalar.of(1, 2);
 
-  /** @param value
-   * @param string for instance "[m*s^-2]"
-   * @return */
-  public static Scalar of(Scalar value, String string) {
-    if (value instanceof Quantity)
-      throw TensorRuntimeException.of(value);
-    return of(value, Unit.of(string));
-  }
-
-  /** @param number
-   * @param string for instance "[kg^3*m*s^-2]"
-   * @return */
-  public static Scalar of(Number number, String string) {
-    return of(RealScalar.of(number), Unit.of(string));
+  /* package */ static Scalar of(Scalar value, Unit unit) {
+    return unit.isEmpty() ? value : new QuantityImpl(value, unit);
   }
 
   /***************************************************/
-  private static final Scalar HALF = RationalScalar.of(1, 2);
-
-  private static Scalar of(Scalar value, Unit unit) {
-    return unit.isEmpty() ? value : new Quantity(value, unit);
-  }
-
   private final Scalar value;
-  private final Unit unit;
+  private final Unit unit; // non-empty
 
-  private Quantity(Scalar value, Unit unit) {
-    if (unit.isEmpty())
-      throw TensorRuntimeException.of(value);
+  private QuantityImpl(Scalar value, Unit unit) {
     this.value = value;
     this.unit = unit;
   }
 
-  /** @return value of quantity without unit */
+  @Override
   public Scalar value() {
     return value;
   }
 
-  /** @return units as string, for instance "[kg^-2*rad]" */
-  public String unitString() {
-    return unit.toString();
+  @Override
+  public Unit unit() {
+    return unit;
   }
 
   /***************************************************/
@@ -129,7 +63,7 @@ public final class Quantity extends AbstractScalar implements //
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
-      return of(value.multiply(quantity.value), unit.add(quantity.unit));
+      return of(value.multiply(quantity.value()), unit.add(quantity.unit()));
     }
     return of(value.multiply(scalar), unit);
   }
@@ -138,7 +72,7 @@ public final class Quantity extends AbstractScalar implements //
   public Scalar divide(Scalar scalar) {
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
-      return of(value.divide(quantity.value), unit.add(quantity.unit.negate()));
+      return of(value.divide(quantity.value()), unit.add(quantity.unit().negate()));
     }
     return of(value.divide(scalar), unit);
   }
@@ -147,7 +81,7 @@ public final class Quantity extends AbstractScalar implements //
   public Scalar under(Scalar scalar) {
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
-      return of(value.under(quantity.value), unit.negate().add(quantity.unit));
+      return of(value.under(quantity.value()), unit.negate().add(quantity.unit()));
     }
     return of(value.under(scalar), unit.negate());
   }
@@ -186,13 +120,13 @@ public final class Quantity extends AbstractScalar implements //
         // for instance when numeric precision is different:
         // 0[m] + 0.0[m] == 0.0[m]
         // 0[m] + 0.0[s] == 0.0
-        final Scalar zero = value.add(quantity.value);
-        if (unit.equals(quantity.unit))
+        final Scalar zero = value.add(quantity.value());
+        if (unit.equals(quantity.unit()))
           return of(zero, unit); // 0[m] + 0[m] gives 0[m]
         return zero; // 0[m] + 0[s] gives 0
       }
-      if (unit.equals(quantity.unit))
-        return of(value.add(quantity.value), unit);
+      if (unit.equals(quantity.unit()))
+        return of(value.add(quantity.value()), unit);
     } else { // <- scalar is not an instance of Quantity
       if (Scalars.isZero(value) && Scalars.isZero(scalar))
         // return of value.add(scalar) is not required for symmetry
@@ -217,20 +151,20 @@ public final class Quantity extends AbstractScalar implements //
       x = zero(); // in case x == 0[?], attach same units as this to x
     if (x instanceof Quantity) {
       Quantity quantity = (Quantity) x;
-      if (unit.equals(quantity.unit) || Scalars.isZero(value))
-        return ArcTan.of(quantity.value, value);
+      if (unit.equals(quantity.unit()) || Scalars.isZero(value))
+        return ArcTan.of(quantity.value(), value);
     }
     throw TensorRuntimeException.of(x, this);
   }
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
-    return of(Sqrt.of(value), unit.multiply(HALF));
+    return of(Sqrt.FUNCTION.apply(value), unit.multiply(HALF));
   }
 
   @Override // from RoundingInterface
   public Scalar ceiling() {
-    return of(Ceiling.of(value), unit);
+    return of(Ceiling.FUNCTION.apply(value), unit);
   }
 
   @Override // from ChopInterface
@@ -240,22 +174,28 @@ public final class Quantity extends AbstractScalar implements //
 
   @Override // from ComplexEmbedding
   public Scalar conjugate() {
-    return of(Conjugate.of(value), unit);
+    return of(Conjugate.FUNCTION.apply(value), unit);
   }
 
   @Override // from RoundingInterface
   public Scalar floor() {
-    return of(Floor.of(value), unit);
+    return of(Floor.FUNCTION.apply(value), unit);
   }
 
   @Override // from ComplexEmbedding
   public Scalar imag() {
-    return of(Imag.of(value), unit);
+    return of(Imag.FUNCTION.apply(value), unit);
   }
 
   @Override // from NInterface
   public Scalar n() {
-    return of(N.of(value), unit);
+    return of(N.DOUBLE.apply(value), unit);
+  }
+
+  @Override // from NInterface
+  public Scalar n(MathContext mathContext) {
+    N n = N.in(mathContext);
+    return of(n.apply(value), unit);
   }
 
   @Override // from SignInterface
@@ -266,12 +206,32 @@ public final class Quantity extends AbstractScalar implements //
 
   @Override // from ComplexEmbedding
   public Scalar real() {
-    return of(Real.of(value), unit);
+    return of(Real.FUNCTION.apply(value), unit);
   }
 
   @Override // from RoundingInterface
   public Scalar round() {
-    return of(Round.of(value), unit);
+    return of(Round.FUNCTION.apply(value), unit);
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cos() {
+    return Cos.of(Units.radiansValue(this));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cosh() {
+    return Cosh.of(Units.radiansValue(this));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sin() {
+    return Sin.of(Units.radiansValue(this));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sinh() {
+    return Sinh.of(Units.radiansValue(this));
   }
 
   @Override // from Comparable<Scalar>
@@ -284,8 +244,8 @@ public final class Quantity extends AbstractScalar implements //
       return Scalars.compare(value, scalar);
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
-      if (unit.equals(quantity.unit))
-        return Scalars.compare(value, quantity.value);
+      if (unit.equals(quantity.unit()))
+        return Scalars.compare(value, quantity.value());
     }
     throw TensorRuntimeException.of(this, scalar);
   }
@@ -300,9 +260,9 @@ public final class Quantity extends AbstractScalar implements //
   public boolean equals(Object object) {
     if (object instanceof Quantity) {
       Quantity quantity = (Quantity) object;
-      if (Scalars.isZero(value) && Scalars.isZero(quantity.value)) // 0[s] == 0[m]
+      if (Scalars.isZero(value) && Scalars.isZero(quantity.value())) // 0[s] == 0[m]
         return true;
-      return value.equals(quantity.value) && unit.equals(quantity.unit); // 2[kg] == 2[kg]
+      return value.equals(quantity.value()) && unit.equals(quantity.unit()); // 2[kg] == 2[kg]
     }
     if (object instanceof Scalar) {
       Scalar scalar = (Scalar) object;

@@ -48,7 +48,7 @@ public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
    * @throws Exception if vector is empty, or vector contains NaN */
   public static Scalar ofVector(Tensor vector) {
     Tensor abs = vector.map(Scalar::abs);
-    Scalar max = abs.flatten(0).reduce(Max::of).get().Get();
+    Scalar max = abs.stream().reduce(Max::of).get().Get();
     if (Scalars.isZero(max))
       return max;
     abs = abs.divide(max);

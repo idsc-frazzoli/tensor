@@ -15,10 +15,14 @@ import ch.ethz.idsc.tensor.sca.Floor;
 /** Careful:
  * The constructor Mathematica::EmpiricalDistribution[data] has no direct equivalent in the tensor library.
  * 
- * <p>The constructor here takes as input the unscaled pdf which is interpreted over the samples
+ * <p>The constructor of the tensor library EmpiricalDistribution takes as input
+ * an unscaled pdf vector with scalar entries that are interpreted over the samples
  * <pre>
  * 0, 1, 2, 3, ..., [length of unscaled pdf] - 1
  * </pre>
+ * 
+ * <p>"unscaled" pdf means that the values in the input vector are not absolute probabilities,
+ * but only proportional to the probabilities P[X == i] for i = 0, 1, 2, ... of the EmpiricalDistribution.
  * 
  * <p>Mathematica also implements HistogramDistribution which has a continuous CDF.
  * In contrast, the CDF of tensor::EmpiricalDistribution has discontinuities.
@@ -38,7 +42,7 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
   private final Tensor cdf;
 
   private EmpiricalDistribution(Tensor unscaledPDF) {
-    if (unscaledPDF.flatten(0) //
+    if (unscaledPDF.stream() //
         .map(Scalar.class::cast) //
         .anyMatch(scalar -> Scalars.lessThan(scalar, RealScalar.ZERO)))
       throw TensorRuntimeException.of(unscaledPDF);

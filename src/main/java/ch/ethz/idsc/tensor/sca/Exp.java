@@ -2,15 +2,13 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** gives the exponential
- * 
- * <p>supported are {@link RealScalar}, and {@link ComplexScalar}.
+/** gives the exponential of a {@link Scalar} that implements {@link ExpInterface}.
+ * Supported types include {@link RealScalar}, and {@link ComplexScalar}.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Exp.html">Exp</a> */
@@ -19,11 +17,9 @@ public enum Exp implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof RealScalar)
-      return DoubleScalar.of(Math.exp(scalar.number().doubleValue()));
-    if (scalar instanceof ComplexScalar) {
-      ComplexScalar z = (ComplexScalar) scalar;
-      return ComplexScalar.fromPolar(apply(z.real()), z.imag()); // construct in polar coordinates
+    if (scalar instanceof ExpInterface) {
+      ExpInterface expInterface = (ExpInterface) scalar;
+      return expInterface.exp();
     }
     throw TensorRuntimeException.of(scalar);
   }

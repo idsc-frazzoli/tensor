@@ -37,7 +37,7 @@ public enum MatrixRank {
   /** @return rank of matrix decomposed in svd */
   public static int of(SingularValueDecomposition svd) {
     Scalar w_threshold = DoubleScalar.of(svd.getThreshold());
-    return Math.toIntExact(svd.values().flatten(0) //
+    return Math.toIntExact(svd.values().stream() //
         .map(Scalar.class::cast) //
         .map(Scalar::abs) //
         .filter(value -> Scalars.lessEquals(w_threshold, value)) //

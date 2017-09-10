@@ -10,6 +10,11 @@ public class UnitTest extends TestCase {
     assertEquals(unit.toString(), check);
   }
 
+  public void testZero() {
+    Unit unit = Unit.of("[m^0*s^-0]");
+    assertTrue(unit.isEmpty());
+  }
+
   public void testSpaces() {
     assertEquals(Unit.of("[ m ]").toString(), "[m]");
     assertEquals(Unit.of("[ m ^ 3 ]").toString(), "[m^3]");
@@ -18,10 +23,44 @@ public class UnitTest extends TestCase {
 
   public void testFail() {
     try {
+      Unit.of("[ m >");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       Unit.of("| m ]");
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+    try {
+      Unit.of("*");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Unit.of("^");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Unit.of(" ");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testEqualsHash() {
+    Unit kg1 = Unit.of("[kg]");
+    Unit kg2 = Unit.of("[kg]");
+    Unit m = Unit.of("[m]");
+    assertEquals(kg1, kg2);
+    assertEquals(kg1.hashCode(), kg2.hashCode());
+    assertFalse(kg1.equals(m));
+    assertFalse(kg1.equals(new Object()));
   }
 }

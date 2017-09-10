@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** Join has the functionality of joining tensors along a given dimension.
@@ -53,8 +54,8 @@ public enum Join {
 
   // helper function called in base case of more general function of(...)
   private static Tensor _flatten(List<Tensor> list) {
-    if (list.stream().anyMatch(Tensor::isScalar))
+    if (list.stream().anyMatch(ScalarQ::of))
       throw new RuntimeException();
-    return Tensor.of(list.stream().flatMap(tensor -> tensor.flatten(0)));
+    return Tensor.of(list.stream().flatMap(tensor -> tensor.stream()));
   }
 }

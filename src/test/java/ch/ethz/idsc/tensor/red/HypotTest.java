@@ -113,4 +113,13 @@ public class HypotTest extends TestCase {
       // ---
     }
   }
+
+  public void testFailScalar() {
+    try {
+      Hypot.ofVector(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

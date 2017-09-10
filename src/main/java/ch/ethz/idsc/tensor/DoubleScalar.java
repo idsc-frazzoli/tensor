@@ -47,7 +47,8 @@ public final class DoubleScalar extends AbstractRealScalar implements //
    * field name inspired by Mathematica::Indeterminate */
   public static final Scalar INDETERMINATE = of(Double.NaN);
   // ---
-  private static final Scalar DOUBLE_ZERO = of(0.0); // positive numeric zero
+  /** positive numeric zero */
+  private static final Scalar DOUBLE_ZERO = of(0.0);
 
   /** @param value
    * @return new instance of {@link DoubleScalar} */
@@ -186,6 +187,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return Double.isNaN(value);
   }
 
+  /** @return double value stored by instance */
   public double value() {
     return value;
   }

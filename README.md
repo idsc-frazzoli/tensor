@@ -4,7 +4,7 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.3.4`
+Version `0.3.5`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
@@ -210,6 +210,20 @@ gives
 
 ![gauss_scalar](https://cloud.githubusercontent.com/assets/4012178/26045629/63b756ee-394b-11e7-85f4-d9121905badd.png)
 
+---
+
+Several functions support evaluation to higher than machine precision for type `DecimalScalar`.
+
+    System.out.println(Exp.of(DecimalScalar.of(10)));
+    System.out.println(Sqrt.of(DecimalScalar.of(2)));
+
+gives
+
+    220255.6579480671651695790064528423`34
+    1.414213562373095048801688724209698`34
+
+The number after the prime indicates the precision of the decimal.
+The string representation is compatible with `Mathematica`.
 
 ## Include in your project
 
@@ -230,7 +244,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.3.4</version>
+        <version>0.3.5</version>
       </dependency>
     </dependencies>
 
@@ -238,7 +252,7 @@ The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.3.4/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.3.5/*
 
 ## Optional
 
@@ -256,13 +270,13 @@ Subsequently, the documentation is accessible through the file
 
 The library is used in the projects:
 * `matsim`
-* `subare`
 * `owly`
+* `subare`
 * `owly3d`
 * `SwissTrolley+`
 * `retina`
-* `QueuingNetworks`
+* `queuey`
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1270` unit tests.
+The repository has over `1350` unit tests.

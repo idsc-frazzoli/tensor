@@ -50,6 +50,11 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return isNonNegative() ? ZERO : DoubleScalar.of(Math.PI);
   }
 
+  @Override // from ExpInterface
+  public Scalar exp() {
+    return DoubleScalar.of(Math.exp(number().doubleValue()));
+  }
+
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     if (Scalars.isZero(this)) {
@@ -77,6 +82,26 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     if (isNonNegative())
       return DoubleScalar.of(Math.sqrt(number().doubleValue()));
     return ComplexScalar.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cos() {
+    return DoubleScalar.of(Math.cos(number().doubleValue()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar cosh() {
+    return DoubleScalar.of(Math.cosh(number().doubleValue()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sin() {
+    return DoubleScalar.of(Math.sin(number().doubleValue()));
+  }
+
+  @Override // from TrigonometryInterface
+  public Scalar sinh() {
+    return DoubleScalar.of(Math.sinh(number().doubleValue()));
   }
 
   /***************************************************/

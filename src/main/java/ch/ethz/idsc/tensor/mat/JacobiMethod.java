@@ -30,7 +30,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
  * entries of D are the eigenvalues of A and the columns of V are the
  * eigenvectors of A. */
 /* package */ class JacobiMethod implements Eigensystem {
-  private static final int MAXITERATIONS = 50;
+  private static final int MAX_ITERATIONS = 50;
   private static final Scalar HALF = RationalScalar.of(1, 2);
   private static final Scalar HUNDRED = RealScalar.of(100);
   private static final Scalar EPS = DoubleScalar.of(Math.ulp(1));
@@ -48,7 +48,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     Tensor b = Diagonal.of(matrix);
     d = b.copy();
     Scalar factor = DoubleScalar.of(0.2 / (n * n));
-    for (int i = 0; i < MAXITERATIONS; ++i) {
+    for (int i = 0; i < MAX_ITERATIONS; ++i) {
       Scalar sum = UpperTriangularize.of(A, 1).flatten(-1) //
           .map(Scalar.class::cast).map(Scalar::abs).reduce(Scalar::add) //
           .orElse(RealScalar.ZERO);

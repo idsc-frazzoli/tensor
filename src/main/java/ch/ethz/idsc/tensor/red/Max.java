@@ -4,6 +4,13 @@ package ch.ethz.idsc.tensor.red;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
+/** Example use:
+ * <pre>
+ * vector.flatten(0).reduce(Max::of).get();
+ * </pre>
+ * 
+ * <p>inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Max.html">Max</a> */
 public enum Max {
   ;
   /** function is a {@link BinaryOperator} that can be used in reduce()

@@ -18,12 +18,12 @@ import java.util.List;
     super(list);
   }
 
-  @Override
+  @Override // from TensorImpl
   public Tensor extract(int fromIndex, int toIndex) {
     return wrap(list.subList(fromIndex, toIndex));
   }
 
-  @Override
+  @Override // from TensorImpl
   Tensor _block(List<Integer> fromIndex, List<Integer> dimensions) {
     int toIndex = fromIndex.get(0) + dimensions.get(0);
     List<Tensor> subList = list.subList(fromIndex.get(0), toIndex);

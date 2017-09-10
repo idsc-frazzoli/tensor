@@ -31,7 +31,7 @@ public enum ArrayPad {
     Tensor b = Array.zeros(copy);
     if (1 == rank)
       return Join.of(0, a, tensor, b);
-    return Join.of(0, a, Tensor.of(tensor.flatten(0) //
+    return Join.of(0, a, Tensor.of(tensor.stream() //
         .map(entry -> _of(entry, copy.subList(1, rank), ante.subList(1, rank), post.subList(1, rank)))), b);
   }
 }

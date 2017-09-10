@@ -7,12 +7,19 @@ import ch.ethz.idsc.tensor.alg.BinaryPower;
 
 public enum Scalars {
   ;
-  /** parses string to scalar
+  /** parses given string to an instance of {@link Scalar}
    * 
-   * <p>Example:
+   * Examples:
+   * <pre>
+   * "7/9" -> RationalScalar.of(7, 9)
+   * "3.14" -> DoubleScalar.of(3.14)
    * "(3+2)*I/(-1+4)+8-I" -> ComplexScalar.of(8, 2/3) == "8+2/3*I"
+   * </pre>
    * 
-   * <p>Not supported: {@link GaussScalar}
+   * If the parsing logic encounters an inconsistency, the return type
+   * is a {@link StringScalar} that holds the input string.
+   * 
+   * Scalar types that are not supported include {@link GaussScalar}.
    * 
    * @param string
    * @return scalar */
@@ -22,19 +29,7 @@ public enum Scalars {
     } catch (Exception exception) {
       // ---
     }
-    return StringScalar.of(string); // return as StringScalar
-  }
-
-  /** @param scalar
-   * @return true if input scalar is not an instance of {@link StringScalar} */
-  public static boolean isNonStringScalar(Scalar scalar) {
-    return !(scalar instanceof StringScalar);
-  }
-
-  /** @param scalar
-   * @return true if input scalar is an instance of {@link StringScalar} */
-  public static boolean isStringScalar(Scalar scalar) {
-    return scalar instanceof StringScalar;
+    return StringScalar.of(string);
   }
 
   /** @param s1

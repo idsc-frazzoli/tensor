@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -18,6 +19,11 @@ public class Quantity1Test extends TestCase {
     assertTrue(Quantity.fromString("3 [ m ]") instanceof Quantity);
     assertTrue(Quantity.fromString("3 [ m *rad ]") instanceof Quantity);
     assertFalse(Quantity.fromString(" 3  ") instanceof Quantity);
+  }
+
+  public void testDecimal() {
+    Quantity quantity = (Quantity) Quantity.fromString("-7.23459823746593784659387465`13.0123[m*kg^-2]");
+    assertTrue(quantity.value() instanceof DecimalScalar);
   }
 
   public void testParseFail() {
@@ -71,7 +77,7 @@ public class Quantity1Test extends TestCase {
 
   public void testUnitString() {
     Quantity quantity = (Quantity) Quantity.fromString("-7+3*I[kg^-2*m*s]");
-    String string = quantity.unitString();
+    String string = quantity.unit().toString();
     assertEquals(string, "[kg^-2*m*s]");
   }
 

@@ -38,7 +38,7 @@ import java.util.stream.Stream;
   }
 
   @Override // from TensorImpl
-  Stream<Tensor> _flatten0() {
+  public Stream<Tensor> stream() {
     return list.stream().map(Tensor::unmodifiable);
   }
 

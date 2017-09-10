@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
-import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** a RationalScalar corresponds to an element from the field of rational numbers.
  * 
@@ -155,13 +154,18 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return DoubleScalar.of(toBigDecimal(MathContext.DECIMAL64).doubleValue());
   }
 
+  @Override // from NInterface
+  public Scalar n(MathContext mathContext) {
+    return DecimalScalar.of(toBigDecimal(mathContext));
+  }
+
   @Override // from AbstractRealScalar
   public Scalar power(Scalar exponent) {
     if (IntegerQ.of(exponent)) {
       RationalScalar exp = (RationalScalar) exponent;
       try {
         // intValueExact throws an exception when exp > Integer.MAX_VALUE
-        int expInt = exp.numerator().intValueExact();
+        int expInt = Scalars.intValueExact(exp);
         if (0 <= expInt)
           return RationalScalar.of( //
               numerator().pow(expInt), //
@@ -193,8 +197,8 @@ public final class RationalScalar extends AbstractRealScalar implements //
   public Scalar sqrt() {
     try {
       boolean isNonNegative = isNonNegative();
-      BigInteger sqrtnum = Sqrt.of(isNonNegative ? bigFraction.num : bigFraction.num.negate());
-      BigInteger sqrtden = Sqrt.of(bigFraction.den);
+      BigInteger sqrtnum = BigIntegerMath.sqrt(isNonNegative ? bigFraction.num : bigFraction.num.negate());
+      BigInteger sqrtden = BigIntegerMath.sqrt(bigFraction.den);
       return isNonNegative ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---
@@ -218,7 +222,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), scale, roundingMode);
   }
 
-  private BigDecimal toBigDecimal(MathContext mathContext) {
+  /* package */ BigDecimal toBigDecimal(MathContext mathContext) {
     return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), mathContext);
   }
 

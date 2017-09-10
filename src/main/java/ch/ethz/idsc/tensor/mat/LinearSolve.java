@@ -24,7 +24,7 @@ public enum LinearSolve {
    * @return x with m.dot(x) == b
    * @throws TensorRuntimeException if matrix m is singular */
   public static Tensor of(Tensor m, Tensor b) {
-    return new GaussianElimination(m, b, Pivot.argMaxAbs).solution();
+    return new GaussianElimination(m, b, PivotArgMaxAbs.INSTANCE).solution();
   }
 
   /** method only checks for non-zero
@@ -35,18 +35,25 @@ public enum LinearSolve {
    * @return x with m.dot(x) == b
    * @throws TensorRuntimeException if matrix m is singular */
   public static Tensor withoutAbs(Tensor m, Tensor b) { // function name is not final
-    return new GaussianElimination(m, b, Pivot.firstNonZero).solution();
+    return new GaussianElimination(m, b, PivotFirstNonZero.INSTANCE).solution();
   }
 
-  /** function for m not necessarily invertible
+  /** function for m not necessarily invertible, or square
    * 
-   * @param m
+   * Example:
+   * <pre>
+   * Tensor m = Tensors.fromString("{{1}, {1}, {-1}}");
+   * Tensor b = Tensors.vector(2, 2, -2);
+   * LinearSolve.any(m, b) == {2}
+   * </pre>
+   * 
+   * @param m with exact precision scalars
    * @param b vector
    * @return x with m.x == b
    * @throws TensorRuntimeException if such an x does not exist */
   public static Tensor any(Tensor m, Tensor b) {
-    if (StaticHelper.anyMachineNumberQ(m))
-      throw TensorRuntimeException.of("use LinearSolve::of for matrices with numeric precision", m, b);
+    if (StaticHelper.anyMachineNumberQ(m)) // TODO explore options for machine scalars
+      throw TensorRuntimeException.of(m, b);
     switch (TensorRank.of(b)) {
     case 1:
       return _vector(m, b);
@@ -63,7 +70,7 @@ public enum LinearSolve {
     int j = 0;
     int c0 = 0;
     while (c0 < cols) {
-      if (Scalars.nonZero(r.Get(j, c0))) {
+      if (Scalars.nonZero(r.Get(j, c0))) { // TODO use chop for numeric input?
         x.set(r.Get(j, cols), c0);
         ++j;
       }

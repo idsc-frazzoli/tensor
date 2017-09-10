@@ -7,10 +7,12 @@ import java.math.BigInteger;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
+import ch.ethz.idsc.tensor.sca.ExpInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
+import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
 
 /** RealScalar encodes a real number
  * 
@@ -22,7 +24,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * </ul> */
 public interface RealScalar extends Scalar, //
     ArcTanInterface, ArgInterface, Comparable<Scalar>, ComplexEmbedding, //
-    PowerInterface, RoundingInterface, SignInterface, SqrtInterface {
+    ExpInterface, PowerInterface, RoundingInterface, SignInterface, SqrtInterface, //
+    TrigonometryInterface {
   /** real scalar 0 as a {@link RationalScalar} */
   static final Scalar ZERO = RationalScalar.of(0, 1);
   /** real scalar 1 as a {@link RationalScalar} */

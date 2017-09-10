@@ -112,19 +112,16 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public final boolean isScalar() {
-    return false;
-  }
-
-  Stream<Tensor> _flatten0() {
+  public Stream<Tensor> stream() {
     return list.stream();
   }
 
   @Override
   public final Stream<Tensor> flatten(int level) {
     if (level == 0)
-      return _flatten0();
-    return list.stream().flatMap(tensor -> tensor.flatten(level - 1));
+      return stream(); // UnmodifiableTensor overrides stream()
+    int ldecr = level - 1;
+    return list.stream().flatMap(tensor -> tensor.flatten(ldecr));
   }
 
   @Override
@@ -188,7 +185,7 @@ import java.util.stream.Stream;
 
   @Override
   public Tensor dot(Tensor tensor) {
-    if (list.isEmpty() || list.get(0).isScalar()) { // quick hint whether this is a vector
+    if (list.isEmpty() || list.get(0) instanceof Scalar) { // quick hint whether this is a vector
       TensorImpl impl = (TensorImpl) tensor;
       return _range(impl).mapToObj(index -> impl.list.get(index).multiply((Scalar) list.get(index))) //
           .reduce(Tensor::add).orElse(RealScalar.ZERO);

@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.Tensor;
    * @param tensor
    * @return */
   public static Optional<Tensor> of(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {
-    return tensor.flatten(0).reduce(binaryOperator);
+    return tensor.stream().reduce(binaryOperator);
   }
 
   /** function same as of() except that stream is processed in parallel for associative binaryOperator
@@ -25,6 +25,6 @@ import ch.ethz.idsc.tensor.Tensor;
    * @param tensor
    * @return */
   public static Optional<Tensor> parallel(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {
-    return tensor.flatten(0).parallel().reduce(binaryOperator);
+    return tensor.stream().parallel().reduce(binaryOperator);
   }
 }

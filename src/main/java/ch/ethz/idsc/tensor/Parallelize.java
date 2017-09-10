@@ -23,7 +23,7 @@ public enum Parallelize {
    * @return lhs.dot(rhs) */
   public static Tensor dot(Tensor lhs, Tensor rhs) {
     List<Tensor> list = ((TensorImpl) lhs).list;
-    if (list.isEmpty() || list.get(0).isScalar()) { // quick hint whether this is a vector
+    if (list.isEmpty() || list.get(0) instanceof Scalar) { // quick hint whether this is a vector
       TensorImpl impl = (TensorImpl) rhs;
       int length = lhs.length();
       if (length != rhs.length())

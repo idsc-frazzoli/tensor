@@ -111,9 +111,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * <li><code>matrix.set(col, Tensor.ALL, 5)</code> represents the assignment <code>matrix[:, 5]=col</code>
    * </ul>
    * 
-   * @param tensor
+   * @param tensor of which a copy replaces the existing element(s) of this instance
    * @param index non-empty
-   * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty */
+   * @throws Exception if set() is invoked on an instance of {@link Scalar}, or index is empty
+   * @throws Exception if this instance is unmodifiable */
   void set(Tensor tensor, Integer... index);
 
   /** replaces element x at index with <code>function.apply(x)</code>
@@ -157,14 +158,19 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return number of entries on the first level; {@link Scalar#LENGTH} for scalars */
   int length();
 
-  /** <p>function is equivalent to the predicates
-   * <ul>
-   * <li><code>length() == Scalar.LENGTH</code>
-   * <li><code>this instanceof Scalar</code>
-   * </ul>
+  /** For instance, if this tensor is the vector {0, 8, 1}, the function
+   * stream() provides the three scalars 0, 8, 1 in a {@link Stream}.
    * 
-   * @return true if this instanceof {@link Scalar} */
-  boolean isScalar();
+   * If this tensor is a matrix, the stream provides the references
+   * to the rows of the matrix.
+   * 
+   * If this tensor has been marked as unmodifiable, the elements of
+   * the stream are unmodifiable as well.
+   * 
+   * @return stream over tensors contained in the list of this instance
+   * @throws Exception if invoked on a {@link Scalar} instance, because
+   * a scalar does not contain a list of tensors */
+  Stream<Tensor> stream();
 
   /** stream access to the entries at given level of this tensor.
    * entries at given level can be tensors or scalars.
@@ -174,6 +180,10 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * 
    * If this tensor has been marked as unmodifiable, the elements of
    * the stream are unmodifiable as well.
+   * 
+   * Unlike {@link #stream()}, function {@link #flatten(int)} may be
+   * invoked on a {@link Scalar}. In that case the return value is the
+   * stream with the scalar as single element.
    * 
    * @param level
    * @return non-parallel stream, the user may invoke .parallel() */

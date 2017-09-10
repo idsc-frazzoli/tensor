@@ -32,4 +32,13 @@ public class FlattenTest extends TestCase {
   public void testSimpleMinusOne() {
     assertEquals(Flatten.of(Tensors.fromString("{{0,1,{{2},3}},{4,5}}")), Range.of(0, 6));
   }
+  // public void testFail() {
+  // Tensor ad = LieAlgebras.heisenberg3();
+  // try {
+  // Flatten.of(ad, 3);
+  // assertTrue(false);
+  // } catch (Exception exception) {
+  // // ---
+  // }
+  // }
 }

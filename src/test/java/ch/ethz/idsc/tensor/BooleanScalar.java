@@ -1,8 +1,18 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-/* package */ final class BooleanScalar extends AbstractScalar implements Comparable<Scalar> {
+import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
+import ch.ethz.idsc.tensor.sca.PowerInterface;
+import ch.ethz.idsc.tensor.sca.SqrtInterface;
+
+/** arithmetic of BooleanScalar is as for an element of the finite field F with cardinality |F|=2
+ * multiplication is logical AND
+ * addition is logical XOR */
+/* package */ final class BooleanScalar extends AbstractScalar implements //
+    Comparable<Scalar>, ExactNumberQInterface, PowerInterface, SqrtInterface {
+  /** instance with value true, toString() == "true" */
   public static final Scalar TRUE = new BooleanScalar(true);
+  /** instance with value false, toString() == "false" */
   public static final Scalar FALSE = new BooleanScalar(false);
 
   /** @param value
@@ -14,36 +24,38 @@ package ch.ethz.idsc.tensor;
   // ---
   private final boolean value;
 
+  // only invoked to initialize the static members
   private BooleanScalar(boolean value) {
     this.value = value;
   }
 
   @Override
   public Scalar negate() {
-    return this; // or throw ?
+    return this;
   }
 
   @Override
   public Scalar reciprocal() {
-    return this; // or throw ?
+    return this;
   }
 
   @Override
   public Scalar abs() {
-    return this; // or throw ?
+    return this;
   }
 
   @Override
   public Number number() {
+    // since Boolean is not an instance of Number, we return type Integer
     return value ? 1 : 0;
   }
 
   @Override
   public Scalar zero() {
-    return of(false);
+    return FALSE;
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof BooleanScalar) {
       BooleanScalar booleanScalar = (BooleanScalar) scalar;
@@ -52,7 +64,7 @@ package ch.ethz.idsc.tensor;
     throw TensorRuntimeException.of(this, scalar);
   }
 
-  @Override
+  @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof BooleanScalar) {
       BooleanScalar booleanScalar = (BooleanScalar) scalar;
@@ -61,13 +73,30 @@ package ch.ethz.idsc.tensor;
     throw TensorRuntimeException.of(this, scalar);
   }
 
-  @Override
+  @Override // from Comparable
   public int compareTo(Scalar scalar) {
     if (scalar instanceof BooleanScalar) {
       BooleanScalar booleanScalar = (BooleanScalar) scalar;
       return Boolean.compare(value, booleanScalar.value);
     }
     throw TensorRuntimeException.of(this, scalar);
+  }
+
+  @Override // from ExactNumberQInterface
+  public boolean isExactNumber() {
+    return true;
+  }
+
+  @Override // from PowerInterface
+  public Scalar power(Scalar exponent) {
+    if (Scalars.isZero(exponent))
+      return TRUE;
+    return this;
+  }
+
+  @Override // from SqrtInterface
+  public Scalar sqrt() {
+    return this;
   }
 
   @Override

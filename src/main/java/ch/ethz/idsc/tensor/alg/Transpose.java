@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
@@ -62,7 +63,7 @@ public enum Transpose {
   public static Tensor of(Tensor tensor, Integer... sigma) {
     if (!ArrayQ.ofRank(tensor, sigma.length))
       throw TensorRuntimeException.of(tensor);
-    if (tensor.isScalar())
+    if (ScalarQ.of(tensor))
       throw TensorRuntimeException.of("Transpose[scalar, {}] undefined", tensor);
     // ---
     List<Integer> dims = Dimensions.of(tensor);

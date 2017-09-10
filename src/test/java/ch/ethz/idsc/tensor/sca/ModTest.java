@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -57,7 +58,7 @@ public class ModTest extends TestCase {
       assertEquals(Mod.function(n, d).apply(m), expected);
     }
     {
-      Scalar r = Mod.function(n, d).apply(N.of(m));
+      Scalar r = Mod.function(n, d).apply(N.DOUBLE.of(m));
       assertEquals(Chop._09.apply(r.subtract(expected)), RealScalar.ZERO);
     }
   }
@@ -78,7 +79,7 @@ public class ModTest extends TestCase {
       assertEquals(Mod.function(n, d).apply(m), expected);
     }
     {
-      Scalar r = Mod.function(n, d).apply(N.of(m));
+      Scalar r = Mod.function(n, d).apply(N.DOUBLE.of(m));
       assertEquals(Chop.below(.01).apply(r.subtract(expected)), RealScalar.ZERO);
     }
   }
@@ -103,6 +104,16 @@ public class ModTest extends TestCase {
     Scalar res = mod.apply(RealScalar.of(10));
     // -2 I + (2 + 3 I) + I (2 + 3 I) == -1 + 3 I
     assertEquals(res, ComplexScalar.of(-1, 3));
+  }
+
+  public void testDecimal1() {
+    Scalar pi = DecimalScalar.of("3.141592653589793238462643383279502884197169399375105820974944592");
+    Mod mod = Mod.function(pi);
+    Scalar re = mod.apply(RealScalar.of(100));
+    assertTrue(re instanceof DecimalScalar);
+    // Mathematica gives
+    // ................................. 2.610627738716409607658055118335410589887748619371719549776717638
+    assertTrue(re.toString().startsWith("2.6106277387164096076580551183354105898877486193717195497767176"));
   }
 
   private static void _checkComplexSet(Scalar n, int size) {

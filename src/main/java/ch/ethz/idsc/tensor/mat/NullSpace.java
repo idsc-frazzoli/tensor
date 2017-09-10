@@ -62,7 +62,7 @@ public enum NullSpace {
     while (c0 < n)
       if (Scalars.nonZero(lhs.Get(j, c0++))) // <- careful: c0 is modified
         ++j;
-    return Tensor.of(lhs.extract(j, m).flatten(0).map(row -> row.extract(n, n + m)));
+    return Tensor.of(lhs.extract(j, m).stream().map(row -> row.extract(n, n + m)));
   }
 
   /** @param matrix

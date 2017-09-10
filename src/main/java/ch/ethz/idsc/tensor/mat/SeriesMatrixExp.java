@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.N;
  * 
  * @see {@link MatrixExp} */
 /* package */ class SeriesMatrixExp {
-  static final int MAXITER = 100;
+  private static final int MAXITER = 100;
 
   /** @param m
    * @return */
@@ -30,8 +30,8 @@ import ch.ethz.idsc.tensor.sca.N;
       Scalar remainder = _maxAbsNumber(nxt);
       if (Scalars.isZero(remainder))
         return sum;
-      if (Chop._40.allZero(N.of(remainder)))
-        return N.of(sum);
+      if (Chop._40.allZero(N.DOUBLE.of(remainder)))
+        return N.DOUBLE.of(sum);
     }
     throw TensorRuntimeException.of(m);
   }

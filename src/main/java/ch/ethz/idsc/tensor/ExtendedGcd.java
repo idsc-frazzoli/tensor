@@ -2,7 +2,9 @@
 // adapted from the Internet
 package ch.ethz.idsc.tensor;
 
-/* package */ class ExtendedGcd {
+import java.io.Serializable;
+
+/* package */ class ExtendedGcd implements Serializable {
   private final long a;
   private final long b;
   public final long x;

@@ -92,8 +92,9 @@ public class NormalizeTest extends TestCase {
 
   public void testOk1() {
     Tensor v = Tensors.vector(0, 0, 0, 0);
-    Tensor n = Normalize.unlessZero(v, Norm._1);
-    assertEquals(v, n);
+    assertEquals(v, Normalize.unlessZero(v));
+    for (Norm n : Norm.values())
+      assertEquals(v, Normalize.unlessZero(v, n));
   }
 
   public void testFail1() {

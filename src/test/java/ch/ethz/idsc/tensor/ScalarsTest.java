@@ -128,6 +128,19 @@ public class ScalarsTest extends TestCase {
     assertTrue(Scalars.lessEquals(RealScalar.of(-3), RealScalar.ZERO));
   }
 
+  public void testIntValueExact() {
+    assertEquals(Scalars.intValueExact(RealScalar.of(123)), 123);
+  }
+
+  public void testIntValueExactFail() {
+    try {
+      Scalars.intValueExact(RealScalar.of(Long.MAX_VALUE));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testExample() {
     Scalar s = Scalars.fromString("(3+2)*I/(-1+4)+8-I");
     Scalar c = ComplexScalar.of(RealScalar.of(8), RationalScalar.of(2, 3));
