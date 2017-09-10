@@ -56,7 +56,7 @@ public class Chop implements ScalarUnaryOperator {
 
   private Chop(double threshold) {
     if (threshold < 0)
-      throw new RuntimeException();
+      throw new RuntimeException("" + threshold);
     this.threshold = threshold;
   }
 

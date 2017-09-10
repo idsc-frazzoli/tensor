@@ -18,7 +18,7 @@ public abstract class AbstractScalar implements Scalar {
     return this; // instance of Scalar is immutable
   }
 
-  /** when using get() on {@link AbstractScalar} the list of arguments has to be empty */
+  /** when using get() on {@code AbstractScalar} the list of arguments has to be empty */
   @Override // from Tensor
   public final Tensor get(Integer... index) {
     if (0 < index.length)
@@ -26,7 +26,7 @@ public abstract class AbstractScalar implements Scalar {
     return this;
   }
 
-  /** when using Get() on {@link AbstractScalar} the list of arguments has to be empty */
+  /** when using Get() on {@code AbstractScalar} the list of arguments has to be empty */
   @Override // from Tensor
   public final Scalar Get(Integer... index) {
     if (0 < index.length)
@@ -34,7 +34,7 @@ public abstract class AbstractScalar implements Scalar {
     return this;
   }
 
-  /** when using get() on {@link AbstractScalar} the list of arguments has to be empty */
+  /** when using get() on {@code AbstractScalar} the list of arguments has to be empty */
   @Override // from Tensor
   public final Tensor get(List<Integer> index) {
     if (0 < index.size())

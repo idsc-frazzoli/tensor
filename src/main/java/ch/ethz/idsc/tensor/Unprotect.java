@@ -24,7 +24,10 @@ public enum Unprotect {
   }
 
   /** @param tensor
-   * @return tensor that overrides functions block, extract for access by reference */
+   * @return tensor that overrides functions
+   * {@link Tensor#block(List, List)}, and
+   * {@link Tensor#extract(int, int)}
+   * for access by reference */
   public static Tensor references(Tensor tensor) {
     if (tensor instanceof UnmodifiableTensor)
       throw TensorRuntimeException.of(tensor);

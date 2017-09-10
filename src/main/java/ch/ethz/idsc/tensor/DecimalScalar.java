@@ -14,7 +14,19 @@ import ch.ethz.idsc.tensor.sca.NInterface;
 
 /** a decimal scalar encodes a number as {@link BigDecimal}.
  * Unless the precision is explicitly specified, MathContext.DECIMAL128 is used.
- * In particular, {@link DecimalScalar} offers increased precision over {@link DoubleScalar}. */
+ * In particular, {@link DecimalScalar} offers increased precision over {@link DoubleScalar}.
+ * 
+ * <p>The string representation of a {@link DecimalScalar} is of the form
+ * {@code [decimal]`[precision]}. Examples are
+ * <pre>
+ * 220255.6579480671651695790064528423`34
+ * 1.414213562373095048801688724209698`34
+ * -0.37840124765396412568631954725591454706`19.69897000433602
+ * </pre>
+ * [precision] denotes how many digits from left to right are correct.
+ * The pattern is consistent with Mathematica.
+ * 
+ * @see N */
 public final class DecimalScalar extends AbstractRealScalar implements //
     ChopInterface, NInterface {
   private static final MathContext DEFAULT_CONTEXT = MathContext.DECIMAL128;

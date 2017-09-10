@@ -12,7 +12,9 @@ public class BinaryPowerTest extends TestCase {
       }
 
       @Override
-      public Integer invert(Integer object) {
+      public Integer invert(Integer integer) {
+        if (integer.equals(1))
+          return integer;
         throw new RuntimeException();
       }
 
@@ -27,5 +29,6 @@ public class BinaryPowerTest extends TestCase {
     assertEquals(binaryPower.apply(5, 3), (Integer) 125);
     assertEquals(binaryPower.apply(5, 4), (Integer) 625);
     assertEquals(binaryPower.apply(5, 5), (Integer) 3125);
+    assertEquals(binaryPower.apply(1, -3), (Integer) 1);
   }
 }

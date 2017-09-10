@@ -26,7 +26,8 @@ import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.Sinh;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-class QuantityImpl extends AbstractScalar implements Quantity {
+// EXPERIMENTAL
+/* package */ class QuantityImpl extends AbstractScalar implements Quantity {
   private static final Scalar HALF = RationalScalar.of(1, 2);
 
   /* package */ static Scalar of(Scalar value, Unit unit) {
@@ -35,11 +36,9 @@ class QuantityImpl extends AbstractScalar implements Quantity {
 
   /***************************************************/
   private final Scalar value;
-  private final Unit unit;
+  private final Unit unit; // non-empty
 
   private QuantityImpl(Scalar value, Unit unit) {
-    if (unit.isEmpty())
-      throw TensorRuntimeException.of(value);
     this.value = value;
     this.unit = unit;
   }

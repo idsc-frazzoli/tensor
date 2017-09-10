@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.qty;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +10,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
 /** class is intended for testing and demonstration */
-/* package */ interface Unit extends Serializable {
+public interface Unit extends Serializable {
   static final char OPENING_BRACKET = '[';
   static final char CLOSING_BRACKET = ']';
 
@@ -19,9 +18,9 @@ import ch.ethz.idsc.tensor.Scalars;
    * @return */
   static Unit of(String string) {
     if (OPENING_BRACKET != string.charAt(0))
-      throw new RuntimeException();
+      throw new RuntimeException(string);
     if (CLOSING_BRACKET != string.charAt(string.length() - 1))
-      throw new RuntimeException();
+      throw new RuntimeException(string);
     string = string.substring(1, string.length() - 1); // remove brackets
     String[] split = string.split("\\*");
     Map<String, Scalar> map = new HashMap<>();
@@ -40,11 +39,6 @@ import ch.ethz.idsc.tensor.Scalars;
       map.put(unit.trim(), exponent);
     }
     return new UnitImpl(map);
-  }
-
-  // function not used
-  static Unit singleton(String unit, Scalar exponent) {
-    return new UnitImpl(Collections.singletonMap(unit, exponent));
   }
 
   /** @return true if unit is unit-less */
@@ -68,4 +62,7 @@ import ch.ethz.idsc.tensor.Scalars;
    * @param factor
    * @return */
   Unit multiply(Scalar factor);
+
+  /** @return map with elemental units and exponents */
+  Map<String, Scalar> map();
 }

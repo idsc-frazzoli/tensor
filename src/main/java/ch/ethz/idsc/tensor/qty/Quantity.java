@@ -79,7 +79,11 @@ public interface Quantity extends Scalar, //
     return QuantityImpl.of(RealScalar.of(number), Unit.of(string));
   }
 
-  /** @return value of quantity without unit */
+  /** Quote from Mathematica::QuantityMagnitude
+   * "gives the amount of the specified quantity"
+   * "gives the magnitude value of a Quantity"
+   * 
+   * @return value of quantity without unit */
   Scalar value();
 
   /** @return unit of quantity without value */

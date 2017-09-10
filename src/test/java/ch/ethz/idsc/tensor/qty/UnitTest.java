@@ -10,6 +10,11 @@ public class UnitTest extends TestCase {
     assertEquals(unit.toString(), check);
   }
 
+  public void testZero() {
+    Unit unit = Unit.of("[m^0*s^-0]");
+    assertTrue(unit.isEmpty());
+  }
+
   public void testSpaces() {
     assertEquals(Unit.of("[ m ]").toString(), "[m]");
     assertEquals(Unit.of("[ m ^ 3 ]").toString(), "[m^3]");

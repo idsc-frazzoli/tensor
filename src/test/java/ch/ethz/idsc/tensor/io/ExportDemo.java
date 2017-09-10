@@ -11,7 +11,7 @@ enum ExportDemo {
   public static void main(String[] args) throws Exception {
     File dir = new File("src/test/resources/io");
     if (!dir.isDirectory())
-      throw new RuntimeException();
+      throw new RuntimeException(dir.toString());
     Tensor matrix = HilbertMatrix.of(6, 8);
     Export.of(new File(dir, "hilbert6x8.tensor"), matrix);
   }

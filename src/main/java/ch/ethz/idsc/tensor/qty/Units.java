@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-enum Units {
+public enum Units {
   ;
   /** Example in Mathematica: Quantity[1.2, "Radians"] */
   public static final Unit RADIANS = Unit.of("[rad]");
@@ -15,8 +15,8 @@ enum Units {
   private static final Scalar RAD2DEG = RealScalar.of(0.017453292519943295769);
 
   /** @param quantity
-   * @return scalar value in radians
-   * @throws Exception if quantity has neither unit [rad] or [deg] */
+   * @return scalar value of quantity in radians
+   * @throws Exception if given quantity has neither unit [rad] or [deg] */
   public static Scalar radiansValue(Quantity quantity) {
     Unit unit = quantity.unit();
     if (unit.equals(Units.RADIANS))

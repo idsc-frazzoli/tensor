@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 import ch.ethz.idsc.tensor.Scalar;
 
 /* package */ class NDouble extends N {
-  public static final N INSTANCE = new NDouble();
+  static final N INSTANCE = new NDouble();
 
   private NDouble() {
     // ---

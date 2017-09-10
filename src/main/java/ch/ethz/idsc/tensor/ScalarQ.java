@@ -14,7 +14,7 @@ public enum ScalarQ {
   }
 
   /** @param tensor
-   * @throws Exception if given tensor is instance of {@link Scalar} */
+   * @throws Exception if given tensor is an instance of {@link Scalar} */
   public static void thenThrow(Tensor tensor) {
     if (of(tensor))
       throw TensorRuntimeException.of(tensor);

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,7 +25,7 @@ import ch.ethz.idsc.tensor.Scalars;
     for (Entry<String, Scalar> entry : map.entrySet()) {
       final String string = entry.getKey();
       if (!UNIT_PATTERN.matcher(string).matches())
-        throw new RuntimeException();
+        throw new RuntimeException(string);
       Scalar exponent = entry.getValue();
       if (Scalars.nonZero(exponent))
         navigableMap.put(entry.getKey(), exponent);
@@ -89,5 +90,10 @@ import ch.ethz.idsc.tensor.Scalars;
     return OPENING_BRACKET + navigableMap.entrySet().stream() //
         .map(entry -> entry.getKey() + exponentString(entry.getValue())) //
         .collect(Collectors.joining(UNIT_JOIN)) + CLOSING_BRACKET;
+  }
+
+  @Override
+  public NavigableMap<String, Scalar> map() {
+    return Collections.unmodifiableNavigableMap(navigableMap);
   }
 }
