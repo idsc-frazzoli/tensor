@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ScalarQ;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.ArrayQ;
@@ -52,8 +53,12 @@ public enum MatlabExport {
         dims.add(1); // [n, 1]
       list.add("a=zeros(" + dims + ");");
       int count = 0;
-      for (Tensor scalar : Flatten.of(Transpose.of(tensor, sigma)))
-        list.add("a(" + (++count) + ")=" + function.apply(scalar.Get()) + ";");
+      for (Tensor _scalar : Flatten.of(Transpose.of(tensor, sigma))) {
+        ++count;
+        Scalar scalar = _scalar.Get();
+        if (Scalars.nonZero(scalar))
+          list.add("a(" + count + ")=" + function.apply(scalar) + ";");
+      }
     }
     return list.stream();
   }

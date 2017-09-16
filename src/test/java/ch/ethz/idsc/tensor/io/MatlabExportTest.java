@@ -39,6 +39,7 @@ public class MatlabExportTest extends TestCase {
     Stream<String> stream = MatlabExport.of(m);
     List<String> list = stream.collect(Collectors.toList());
     assertTrue(list.contains("a=zeros([3, 3, 3]);"));
+    assertTrue(list.size() < 12);
     // list.forEach(System.out::println);
   }
 
