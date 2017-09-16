@@ -273,6 +273,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from AbstractScalar
   public String toString() {
-    return String.format("%s[%s]", value, unit);
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(value);
+    stringBuilder.append(UNIT_OPENING_BRACKET);
+    stringBuilder.append(unit);
+    stringBuilder.append(UNIT_CLOSING_BRACKET);
+    return stringBuilder.toString();
   }
 }

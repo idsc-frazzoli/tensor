@@ -8,8 +8,17 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.io.ResourceData;
 
-/** the {@link ColorDataFunction}s provided in the list below
- * can be used in {@link ArrayPlot}.
+/** the {@link ColorDataFunction}s provided in the list below can be used in {@link ArrayPlot}.
+ * 
+ * <p>To obtain a single color value use
+ * <pre>
+ * Color color = ColorFormat.toColor(ColorDataGradients.THERMOMETER.apply(RealScalar.of(0.78)));
+ * </pre>
+ * 
+ * <p>The {@link ColorDataGradients#HUE} and {@link ColorDataGradients#GRAYSCALE} are
+ * hard-coded, which may give a performance advantage.
+ * The remaining color data gradients are backed by linear interpolation over a predefined
+ * table of RGBA values.
  * 
  * <p>inspired by Mathematica::ColorData["Gradients"] */
 public enum ColorDataGradients implements ColorDataFunction {

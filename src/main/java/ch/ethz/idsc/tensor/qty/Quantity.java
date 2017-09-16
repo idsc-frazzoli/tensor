@@ -51,15 +51,15 @@ public interface Quantity extends Scalar, //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface, //
     TrigonometryInterface, Comparable<Scalar> {
-  static final char OPENING_BRACKET = '[';
-  static final char CLOSING_BRACKET = ']';
+  static final char UNIT_OPENING_BRACKET = '[';
+  static final char UNIT_CLOSING_BRACKET = ']';
 
   /** @param string for example "9.81[m*s^-2]"
    * @return */
   static Scalar fromString(String string) {
-    final int index = string.indexOf(OPENING_BRACKET);
+    final int index = string.indexOf(UNIT_OPENING_BRACKET);
     if (0 < index) {
-      final int last = string.indexOf(CLOSING_BRACKET);
+      final int last = string.indexOf(UNIT_CLOSING_BRACKET);
       if (index < last) {
         Scalar value = Scalars.fromString(string.substring(0, index));
         Unit unit = Unit.of(string.substring(index + 1, last)); // TODO anything after last is ignored!
