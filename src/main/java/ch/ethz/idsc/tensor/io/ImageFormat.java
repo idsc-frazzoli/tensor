@@ -67,12 +67,7 @@ public enum ImageFormat {
         bufferedImage.getHeight(), bufferedImage.getWidth());
   }
 
-  /** helper function also used in {@link TransposedImageFormat}
-   * 
-   * @param tensor
-   * @param width
-   * @param height
-   * @return */
+  // helper function
   static BufferedImage toTYPE_BYTE_GRAY(Tensor tensor, int width, int height) {
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
     WritableRaster writableRaster = bufferedImage.getRaster();

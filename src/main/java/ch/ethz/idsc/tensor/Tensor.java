@@ -273,7 +273,14 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * function evaluation of {@link Scalar} entries */
   Tensor map(Function<Scalar, ? extends Tensor> function);
 
-  /** if this tensor is unmodifiable, references to entries are also unmodifiable.
+  /** iterator of list of entries.
+   * The operation remove() is supported.
+   * 
+   * If this tensor is unmodifiable, then
+   * <ul>
+   * <li>an entry provided by next() is unmodifiable, and
+   * <li>remove() throws an Exception.
+   * </ul>
    * 
    * @return references to entries in this tensor */
   @Override // from Iterable<Tensor>
