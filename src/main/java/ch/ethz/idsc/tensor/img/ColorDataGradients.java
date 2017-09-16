@@ -8,11 +8,15 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.io.ResourceData;
 
-/** inspired by Mathematica::ColorData["Gradients"] */
+/** the {@link ColorDataFunction}s provided in the list below
+ * can be used in {@link ArrayPlot}.
+ * 
+ * <p>inspired by Mathematica::ColorData["Gradients"] */
 public enum ColorDataGradients implements ColorDataFunction {
   /** classic is default */
   CLASSIC("classic.csv"), //
-  HUE("hue.csv"), // <- cyclic
+  /** hue is backed by {@link Hue#of(double, double, double, double)} */
+  HUE(HueColorData.FUNCTION), // <- cyclic
   /** hsluv is hue with brightness equalized, see hsluv.org */
   HSLUV("hsluv.csv"), // <- cyclic
   SUNSET("sunset.csv"), //
@@ -20,7 +24,7 @@ public enum ColorDataGradients implements ColorDataFunction {
   CMYK_REVERSED("cmyk_reversed.csv"), //
   THERMOMETER("thermometer.csv"), //
   PASTEL("pastel.csv"), //
-  GRAYSCALE("grayscale.csv"), //
+  GRAYSCALE(GrayscaleColorData.FUNCTION), //
   /** the tensor library is made in Switzerland
    * the alpine color scheme was added August 1st */
   ALPINE("alpine.csv"), //
@@ -30,10 +34,15 @@ public enum ColorDataGradients implements ColorDataFunction {
   // ---
   private final ColorDataFunction colorDataFunction;
 
+  private ColorDataGradients(ColorDataFunction colorDataFunction) {
+    this.colorDataFunction = colorDataFunction;
+  }
+
   private ColorDataGradients(String string) {
     Tensor tensor = ResourceData.of("/colorscheme/" + string);
-    colorDataFunction = ColorDataGradient.of(Objects.isNull(tensor) ? Array.zeros(2, 4) : tensor);
-    if (Objects.isNull(tensor))
+    boolean failure = Objects.isNull(tensor);
+    colorDataFunction = ColorDataGradient.of(failure ? Array.zeros(2, 4) : tensor);
+    if (failure)
       System.err.println("fail to load " + string);
   }
 

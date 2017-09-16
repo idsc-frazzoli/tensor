@@ -17,7 +17,7 @@ public class ArrayPlotTest extends TestCase {
 
   public void testHue() {
     Tensor matrix = Tensors.fromString("{{0,.1},{1,2},{1.2,.2}}");
-    Tensor image = ArrayPlot.of(matrix, Hue.COLORDATA);
+    Tensor image = ArrayPlot.of(matrix, HueColorData.FUNCTION);
     assertEquals(Dimensions.of(image), Arrays.asList(3, 2, 4));
   }
 }

@@ -31,19 +31,24 @@ public class ColorDataGradientsTest extends TestCase {
 
   public void testFail() {
     for (ColorDataFunction cdf : ColorDataGradients.values()) {
+      ColorDataGradients cdg = (ColorDataGradients) cdf;
       cdf.apply(RealScalar.of(0.5));
       cdf.apply(RealScalar.of(0.99));
-      try {
-        cdf.apply(RealScalar.of(-0.1));
-        assertTrue(false);
-      } catch (Exception exception) {
-        // ---
-      }
-      try {
-        cdf.apply(RealScalar.of(1.1));
-        assertTrue(false);
-      } catch (Exception exception) {
-        // ---
+      if (cdg.equals(ColorDataGradients.HUE)) {
+        // hue is implemented periodically [0,1) == [1,2) == ...
+      } else {
+        try {
+          cdf.apply(RealScalar.of(-0.1));
+          assertTrue(false);
+        } catch (Exception exception) {
+          // ---
+        }
+        try {
+          cdf.apply(RealScalar.of(1.1));
+          assertTrue(false);
+        } catch (Exception exception) {
+          // ---
+        }
       }
       try {
         cdf.apply(ComplexScalar.of(0.5, 0.5));

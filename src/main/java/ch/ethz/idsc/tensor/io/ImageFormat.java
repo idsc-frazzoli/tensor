@@ -82,7 +82,6 @@ public enum ImageFormat {
   }
 
   // fast extraction of color information to buffered image
-  // method is typically twice at fast as the image generation in ImageFormat
   private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, int width, int height) {
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     int[] array = tensor.flatten(1).mapToInt(ColorFormat::toInt).toArray();
