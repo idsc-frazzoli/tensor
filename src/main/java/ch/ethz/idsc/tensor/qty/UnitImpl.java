@@ -87,9 +87,9 @@ import ch.ethz.idsc.tensor.Scalars;
 
   @Override
   public String toString() {
-    return OPENING_BRACKET + navigableMap.entrySet().stream() //
+    return navigableMap.entrySet().stream() //
         .map(entry -> entry.getKey() + exponentString(entry.getValue())) //
-        .collect(Collectors.joining(UNIT_JOIN)) + CLOSING_BRACKET;
+        .collect(Collectors.joining(UNIT_JOIN));
   }
 
   @Override

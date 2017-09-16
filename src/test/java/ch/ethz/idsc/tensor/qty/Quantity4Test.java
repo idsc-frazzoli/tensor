@@ -30,22 +30,19 @@ import junit.framework.TestCase;
 
 public class Quantity4Test extends TestCase {
   public void testMultinomial() {
-    Scalar qs1;
-    {
-      qs1 = Quantity.of(-4, "[m*s]");
-    }
-    Scalar qs2 = Quantity.of(3, "[m]");
-    Scalar val = Quantity.of(2, "[s]");
+    Scalar qs1 = Quantity.of(-4, "m*s");
+    Scalar qs2 = Quantity.of(3, "m");
+    Scalar val = Quantity.of(2, "s");
     Scalar res = Multinomial.horner(Tensors.of(qs1, qs2), val);
     assertEquals(res.toString(), "2[m*s]");
   }
 
   public void testLinearSolve() {
-    final Scalar one = Quantity.of(1, "[m]");
-    Scalar qs1 = Quantity.of(1, "[m]");
-    Scalar qs2 = Quantity.of(4, "[m]");
-    Scalar qs3 = Quantity.of(2, "[m]");
-    Scalar qs4 = Quantity.of(-3, "[m]");
+    final Scalar one = Quantity.of(1, "m");
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    Scalar qs3 = Quantity.of(2, "m");
+    Scalar qs4 = Quantity.of(-3, "m");
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor ve2 = Tensors.of(qs3, qs4);
     Tensor mat = Tensors.of(ve1, ve2);
@@ -56,10 +53,10 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testInverse2() {
-    Scalar qs1 = Quantity.of(1, "[m]");
-    Scalar qs2 = Quantity.of(2, "[m]");
-    Scalar qs3 = Quantity.of(3, "[rad]");
-    Scalar qs4 = Quantity.of(4, "[rad]");
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(2, "m");
+    Scalar qs3 = Quantity.of(3, "rad");
+    Scalar qs4 = Quantity.of(4, "rad");
     Tensor ve1 = Tensors.of(qs1.multiply(qs1), qs2.multiply(qs3));
     Tensor ve2 = Tensors.of(qs2.multiply(qs3), qs4.multiply(qs4));
     Tensor mat = Tensors.of(ve1, ve2);
@@ -103,8 +100,8 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testCholesky2() {
-    Scalar qs1 = Quantity.of(1, "[m]");
-    Scalar qs2 = Quantity.of(2, "[m]");
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(2, "m");
     Tensor ve1 = Tensors.of(qs2, qs1);
     Tensor ve2 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1, ve2);
@@ -174,8 +171,8 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testLinearSolve1() {
-    Scalar qs1 = Quantity.of(3, "[m]");
-    Scalar qs2 = Quantity.of(4, "[s]");
+    Scalar qs1 = Quantity.of(3, "m");
+    Scalar qs2 = Quantity.of(4, "s");
     Tensor ve1 = Tensors.of(qs1);
     Tensor mat = Tensors.of(ve1);
     Tensor rhs = Tensors.of(qs2);
@@ -185,22 +182,22 @@ public class Quantity4Test extends TestCase {
   }
 
   public void testRowReduce1() {
-    Tensor ve1 = Tensors.of(Quantity.of(1, "[m]"), Quantity.of(2, "[m]"));
-    Tensor ve2 = Tensors.of(Quantity.of(2, "[m]"), Quantity.of(10, "[m]"));
+    Tensor ve1 = Tensors.of(Quantity.of(1, "m"), Quantity.of(2, "m"));
+    Tensor ve2 = Tensors.of(Quantity.of(2, "m"), Quantity.of(10, "m"));
     Tensor nul = RowReduce.of(Tensors.of(ve1, ve2));
     assertEquals(nul, IdentityMatrix.of(2)); // consistent with Mathematica
   }
 
   public void testRowReduce2() {
-    Tensor ve1 = Tensors.of(Quantity.of(1, "[m]"), Quantity.of(2, "[m]"));
+    Tensor ve1 = Tensors.of(Quantity.of(1, "m"), Quantity.of(2, "m"));
     Tensor nul = RowReduce.of(Tensors.of(ve1, ve1));
     assertEquals(nul, Tensors.fromString("{{1, 2}, {0[m], 0[m]}}", Quantity::fromString));
     assertEquals(nul, Tensors.fromString("{{1, 2}, {0, 0}}"));
   }
 
   public void testNullspace() {
-    Scalar qs1 = Quantity.of(1, "[m]");
-    Scalar qs2 = Quantity.of(2, "[m]");
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(2, "m");
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor mat = Tensors.of(ve1);
     Tensor nul = NullSpace.usingRowReduce(mat);

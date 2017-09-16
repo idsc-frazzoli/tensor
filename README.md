@@ -78,7 +78,7 @@ Several algorithms are verified to work with scalars of type `Quantity`.
     CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));
-    System.out.println(cd.det().divide(Quantity.of(20, "[m^2*rad]")));
+    System.out.println(cd.det().divide(Quantity.of(20, "m^2*rad")));
 
 gives
 

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 public class Quantity6Test extends TestCase {
   private static void _check(Scalar value, ScalarUnaryOperator suo, Function<Double, Double> f) {
-    Scalar s1 = Quantity.of(value, "[rad]");
+    Scalar s1 = Quantity.of(value, "rad");
     Scalar result = suo.apply(s1);
     Scalar actual = RealScalar.of(f.apply(value.number().doubleValue()));
     assertEquals(result, actual);
@@ -40,7 +40,7 @@ public class Quantity6Test extends TestCase {
   }
 
   public void testTrigDegree() {
-    Scalar a = Quantity.of(180, "[deg]");
+    Scalar a = Quantity.of(180, "deg");
     assertTrue(Chop._13.close(Sin.of(a), RealScalar.ZERO));
     assertTrue(Chop._13.close(Cos.of(a), RealScalar.ONE.negate()));
   }
@@ -56,7 +56,7 @@ public class Quantity6Test extends TestCase {
 
   public void testExactIntFail() {
     try {
-      Scalar scalar = Quantity.of(10, "[m]");
+      Scalar scalar = Quantity.of(10, "m");
       Scalars.intValueExact(scalar);
       assertTrue(false);
     } catch (Exception exception) {

@@ -21,6 +21,15 @@ public class Quantity1Test extends TestCase {
     assertFalse(Quantity.fromString(" 3  ") instanceof Quantity);
   }
 
+  public void testFromStringFail() {
+    try {
+      Quantity.fromString("-7[m*kg^-2");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testDecimal() {
     Quantity quantity = (Quantity) Quantity.fromString("-7.23459823746593784659387465`13.0123[m*kg^-2]");
     assertTrue(quantity.value() instanceof DecimalScalar);
@@ -28,31 +37,31 @@ public class Quantity1Test extends TestCase {
 
   public void testParseFail() {
     try {
-      Quantity.of(3.14, "[^2]");
+      Quantity.of(3.14, "^2");
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      Quantity.of(3.14, "[m^2a]");
+      Quantity.of(3.14, "m^2a");
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      Quantity.of(3.14, "[m^]");
+      Quantity.of(3.14, "m^");
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      Quantity.of(3.14, "[m[^2]");
+      Quantity.of(3.14, "m[^2");
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      Quantity.of(3.14, "[m]^2]");
+      Quantity.of(3.14, "m]^2");
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -60,9 +69,9 @@ public class Quantity1Test extends TestCase {
   }
 
   public void testNestFail() {
-    Scalar q1 = Quantity.of(3.14, "[m]");
+    Scalar q1 = Quantity.of(3.14, "m");
     try {
-      Quantity.of(q1, "[s]");
+      Quantity.of(q1, "s");
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -78,7 +87,7 @@ public class Quantity1Test extends TestCase {
   public void testUnitString() {
     Quantity quantity = (Quantity) Quantity.fromString("-7+3*I[kg^-2*m*s]");
     String string = quantity.unit().toString();
-    assertEquals(string, "[kg^-2*m*s]");
+    assertEquals(string, "kg^-2*m*s");
   }
 
   private static void _checkDivision(Scalar q1, Scalar q2) {
@@ -87,48 +96,48 @@ public class Quantity1Test extends TestCase {
   }
 
   public void testDivisionUnder() {
-    _checkDivision(Quantity.of(1, "[m]"), Quantity.of(2, "[s]"));
-    _checkDivision(Quantity.of(1, "[m]"), DoubleScalar.of(2.0));
-    _checkDivision(Quantity.of(1, "[m]"), RealScalar.of(2));
+    _checkDivision(Quantity.of(1, "m"), Quantity.of(2, "s"));
+    _checkDivision(Quantity.of(1, "m"), DoubleScalar.of(2.0));
+    _checkDivision(Quantity.of(1, "m"), RealScalar.of(2));
     double eps = Math.nextUp(0.0);
-    _checkDivision(Quantity.of(eps, "[m]"), Quantity.of(2, "[s]"));
-    _checkDivision(Quantity.of(eps, "[m]"), DoubleScalar.of(2.0));
-    _checkDivision(Quantity.of(eps, "[m]"), RealScalar.of(2));
+    _checkDivision(Quantity.of(eps, "m"), Quantity.of(2, "s"));
+    _checkDivision(Quantity.of(eps, "m"), DoubleScalar.of(2.0));
+    _checkDivision(Quantity.of(eps, "m"), RealScalar.of(2));
     // ---
-    _checkDivision(Quantity.of(1, "[m]"), Quantity.of(eps, "[s]"));
-    _checkDivision(Quantity.of(1, "[m]"), DoubleScalar.of(eps));
-    _checkDivision(Quantity.of(1, "[m]"), RealScalar.of(eps));
+    _checkDivision(Quantity.of(1, "m"), Quantity.of(eps, "s"));
+    _checkDivision(Quantity.of(1, "m"), DoubleScalar.of(eps));
+    _checkDivision(Quantity.of(1, "m"), RealScalar.of(eps));
     // ---
-    _checkDivision(Quantity.of(0, "[m]"), Quantity.of(eps, "[s]"));
-    _checkDivision(Quantity.of(0, "[m]"), DoubleScalar.of(eps));
-    _checkDivision(Quantity.of(0.0, "[m]"), Quantity.of(eps, "[s]"));
-    _checkDivision(Quantity.of(0.0, "[m]"), DoubleScalar.of(eps));
+    _checkDivision(Quantity.of(0, "m"), Quantity.of(eps, "s"));
+    _checkDivision(Quantity.of(0, "m"), DoubleScalar.of(eps));
+    _checkDivision(Quantity.of(0.0, "m"), Quantity.of(eps, "s"));
+    _checkDivision(Quantity.of(0.0, "m"), DoubleScalar.of(eps));
     // ---
-    _checkDivision(Quantity.of(eps, "[m]"), Quantity.of(eps, "[s]"));
-    _checkDivision(Quantity.of(eps, "[m]"), DoubleScalar.of(eps));
+    _checkDivision(Quantity.of(eps, "m"), Quantity.of(eps, "s"));
+    _checkDivision(Quantity.of(eps, "m"), DoubleScalar.of(eps));
   }
 
   public void testDivision1() {
-    Scalar quantity = Quantity.of(0, "[m]");
+    Scalar quantity = Quantity.of(0, "m");
     Scalar eps = DoubleScalar.of(Math.nextUp(0.0));
     assertTrue(Scalars.isZero(quantity.divide(eps)));
   }
 
   public void testDivision2() {
     Scalar zero = DoubleScalar.of(0.0);
-    Scalar eps = Quantity.of(Math.nextUp(0.0), "[m]");
+    Scalar eps = Quantity.of(Math.nextUp(0.0), "m");
     assertTrue(Scalars.isZero(zero.divide(eps)));
   }
 
   public void testDivision3() {
     Scalar s1 = ComplexScalar.of(1, 2);
-    Scalar s2 = Quantity.of(3, "[m]");
+    Scalar s2 = Quantity.of(3, "m");
     assertEquals(s1.divide(s2), s2.under(s1));
   }
 
   public void testEmptyFail() {
     try {
-      Quantity.of(3.14, "[]"); // at the moment empty brackets are not supported
+      Quantity.of(3.14, ""); // at the moment empty brackets are not supported
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -143,16 +152,16 @@ public class Quantity1Test extends TestCase {
   }
 
   public void testCompare() {
-    _checkCompareTo(Quantity.of(2, "[m]"), Quantity.of(3, "[m]"), Integer.compare(2, 3));
-    _checkCompareTo(Quantity.of(-2, "[kg]"), Quantity.of(0, "[m]"), Integer.compare(-2, 0));
-    _checkCompareTo(Quantity.of(0, "[kg]"), Quantity.of(0, "[m]"), Integer.compare(0, 0));
-    _checkCompareTo(Quantity.of(2, "[m]"), RealScalar.ZERO, Integer.compare(2, 0));
-    _checkCompareTo(Quantity.of(0, "[kg]"), RealScalar.ONE, Integer.compare(0, 1));
+    _checkCompareTo(Quantity.of(2, "m"), Quantity.of(3, "m"), Integer.compare(2, 3));
+    _checkCompareTo(Quantity.of(-2, "kg"), Quantity.of(0, "m"), Integer.compare(-2, 0));
+    _checkCompareTo(Quantity.of(0, "kg"), Quantity.of(0, "m"), Integer.compare(0, 0));
+    _checkCompareTo(Quantity.of(2, "m"), RealScalar.ZERO, Integer.compare(2, 0));
+    _checkCompareTo(Quantity.of(0, "kg"), RealScalar.ONE, Integer.compare(0, 1));
   }
 
   public void testCompareFail() {
     try {
-      _checkCompareTo(Quantity.of(2, "[m]"), Quantity.of(2, "[kg]"), Integer.compare(2, 2));
+      _checkCompareTo(Quantity.of(2, "m"), Quantity.of(2, "kg"), Integer.compare(2, 2));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -161,7 +170,7 @@ public class Quantity1Test extends TestCase {
 
   public void testSort() {
     Tensor vector = Tensors.of( //
-        Quantity.of(0, "[m]"), Quantity.of(9, "[m]"), Quantity.of(-3, "[m]"), Quantity.of(0, "[s]"), RealScalar.ZERO);
+        Quantity.of(0, "m"), Quantity.of(9, "m"), Quantity.of(-3, "m"), Quantity.of(0, "s"), RealScalar.ZERO);
     assertEquals(Sort.of(vector), Tensors.fromString("{-3[m], 0[m], 0[s], 0, 9[m]}", Quantity::fromString));
   }
 

@@ -8,9 +8,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum Units {
   ;
   /** Example in Mathematica: Quantity[1.2, "Radians"] */
-  public static final Unit RADIANS = Unit.of("[rad]");
+  public static final Unit RADIANS = Unit.of("rad");
   /** Example in Mathematica: Sin[360 Degree] == 0 */
-  public static final Unit DEGREE = Unit.of("[deg]");
+  public static final Unit DEGREE = Unit.of("deg");
   // ---
   private static final Scalar RAD2DEG = RealScalar.of(0.017453292519943295769);
 

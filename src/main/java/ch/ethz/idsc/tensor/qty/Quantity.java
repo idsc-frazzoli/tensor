@@ -51,20 +51,27 @@ public interface Quantity extends Scalar, //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface, //
     TrigonometryInterface, Comparable<Scalar> {
+  static final char OPENING_BRACKET = '[';
+  static final char CLOSING_BRACKET = ']';
+
   /** @param string for example "9.81[m*s^-2]"
    * @return */
   static Scalar fromString(String string) {
-    int index = string.indexOf(Unit.OPENING_BRACKET);
-    if (0 <= index) {
-      Scalar value = Scalars.fromString(string.substring(0, index));
-      Unit unit = Unit.of(string.substring(index));
-      return QuantityImpl.of(value, unit);
+    final int index = string.indexOf(OPENING_BRACKET);
+    if (0 < index) {
+      final int last = string.indexOf(CLOSING_BRACKET);
+      if (index < last) {
+        Scalar value = Scalars.fromString(string.substring(0, index));
+        Unit unit = Unit.of(string.substring(index + 1, last)); // TODO anything after last is ignored!
+        return QuantityImpl.of(value, unit);
+      } else
+        throw new RuntimeException(string);
     }
     return Scalars.fromString(string);
   }
 
   /** @param value
-   * @param string for instance "[m*s^-2]"
+   * @param string for instance "m*s^-2"
    * @return */
   static Scalar of(Scalar value, String string) {
     if (value instanceof Quantity)
@@ -72,8 +79,10 @@ public interface Quantity extends Scalar, //
     return QuantityImpl.of(value, Unit.of(string));
   }
 
-  /** @param number
-   * @param string for instance "[kg^3*m*s^-2]"
+  /** creates quantity with number encoded as {@link RealScalar}
+   * 
+   * @param number
+   * @param string for instance "kg^3*m*s^-2"
    * @return */
   static Scalar of(Number number, String string) {
     return QuantityImpl.of(RealScalar.of(number), Unit.of(string));
