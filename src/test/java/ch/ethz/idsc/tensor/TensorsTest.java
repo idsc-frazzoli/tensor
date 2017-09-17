@@ -177,4 +177,19 @@ public class TensorsTest extends TestCase {
     Tensor expected = Tensors.fromString("{{0, 1}, {}, {2+3*I}}");
     assertEquals(expected, actual);
   }
+
+  public void testIsEmpty() {
+    assertFalse(Tensors.isEmpty(RealScalar.ONE));
+    assertTrue(Tensors.isEmpty(Tensors.empty()));
+    assertTrue(Tensors.isEmpty(Tensors.vector()));
+    assertFalse(Tensors.isEmpty(Tensors.vector(1, 2, 3)));
+  }
+
+  public void testIsUnmodifiable() {
+    Tensor canwrite = Tensors.vector(1, 2, 3);
+    Tensor readonly = canwrite.unmodifiable();
+    assertFalse(Tensors.isUnmodifiable(canwrite));
+    assertTrue(Tensors.isUnmodifiable(readonly));
+    assertFalse(Tensors.isUnmodifiable(readonly.copy()));
+  }
 }

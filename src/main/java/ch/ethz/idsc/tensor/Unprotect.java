@@ -11,7 +11,9 @@ import java.util.List;
  * <a href="https://reference.wolfram.com/language/ref/Unprotect.html">Unprotect</a> */
 public enum Unprotect {
   ;
-  /** @param tensor
+  /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
+   * 
+   * @param tensor
    * @return
    * @throws Exception if tensor is a scalar, or first level entries do not have regular length */
   public static int dimension1(Tensor tensor) {
@@ -23,7 +25,9 @@ public enum Unprotect {
     return length;
   }
 
-  /** @param tensor
+  /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
+   * 
+   * @param tensor
    * @return tensor that overrides functions
    * {@link Tensor#block(List, List)}, and
    * {@link Tensor#extract(int, int)}
@@ -32,5 +36,17 @@ public enum Unprotect {
     if (tensor instanceof UnmodifiableTensor)
       throw TensorRuntimeException.of(tensor);
     return ScalarQ.of(tensor) ? tensor : ViewTensor.wrap(tensor);
+  }
+
+  /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
+   * 
+   * @param tensor
+   * @return list that is member of given tensor
+   * @throws Exception if tensor is unmodifiable */
+  public static List<Tensor> list(Tensor tensor) {
+    if (tensor instanceof UnmodifiableTensor)
+      throw TensorRuntimeException.of(tensor);
+    TensorImpl impl = (TensorImpl) tensor;
+    return impl.list;
   }
 }

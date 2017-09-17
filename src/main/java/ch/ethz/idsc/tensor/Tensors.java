@@ -19,7 +19,8 @@ import java.util.stream.Stream;
  * Parallel stream processing has be decided case by case. */
 public enum Tensors {
   ;
-  /** @return new modifiable tensor instance with no entries, i.e. length() == 0 */
+  /** @return new modifiable tensor instance with no entries, i.e. length() == 0
+   * @see #isEmpty(Tensor) */
   public static Tensor empty() {
     return Tensor.of(Stream.empty());
   }
@@ -142,5 +143,19 @@ public enum Tensors {
       return Tensor.of(list.stream());
     }
     return function.apply(string);
+  }
+
+  /***************************************************/
+  /** @param tensor
+   * @return true if tensor is a vector with zero entries, and
+   * false if tensor contains entries or is a {@link Scalar} */
+  public static boolean isEmpty(Tensor tensor) { // Marc's function
+    return tensor.length() == 0;
+  }
+
+  /** @param tensor
+   * @return true if tensor is not modifiable */
+  public static boolean isUnmodifiable(Tensor tensor) {
+    return tensor instanceof UnmodifiableTensor;
   }
 }
