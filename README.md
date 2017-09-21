@@ -11,6 +11,7 @@ Features:
 * scalars are real, or complex numbers, or from finite fields, etc.
 * values are encoded as exact fractions, in double precision, and as `java.math.BigDecimal`
 * other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
+* probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc. 
 * import from and export to `Mathematica`, `CSV`-, and image files
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
