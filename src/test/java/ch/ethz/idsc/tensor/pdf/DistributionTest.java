@@ -44,7 +44,7 @@ public class DistributionTest extends TestCase {
 
   public void testContinuous() {
     _check(ExponentialDistribution.of(RealScalar.of(2.5)), 2000);
-    _check(ExponentialDistribution.of(RealScalar.of(10)), 2000);
+    _check(ExponentialDistribution.of(RealScalar.of(10)), 2500);
     _check(NormalDistribution.of(RealScalar.of(100), RealScalar.of(10)), 1000);
     _check(UniformDistribution.of(RealScalar.of(10), RealScalar.of(30)), 1000);
     _check(UniformDistribution.of(RealScalar.of(-100), RealScalar.of(-99)), 1000);

@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Properties;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
@@ -40,6 +41,19 @@ public enum ResourceData {
         return ImageFormat.from(ImageIO.read(inputStream));
       if (filename.hasExtension("vector"))
         return Tensor.of(_lines(inputStream).map(Scalars::fromString));
+    } catch (Exception exception) {
+      // ---
+    }
+    return null;
+  }
+
+  /** @param string
+   * @return */
+  public static Properties properties(String string) {
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
+      Properties properties = new Properties();
+      properties.load(inputStream);
+      return properties;
     } catch (Exception exception) {
       // ---
     }

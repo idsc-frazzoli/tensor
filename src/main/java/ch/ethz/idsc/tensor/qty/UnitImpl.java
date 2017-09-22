@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
-/** class is intended for testing and demonstration */
 /* package */ class UnitImpl implements Unit {
   private static final Pattern UNIT_PATTERN = Pattern.compile("\\w+");
   private static final String UNIT_JOIN = "*";

@@ -226,6 +226,23 @@ gives
 The number after the prime indicates the precision of the decimal.
 The string representation is compatible with `Mathematica`.
 
+---
+
+Demonstration of conversion between units using the built-in SI unit system 
+
+    Scalar mass = Quantity.of(300, "g"); // in gram
+    Scalar a = Quantity.of(981, "cm*s^-2"); // in centi-meters per seconds square
+    Scalar force = mass.multiply(a);
+    System.out.println(force);
+    Scalar force_N = UnitConvert.SI().to(Unit.of("N")).apply(force);
+    System.out.println(force_N);
+
+gives
+
+    294300[cm*g*s^-2]
+    2943/1000[N]
+
+
 ## Include in your project
 
 Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:
@@ -280,4 +297,4 @@ The library is used in the projects:
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1370` unit tests.
+The repository has over `1380` unit tests.

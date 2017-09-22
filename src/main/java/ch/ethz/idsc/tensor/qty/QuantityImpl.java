@@ -26,7 +26,6 @@ import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.Sinh;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-// EXPERIMENTAL
 /* package */ class QuantityImpl extends AbstractScalar implements Quantity {
   private static final Scalar HALF = RationalScalar.of(1, 2);
 

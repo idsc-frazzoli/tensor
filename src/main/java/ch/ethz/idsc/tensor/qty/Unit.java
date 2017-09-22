@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 
-/** class is intended for testing and demonstration */
 public interface Unit extends Serializable {
   /** @param string, for instance "[m*s^-2]"
    * @return */
@@ -28,7 +27,8 @@ public interface Unit extends Serializable {
         unit = token;
         exponent = RealScalar.ONE;
       }
-      map.put(unit.trim(), exponent);
+      final String key = unit.trim();
+      map.put(key, map.containsKey(key) ? map.get(key).add(exponent) : exponent);
     }
     return new UnitImpl(map);
   }
