@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Properties;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.sca.Power;
@@ -44,7 +45,7 @@ public class UnitSystem implements ScalarUnaryOperator {
       for (Entry<String, Scalar> entry : quantity.unit().map().entrySet()) {
         Scalar lookup = map.get(entry.getKey());
         value = value.multiply(Objects.isNull(lookup) //
-            ? Quantity.of(1, entry.getKey() + "^" + entry.getValue()) //
+            ? Quantity.of(RealScalar.ONE, entry.getKey() + Unit.POWER + entry.getValue()) //
             : Power.of(lookup, entry.getValue()));
       }
       return value;

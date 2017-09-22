@@ -18,10 +18,9 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
 
 /** {@link Quantity} represents a magnitude and unit.
- * The class is intended for testing and demonstration.
  * <pre>
  * Mathematica::Quantity[8, "Kilograms"^2*"Meters"]
- * Tensor::Quantity.of(8, "[kg^2*m]")
+ * Tensor::Quantity.of(8, "kg^2*m")
  * </pre>
  * 
  * The implementation is consistent with Mathematica:
@@ -60,12 +59,11 @@ public interface Quantity extends Scalar, //
     final int index = string.indexOf(UNIT_OPENING_BRACKET);
     if (0 < index) {
       final int last = string.indexOf(UNIT_CLOSING_BRACKET);
-      if (index < last) {
-        Scalar value = Scalars.fromString(string.substring(0, index));
-        Unit unit = Unit.of(string.substring(index + 1, last)); // TODO anything after last is ignored!
-        return QuantityImpl.of(value, unit);
-      } else
-        throw new RuntimeException(string);
+      if (index < last && string.substring(last + 1).trim().isEmpty())
+        return QuantityImpl.of( //
+            Scalars.fromString(string.substring(0, index)), //
+            Unit.of(string.substring(index + 1, last)));
+      throw new RuntimeException(string);
     }
     return Scalars.fromString(string);
   }
@@ -74,9 +72,16 @@ public interface Quantity extends Scalar, //
    * @param string for instance "m*s^-2"
    * @return */
   static Scalar of(Scalar value, String string) {
+    return of(value, Unit.of(string));
+  }
+
+  /** @param value
+   * @param unit for instance Unit.of("m*s^-1")
+   * @return */
+  static Scalar of(Scalar value, Unit unit) {
     if (value instanceof Quantity)
       throw TensorRuntimeException.of(value);
-    return QuantityImpl.of(value, Unit.of(string));
+    return QuantityImpl.of(value, unit);
   }
 
   /** creates quantity with number encoded as {@link RealScalar}

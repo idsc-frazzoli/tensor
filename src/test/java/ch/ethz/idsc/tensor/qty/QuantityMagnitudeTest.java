@@ -3,14 +3,20 @@ package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class QuantityMagnitudeTest extends TestCase {
   public void testSimple() {
-    QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
-    Scalar q = Quantity.of(2, "km^2");
-    Unit unit = Unit.of("m^2");
-    Scalar scalar = quantityMagnitude.in(unit).apply(q);
+    Scalar scalar = QuantityMagnitude.SI().in(Unit.of("K*m^2")).apply(Quantity.of(2, "K*km^2"));
     assertEquals(scalar, RealScalar.of(2_000_000));
+  }
+
+  public void testRad() {
+    QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
+    Scalar q = Quantity.of(360, "deg");
+    Unit unit = Unit.of("rad");
+    Scalar scalar = quantityMagnitude.in(unit).apply(q);
+    assertTrue(Chop._12.close(scalar, RealScalar.of(Math.PI * 2)));
   }
 }

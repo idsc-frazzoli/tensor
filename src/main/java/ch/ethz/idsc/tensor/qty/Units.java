@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
+// DEPRECATED
 public enum Units {
   ;
   /** Example in Mathematica: Quantity[1.2, "Radians"] */

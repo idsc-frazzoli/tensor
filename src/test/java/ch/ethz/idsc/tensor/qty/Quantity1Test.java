@@ -17,11 +17,24 @@ public class Quantity1Test extends TestCase {
   public void testSimple() {
     assertTrue(Quantity.fromString("-7[m*kg^-2]") instanceof Quantity);
     assertTrue(Quantity.fromString("3 [ m ]") instanceof Quantity);
-    assertTrue(Quantity.fromString("3 [ m *rad ]") instanceof Quantity);
+    assertTrue(Quantity.fromString("3 [ m *rad ]  ") instanceof Quantity);
     assertFalse(Quantity.fromString(" 3  ") instanceof Quantity);
+    assertFalse(Quantity.fromString(" 3 [] ") instanceof Quantity);
   }
 
   public void testFromStringFail() {
+    try {
+      Quantity.fromString("-7[m][kg]");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Quantity.fromString("-7[m]a");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
     try {
       Quantity.fromString("-7[m*kg^-2");
       assertTrue(false);
@@ -135,13 +148,8 @@ public class Quantity1Test extends TestCase {
     assertEquals(s1.divide(s2), s2.under(s1));
   }
 
-  public void testEmptyFail() {
-    try {
-      Quantity.of(3.14, ""); // at the moment empty brackets are not supported
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+  public void testEmptyPass() {
+    assertEquals(Quantity.of(3.14, ""), RealScalar.of(3.14));
   }
 
   private void _checkCompareTo(Scalar s1, Scalar s2, int value) {

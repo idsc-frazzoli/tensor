@@ -20,6 +20,18 @@ public class UnitConvertTest extends TestCase {
     assertEquals(scalar, Quantity.fromString("100[m*s^-1]"));
   }
 
+  public void testRadians() {
+    UnitConvert quantityConverter = UnitConvert.SI();
+    Scalar q = Quantity.fromString("1[rad]");
+    Scalar scalar = quantityConverter.to(Unit.of("")).apply(q);
+    assertEquals(scalar, Quantity.fromString("1"));
+  }
+
+  public void testForce() {
+    Scalar force = UnitConvert.SI().to(Unit.of("N")).apply(Quantity.of(981, "cm*kg*s^-2"));
+    assertEquals(force, Quantity.fromString("981/100[N]"));
+  }
+
   public void testFail() {
     Scalar mass = Quantity.of(200, "g"); // gram
     Scalar a = Quantity.of(981, "cm*s^-2");

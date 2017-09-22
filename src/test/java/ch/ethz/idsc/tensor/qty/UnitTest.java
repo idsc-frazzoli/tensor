@@ -26,6 +26,10 @@ public class UnitTest extends TestCase {
     assertEquals(Unit.of(" m ^ 3 * rad ").toString(), "m^3*rad");
   }
 
+  public void testEmpty() {
+    assertTrue(Unit.of("").isEmpty());
+  }
+
   public void testFail() {
     try {
       Unit.of(" m >");

@@ -15,8 +15,6 @@ import ch.ethz.idsc.tensor.Scalars;
 
 /* package */ class UnitImpl implements Unit {
   private static final Pattern UNIT_PATTERN = Pattern.compile("\\w+");
-  private static final String UNIT_JOIN = "*";
-  private static final String UNIT_POWER = "^";
   // ---
   private final NavigableMap<String, Scalar> navigableMap = new TreeMap<>();
 
@@ -81,14 +79,14 @@ import ch.ethz.idsc.tensor.Scalars;
 
   private static String exponentString(Scalar exponent) {
     String string = exponent.toString();
-    return string.equals("1") ? "" : UNIT_POWER + string;
+    return string.equals("1") ? "" : Unit.POWER + string;
   }
 
   @Override
   public String toString() {
     return navigableMap.entrySet().stream() //
         .map(entry -> entry.getKey() + exponentString(entry.getValue())) //
-        .collect(Collectors.joining(UNIT_JOIN));
+        .collect(Collectors.joining(Unit.JOIN));
   }
 
   @Override
