@@ -92,4 +92,18 @@ public class DecimalScalar2Test extends TestCase {
       assertEquals(ds, dbl_s);
     }
   }
+
+  public void testDecimalEmpty() {
+    Scalar value = Scalars.fromString(" 1.1234` + 12");
+    assertTrue(value instanceof DoubleScalar);
+    assertEquals(value, RealScalar.of(13.1234));
+  }
+
+  public void testComplexEmpty() {
+    Scalar value = Scalars.fromString(" 1.1567572194352718` - 1.2351191805935866` * I ");
+    assertTrue(value instanceof ComplexScalar);
+    ComplexScalar complexScalar = (ComplexScalar) value;
+    assertEquals(complexScalar.real(), RealScalar.of(+1.1567572194352718));
+    assertEquals(complexScalar.imag(), RealScalar.of(-1.2351191805935866));
+  }
 }

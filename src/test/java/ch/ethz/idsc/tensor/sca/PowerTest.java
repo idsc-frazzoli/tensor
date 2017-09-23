@@ -68,6 +68,18 @@ public class PowerTest extends TestCase {
     assertEquals(Power.of(-4, -5), RealScalar.of(-1024).reciprocal());
   }
 
+  public void testNegativeFractional() {
+    Scalar result = Power.of(-2.2, 1.3);
+    Scalar gndtru = Scalars.fromString("-1.6382047104755275 - 2.254795345529229* I");
+    assertEquals(result, gndtru);
+  }
+
+  public void testNegativeFractionalNeg() {
+    Scalar result = Power.of(-2.2, -1.3);
+    Scalar gndtru = Scalars.fromString("-0.21089641642663778` + 0.290274014661784` *I ");
+    assertEquals(result, gndtru);
+  }
+
   public void testComplex() {
     Scalar a = ComplexScalar.of(2, +3);
     Scalar b = ComplexScalar.of(4, -2);

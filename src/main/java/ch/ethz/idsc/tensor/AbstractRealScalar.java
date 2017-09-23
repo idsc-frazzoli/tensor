@@ -68,8 +68,11 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
       }
       throw TensorRuntimeException.of(this, exponent);
     }
-    if (exponent instanceof RealScalar)
-      return DoubleScalar.of(Math.pow(number().doubleValue(), exponent.number().doubleValue()));
+    if (exponent instanceof RealScalar) {
+      double result = Math.pow(number().doubleValue(), exponent.number().doubleValue());
+      if (result == result)
+        return DoubleScalar.of(result);
+    }
     return Exp.FUNCTION.apply(exponent.multiply(Log.FUNCTION.apply(this)));
   }
 

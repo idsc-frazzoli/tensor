@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-enum ScalarParser {
+/* package */ enum ScalarParser {
   ;
   private static final char OPENING_BRACKET = '(';
   private static final char CLOSING_BRACKET = ')';
@@ -79,9 +79,13 @@ enum ScalarParser {
       return DoubleScalar.of(Double.parseDouble(expr));
     final int prime = expr.indexOf(DECIMAL_PRIME); // check decimal
     if (0 < prime) {
-      int precision = (int) Math.round(Double.parseDouble(string.substring(prime + 1)));
+      final String ante = expr.substring(0, prime);
+      final String post = expr.substring(prime + 1);
+      if (post.isEmpty())
+        return of(ante);
+      int precision = (int) Math.round(Double.parseDouble(post));
       MathContext mathContext = new MathContext(precision, RoundingMode.HALF_EVEN);
-      BigDecimal bigDecimal = new BigDecimal(string.substring(0, prime), mathContext);
+      BigDecimal bigDecimal = new BigDecimal(ante, mathContext);
       return DecimalScalar.of(bigDecimal);
     }
     throw new RuntimeException(expr);

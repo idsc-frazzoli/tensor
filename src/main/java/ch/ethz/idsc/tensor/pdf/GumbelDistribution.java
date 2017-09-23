@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
+ * <a href="https://reference.wolfram.com/language/ref/GumbelDistribution.html">GumbelDistribution</a> */
 public class GumbelDistribution implements Distribution, //
     CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   private static final double NEXTDOWNONE = Math.nextDown(1.0);

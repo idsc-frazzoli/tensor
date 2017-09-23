@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
@@ -111,6 +112,12 @@ public class RationalScalarTest extends TestCase {
   public void testPower2() {
     assertEquals(Power.of(RealScalar.ONE, new BigInteger("23847625384765238754826534")), RealScalar.ONE);
     assertEquals(Power.of(RealScalar.ONE, new BigInteger("-23847625384765238754826534")), RealScalar.ONE);
+  }
+
+  public void testPowerFractional() {
+    Scalar lhs = Power.of(RationalScalar.of(-2, 3), 1.3);
+    Scalar rhs = Scalars.fromString(" -  0.3469764892956748` - 0.47757216669512637` *I ");
+    assertTrue(Chop._13.close(lhs, rhs));
   }
 
   public void testSerializable() throws Exception {

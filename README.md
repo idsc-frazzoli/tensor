@@ -8,10 +8,9 @@ Version `0.3.6`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
-* scalars are real, or complex numbers, or from finite fields, etc.
+* scalars are real-, or complex numbers, from finite fields, or quantities with physical units
 * values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
 * probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
-* scalars can be quantities with physical units
 * import from and export to `Mathematica`, `CSV`-, and image files
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
@@ -230,10 +229,11 @@ The string representation is compatible with `Mathematica`.
 
 ---
 
-The units of a quantity are completely customizable by the user.
+The units of a quantity are chosen by the application layer.
 For instance, `Quantity.of(3, "Apples")` is valid syntax.
-The tensor library contains a resource `/unit/si.properties` that encodes the SI unit system, but the use optional.
-The example below makes use of these definitions
+
+The tensor library contains the resource `/unit/si.properties` that encodes the SI unit system in the familiar strings such as `m`, `kg`, `s`, but the use of this convention is optional.
+The example below makes use of these provided definitions
 
     Scalar mass = Quantity.of(300, "g"); // in gram
     Scalar a = Quantity.of(981, "cm*s^-2"); // in centi-meters per seconds square
@@ -302,4 +302,4 @@ The library is used in the projects:
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1410` unit tests.
+The repository has over `1430` unit tests.
