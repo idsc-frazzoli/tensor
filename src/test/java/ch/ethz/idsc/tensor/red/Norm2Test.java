@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -46,6 +47,21 @@ public class Norm2Test extends TestCase {
     assertEquals(nrm, Norm._2.ofMatrix(Transpose.of(matrix)));
     // Mathematica: 9.493062577750756
     assertTrue(Chop._14.close(nrm, DoubleScalar.of(9.493062577750756)));
+  }
+
+  public void testQuantity() {
+    Tensor vec = Tensors.of( //
+        Quantity.of(3, "m^2"), //
+        Quantity.of(0, "s*rad"), //
+        Quantity.of(-4, "m^2"), //
+        RealScalar.ZERO //
+    );
+    assertEquals(Norm._2.of(vec), Quantity.of(5, "m^2"));
+  }
+
+  public void testQuantityMixed() {
+    Tensor vec = Tensors.fromString("{0[m^2],0[s*rad],1}", Quantity::fromString);
+    assertEquals(Norm._2.of(vec), RealScalar.ONE);
   }
 
   public void testMatrix2() {

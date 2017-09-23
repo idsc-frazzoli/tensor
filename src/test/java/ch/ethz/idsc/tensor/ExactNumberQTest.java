@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ExactNumberQTest extends TestCase {
@@ -15,5 +16,10 @@ public class ExactNumberQTest extends TestCase {
   public void testTensor() {
     assertFalse(ExactNumberQ.of(Tensors.empty()));
     assertFalse(ExactNumberQ.of(Tensors.vector(1)));
+  }
+
+  public void testQuantity() {
+    Scalar s1 = Quantity.of(3, "m");
+    assertFalse(ExactNumberQ.of(s1));
   }
 }

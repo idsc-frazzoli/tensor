@@ -27,9 +27,10 @@ public class QuantityMagnitude {
   }
 
   /** Example:
+   * <pre>
    * QuantityMagnitude.SI().in(Unit.of("K*m^2")).apply(Quantity.of(2, "K*km^2"))
-   * gives
-   * RealScalar.of(2_000_000)
+   * == RealScalar.of(2_000_000)
+   * <pre>
    * 
    * @param unit
    * @return operator that maps a quantity to the equivalent scalar of given unit */

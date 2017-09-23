@@ -15,7 +15,6 @@ import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
-import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
 
 /** {@link Quantity} represents a magnitude and unit.
  * <pre>
@@ -49,7 +48,7 @@ import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
 public interface Quantity extends Scalar, //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface, //
-    TrigonometryInterface, Comparable<Scalar> {
+    Comparable<Scalar> {
   static final char UNIT_OPENING_BRACKET = '[';
   static final char UNIT_CLOSING_BRACKET = ']';
 

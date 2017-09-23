@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -12,6 +13,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
@@ -149,6 +151,16 @@ public class NullSpaceTest extends TestCase {
   public void testIsNumeric() {
     assertTrue(StaticHelper.anyMachineNumberQ(Tensors.vector(1, 1, 1.)));
     assertFalse(StaticHelper.anyMachineNumberQ(Tensors.vector(1, 1, 1)));
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(2, "m");
+    Tensor ve1 = Tensors.of(qs1, qs2);
+    Tensor mat = Tensors.of(ve1);
+    Tensor nul = NullSpace.usingRowReduce(mat);
+    // System.out.println(nul);
+    assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
   }
 
   public void testFail() {

@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.StringScalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class PowerTest extends TestCase {
@@ -87,5 +88,19 @@ public class PowerTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testQuantity1() {
+    Scalar qs1 = Quantity.of(9, "m^2");
+    Scalar res = Power.of(qs1, RealScalar.of(3));
+    Scalar act = Quantity.of(729, "m^6");
+    assertEquals(res, act);
+  }
+
+  public void testQuantity2() {
+    Scalar qs1 = Quantity.of(-2, "m^-3*rad");
+    Scalar res = Power.of(qs1, RealScalar.of(3));
+    Scalar act = Quantity.of(-8, "m^-9*rad^3");
+    assertEquals(res, act);
   }
 }

@@ -1,12 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ConvexHullTest extends TestCase {
@@ -48,6 +50,18 @@ public class ConvexHullTest extends TestCase {
     Tensor actual = ConvexHull.of(points.unmodifiable());
     Tensor expected = Tensors.fromString("{{0, -1}, {3, -1}, {2, 2}, {-1, 2}}");
     assertEquals(expected, actual);
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    Scalar qs3 = Quantity.of(2, "m");
+    Scalar qs4 = Quantity.of(-3, "m");
+    Tensor ve1 = Tensors.of(qs1, qs2);
+    Tensor ve2 = Tensors.of(qs3, qs4);
+    Tensor mat = Tensors.of(ve2, ve1);
+    Tensor hul = ConvexHull.of(mat);
+    assertEquals(hul, mat);
   }
 
   public void testFail() {

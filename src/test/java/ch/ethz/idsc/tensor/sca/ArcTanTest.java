@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ArcTanTest extends TestCase {
@@ -63,6 +64,75 @@ public class ArcTanTest extends TestCase {
   public void testCornerCases() {
     assertEquals(ArcTan.of(RealScalar.of(-5), RealScalar.ZERO), DoubleScalar.of(Math.PI));
     assertEquals(ArcTan.of(RealScalar.ZERO, RealScalar.ZERO), RealScalar.ZERO);
+  }
+
+  // Mathematica doesn't do this:
+  // ArcTan[Quantity[12, "Meters"], Quantity[4, "Meters"]] is not evaluated
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(12, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    {
+      assertFalse(qs1 instanceof RealScalar);
+      Scalar res = ArcTan.of(qs1, qs2);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.close(res, RealScalar.of(0.32175055439664219340)));
+    }
+  }
+
+  public void testQuantityZeroX() {
+    Scalar qs0 = Quantity.of(0, "s");
+    Scalar qs1 = Quantity.of(12, "m");
+    {
+      Scalar res = ArcTan.of(RealScalar.ZERO, qs1);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
+    }
+    {
+      Scalar res = ArcTan.of(RealScalar.ZERO, qs0);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.allZero(res));
+    }
+    {
+      Scalar res = ArcTan.of(qs0, qs1);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
+    }
+    {
+      Scalar res = ArcTan.of(qs0, RealScalar.of(12));
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
+    }
+  }
+
+  public void testQuantityZeroY() {
+    Scalar qs0 = Quantity.of(0, "s");
+    Scalar qs1 = Quantity.of(12, "m");
+    {
+      Scalar res = ArcTan.of(qs1, qs0);
+      assertTrue(res instanceof RealScalar);
+      assertTrue(Chop._10.allZero(res));
+    }
+  }
+
+  public void testQuantityFail() {
+    try {
+      ArcTan.of(Quantity.of(12, "m"), Quantity.of(4, "s"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArcTan.of(Quantity.of(12, "m"), RealScalar.of(4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArcTan.of(RealScalar.of(12), Quantity.of(4, "s"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testFail() {

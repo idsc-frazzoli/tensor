@@ -13,8 +13,6 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
-import ch.ethz.idsc.tensor.sca.Cos;
-import ch.ethz.idsc.tensor.sca.Cosh;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;
@@ -22,8 +20,6 @@ import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.SignInterface;
-import ch.ethz.idsc.tensor.sca.Sin;
-import ch.ethz.idsc.tensor.sca.Sinh;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class QuantityImpl extends AbstractScalar implements Quantity {
@@ -211,26 +207,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from RoundingInterface
   public Scalar round() {
     return of(Round.FUNCTION.apply(value), unit);
-  }
-
-  @Override // from TrigonometryInterface
-  public Scalar cos() {
-    return Cos.of(Units.radiansValue(this));
-  }
-
-  @Override // from TrigonometryInterface
-  public Scalar cosh() {
-    return Cosh.of(Units.radiansValue(this));
-  }
-
-  @Override // from TrigonometryInterface
-  public Scalar sin() {
-    return Sin.of(Units.radiansValue(this));
-  }
-
-  @Override // from TrigonometryInterface
-  public Scalar sinh() {
-    return Sinh.of(Units.radiansValue(this));
   }
 
   @Override // from Comparable<Scalar>

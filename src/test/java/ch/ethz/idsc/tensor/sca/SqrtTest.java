@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class SqrtTest extends TestCase {
@@ -69,6 +70,12 @@ public class SqrtTest extends TestCase {
   public void testInftyNeg() {
     Scalar res = Sqrt.of(DoubleScalar.NEGATIVE_INFINITY);
     assertEquals(res, ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(9, "m^2");
+    Scalar qs2 = Quantity.of(3, "m");
+    assertEquals(Sqrt.of(qs1), qs2);
   }
 
   public void testFail() {

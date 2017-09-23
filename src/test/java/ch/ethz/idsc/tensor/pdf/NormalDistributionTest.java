@@ -4,6 +4,9 @@ package ch.ethz.idsc.tensor.pdf;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
+import ch.ethz.idsc.tensor.qty.Unit;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -39,6 +42,15 @@ public class NormalDistributionTest extends TestCase {
     Scalar s = distribution.p_lessThan(x);
     assertEquals(s, distribution.p_lessEquals(x));
     assertTrue(s.toString().startsWith("0.363985"));
+  }
+
+  public void testQuantity() {
+    Distribution distribution = NormalDistribution.of(Quantity.of(3, "m"), Quantity.of(2, "m"));
+    assertTrue(RandomVariate.of(distribution) instanceof Quantity);
+    assertTrue(Expectation.mean(distribution) instanceof Quantity);
+    Scalar var = Expectation.variance(distribution);
+    assertTrue(var instanceof Quantity);
+    assertEquals(QuantityMagnitude.SI().in(Unit.of("m^2")).apply(var), RealScalar.of(4));
   }
 
   public void testFail() {

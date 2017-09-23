@@ -3,9 +3,12 @@ package ch.ethz.idsc.tensor.opt;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
@@ -79,6 +82,40 @@ public class LinearInterpolationTest extends TestCase {
     interpolation.get(Tensors.vector(0.3, 1.8, 0.3));
     // System.out.println(res);
     // res.append(null);
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    Scalar qs3 = Quantity.of(2, "m");
+    Tensor vector = Tensors.of(qs1, qs2, qs3);
+    Interpolation interpolation = LinearInterpolation.of(vector);
+    Scalar r = Quantity.of((1 + 4) * 0.5, "m");
+    Scalar s = interpolation.Get(Tensors.vector(0.5));
+    assertEquals(s, r);
+  }
+
+  public void testQuantity2() {
+    Tensor v1;
+    {
+      Scalar qs1 = Quantity.of(1, "m");
+      Scalar qs2 = Quantity.of(4, "m");
+      Scalar qs3 = Quantity.of(2, "m");
+      v1 = Tensors.of(qs1, qs2, qs3);
+    }
+    Tensor v2;
+    {
+      Scalar qs1 = Quantity.of(9, "s");
+      Scalar qs2 = Quantity.of(6, "s");
+      Scalar qs3 = Quantity.of(-3, "s");
+      v2 = Tensors.of(qs1, qs2, qs3);
+    }
+    Tensor matrix = Transpose.of(Tensors.of(v1, v2));
+    Interpolation interpolation = LinearInterpolation.of(matrix);
+    Scalar r1 = Quantity.of((1 + 4) * 0.5, "m");
+    Scalar r2 = Quantity.of((9 + 6) * 0.5, "s");
+    Tensor vec = interpolation.get(Tensors.vector(0.5));
+    assertEquals(vec, Tensors.of(r1, r2));
   }
 
   public void testFail() {

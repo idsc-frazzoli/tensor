@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Nest;
 import junit.framework.TestCase;
 
@@ -133,6 +134,27 @@ public class GammaTest extends TestCase {
     }
     try {
       Gamma.of(RealScalar.of(-1.0));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testGammaFail() {
+    try {
+      Gamma.of(Quantity.of(3, "m*s"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Gamma.of(Quantity.of(-2, "m")); // <- fails for the wrong reason
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Gamma.of(Quantity.of(-2.12, "m^2"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

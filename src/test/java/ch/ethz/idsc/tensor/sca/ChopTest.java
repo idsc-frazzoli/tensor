@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ChopTest extends TestCase {
@@ -27,6 +28,13 @@ public class ChopTest extends TestCase {
 
   public void testExclusive() {
     assertFalse(Chop._12.allZero(RealScalar.of(Chop._12.threshold())));
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(1e-9, "kg");
+    Scalar act = Quantity.of(0, "kg");
+    assertEquals(Chop._07.of(qs1), act);
+    assertEquals(Chop._10.of(qs1), qs1);
   }
 
   public void testFail() {

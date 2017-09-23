@@ -5,10 +5,12 @@ import java.util.Comparator;
 
 import ch.ethz.idsc.tensor.Comparators;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class SortTest extends TestCase {
@@ -40,6 +42,19 @@ public class SortTest extends TestCase {
         StringScalar.of("a"), //
         StringScalar.of("b"));
     assertEquals(Sort.of(vector).toString(), "{a, b, c}");
+  }
+
+  public void testQuantity1() {
+    Scalar qs1 = Quantity.of(-3, "m");
+    Scalar qs2 = Quantity.of(2, "m");
+    Tensor vec = Tensors.of(RealScalar.ZERO, qs2, qs1);
+    assertEquals(Sort.of(vec), Tensors.of(qs1, RealScalar.ZERO, qs2));
+  }
+
+  public void testQuantity2() {
+    Tensor vector = Tensors.of( //
+        Quantity.of(0, "m"), Quantity.of(9, "m"), Quantity.of(-3, "m"), Quantity.of(0, "s"), RealScalar.ZERO);
+    assertEquals(Sort.of(vector), Tensors.fromString("{-3[m], 0[m], 0[s], 0, 9[m]}", Quantity::fromString));
   }
 
   public void testFail() {

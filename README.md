@@ -9,9 +9,9 @@ Version `0.3.6`
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
 * scalars are real, or complex numbers, or from finite fields, etc.
-* values are encoded as exact fractions, in double precision, and as `java.math.BigDecimal`
-* other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
-* probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc. 
+* values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
+* probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
+* scalars can be quantities with physical units
 * import from and export to `Mathematica`, `CSV`-, and image files
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
@@ -70,7 +70,7 @@ gives results in machine precision
 
 ---
 
-The tensor library implements `Quantity`, i.e. numbers with physical units, for the purpose of demonstration and testing.
+The tensor library implements `Quantity`, i.e. numbers with physical units.
 Several algorithms are verified to work with scalars of type `Quantity`.
 
     Tensor matrix = Tensors.fromString( //
@@ -90,6 +90,8 @@ gives
      [  1/3[kg*m^-1]   1[kg*rad^-1]              1 ]
     ]
     5[kg^2*rad]
+
+The arithmetic for the scalar type `Quantity` was developed in collaboration with the project `Swisstrolley+`.
 
 ---
 
@@ -228,7 +230,10 @@ The string representation is compatible with `Mathematica`.
 
 ---
 
-Demonstration of conversion between units using the built-in SI unit system 
+The units of a quantity are completely customizable by the user.
+For instance, `Quantity.of(3, "Apples")` is valid syntax.
+The tensor library contains a resource `/unit/si.properties` that encodes the SI unit system, but the use optional.
+The example below makes use of these definitions
 
     Scalar mass = Quantity.of(300, "g"); // in gram
     Scalar a = Quantity.of(981, "cm*s^-2"); // in centi-meters per seconds square
@@ -291,10 +296,10 @@ The library is used in the projects:
 * `owly`
 * `subare`
 * `owly3d`
-* `SwissTrolley+`
+* `SwissTrolley+` that implements Scalar with physical units from `javax.measure.Unit`
 * `retina`
 * `queuey`
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1390` unit tests.
+The repository has over `1410` unit tests.

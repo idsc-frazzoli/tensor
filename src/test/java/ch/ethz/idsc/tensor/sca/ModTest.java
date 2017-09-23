@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ModTest extends TestCase {
@@ -138,6 +139,14 @@ public class ModTest extends TestCase {
     _checkComplexSet(ComplexScalar.of(2, 3), 13);
     // _checkComplexSet(ComplexScalar.of(1, 3), 13); // not consistent with Mathematica
     // _checkComplexSet(ComplexScalar.of(2, 4), 13);
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(5, "s");
+    Scalar qs2 = Quantity.of(3, "s");
+    Scalar qs3 = Quantity.of(2, "s");
+    Scalar res = Mod.function(qs2).apply(qs1);
+    assertEquals(res, qs3);
   }
 
   public void testFail() {
