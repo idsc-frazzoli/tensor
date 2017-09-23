@@ -1,9 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
+import ch.ethz.idsc.tensor.qty.Unit;
+import ch.ethz.idsc.tensor.qty.UnitConvert;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -31,6 +37,23 @@ public class GompertzMakehamDistributionTest extends TestCase {
     GompertzMakehamDistribution.of(RealScalar.of(3), RealScalar.of(.2));
     assertTrue(Scalars.lessThan(gmd.randomVariate(0), RealScalar.of(3)));
     assertTrue(Scalars.isZero(gmd.randomVariate(Math.nextDown(1.0))));
+  }
+
+  public void testQuantity() {
+    Distribution distribution = GompertzMakehamDistribution.of(Quantity.of(.3, "m^-1"), RealScalar.of(.1));
+    Scalar rand = RandomVariate.of(distribution);
+    assertTrue(rand instanceof Quantity);
+    UnitConvert.SI().to(Unit.of("in")).apply(rand);
+    {
+      Scalar prob = PDF.of(distribution).at(Quantity.of(1, "m"));
+      QuantityMagnitude.SI().in(Unit.of("in^-1")).apply(prob);
+    }
+    {
+      CDF cdf = CDF.of(distribution);
+      Scalar prob = cdf.p_lessEquals(Quantity.of(10, "m"));
+      assertTrue(prob instanceof DoubleScalar);
+      assertTrue(NumberQ.of(prob));
+    }
   }
 
   public void testFail() {

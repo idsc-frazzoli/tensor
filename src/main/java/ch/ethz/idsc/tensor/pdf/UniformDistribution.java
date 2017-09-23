@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Clip;
 
 /** inspired by
@@ -22,7 +23,9 @@ public class UniformDistribution implements Distribution, //
     }
   };
 
-  /** @param min < max
+  /** the input parameters may be instance of {@link Quantity} of identical unit
+   * 
+   * @param min < max
    * @param max
    * @return uniform distribution over the half-open interval [min, max) */
   public static Distribution of(Scalar min, Scalar max) {

@@ -47,10 +47,25 @@ public class NormalDistributionTest extends TestCase {
   public void testQuantity() {
     Distribution distribution = NormalDistribution.of(Quantity.of(3, "m"), Quantity.of(2, "m"));
     assertTrue(RandomVariate.of(distribution) instanceof Quantity);
-    assertTrue(Expectation.mean(distribution) instanceof Quantity);
+    Scalar mean = Expectation.mean(distribution);
+    assertTrue(mean instanceof Quantity);
     Scalar var = Expectation.variance(distribution);
     assertTrue(var instanceof Quantity);
     assertEquals(QuantityMagnitude.SI().in(Unit.of("m^2")).apply(var), RealScalar.of(4));
+    {
+      Scalar prob = PDF.of(distribution).at(mean);
+      QuantityMagnitude.SI().in(Unit.of("in^-1")).apply(prob);
+    }
+    assertEquals(CDF.of(distribution).p_lessEquals(mean), RationalScalar.of(1, 2));
+  }
+
+  public void testQuantityFail() {
+    try {
+      NormalDistribution.of(Quantity.of(3, "m"), Quantity.of(2, "km"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testFail() {

@@ -7,6 +7,9 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.Unit;
+import ch.ethz.idsc.tensor.qty.UnitConvert;
 import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.sca.Exp;
 import junit.framework.TestCase;
@@ -103,5 +106,15 @@ public class ExponentialDistributionTest extends TestCase {
     _checkCorner(RealScalar.of(1));
     _checkCorner(RealScalar.of(2));
     _checkCorner(RealScalar.of(700));
+  }
+
+  public void testQuantity() {
+    Distribution distribution = ExponentialDistribution.of(Quantity.of(3, "m"));
+    Scalar rand = RandomVariate.of(distribution);
+    assertTrue(rand instanceof Quantity);
+    UnitConvert.SI().to(Unit.of("mi^-1")).apply(rand);
+    assertTrue(Expectation.mean(distribution) instanceof Quantity);
+    Scalar var = Expectation.variance(distribution);
+    assertTrue(var instanceof Quantity);
   }
 }

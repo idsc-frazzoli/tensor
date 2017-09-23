@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 import java.io.Serializable;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** probability density function
  * 
@@ -27,11 +28,15 @@ public interface PDF extends Serializable {
 
   /** "PDF.of(distribution).at(x)" corresponds to Mathematica::PDF[distribution, x]
    * 
-   * for {@link DiscreteDistribution}, the function returns the
+   * <p>For {@link DiscreteDistribution}, the function returns the
    * P(X == x), i.e. probability of random variable X == x
    * 
-   * for continuous distributions, the function returns the value
-   * of the probability density function [which is <em>not</em> identical to P(X == x)]
+   * <p>For continuous distributions, the function
+   * <ul>
+   * <li>returns the value of the probability density function, which is <em>not</em> identical to P(X == x)]
+   * <li>may return a scalar of type {@link Quantity} with a physical unit so that the integral {@link CDF}
+   * results in a unit-less {@link Scalar}.
+   * </ul>
    * 
    * @param x
    * @return */

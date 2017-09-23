@@ -52,6 +52,7 @@ public class NormalDistribution implements Distribution, //
       throw TensorRuntimeException.of(sigma);
     this.mean = mean;
     this.sigma = sigma;
+    mean.add(sigma); // <- assert that parameters are compatible
   }
 
   @Override // from RandomVariateInterface
