@@ -59,14 +59,14 @@ public class FrechetDistribution implements Distribution, //
   @Override // from MeanInterface
   public Scalar mean() {
     if (Scalars.lessEquals(alpha, RealScalar.ONE))
-      return DoubleScalar.POSITIVE_INFINITY;
+      return beta.multiply(DoubleScalar.POSITIVE_INFINITY);
     return beta.multiply(Gamma.FUNCTION.apply(RealScalar.ONE.subtract(alpha.reciprocal())));
   }
 
   @Override // from VarianceInterface
   public Scalar variance() {
     if (Scalars.lessEquals(alpha, TWO))
-      return DoubleScalar.POSITIVE_INFINITY;
+      return beta.multiply(beta).multiply(DoubleScalar.POSITIVE_INFINITY);
     Scalar term = Gamma.FUNCTION.apply(RealScalar.ONE.subtract(TWO.divide(alpha)));
     return beta.multiply(beta).multiply(term).subtract(AbsSquared.FUNCTION.apply(mean()));
   }

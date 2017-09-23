@@ -19,4 +19,25 @@ public class QuantityMagnitudeTest extends TestCase {
     Scalar scalar = quantityMagnitude.in(unit).apply(q);
     assertTrue(Chop._12.close(scalar, RealScalar.of(Math.PI * 2)));
   }
+
+  public void testFailConversion() {
+    QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
+    Scalar quantity = Quantity.of(360, "kg");
+    Unit unit = Unit.of("m");
+    try {
+      quantityMagnitude.in(unit).apply(quantity);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailNull() {
+    try {
+      new QuantityMagnitude(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

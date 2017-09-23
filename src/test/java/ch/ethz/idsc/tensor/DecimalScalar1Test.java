@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -139,5 +140,11 @@ public class DecimalScalar1Test extends TestCase {
     Scalar ds1 = DecimalScalar.of(new BigDecimal("1.0000"));
     assertEquals(ds1, rs1);
     assertEquals(rs1, ds1);
+  }
+
+  public void testEqualsSpecial() {
+    final Scalar ds1 = DecimalScalar.of(new BigDecimal("1.0234", MathContext.DECIMAL128));
+    assertFalse(ds1.equals(null));
+    assertFalse(ds1.equals(ComplexScalar.of(1, 2)));
   }
 }

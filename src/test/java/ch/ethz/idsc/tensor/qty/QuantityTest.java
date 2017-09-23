@@ -128,6 +128,18 @@ public class QuantityTest extends TestCase {
     }
   }
 
+  public void testEquals() {
+    assertFalse(Quantity.of(10, "m").equals("s"));
+    assertFalse(Quantity.of(10, "m").equals(Quantity.of(2, "m")));
+    assertFalse(Quantity.of(10, "m").equals(Quantity.of(10, "kg")));
+  }
+
+  public void testHashCode() {
+    assertEquals( //
+        Quantity.of(10.2, "m^-1*kg").hashCode(), //
+        Quantity.of(10.2, "kg*m^-1").hashCode());
+  }
+
   public void testEmpty() {
     Scalar q1 = Quantity.of(3, "m*s");
     Scalar q2 = Quantity.of(7, "s*m");

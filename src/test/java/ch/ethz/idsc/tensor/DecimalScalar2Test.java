@@ -24,6 +24,35 @@ public class DecimalScalar2Test extends TestCase {
     assertTrue(7 <= r.value().precision());
   }
 
+  public void testDivide() {
+    Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
+    Scalar d = s.divide(DoubleScalar.of(2 * Math.PI));
+    assertTrue(d instanceof DoubleScalar);
+    assertEquals(d, RealScalar.of(0.5));
+  }
+
+  public void testUnderDouble() {
+    Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
+    Scalar d = s.under(DoubleScalar.of(2 * Math.PI));
+    assertTrue(d instanceof DoubleScalar);
+    assertEquals(d, RealScalar.of(2));
+  }
+
+  public void testUnderRational() {
+    Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
+    Scalar d = s.under(RationalScalar.of(1, 2));
+    assertTrue(d instanceof DecimalScalar);
+    assertTrue(Chop._10.close(d, DoubleScalar.of(0.5 / Math.PI)));
+  }
+
+  public void testUnderDecimal() {
+    Scalar d1 = DecimalScalar.of(new BigDecimal("123.0123", MathContext.DECIMAL128));
+    Scalar d2 = DecimalScalar.of(new BigDecimal("-11.233", MathContext.DECIMAL128));
+    Scalar res = d1.under(d2);
+    assertTrue(res instanceof DecimalScalar);
+    assertTrue(Chop._10.close(res, DoubleScalar.of(-11.233 / 123.0123)));
+  }
+
   public void testN() {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL32));
     assertEquals(N.DECIMAL64.of(s), s);

@@ -107,6 +107,15 @@ public class GaussScalarTest extends TestCase {
     }
   }
 
+  public void testCompareFail1() {
+    try {
+      Scalars.compare(GaussScalar.of(2, 7), GaussScalar.of(9, 11));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testCompareFail() {
     try {
       Scalars.compare(GaussScalar.of(2, 7), RealScalar.of(.3));
@@ -178,5 +187,9 @@ public class GaussScalarTest extends TestCase {
     set.add(z);
     set.add(c);
     assertEquals(set.size(), 4);
+  }
+
+  public void testEquals() {
+    assertFalse(GaussScalar.of(3, 7).equals("hello"));
   }
 }

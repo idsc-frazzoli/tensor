@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <a href="https://reference.wolfram.com/language/ref/UnitSystem.html">UnitSystem</a> */
 public interface UnitSystem extends ScalarUnaryOperator {
   /** @return international system of units, metric system */
-  public static UnitSystem SI() {
+  static UnitSystem SI() {
     return SimpleUnitSystem.SI();
   }
 }

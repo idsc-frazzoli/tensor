@@ -149,7 +149,7 @@ public class GaussScalar extends AbstractScalar implements //
       GaussScalar gaussScalar = (GaussScalar) object;
       return value == gaussScalar.value && prime == gaussScalar.prime;
     }
-    throw TensorRuntimeException.of(this, (Tensor) object);
+    return false;
   }
 
   @Override // from AbstractScalar

@@ -62,11 +62,25 @@ public class FrechetDistributionTest extends TestCase {
     assertTrue(Chop._13.close(mean, Quantity.of(9.470020440153482, "m^-1")));
   }
 
+  public void testMeanInf() {
+    Distribution distribution = //
+        FrechetDistribution.of(RealScalar.of(0.9), Quantity.of(2.4, "m^-1"));
+    Scalar mean = Expectation.mean(distribution);
+    assertEquals(mean, Quantity.of(DoubleScalar.POSITIVE_INFINITY, "m^-1"));
+  }
+
   public void testVariance() {
     Distribution distribution = //
         FrechetDistribution.of(Quantity.of(2.3, ""), Quantity.of(1.5, "m^-1"));
     Scalar var = Expectation.variance(distribution);
     assertTrue(Chop._13.close(var, Quantity.of(10.631533530833654, "m^-2")));
+  }
+
+  public void testVarianceInf() {
+    Distribution distribution = //
+        FrechetDistribution.of(RealScalar.of(1.3), Quantity.of(1.5, "m^-1"));
+    Scalar var = Expectation.variance(distribution);
+    assertEquals(var, Quantity.of(Double.POSITIVE_INFINITY, "m^-2"));
   }
 
   public void testFail() {

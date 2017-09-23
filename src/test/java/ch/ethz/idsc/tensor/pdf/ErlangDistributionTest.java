@@ -15,4 +15,13 @@ public class ErlangDistributionTest extends TestCase {
     assertEquals(pdf.at(RealScalar.of(0)), RealScalar.ZERO);
     assertEquals(pdf.at(RealScalar.of(-0.12)), RealScalar.ZERO);
   }
+
+  public void testFail() {
+    try {
+      ErlangDistribution.of(0, RealScalar.of(1.8));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

@@ -43,4 +43,13 @@ public class UnitConvertTest extends TestCase {
       // ---
     }
   }
+
+  public void testFailNull() {
+    try {
+      new UnitConvert(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

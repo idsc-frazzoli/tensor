@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Erfc;
 import ch.ethz.idsc.tensor.sca.Exp;
 
-enum StandardNormalDistribution implements Distribution, PDF, CDF {
+/* package */ enum StandardNormalDistribution implements Distribution, PDF, CDF {
   INSTANCE;
   // ---
   private static final Scalar DEN = DoubleScalar.of(0.398942280401432677939946059934);

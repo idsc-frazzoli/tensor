@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class FloorTest extends TestCase {
@@ -64,6 +65,11 @@ public class FloorTest extends TestCase {
     assertEquals(Floor.of(c), c);
     Scalar d = Scalars.fromString("7.9-1.1*I");
     assertEquals(Floor.of(d), c);
+  }
+
+  public void testQuantity() {
+    Scalar s = Quantity.of(210.9, "K");
+    assertEquals(Floor.FUNCTION.apply(s), Quantity.of(210, "K"));
   }
 
   public void testFailInf() {

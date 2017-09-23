@@ -50,8 +50,4 @@ public class SimpleUnitSystem implements UnitSystem {
     }
     return scalar;
   }
-
-  /* package */ void print() {
-    map.entrySet().forEach(System.out::println);
-  }
 }
