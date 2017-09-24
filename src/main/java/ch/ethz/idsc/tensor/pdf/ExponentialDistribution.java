@@ -58,13 +58,13 @@ public class ExponentialDistribution implements Distribution, //
   public Scalar at(Scalar x) {
     if (Scalars.lessThan(x, RealScalar.ZERO))
       return RealScalar.ZERO;
-    return Exp.of(x.multiply(lambda).negate()).multiply(lambda); // E^(-x \[Lambda]) \[Lambda]
+    return Exp.FUNCTION.apply(x.multiply(lambda).negate()).multiply(lambda); // E^(-x \[Lambda]) \[Lambda]
   }
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     return Scalars.lessEquals(x, RealScalar.ZERO) ? RealScalar.ZERO : //
-        RealScalar.ONE.subtract(Exp.of(x.multiply(lambda_negate)));
+        RealScalar.ONE.subtract(Exp.FUNCTION.apply(x.multiply(lambda_negate)));
   }
 
   @Override // from CDF

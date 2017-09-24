@@ -27,7 +27,7 @@ public enum GaborMatrix {
   // TODO not tested
   public static Tensor of(int r, Tensor k, Scalar phi) {
     final Scalar sigma = RationalScalar.of(r, 2);
-    final Scalar factor = AbsSquared.of(sigma).multiply(TWO).negate();
+    final Scalar factor = AbsSquared.FUNCTION.apply(sigma).multiply(TWO).negate();
     final int m = 2 * r + 1;
     final Tensor offset = Tensors.vector(-r, -r);
     Tensor matrix = Array.of(list -> Norm2Squared.ofVector(Tensors.vector(list).add(offset)), m, m) //

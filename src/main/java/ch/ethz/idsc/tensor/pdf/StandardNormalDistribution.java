@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
   // ---
   @Override // from PDF
   public Scalar at(Scalar x) {
-    return DEN.multiply(Exp.of(AbsSquared.of(x).multiply(NEGATIVE_HALF)));
+    return DEN.multiply(Exp.FUNCTION.apply(AbsSquared.FUNCTION.apply(x).multiply(NEGATIVE_HALF)));
   }
 
   @Override // from CDF

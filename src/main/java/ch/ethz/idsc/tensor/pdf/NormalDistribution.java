@@ -40,7 +40,7 @@ public class NormalDistribution implements Distribution, //
    * @throws Exception if mean or variance of distribution cannot be established */
   public static Distribution fit(Distribution distribution) {
     return new NormalDistribution( //
-        Expectation.mean(distribution), Sqrt.of(Expectation.variance(distribution)));
+        Expectation.mean(distribution), Sqrt.FUNCTION.apply(Expectation.variance(distribution)));
   }
 
   // ---

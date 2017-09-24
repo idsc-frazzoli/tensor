@@ -34,7 +34,7 @@ public enum Log implements ScalarUnaryOperator {
    * @param base
    * @return logarithm function with given base */
   public static ScalarUnaryOperator base(Scalar base) {
-    Scalar log_b = Log.of(base);
-    return scalar -> Log.of(scalar).divide(log_b);
+    Scalar log_b = FUNCTION.apply(base);
+    return scalar -> FUNCTION.apply(scalar).divide(log_b);
   }
 }

@@ -65,7 +65,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from AbstractDiscreteDistribution
   public Scalar randomVariate(Scalar reference) {
-    return RationalScalar.of(min, 1).add(Floor.of(reference.multiply(RationalScalar.of(max - min, 1))));
+    return RationalScalar.of(min, 1).add(Floor.FUNCTION.apply(reference.multiply(RationalScalar.of(max - min, 1))));
   }
 
   @Override // from AbstractDiscreteDistribution
@@ -77,13 +77,13 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    Scalar num = Ceiling.of(x).subtract(RationalScalar.of(min, 1));
+    Scalar num = Ceiling.FUNCTION.apply(x).subtract(RationalScalar.of(min, 1));
     return (Scalar) num.multiply(p).map(Clip.unit());
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
-    Scalar num = RealScalar.ONE.add(Floor.of(x)).subtract(RationalScalar.of(min, 1));
+    Scalar num = RealScalar.ONE.add(Floor.FUNCTION.apply(x)).subtract(RationalScalar.of(min, 1));
     return (Scalar) num.multiply(p).map(Clip.unit());
   }
 }

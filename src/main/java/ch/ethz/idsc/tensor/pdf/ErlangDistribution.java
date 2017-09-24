@@ -38,7 +38,7 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
   public Scalar at(Scalar x) {
     if (Scalars.lessEquals(x, RealScalar.ZERO))
       return RealScalar.ZERO;
-    return Exp.of(x.negate().multiply(lambda)) //
+    return Exp.FUNCTION.apply(x.negate().multiply(lambda)) //
         .multiply(Power.of(x, k.subtract(RealScalar.ONE))).multiply(factor);
   }
 

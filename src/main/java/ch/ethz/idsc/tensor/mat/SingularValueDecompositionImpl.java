@@ -112,7 +112,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(fi), k, i));
         Scalar s = Norm2Squared.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
         Scalar f = u.Get(i, i);
-        p = CopySign.of(Sqrt.of(s), f).negate();
+        p = CopySign.of(Sqrt.FUNCTION.apply(s), f).negate();
         Scalar h = f.multiply(p).subtract(s);
         u.set(f.subtract(p), i, i);
         Scalar fs = scale;
@@ -137,7 +137,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         {
           Scalar s = Norm2Squared.ofVector(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
-          p = CopySign.of(Sqrt.of(s), f).negate();
+          p = CopySign.of(Sqrt.FUNCTION.apply(s), f).negate();
           Scalar h = f.multiply(p).subtract(s);
           u.set(f.subtract(p), i, ip1);
           IntStream.range(ip1, cols).forEach(k -> r.set(u.Get(i, k).divide(h), k));

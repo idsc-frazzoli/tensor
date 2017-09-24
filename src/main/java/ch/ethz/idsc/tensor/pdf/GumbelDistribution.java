@@ -64,12 +64,13 @@ public class GumbelDistribution implements Distribution, //
   @Override // from PDF
   public Scalar at(Scalar x) {
     Scalar map = x.subtract(alpha).divide(beta);
-    return Exp.of(map.subtract(Exp.of(map))).divide(beta);
+    return Exp.FUNCTION.apply(map.subtract(Exp.FUNCTION.apply(map))).divide(beta);
   }
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return RealScalar.ONE.subtract(Exp.of(Exp.of(x.subtract(alpha).divide(beta)).negate()));
+    return RealScalar.ONE.subtract(Exp.FUNCTION.apply( //
+        Exp.FUNCTION.apply(x.subtract(alpha).divide(beta)).negate()));
   }
 
   @Override // from CDF

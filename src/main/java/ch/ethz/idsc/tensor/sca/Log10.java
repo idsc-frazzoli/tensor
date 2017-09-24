@@ -19,7 +19,7 @@ public enum Log10 implements ScalarUnaryOperator {
   FUNCTION;
   // ---
   private static final double PI_LOG10 = 1.36437635384184134748578362543;
-  private static final Scalar LOG10 = Log.of(RealScalar.of(10));
+  private static final Scalar LOG10 = Log.FUNCTION.apply(RealScalar.of(10));
 
   @Override
   public Scalar apply(Scalar scalar) {

@@ -81,7 +81,7 @@ public class FrechetDistribution implements Distribution, //
   public Scalar p_lessThan(Scalar x) {
     if (Scalars.lessEquals(x, RealScalar.ZERO))
       return RealScalar.ZERO;
-    return Exp.of(Power.of(x.divide(beta), alpha.negate()).negate());
+    return Exp.FUNCTION.apply(Power.of(x.divide(beta), alpha.negate()).negate());
   }
 
   @Override // from CDF
