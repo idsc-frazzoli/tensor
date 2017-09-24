@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-import java.math.BigInteger;
 import java.math.MathContext;
 import java.util.Objects;
 
@@ -39,6 +38,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return Scalars.isZero(im) ? re : new ComplexScalarImpl(re, im);
   }
 
+  /** @param scalar
+   * @return true if operation is carried out in {@link ComplexScalarImpl} */
+  private static boolean isLocal(Scalar scalar) {
+    return scalar instanceof ComplexEmbedding && !(scalar instanceof Quantity);
+  }
+
   // ---
   private final Scalar re;
   private final Scalar im;
@@ -54,31 +59,14 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return Hypot.BIFUNCTION.apply(re, im);
   }
 
-  /** function is motivated by the expression c / (c^2 + d^2)
-   * for c != 0 the term simplifies to 1 / (c + d^2 / c)
-   * the function computes the denominator c + d^2 / c == c + d / c * d
-   * 
-   * @param c non-zero
-   * @param d
-   * @return c + d / c * d */
-  private static Scalar c_dcd(Scalar c, Scalar d) {
-    // if (Scalars.isZero(c)) // <- consistency check during development
-    // throw TensorRuntimeException.of(c);
-    return c.add(d.divide(c).multiply(d));
-  }
-
   @Override // from Scalar
   public Scalar negate() {
     return of(re.negate(), im.negate());
   }
 
-  private static boolean _isLocal(Scalar scalar) {
-    return scalar instanceof ComplexEmbedding && !(scalar instanceof Quantity);
-  }
-
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
-    if (_isLocal(scalar)) {
+    if (isLocal(scalar)) {
       ComplexEmbedding z = (ComplexEmbedding) scalar;
       Scalar z_re = z.real();
       Scalar z_im = z.imag();
@@ -91,41 +79,27 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from AbstractScalar
   public Scalar divide(Scalar scalar) {
-    if (_isLocal(scalar)) {
+    if (isLocal(scalar)) {
       ComplexEmbedding z = (ComplexEmbedding) scalar;
-      return _division(re, im, z.real(), z.imag());
+      return ComplexHelper.division(re, im, z.real(), z.imag());
     }
     return scalar.under(this);
   }
 
   @Override // from AbstractScalar
   public Scalar under(Scalar scalar) {
-    if (_isLocal(scalar)) {
+    if (isLocal(scalar)) {
       ComplexEmbedding z = (ComplexEmbedding) scalar;
-      return _division(z.real(), z.imag(), re, im);
+      return ComplexHelper.division(z.real(), z.imag(), re, im);
     }
     return scalar.divide(this);
-  }
-
-  // helper function
-  private static Scalar _division(Scalar n_re, Scalar n_im, Scalar d_re, Scalar d_im) {
-    if (Scalars.isZero(d_im))
-      return of(n_re.divide(d_re), n_im.divide(d_re));
-    boolean czero = Scalars.isZero(d_re);
-    Scalar r1 = czero ? d_re : c_dcd(d_re, d_im);
-    Scalar r2 = c_dcd(d_im, d_re);
-    Scalar res_re1 = czero ? n_re.multiply(d_re) : n_re.divide(r1);
-    Scalar res_re2 = n_im.divide(r2);
-    Scalar res_im1 = czero ? n_im.multiply(d_re) : n_im.divide(r1);
-    Scalar res_im2 = n_re.divide(r2).negate();
-    return of(res_re1.add(res_re2), res_im1.add(res_im2));
   }
 
   @Override // from Scalar
   public Scalar reciprocal() {
     return of( //
-        Scalars.isZero(re) ? re : c_dcd(re, im).reciprocal(), //
-        c_dcd(im, re).reciprocal().negate()); // using the assumption that im is never zero
+        Scalars.isZero(re) ? re : ComplexHelper.c_dcd(re, im).reciprocal(), //
+        ComplexHelper.c_dcd(im, re).reciprocal().negate()); // using the assumption that im is never zero
   }
 
   @Override // from Scalar
@@ -141,7 +115,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
-    if (_isLocal(scalar)) {
+    if (isLocal(scalar)) {
       ComplexEmbedding z = (ComplexEmbedding) scalar;
       return of(re.add(z.real()), im.add(z.imag()));
     }
@@ -283,29 +257,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return false;
   }
 
-  // helper function that formats imaginary part to a String
-  private String _imagToString() {
-    if (im instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) im;
-      BigInteger num = rationalScalar.numerator();
-      BigInteger den = rationalScalar.denominator();
-      if (num.equals(BigInteger.ONE))
-        return I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
-      if (num.equals(BigInteger.ONE.negate()))
-        return "-" + I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
-    }
-    String imag = im.toString();
-    if (imag.equals("1"))
-      return I_SYMBOL;
-    if (imag.equals("-1"))
-      return '-' + I_SYMBOL;
-    return imag + '*' + I_SYMBOL;
-  }
-
   @Override // from AbstractScalar
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder(48); // initial capacity
-    String imag = _imagToString();
+    String imag = ScalarParser.imagToString(im);
     if (Scalars.nonZero(re)) {
       stringBuilder.append(re);
       if (!imag.startsWith("-"))

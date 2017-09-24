@@ -12,4 +12,9 @@ public class ScalarParserTest extends TestCase {
     Scalar c = ScalarParser.of("3.14`30.123+2.12`99.322*I");
     assertEquals(c, ComplexScalar.of(3.14, 2.12));
   }
+
+  public void testImagFormat() {
+    assertEquals(ScalarParser.imagToString(RealScalar.of(2.13)), "2.13*I");
+    assertEquals(ScalarParser.imagToString(RealScalar.of(-2.13)), "-2.13*I");
+  }
 }

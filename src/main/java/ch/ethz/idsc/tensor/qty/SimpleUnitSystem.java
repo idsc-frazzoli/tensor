@@ -21,6 +21,7 @@ public class SimpleUnitSystem implements UnitSystem {
       simpleUnitSystem.map.put(key, Quantity.fromString(properties.getProperty(key)));
     return simpleUnitSystem;
   }
+  // ---
 
   private final Map<String, Scalar> map = new HashMap<>();
 

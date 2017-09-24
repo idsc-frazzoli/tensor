@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
   // ---
   private static final Pattern PATTERN_INTEGER = Pattern.compile("\\d+"); // optional sign is obsolete
   private static final Pattern PATTERN_DOUBLE = Pattern.compile(StaticHelper.fpRegex);
+  /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */
+  private static final String I_SYMBOL = "I";
 
   static Scalar of(final String _string) {
     final String string = _string.trim();
@@ -71,7 +73,7 @@ import java.util.regex.Pattern;
       return of(string.substring(0, divide)).divide(of(string.substring(divide + 1)));
     if (string.startsWith("(") && string.endsWith(")"))
       return of(string.substring(1, string.length() - 1));
-    if (string.equals(ComplexScalar.I_SYMBOL))
+    if (string.equals(I_SYMBOL))
       return ComplexScalar.I;
     if (PATTERN_INTEGER.matcher(string).matches()) // check integer
       return RationalScalar.of(new BigInteger(string), BigInteger.ONE);
@@ -89,5 +91,27 @@ import java.util.regex.Pattern;
       return DecimalScalar.of(bigDecimal);
     }
     throw new RuntimeException(_string);
+  }
+
+  /** helper function that formats imaginary part to a String
+   * 
+   * @param im
+   * @return */
+  static String imagToString(Scalar im) {
+    if (im instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) im;
+      BigInteger num = rationalScalar.numerator();
+      BigInteger den = rationalScalar.denominator();
+      if (num.equals(BigInteger.ONE))
+        return I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
+      if (num.equals(BigInteger.ONE.negate()))
+        return "-" + I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
+    }
+    String imag = im.toString();
+    if (imag.equals("1"))
+      return I_SYMBOL;
+    if (imag.equals("-1"))
+      return '-' + I_SYMBOL;
+    return imag + '*' + I_SYMBOL;
   }
 }

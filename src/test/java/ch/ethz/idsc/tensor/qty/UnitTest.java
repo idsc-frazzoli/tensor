@@ -16,6 +16,7 @@ public class UnitTest extends TestCase {
   }
 
   public void testDouble() {
+    assertEquals(Unit.of("m*m^3"), Unit.of("m*m^2*m"));
     assertTrue(Unit.of("m*m^-1").isEmpty());
     assertTrue(Unit.of("s^2*m*s^-1*m^-1*s^-1").isEmpty());
   }

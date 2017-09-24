@@ -24,8 +24,6 @@ public interface ComplexScalar extends Scalar, //
     PowerInterface, RoundingInterface, SqrtInterface, TrigonometryInterface {
   /** complex number I == 0+1*I */
   static final Scalar I = of(0, 1);
-  /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */
-  static final String I_SYMBOL = "I";
 
   /** @param re
    * @param im
