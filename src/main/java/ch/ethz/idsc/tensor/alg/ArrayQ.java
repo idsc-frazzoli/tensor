@@ -10,17 +10,19 @@ import ch.ethz.idsc.tensor.Tensor;
  * Tensor::ArrayQ[Scalar] == True
  * </pre>
  * 
- * <p>The tensor library considers {@link Scalar}s
- * to be Tensors with regular (=array) structure of rank 0.
+ * <p>The tensor library considers {@link Scalar}s to be tensors with
+ * regular (=array) structure of rank 0.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArrayQ.html">ArrayQ</a> */
 public enum ArrayQ {
   ;
   /** Examples:
+   * <code>
    * ArrayQ[17] == True
    * ArrayQ[{{1, 2, 1}, {3, 4, 7}}] == True
    * ArrayQ[{1, 2, {3}, 4}] == False
+   * </code>
    * 
    * @return true if tensor structure is identical at all levels, else false.
    * true for {@link Scalar}s */

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
@@ -13,7 +14,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
-    Comparable<Scalar>, ExactNumberQInterface, PowerInterface, SqrtInterface {
+    Comparable<Scalar>, ComplexEmbedding, ExactNumberQInterface, PowerInterface, SqrtInterface {
   private static final Set<Long> PROBABLE_PRIMES = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
@@ -98,6 +99,16 @@ public class GaussScalar extends AbstractScalar implements //
     throw TensorRuntimeException.of(this, scalar);
   }
 
+  @Override // from ComplexEmbedding
+  public Scalar conjugate() {
+    return this;
+  }
+
+  @Override // from ComplexEmbedding
+  public Scalar imag() {
+    return zero();
+  }
+
   @Override // from ExactNumberQInterface
   public boolean isExactNumber() {
     return true;
@@ -112,6 +123,11 @@ public class GaussScalar extends AbstractScalar implements //
       return Scalars.binaryPower(of(1, prime)).apply(this, rationalScalar.numerator());
     }
     throw TensorRuntimeException.of(this, exponent);
+  }
+
+  @Override // from ComplexEmbedding
+  public Scalar real() {
+    return this;
   }
 
   @Override // from SqrtInterface

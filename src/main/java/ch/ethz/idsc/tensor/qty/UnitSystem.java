@@ -18,6 +18,6 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 public interface UnitSystem extends ScalarUnaryOperator {
   /** @return international system of units, metric system */
   static UnitSystem SI() {
-    return SimpleUnitSystem.SI();
+    return BuiltIn.SI.unitSystem;
   }
 }

@@ -7,6 +7,7 @@ import java.math.MathContext;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -110,6 +111,16 @@ public class PowerTest extends TestCase {
   public void testDecimal() {
     Scalar d1 = DecimalScalar.of(new BigDecimal("1.234", MathContext.DECIMAL128));
     assertEquals(Power.of(d1, 2.34), DoubleScalar.of(Math.pow(1.234, 2.34)));
+  }
+
+  public void testGaussScalar() {
+    Scalar gauss = GaussScalar.of(6, 31);
+    try {
+      Power.of(gauss, 3.13);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testQuantity1() {

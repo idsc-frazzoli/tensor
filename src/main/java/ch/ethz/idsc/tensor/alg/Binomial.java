@@ -15,8 +15,9 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.sca.Gamma;
 
 /** binomial coefficient implemented for integer input
- * 
+ * <pre>
  * Gamma[n+1] / ( Gamma[m+1] Gamma[n-m+1] )
+ * </pre>
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Binomial.html">Binomial</a> */

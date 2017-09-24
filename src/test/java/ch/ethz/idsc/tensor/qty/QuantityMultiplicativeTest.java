@@ -82,6 +82,8 @@ public class QuantityMultiplicativeTest extends TestCase {
   public void testDivision3() {
     Scalar s1 = ComplexScalar.of(1, 2);
     Scalar s2 = Quantity.of(3, "m");
-    assertEquals(s1.divide(s2), s2.under(s1));
+    Scalar sds = s1.divide(s2);
+    // System.out.println(sds);
+    assertEquals(sds, s2.under(s1));
   }
 }

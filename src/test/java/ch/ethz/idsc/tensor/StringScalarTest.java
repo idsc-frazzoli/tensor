@@ -42,6 +42,27 @@ public class StringScalarTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+    try {
+      StringScalar.of("asd").multiply(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      StringScalar.of("asd").add(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMultiplyFail() {
+    try {
+      ComplexScalar.I.multiply(StringScalar.of("asd"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testFail() {

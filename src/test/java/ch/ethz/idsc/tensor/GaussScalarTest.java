@@ -190,6 +190,11 @@ public class GaussScalarTest extends TestCase {
   }
 
   public void testEquals() {
+    assertFalse(GaussScalar.of(3, 7).equals(GaussScalar.of(4, 7)));
+    assertFalse(GaussScalar.of(3, 7).equals(GaussScalar.of(3, 11)));
+  }
+
+  public void testEqualsMisc() {
     assertFalse(GaussScalar.of(3, 7).equals("hello"));
   }
 }

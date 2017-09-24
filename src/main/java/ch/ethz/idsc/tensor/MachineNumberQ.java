@@ -4,13 +4,16 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
 /** implementation consistent with Mathematica
- * 
+ * <pre>
  * MachineNumberQ[ 3.14 + 2.7*I ] == true
  * MachineNumberQ[ 13 / 17 ] == false
+ * </pre>
  * 
  * <p>Special cases are
+ * <pre>
  * MachineNumberQ[Infinity] == false
  * MachineNumberQ[Indeterminate] == false
+ * </pre>
  * 
  * <p>see also {@link ExactNumberQ}
  * 

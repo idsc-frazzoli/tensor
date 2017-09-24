@@ -14,8 +14,9 @@ import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
 
 /** complex number
  * 
- * <p>number() is not supported
- * <p>{@link Comparable} is not provided */
+ * <p>function {@link #number()} is not supported
+ * 
+ * <p>interface {@link Comparable} is not implemented */
 public interface ComplexScalar extends Scalar, //
     ArcTanInterface, ArgInterface, ComplexEmbedding, ExpInterface, PowerInterface, //
     RoundingInterface, SqrtInterface, TrigonometryInterface {

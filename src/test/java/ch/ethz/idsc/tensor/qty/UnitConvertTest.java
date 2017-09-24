@@ -14,17 +14,24 @@ public class UnitConvertTest extends TestCase {
   }
 
   public void testVelocity() {
-    UnitConvert quantityConverter = UnitConvert.SI();
+    UnitConvert unitConvert = UnitConvert.SI();
     Scalar q = Quantity.of(360, "km*h^-1");
-    Scalar scalar = quantityConverter.to(Unit.of("m*s^-1")).apply(q);
+    Scalar scalar = unitConvert.to(Unit.of("m*s^-1")).apply(q);
     assertEquals(scalar, Quantity.fromString("100[m*s^-1]"));
   }
 
   public void testRadians() {
-    UnitConvert quantityConverter = UnitConvert.SI();
+    UnitConvert unitConvert = UnitConvert.SI();
     Scalar q = Quantity.fromString("1[rad]");
-    Scalar scalar = quantityConverter.to(Unit.of("")).apply(q);
+    Scalar scalar = unitConvert.to(Unit.of("")).apply(q);
     assertEquals(scalar, Quantity.fromString("1"));
+  }
+
+  public void testResistance() {
+    UnitConvert unitConvert = UnitConvert.SI();
+    Scalar q = Quantity.fromString("2[mV^-1*mA*s^2]");
+    Scalar scalar = unitConvert.to(Unit.of("Ohm^-1*s^2")).apply(q);
+    assertEquals(scalar, Quantity.fromString("2[Ohm^-1*s^2]"));
   }
 
   public void testForce() {

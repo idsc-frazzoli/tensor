@@ -13,10 +13,10 @@ import ch.ethz.idsc.tensor.alg.Array;
  * from a given {@link Distribution}, or {@link RandomVariateInterface}.
  * 
  * Example:
- * <code>
+ * <pre>
  * Distribution distribution = NormalDistribution.standard();
  * Tensor matrix = RandomVariate.of(distribution, 5, 3);
- * </code>
+ * </pre>
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/RandomVariate.html">RandomVariate</a> */

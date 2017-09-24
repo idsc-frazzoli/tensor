@@ -7,9 +7,9 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Accumulate.html">Accumulate</a> */
 public enum Accumulate {
   ;
-  /** <pre>
+  /** <code>
    * Accumulate.of[{a, b, c, d}] == {a, a + b, a + b + c, a + b + c + d}
-   * </pre>
+   * </code>
    * 
    * <p>concept as MATLAB::cumsum
    * 
@@ -19,9 +19,9 @@ public enum Accumulate {
     return FoldList.of(Tensor::add, tensor);
   }
 
-  /** <pre>
+  /** <code>
    * Accumulate.prod[{a, b, c, d}] == {a, a * b, a * b * c, a * b * c * d}
-   * </pre>
+   * </code>
    * 
    * <p>concept as MATLAB::cumprod
    * 

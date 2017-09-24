@@ -9,7 +9,9 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
  * <p>The scalar 0 in any field cannot be inverted.
  * Zero is supplied by {@link #zero()}.
  * 
- * <p>When invoking get() on {@link Scalar} the list of arguments has to be empty.
+ * <p>When invoking {@link #get(Integer...)}, {@link #get(java.util.List)},
+ * or {@link #Get(Integer...)} on {@link Scalar} the list of arguments
+ * has to be empty.
  * 
  * <p>Derived classes are immutable, i.e. contents of an instance of {@link Scalar}
  * do not change during the lifetime of the instance.

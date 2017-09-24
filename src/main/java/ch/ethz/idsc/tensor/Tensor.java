@@ -25,8 +25,10 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * Tensor stateAction = {state, action}
  * </pre>
  * 
- * <p>If a {@link Tensor} is a multi-dimensional array, then the dot product is supported.
- * Example of a tensor with regular array structure:
+ * <p>If a {@link Tensor} is a multi-dimensional array, then the dot product
+ * {@link #dot(Tensor)} is supported.
+ * 
+ * <p>Example of a tensor with regular array structure:
  * <code>{{1, 2, 3}, {4, 5, 6}}</code> */
 public interface Tensor extends Iterable<Tensor>, Serializable {
   /** constant ALL is used in the function
@@ -35,7 +37,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * <li>{@link #set(Function, Integer...)} to reassign <em>all</em> elements from the respective dimension.
    * </ul>
    * 
-   * <p>The value of ALL is deliberately not chosen to equal -1, since an index of -1
+   * <p>The value of ALL is deliberately <em>not</em> chosen to equal -1, since an index of -1
    * could likely be the result of a mistake in the application layer. */
   static final int ALL = 0xA110CA7E;
   /** curly opening bracket of vector */
@@ -132,11 +134,12 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @see #set(Tensor, Integer...) */
   <T extends Tensor> void set(Function<T, ? extends Tensor> function, Integer... index);
 
-  /** appends a copy of input tensor to this instance.
-   * The length() is incremented by 1.
+  /** appends a copy of input tensor to this instance
    * 
-   * <p>append(...) can be used to append to a sub-tensor of this instance via
-   * {@link #set(Function, Integer...)}.
+   * <p>The length() is incremented by 1.
+   * 
+   * <p>{@link #append(Tensor)} can be used to append to a sub-tensor of this instance
+   * via {@link #set(Function, Integer...)}.
    * For example:
    * <pre>matrix.set(row -> row.append(tensor), index);</pre>
    * 
@@ -208,7 +211,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
 
   /** tensor addition
    * 
-   * addition is commutative: <code>a.add(b) equals b.add(a)</code>
+   * <p>addition is commutative: <code>a.add(b) equals b.add(a)</code>
    * 
    * @param tensor
    * @return this plus input tensor */
@@ -242,7 +245,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return this element-wise multiply input tensor. */
   Tensor pmul(Tensor tensor);
 
-  /** scalar multiplication, i.e. scaling of tensor entries
+  /** scalar multiplication with given factor; scaling applies to all entries
    * 
    * @param scalar
    * @return tensor with elements of this tensor multiplied with given scalar */

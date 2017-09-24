@@ -10,8 +10,10 @@ import ch.ethz.idsc.tensor.sca.Gamma;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** special cases of the Gamma distribution are
+ * <code>
  * GammaDistribution[1, lambda] == ExponentialDistribution[1 / lambda]
  * GammaDistribution[k, lambda] == ErlangDistribution[k, 1 / lambda] for k positive integer
+ * </code>
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/GammaDistribution.html">GammaDistribution</a> */

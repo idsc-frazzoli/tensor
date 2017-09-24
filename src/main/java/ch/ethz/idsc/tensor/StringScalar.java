@@ -3,11 +3,12 @@ package ch.ethz.idsc.tensor;
 
 import java.util.Objects;
 
-/** StringScalar represents a string
- * no mathematical operations are possible
+/** StringScalar represents a string.
  * 
- * <p>for instance, the first line of a csv file may contain column
- * headers which are imported as {@link StringScalar}s */
+ * <p>No mathematical operations are supported.
+ * 
+ * <p>For instance, when importing a csv file, the first line may contain
+ * column header names which are imported as {@link StringScalar}s. */
 public final class StringScalar extends AbstractScalar implements Comparable<Scalar> {
   /** @param string
    * @return new instance of {@link StringScalar} representing string */

@@ -7,7 +7,8 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Numel;
 
-/** exception commonly used when something goes wrong within the tensor library */
+/** Exception thrown when a problem is encountered related to the types
+ * {@link Tensor}, and {@link Scalar}. */
 public class TensorRuntimeException extends RuntimeException {
   private static final int MAX_NUMEL = 10;
   private static final int MAX_LENGTH = 32;

@@ -9,18 +9,10 @@ import java.util.Properties;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** reference implementation of {@link UnitSystem} with emphasis on simplicity */
 public class SimpleUnitSystem implements UnitSystem {
-  private static UnitSystem SI = from(ResourceData.properties("/unit/si.properties"));
-
-  /** @return international system of units, metric system */
-  /* package */ static UnitSystem SI() {
-    return SI;
-  }
-
   /** @param properties
    * @return */
   public static UnitSystem from(Properties properties) {

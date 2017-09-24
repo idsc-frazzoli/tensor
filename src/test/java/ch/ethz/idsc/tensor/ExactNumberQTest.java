@@ -9,8 +9,12 @@ public class ExactNumberQTest extends TestCase {
     assertTrue(ExactNumberQ.of(RealScalar.ZERO));
     assertFalse(ExactNumberQ.of(DoubleScalar.of(0)));
     assertFalse(ExactNumberQ.of(DecimalScalar.of(0)));
+  }
+
+  public void testComplex() {
     assertTrue(ExactNumberQ.of(ComplexScalar.of(3, 4)));
     assertFalse(ExactNumberQ.of(ComplexScalar.of(3., 4)));
+    assertFalse(ExactNumberQ.of(ComplexScalar.of(3, 4.)));
   }
 
   public void testTensor() {

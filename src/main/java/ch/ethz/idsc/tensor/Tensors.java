@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * construction process.
  * 
  * <p>Parallel stream processing can lead to significant speed-up.
- * Parallel stream processing has be decided case by case. */
+ * Parallel stream processing has to be decided case by case. */
 public enum Tensors {
   ;
   /** @return new modifiable tensor instance with no entries, i.e. length() == 0

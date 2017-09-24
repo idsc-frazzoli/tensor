@@ -11,11 +11,9 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/QuantityMagnitude.html">QuantityMagnitude</a> */
 public class QuantityMagnitude {
-  private static final QuantityMagnitude SI = new QuantityMagnitude(UnitSystem.SI());
-
   /** @return instance of QuantityMagnitude that uses the built-in SI convention */
   public static final QuantityMagnitude SI() {
-    return SI;
+    return BuiltIn.SI.quantityMagnitude;
   }
 
   private final UnitSystem unitSystem;

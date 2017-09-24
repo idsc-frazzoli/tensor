@@ -5,6 +5,7 @@ import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.alg.BinaryPower;
 
+/** collection of useful static functions related to {@link Scalar} */
 public enum Scalars {
   ;
   /** parses given string to an instance of {@link Scalar}

@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Factorial;
 import ch.ethz.idsc.tensor.sca.Power;
@@ -15,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Power;
  * <a href="https://reference.wolfram.com/language/ref/ErlangDistribution.html">ErlangDistribution</a> */
 public class ErlangDistribution implements Distribution, MeanInterface, PDF, VarianceInterface {
   /** @param k positive integer
-   * @param lambda
+   * @param lambda, may be instanceof {@link Quantity}
    * @return */
   public static Distribution of(int k, Scalar lambda) {
     if (k <= 0)
