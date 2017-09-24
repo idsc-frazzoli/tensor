@@ -9,7 +9,9 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum DeleteDuplicates {
   ;
   /** Example:
+   * <code>
    * DeleteDuplicates[{7, 3, 3, 7, 1, 2, 3, 2, 3, 1}] == {7, 3, 1, 2}
+   * </code>
    * 
    * @param tensor
    * @return

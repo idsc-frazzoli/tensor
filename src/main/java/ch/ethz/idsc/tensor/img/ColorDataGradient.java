@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.sca.N;
 
-/** ColorDataGradient maps a {@link Scalar} to a color using interpolation
+/** ColorDataGradient maps a {@link Scalar} to a color using linear interpolation
  * on a given table of rgba values.
  * 
  * <p>In case NumberQ.of(scalar) == false then a transparent color is assigned. */

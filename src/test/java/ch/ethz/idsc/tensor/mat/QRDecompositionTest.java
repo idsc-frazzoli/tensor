@@ -14,8 +14,10 @@ import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Imag;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class QRDecompositionTest extends TestCase {
@@ -112,6 +114,40 @@ public class QRDecompositionTest extends TestCase {
     QRDecomposition qr = QRDecomposition.of(matrix);
     // specialOps(matrix);
     // System.out.println(Pretty.of(qr.getR()));
+  }
+
+  @SuppressWarnings("deprecation")
+  public void testQuantity() {
+    Tensor matrix = Tensors.fromString( //
+        "{{ 12[s], -51[s], 4[s] }, { 6[s], 167[s], -68[s] }, { -4[s], 24[s], -41[s] } }", //
+        Quantity::fromString);
+    {
+      QRDecomposition qr = QRDecomposition.of(matrix);
+      assertTrue(qr.det() instanceof Quantity);
+      assertEquals(qr.getQ().dot(qr.getR()), matrix);
+      assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
+    }
+    {
+      QRDecomposition qr = QRDecomposition.of(N.DOUBLE.of(matrix));
+      assertTrue(qr.det() instanceof Quantity);
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  public void testQuantityMixed() {
+    Tensor matrix = Tensors.fromString( //
+        "{{ 12[s], -51[A], 4[m] }, { 6[s], 167[A], -68[m] }, { -4[s], 24[A], -41[m] } }", //
+        Quantity::fromString);
+    {
+      QRDecomposition qr = QRDecomposition.of(matrix);
+      assertTrue(qr.det() instanceof Quantity);
+      assertEquals(qr.getQ().dot(qr.getR()), matrix);
+      assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
+    }
+    {
+      QRDecomposition qr = QRDecomposition.of(N.DOUBLE.of(matrix));
+      assertTrue(qr.det() instanceof Quantity);
+    }
   }
 
   public void testEmpty() {

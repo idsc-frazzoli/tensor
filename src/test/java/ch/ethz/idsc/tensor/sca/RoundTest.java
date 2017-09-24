@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.StringScalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class RoundTest extends TestCase {
@@ -102,6 +103,12 @@ public class RoundTest extends TestCase {
     assertEquals(pi.map(Round._7).toString(), "3.1000000");
     assertEquals(pi.map(Round._8).toString(), "3.10000000");
     assertEquals(pi.map(Round._9).toString(), "3.100000000");
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(2.333, "m");
+    Scalar qs2 = Quantity.of(2, "m");
+    assertEquals(Round.of(qs1), qs2);
   }
 
   public void testTypeFail() {

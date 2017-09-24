@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.io.CsvFormat;
 import ch.ethz.idsc.tensor.io.ObjectFormat;
@@ -15,13 +14,11 @@ import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
-import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
 
 /** {@link Quantity} represents a magnitude and unit.
- * The class is intended for testing and demonstration.
  * <pre>
  * Mathematica::Quantity[8, "Kilograms"^2*"Meters"]
- * Tensor::Quantity.of(8, "[kg^2*m]")
+ * Tensor::Quantity.of(8, "kg^2*m")
  * </pre>
  * 
  * The implementation is consistent with Mathematica:
@@ -50,30 +47,36 @@ import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
 public interface Quantity extends Scalar, //
     ArcTanInterface, ChopInterface, ComplexEmbedding, NInterface, //
     PowerInterface, RoundingInterface, SignInterface, SqrtInterface, //
-    TrigonometryInterface, Comparable<Scalar> {
+    Comparable<Scalar> {
+  static final char UNIT_OPENING_BRACKET = '[';
+  static final char UNIT_CLOSING_BRACKET = ']';
+
   /** @param string for example "9.81[m*s^-2]"
    * @return */
   static Scalar fromString(String string) {
-    int index = string.indexOf(Unit.OPENING_BRACKET);
-    if (0 <= index) {
-      Scalar value = Scalars.fromString(string.substring(0, index));
-      Unit unit = Unit.of(string.substring(index));
-      return QuantityImpl.of(value, unit);
-    }
-    return Scalars.fromString(string);
+    return QuantityParser.of(string);
   }
 
   /** @param value
-   * @param string for instance "[m*s^-2]"
+   * @param string for instance "m*s^-2"
    * @return */
   static Scalar of(Scalar value, String string) {
-    if (value instanceof Quantity)
-      throw TensorRuntimeException.of(value);
-    return QuantityImpl.of(value, Unit.of(string));
+    return of(value, Unit.of(string));
   }
 
-  /** @param number
-   * @param string for instance "[kg^3*m*s^-2]"
+  /** @param value
+   * @param unit for instance Unit.of("m*s^-1")
+   * @return */
+  static Scalar of(Scalar value, Unit unit) {
+    if (value instanceof Quantity)
+      throw TensorRuntimeException.of(value);
+    return QuantityImpl.of(value, unit);
+  }
+
+  /** creates quantity with number encoded as {@link RealScalar}
+   * 
+   * @param number
+   * @param string for instance "kg^3*m*s^-2"
    * @return */
   static Scalar of(Number number, String string) {
     return QuantityImpl.of(RealScalar.of(number), Unit.of(string));

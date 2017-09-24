@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor;
 /** predicate that determines if a given tensor is instance of {@link Scalar} */
 public enum ScalarQ {
   ;
-  /** alternative predicate is
+  /** equivalent predicate is
    * {@code tensor.length() == Scalar.LENGTH}
    * 
    * @param tensor

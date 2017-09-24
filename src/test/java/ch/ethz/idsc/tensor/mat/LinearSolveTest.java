@@ -7,10 +7,12 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -108,5 +110,31 @@ public class LinearSolveTest extends TestCase {
     Tensor r = LinearSolve.of(m, b);
     assertEquals(r, Tensors.vector(1));
     assertEquals(Det.of(m), DoubleScalar.of(Double.MIN_VALUE));
+  }
+
+  public void testQuantity1() {
+    final Scalar one = Quantity.of(1, "m");
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    Scalar qs3 = Quantity.of(2, "m");
+    Scalar qs4 = Quantity.of(-3, "m");
+    Tensor ve1 = Tensors.of(qs1, qs2);
+    Tensor ve2 = Tensors.of(qs3, qs4);
+    Tensor mat = Tensors.of(ve1, ve2);
+    Tensor eye = IdentityMatrix.of(2, one);
+    Tensor inv = LinearSolve.of(mat, eye);
+    Tensor res = mat.dot(inv);
+    assertEquals(res, eye);
+  }
+
+  public void testQuantity2() {
+    Scalar qs1 = Quantity.of(3, "m");
+    Scalar qs2 = Quantity.of(4, "s");
+    Tensor ve1 = Tensors.of(qs1);
+    Tensor mat = Tensors.of(ve1);
+    Tensor rhs = Tensors.of(qs2);
+    Tensor sol = LinearSolve.of(mat, rhs);
+    Tensor res = mat.dot(sol);
+    assertEquals(res, rhs);
   }
 }

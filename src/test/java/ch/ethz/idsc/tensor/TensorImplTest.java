@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Iterator;
+
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
@@ -59,6 +61,16 @@ public class TensorImplTest extends TestCase {
       } catch (Exception exception) {
         // ---
       }
+  }
+
+  public void testIteratorRemove() {
+    Tensor tensor = IdentityMatrix.of(4);
+    Iterator<Tensor> iterator = tensor.iterator();
+    while (iterator.hasNext()) {
+      iterator.next();
+      iterator.remove();
+    }
+    assertEquals(tensor, Tensors.empty());
   }
 
   public void testIteratorCopy() {

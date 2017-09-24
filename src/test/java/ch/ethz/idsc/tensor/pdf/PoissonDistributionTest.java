@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -57,6 +58,15 @@ public class PoissonDistributionTest extends TestCase {
     CDF cdf = CDF.of(distribution);
     Scalar s = cdf.p_lessThan(RealScalar.of(50));
     assertEquals(Chop._12.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
+  }
+
+  public void testQuantityFail() {
+    try {
+      PoissonDistribution.of(Quantity.of(3, "m"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testFailLambda() {

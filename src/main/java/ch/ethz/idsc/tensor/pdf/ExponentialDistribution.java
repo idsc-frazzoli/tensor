@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 
@@ -15,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Log;
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
 public class ExponentialDistribution implements Distribution, //
     CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
-  /** @param lambda positive
+  /** @param lambda positive, may be instance of {@link Quantity}
    * @return */
   public static Distribution of(Scalar lambda) {
     if (Scalars.lessEquals(lambda, RealScalar.ZERO))
@@ -40,7 +41,7 @@ public class ExponentialDistribution implements Distribution, //
   /* package for testing */ Scalar randomVariate(double reference) {
     // {@link Random#nextDouble()} samples uniformly from the range 0.0 (inclusive) to 1.0d (exclusive)
     double uniform = Math.nextUp(reference);
-    return Log.of(DoubleScalar.of(uniform)).divide(lambda_negate);
+    return Log.FUNCTION.apply(DoubleScalar.of(uniform)).divide(lambda_negate);
   }
 
   @Override // from MeanInterface
@@ -57,13 +58,13 @@ public class ExponentialDistribution implements Distribution, //
   public Scalar at(Scalar x) {
     if (Scalars.lessThan(x, RealScalar.ZERO))
       return RealScalar.ZERO;
-    return Exp.of(x.multiply(lambda).negate()).multiply(lambda); // E^(-x \[Lambda]) \[Lambda]
+    return Exp.FUNCTION.apply(x.multiply(lambda).negate()).multiply(lambda); // E^(-x \[Lambda]) \[Lambda]
   }
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     return Scalars.lessEquals(x, RealScalar.ZERO) ? RealScalar.ZERO : //
-        RealScalar.ONE.subtract(Exp.of(x.multiply(lambda_negate)));
+        RealScalar.ONE.subtract(Exp.FUNCTION.apply(x.multiply(lambda_negate)));
   }
 
   @Override // from CDF

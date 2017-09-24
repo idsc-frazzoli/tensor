@@ -141,6 +141,10 @@ public class ScalarsTest extends TestCase {
     }
   }
 
+  public void testLongValueExact() {
+    assertEquals(Scalars.longValueExact(RealScalar.of(Long.MAX_VALUE)), Long.MAX_VALUE);
+  }
+
   public void testExample() {
     Scalar s = Scalars.fromString("(3+2)*I/(-1+4)+8-I");
     Scalar c = ComplexScalar.of(RealScalar.of(8), RationalScalar.of(2, 3));

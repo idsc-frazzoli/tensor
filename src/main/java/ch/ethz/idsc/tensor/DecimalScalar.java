@@ -219,7 +219,7 @@ public final class DecimalScalar extends AbstractRealScalar implements //
   public Scalar sqrt() {
     if (isNonNegative())
       return of(BigDecimalMath.sqrt(value, mathContextHint()));
-    return ComplexScalar.of(zero(), of(BigDecimalMath.sqrt(value.negate(), mathContextHint())));
+    return ComplexScalarImpl.of(zero(), of(BigDecimalMath.sqrt(value.negate(), mathContextHint())));
   }
 
   @Override // from TrigonometryInterface

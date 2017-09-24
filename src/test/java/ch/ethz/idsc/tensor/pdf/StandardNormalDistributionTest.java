@@ -21,7 +21,7 @@ public class StandardNormalDistributionTest extends TestCase {
   public void testCdf() {
     CDF cdf = StandardNormalDistribution.INSTANCE;
     {
-      Scalar p = cdf.p_lessThan(RealScalar.ZERO);
+      Scalar p = cdf.p_lessEquals(RealScalar.ZERO);
       assertEquals(p, RealScalar.of(0.5));
     }
     {

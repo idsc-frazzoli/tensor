@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class CeilingTest extends TestCase {
@@ -82,6 +83,11 @@ public class CeilingTest extends TestCase {
   public void testNonFailNaN() {
     Scalar s = Ceiling.of(DoubleScalar.of(Double.NaN));
     assertTrue(Double.isNaN(s.number().doubleValue()));
+  }
+
+  public void testQuantity() {
+    Scalar s = Quantity.of(2.1, "K");
+    assertEquals(Ceiling.FUNCTION.apply(s), Quantity.of(3, "K"));
   }
 
   public void testTypeFail() {

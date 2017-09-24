@@ -14,10 +14,10 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum ArrayReshape {
   ;
   /** compliant with Mathematica's ArrayReshape
-   * <pre>
+   * <code>
    * ArrayReshape[{a, b, c, d, e, f}, {2, 3}] == {{a, b, c}, {d, e, f}}
    * ArrayReshape[{a, b, c, d, e, f}, {2, 3, 1}] == {{{a}, {b}, {c}}, {{d}, {e}, {f}}}
-   * </pre>
+   * </code>
    * 
    * implementation requires
    * <code>stream.count() == prod(size)</code>

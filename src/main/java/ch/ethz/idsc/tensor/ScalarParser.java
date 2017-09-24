@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-enum ScalarParser {
+/* package */ enum ScalarParser {
   ;
   private static final char OPENING_BRACKET = '(';
   private static final char CLOSING_BRACKET = ')';
@@ -22,10 +22,12 @@ enum ScalarParser {
   // ---
   private static final Pattern PATTERN_INTEGER = Pattern.compile("\\d+"); // optional sign is obsolete
   private static final Pattern PATTERN_DOUBLE = Pattern.compile(StaticHelper.fpRegex);
+  /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */
+  private static final String I_SYMBOL = "I";
 
-  static Scalar of(final String string) {
-    final String expr = string.trim();
-    final char[] chars = expr.toCharArray();
+  static Scalar of(final String _string) {
+    final String string = _string.trim();
+    final char[] chars = string.toCharArray();
     final List<Integer> plusMinus = new ArrayList<>();
     Integer times = null;
     Integer divide = null;
@@ -53,37 +55,63 @@ enum ScalarParser {
     }
     if (!plusMinus.isEmpty()) {
       int first = plusMinus.get(0);
-      Scalar sum = first == 0 ? RealScalar.ZERO : of(expr.substring(0, first));
+      Scalar sum = first == 0 ? RealScalar.ZERO : of(string.substring(0, first));
       for (int index = 0; index < plusMinus.size(); ++index) {
         int curr = plusMinus.get(index);
         final char c = chars[curr];
-        int next = index + 1 < plusMinus.size() ? plusMinus.get(index + 1) : expr.length();
+        int next = index + 1 < plusMinus.size() ? plusMinus.get(index + 1) : string.length();
         if (c == ADD)
-          sum = sum.add(of(expr.substring(curr + 1, next)));
+          sum = sum.add(of(string.substring(curr + 1, next)));
         if (c == SUBTRACT)
-          sum = sum.subtract(of(expr.substring(curr + 1, next)));
+          sum = sum.subtract(of(string.substring(curr + 1, next)));
       }
       return sum;
     }
     if (Objects.nonNull(times))
-      return of(expr.substring(0, times)).multiply(of(expr.substring(times + 1)));
+      return of(string.substring(0, times)).multiply(of(string.substring(times + 1)));
     if (Objects.nonNull(divide))
-      return of(expr.substring(0, divide)).divide(of(expr.substring(divide + 1)));
-    if (expr.startsWith("(") && expr.endsWith(")"))
-      return of(expr.substring(1, expr.length() - 1));
-    if (expr.equals(ComplexScalar.I_SYMBOL))
+      return of(string.substring(0, divide)).divide(of(string.substring(divide + 1)));
+    if (string.startsWith("(") && string.endsWith(")"))
+      return of(string.substring(1, string.length() - 1));
+    if (string.equals(I_SYMBOL))
       return ComplexScalar.I;
-    if (PATTERN_INTEGER.matcher(expr).matches()) // check integer
-      return RationalScalar.of(new BigInteger(expr), BigInteger.ONE);
-    if (PATTERN_DOUBLE.matcher(expr).matches()) // check double
-      return DoubleScalar.of(Double.parseDouble(expr));
-    final int prime = expr.indexOf(DECIMAL_PRIME); // check decimal
+    if (PATTERN_INTEGER.matcher(string).matches()) // check integer
+      return RationalScalar.of(new BigInteger(string), BigInteger.ONE);
+    if (PATTERN_DOUBLE.matcher(string).matches()) // check double
+      return DoubleScalar.of(Double.parseDouble(string));
+    final int prime = string.indexOf(DECIMAL_PRIME); // check decimal
     if (0 < prime) {
-      int precision = (int) Math.round(Double.parseDouble(string.substring(prime + 1)));
+      final String ante = string.substring(0, prime);
+      final String post = string.substring(prime + 1);
+      if (post.isEmpty())
+        return of(ante);
+      int precision = (int) Math.round(Double.parseDouble(post));
       MathContext mathContext = new MathContext(precision, RoundingMode.HALF_EVEN);
-      BigDecimal bigDecimal = new BigDecimal(string.substring(0, prime), mathContext);
+      BigDecimal bigDecimal = new BigDecimal(ante, mathContext);
       return DecimalScalar.of(bigDecimal);
     }
-    throw new RuntimeException(expr);
+    throw new RuntimeException(_string);
+  }
+
+  /** helper function that formats imaginary part to a String
+   * 
+   * @param im
+   * @return */
+  static String imagToString(Scalar im) {
+    if (im instanceof RationalScalar) {
+      RationalScalar rationalScalar = (RationalScalar) im;
+      BigInteger num = rationalScalar.numerator();
+      BigInteger den = rationalScalar.denominator();
+      if (num.equals(BigInteger.ONE))
+        return I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
+      if (num.equals(BigInteger.ONE.negate()))
+        return "-" + I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
+    }
+    String imag = im.toString();
+    if (imag.equals("1"))
+      return I_SYMBOL;
+    if (imag.equals("-1"))
+      return '-' + I_SYMBOL;
+    return imag + '*' + I_SYMBOL;
   }
 }

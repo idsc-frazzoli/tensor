@@ -4,13 +4,13 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.3.5`
+Version `0.3.6`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
-* scalars are real, or complex numbers, or from finite fields, etc.
-* values are encoded as exact fractions, in double precision, and as `java.math.BigDecimal`
-* other projects can customize the scalars for instance to attach physical units such as `javax.measure.Unit`
+* scalars are real-, or complex numbers, from finite fields, or quantities with physical units
+* values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
+* probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
 * import from and export to `Mathematica`, `CSV`-, and image files
 
 The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
@@ -69,7 +69,7 @@ gives results in machine precision
 
 ---
 
-The tensor library implements `Quantity`, i.e. numbers with physical units, for the purpose of demonstration and testing.
+The tensor library implements `Quantity`, i.e. numbers with physical units.
 Several algorithms are verified to work with scalars of type `Quantity`.
 
     Tensor matrix = Tensors.fromString( //
@@ -78,7 +78,7 @@ Several algorithms are verified to work with scalars of type `Quantity`.
     CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));
-    System.out.println(cd.det().divide(Quantity.of(20, "[m^2*rad]")));
+    System.out.println(cd.det().divide(Quantity.of(20, "m^2*rad")));
 
 gives
 
@@ -89,6 +89,8 @@ gives
      [  1/3[kg*m^-1]   1[kg*rad^-1]              1 ]
     ]
     5[kg^2*rad]
+
+The arithmetic for the scalar type `Quantity` was developed in collaboration with the project `Swisstrolley+`.
 
 ---
 
@@ -225,6 +227,27 @@ gives
 The number after the prime indicates the precision of the decimal.
 The string representation is compatible with `Mathematica`.
 
+---
+
+The units of a quantity are chosen by the application layer.
+For instance, `Quantity.of(3, "Apples")` is valid syntax.
+
+The tensor library contains the resource `/unit/si.properties` that encodes the SI unit system in the familiar strings such as `m`, `kg`, `s`, but the use of this convention is optional.
+The example below makes use of these provided definitions
+
+    Scalar mass = Quantity.of(300, "g"); // in gram
+    Scalar a = Quantity.of(981, "cm*s^-2"); // in centi-meters per seconds square
+    Scalar force = mass.multiply(a);
+    System.out.println(force);
+    Scalar force_N = UnitConvert.SI().to(Unit.of("N")).apply(force);
+    System.out.println(force_N);
+
+gives
+
+    294300[cm*g*s^-2]
+    2943/1000[N]
+
+
 ## Include in your project
 
 Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:
@@ -244,7 +267,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.3.5</version>
+        <version>0.3.6</version>
       </dependency>
     </dependencies>
 
@@ -252,7 +275,7 @@ The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.3.5/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.3.6/*
 
 ## Optional
 
@@ -273,10 +296,10 @@ The library is used in the projects:
 * `owly`
 * `subare`
 * `owly3d`
-* `SwissTrolley+`
+* `SwissTrolley+` that implements Scalar with physical units from `javax.measure.Unit`
 * `retina`
 * `queuey`
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1350` unit tests.
+The repository has over `1470` unit tests.

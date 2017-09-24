@@ -6,6 +6,9 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
+import ch.ethz.idsc.tensor.qty.Unit;
 import junit.framework.TestCase;
 
 public class UniformDistributionTest extends TestCase {
@@ -27,6 +30,31 @@ public class UniformDistributionTest extends TestCase {
     Scalar s1 = RandomVariate.of(UniformDistribution.of(0, 1), new Random(1000));
     Scalar s2 = RandomVariate.of(UniformDistribution.unit(), new Random(1000));
     assertEquals(s1, s2);
+  }
+
+  public void testQuantity() {
+    Distribution distribution = UniformDistribution.of(Quantity.of(3, "g"), Quantity.of(5, "g"));
+    assertTrue(RandomVariate.of(distribution) instanceof Quantity);
+    Scalar mean = Expectation.mean(distribution);
+    assertTrue(mean instanceof Quantity);
+    assertEquals(mean, Quantity.of(4, "g"));
+    Scalar var = Expectation.variance(distribution);
+    assertTrue(var instanceof Quantity);
+    assertEquals(var, Quantity.fromString("1/3[g^2]"));
+    {
+      Scalar prob = PDF.of(distribution).at(mean);
+      QuantityMagnitude.SI().in(Unit.of("lb^-1")).apply(prob);
+    }
+    assertEquals(CDF.of(distribution).p_lessEquals(mean), RationalScalar.of(1, 2));
+  }
+
+  public void testQuantityFail() {
+    try {
+      UniformDistribution.of(Quantity.of(3, "m"), Quantity.of(5, "km"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testFail() {

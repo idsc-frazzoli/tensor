@@ -5,11 +5,13 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.GaussScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -53,5 +55,52 @@ public class InverseTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testQuantity1() {
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(2, "m");
+    Scalar qs3 = Quantity.of(3, "rad");
+    Scalar qs4 = Quantity.of(4, "rad");
+    Tensor ve1 = Tensors.of(qs1.multiply(qs1), qs2.multiply(qs3));
+    Tensor ve2 = Tensors.of(qs2.multiply(qs3), qs4.multiply(qs4));
+    Tensor mat = Tensors.of(ve1, ve2);
+    Tensor eye = IdentityMatrix.of(2); // <- yey!
+    {
+      Tensor inv = LinearSolve.of(mat, eye);
+      Tensor res = mat.dot(inv);
+      assertEquals(eye, res);
+      assertEquals(res, eye);
+    }
+    {
+      Inverse.of(mat);
+    }
+  }
+
+  public void testQuantity2() {
+    Tensor mat = Tensors.fromString( //
+        "{{1[m^2], 2[m*rad], 3[kg*m]}, {4[m*rad], 2[rad^2], 2[kg*rad]}, {5[kg*m], 1[kg*rad], 7[kg^2]}}", //
+        Quantity::fromString);
+    {
+      Tensor eye = IdentityMatrix.of(3);
+      Tensor inv = LinearSolve.of(mat, eye);
+      Tensor res = mat.dot(inv);
+      assertEquals(eye, res);
+      assertEquals(res, eye);
+    }
+    {
+      Tensor eye = IdentityMatrix.of(3);
+      Tensor inv = LinearSolve.withoutAbs(mat, eye);
+      Tensor res = mat.dot(inv);
+      assertEquals(eye, res);
+      assertEquals(res, eye);
+    }
+    {
+      Tensor inv = Inverse.of(mat);
+      assertEquals(mat.dot(inv), inv.dot(mat));
+      assertEquals(mat.dot(inv), IdentityMatrix.of(3));
+    }
+    assertFalse(HermitianMatrixQ.of(mat));
+    assertFalse(SymmetricMatrixQ.of(mat));
   }
 }

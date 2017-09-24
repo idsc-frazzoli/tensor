@@ -52,9 +52,9 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
 
   @Override // from AbstractDiscreteDistribution
   public Scalar randomVariate(Scalar reference) {
-    Scalar num = Log.of(RealScalar.ONE.subtract(reference));
-    Scalar den = Log.of(_1_p);
-    return Floor.of(num.divide(den));
+    Scalar num = Log.FUNCTION.apply(RealScalar.ONE.subtract(reference));
+    Scalar den = Log.FUNCTION.apply(_1_p);
+    return Floor.FUNCTION.apply(num.divide(den));
   }
 
   @Override // from AbstractDiscreteDistribution
@@ -66,12 +66,12 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     return Scalars.lessEquals(x, RealScalar.ZERO) ? RealScalar.ZERO : //
-        RealScalar.ONE.subtract(Power.of(_1_p, Ceiling.of(x)));
+        RealScalar.ONE.subtract(Power.of(_1_p, Ceiling.FUNCTION.apply(x)));
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
     return Scalars.lessThan(x, RealScalar.ZERO) ? RealScalar.ZERO : //
-        RealScalar.ONE.subtract(Power.of(_1_p, RealScalar.ONE.add(Floor.of(x))));
+        RealScalar.ONE.subtract(Power.of(_1_p, RealScalar.ONE.add(Floor.FUNCTION.apply(x))));
   }
 }

@@ -2,9 +2,11 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dot;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class DiagonalMatrixTest extends TestCase {
@@ -35,5 +37,12 @@ public class DiagonalMatrixTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(2, "s");
+    Tensor vec = Tensors.of(qs1, qs2);
+    DiagonalMatrix.of(vec);
   }
 }

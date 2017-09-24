@@ -43,7 +43,7 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
 
   private PoissonDistribution(Scalar lambda) {
     this.lambda = lambda;
-    values.append(Exp.of(lambda.negate()));
+    values.append(Exp.FUNCTION.apply(lambda.negate()));
   }
 
   @Override // from MeanInterface

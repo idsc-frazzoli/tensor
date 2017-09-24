@@ -12,6 +12,59 @@ public class StringScalarTest extends TestCase {
     assertEquals(d.toString(), "{asd, x, asd, x}");
   }
 
+  public void testHashCode() {
+    assertEquals( //
+        StringScalar.of("asd").hashCode(), //
+        StringScalar.of("asd").hashCode());
+  }
+
+  public void testEquals() {
+    assertTrue(StringScalar.of("3.14").equals(StringScalar.of("3.14")));
+    assertFalse(StringScalar.of("3.14").equals(DoubleScalar.of(3.14)));
+  }
+
+  public void testFailOp() {
+    try {
+      StringScalar.of("asd").reciprocal();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      StringScalar.of("asd").negate();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      StringScalar.of("asd").number();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      StringScalar.of("asd").multiply(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      StringScalar.of("asd").add(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMultiplyFail() {
+    try {
+      ComplexScalar.I.multiply(StringScalar.of("asd"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFail() {
     try {
       StringScalar.of(null);

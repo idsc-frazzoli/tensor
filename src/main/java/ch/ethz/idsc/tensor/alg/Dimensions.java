@@ -30,13 +30,6 @@ public enum Dimensions {
     return _list(_complete(tensor));
   }
 
-  /** @param tensor
-   * @return true if tensor.length() == 0, and
-   * false if tensor contains entries or is a {@link Scalar} */
-  public static boolean isEmptyTensor(Tensor tensor) { // Marc's function
-    return tensor.length() == 0;
-  }
-
   /***************************************************/
   /** @return true if tensor structure is identical at all levels, else false.
    * true for {@link Scalar}s

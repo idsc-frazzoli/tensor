@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class MachineNumberQTest extends TestCase {
@@ -33,5 +34,10 @@ public class MachineNumberQTest extends TestCase {
     assertFalse(MachineNumberQ.of(DoubleScalar.POSITIVE_INFINITY));
     assertFalse(MachineNumberQ.of(DoubleScalar.NEGATIVE_INFINITY));
     assertFalse(MachineNumberQ.of(RealScalar.of(Double.NaN)));
+  }
+
+  public void testQuantity() {
+    Scalar s1 = Quantity.of(3, "m");
+    assertFalse(MachineNumberQ.of(s1));
   }
 }

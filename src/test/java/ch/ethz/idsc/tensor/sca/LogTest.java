@@ -34,11 +34,6 @@ public class LogTest extends TestCase {
     assertEquals(Log.of(ratio).toString(), "" + Math.log1p(rem.number().doubleValue()));
   }
 
-  public void testRange() {
-    assertEquals(Math.log(Log.HI), Math.log1p(Log.HI - 1));
-    assertEquals(Math.log(Log.LO), Math.log1p(Log.LO - 1));
-  }
-
   public void testFail() {
     try {
       Log.of(GaussScalar.of(6, 7));

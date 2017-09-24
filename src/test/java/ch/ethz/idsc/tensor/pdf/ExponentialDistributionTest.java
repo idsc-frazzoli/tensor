@@ -7,7 +7,11 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.Unit;
+import ch.ethz.idsc.tensor.qty.UnitConvert;
 import ch.ethz.idsc.tensor.red.Mean;
+import ch.ethz.idsc.tensor.sca.Exp;
 import junit.framework.TestCase;
 
 public class ExponentialDistributionTest extends TestCase {
@@ -19,7 +23,28 @@ public class ExponentialDistributionTest extends TestCase {
     }
   }
 
-  public void testCDF() {
+  public void testPDF() {
+    Distribution distribution = ExponentialDistribution.of(RealScalar.of(2));
+    {
+      Scalar actual = PDF.of(distribution).at(RealScalar.of(3));
+      Scalar expected = RealScalar.of(2).divide(Exp.of(RealScalar.of(6)));
+      assertEquals(expected, actual);
+    }
+    {
+      Scalar actual = PDF.of(distribution).at(RealScalar.of(-3));
+      assertEquals(actual, RealScalar.ZERO);
+    }
+  }
+
+  public void testCDFPositive() {
+    Distribution distribution = ExponentialDistribution.of(RealScalar.of(2));
+    CDF cdf = CDF.of(distribution);
+    Scalar actual = cdf.p_lessEquals(RealScalar.of(3));
+    Scalar expected = RealScalar.ONE.subtract(Exp.of(RealScalar.of(6)).reciprocal());
+    assertEquals(expected, actual);
+  }
+
+  public void testCDFNegative() {
     Distribution distribution = ExponentialDistribution.of(RealScalar.ONE);
     CDF cdf = CDF.of(distribution);
     assertEquals(cdf.p_lessThan(RealScalar.of(-1)), RealScalar.ZERO);
@@ -81,5 +106,15 @@ public class ExponentialDistributionTest extends TestCase {
     _checkCorner(RealScalar.of(1));
     _checkCorner(RealScalar.of(2));
     _checkCorner(RealScalar.of(700));
+  }
+
+  public void testQuantity() {
+    Distribution distribution = ExponentialDistribution.of(Quantity.of(3, "m"));
+    Scalar rand = RandomVariate.of(distribution);
+    assertTrue(rand instanceof Quantity);
+    UnitConvert.SI().to(Unit.of("mi^-1")).apply(rand);
+    assertTrue(Expectation.mean(distribution) instanceof Quantity);
+    Scalar var = Expectation.variance(distribution);
+    assertTrue(var instanceof Quantity);
   }
 }

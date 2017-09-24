@@ -15,6 +15,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * 
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
+// TODO implementation could allow the use of Quantity
 public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {
   /** Example:
    * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/10 for 0 <= x < 10 and x integer
@@ -64,7 +65,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from AbstractDiscreteDistribution
   public Scalar randomVariate(Scalar reference) {
-    return RationalScalar.of(min, 1).add(Floor.of(reference.multiply(RationalScalar.of(max - min, 1))));
+    return RationalScalar.of(min, 1).add(Floor.FUNCTION.apply(reference.multiply(RationalScalar.of(max - min, 1))));
   }
 
   @Override // from AbstractDiscreteDistribution
@@ -76,13 +77,13 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    Scalar num = Ceiling.of(x).subtract(RationalScalar.of(min, 1));
+    Scalar num = Ceiling.FUNCTION.apply(x).subtract(RationalScalar.of(min, 1));
     return (Scalar) num.multiply(p).map(Clip.unit());
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
-    Scalar num = RealScalar.ONE.add(Floor.of(x)).subtract(RationalScalar.of(min, 1));
+    Scalar num = RealScalar.ONE.add(Floor.FUNCTION.apply(x)).subtract(RationalScalar.of(min, 1));
     return (Scalar) num.multiply(p).map(Clip.unit());
   }
 }

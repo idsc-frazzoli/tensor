@@ -10,9 +10,14 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class ArgMaxTest extends TestCase {
-  public void testEmpty() {
+  public void testEmpty1() {
     assertEquals(-1, ArgMin.of(Tensors.empty(), null));
     assertEquals(-1, ArgMax.of(Tensors.empty(), null));
+  }
+
+  public void testEmpty2() {
+    assertEquals(ArgMin.of(Tensors.empty()), ArgMin.NOINDEX);
+    assertEquals(ArgMax.of(Tensors.empty()), ArgMax.NOINDEX);
   }
 
   public void testMax() {

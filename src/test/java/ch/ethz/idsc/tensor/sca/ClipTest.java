@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ClipTest extends TestCase {
@@ -36,6 +37,35 @@ public class ClipTest extends TestCase {
     Clip.function(5, 5);
     try {
       Clip.function(2, -3);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testQuantity() {
+    Scalar min = Quantity.of(-3, "m");
+    Scalar max = Quantity.of(2, "m");
+    Clip clip = Clip.function(min, max);
+    assertEquals(clip.apply(Quantity.of(-5, "m")), min);
+    assertEquals(clip.apply(Quantity.of(5, "m")), max);
+    Scalar value = Quantity.of(-1, "m");
+    assertEquals(clip.apply(value), value);
+  }
+
+  public void testQuantityZero() {
+    assertEquals(Clip.function(0, 0).apply(Quantity.of(-5, "m")), RealScalar.ZERO);
+  }
+
+  public void testQuantityFail() {
+    try {
+      Clip.unit().apply(Quantity.of(-5, "m"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Clip.absoluteOne().apply(Quantity.of(-5, "m"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

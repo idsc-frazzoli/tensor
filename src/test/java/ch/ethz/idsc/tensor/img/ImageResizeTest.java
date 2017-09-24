@@ -65,5 +65,17 @@ public class ImageResizeTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+    try {
+      ImageResize.nearest(image, -1, 2);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ImageResize.nearest(image, 2, -1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

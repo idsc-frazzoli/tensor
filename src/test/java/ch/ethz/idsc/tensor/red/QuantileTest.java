@@ -10,6 +10,8 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.Sort;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class QuantileTest extends TestCase {
@@ -36,6 +38,22 @@ public class QuantileTest extends TestCase {
     }
     try {
       Quantile.ofSorted(vector, RealScalar.of(-0.01));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    Scalar qs3 = Quantity.of(2, "m");
+    Tensor vector = Tensors.of(qs1, qs2, qs3);
+    assertEquals(Quantile.of(vector, RealScalar.ZERO), qs1);
+    assertEquals(Quantile.of(vector, RealScalar.ONE), qs2);
+    Scalar qs4 = Quantity.of(2, "s");
+    try {
+      Sort.of(Tensors.of(qs1, qs4)); // comparison fails
       assertTrue(false);
     } catch (Exception exception) {
       // ---

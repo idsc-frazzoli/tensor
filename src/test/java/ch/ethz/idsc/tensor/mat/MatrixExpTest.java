@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -11,6 +12,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Trace;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -57,6 +59,30 @@ public class MatrixExpTest extends TestCase {
     Tensor actual = Tensors.matrixInt(new int[][] { { 1, 2, 2 }, { 0, 1, -1 }, { 0, 0, 1 } });
     assertEquals(result, actual);
     assertEquals(result.toString(), actual.toString());
+  }
+
+  public void testQuantity1() {
+    // Mathematica can't do this :-)
+    Scalar qs1 = Quantity.of(3, "m");
+    Tensor ve1 = Tensors.of(RealScalar.ZERO, qs1);
+    Tensor ve2 = Tensors.vector(0, 0);
+    Tensor mat = Tensors.of(ve1, ve2);
+    Tensor sol = MatrixExp.of(mat);
+    assertEquals(sol, mat.add(IdentityMatrix.of(2)));
+  }
+
+  public void testQuantity2() {
+    Scalar qs1 = Quantity.of(2, "m");
+    Scalar qs2 = Quantity.of(3, "s");
+    Scalar qs3 = Quantity.of(4, "m");
+    Scalar qs4 = Quantity.of(5, "s");
+    Tensor mat = Tensors.of( //
+        Tensors.of(RealScalar.ZERO, qs1, qs3.multiply(qs4)), //
+        Tensors.of(RealScalar.ZERO, RealScalar.ZERO, qs2), //
+        Tensors.of(RealScalar.ZERO, RealScalar.ZERO, RealScalar.ZERO) //
+    );
+    Tensor actual = IdentityMatrix.of(3).add(mat).add(mat.dot(mat).multiply(RationalScalar.of(1, 2)));
+    assertEquals(MatrixExp.of(mat), actual);
   }
 
   public void testFail() {

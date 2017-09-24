@@ -25,6 +25,12 @@ public class BinCountsTest extends TestCase {
     assertEquals(BinCounts.of(Tensors.vector(), RealScalar.ONE), Tensors.empty());
   }
 
+  public void testDefault() {
+    Distribution distribution = ExponentialDistribution.of(RealScalar.ONE);
+    Tensor vector = RandomVariate.of(distribution, 10);
+    assertEquals(BinCounts.of(vector), BinCounts.of(vector, RealScalar.ONE));
+  }
+
   public void testNegative() {
     try {
       assertEquals(BinCounts.of(Tensors.vector(-1e-10), RealScalar.ONE), Tensors.empty());

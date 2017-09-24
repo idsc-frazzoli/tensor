@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class RowReduceTest extends TestCase {
@@ -40,5 +41,19 @@ public class RowReduceTest extends TestCase {
     });
     Tensor r = RowReduce.of(A);
     assertEquals(Dimensions.of(r), Dimensions.of(A));
+  }
+
+  public void testQuantity1() {
+    Tensor ve1 = Tensors.of(Quantity.of(1, "m"), Quantity.of(2, "m"));
+    Tensor ve2 = Tensors.of(Quantity.of(2, "m"), Quantity.of(10, "m"));
+    Tensor nul = RowReduce.of(Tensors.of(ve1, ve2));
+    assertEquals(nul, IdentityMatrix.of(2)); // consistent with Mathematica
+  }
+
+  public void testQuantity2() {
+    Tensor ve1 = Tensors.of(Quantity.of(1, "m"), Quantity.of(2, "m"));
+    Tensor nul = RowReduce.of(Tensors.of(ve1, ve1));
+    assertEquals(nul, Tensors.fromString("{{1, 2}, {0[m], 0[m]}}", Quantity::fromString));
+    assertEquals(nul, Tensors.fromString("{{1, 2}, {0, 0}}"));
   }
 }

@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Sqrt;
@@ -121,5 +122,18 @@ public class HypotTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(3, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    Scalar qs3 = Quantity.of(5, "m");
+    assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs3);
+  }
+
+  public void testQuantityZero() {
+    Scalar qs1 = Quantity.of(1, "m");
+    Scalar qs2 = Quantity.of(0, "m");
+    assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs1);
   }
 }

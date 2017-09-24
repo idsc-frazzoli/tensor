@@ -49,7 +49,6 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
     }
     table = revert ? Reverse.of(table) : table;
     Scalar sum = Total.of(table).Get();
-    // System.out.println(sum);
     return Chop._12.close(sum, RealScalar.ONE) ? //
         new BinomialDistribution(n, p, table) : //
         new BinomialRandomVariate(n, p);

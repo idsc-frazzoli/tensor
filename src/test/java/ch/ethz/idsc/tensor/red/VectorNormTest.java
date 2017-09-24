@@ -1,12 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -27,6 +29,24 @@ public class VectorNormTest extends TestCase {
     VectorNormInterface vni = VectorNorm.with(2.6);
     Tensor nrm = Normalize.of(Tensors.vector(1, 2, 3), vni);
     assertTrue(Chop._15.close(vni.ofVector(nrm), RealScalar.ONE));
+  }
+
+  public void testQuantity1() {
+    Scalar qs1 = Quantity.of(-3, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
+    Scalar lhs = VectorNorm.with(RationalScalar.of(7, 3)).ofVector(vec);
+    Scalar rhs = Quantity.fromString("4.774145448367236[m]");
+    assertTrue(Chop._13.close(lhs, rhs));
+  }
+
+  public void testQuantity2() {
+    Scalar qs1 = Quantity.of(-3, "m");
+    Scalar qs2 = Quantity.of(4, "m");
+    Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
+    Scalar lhs = VectorNorm.with(Math.PI).ofVector(vec); // the result has unit [m^1.0]
+    Scalar rhs = Quantity.fromString("4.457284396597481[m]");
+    assertTrue(Chop._13.close(lhs, rhs));
   }
 
   public void testNormPFail() {

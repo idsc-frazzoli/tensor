@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Mod;
 import junit.framework.TestCase;
@@ -55,5 +56,13 @@ public class MultinomialTest extends TestCase {
       Scalar diff = (Scalar) Last.of(accumu).subtract(accumu.Get(index - 1));
       assertEquals(scalar, diff);
     }
+  }
+
+  public void testQuantity() {
+    Scalar qs1 = Quantity.of(-4, "m*s");
+    Scalar qs2 = Quantity.of(3, "m");
+    Scalar val = Quantity.of(2, "s");
+    Scalar res = Multinomial.horner(Tensors.of(qs1, qs2), val);
+    assertEquals(res.toString(), "2[m*s]");
   }
 }

@@ -24,6 +24,35 @@ public class DecimalScalar2Test extends TestCase {
     assertTrue(7 <= r.value().precision());
   }
 
+  public void testDivide() {
+    Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
+    Scalar d = s.divide(DoubleScalar.of(2 * Math.PI));
+    assertTrue(d instanceof DoubleScalar);
+    assertEquals(d, RealScalar.of(0.5));
+  }
+
+  public void testUnderDouble() {
+    Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
+    Scalar d = s.under(DoubleScalar.of(2 * Math.PI));
+    assertTrue(d instanceof DoubleScalar);
+    assertEquals(d, RealScalar.of(2));
+  }
+
+  public void testUnderRational() {
+    Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
+    Scalar d = s.under(RationalScalar.of(1, 2));
+    assertTrue(d instanceof DecimalScalar);
+    assertTrue(Chop._10.close(d, DoubleScalar.of(0.5 / Math.PI)));
+  }
+
+  public void testUnderDecimal() {
+    Scalar d1 = DecimalScalar.of(new BigDecimal("123.0123", MathContext.DECIMAL128));
+    Scalar d2 = DecimalScalar.of(new BigDecimal("-11.233", MathContext.DECIMAL128));
+    Scalar res = d1.under(d2);
+    assertTrue(res instanceof DecimalScalar);
+    assertTrue(Chop._10.close(res, DoubleScalar.of(-11.233 / 123.0123)));
+  }
+
   public void testN() {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL32));
     assertEquals(N.DECIMAL64.of(s), s);
@@ -91,5 +120,19 @@ public class DecimalScalar2Test extends TestCase {
       Scalar dbl_s = Scalars.fromString(string);
       assertEquals(ds, dbl_s);
     }
+  }
+
+  public void testDecimalEmpty() {
+    Scalar value = Scalars.fromString(" 1.1234` + 12");
+    assertTrue(value instanceof DoubleScalar);
+    assertEquals(value, RealScalar.of(13.1234));
+  }
+
+  public void testComplexEmpty() {
+    Scalar value = Scalars.fromString(" 1.1567572194352718` - 1.2351191805935866` * I ");
+    assertTrue(value instanceof ComplexScalar);
+    ComplexScalar complexScalar = (ComplexScalar) value;
+    assertEquals(complexScalar.real(), RealScalar.of(+1.1567572194352718));
+    assertEquals(complexScalar.imag(), RealScalar.of(-1.2351191805935866));
   }
 }
