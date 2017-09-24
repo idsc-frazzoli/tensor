@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.ExpInterface;
+import ch.ethz.idsc.tensor.sca.LogInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.Sin;
@@ -19,8 +20,8 @@ import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
  * 
  * <p>interface {@link Comparable} is not implemented */
 public interface ComplexScalar extends Scalar, //
-    ArcTanInterface, ArgInterface, ComplexEmbedding, ExpInterface, PowerInterface, //
-    RoundingInterface, SqrtInterface, TrigonometryInterface {
+    ArcTanInterface, ArgInterface, ComplexEmbedding, ExpInterface, LogInterface, //
+    PowerInterface, RoundingInterface, SqrtInterface, TrigonometryInterface {
   /** complex number I == 0+1*I */
   static final Scalar I = of(0, 1);
   /** suffix that is appended to imaginary part of {@link ComplexScalar} in function toString() */

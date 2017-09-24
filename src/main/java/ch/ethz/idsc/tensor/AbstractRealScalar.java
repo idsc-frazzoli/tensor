@@ -8,6 +8,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /** suggested base class for implementations of {@link RealScalar} */
 public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
+  private static final Scalar PI = DoubleScalar.of(Math.PI);
+  static final double LOG_LO = 0.75;
+  static final double LOG_HI = 1.3;
+
   /** @return this or this.negate() depending on whichever is non-negative */
   @Override // from Scalar
   public final Scalar abs() {
@@ -47,12 +51,23 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from ArgInterface
   public Scalar arg() {
-    return isNonNegative() ? ZERO : DoubleScalar.of(Math.PI);
+    return isNonNegative() ? ZERO : PI;
   }
 
   @Override // from ExpInterface
   public Scalar exp() {
     return DoubleScalar.of(Math.exp(number().doubleValue()));
+  }
+
+  @Override
+  public Scalar log() {
+    if (isNonNegative()) {
+      double value = number().doubleValue();
+      if (LOG_LO < value && value < LOG_HI)
+        return DoubleScalar.of(Math.log1p(subtract(RealScalar.ONE).number().doubleValue()));
+      return DoubleScalar.of(Math.log(value));
+    }
+    return ComplexScalarImpl.of(Log.FUNCTION.apply(negate()), PI);
   }
 
   @Override // from PowerInterface

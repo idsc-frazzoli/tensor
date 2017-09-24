@@ -185,6 +185,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return of(Floor.FUNCTION.apply(re), Floor.FUNCTION.apply(im));
   }
 
+  @Override
+  public Scalar log() {
+    return of(Log.FUNCTION.apply(abs()), arg());
+  }
+
   @Override // from ComplexEmbedding
   public Scalar imag() {
     return im;
