@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
@@ -32,17 +33,19 @@ public interface ComplexScalar extends Scalar, //
   static Scalar of(Scalar re, Scalar im) {
     if (re instanceof ComplexScalar || im instanceof ComplexScalar)
       throw TensorRuntimeException.of(re, im);
-    return Scalars.isZero(im) ? re : new ComplexScalarImpl(re, im);
+    if (re instanceof Quantity || im instanceof Quantity)
+      throw TensorRuntimeException.of(re, im);
+    return ComplexScalarImpl.of(re, im);
   }
 
   /** @param re
    * @param im
    * @return scalar with re as real part and im as imaginary part */
   static Scalar of(Number re, Number im) {
-    return of(RealScalar.of(re), RealScalar.of(im));
+    return ComplexScalarImpl.of(RealScalar.of(re), RealScalar.of(im));
   }
 
-  /** @param abs radius
+  /** @param abs radius, may be instance of {@link Quantity}
    * @param arg angle
    * @return complex scalar with polar coordinates abs and arg */
   static Scalar fromPolar(Scalar abs, Scalar arg) {

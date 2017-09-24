@@ -84,7 +84,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   public Scalar sqrt() {
     if (isNonNegative())
       return DoubleScalar.of(Math.sqrt(number().doubleValue()));
-    return ComplexScalar.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
+    return ComplexScalarImpl.of(zero(), DoubleScalar.of(Math.sqrt(-number().doubleValue())));
   }
 
   @Override // from TrigonometryInterface

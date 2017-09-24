@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Power;
  * <a href="https://reference.wolfram.com/language/ref/ErlangDistribution.html">ErlangDistribution</a> */
 public class ErlangDistribution implements Distribution, MeanInterface, PDF, VarianceInterface {
   /** @param k positive integer
-   * @param lambda, may be instanceof {@link Quantity}
+   * @param lambda, may be instance of {@link Quantity}
    * @return */
   public static Distribution of(int k, Scalar lambda) {
     if (k <= 0)

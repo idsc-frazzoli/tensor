@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
-import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
@@ -127,76 +126,6 @@ public class ComplexScalarTest extends TestCase {
     assertEquals(s1, s2);
     assertEquals(s2, s1);
     assertEquals(c.imag(), ra);
-  }
-
-  public void testUnder1() {
-    Scalar c = ComplexScalar.of(2, 3);
-    Scalar q = Quantity.fromString("1[V]");
-    Scalar cuq = c.under(q);
-    assertTrue(cuq instanceof Quantity);
-    Scalar qdc = q.divide(c);
-    assertTrue(qdc instanceof Quantity);
-    Scalar crq = c.reciprocal().multiply(q);
-    assertTrue(crq instanceof Quantity);
-    assertEquals(cuq, crq);
-    assertEquals(cuq, qdc);
-  }
-
-  public void testUnder2() {
-    Scalar c = ComplexScalar.of(2, 3);
-    Scalar q = Quantity.fromString("1[V]");
-    Scalar quc = q.under(c);
-    assertTrue(quc instanceof Quantity);
-    Scalar cdq = c.divide(q);
-    assertTrue(cdq instanceof Quantity);
-    Scalar qrc = q.reciprocal().multiply(c);
-    assertTrue(qrc instanceof Quantity);
-    assertEquals(quc, qrc);
-    assertEquals(quc, cdq);
-  }
-
-  public void testUnder3() {
-    Scalar q1 = Quantity.of(ComplexScalar.of(2, 3), "m");
-    Scalar q2 = Quantity.of(ComplexScalar.of(-1, 7), "V");
-    Scalar quc = q1.under(q2);
-    assertTrue(quc instanceof Quantity);
-    Scalar cdq = q2.divide(q1);
-    assertTrue(cdq instanceof Quantity);
-    Scalar qrc = q1.reciprocal().multiply(q2);
-    assertTrue(qrc instanceof Quantity);
-    assertEquals(quc, qrc);
-    assertEquals(quc, cdq);
-  }
-
-  public void testUnder4() {
-    Scalar q1 = Quantity.of(ComplexScalar.of(2, 3), "m");
-    Scalar q2 = Quantity.of(ComplexScalar.of(-1, 7), "m");
-    Scalar quc = q1.under(q2);
-    assertTrue(quc instanceof ComplexScalar);
-    Scalar cdq = q2.divide(q1);
-    assertTrue(cdq instanceof ComplexScalar);
-    Scalar qrc = q1.reciprocal().multiply(q2);
-    assertTrue(qrc instanceof ComplexScalar);
-    assertEquals(quc, qrc);
-    assertEquals(quc, cdq);
-  }
-
-  public void testPlusQuantity() {
-    Scalar c = ComplexScalar.of(2, 3);
-    Scalar q = Quantity.fromString("0[V]");
-    Scalar p = c.add(q);
-    assertTrue(p instanceof ComplexScalar);
-  }
-
-  public void testPlusQuantityFail() {
-    Scalar c = ComplexScalar.of(2, 3);
-    Scalar q = Quantity.fromString("1[V]");
-    try {
-      c.add(q);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
   }
 
   public void testPower() {

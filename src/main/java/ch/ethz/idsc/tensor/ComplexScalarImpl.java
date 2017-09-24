@@ -29,6 +29,16 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 /* package */ final class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
     ChopInterface, ExactNumberQInterface, MachineNumberQInterface, NInterface {
   private static final Scalar HALF = RationalScalar.of(1, 2);
+
+  /** creator with package visibility
+   * 
+   * @param re neither a {@link ComplexScalar}, or {@link Quantity}
+   * @param im neither a {@link ComplexScalar}, or {@link Quantity}
+   * @return */
+  /* package */ static Scalar of(Scalar re, Scalar im) {
+    return Scalars.isZero(im) ? re : new ComplexScalarImpl(re, im);
+  }
+
   // ---
   private final Scalar re;
   private final Scalar im;
@@ -59,7 +69,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar negate() {
-    return ComplexScalar.of(re.negate(), im.negate());
+    return of(re.negate(), im.negate());
   }
 
   private static boolean _isLocal(Scalar scalar) {
@@ -72,7 +82,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       ComplexEmbedding z = (ComplexEmbedding) scalar;
       Scalar z_re = z.real();
       Scalar z_im = z.imag();
-      return ComplexScalar.of( //
+      return of( //
           re.multiply(z_re).subtract(im.multiply(z_im)), //
           re.multiply(z_im).add(im.multiply(z_re)));
     }
@@ -100,7 +110,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   // helper function
   private static Scalar _division(Scalar n_re, Scalar n_im, Scalar d_re, Scalar d_im) {
     if (Scalars.isZero(d_im))
-      return ComplexScalar.of(n_re.divide(d_re), n_im.divide(d_re));
+      return of(n_re.divide(d_re), n_im.divide(d_re));
     boolean czero = Scalars.isZero(d_re);
     Scalar r1 = czero ? d_re : c_dcd(d_re, d_im);
     Scalar r2 = c_dcd(d_im, d_re);
@@ -108,12 +118,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar res_re2 = n_im.divide(r2);
     Scalar res_im1 = czero ? n_im.multiply(d_re) : n_im.divide(r1);
     Scalar res_im2 = n_re.divide(r2).negate();
-    return ComplexScalar.of(res_re1.add(res_re2), res_im1.add(res_im2));
+    return of(res_re1.add(res_re2), res_im1.add(res_im2));
   }
 
   @Override // from Scalar
   public Scalar reciprocal() {
-    return ComplexScalar.of( //
+    return of( //
         Scalars.isZero(re) ? re : c_dcd(re, im).reciprocal(), //
         c_dcd(im, re).reciprocal().negate()); // using the assumption that im is never zero
   }
@@ -133,7 +143,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   protected Scalar plus(Scalar scalar) {
     if (_isLocal(scalar)) {
       ComplexEmbedding z = (ComplexEmbedding) scalar;
-      return ComplexScalar.of(re.add(z.real()), im.add(z.imag()));
+      return of(re.add(z.real()), im.add(z.imag()));
     }
     return scalar.add(this);
   }
@@ -151,17 +161,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from RoundingInterface
   public Scalar ceiling() {
-    return ComplexScalar.of(Ceiling.FUNCTION.apply(re), Ceiling.FUNCTION.apply(im));
+    return of(Ceiling.FUNCTION.apply(re), Ceiling.FUNCTION.apply(im));
   }
 
   @Override // from ChopInterface
   public Scalar chop(Chop chop) {
-    return ComplexScalar.of(chop.apply(re), chop.apply(im));
+    return of(chop.apply(re), chop.apply(im));
   }
 
   @Override // from ComplexEmbedding
   public Scalar conjugate() {
-    return ComplexScalar.of(re, im.negate());
+    return of(re, im.negate());
   }
 
   @Override // from ExpInterface
@@ -172,7 +182,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from RoundingInterface
   public Scalar floor() {
-    return ComplexScalar.of(Floor.FUNCTION.apply(re), Floor.FUNCTION.apply(im));
+    return of(Floor.FUNCTION.apply(re), Floor.FUNCTION.apply(im));
   }
 
   @Override // from ComplexEmbedding
@@ -192,13 +202,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from NInterface
   public Scalar n() {
-    return ComplexScalar.of(N.DOUBLE.apply(re), N.DOUBLE.apply(im));
+    return of(N.DOUBLE.apply(re), N.DOUBLE.apply(im));
   }
 
   @Override // from NInterface
   public Scalar n(MathContext mathContext) {
     N n = N.in(mathContext);
-    return ComplexScalar.of(n.apply(re), n.apply(im));
+    return of(n.apply(re), n.apply(im));
   }
 
   @Override // from PowerInterface
@@ -217,7 +227,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from RoundingInterface
   public Scalar round() {
-    return ComplexScalar.of(Round.FUNCTION.apply(re), Round.FUNCTION.apply(im));
+    return of(Round.FUNCTION.apply(re), Round.FUNCTION.apply(im));
   }
 
   @Override // from SqrtInterface
@@ -227,28 +237,28 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from TrigonometryInterface
   public Scalar cos() {
-    return ComplexScalar.of( //
+    return of( //
         Cos.of(re).multiply(Cosh.of(im)), //
         Sin.of(re).multiply(Sinh.of(im)).negate());
   }
 
   @Override // from TrigonometryInterface
   public Scalar cosh() {
-    return ComplexScalar.of( //
+    return of( //
         Cosh.of(re).multiply(Cos.of(im)), //
         Sinh.of(re).multiply(Sin.of(im)));
   }
 
   @Override // from TrigonometryInterface
   public Scalar sin() {
-    return ComplexScalar.of( //
+    return of( //
         Sin.of(re).multiply(Cosh.of(im)), //
         Cos.of(re).multiply(Sinh.of(im)));
   }
 
   @Override // from TrigonometryInterface
   public Scalar sinh() {
-    return ComplexScalar.of( //
+    return of( //
         Sinh.of(re).multiply(Cos.of(im)), //
         Cosh.of(re).multiply(Sin.of(im)));
   }

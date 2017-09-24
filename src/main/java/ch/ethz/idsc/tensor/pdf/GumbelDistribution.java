@@ -20,7 +20,7 @@ public class GumbelDistribution implements Distribution, //
   private static final Scalar EULER_GAMMA = DoubleScalar.of(0.577215664901532860606512090082);
   private static final Scalar PISQUARED_6 = DoubleScalar.of(1.644934066848226436472415166646);
 
-  /** parameters may be instanceof {@link Quantity} with identical units
+  /** parameters may be instance of {@link Quantity} with identical units
    * 
    * @param alpha any real number
    * @param beta positive

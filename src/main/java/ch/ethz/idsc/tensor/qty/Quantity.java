@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.io.CsvFormat;
 import ch.ethz.idsc.tensor.io.ObjectFormat;
@@ -55,16 +54,7 @@ public interface Quantity extends Scalar, //
   /** @param string for example "9.81[m*s^-2]"
    * @return */
   static Scalar fromString(String string) {
-    final int index = string.indexOf(UNIT_OPENING_BRACKET);
-    if (0 < index) {
-      final int last = string.indexOf(UNIT_CLOSING_BRACKET);
-      if (index < last && string.substring(last + 1).trim().isEmpty())
-        return QuantityImpl.of( //
-            Scalars.fromString(string.substring(0, index)), //
-            Unit.of(string.substring(index + 1, last)));
-      throw new RuntimeException(string);
-    }
-    return Scalars.fromString(string);
+    return QuantityParser.of(string);
   }
 
   /** @param value

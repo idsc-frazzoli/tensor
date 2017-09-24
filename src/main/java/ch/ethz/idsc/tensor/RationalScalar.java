@@ -199,7 +199,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
       boolean isNonNegative = isNonNegative();
       BigInteger sqrtnum = BigIntegerMath.sqrt(isNonNegative ? bigFraction.num : bigFraction.num.negate());
       BigInteger sqrtden = BigIntegerMath.sqrt(bigFraction.den);
-      return isNonNegative ? of(sqrtnum, sqrtden) : ComplexScalar.of(ZERO, of(sqrtnum, sqrtden));
+      return isNonNegative ? of(sqrtnum, sqrtden) : ComplexScalarImpl.of(ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---
     }

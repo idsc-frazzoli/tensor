@@ -24,7 +24,7 @@ public class FrechetDistribution implements Distribution, //
   private static final Scalar TWO = RealScalar.of(2);
 
   /** @param alpha positive
-   * @param beta positive, may be instanceof {@link Quantity}
+   * @param beta positive, may be instance of {@link Quantity}
    * @return */
   public static Distribution of(Scalar alpha, Scalar beta) {
     if (Scalars.lessEquals(alpha, RealScalar.ZERO) || !NumberQ.of(alpha))

@@ -48,6 +48,12 @@ public class QuantityTest extends TestCase {
     }
   }
 
+  public void testFromString() {
+    Quantity quantity = (Quantity) Quantity.fromString("(-7+3*I)[kg^-2*m*s]");
+    Scalar scalar = quantity.value();
+    assertEquals(scalar, ComplexScalar.of(-7, 3));
+  }
+
   public void testDecimal() {
     Quantity quantity = (Quantity) Quantity.fromString("-7.23459823746593784659387465`13.0123[m*kg^-2]");
     assertTrue(quantity.value() instanceof DecimalScalar);
