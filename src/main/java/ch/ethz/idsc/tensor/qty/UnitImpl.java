@@ -30,11 +30,6 @@ import ch.ethz.idsc.tensor.Scalars;
   }
 
   @Override
-  public boolean isEmpty() {
-    return navigableMap.isEmpty();
-  }
-
-  @Override
   public Unit negate() {
     return new UnitImpl(navigableMap.entrySet().stream() //
         .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().negate())));
@@ -79,14 +74,14 @@ import ch.ethz.idsc.tensor.Scalars;
 
   private static String exponentString(Scalar exponent) {
     String string = exponent.toString();
-    return string.equals("1") ? "" : Unit.POWER + string;
+    return string.equals("1") ? "" : Unit.POWER_DELIMITER + string;
   }
 
   @Override
   public String toString() {
     return navigableMap.entrySet().stream() //
         .map(entry -> entry.getKey() + exponentString(entry.getValue())) //
-        .collect(Collectors.joining(Unit.JOIN));
+        .collect(Collectors.joining(Unit.JOIN_DELIMITER));
   }
 
   @Override

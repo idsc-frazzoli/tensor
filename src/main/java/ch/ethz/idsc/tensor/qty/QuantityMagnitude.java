@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.qty;
 
 import java.util.Objects;
+import java.util.Properties;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -16,6 +17,12 @@ public class QuantityMagnitude {
     return BuiltIn.SI.quantityMagnitude;
   }
 
+  // EXPERIMENTAL
+  public static final ScalarUnaryOperator singleton(Unit unit) {
+    return new QuantityMagnitude(SimpleUnitSystem.from(new Properties())).in(unit);
+  }
+
+  // ---
   private final UnitSystem unitSystem;
 
   public QuantityMagnitude(UnitSystem unitSystem) {

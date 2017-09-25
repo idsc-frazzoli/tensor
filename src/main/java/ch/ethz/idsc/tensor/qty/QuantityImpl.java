@@ -26,7 +26,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private static final Scalar HALF = RationalScalar.of(1, 2);
 
   /* package */ static Scalar of(Scalar value, Unit unit) {
-    return unit.isEmpty() ? value : new QuantityImpl(value, unit);
+    return Units.isOne(unit) ? value : new QuantityImpl(value, unit);
   }
 
   /***************************************************/
