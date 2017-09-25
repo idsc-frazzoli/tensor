@@ -53,6 +53,43 @@ public class ClipTest extends TestCase {
     assertEquals(clip.apply(value), value);
   }
 
+  public void testQuantityInside() {
+    Scalar min = Quantity.of(-3, "m");
+    Scalar max = Quantity.of(2, "m");
+    Clip clip = Clip.function(min, max);
+    assertTrue(clip.isInside(Quantity.of(1, "m")));
+    assertTrue(clip.isInside(Quantity.of(2, "m")));
+    assertFalse(clip.isInside(Quantity.of(3, "m")));
+    try {
+      // TODO what to do here?
+      clip.isInside(Quantity.of(0, "V"));
+      // assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      clip.isInside(Quantity.of(3, "V"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testQuantityOutside() {
+    Scalar min = Quantity.of(-3, "m");
+    Scalar max = Quantity.of(2, "m");
+    Clip clip = Clip.function(min, max);
+    assertFalse(clip.isOutside(Quantity.of(1, "m")));
+    assertFalse(clip.isOutside(Quantity.of(2, "m")));
+    assertTrue(clip.isOutside(Quantity.of(3, "m")));
+    try {
+      clip.isOutside(Quantity.of(3, "V"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testQuantityZero() {
     assertEquals(Clip.function(0, 0).apply(Quantity.of(-5, "m")), RealScalar.ZERO);
   }

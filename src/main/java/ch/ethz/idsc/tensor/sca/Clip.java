@@ -63,4 +63,16 @@ public class Clip implements ScalarUnaryOperator {
   public <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(this);
   }
+
+  /** @param scalar
+   * @return true if given scalar is invariant under applying clip */
+  public boolean isInside(Scalar scalar) {
+    return apply(scalar).equals(scalar);
+  }
+
+  /** @param scalar
+   * @return false if given scalar is invariant under applying clip */
+  public boolean isOutside(Scalar scalar) {
+    return !isInside(scalar);
+  }
 }
