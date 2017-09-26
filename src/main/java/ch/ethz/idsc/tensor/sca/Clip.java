@@ -42,10 +42,12 @@ public class Clip implements ScalarUnaryOperator {
   // ---
   private final Scalar min;
   private final Scalar max;
+  private final Scalar width;
 
   private Clip(Scalar min, Scalar max) {
     this.min = min;
     this.max = max;
+    width = max.subtract(min);
   }
 
   @Override
@@ -65,14 +67,20 @@ public class Clip implements ScalarUnaryOperator {
   }
 
   /** @param scalar
-   * @return true if given scalar is invariant under applying clip */
+   * @return true if given scalar is invariant under this clip */
   public boolean isInside(Scalar scalar) {
     return apply(scalar).equals(scalar);
   }
 
   /** @param scalar
-   * @return false if given scalar is invariant under applying clip */
+   * @return true if given scalar is not invariant under this clip */
   public boolean isOutside(Scalar scalar) {
     return !isInside(scalar);
+  }
+
+  /** @param scalar
+   * @return value in interval [0, 1] relative to position of scalar in clip interval */
+  public Scalar rescale(Scalar scalar) {
+    return Scalars.isZero(width) ? RealScalar.ZERO : apply(scalar).subtract(min).divide(width);
   }
 }

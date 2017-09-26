@@ -70,13 +70,6 @@ public interface Quantity extends Scalar, //
   }
 
   /** @param value
-   * @param string for instance "m*s^-2"
-   * @return */
-  static Scalar of(Scalar value, String string) {
-    return of(value, Unit.of(string));
-  }
-
-  /** @param value
    * @param unit for instance Unit.of("m*s^-1")
    * @return */
   static Scalar of(Scalar value, Unit unit) {
@@ -85,13 +78,29 @@ public interface Quantity extends Scalar, //
     return QuantityImpl.of(value, unit);
   }
 
+  /** @param value
+   * @param string for instance "m*s^-2"
+   * @return */
+  static Scalar of(Scalar value, String string) {
+    return of(value, Unit.of(string));
+  }
+
+  /** creates quantity with number encoded as {@link RealScalar}
+   * 
+   * @param number
+   * @param unit
+   * @return */
+  static Scalar of(Number number, Unit unit) {
+    return QuantityImpl.of(RealScalar.of(number), unit);
+  }
+
   /** creates quantity with number encoded as {@link RealScalar}
    * 
    * @param number
    * @param string for instance "kg^3*m*s^-2"
    * @return */
   static Scalar of(Number number, String string) {
-    return QuantityImpl.of(RealScalar.of(number), Unit.of(string));
+    return of(RealScalar.of(number), Unit.of(string));
   }
 
   /** Quote from Mathematica::QuantityMagnitude
