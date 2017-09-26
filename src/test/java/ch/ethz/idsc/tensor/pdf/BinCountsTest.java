@@ -5,6 +5,9 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.QuantityTensor;
+import ch.ethz.idsc.tensor.qty.Unit;
 import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
 
@@ -29,6 +32,12 @@ public class BinCountsTest extends TestCase {
     Distribution distribution = ExponentialDistribution.of(RealScalar.ONE);
     Tensor vector = RandomVariate.of(distribution, 10);
     assertEquals(BinCounts.of(vector), BinCounts.of(vector, RealScalar.ONE));
+  }
+
+  public void testQuantity() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, 3, 4, 1, 2, 1, 0, 3, 2, 1, 2), Unit.of("s"));
+    Tensor result = BinCounts.of(vector, Quantity.of(1, "s"));
+    assertEquals(result, Tensors.vector(1, 4, 4, 2, 1));
   }
 
   public void testNegative() {
