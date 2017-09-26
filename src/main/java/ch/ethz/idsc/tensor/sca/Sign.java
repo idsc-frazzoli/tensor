@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** Sign gives the signum of a scalar provided by the implementation of {@link SignInterface}.
  * If the scalar type does not implement {@link SignInterface}, then an exception is thrown.
@@ -30,5 +31,23 @@ public enum Sign implements ScalarUnaryOperator {
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(FUNCTION);
+  }
+
+  /** function is equivalent to
+   * Scalars.lessThan(scalar.zero(), scalar)
+   * 
+   * @param scalar may be instance of {@link Quantity}
+   * @return true if sign of given scalar evaluates to +1 */
+  public static boolean isPositive(Scalar scalar) {
+    return ((SignInterface) scalar).signInt() == +1;
+  }
+
+  /** function is equivalent to
+   * Scalars.lessThan(scalar, scalar.zero())
+   * 
+   * @param scalar may be instance of {@link Quantity}
+   * @return true if sign of given scalar evaluates to -1 */
+  public static boolean isNegative(Scalar scalar) {
+    return ((SignInterface) scalar).signInt() == -1;
   }
 }

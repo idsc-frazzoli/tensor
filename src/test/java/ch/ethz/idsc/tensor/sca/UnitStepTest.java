@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class UnitStepTest extends TestCase {
@@ -11,9 +12,8 @@ public class UnitStepTest extends TestCase {
     assertEquals(UnitStep.of(RealScalar.of(.134)), RealScalar.ONE);
   }
 
-  public void testPredicate() {
-    assertTrue(UnitStep.isNonNegative(RealScalar.ZERO));
-    assertTrue(UnitStep.isNonNegative(RealScalar.ONE));
-    assertFalse(UnitStep.isNonNegative(RealScalar.ONE.negate()));
+  public void testPredicateQuantity() {
+    assertEquals(UnitStep.of(Quantity.of(-.3, "m")), RealScalar.ZERO);
+    assertEquals(UnitStep.of(Quantity.of(1, "m")), RealScalar.ONE);
   }
 }

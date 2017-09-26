@@ -111,5 +111,17 @@ public class GeometricDistributionTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+    final Scalar p = RationalScalar.of(1, 19);
+    GeometricDistribution distribution = (GeometricDistribution) GeometricDistribution.of(p);
+    try {
+      PDF.of(distribution).at(Quantity.of(-2, "s"));
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      CDF.of(distribution).p_lessEquals(Quantity.of(-2, "s"));
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

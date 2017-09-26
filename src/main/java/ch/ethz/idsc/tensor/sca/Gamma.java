@@ -35,8 +35,7 @@ public enum Gamma implements ScalarUnaryOperator {
   FUNCTION;
   // ---
   /** EulerGamma is the negative of the derivative D[Gamma[x]] at x == 1 */
-  @SuppressWarnings("unused")
-  private static final Scalar EULERGAMMA = DoubleScalar.of(0.577215664901532860606512090082);
+  public static final Scalar EULER = DoubleScalar.of(0.577215664901532860606512090082);
   static final Scalar NEGATIVE_THREE = RealScalar.of(-3);
   /** series around x == 3 */
   static final Tensor SERIES = Tensors.vector(2, //

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import ch.ethz.idsc.tensor.Scalar;
 
+/** implementations are immutable */
 public interface Unit extends Serializable {
   /** Example: cd*m*s */
   static final String JOIN_DELIMITER = "*";

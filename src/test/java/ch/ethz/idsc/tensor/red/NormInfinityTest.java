@@ -20,7 +20,7 @@ public class NormInfinityTest extends TestCase {
   public void testQuantityMixed() {
     Scalar qs1 = Quantity.of(-3, "m");
     Scalar qs2 = Quantity.of(2, "m");
-    Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
+    Tensor vec = Tensors.of(qs1, qs2);
     Scalar nin = Norm.INFINITY.of(vec);
     Scalar act = Quantity.of(3, "m");
     assertEquals(nin, act);

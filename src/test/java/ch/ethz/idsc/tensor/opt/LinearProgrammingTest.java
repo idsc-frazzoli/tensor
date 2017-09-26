@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
-// TODO tests should be improved over time
+// tests should be improved over time
 public class LinearProgrammingTest extends TestCase {
   public void testCase4() {
     Tensor c = Tensors.vector(-3, -5, 0, 0, 0);

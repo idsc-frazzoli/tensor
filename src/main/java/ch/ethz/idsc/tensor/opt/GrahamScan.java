@@ -18,7 +18,6 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /** Quote from Wikipedia:
- * 
  * Graham's scan is a method of finding the convex hull of a finite set of points
  * in the plane with time complexity O(n log n).
  * 
@@ -89,6 +88,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     }
   }
 
+  /* package */ Tensor getConvexHull() {
+    return Tensor.of(stack.stream());
+  }
+
   /** @param point
    * @return argument of complex number with (re = pointX, im = pointY) */
   private static Scalar arg(Tensor point) {
@@ -116,9 +119,5 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
   private static Scalar getY(Tensor point) {
     return point.Get(1);
-  }
-
-  Tensor getConvexHull() {
-    return Tensor.of(stack.stream());
   }
 }

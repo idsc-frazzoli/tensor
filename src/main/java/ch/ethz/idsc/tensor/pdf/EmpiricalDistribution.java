@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** Careful:
  * The constructor Mathematica::EmpiricalDistribution[data] has no direct equivalent in the tensor library.
@@ -42,9 +43,7 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
   private final Tensor cdf;
 
   private EmpiricalDistribution(Tensor unscaledPDF) {
-    if (unscaledPDF.stream() //
-        .map(Scalar.class::cast) //
-        .anyMatch(scalar -> Scalars.lessThan(scalar, RealScalar.ZERO)))
+    if (unscaledPDF.stream().map(Scalar.class::cast).anyMatch(Sign::isNegative))
       throw TensorRuntimeException.of(unscaledPDF);
     Tensor accumulate = Accumulate.of(unscaledPDF);
     Scalar scale = Last.of(accumulate).Get();

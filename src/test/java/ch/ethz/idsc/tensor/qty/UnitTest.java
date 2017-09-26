@@ -27,6 +27,7 @@ public class UnitTest extends TestCase {
   }
 
   public void testFail() {
+    Unit.of("*"); // gives unit ONE, not necessarily an error
     try {
       Unit.of(" m >");
       assertTrue(false);
@@ -36,12 +37,6 @@ public class UnitTest extends TestCase {
     try {
       Unit.of("| m ");
       assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Unit.of("*"); // FIXME
-      // assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

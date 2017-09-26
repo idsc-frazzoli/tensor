@@ -61,14 +61,22 @@ public class ClipTest extends TestCase {
     assertTrue(clip.isInside(Quantity.of(2, "m")));
     assertFalse(clip.isInside(Quantity.of(3, "m")));
     try {
-      // TODO what to do here?
       clip.isInside(Quantity.of(0, "V"));
-      // assertTrue(false);
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
       clip.isInside(Quantity.of(3, "V"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testInsideFail() {
+    try {
+      Clip.unit().isInside(Quantity.of(0.5, "m"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -88,10 +96,6 @@ public class ClipTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
-  }
-
-  public void testQuantityZero() {
-    assertEquals(Clip.function(0, 0).apply(Quantity.of(-5, "m")), RealScalar.ZERO);
   }
 
   public void testQuantityFail() {

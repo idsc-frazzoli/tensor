@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * Tensor::Quantity.of(8, "kg^2*m")
  * </pre>
  * 
- * The implementation is consistent with Mathematica:
+ * <p>The implementation is consistent with Mathematica:
  * The NumberQ relations for {@link Quantity} evaluate to
  * <pre>
  * NumberQ[Quantity[3, "Meters"]] == False
@@ -29,7 +29,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * MachineNumberQ[Quantity[3.123, "Meters"]] == False
  * </pre>
  * 
- * The convention of equality: "0[unit] == 0 evaluates to true"
+ * <p>The convention of equality: "0[unit] == 0 evaluates to true"
  * is used in
  * {@link #plus(Scalar)}
  * {@link #compareTo(Scalar)}
@@ -41,6 +41,18 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * 
  * <p>For export and import of tensors with scalars of type
  * {@link Quantity} use {@link ObjectFormat} and {@link CsvFormat}.
+ * 
+ * <p>Two quantities are comparable only if they have the same unit.
+ * Otherwise an exception is thrown.
+ * 
+ * <p>Different units should mapped to a common unit system
+ * before carrying out operations.
+ * <pre>
+ * Scalar a = Quantity.of(200, "g");
+ * Scalar b = Quantity.of(1, "kg");
+ * Total.of(Tensors.of(a, b).map(UnitSystem.SI())) == 6/5[kg]
+ * </pre>
+ * whereas <code>a.add(b)</code> throws an Exception.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Quantity.html">Quantity</a> */

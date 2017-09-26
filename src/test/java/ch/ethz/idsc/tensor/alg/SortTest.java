@@ -47,14 +47,20 @@ public class SortTest extends TestCase {
   public void testQuantity1() {
     Scalar qs1 = Quantity.of(-3, "m");
     Scalar qs2 = Quantity.of(2, "m");
-    Tensor vec = Tensors.of(RealScalar.ZERO, qs2, qs1);
-    assertEquals(Sort.of(vec), Tensors.of(qs1, RealScalar.ZERO, qs2));
+    Tensor vec = Tensors.of(qs2, qs1);
+    assertEquals(Sort.of(vec), Tensors.of(qs1, qs2));
   }
 
   public void testQuantity2() {
     Tensor vector = Tensors.of( //
-        Quantity.of(0, "m"), Quantity.of(9, "m"), Quantity.of(-3, "m"), Quantity.of(0, "s"), RealScalar.ZERO);
-    assertEquals(Sort.of(vector), Tensors.fromString("{-3[m], 0[m], 0[s], 0, 9[m]}", Quantity::fromString));
+        Quantity.of(0, "m"), Quantity.of(9, "m"), //
+        Quantity.of(-3, "m"), Quantity.of(0, "s"), RealScalar.ZERO);
+    try {
+      Sort.of(vector);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testFail() {

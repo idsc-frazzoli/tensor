@@ -132,7 +132,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
-    // TODO implementation is slow
+    // implementation is slow, could use memo function
     for (long index = 1; index < prime; ++index) {
       GaussScalar candidate = (GaussScalar) of(index, prime);
       GaussScalar square = (GaussScalar) candidate.multiply(candidate);

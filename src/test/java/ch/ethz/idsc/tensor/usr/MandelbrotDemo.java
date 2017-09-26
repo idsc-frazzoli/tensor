@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.Parallelize;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -39,7 +40,7 @@ enum MandelbrotDemo {
   }
 
   public static void main(String[] args) throws Exception {
-    Tensor matrix = StaticHelper.parallel(MandelbrotDemo::function, RES, RES);
+    Tensor matrix = Parallelize.matrix(MandelbrotDemo::function, RES, RES);
     Export.of(UserHome.Pictures(MandelbulbDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.RAINBOW));
   }

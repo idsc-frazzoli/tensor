@@ -6,18 +6,18 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Gamma;
 import ch.ethz.idsc.tensor.sca.Log;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/GumbelDistribution.html">GumbelDistribution</a> */
 public class GumbelDistribution implements Distribution, //
     CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   private static final double NEXTDOWNONE = Math.nextDown(1.0);
-  private static final Scalar EULER_GAMMA = DoubleScalar.of(0.577215664901532860606512090082);
   private static final Scalar PISQUARED_6 = DoubleScalar.of(1.644934066848226436472415166646);
 
   /** parameters may be instance of {@link Quantity} with identical units
@@ -26,7 +26,7 @@ public class GumbelDistribution implements Distribution, //
    * @param beta positive
    * @return */
   public static Distribution of(Scalar alpha, Scalar beta) {
-    if (Scalars.lessEquals(beta, RealScalar.ZERO))
+    if (!Sign.isPositive(beta))
       throw TensorRuntimeException.of(beta);
     return new GumbelDistribution(alpha, beta);
   }
@@ -53,7 +53,7 @@ public class GumbelDistribution implements Distribution, //
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return alpha.subtract(EULER_GAMMA.multiply(beta));
+    return alpha.subtract(Gamma.EULER.multiply(beta));
   }
 
   @Override // from VarianceInterface

@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * In Mathematica::DiscreteUniformDistribution the upper bound "max" is inclusive.
  * The tensor library considers "max" to be excluded.
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
 // TODO implementation could allow the use of Quantity
 public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {

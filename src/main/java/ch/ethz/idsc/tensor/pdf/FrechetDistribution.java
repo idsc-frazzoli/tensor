@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.pdf;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -15,6 +14,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Gamma;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/FrechetDistribution.html">FrechetDistribution</a> */
@@ -27,9 +27,9 @@ public class FrechetDistribution implements Distribution, //
    * @param beta positive, may be instance of {@link Quantity}
    * @return */
   public static Distribution of(Scalar alpha, Scalar beta) {
-    if (Scalars.lessEquals(alpha, RealScalar.ZERO) || !NumberQ.of(alpha))
+    if (Scalars.lessEquals(alpha, RealScalar.ZERO))
       throw TensorRuntimeException.of(alpha);
-    if (Scalars.lessEquals(beta, RealScalar.ZERO))
+    if (!Sign.isPositive(beta))
       throw TensorRuntimeException.of(beta);
     return new FrechetDistribution(alpha, beta);
   }
@@ -79,7 +79,7 @@ public class FrechetDistribution implements Distribution, //
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    if (Scalars.lessEquals(x, RealScalar.ZERO))
+    if (!Sign.isPositive(x))
       return RealScalar.ZERO;
     return Exp.FUNCTION.apply(Power.of(x.divide(beta), alpha.negate()).negate());
   }

@@ -25,11 +25,18 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 /* package */ class QuantityImpl extends AbstractScalar implements Quantity {
   private static final Scalar HALF = RationalScalar.of(1, 2);
 
+  /** @param value is assumed to be not instance of {@link Quantity}
+   * @param unit
+   * @return */
   /* package */ static Scalar of(Scalar value, Unit unit) {
     return Units.isOne(unit) ? value : new QuantityImpl(value, unit);
   }
 
-  /***************************************************/
+  // ---
+  private Quantity ofUnit(Scalar scalar) {
+    return new QuantityImpl(scalar, unit);
+  }
+
   private final Scalar value;
   private final Unit unit; // non-empty
 
@@ -38,12 +45,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     this.unit = unit;
   }
 
-  @Override
+  @Override // from Quantity
   public Scalar value() {
     return value;
   }
 
-  @Override
+  @Override // from Quantity
   public Unit unit() {
     return unit;
   }
@@ -60,7 +67,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       Quantity quantity = (Quantity) scalar;
       return of(value.multiply(quantity.value()), unit.add(quantity.unit()));
     }
-    return of(value.multiply(scalar), unit);
+    return ofUnit(value.multiply(scalar));
   }
 
   @Override // from Scalar
@@ -69,7 +76,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       Quantity quantity = (Quantity) scalar;
       return of(value.divide(quantity.value()), unit.add(quantity.unit().negate()));
     }
-    return of(value.divide(scalar), unit);
+    return ofUnit(value.divide(scalar));
   }
 
   @Override // from Scalar
@@ -88,7 +95,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar abs() {
-    return of(value.abs(), unit);
+    return ofUnit(value.abs());
   }
 
   @Override // from Scalar
@@ -98,7 +105,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar zero() {
-    return of(value.zero(), unit);
+    return ofUnit(value.zero());
   }
 
   /***************************************************/
@@ -117,11 +124,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         // 0[m] + 0.0[s] == 0.0
         final Scalar zero = value.add(quantity.value());
         if (unit.equals(quantity.unit()))
-          return of(zero, unit); // 0[m] + 0[m] gives 0[m]
+          return ofUnit(zero); // 0[m] + 0[m] gives 0[m]
         return zero; // 0[m] + 0[s] gives 0
       }
       if (unit.equals(quantity.unit()))
-        return of(value.add(quantity.value()), unit);
+        return ofUnit(value.add(quantity.value()));
     } else { // <- scalar is not an instance of Quantity
       if (Scalars.isZero(value) && Scalars.isZero(scalar))
         // return of value.add(scalar) is not required for symmetry
@@ -159,38 +166,38 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from RoundingInterface
   public Scalar ceiling() {
-    return of(Ceiling.FUNCTION.apply(value), unit);
+    return ofUnit(Ceiling.FUNCTION.apply(value));
   }
 
   @Override // from ChopInterface
   public Scalar chop(Chop chop) {
-    return of(chop.apply(value), unit);
+    return ofUnit(chop.apply(value));
   }
 
   @Override // from ComplexEmbedding
   public Scalar conjugate() {
-    return of(Conjugate.FUNCTION.apply(value), unit);
+    return ofUnit(Conjugate.FUNCTION.apply(value));
   }
 
   @Override // from RoundingInterface
   public Scalar floor() {
-    return of(Floor.FUNCTION.apply(value), unit);
+    return ofUnit(Floor.FUNCTION.apply(value));
   }
 
   @Override // from ComplexEmbedding
   public Scalar imag() {
-    return of(Imag.FUNCTION.apply(value), unit);
+    return ofUnit(Imag.FUNCTION.apply(value));
   }
 
   @Override // from NInterface
   public Scalar n() {
-    return of(N.DOUBLE.apply(value), unit);
+    return ofUnit(N.DOUBLE.apply(value));
   }
 
   @Override // from NInterface
   public Scalar n(MathContext mathContext) {
     N n = N.in(mathContext);
-    return of(n.apply(value), unit);
+    return ofUnit(n.apply(value));
   }
 
   @Override // from SignInterface
@@ -201,22 +208,16 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from ComplexEmbedding
   public Scalar real() {
-    return of(Real.FUNCTION.apply(value), unit);
+    return ofUnit(Real.FUNCTION.apply(value));
   }
 
   @Override // from RoundingInterface
   public Scalar round() {
-    return of(Round.FUNCTION.apply(value), unit);
+    return ofUnit(Round.FUNCTION.apply(value));
   }
 
   @Override // from Comparable<Scalar>
   public int compareTo(Scalar scalar) {
-    if (Scalars.isZero(value) || Scalars.isZero(scalar))
-      // treats the cases:
-      // 0[s^-1] < 1, and -2 < 0[kg]
-      // -3[m] < 0, and 0 < +2[s]
-      // -2[kg] < 0[V]
-      return Scalars.compare(value, scalar);
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
       if (unit.equals(quantity.unit()))

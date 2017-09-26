@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
 /** <p>inspired by
@@ -33,5 +34,18 @@ public enum Parallelize {
           .reduce(Tensor::add).orElse(RealScalar.ZERO);
     }
     return Tensor.of(list.stream().parallel().map(entry -> entry.dot(rhs)));
+  }
+
+  /** parallel matrix construction, special case of
+   * Mathematica::ParallelTable
+   * Mathematica::ParallelArray
+   * 
+   * @param biFunction
+   * @param rows
+   * @param cols
+   * @return (rows x cols)-matrix with (i,j)th-entry == bifunction.apply(i,j) */
+  public static Tensor matrix(BiFunction<Integer, Integer, ? extends Tensor> biFunction, int rows, int cols) {
+    return Tensor.of(IntStream.range(0, rows).parallel().mapToObj( //
+        i -> Tensor.of(IntStream.range(0, cols).mapToObj(j -> biFunction.apply(i, j)))));
   }
 }

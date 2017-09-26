@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-// TODO implement
+// LONGTERM implement
 class WeibullDistribution implements Distribution {
   public static Distribution of(Scalar alpha, Scalar beta) {
     return new WeibullDistribution(alpha, beta);
