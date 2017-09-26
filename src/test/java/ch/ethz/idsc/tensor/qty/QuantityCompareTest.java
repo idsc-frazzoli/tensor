@@ -37,9 +37,19 @@ public class QuantityCompareTest extends TestCase {
   public void testCompareEquals() {
     Scalar q1 = Quantity.of(0, "s");
     Scalar q2 = Quantity.of(0, "rad");
-    int cmp = Scalars.compare(q1, q2);
-    assertEquals(cmp, 0);
     assertTrue(q1.equals(q2));
+    try {
+      Scalars.compare(q1, q2);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Scalars.compare(RealScalar.ZERO, q2);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testIsZero() {
@@ -68,10 +78,7 @@ public class QuantityCompareTest extends TestCase {
 
   public void testCompare() {
     _checkCompareTo(Quantity.of(2, "m"), Quantity.of(3, "m"), Integer.compare(2, 3));
-    _checkCompareTo(Quantity.of(-2, "kg"), Quantity.of(0, "m"), Integer.compare(-2, 0));
-    _checkCompareTo(Quantity.of(0, "kg"), Quantity.of(0, "m"), Integer.compare(0, 0));
-    _checkCompareTo(Quantity.of(2, "m"), RealScalar.ZERO, Integer.compare(2, 0));
-    _checkCompareTo(Quantity.of(0, "kg"), RealScalar.ONE, Integer.compare(0, 1));
+    _checkCompareTo(Quantity.of(-3, "m*s"), Quantity.of(7, "s*m"), Integer.compare(-3, 7));
   }
 
   public void testCompareFail() {

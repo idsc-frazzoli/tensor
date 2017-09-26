@@ -30,7 +30,7 @@ public enum Erfc implements ScalarUnaryOperator {
   public Scalar apply(Scalar scalar) {
     if (Scalars.lessThan(scalar.abs(), DoubleScalar.of(.7))) // error < 10^-9
       return Multinomial.horner(coeffs, scalar);
-    // TODO implement
+    // LONGTERM implement
     throw TensorRuntimeException.of(scalar);
   }
 }

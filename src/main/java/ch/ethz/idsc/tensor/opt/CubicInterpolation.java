@@ -23,7 +23,7 @@ class CubicInterpolation extends AbstractInterpolation {
 
   @Override // from AbstractInterpolation
   protected final Tensor _get(Tensor index) {
-    // TODO implement
+    // LONGTERM implement
     throw TensorRuntimeException.of(index);
   }
 }

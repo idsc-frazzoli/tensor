@@ -2,6 +2,7 @@
 // https://mathematica.stackexchange.com/questions/9167/adapt-colorfunction-in-array-plot
 package ch.ethz.idsc.tensor.usr;
 
+import ch.ethz.idsc.tensor.Parallelize;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -28,7 +29,7 @@ enum SinDemo {
   }
 
   public static void main(String[] args) throws Exception {
-    Tensor matrix = StaticHelper.parallel(SinDemo::function, RES, RES);
+    Tensor matrix = Parallelize.matrix(SinDemo::function, RES, RES);
     Export.of(UserHome.Pictures(SinDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.SUNSET));
   }

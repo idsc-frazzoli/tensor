@@ -6,8 +6,8 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** inspired by
@@ -48,7 +48,8 @@ public class NormalDistribution implements Distribution, //
   private final Scalar sigma;
 
   private NormalDistribution(Scalar mean, Scalar sigma) {
-    if (Scalars.lessEquals(sigma, RealScalar.ZERO))
+    // if (Scalars.lessEquals(sigma, RealScalar.ZERO))
+    if (!Sign.isPositive(sigma))
       throw TensorRuntimeException.of(sigma);
     this.mean = mean;
     this.sigma = sigma;

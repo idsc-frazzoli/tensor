@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.Floor;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/BinCounts.html">BinCounts</a> */
@@ -38,13 +39,13 @@ public enum BinCounts {
    * @return
    * @throws Exception if any scalar in the given vector is less than zero */
   public static Tensor of(Tensor vector, Scalar width) {
-    if (Scalars.lessEquals(width, RealScalar.ZERO))
+    if (!Sign.isPositive(width))
       throw TensorRuntimeException.of(width);
     if (vector.length() == 0)
       return Tensors.empty();
     NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector.divide(width)));
     Scalar first = navigableMap.firstKey().Get();
-    if (Scalars.lessThan(first, first.zero()))
+    if (Scalars.lessThan(first, RealScalar.ZERO))
       throw TensorRuntimeException.of(vector);
     int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
     return Tensors.vector(index -> {

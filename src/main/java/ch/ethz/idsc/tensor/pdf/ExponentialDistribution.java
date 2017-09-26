@@ -6,11 +6,11 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
@@ -19,7 +19,7 @@ public class ExponentialDistribution implements Distribution, //
   /** @param lambda positive, may be instance of {@link Quantity}
    * @return */
   public static Distribution of(Scalar lambda) {
-    if (Scalars.lessEquals(lambda, RealScalar.ZERO))
+    if (!Sign.isPositive(lambda))
       throw TensorRuntimeException.of(lambda);
     return new ExponentialDistribution(lambda);
   }
@@ -56,14 +56,14 @@ public class ExponentialDistribution implements Distribution, //
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    if (Scalars.lessThan(x, RealScalar.ZERO))
+    if (Sign.isNegative(x))
       return RealScalar.ZERO;
     return Exp.FUNCTION.apply(x.multiply(lambda).negate()).multiply(lambda); // E^(-x \[Lambda]) \[Lambda]
   }
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return Scalars.lessEquals(x, RealScalar.ZERO) ? RealScalar.ZERO : //
+    return !Sign.isPositive(x) ? RealScalar.ZERO : //
         RealScalar.ONE.subtract(Exp.FUNCTION.apply(x.multiply(lambda_negate)));
   }
 

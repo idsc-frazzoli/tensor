@@ -42,7 +42,6 @@ public enum ImageFormat {
     case BufferedImage.TYPE_BYTE_GRAY:
       return fromGrayscale(bufferedImage);
     default:
-      // TODO probably this can be done in a faster way
       return Tensors.matrix((y, x) -> ColorFormat.toVector(bufferedImage.getRGB(x, y)), //
           bufferedImage.getHeight(), bufferedImage.getWidth());
     }

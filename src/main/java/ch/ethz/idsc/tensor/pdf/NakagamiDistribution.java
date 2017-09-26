@@ -2,5 +2,5 @@
 package ch.ethz.idsc.tensor.pdf;
 
 class NakagamiDistribution implements Distribution {
-  // TODO implement
+  // LONGTERM implement
 }

@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
@@ -32,7 +33,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
   public static Distribution of(int n, Scalar p) {
     if (n < 0)
       throw new RuntimeException("n=" + n);
-    if (Scalars.lessThan(p, RealScalar.ZERO) || Scalars.lessThan(RealScalar.ONE, p))
+    if (Clip.unit().isOutside(p))
       throw TensorRuntimeException.of(p);
     // ---
     boolean revert = Scalars.lessThan(RationalScalar.of(1, 2), p);

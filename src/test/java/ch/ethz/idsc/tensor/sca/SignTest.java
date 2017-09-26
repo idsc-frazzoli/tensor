@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor.sca;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.StringScalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.Unit;
 import junit.framework.TestCase;
 
 public class SignTest extends TestCase {
@@ -22,6 +24,22 @@ public class SignTest extends TestCase {
   public void testInfinity() {
     assertEquals(Sign.of(DoubleScalar.POSITIVE_INFINITY), RealScalar.of(+1));
     assertEquals(Sign.of(DoubleScalar.NEGATIVE_INFINITY), RealScalar.of(-1));
+  }
+
+  public void testIsNegative() {
+    Unit apples = Unit.of("Apples");
+    assertTrue(Sign.isNegative(Quantity.of(-2, apples)));
+    assertFalse(Sign.isNegative(Quantity.of(0, apples)));
+    assertFalse(Sign.isNegative(Quantity.of(2, apples)));
+  }
+
+  public void testIsPositive() {
+    assertFalse(Sign.isPositive(Quantity.of(-2, "V*A")));
+    assertFalse(Sign.isPositive(Quantity.of(0, "V*A")));
+    assertTrue(Sign.isPositive(Quantity.of(2, "V*A")));
+    assertFalse(Sign.isPositive(Quantity.of(-2, Unit.ONE)));
+    assertFalse(Sign.isPositive(Quantity.of(0, Unit.ONE)));
+    assertTrue(Sign.isPositive(Quantity.of(2, Unit.ONE)));
   }
 
   public void testFail() {

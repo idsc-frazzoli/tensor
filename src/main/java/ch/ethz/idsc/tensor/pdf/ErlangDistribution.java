@@ -4,11 +4,11 @@ package ch.ethz.idsc.tensor.pdf;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Factorial;
 import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** ErlangDistribution[k, lambda] == GammaDistribution[k, 1 / lambda]
  * 
@@ -36,7 +36,7 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    if (Scalars.lessEquals(x, RealScalar.ZERO))
+    if (!Sign.isPositive(x))
       return RealScalar.ZERO;
     return Exp.FUNCTION.apply(x.negate().multiply(lambda)) //
         .multiply(Power.of(x, k.subtract(RealScalar.ONE))).multiply(factor);

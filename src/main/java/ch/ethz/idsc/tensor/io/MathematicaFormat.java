@@ -47,7 +47,6 @@ public enum MathematicaFormat {
   /** @param stream of strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream, Function<String, Tensor> function) {
-    // TODO does not support extended precision yet: ..12`50
     return function.apply(stream //
         .map(string -> string.replace(EXPONENT_MATH, EXPONENT_JAVA)) //
         .map(MathematicaFormat::join) //

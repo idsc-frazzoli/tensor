@@ -53,8 +53,78 @@ public class ClipTest extends TestCase {
     assertEquals(clip.apply(value), value);
   }
 
-  public void testQuantityZero() {
-    assertEquals(Clip.function(0, 0).apply(Quantity.of(-5, "m")), RealScalar.ZERO);
+  public void testQuantityInside() {
+    Scalar min = Quantity.of(-3, "m");
+    Scalar max = Quantity.of(2, "m");
+    Clip clip = Clip.function(min, max);
+    assertTrue(clip.isInside(Quantity.of(1, "m")));
+    assertTrue(clip.isInside(Quantity.of(2, "m")));
+    assertFalse(clip.isInside(Quantity.of(3, "m")));
+    try {
+      clip.isInside(Quantity.of(0, "V"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      clip.isInside(Quantity.of(3, "V"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testInsideFail() {
+    try {
+      Clip.unit().isInside(Quantity.of(0.5, "m"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testZeroWidth() {
+    Clip clip = Clip.function(2, 2);
+    assertEquals(clip.apply(RealScalar.of(3)), RealScalar.of(2));
+  }
+
+  public void testRescaleZeroWidth() {
+    Clip clip = Clip.function(2, 2);
+    assertEquals(clip.rescale(RealScalar.of(-1)), RealScalar.ZERO);
+    assertEquals(clip.rescale(RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(clip.rescale(RealScalar.of(2)), RealScalar.ZERO);
+    assertEquals(clip.rescale(RealScalar.of(4)), RealScalar.ZERO);
+  }
+
+  public void testRescale() {
+    Scalar min = Quantity.of(-3, "m");
+    Scalar max = Quantity.of(2, "m");
+    Clip clip = Clip.function(min, max);
+    assertEquals(clip.rescale(Quantity.of(-3, "m")), RealScalar.ZERO);
+    assertEquals(clip.rescale(Quantity.of(2, "m")), RealScalar.ONE);
+    assertEquals(clip.rescale(Quantity.of(10, "m")), RealScalar.ONE);
+  }
+
+  public void testRescaleQuantity() {
+    Scalar min = RealScalar.of(5);
+    Scalar max = RealScalar.of(25);
+    Clip clip = Clip.function(min, max);
+    assertEquals(clip.rescale(RealScalar.of(20)), RealScalar.of(3 / 4.0));
+  }
+
+  public void testQuantityOutside() {
+    Scalar min = Quantity.of(-3, "m");
+    Scalar max = Quantity.of(2, "m");
+    Clip clip = Clip.function(min, max);
+    assertFalse(clip.isOutside(Quantity.of(1, "m")));
+    assertFalse(clip.isOutside(Quantity.of(2, "m")));
+    assertTrue(clip.isOutside(Quantity.of(3, "m")));
+    try {
+      clip.isOutside(Quantity.of(3, "V"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testQuantityFail() {

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
+import ch.ethz.idsc.tensor.Parallelize;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -29,7 +30,7 @@ enum RodriquezDemo {
     for (Tensor _z : Subdivide.of(-4 * Math.PI, 4 * Math.PI, 40)) {
       System.out.println(_z);
       Z = _z.Get();
-      Tensor matrix = StaticHelper.parallel(RodriquezDemo::function, RES, RES);
+      Tensor matrix = Parallelize.matrix(RodriquezDemo::function, RES, RES);
       ani.append(ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
     }
     ani.close();

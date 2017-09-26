@@ -27,6 +27,15 @@ public class QuantityTest extends TestCase {
     assertFalse(Quantity.fromString(" 3 [] ") instanceof Quantity);
   }
 
+  public void testNumberUnit() {
+    Unit unit = Unit.of("m*s^-1");
+    Scalar scalar = Quantity.of(3, unit);
+    assertEquals(scalar, Quantity.fromString("3[m*s^-1]"));
+    assertEquals(scalar, Quantity.of(3, "m*s^-1"));
+    assertEquals(scalar, Quantity.of(RealScalar.of(3), "m*s^-1"));
+    assertEquals(scalar, Quantity.of(RealScalar.of(3), unit));
+  }
+
   public void testFromStringFail() {
     try {
       Quantity.fromString("-7[m][kg]");

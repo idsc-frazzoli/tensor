@@ -24,7 +24,6 @@ public enum GaborMatrix {
    * @param k
    * @param phi
    * @return */
-  // TODO not tested
   public static Tensor of(int r, Tensor k, Scalar phi) {
     final Scalar sigma = RationalScalar.of(r, 2);
     final Scalar factor = AbsSquared.FUNCTION.apply(sigma).multiply(TWO).negate();

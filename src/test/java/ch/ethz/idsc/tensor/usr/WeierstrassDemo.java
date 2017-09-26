@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.Parallelize;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -32,7 +33,7 @@ enum WeierstrassDemo {
   }
 
   public static void main(String[] args) throws Exception {
-    Tensor matrix = StaticHelper.parallel(WeierstrassDemo::function, RES, RES);
+    Tensor matrix = Parallelize.matrix(WeierstrassDemo::function, RES, RES);
     Export.of(UserHome.Pictures(WeierstrassDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.ALPINE));
   }

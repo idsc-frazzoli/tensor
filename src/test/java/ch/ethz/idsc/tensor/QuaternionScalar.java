@@ -24,6 +24,7 @@ final class QuaternionScalar extends AbstractScalar implements //
       return re;
     return new QuaternionScalar(re, im, jm, km);
   }
+  // ---
 
   private final Scalar re;
   private final Scalar im;

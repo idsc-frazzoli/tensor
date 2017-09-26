@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.Parallelize;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -41,15 +42,15 @@ class InverseTrigDemo {
     Tensor collection = Tensors.empty();
     {
       InverseTrigDemo itd = new InverseTrigDemo(ArcSinh.FUNCTION);
-      collection.append(StaticHelper.parallel(itd::function, RES, RES));
+      collection.append(Parallelize.matrix(itd::function, RES, RES));
     }
     {
       InverseTrigDemo itd = new InverseTrigDemo(ArcTanh.FUNCTION);
-      collection.append(StaticHelper.parallel(itd::function, RES, RES));
+      collection.append(Parallelize.matrix(itd::function, RES, RES));
     }
     {
       InverseTrigDemo itd = new InverseTrigDemo(ArcCosh.FUNCTION);
-      collection.append(StaticHelper.parallel(itd::function, RES, RES));
+      collection.append(Parallelize.matrix(itd::function, RES, RES));
     }
     Export.of(UserHome.Pictures(InverseTrigDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(Mean.of(collection), ColorDataGradients.THERMOMETER));

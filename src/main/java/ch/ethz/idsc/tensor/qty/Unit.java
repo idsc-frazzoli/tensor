@@ -6,20 +6,20 @@ import java.util.Map;
 
 import ch.ethz.idsc.tensor.Scalar;
 
+/** implementations are immutable */
 public interface Unit extends Serializable {
-  /** m*s */
-  static final String JOIN = "*";
-  /** kg^-2 */
-  static final String POWER = "^";
+  /** Example: cd*m*s */
+  static final String JOIN_DELIMITER = "*";
+  /** Example: A*kg^-2 */
+  static final String POWER_DELIMITER = "^";
+  /** holds the dimension-less unit ONE */
+  static final Unit ONE = of("");
 
   /** @param string, for instance "m*s^-2"
    * @return */
   static Unit of(String string) {
-    return Units.MEMO.lookup(string);
+    return UnitHelper.MEMO.lookup(string);
   }
-
-  /** @return true if unit is unit-less */
-  boolean isEmpty();
 
   /** [kg*m^2] -> [kg^-1*m^-2]
    * 

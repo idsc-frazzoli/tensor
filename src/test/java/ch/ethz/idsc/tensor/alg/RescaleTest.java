@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.QuantityTensor;
+import ch.ethz.idsc.tensor.qty.Unit;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -71,5 +73,15 @@ public class RescaleTest extends TestCase {
     Tensor tensor = Tensors.vector(Double.NaN, 0, 0, 0, Double.NaN);
     Tensor scaled = Rescale.of(tensor);
     assertEquals(tensor.toString(), scaled.toString());
+  }
+
+  public void testQuantity() {
+    Tensor vector = QuantityTensor.of( //
+        Tensors.vector(1, 2, -3, 4, -1, 2, 1, 0, 3, 2, 1, 2), //
+        Unit.of("s"));
+    @SuppressWarnings("unused")
+    Tensor rescal = Rescale.of(vector);
+    // System.out.println(rescal);
+    // TODO not conforming to Mathematica
   }
 }

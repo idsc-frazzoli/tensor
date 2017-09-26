@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-// TODO implement
+// LONGTERM implement
 /* package */ class StudentTDistribution implements Distribution {
   // ---
   @SuppressWarnings("unused")

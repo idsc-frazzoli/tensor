@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
+import ch.ethz.idsc.tensor.Parallelize;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -39,7 +40,7 @@ enum MandelbulbDemo {
   }
 
   public static void main(String[] args) throws Exception {
-    Tensor matrix = StaticHelper.parallel(MandelbulbDemo::function, RES, RES);
+    Tensor matrix = Parallelize.matrix(MandelbulbDemo::function, RES, RES);
     Export.of(UserHome.Pictures(MandelbulbDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
   }

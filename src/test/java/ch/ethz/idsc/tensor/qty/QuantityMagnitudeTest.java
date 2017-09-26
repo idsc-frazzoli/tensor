@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.qty;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class QuantityMagnitudeTest extends TestCase {
@@ -18,6 +19,18 @@ public class QuantityMagnitudeTest extends TestCase {
     Unit unit = Unit.of("rad");
     Scalar scalar = quantityMagnitude.in(unit).apply(q);
     assertTrue(Chop._12.close(scalar, RealScalar.of(Math.PI * 2)));
+  }
+
+  public void testSingleton() {
+    Scalar scalar = Quantity.of(3, "m^2*s");
+    ScalarUnaryOperator q = QuantityMagnitude.singleton(Unit.of("s*m^2"));
+    assertEquals(q.apply(scalar), RealScalar.of(3));
+  }
+
+  public void testSingleton2() {
+    Scalar scalar = RealScalar.of(3);
+    ScalarUnaryOperator q = QuantityMagnitude.singleton(Unit.ONE);
+    assertEquals(q.apply(scalar), RealScalar.of(3));
   }
 
   public void testFailConversion() {
