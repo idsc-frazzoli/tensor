@@ -56,6 +56,16 @@ public class GompertzMakehamDistributionTest extends TestCase {
     }
   }
 
+  public void testQuantityPDF() {
+    Distribution distribution = GompertzMakehamDistribution.of(Quantity.of(.3, "m^-1"), RealScalar.of(.1));
+    {
+      Scalar prob = PDF.of(distribution).at(Quantity.of(-1, "m"));
+      assertTrue(prob instanceof Quantity);
+      assertTrue(Scalars.isZero(prob));
+      QuantityMagnitude.SI().in(Unit.of("in^-1")).apply(prob);
+    }
+  }
+
   public void testFail() {
     try {
       GompertzMakehamDistribution.of(RealScalar.of(0), RealScalar.of(.2));

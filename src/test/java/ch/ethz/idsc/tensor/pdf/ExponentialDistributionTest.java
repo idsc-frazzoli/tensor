@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.qty.Unit;
 import ch.ethz.idsc.tensor.qty.UnitConvert;
 import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Sign;
 import junit.framework.TestCase;
 
 public class ExponentialDistributionTest extends TestCase {
@@ -116,5 +117,18 @@ public class ExponentialDistributionTest extends TestCase {
     assertTrue(Expectation.mean(distribution) instanceof Quantity);
     Scalar var = Expectation.variance(distribution);
     assertTrue(var instanceof Quantity);
+  }
+
+  public void testQuantityPDF() {
+    Distribution distribution = ExponentialDistribution.of(Quantity.of(3, "m"));
+    {
+      Scalar prob = PDF.of(distribution).at(Quantity.of(2, "m^-1"));
+      assertTrue(Sign.isPositive(prob));
+      assertTrue(prob instanceof Quantity);
+    }
+    {
+      Scalar prob = PDF.of(distribution).at(Quantity.of(-2, "m^-1"));
+      assertEquals(prob.toString(), "0[m]");
+    }
   }
 }

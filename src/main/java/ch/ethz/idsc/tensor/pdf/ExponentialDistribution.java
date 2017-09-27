@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
 public class ExponentialDistribution implements Distribution, //
     CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
-  /** @param lambda positive, may be instance of {@link Quantity}
+  /** @param lambda positive,FIXME ? may be instance of {@link Quantity}
    * @return */
   public static Distribution of(Scalar lambda) {
     if (!Sign.isPositive(lambda))
@@ -57,8 +57,8 @@ public class ExponentialDistribution implements Distribution, //
   @Override // from PDF
   public Scalar at(Scalar x) {
     if (Sign.isNegative(x))
-      return RealScalar.ZERO;
-    return Exp.FUNCTION.apply(x.multiply(lambda).negate()).multiply(lambda); // E^(-x \[Lambda]) \[Lambda]
+      return lambda.zero();
+    return Exp.FUNCTION.apply(x.multiply(lambda_negate)).multiply(lambda);
   }
 
   @Override // from CDF
