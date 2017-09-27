@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -25,6 +26,8 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 /** export of available {@link ColorDataGradients} to a single image */
 enum ColorDataGradientsDemo {
   ;
+  private static final Scalar TFF = RealScalar.of(255);
+
   public static void main(String[] args) throws IOException {
     final int hei = 16;
     final int sep = 120;
@@ -35,8 +38,7 @@ enum ColorDataGradientsDemo {
     image = Flatten.of(image, 1);
     List<Integer> dims = Dimensions.of(image);
     dims.set(1, sep);
-    image = Join.of(1, Array.of(l -> RealScalar.of(255), dims), image);
-    System.out.println(Dimensions.of(image));
+    image = Join.of(1, Array.of(l -> TFF, dims), image);
     BufferedImage bufferedImage = ImageFormat.of(image);
     Graphics graphics = bufferedImage.getGraphics();
     FontMetrics fm = graphics.getFontMetrics();

@@ -251,7 +251,7 @@ gives
 
 An overview of pre-defined color gradients
 
-
+![colordatagradients](https://user-images.githubusercontent.com/4012178/30928143-fff4d5ac-a3ba-11e7-8f0d-9b957e259309.png)
 
 ## Include in your project
 
