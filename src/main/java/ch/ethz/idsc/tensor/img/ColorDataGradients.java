@@ -16,9 +16,9 @@ import ch.ethz.idsc.tensor.io.ResourceData;
  * </pre>
  * 
  * <p>The {@link ColorDataGradients#HUE} and {@link ColorDataGradients#GRAYSCALE} are
- * hard-coded, which may give a performance advantage.
+ * hard-coded, which gives a performance advantage.
  * The remaining color data gradients are backed by linear interpolation over a predefined
- * table of RGBA values.
+ * table of RGBA values implemented in {@link ColorDataGradient}.
  * 
  * <p>inspired by Mathematica::ColorData["Gradients"] */
 public enum ColorDataGradients implements ColorDataFunction {
@@ -31,8 +31,12 @@ public enum ColorDataGradients implements ColorDataFunction {
   SUNSET("sunset.csv"), //
   RAINBOW("rainbow.csv"), //
   CMYK_REVERSED("cmyk_reversed.csv"), //
-  THERMOMETER("thermometer.csv"), //
+  TEMPERATURE("temperature.csv"), // has more yellow before turning red
+  TEMPERATURE_LIGHT("temperature_light.csv"), // has more yellow before turning red
+  THERMOMETER("thermometer.csv"), // blue/red symmetric
+  MINT("mint.csv"), // green to red pastel, symmetric
   PASTEL("pastel.csv"), //
+  PARULA("parula.csv"), // matlab default
   GRAYSCALE(GrayscaleColorData.FUNCTION), //
   /** the tensor library is made in Switzerland
    * the alpine color scheme was added August 1st */

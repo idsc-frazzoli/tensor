@@ -8,8 +8,8 @@ import ch.ethz.idsc.tensor.alg.Rescale;
  * <a href="https://reference.wolfram.com/language/ref/ArrayPlot.html">ArrayPlot</a> */
 public enum ArrayPlot {
   ;
-  /** @param tensor
-   * @param colorDataFunction
+  /** @param tensor, typically a matrix
+   * @param colorDataFunction, for instance ColorDataGradients.CLASSIC
    * @return */
   public static Tensor of(Tensor tensor, ColorDataFunction colorDataFunction) {
     return Rescale.of(tensor).map(colorDataFunction);
