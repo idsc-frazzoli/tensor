@@ -131,4 +131,17 @@ public class ExponentialDistributionTest extends TestCase {
       assertEquals(prob.toString(), "0[m]");
     }
   }
+
+  public void testQuantityCDF() {
+    Distribution distribution = ExponentialDistribution.of(Quantity.of(3, "m"));
+    {
+      Scalar prob = CDF.of(distribution).p_lessThan(Quantity.of(2, "m^-1"));
+      assertTrue(Sign.isPositive(prob));
+      assertTrue(prob instanceof RealScalar);
+    }
+    {
+      Scalar prob = CDF.of(distribution).p_lessEquals(Quantity.of(-2, "m^-1"));
+      assertEquals(prob.toString(), "0");
+    }
+  }
 }

@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.usr;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -38,17 +37,18 @@ enum ColorDataGradientsDemo {
     image = Flatten.of(image, 1);
     List<Integer> dims = Dimensions.of(image);
     dims.set(1, sep);
-    image = Join.of(1, Array.of(l -> TFF, dims), image);
+    image = Join.of(1, image, Array.of(l -> TFF, dims));
     BufferedImage bufferedImage = ImageFormat.of(image);
     Graphics graphics = bufferedImage.getGraphics();
-    FontMetrics fm = graphics.getFontMetrics();
+    // FontMetrics fm = graphics.getFontMetrics();
     int piy = -3;
     graphics.setColor(Color.BLACK);
     for (ColorDataGradients cdg : ColorDataGradients.values()) {
       piy += hei;
       String string = cdg.name().toLowerCase();
-      int width = fm.stringWidth(string);
-      graphics.drawString(string, sep - width - 2, piy);
+      // int width = fm.stringWidth(string);
+      // graphics.drawString(string, sep - width - 2, piy);
+      graphics.drawString(string, 256 + 2, piy);
     }
     Export.of(UserHome.Pictures(ColorDataGradients.class.getSimpleName() + ".png"), //
         ImageFormat.from(bufferedImage));

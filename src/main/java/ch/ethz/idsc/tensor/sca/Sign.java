@@ -15,7 +15,10 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 public enum Sign implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Scalar[] LOOKUP = { RealScalar.ONE.negate(), RealScalar.ZERO, RealScalar.ONE };
+  private static final Scalar[] LOOKUP = { //
+      RealScalar.ONE.negate(), // -1
+      RealScalar.ZERO, // 0
+      RealScalar.ONE }; // +1
 
   @Override
   public Scalar apply(Scalar scalar) {

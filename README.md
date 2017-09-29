@@ -251,7 +251,8 @@ gives
 
 An overview of pre-defined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/30928143-fff4d5ac-a3ba-11e7-8f0d-9b957e259309.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/30978727-b00ade30-a47b-11e7-815a-3b9fc8a53a86.png)
+
 
 ## Include in your project
 
@@ -307,4 +308,4 @@ The library is used in the projects:
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1500` unit tests.
+The repository has over `1510` unit tests.

@@ -23,26 +23,28 @@ import ch.ethz.idsc.tensor.io.ResourceData;
  * <p>inspired by Mathematica::ColorData["Gradients"] */
 public enum ColorDataGradients implements ColorDataFunction {
   /** classic is default */
-  CLASSIC("classic.csv"), //
+  CLASSIC, //
   /** hue is backed by {@link Hue#of(double, double, double, double)} */
   HUE(HueColorData.FUNCTION), // <- cyclic
   /** hsluv is hue with brightness equalized, see hsluv.org */
-  HSLUV("hsluv.csv"), // <- cyclic
-  SUNSET("sunset.csv"), //
-  RAINBOW("rainbow.csv"), //
-  CMYK_REVERSED("cmyk_reversed.csv"), //
-  TEMPERATURE("temperature.csv"), // has more yellow before turning red
-  TEMPERATURE_LIGHT("temperature_light.csv"), // has more yellow before turning red
-  THERMOMETER("thermometer.csv"), // blue/red symmetric
-  MINT("mint.csv"), // green to red pastel, symmetric
-  PASTEL("pastel.csv"), //
-  PARULA("parula.csv"), // matlab default
+  HSLUV, // <- cyclic
+  SUNSET, //
+  RAINBOW, //
+  CMYK_REVERSED, //
+  TEMPERATURE, // blue to red, has yellow before turning red
+  TEMPERATURE_LIGHT, // blue to red, has yellow before turning red
+  THERMOMETER, // blue to red, symmetric
+  MINT, // green to red pastel, symmetric
+  PASTEL, //
+  BEACH, //
+  PARULA, // matlab default
+  SOLAR, //
   GRAYSCALE(GrayscaleColorData.FUNCTION), //
   /** the tensor library is made in Switzerland
    * the alpine color scheme was added August 1st */
-  ALPINE("alpine.csv"), //
-  COPPER("copper.csv"), //
-  PINK("pink.csv"), //
+  ALPINE, //
+  COPPER, //
+  PINK, //
   ;
   // ---
   private final ColorDataFunction colorDataFunction;
@@ -51,12 +53,12 @@ public enum ColorDataGradients implements ColorDataFunction {
     this.colorDataFunction = colorDataFunction;
   }
 
-  private ColorDataGradients(String string) {
-    Tensor tensor = ResourceData.of("/colorscheme/" + string);
+  private ColorDataGradients() {
+    Tensor tensor = ResourceData.of("/colorscheme/" + name().toLowerCase() + ".csv");
     boolean failure = Objects.isNull(tensor);
     colorDataFunction = ColorDataGradient.of(failure ? Array.zeros(2, 4) : tensor);
     if (failure)
-      System.err.println("fail to load " + string);
+      System.err.println("fail to load " + name());
   }
 
   @Override

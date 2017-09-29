@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import ch.ethz.idsc.tensor.qty.Unit;
 import ch.ethz.idsc.tensor.red.Tally;
@@ -43,7 +44,6 @@ public class RescaleTest extends TestCase {
   public void testInfty() {
     Tensor vec = Tensors.vector(-.7, .5, 1.2, Double.POSITIVE_INFINITY, 1.8);
     Tensor res = Rescale.of(vec);
-    // System.out.println(res);
     assertTrue(2 < Tally.of(res).size());
   }
 
@@ -51,16 +51,12 @@ public class RescaleTest extends TestCase {
     Tensor tensor = Tensors.vector(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
     Tensor scaled = Rescale.of(tensor);
     assertEquals(tensor, scaled);
-    // System.out.println(scaled);
-    // assertTrue(Chop.NONE.allZero(scaled));
   }
 
   public void testAllInfty2() {
     Tensor tensor = Tensors.vector(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     Tensor scaled = Rescale.of(tensor);
     assertEquals(tensor, scaled);
-    // System.out.println(scaled);
-    // assertTrue(Chop.NONE.allZero(scaled));
   }
 
   public void testMixed1() {
@@ -76,12 +72,37 @@ public class RescaleTest extends TestCase {
   }
 
   public void testQuantity() {
-    Tensor vector = QuantityTensor.of( //
-        Tensors.vector(1, 2, -3, 4, -1, 2, 1, 0, 3, 2, 1, 2), //
-        Unit.of("s"));
-    @SuppressWarnings("unused")
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, -3, 4, -1, 2, 1, 0, 3, 2, 1, 2), Unit.of("s"));
     Tensor rescal = Rescale.of(vector);
-    // System.out.println(rescal);
-    // TODO not conforming to Mathematica
+    Tensor expect = Tensors.fromString("{4/7, 5/7, 0, 1, 2/7, 5/7, 4/7, 3/7, 6/7, 5/7, 4/7, 5/7}");
+    assertEquals(rescal, expect);
+    assertEquals(rescal.toString(), expect.toString());
+  }
+
+  public void testQuantitySpecial() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(3, Double.POSITIVE_INFINITY, 3), Unit.of("s"));
+    Tensor rescal = Rescale.of(vector);
+    assertEquals(rescal.Get(0).toString(), "0");
+    assertEquals(rescal.Get(2).toString(), "0");
+  }
+
+  public void testQuantityFail() {
+    Tensor vector = Tensors.of(Quantity.of(1, "s"), Quantity.of(2, "m"));
+    try {
+      Rescale.of(vector);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testComplexFail() {
+    Tensor vector = Tensors.fromString("{2+I,1+2*I}");
+    try {
+      Rescale.of(vector);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
