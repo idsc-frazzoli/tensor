@@ -45,6 +45,12 @@ public enum ColorDataGradients implements ColorDataFunction {
   ALPINE, //
   COPPER, //
   PINK, //
+  GREENBROWNTERRAIN, //
+  STARRYNIGHT, //
+  FALL, //
+  ROSE, //
+  NEON, //
+  AURORA, //
   ;
   // ---
   private final ColorDataFunction colorDataFunction;

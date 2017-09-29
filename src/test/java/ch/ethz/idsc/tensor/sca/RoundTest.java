@@ -105,6 +105,22 @@ public class RoundTest extends TestCase {
     assertEquals(pi.map(Round._9).toString(), "3.100000000");
   }
 
+  public void testRoundOptions3() {
+    {
+      Scalar pi = (Scalar) Scalars.fromString("1234.100000000000008").map(Round._2);
+      DecimalScalar ds = (DecimalScalar) pi;
+      BigDecimal bd = (BigDecimal) ds.number();
+      assertEquals(bd.precision(), 4 + 2);
+    }
+    {
+      Scalar pi = DecimalScalar.of("1234.10");
+      DecimalScalar ds = (DecimalScalar) pi;
+      BigDecimal bd = (BigDecimal) ds.number();
+      assertEquals(bd.precision(), 4 + 2);
+      // System.out.println(bd.precision());
+    }
+  }
+
   public void testQuantity() {
     Scalar qs1 = Quantity.of(2.333, "m");
     Scalar qs2 = Quantity.of(2, "m");

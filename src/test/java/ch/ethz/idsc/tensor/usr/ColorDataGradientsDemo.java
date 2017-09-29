@@ -38,19 +38,24 @@ enum ColorDataGradientsDemo {
     List<Integer> dims = Dimensions.of(image);
     dims.set(1, sep);
     image = Join.of(1, image, Array.of(l -> TFF, dims));
-    BufferedImage bufferedImage = ImageFormat.of(image);
-    Graphics graphics = bufferedImage.getGraphics();
-    // FontMetrics fm = graphics.getFontMetrics();
-    int piy = -3;
-    graphics.setColor(Color.BLACK);
-    for (ColorDataGradients cdg : ColorDataGradients.values()) {
-      piy += hei;
-      String string = cdg.name().toLowerCase();
-      // int width = fm.stringWidth(string);
-      // graphics.drawString(string, sep - width - 2, piy);
-      graphics.drawString(string, 256 + 2, piy);
+    Tensor image2;
+    {
+      BufferedImage bufferedImage = ImageFormat.of(image);
+      Graphics graphics = bufferedImage.getGraphics();
+      int piy = -3;
+      graphics.setColor(Color.BLACK);
+      for (ColorDataGradients cdg : ColorDataGradients.values()) {
+        piy += hei;
+        String string = cdg.name().toLowerCase();
+        graphics.drawString(string, 256 + 2, piy);
+      }
+      image2 = ImageFormat.from(bufferedImage);
     }
+    int half = image2.length() / 2;
+    Tensor top = image2.extract(0, half);
+    Tensor bot = image2.extract(half, image2.length());
+    Tensor res = Join.of(1, top, bot);
     Export.of(UserHome.Pictures(ColorDataGradients.class.getSimpleName() + ".png"), //
-        ImageFormat.from(bufferedImage));
+        res);
   }
 }
