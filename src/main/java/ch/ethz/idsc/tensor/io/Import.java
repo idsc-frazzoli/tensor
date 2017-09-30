@@ -44,7 +44,7 @@ public enum Import {
       return ImageFormat.from(ImageIO.read(file));
     if (filename.hasExtension("tensor"))
       return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
-    throw new RuntimeException();
+    throw new RuntimeException(file.toString());
   }
 
   /** import function for Java objects that implement {@link Serializable}

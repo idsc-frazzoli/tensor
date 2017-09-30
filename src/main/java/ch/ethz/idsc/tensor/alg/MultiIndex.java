@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
 /** utility class for {@link Transpose} */
@@ -18,16 +17,6 @@ import ch.ethz.idsc.tensor.Tensors;
     for (int index = 0; index < size.length; ++index)
       dims[sigma[index]] = size[index];
     return dims;
-  }
-
-  /** @param sigma
-   * @throws Exception if given sigma does not represent a permutation */
-  @SuppressWarnings("unused")
-  private static void _permutationQ(int... sigma) {
-    Tensor test = Tensors.vectorInt(sigma);
-    Tensor copy = DeleteDuplicates.of(test);
-    if (!test.equals(copy))
-      throw new RuntimeException();
   }
 
   /***************************************************/

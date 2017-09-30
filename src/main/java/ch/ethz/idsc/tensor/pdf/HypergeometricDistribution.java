@@ -21,7 +21,7 @@ public class HypergeometricDistribution extends EvaluatedDiscreteDistribution im
    * @return */
   public static Distribution of(int N, int n, int m_n) {
     if (N <= 0 || m_n < N || m_n < n || n < 0)
-      throw new RuntimeException();
+      throw new RuntimeException(String.format("N=%d n=%d m_n=%d", N, n, m_n));
     return new HypergeometricDistribution(N, n, m_n);
   }
 

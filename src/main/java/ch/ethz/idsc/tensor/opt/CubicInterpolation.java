@@ -17,7 +17,7 @@ class CubicInterpolation extends AbstractInterpolation {
 
   private CubicInterpolation(Tensor tensor) {
     if (Objects.isNull(tensor))
-      throw new RuntimeException();
+      throw new NullPointerException();
     this.tensor = tensor;
   }
 
