@@ -45,4 +45,19 @@ public class NormTest extends TestCase {
       assertEquals(Norm.INFINITY.of(v), z);
     }
   }
+
+  public void testFail() {
+    try {
+      Norm._1.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Norm._1.of(Tensors.fromString("{{1, 2}, {3}}"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

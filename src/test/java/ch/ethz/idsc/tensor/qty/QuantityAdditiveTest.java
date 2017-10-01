@@ -25,6 +25,8 @@ public class QuantityAdditiveTest extends TestCase {
         Quantity.of(ComplexScalar.of(1, 3), "m"), //
         RealScalar.of(0));
     _checkPlusSymmetry(Quantity.of(0, "s"), RealScalar.of(0.0));
+    _checkPlusSymmetry(Quantity.of(0, "s"), RealScalar.of(2));
+    _checkPlusSymmetry(Quantity.of(2, "s"), RealScalar.of(0));
   }
 
   public void testPlusUnits1() {
