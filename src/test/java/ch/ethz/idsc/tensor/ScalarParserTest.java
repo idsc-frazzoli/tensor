@@ -17,4 +17,9 @@ public class ScalarParserTest extends TestCase {
     assertEquals(ScalarParser.imagToString(RealScalar.of(2.13)), "2.13*I");
     assertEquals(ScalarParser.imagToString(RealScalar.of(-2.13)), "-2.13*I");
   }
+
+  public void testImagFormatI() {
+    assertEquals(ScalarParser.imagToString(RealScalar.ONE), "I");
+    assertEquals(ScalarParser.imagToString(RealScalar.ONE.negate()), "-I");
+  }
 }

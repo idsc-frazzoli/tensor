@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.N;
 
 /* package */ enum GrayscaleColorData implements ColorDataFunction {
   FUNCTION;
@@ -16,7 +17,7 @@ import ch.ethz.idsc.tensor.Tensors;
     Scalar TFF = RealScalar.of(255);
     for (int index = 0; index < 256; ++index) {
       Scalar num = RealScalar.of(index);
-      tensors[index] = Tensors.of(num, num, num, TFF);
+      tensors[index] = N.DOUBLE.of(Tensors.of(num, num, num, TFF));
     }
   }
 

@@ -30,7 +30,7 @@ public class MappedInterpolation extends AbstractInterpolation {
 
   /* package */ MappedInterpolation(Tensor tensor, Function<Tensor, Tensor> function) {
     if (Objects.isNull(tensor))
-      throw new RuntimeException();
+      throw new NullPointerException();
     this.tensor = tensor;
     this.function = function;
   }

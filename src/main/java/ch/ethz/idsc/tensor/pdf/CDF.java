@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.pdf;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Scalar;
 
@@ -23,7 +24,9 @@ public interface CDF extends Serializable {
       return (CDF) distribution;
     if (distribution instanceof DiscreteDistribution)
       return new DiscreteCDF((DiscreteDistribution) distribution);
-    throw new RuntimeException();
+    if (Objects.isNull(distribution))
+      throw new NullPointerException();
+    throw new RuntimeException(distribution.getClass().getName());
   }
 
   /** @param x

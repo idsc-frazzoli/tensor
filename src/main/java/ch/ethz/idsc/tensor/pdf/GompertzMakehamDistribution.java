@@ -55,7 +55,7 @@ public class GompertzMakehamDistribution implements Distribution, //
   @Override // from PDF
   public Scalar at(Scalar x) {
     if (Sign.isNegative(x))
-      return RealScalar.ZERO;
+      return lambda.zero();
     Scalar x_lambda = x.multiply(lambda);
     Scalar exp = RealScalar.ONE.subtract(Exp.FUNCTION.apply(x_lambda)).multiply(xi).add(x_lambda);
     return Exp.FUNCTION.apply(exp).multiply(lambda_xi);

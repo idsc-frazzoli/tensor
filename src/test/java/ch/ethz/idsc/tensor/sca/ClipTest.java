@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -101,6 +102,7 @@ public class ClipTest extends TestCase {
     Scalar max = Quantity.of(2, "m");
     Clip clip = Clip.function(min, max);
     assertEquals(clip.rescale(Quantity.of(-3, "m")), RealScalar.ZERO);
+    assertEquals(clip.rescale(Quantity.of(-1, "m")), RationalScalar.of(2, 5));
     assertEquals(clip.rescale(Quantity.of(2, "m")), RealScalar.ONE);
     assertEquals(clip.rescale(Quantity.of(10, "m")), RealScalar.ONE);
   }

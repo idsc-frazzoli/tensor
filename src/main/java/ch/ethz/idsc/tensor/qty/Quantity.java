@@ -63,12 +63,6 @@ public interface Quantity extends Scalar, //
   static final char UNIT_OPENING_BRACKET = '[';
   static final char UNIT_CLOSING_BRACKET = ']';
 
-  /** @param string for example "9.81[m*s^-2]"
-   * @return */
-  static Scalar fromString(String string) {
-    return QuantityParser.of(string);
-  }
-
   /** @param value
    * @param unit for instance Unit.of("m*s^-1")
    * @return */
@@ -100,7 +94,13 @@ public interface Quantity extends Scalar, //
    * @param string for instance "kg^3*m*s^-2"
    * @return */
   static Scalar of(Number number, String string) {
-    return of(RealScalar.of(number), Unit.of(string));
+    return QuantityImpl.of(RealScalar.of(number), Unit.of(string));
+  }
+
+  /** @param string for example "9.81[m*s^-2]"
+   * @return */
+  static Scalar fromString(String string) {
+    return QuantityParser.of(string);
   }
 
   /** Quote from Mathematica::QuantityMagnitude

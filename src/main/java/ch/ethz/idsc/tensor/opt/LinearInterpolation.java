@@ -30,7 +30,7 @@ public class LinearInterpolation extends AbstractInterpolation {
 
   private LinearInterpolation(Tensor tensor) {
     if (Objects.isNull(tensor))
-      throw new RuntimeException();
+      throw new NullPointerException();
     this.tensor = Unprotect.references(tensor); // <- for faster block extraction
   }
 

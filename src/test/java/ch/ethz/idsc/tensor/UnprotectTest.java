@@ -14,13 +14,6 @@ public class UnprotectTest extends TestCase {
     assertTrue(Unprotect.dimension1(Array.zeros(2, 3, 4)) == 3);
   }
 
-  public void testList() {
-    Tensor tensor = Tensors.vector(3, 2, 0, 1.234);
-    List<Tensor> list = Unprotect.list(tensor);
-    assertEquals(list.get(0), RealScalar.of(3));
-    assertEquals(list.get(3), RealScalar.of(1.234));
-  }
-
   public void testFail1() {
     Tensor unstruct = Tensors.fromString("{{-1,0,1,2},{3,4,5}}");
     assertEquals(unstruct.length(), 2);
@@ -35,6 +28,23 @@ public class UnprotectTest extends TestCase {
   public void testFail2() {
     try {
       Unprotect.dimension1(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testList() {
+    Tensor tensor = Tensors.vector(3, 2, 0, 1.234);
+    List<Tensor> list = Unprotect.list(tensor);
+    assertEquals(list.get(0), RealScalar.of(3));
+    assertEquals(list.get(3), RealScalar.of(1.234));
+  }
+
+  public void testListFail() {
+    Tensor tensor = Tensors.vector(3, 2, 0, 1.234).unmodifiable();
+    try {
+      Unprotect.list(tensor);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

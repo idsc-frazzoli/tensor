@@ -57,8 +57,8 @@ public class ExponentialDistribution implements Distribution, //
   @Override // from PDF
   public Scalar at(Scalar x) {
     if (Sign.isNegative(x))
-      return RealScalar.ZERO;
-    return Exp.FUNCTION.apply(x.multiply(lambda).negate()).multiply(lambda); // E^(-x \[Lambda]) \[Lambda]
+      return lambda.zero();
+    return Exp.FUNCTION.apply(x.multiply(lambda_negate)).multiply(lambda);
   }
 
   @Override // from CDF

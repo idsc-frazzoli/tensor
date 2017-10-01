@@ -26,7 +26,7 @@ import java.io.Serializable;
     }
   }
 
-  public boolean isConsistent() {
+  /* package */ boolean isConsistent() {
     return a * x + b * y == gcd;
   }
 

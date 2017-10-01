@@ -7,6 +7,7 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 
 public interface SimplexPivot extends Serializable {
@@ -44,7 +45,7 @@ public interface SimplexPivot extends Serializable {
         if (tab_ij.signInt() == 1)
           return i;
       }
-      throw new RuntimeException();
+      throw TensorRuntimeException.of(tab);
     }
   };
   /** p.50 greatest increment method NOT YET IMPLEMENTED */

@@ -6,8 +6,11 @@ import java.util.Arrays;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
@@ -17,6 +20,13 @@ public class ColorDataGradientsTest extends TestCase {
       assertEquals(Dimensions.of(cdf.apply(RealScalar.ZERO)), Arrays.asList(4));
       assertEquals(Dimensions.of(cdf.apply(RealScalar.ONE)), Arrays.asList(4));
     }
+  }
+
+  public void testQuantity() {
+    Scalar scalar = Quantity.of(Double.POSITIVE_INFINITY, "s");
+    assertTrue(Chop.NONE.allZero(ColorDataGradients.COPPER.apply(scalar)));
+    assertTrue(Chop.NONE.allZero(ColorDataGradients.HUE.apply(scalar)));
+    assertTrue(Chop.NONE.allZero(ColorDataGradients.GRAYSCALE.apply(scalar)));
   }
 
   public void testUnmodifiable() {

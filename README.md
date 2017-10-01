@@ -4,7 +4,7 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.3.7`
+Version `0.3.8`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
@@ -247,6 +247,12 @@ gives
     294300[cm*g*s^-2]
     2943/1000[N]
 
+---
+
+An overview of pre-defined color gradients
+
+![colordatagradients](https://user-images.githubusercontent.com/4012178/31055704-418756c0-a6c7-11e7-8ec9-1ef1882fbb7f.png)
+
 
 ## Include in your project
 
@@ -267,7 +273,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.3.7</version>
+        <version>0.3.8</version>
       </dependency>
     </dependencies>
 
@@ -275,7 +281,7 @@ The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.3.7/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.3.8/*
 
 ## Optional
 
@@ -302,4 +308,4 @@ The library is used in the projects:
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1490` unit tests.
+The repository has over `1520` unit tests.

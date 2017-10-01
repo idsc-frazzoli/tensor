@@ -85,6 +85,14 @@ public class PrimitivesTest extends TestCase {
     assertEquals(array.length, 6);
   }
 
+  public void testFloatList() {
+    Tensor tensor = Tensors.vector(-2.5f, -2.7f);
+    List<Float> list = Primitives.toListFloat(tensor);
+    assertEquals(list.get(0), -2.5f);
+    assertEquals(list.get(1), -2.7f);
+    assertEquals(list.size(), 2);
+  }
+
   public void testIntBuffer() {
     Tensor a = Tensors.vector(-2, -27, Math.PI);
     Tensor b = Tensors.vector(43, 54, 62, 105);

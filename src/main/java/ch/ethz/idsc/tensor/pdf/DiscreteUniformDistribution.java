@@ -32,7 +32,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
    * @return distribution */
   public static Distribution of(int min, int max) {
     if (max <= min)
-      throw new RuntimeException();
+      throw new RuntimeException(String.format("min=%d max=%d", min, max));
     return new DiscreteUniformDistribution(min, max);
   }
 

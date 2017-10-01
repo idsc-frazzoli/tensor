@@ -7,6 +7,10 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
+class NonSerializable {
+  int value;
+}
+
 public class SerializationTest extends TestCase {
   public void testCopy() throws ClassNotFoundException, IOException {
     String s1 = "abc";

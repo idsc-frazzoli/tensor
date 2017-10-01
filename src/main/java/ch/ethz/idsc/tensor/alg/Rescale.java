@@ -3,11 +3,12 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Optional;
 
-import ch.ethz.idsc.tensor.NumberQ;
+import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
@@ -24,32 +25,40 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <a href="https://reference.wolfram.com/language/ref/Rescale.html">Rescale</a> */
 public enum Rescale {
   ;
-  private static ScalarUnaryOperator NUMBERQ_ZERO = scalar -> NumberQ.of(scalar) ? scalar.zero() : scalar;
+  private static ScalarUnaryOperator FINITE_NUMBER_ZERO = //
+      scalar -> isFiniteNumber(scalar) ? RealScalar.ZERO : scalar;
 
   /** Example:
    * Rescale[{10, 20, 30}] == {0, 1/2, 1}
    * 
+   * The scalar entries of the given tensor may also be instance of
+   * {@link Quantity} with identical unit.
+   * 
    * @param tensor
-   * @return */
+   * @return
+   * @throws Exception if any entry is a {@link ComplexScalar} */
   public static Tensor of(Tensor tensor) {
     ScalarQ.thenThrow(tensor);
-    if (tensor.length() == 0)
-      return Tensors.empty();
     Optional<Scalar> optional = tensor.flatten(-1) //
         .map(Scalar.class::cast) //
-        .filter(NumberQ::of) //
+        .filter(Rescale::isFiniteNumber) //
         .reduce(Min::of);
     if (!optional.isPresent())
-      return tensor.map(NUMBERQ_ZERO); // set all number entries to 0
+      return tensor.map(FINITE_NUMBER_ZERO); // set all finite number entries to 0
     // ---
     Scalar min = optional.get();
     Scalar max = tensor.flatten(-1) //
         .map(Scalar.class::cast) //
-        .filter(NumberQ::of) //
+        .filter(Rescale::isFiniteNumber) //
         .reduce(Max::of).get(); // if a minimum exists, then there exists a maximum
     if (min.equals(max))
-      return tensor.map(NUMBERQ_ZERO); // set all number entries to 0
+      return tensor.map(FINITE_NUMBER_ZERO); // set all finite number entries to 0
     Scalar factor = max.subtract(min);
     return tensor.map(scalar -> scalar.subtract(min).divide(factor));
+  }
+
+  // helper function
+  private static boolean isFiniteNumber(Scalar scalar) {
+    return Double.isFinite(scalar.number().doubleValue());
   }
 }

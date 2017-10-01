@@ -137,13 +137,16 @@ public class CholeskyDecompositionTest extends TestCase {
       Tensor eye = IdentityMatrix.of(3);
       Tensor inv = LinearSolve.of(mat, eye);
       Tensor res = mat.dot(inv);
-      assertEquals(eye, res);
-      assertEquals(res, eye);
+      assertTrue(Chop.NONE.close(eye, res));
+      // assertEquals(eye, res);
+      // assertEquals(res, eye);
     }
     {
       Tensor inv = Inverse.of(mat);
-      assertEquals(mat.dot(inv), inv.dot(mat));
-      assertEquals(mat.dot(inv), IdentityMatrix.of(3));
+      // assertEquals(mat.dot(inv), inv.dot(mat));
+      assertTrue(Chop.NONE.close(mat.dot(inv), inv.dot(mat)));
+      // assertEquals(mat.dot(inv), IdentityMatrix.of(3));
+      assertTrue(Chop.NONE.close(mat.dot(inv), IdentityMatrix.of(3)));
     }
     {
       CholeskyDecomposition cd = CholeskyDecomposition.of(mat);

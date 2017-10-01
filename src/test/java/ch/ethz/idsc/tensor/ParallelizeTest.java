@@ -41,4 +41,10 @@ public class ParallelizeTest extends TestCase {
       // ---
     }
   }
+
+  public void testMatrix() {
+    Tensor a = Parallelize.matrix((i, j) -> RationalScalar.of(i, j + 1), 30, 30);
+    Tensor b = Tensors.matrix((i, j) -> RationalScalar.of(i, j + 1), 30, 30);
+    assertEquals(a, b);
+  }
 }

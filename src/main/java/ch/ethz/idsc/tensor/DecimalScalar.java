@@ -32,6 +32,8 @@ public final class DecimalScalar extends AbstractRealScalar implements //
   private static final MathContext DEFAULT_CONTEXT = MathContext.DECIMAL128;
   private static final Scalar DECIMAL_ZERO = of(BigDecimal.ZERO);
   private static final Scalar DECIMAL_PI = of(new BigDecimal(StaticHelper.N_PI_64, DEFAULT_CONTEXT));
+  /** BigDecimal precision of a double */
+  private static final int DOUBLE_PRECISION = 17;
 
   /** @param value
    * @return */
@@ -274,12 +276,10 @@ public final class DecimalScalar extends AbstractRealScalar implements //
     return Objects.nonNull(object) && object.equals(this);
   }
 
-  /** BigDecimal precision of a double */
-  private static final int DOUBLE_PRECISION = 17;
-
   @Override // from AbstractScalar
   public String toString() {
     int precision = value.precision();
+    // return value.toString() + "`" + precision; // <- changes the appearance of Round._3 etc.
     // TODO solution not elegant because result will be parsed as DoubleScalar
     return value.toString() + (precision <= DOUBLE_PRECISION ? "" : "`" + precision);
   }

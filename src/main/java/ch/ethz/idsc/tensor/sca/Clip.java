@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Clip.html">Clip</a> */
@@ -78,7 +79,13 @@ public class Clip implements ScalarUnaryOperator {
     return !isInside(scalar);
   }
 
-  /** @param scalar
+  /** If max - min > 0, the given scalar is divided by width.
+   * Otherwise the result is RealScalar.ZERO.
+   * 
+   * When using Clip with {@link Quantity}s, all scalars must be of identical unit.
+   * The result of function rescale is always a {@link RealScalar}.
+   * 
+   * @param scalar
    * @return value in interval [0, 1] relative to position of scalar in clip interval */
   public Scalar rescale(Scalar scalar) {
     return Scalars.isZero(width) ? RealScalar.ZERO : apply(scalar).subtract(min).divide(width);

@@ -53,6 +53,10 @@ public class ResourceDataTest extends TestCase {
     assertNull(ResourceData.of("/number/exists.fail"));
   }
 
+  public void testPropertiesFailNull() {
+    assertNull(ResourceData.properties("/number/exists.properties"));
+  }
+
   public void testUnknownExtension() {
     assertNull(ResourceData.of("/io/extension.unknown"));
   }

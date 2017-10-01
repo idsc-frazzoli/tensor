@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
@@ -88,5 +89,15 @@ public class RealScalarTest extends TestCase {
   public void testInvertInfinity() {
     assertEquals(DoubleScalar.POSITIVE_INFINITY.reciprocal(), RealScalar.ZERO);
     assertEquals(DoubleScalar.NEGATIVE_INFINITY.reciprocal(), RealScalar.ZERO);
+  }
+
+  public void testCreateFail() {
+    Number number = new AtomicInteger(123);
+    try {
+      RealScalar.of(number);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

@@ -14,6 +14,6 @@ enum GaussianMatrixDemo {
   public static void main(String[] args) throws IOException {
     Tensor tensor = GaussianMatrix.of(255);
     Export.of(UserHome.Pictures(GaussianMatrix.class.getSimpleName() + ".png"), //
-        ArrayPlot.of(tensor, ColorDataGradients.CLASSIC));
+        ArrayPlot.of(tensor, ColorDataGradients.PARULA));
   }
 }

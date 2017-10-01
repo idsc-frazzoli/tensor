@@ -1,8 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -24,6 +24,11 @@ public class ConjugateTest extends TestCase {
   }
 
   public void testFail() {
-    Conjugate.of(GaussScalar.of(1, 7));
+    try {
+      Conjugate.of(StringScalar.of("asd"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

@@ -35,4 +35,14 @@ public class ImportTest extends TestCase {
     String string = Import.object(file);
     assertEquals(string, "tensorlib.importtest");
   }
+
+  public void testUnknownFail() {
+    File file = new File(getClass().getResource("/io/extension.unknown").getFile());
+    try {
+      Import.of(file);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

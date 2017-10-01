@@ -68,7 +68,8 @@ public class MatrixExpTest extends TestCase {
     Tensor ve2 = Tensors.vector(0, 0);
     Tensor mat = Tensors.of(ve1, ve2);
     Tensor sol = MatrixExp.of(mat);
-    assertEquals(sol, mat.add(IdentityMatrix.of(2)));
+    // assertEquals(sol, mat.add(IdentityMatrix.of(2)));
+    assertTrue(Chop.NONE.close(sol, mat.add(IdentityMatrix.of(2))));
   }
 
   public void testQuantity2() {
@@ -82,7 +83,8 @@ public class MatrixExpTest extends TestCase {
         Tensors.of(RealScalar.ZERO, RealScalar.ZERO, RealScalar.ZERO) //
     );
     Tensor actual = IdentityMatrix.of(3).add(mat).add(mat.dot(mat).multiply(RationalScalar.of(1, 2)));
-    assertEquals(MatrixExp.of(mat), actual);
+    // assertEquals(MatrixExp.of(mat), actual);
+    assertTrue(Chop.NONE.close(MatrixExp.of(mat), actual));
   }
 
   public void testFail() {
