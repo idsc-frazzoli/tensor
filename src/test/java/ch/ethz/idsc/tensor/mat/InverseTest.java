@@ -69,8 +69,9 @@ public class InverseTest extends TestCase {
     {
       Tensor inv = LinearSolve.of(mat, eye);
       Tensor res = mat.dot(inv);
-      assertEquals(eye, res);
-      assertEquals(res, eye);
+      assertTrue(Chop.NONE.close(eye, res));
+      // assertEquals(eye, res);
+      // assertEquals(res, eye);
     }
     {
       Inverse.of(mat);
@@ -85,20 +86,24 @@ public class InverseTest extends TestCase {
       Tensor eye = IdentityMatrix.of(3);
       Tensor inv = LinearSolve.of(mat, eye);
       Tensor res = mat.dot(inv);
-      assertEquals(eye, res);
-      assertEquals(res, eye);
+      // assertEquals(eye, res);
+      // assertEquals(res, eye);
+      assertTrue(Chop.NONE.close(eye, res));
     }
     {
       Tensor eye = IdentityMatrix.of(3);
       Tensor inv = LinearSolve.withoutAbs(mat, eye);
       Tensor res = mat.dot(inv);
-      assertEquals(eye, res);
-      assertEquals(res, eye);
+      assertTrue(Chop.NONE.close(eye, res));
+      // assertEquals(eye, res);
+      // assertEquals(res, eye);
     }
     {
       Tensor inv = Inverse.of(mat);
-      assertEquals(mat.dot(inv), inv.dot(mat));
-      assertEquals(mat.dot(inv), IdentityMatrix.of(3));
+      // assertEquals(mat.dot(inv), inv.dot(mat));
+      assertTrue(Chop.NONE.close(mat.dot(inv), inv.dot(mat)));
+      // assertEquals(mat.dot(inv), IdentityMatrix.of(3));
+      assertTrue(Chop.NONE.close(mat.dot(inv), IdentityMatrix.of(3)));
     }
     assertFalse(HermitianMatrixQ.of(mat));
     assertFalse(SymmetricMatrixQ.of(mat));

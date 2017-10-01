@@ -111,13 +111,15 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
-    if (Scalars.isZero(value) && Scalars.nonZero(scalar))
+    final boolean azero = Scalars.isZero(value);
+    final boolean bzero = Scalars.isZero(scalar);
+    if (azero && !bzero)
       return scalar; // 0[m] + X(X!=0) gives X(X!=0)
-    if (Scalars.nonZero(value) && Scalars.isZero(scalar))
+    if (!azero && bzero)
       return this; // X(X!=0) + 0[m] gives X(X!=0)
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
-      if (Scalars.isZero(value) && Scalars.isZero(scalar)) {
+      if (azero && bzero) {
         // explicit addition of zeros to ensure symmetry
         // for instance when numeric precision is different:
         // 0[m] + 0.0[m] == 0.0[m]
@@ -129,12 +131,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       }
       if (unit.equals(quantity.unit()))
         return ofUnit(value.add(quantity.value()));
-    } else { // <- scalar is not an instance of Quantity
-      if (Scalars.isZero(value) && Scalars.isZero(scalar))
-        // return of value.add(scalar) is not required for symmetry
-        // precision of this.value prevails over given scalar
-        return this; // 0[kg] + 0 gives 0[kg]
-    }
+    } else // <- scalar is not an instance of Quantity
+    if (azero && bzero)
+      // return of value.add(scalar) is not required for symmetry
+      // precision of this.value prevails over given scalar
+      return this; // 0[kg] + 0 gives 0[kg]
     throw TensorRuntimeException.of(this, scalar);
   }
 
@@ -236,13 +237,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public boolean equals(Object object) {
     if (object instanceof Quantity) {
       Quantity quantity = (Quantity) object;
-      if (Scalars.isZero(value) && Scalars.isZero(quantity.value())) // 0[s] == 0[m]
-        return true;
       return value.equals(quantity.value()) && unit.equals(quantity.unit()); // 2[kg] == 2[kg]
-    }
-    if (object instanceof Scalar) {
-      Scalar scalar = (Scalar) object;
-      return Scalars.isZero(value) && Scalars.isZero(scalar); // 0[V] == 0
     }
     return false;
   }

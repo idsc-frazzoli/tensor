@@ -7,6 +7,8 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class QuantityCompareTest extends TestCase {
@@ -17,15 +19,15 @@ public class QuantityCompareTest extends TestCase {
 
   public void testEquals() {
     _checkEquals(Quantity.of(2, "m"), RealScalar.of(2), false);
-    _checkEquals(Quantity.of(0, "m"), RealScalar.of(0.0), true);
-    _checkEquals(Quantity.of(0, "s"), RealScalar.of(0), true);
+    _checkEquals(Quantity.of(0, "m"), RealScalar.of(0.0), false);
+    _checkEquals(Quantity.of(0, "s"), RealScalar.of(0), false);
     _checkEquals(Quantity.of(0, "s*kg^2"), RealScalar.of(2), false);
   }
 
   public void testEquals2() {
-    _checkEquals(RationalScalar.of(0, 1), Quantity.of(0, "m"), true);
-    _checkEquals(DoubleScalar.of(0.0), Quantity.of(0, "m"), true);
-    _checkEquals(DecimalScalar.of(0.0), Quantity.of(0, "m"), true);
+    _checkEquals(RationalScalar.of(0, 1), Quantity.of(0, "m"), false);
+    _checkEquals(DoubleScalar.of(0.0), Quantity.of(0, "m"), false);
+    _checkEquals(DecimalScalar.of(0.0), Quantity.of(0, "m"), false);
   }
 
   public void testEquals3() {
@@ -37,7 +39,7 @@ public class QuantityCompareTest extends TestCase {
   public void testCompareEquals() {
     Scalar q1 = Quantity.of(0, "s");
     Scalar q2 = Quantity.of(0, "rad");
-    assertTrue(q1.equals(q2));
+    assertFalse(q1.equals(q2));
     try {
       Scalars.compare(q1, q2);
       assertTrue(false);
@@ -88,5 +90,16 @@ public class QuantityCompareTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testDistinct() {
+    Scalar qs0 = Quantity.of(0, Unit.ONE);
+    Scalar qs1 = Quantity.of(0, "m");
+    Scalar qs2 = Quantity.of(0, "kg");
+    Scalar qs3 = Quantity.of(0, "s");
+    Scalar qs4 = Quantity.of(0, "");
+    assertTrue(qs4 instanceof RealScalar);
+    Tensor vec = Tensors.of(qs0, qs1, qs2, qs3, qs4);
+    assertEquals(vec.stream().distinct().count(), 4);
   }
 }
