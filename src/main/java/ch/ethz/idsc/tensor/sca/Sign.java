@@ -55,7 +55,7 @@ public enum Sign implements ScalarUnaryOperator {
   }
 
   /** function is equivalent to
-   * <code>Scalars.lessEquals(scalar, scalar.zero())</code>
+   * <code>Scalars.lessEquals(scalar.zero(), scalar)</code>
    * 
    * @param scalar may be instance of {@link Quantity}
    * @return true if sign of given scalar evaluates to -1, or 0 */
@@ -64,7 +64,7 @@ public enum Sign implements ScalarUnaryOperator {
   }
 
   /** function is equivalent to
-   * <code>Scalars.lessEquals(scalar.zero(), scalar)</code>
+   * <code>Scalars.lessEquals(scalar, scalar.zero())</code>
    * 
    * @param scalar may be instance of {@link Quantity}
    * @return true if sign of given scalar evaluates to +1, or 0 */

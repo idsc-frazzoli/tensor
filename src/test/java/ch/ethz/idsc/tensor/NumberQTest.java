@@ -35,6 +35,12 @@ public class NumberQTest extends TestCase {
     assertFalse(NumberQ.of(RealScalar.of(Double.NaN)));
   }
 
+  public void testCornerFloat() {
+    assertFalse(NumberQ.of(RealScalar.of(Float.POSITIVE_INFINITY)));
+    assertFalse(NumberQ.of(RealScalar.of(Float.POSITIVE_INFINITY)));
+    assertFalse(NumberQ.of(RealScalar.of(Float.NaN)));
+  }
+
   public void testQuantity() {
     Scalar s1 = Quantity.of(3, "m");
     assertFalse(NumberQ.of(s1));
