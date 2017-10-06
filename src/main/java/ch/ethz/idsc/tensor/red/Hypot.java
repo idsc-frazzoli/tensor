@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * <p>Hypot also operates on vectors.
  * 
  * <p>Hypot is inspired by {@link Math#hypot(double, double)} */
-public enum Hypot implements BiFunction<Scalar, Scalar, Scalar> {
+public enum Hypot implements BinaryOperator<Scalar> {
   BIFUNCTION;
   // ---
   @Override
