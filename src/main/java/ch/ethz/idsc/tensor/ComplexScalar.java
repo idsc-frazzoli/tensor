@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.sca.ExpInterface;
 import ch.ethz.idsc.tensor.sca.LogInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
@@ -48,8 +49,17 @@ public interface ComplexScalar extends Scalar, //
    * @param arg angle
    * @return complex scalar with polar coordinates abs and arg */
   static Scalar fromPolar(Scalar abs, Scalar arg) {
-    if (abs instanceof ComplexScalar || arg instanceof ComplexScalar)
-      throw TensorRuntimeException.of(abs, arg);
-    return abs.multiply(of(Cos.FUNCTION.apply(arg), Sin.FUNCTION.apply(arg)));
+    if (Sign.isNegative(abs))
+      throw TensorRuntimeException.of(abs);
+    if (arg instanceof ComplexScalar)
+      throw TensorRuntimeException.of(arg);
+    return abs.multiply(ComplexScalarImpl.of(Cos.FUNCTION.apply(arg), Sin.FUNCTION.apply(arg)));
+  }
+
+  /** @param abs radius
+   * @param arg angle
+   * @return complex scalar with polar coordinates abs and arg */
+  static Scalar fromPolar(Number abs, Number arg) {
+    return fromPolar(RealScalar.of(abs), RealScalar.of(arg));
   }
 }

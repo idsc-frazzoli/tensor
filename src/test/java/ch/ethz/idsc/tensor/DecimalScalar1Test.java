@@ -146,5 +146,6 @@ public class DecimalScalar1Test extends TestCase {
     final Scalar ds1 = DecimalScalar.of(new BigDecimal("1.0234", MathContext.DECIMAL128));
     assertFalse(ds1.equals(null));
     assertFalse(ds1.equals(ComplexScalar.of(1, 2)));
+    assertFalse(ds1.equals("hello"));
   }
 }

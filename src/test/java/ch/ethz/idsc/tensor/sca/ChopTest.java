@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -69,6 +70,12 @@ public class ChopTest extends TestCase {
     assertTrue(Chop._09.close(s1, s2));
     assertFalse(Chop._10.close(s1, s2));
     assertFalse(Chop._12.close(s1, s2));
+  }
+
+  public void testDecimal() {
+    Scalar s1 = DecimalScalar.of("0.0000001");
+    assertTrue(Chop._05.allZero(s1));
+    assertFalse(Chop._10.allZero(s1));
   }
 
   public void testCloseFail() {

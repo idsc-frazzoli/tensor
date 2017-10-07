@@ -194,11 +194,10 @@ public final class DecimalScalar extends AbstractRealScalar implements //
     return of(value.round(mathContext));
   }
 
-  @Override
+  @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     if (IntegerQ.of(exponent))
       try {
-        // intValueExact throws an exception when exp > Integer.MAX_VALUE
         int expInt = Scalars.intValueExact(exponent);
         return of(value.pow(expInt, mathContextHint()));
       } catch (Exception exception) {

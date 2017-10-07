@@ -103,9 +103,9 @@ import java.util.regex.Pattern;
       BigInteger num = rationalScalar.numerator();
       BigInteger den = rationalScalar.denominator();
       if (num.equals(BigInteger.ONE))
-        return I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
+        return fractionOfI(den);
       if (num.equals(BigInteger.ONE.negate()))
-        return "-" + I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
+        return "-" + fractionOfI(den);
     }
     String imag = im.toString();
     if (imag.equals("1"))
@@ -113,5 +113,9 @@ import java.util.regex.Pattern;
     if (imag.equals("-1"))
       return '-' + I_SYMBOL;
     return imag + '*' + I_SYMBOL;
+  }
+
+  private static String fractionOfI(BigInteger den) {
+    return I_SYMBOL + (den.equals(BigInteger.ONE) ? "" : "/" + den);
   }
 }
