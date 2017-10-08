@@ -22,4 +22,9 @@ public class BigFractionTest extends TestCase {
     BigInteger i1 = BigInteger.valueOf(1);
     assertTrue(i1 == BigInteger.ONE);
   }
+
+  public void testEquals() {
+    assertFalse(BigFraction.of(7, 3).equals(null));
+    assertFalse(BigFraction.of(7, 3).equals("abc"));
+  }
 }

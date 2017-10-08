@@ -69,6 +69,7 @@ public class NormalDistributionTest extends TestCase {
   }
 
   public void testFail() {
+    NormalDistribution.of(5, 1);
     try {
       NormalDistribution.of(5, -1);
       assertTrue(false);

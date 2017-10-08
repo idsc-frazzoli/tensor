@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.io.IOException;
+import java.util.Random;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -33,6 +34,17 @@ public class SerializationTest extends TestCase {
   public void testFail() {
     try {
       Serialization.parse(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFail2() {
+    byte[] bytes = new byte[100];
+    new Random().nextBytes(bytes);
+    try {
+      Serialization.parse(bytes);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -14,4 +14,8 @@ public class HermitianMatrixQTest extends TestCase {
   public void testHilbert() {
     assertTrue(HermitianMatrixQ.of(HilbertMatrix.of(10)));
   }
+
+  public void testVector() {
+    assertFalse(HermitianMatrixQ.of(Tensors.vector(1, 2, 3)));
+  }
 }

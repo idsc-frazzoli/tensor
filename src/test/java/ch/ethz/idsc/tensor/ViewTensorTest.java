@@ -16,6 +16,14 @@ public class ViewTensorTest extends TestCase {
         Tensors.fromString("{{0, 0, 0, 0, 0}, {0, 0, 1, 1, 1}, {0, 0, 1, 1, 1}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}"));
   }
 
+  public void testExtract() {
+    Tensor vector = Tensors.vector(1, 2, 3);
+    Tensor access = Unprotect.references(vector);
+    Tensor slevel = access.extract(1, 3);
+    slevel.set(Increment.ONE, 0);
+    assertEquals(vector, Tensors.vector(1, 3, 3));
+  }
+
   public void testUnmodifiableFail() {
     try {
       Unprotect.references(Tensors.vector(1, 2, 3).unmodifiable());
