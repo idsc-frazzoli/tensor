@@ -29,7 +29,7 @@ public class FrechetDistribution implements Distribution, //
   public static Distribution of(Scalar alpha, Scalar beta) {
     if (Scalars.lessEquals(alpha, RealScalar.ZERO))
       throw TensorRuntimeException.of(alpha);
-    if (!Sign.isPositive(beta))
+    if (Sign.isNegativeOrZero(beta))
       throw TensorRuntimeException.of(beta);
     return new FrechetDistribution(alpha, beta);
   }
@@ -79,7 +79,7 @@ public class FrechetDistribution implements Distribution, //
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    if (!Sign.isPositive(x))
+    if (Sign.isNegativeOrZero(x))
       return RealScalar.ZERO;
     return Exp.FUNCTION.apply(Power.of(x.divide(beta), alpha.negate()).negate());
   }

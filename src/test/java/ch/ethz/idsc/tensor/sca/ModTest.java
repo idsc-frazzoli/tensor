@@ -43,6 +43,18 @@ public class ModTest extends TestCase {
     assertEquals(mod.apply(RealScalar.ZERO), RealScalar.of(3));
   }
 
+  public void testPartInteger() {
+    Mod mod = Mod.function(3);
+    assertEquals(mod.apply(RealScalar.of(5)), RealScalar.of(2));
+    assertEquals(mod.apply(RealScalar.of(3)), RealScalar.ZERO);
+  }
+
+  public void testPartDouble() {
+    Mod mod = Mod.function(2.3);
+    assertEquals(mod.apply(RealScalar.of(5)), RealScalar.of(5 - 2.3 - 2.3));
+    assertEquals(mod.apply(RealScalar.of(2.3)), RealScalar.ZERO);
+  }
+
   public void testRational1() {
     Scalar m = RationalScalar.of( //
         new BigInteger("816345827635482763548726354817635487162354876135284765"), //

@@ -25,4 +25,10 @@ public class FilenameTest extends TestCase {
     File file = filename.withExtension("txt");
     assertEquals(file.toString(), "dir/title.txt");
   }
+
+  public void testExtNull() {
+    Filename filename = new Filename(new File("dir/title.ext"));
+    File file = filename.withExtension(null);
+    assertEquals(file.toString(), "dir/title");
+  }
 }

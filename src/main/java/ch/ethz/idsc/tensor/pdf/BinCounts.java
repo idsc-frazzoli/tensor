@@ -39,7 +39,7 @@ public enum BinCounts {
    * @return
    * @throws Exception if any scalar in the given vector is less than zero */
   public static Tensor of(Tensor vector, Scalar width) {
-    if (!Sign.isPositive(width))
+    if (Sign.isNegativeOrZero(width))
       throw TensorRuntimeException.of(width);
     if (vector.length() == 0)
       return Tensors.empty();

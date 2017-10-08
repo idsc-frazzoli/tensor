@@ -26,7 +26,7 @@ public class GumbelDistribution implements Distribution, //
    * @param beta positive
    * @return */
   public static Distribution of(Scalar alpha, Scalar beta) {
-    if (!Sign.isPositive(beta))
+    if (Sign.isNegativeOrZero(beta))
       throw TensorRuntimeException.of(beta);
     return new GumbelDistribution(alpha, beta);
   }

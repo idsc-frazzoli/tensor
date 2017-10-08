@@ -19,7 +19,7 @@ public class ExponentialDistribution implements Distribution, //
   /** @param lambda positive, may be instance of {@link Quantity}
    * @return */
   public static Distribution of(Scalar lambda) {
-    if (!Sign.isPositive(lambda))
+    if (Sign.isNegativeOrZero(lambda))
       throw TensorRuntimeException.of(lambda);
     return new ExponentialDistribution(lambda);
   }
@@ -63,7 +63,7 @@ public class ExponentialDistribution implements Distribution, //
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return !Sign.isPositive(x) ? RealScalar.ZERO : //
+    return Sign.isNegativeOrZero(x) ? RealScalar.ZERO : //
         RealScalar.ONE.subtract(Exp.FUNCTION.apply(x.multiply(lambda_negate)));
   }
 
