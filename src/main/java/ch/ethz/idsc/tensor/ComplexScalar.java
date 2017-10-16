@@ -51,9 +51,7 @@ public interface ComplexScalar extends Scalar, //
   static Scalar fromPolar(Scalar abs, Scalar arg) {
     if (Sign.isNegative(abs))
       throw TensorRuntimeException.of(abs);
-    if (arg instanceof ComplexScalar)
-      throw TensorRuntimeException.of(arg);
-    return abs.multiply(ComplexScalarImpl.of(Cos.FUNCTION.apply(arg), Sin.FUNCTION.apply(arg)));
+    return abs.multiply(unit(arg));
   }
 
   /** @param abs radius
@@ -61,5 +59,13 @@ public interface ComplexScalar extends Scalar, //
    * @return complex scalar with polar coordinates abs and arg */
   static Scalar fromPolar(Number abs, Number arg) {
     return fromPolar(RealScalar.of(abs), RealScalar.of(arg));
+  }
+
+  /** @param arg
+   * @return complex number on unit circle with given argument */
+  static Scalar unit(Scalar arg) {
+    if (arg instanceof ComplexScalar)
+      throw TensorRuntimeException.of(arg);
+    return ComplexScalarImpl.of(Cos.FUNCTION.apply(arg), Sin.FUNCTION.apply(arg));
   }
 }

@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
@@ -153,6 +154,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         return ArcTan.of(quantity.value(), value);
     }
     throw TensorRuntimeException.of(x, this);
+  }
+
+  @Override // from ArgInterface
+  public Scalar arg() {
+    return Arg.FUNCTION.apply(value);
   }
 
   @Override // from SqrtInterface

@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Flatten;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.lie.Rodriguez;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -79,6 +80,17 @@ public class QRDecompositionTest extends TestCase {
     specialOps(A);
   }
 
+  public void testRandomOrthogonal() {
+    Random rnd = new Random();
+    for (int c = 0; c < 5; ++c) {
+      Tensor matrix = Rodriguez.of(Tensors.vector(l -> RealScalar.of(rnd.nextGaussian()), 3));
+      specialOps(matrix);
+      QRDecomposition qr = QRDecomposition.positive(matrix);
+      assertTrue(Chop._13.close(qr.getR(), IdentityMatrix.of(3)));
+      assertTrue(Chop._13.close(qr.getQ(), matrix));
+    }
+  }
+
   public void testRandomComplex1() {
     Random rnd = new Random();
     specialOps(Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 5, 3));
@@ -108,16 +120,10 @@ public class QRDecompositionTest extends TestCase {
     Tensor matrix = Tensors.fromString( //
         "{{ 12[s], -51[s], 4[s] }, { 6[s], 167[s], -68[s] }, { -4[s], 24[s], -41[s] } }", //
         Quantity::fromString);
-    {
-      QRDecomposition qr = QRDecomposition.of(matrix);
-      assertTrue(qr.det() instanceof Quantity);
-      assertEquals(qr.getQ().dot(qr.getR()), matrix);
-      assertTrue(Chop.NONE.close(qr.getR(), qr.getInverseQ().dot(matrix)));
-    }
-    {
-      QRDecomposition qr = QRDecomposition.of(N.DOUBLE.of(matrix));
-      assertTrue(qr.det() instanceof Quantity);
-    }
+    specialOps(matrix);
+    specialOps(N.DOUBLE.of(matrix));
+    QRDecomposition qr = QRDecomposition.of(matrix);
+    assertTrue(qr.det() instanceof Quantity);
   }
 
   public void testWikipedia() {
@@ -142,16 +148,18 @@ public class QRDecompositionTest extends TestCase {
     Tensor matrix = Tensors.fromString( //
         "{{ 12[s], -51[A], 4[m] }, { 6[s], 167[A], -68[m] }, { -4[s], 24[A], -41[m] } }", //
         Quantity::fromString);
-    {
-      QRDecomposition qr = QRDecomposition.of(matrix);
-      assertTrue(qr.det() instanceof Quantity);
-      assertEquals(qr.getQ().dot(qr.getR()), matrix);
-      assertTrue(Chop.NONE.close(qr.getR(), qr.getInverseQ().dot(matrix)));
-    }
-    {
-      QRDecomposition qr = QRDecomposition.of(N.DOUBLE.of(matrix));
-      assertTrue(qr.det() instanceof Quantity);
-    }
+    specialOps(matrix);
+    specialOps(N.DOUBLE.of(matrix));
+    QRDecomposition qr = QRDecomposition.of(matrix);
+    assertTrue(qr.det() instanceof Quantity);
+  }
+
+  public void testQuantityComplex() {
+    Tensor matrix = Tensors.fromString( //
+        "{{ 12+3*I[s], -51[A], 4[m] }, { 6[s], 167-7*I[A], -68[m] }, { -4*I[s], 24[A], -41-9*I[m] } }", //
+        Quantity::fromString);
+    specialOps(matrix);
+    specialOps(N.DOUBLE.of(matrix));
   }
 
   public void testEmpty() {

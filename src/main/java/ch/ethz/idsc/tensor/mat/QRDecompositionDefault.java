@@ -17,14 +17,13 @@ import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
-import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Sign;
-import ch.ethz.idsc.tensor.sca.SignInterface;
 
 /** decomposition Q.R = A with Det[Q] == +1
- * householder but with even number of reflections
+ * householder with even number of reflections
  * reproduces example on wikipedia */
-/* package */ class HouseholderQRDecomposition implements QRDecomposition {
+/* package */ class QRDecompositionDefault implements QRDecomposition {
   private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final int n;
@@ -35,7 +34,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 
   /** @param A
    * @throws Exception if input is not a matrix */
-  HouseholderQRDecomposition(Tensor A) {
+  QRDecompositionDefault(Tensor A) {
     n = A.length();
     m = Unprotect.dimension1(A);
     eye = IdentityMatrix.of(n);
@@ -66,11 +65,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
       return eye; // reflection reduces to identity, hopefully => det == 0
     Scalar xk = R.Get(k, k);
     final Scalar s;
-    // TODO logic fails on Complex Quantity
-    if (xk instanceof SignInterface)
-      s = Scalars.isZero(xk) ? RealScalar.ONE : Sign.FUNCTION.apply(xk).negate();
+    if (Scalars.isZero(Imag.FUNCTION.apply(xk)))
+      s = sign(xk);
     else
-      s = Exp.of(ComplexScalar.of(RealScalar.ZERO, Arg.of(xk))).negate();
+      s = ComplexScalar.unit(Arg.of(xk)).negate();
     x.set(value -> value.subtract(s.multiply(xn)), k);
     final Tensor m;
     if (MachineNumberQ.any(x)) {
@@ -81,6 +79,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     Tensor r = eye.subtract(m);
     r.set(Tensor::negate, k); // 2nd reflection
     return r;
+  }
+
+  Scalar sign(Scalar xk) {
+    return Sign.isPositive(xk) ? RealScalar.ONE.negate() : RealScalar.ONE;
   }
 
   @Override // from QRDecomposition

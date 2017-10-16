@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ArgTest extends TestCase {
@@ -26,6 +27,13 @@ public class ArgTest extends TestCase {
   public void testDecimal() {
     assertEquals(Arg.of(DecimalScalar.of(new BigDecimal("3.14", MathContext.DECIMAL128))), RealScalar.ZERO);
     assertEquals(Arg.of(DecimalScalar.of(new BigDecimal("-112.14", MathContext.DECIMAL128))), RealScalar.of(Math.PI));
+  }
+
+  public void testQuantity() {
+    Scalar s = Quantity.of(ComplexScalar.of(3, 4), "s*m^3");
+    Scalar a = Arg.of(s);
+    Scalar b = ArcTan.of(RealScalar.of(3), RealScalar.of(4));
+    assertEquals(a, b);
   }
 
   public void testFail() {

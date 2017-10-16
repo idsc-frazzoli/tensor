@@ -63,4 +63,19 @@ public class ComplexScalarTest extends TestCase {
       // ---
     }
   }
+
+  public void testUnitFail() {
+    try {
+      ComplexScalar.unit(ComplexScalar.of(-1, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ComplexScalar.unit(Quantity.of(3, "s"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
