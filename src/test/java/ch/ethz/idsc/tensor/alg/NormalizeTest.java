@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import ch.ethz.idsc.tensor.red.Frobenius;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -103,6 +104,11 @@ public class NormalizeTest extends TestCase {
     Tensor s = Normalize.of(vector);
     assertTrue(Chop._13.close(s.dot(Conjugate.of(s)), RealScalar.ONE));
     assertTrue(Chop._13.close(Conjugate.of(s).dot(s), RealScalar.ONE));
+  }
+
+  public void testQuantityTensor() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(2, 3, 4), "m*s^-1");
+    _checkNormalizeAllNorms(vector);
   }
 
   public void testFail1() {

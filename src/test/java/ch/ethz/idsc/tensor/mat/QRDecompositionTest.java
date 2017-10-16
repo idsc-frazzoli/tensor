@@ -104,6 +104,15 @@ public class QRDecompositionTest extends TestCase {
     specialOps(Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 6, 6));
   }
 
+  public void testComplexDiagonal() {
+    Tensor matrix = DiagonalMatrix.of(ComplexScalar.of(2, 3), ComplexScalar.of(-6, -1));
+    specialOps(matrix);
+    // QRDecomposition qr = QRDecomposition.of(matrix);
+    // System.out.println(qr.getR());
+    // System.out.println(Det.of(qr.getR()));
+    // System.out.println(Det.of(qr.getQ()));
+  }
+
   public void testHilbert() {
     Tensor matrix = HilbertMatrix.of(4, 7);
     specialOps(matrix);
@@ -152,6 +161,16 @@ public class QRDecompositionTest extends TestCase {
     specialOps(N.DOUBLE.of(matrix));
     QRDecomposition qr = QRDecomposition.of(matrix);
     assertTrue(qr.det() instanceof Quantity);
+  }
+
+  public void testComplexMathematica() {
+    Tensor matrix = Tensors.fromString( //
+        "{{8 + I, 2 - 3 *I}, {3 + I, I}} ", //
+        Quantity::fromString);
+    specialOps(matrix);
+    specialOps(N.DOUBLE.of(matrix));
+    // QRDecomposition qr = QRDecomposition.of(matrix);
+    // System.out.println(qr.getR());
   }
 
   public void testQuantityComplex() {
