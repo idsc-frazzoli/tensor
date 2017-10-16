@@ -31,4 +31,10 @@ public enum MachineNumberQ {
     }
     return false;
   }
+
+  /** @param tensor
+   * @return true, if any scalar entry in given tensor satisfies {@link MachineNumberQ} predicate */
+  public static boolean any(Tensor tensor) {
+    return tensor.flatten(-1).anyMatch(MachineNumberQ::of);
+  }
 }

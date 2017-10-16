@@ -4,24 +4,23 @@ package ch.ethz.idsc.tensor.mat;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.ExactNumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.Flatten;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class QRDecompositionTest extends TestCase {
-  @SuppressWarnings("deprecation")
   private static QRDecomposition specialOps(Tensor A) {
     QRDecomposition qr = QRDecomposition.of(A);
     Tensor Q = qr.getQ();
@@ -34,9 +33,7 @@ public class QRDecompositionTest extends TestCase {
     Tensor lower = LowerTriangularize.of(R, -1);
     // System.out.println(Pretty.of(lower));
     assertTrue(Chop.NONE.allZero(lower));
-    if (Scalars.isZero(Imag.of(qrDet))) {
-      assertTrue(Chop._10.close(qrDet, qr.det()));
-    }
+    assertTrue(Chop._10.close(qrDet, qr.det()));
     return qr;
   }
 
@@ -84,14 +81,15 @@ public class QRDecompositionTest extends TestCase {
 
   public void testRandomComplex1() {
     Random rnd = new Random();
-    Tensor A = Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 5, 3);
-    specialOps(A);
+    specialOps(Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 5, 3));
+    specialOps(Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 3, 5));
   }
 
   public void testRandomComplex2() {
     Random rnd = new Random();
-    Tensor A = Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 5, 5);
-    specialOps(A);
+    specialOps(Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 4, 4));
+    specialOps(Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 5, 5));
+    specialOps(Tensors.matrix((i, j) -> ComplexScalar.of(rnd.nextGaussian(), rnd.nextGaussian()), 6, 6));
   }
 
   public void testHilbert() {
@@ -106,17 +104,6 @@ public class QRDecompositionTest extends TestCase {
     assertEquals(qr.getR().get(3, 2), RealScalar.ZERO);
   }
 
-  public void testWikipedia() {
-    // example gives symbolic results
-    Tensor matrix = Tensors.matrixInt(new int[][] { //
-        { 12, -51, 4 }, { 6, 167, -68 }, { -4, 24, -41 } });
-    @SuppressWarnings("unused")
-    QRDecomposition qr = QRDecomposition.of(matrix);
-    // specialOps(matrix);
-    // System.out.println(Pretty.of(qr.getR()));
-  }
-
-  @SuppressWarnings("deprecation")
   public void testQuantity() {
     Tensor matrix = Tensors.fromString( //
         "{{ 12[s], -51[s], 4[s] }, { 6[s], 167[s], -68[s] }, { -4[s], 24[s], -41[s] } }", //
@@ -125,7 +112,7 @@ public class QRDecompositionTest extends TestCase {
       QRDecomposition qr = QRDecomposition.of(matrix);
       assertTrue(qr.det() instanceof Quantity);
       assertEquals(qr.getQ().dot(qr.getR()), matrix);
-      assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
+      assertTrue(Chop.NONE.close(qr.getR(), qr.getInverseQ().dot(matrix)));
     }
     {
       QRDecomposition qr = QRDecomposition.of(N.DOUBLE.of(matrix));
@@ -133,7 +120,24 @@ public class QRDecompositionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("deprecation")
+  public void testWikipedia() {
+    Tensor matrix = Tensors.matrixInt( //
+        new int[][] { { 12, -51, 4 }, { 6, 167, -68 }, { -4, 24, -41 } });
+    specialOps(matrix);
+    QRDecomposition qr = QRDecomposition.of(matrix);
+    Tensor getR = Tensors.matrixInt( //
+        new int[][] { { 14, 21, -14 }, { 0, 175, -70 }, { 0, 0, -35 } });
+    assertEquals(getR, qr.getR());
+    assertTrue(Flatten.of(qr.getR()).stream().allMatch(ExactNumberQ::of));
+    assertTrue(Flatten.of(qr.getQ()).stream().allMatch(ExactNumberQ::of));
+  }
+
+  public void testLower() {
+    Tensor matrix = Tensors.matrixInt( //
+        new int[][] { { 0, -51, 4 }, { 6, 167, -68 }, { -4, 24, -41 } });
+    specialOps(matrix);
+  }
+
   public void testQuantityMixed() {
     Tensor matrix = Tensors.fromString( //
         "{{ 12[s], -51[A], 4[m] }, { 6[s], 167[A], -68[m] }, { -4[s], 24[A], -41[m] } }", //
@@ -142,7 +146,7 @@ public class QRDecompositionTest extends TestCase {
       QRDecomposition qr = QRDecomposition.of(matrix);
       assertTrue(qr.det() instanceof Quantity);
       assertEquals(qr.getQ().dot(qr.getR()), matrix);
-      assertEquals(qr.getR(), qr.getInverseQ().dot(matrix));
+      assertTrue(Chop.NONE.close(qr.getR(), qr.getInverseQ().dot(matrix)));
     }
     {
       QRDecomposition qr = QRDecomposition.of(N.DOUBLE.of(matrix));

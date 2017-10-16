@@ -26,6 +26,5 @@ public interface QRDecomposition extends Serializable {
   Tensor getQ();
 
   /** @return determinant of matrix */
-  @Deprecated
   Scalar det();
 }

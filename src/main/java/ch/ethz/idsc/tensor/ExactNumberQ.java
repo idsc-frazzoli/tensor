@@ -20,4 +20,10 @@ public enum ExactNumberQ {
     }
     return false;
   }
+
+  /** @param tensor
+   * @return true, if all scalar entries in given tensor satisfy {@link ExactNumberQ} predicate */
+  public static boolean all(Tensor tensor) {
+    return tensor.flatten(-1).allMatch(ExactNumberQ::of);
+  }
 }
