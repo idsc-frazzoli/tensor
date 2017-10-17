@@ -41,7 +41,7 @@ public enum NullSpace {
    * @param matrix
    * @return vectors that span the nullspace */
   public static Tensor of(Tensor matrix) {
-    return StaticHelper.anyMachineNumberQ(matrix) ? usingSvd(matrix) : usingRowReduce(matrix);
+    return MachineNumberQ.any(matrix) ? usingSvd(matrix) : usingRowReduce(matrix);
   }
 
   /** @param matrix with exact precision entries
