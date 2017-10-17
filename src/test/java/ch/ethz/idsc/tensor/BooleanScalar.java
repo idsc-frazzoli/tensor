@@ -1,15 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
-import ch.ethz.idsc.tensor.sca.PowerInterface;
+import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** arithmetic of BooleanScalar is as for an element of the finite field F with cardinality |F|=2
  * multiplication is logical AND
  * addition is logical XOR */
 /* package */ final class BooleanScalar extends AbstractScalar implements //
-    Comparable<Scalar>, ExactNumberQInterface, PowerInterface, SqrtInterface {
+    Comparable<Scalar>, ExactScalarQInterface, SqrtInterface {
   /** instance with value true, toString() == "true" */
   public static final Scalar TRUE = new BooleanScalar(true);
   /** instance with value false, toString() == "false" */
@@ -36,6 +35,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
   @Override
   public Scalar reciprocal() {
+    if (!value)
+      throw TensorRuntimeException.of(this);
     return this;
   }
 
@@ -83,15 +84,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
   }
 
   @Override // from ExactNumberQInterface
-  public boolean isExactNumber() {
+  public boolean isExactScalar() {
     return true;
-  }
-
-  @Override // from PowerInterface
-  public Scalar power(Scalar exponent) {
-    if (Scalars.isZero(exponent))
-      return TRUE;
-    return this;
   }
 
   @Override // from SqrtInterface

@@ -40,4 +40,9 @@ public class MachineNumberQTest extends TestCase {
     Scalar s1 = Quantity.of(3, "m");
     assertFalse(MachineNumberQ.of(s1));
   }
+
+  public void testAny() {
+    assertTrue(MachineNumberQ.any(Tensors.vector(1, 1, 1.)));
+    assertFalse(MachineNumberQ.any(Tensors.vector(1, 1, 1)));
+  }
 }

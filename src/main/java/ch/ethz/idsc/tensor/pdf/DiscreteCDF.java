@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.ExactNumberQ;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -68,7 +68,7 @@ import ch.ethz.idsc.tensor.Scalars;
   /* package */ static boolean isFinished(Scalar p_equals, Scalar cumprob) {
     boolean finished = false;
     finished |= cumprob.equals(RealScalar.ONE);
-    finished |= !ExactNumberQ.of(cumprob) && //
+    finished |= !ExactScalarQ.of(cumprob) && //
         p_equals.equals(RealScalar.ZERO) && //
         Scalars.lessThan(cumprob.subtract(RealScalar.ONE).abs(), CDF_NUMERIC_THRESHOLD);
     return finished;

@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
-import ch.ethz.idsc.tensor.MachineNumberQ;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -71,11 +71,12 @@ import ch.ethz.idsc.tensor.sca.Sign;
       s = ComplexScalar.unit(Arg.of(xk)).negate();
     x.set(value -> value.subtract(s.multiply(xn)), k);
     final Tensor m;
-    if (MachineNumberQ.any(x)) {
+    if (ExactScalarQ.all(x))
+      m = wcwt(x, Conjugate.of(x).multiply(TWO).divide(Norm2Squared.ofVector(x)));
+    else {
       Tensor v = Normalize.of(x);
       m = wcwt(v, Conjugate.of(v).multiply(TWO));
-    } else
-      m = wcwt(x, Conjugate.of(x).multiply(TWO).divide(Norm2Squared.ofVector(x)));
+    }
     Tensor r = eye.subtract(m);
     r.set(Tensor::negate, k); // 2nd reflection
     return r;

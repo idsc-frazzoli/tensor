@@ -42,7 +42,11 @@ public class NumberQTest extends TestCase {
   }
 
   public void testQuantity() {
-    Scalar s1 = Quantity.of(3, "m");
-    assertFalse(NumberQ.of(s1));
+    assertFalse(NumberQ.of(Quantity.of(3, "m")));
+    assertFalse(NumberQ.of(Quantity.of(3.14, "m")));
+  }
+
+  public void testVector() {
+    assertFalse(NumberQ.of(Tensors.vector(1, 2, 3)));
   }
 }

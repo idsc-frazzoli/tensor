@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.img;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.NumberQ;
+import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -36,8 +36,8 @@ public class ColorDataGradient implements ColorDataFunction {
 
   @Override
   public Tensor apply(Scalar scalar) {
-    return NumberQ.of(scalar) ? //
-        interpolation.get(Tensors.of(scalar.multiply(scale))) : ColorDataFunction.transparent();
+    Scalar value = scalar.multiply(scale);
+    return MachineNumberQ.of(value) ? interpolation.get(Tensors.of(value)) : ColorDataFunction.transparent();
   }
 
   /** the application of this function is to derive a new color scheme

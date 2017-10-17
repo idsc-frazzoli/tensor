@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
-import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -23,7 +22,8 @@ import ch.ethz.idsc.tensor.sca.N;
 
   @Override
   public Tensor apply(Scalar scalar) {
-    return NumberQ.of(scalar) ? //
-        tensors[(int) (scalar.number().doubleValue() * 255 + 0.5)] : ColorDataFunction.transparent();
+    double value = scalar.number().doubleValue();
+    return Double.isFinite(value) ? //
+        tensors[(int) (value * 255 + 0.5)] : ColorDataFunction.transparent();
   }
 }

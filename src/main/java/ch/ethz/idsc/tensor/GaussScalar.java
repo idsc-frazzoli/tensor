@@ -6,14 +6,14 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
+import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
-    Comparable<Scalar>, ExactNumberQInterface, PowerInterface, SqrtInterface {
+    Comparable<Scalar>, ExactScalarQInterface, PowerInterface, SqrtInterface {
   private static final Set<Long> PROBABLE_PRIMES = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {
@@ -100,7 +100,7 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from ExactNumberQInterface
-  public boolean isExactNumber() {
+  public boolean isExactScalar() {
     return true;
   }
 

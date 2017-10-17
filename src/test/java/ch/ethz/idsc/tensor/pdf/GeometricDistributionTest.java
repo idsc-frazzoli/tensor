@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.ExactNumberQ;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -37,7 +37,7 @@ public class GeometricDistributionTest extends TestCase {
     assertEquals(cdf.p_lessEquals(RealScalar.ONE), plt2);
     assertEquals(cdf.p_lessEquals(RealScalar.of(1.1)), plt2);
     Scalar large = cdf.p_lessEquals(RealScalar.of(100.1));
-    assertTrue(ExactNumberQ.of(large));
+    assertTrue(ExactScalarQ.of(large));
   }
 
   public void testFailP() {

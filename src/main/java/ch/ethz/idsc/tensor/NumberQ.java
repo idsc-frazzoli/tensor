@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.qty.Quantity;
+
 /** implementation consistent with Mathematica
  * 
  * <p>Examples:
@@ -8,11 +10,13 @@ package ch.ethz.idsc.tensor;
  * NumberQ[ 13 / 17 ] == true
  * NumberQ[ 3.1415 ] == true
  * NumberQ[ 3.1415 + 1/2*I ] == true
+ * 
  * NumberQ[ Infinity ] == false
  * NumberQ[ Indeterminate ] == false
+ * NumberQ.of(Quantity.of(3, "m")) == false
  * </pre>
  * 
- * <p>{@link ScalarQ} returns true in all 5 cases and is therefore not equivalent to NumberQ.
+ * <p>{@link ScalarQ} returns true in all cases and is therefore not equivalent to NumberQ.
  * 
  * <pre>
  * NumberQ[ { ... } ] == false
@@ -33,6 +37,8 @@ public enum NumberQ {
       ComplexScalar complexScalar = (ComplexScalar) tensor;
       return of(complexScalar.real()) && of(complexScalar.imag());
     }
-    return MachineNumberQ.of(tensor) || ExactNumberQ.of(tensor);
+    if (tensor instanceof Quantity)
+      return false;
+    return MachineNumberQ.of(tensor) || ExactScalarQ.of(tensor);
   }
 }
