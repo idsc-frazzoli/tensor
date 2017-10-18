@@ -81,7 +81,7 @@ public class DecimalScalar2Test extends TestCase {
   public void testArg() {
     Scalar a = Arg.of(DecimalScalar.of(BigDecimal.ONE.negate()));
     Scalar b = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
-    assertEquals(a, b);
+    assertTrue(Chop._20.close(a, b));
   }
 
   private static void _checkEqCmp(Scalar s1, Scalar s2) {
