@@ -2,8 +2,6 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.math.MathContext;
-
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -17,16 +15,16 @@ public enum Pi {
   private static final Scalar _12 = RealScalar.of(12);
   private static final Scalar _426880 = RealScalar.of(426880);
 
-  /** @param mathContext
+  /** @param precision
    * @return */
-  public static Scalar in(MathContext mathContext) {
+  public static Scalar in(int precision) {
     Scalar K = RealScalar.of(6);
     Scalar M = RealScalar.ONE;
     Scalar L = RealScalar.of(13591409);
     Scalar X = RealScalar.ONE;
     Scalar S = RealScalar.of(13591409);
     int k = 0;
-    Scalar root = Sqrt.of(DecimalScalar.of("10005", mathContext));
+    Scalar root = Sqrt.of(DecimalScalar.of("10005", precision));
     Scalar prev = RealScalar.ZERO;
     while (true) {
       ++k;
