@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.lie.QRDecomposition;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Orthogonalize.html">Orthogonalize</a> */
