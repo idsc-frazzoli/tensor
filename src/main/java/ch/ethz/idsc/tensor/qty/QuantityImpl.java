@@ -147,11 +147,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from ArcTanInterface
   public Scalar arcTan(Scalar x) {
-    if (Scalars.isZero(x))
-      x = zero(); // in case x == 0[?], attach same units as this to x
     if (x instanceof Quantity) {
       Quantity quantity = (Quantity) x;
-      if (unit.equals(quantity.unit()) || Scalars.isZero(value))
+      if (unit.equals(quantity.unit()))
         return ArcTan.of(quantity.value(), value);
     }
     throw TensorRuntimeException.of(x, this);

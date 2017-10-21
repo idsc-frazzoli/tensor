@@ -80,33 +80,13 @@ public class ArcTanTest extends TestCase {
   }
 
   public void testQuantityZeroX() {
-    Scalar qs0 = Quantity.of(0, "s");
+    Scalar qs0 = Quantity.of(0, "m");
     Scalar qs1 = Quantity.of(12, "m");
-    {
-      Scalar res = ArcTan.of(RealScalar.ZERO, qs1);
-      assertTrue(res instanceof RealScalar);
-      assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
-    }
-    {
-      Scalar res = ArcTan.of(RealScalar.ZERO, qs0);
-      assertTrue(res instanceof RealScalar);
-      assertTrue(Chop._10.allZero(res));
-    }
     {
       Scalar res = ArcTan.of(qs0, qs1);
       assertTrue(res instanceof RealScalar);
       assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
     }
-    {
-      Scalar res = ArcTan.of(qs0, RealScalar.of(12));
-      assertTrue(res instanceof RealScalar);
-      assertTrue(Chop._10.close(res, RealScalar.of(Math.PI / 2)));
-    }
-  }
-
-  public void testQuantityZeroY() {
-    Scalar qs0 = Quantity.of(0, "s");
-    Scalar qs1 = Quantity.of(12, "m");
     {
       Scalar res = ArcTan.of(qs1, qs0);
       assertTrue(res instanceof RealScalar);

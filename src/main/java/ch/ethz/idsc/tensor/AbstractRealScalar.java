@@ -40,8 +40,6 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   public Scalar arcTan(Scalar x) {
     if (x instanceof ComplexScalar)
       return StaticHelper.arcTan(x, this);
-    if (Scalars.isZero(x))
-      x = ZERO;
     if (x instanceof RealScalar)
       return DoubleScalar.of(Math.atan2( //
           number().doubleValue(), // y
