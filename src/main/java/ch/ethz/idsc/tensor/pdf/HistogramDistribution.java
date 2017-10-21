@@ -5,7 +5,9 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Floor;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** The probability density for value x in a histogram distribution is a piecewise constant function.
  * 
@@ -16,22 +18,26 @@ public class HistogramDistribution implements Distribution, //
   /** Example:
    * HistogramDistribution[{10.2, 3.2, 11.5, 7.3, 3.8, 9.8}, 0, 2]
    * 
+   * <p>The implementation also supports input of type {@link Quantity}.
+   * 
    * @param samples vector with scalar entries all greater or equal given minimum
    * @param min lower bound of all samples
    * @param width of bins over which to assume uniform distribution, i.e. constant PDF
    * @return */
+  // TODO binning methods FreedmanDiaconis, Knuth, Scott, Sturges, Wand
   public static Distribution of(Tensor samples, Scalar min, Scalar width) {
     return new HistogramDistribution(samples, min, width);
   }
 
   // ---
+  private final ScalarUnaryOperator interval_trf;
   private final Distribution distribution;
   private final Scalar min;
   private final Scalar width;
 
-  public HistogramDistribution(Tensor samples, Scalar min, Scalar width) {
-    distribution = EmpiricalDistribution.fromUnscaledPDF( //
-        BinCounts.of(samples.map(scalar -> scalar.subtract(min)), width));
+  private HistogramDistribution(Tensor samples, Scalar min, Scalar width) {
+    interval_trf = x -> x.subtract(min).divide(width);
+    distribution = EmpiricalDistribution.fromUnscaledPDF(BinCounts.of(samples.map(interval_trf)));
     this.min = min;
     this.width = width;
   }
@@ -43,8 +49,8 @@ public class HistogramDistribution implements Distribution, //
         .multiply(width).add(min);
   }
 
-  @Override
+  @Override // from PDF
   public Scalar at(Scalar x) {
-    return PDF.of(distribution).at(Floor.FUNCTION.apply(x.subtract(min).divide(width)));
+    return PDF.of(distribution).at(Floor.FUNCTION.apply(interval_trf.apply(x)));
   }
 }

@@ -25,7 +25,17 @@ public enum BinCounts {
    * @return
    * @throws Exception if any scalar in the given vector is less than zero */
   public static Tensor of(Tensor vector) {
-    return of(vector, RealScalar.ONE);
+    if (vector.length() == 0)
+      return Tensors.empty();
+    NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector));
+    Scalar first = navigableMap.firstKey().Get();
+    if (Scalars.lessThan(first, RealScalar.ZERO))
+      throw TensorRuntimeException.of(vector);
+    int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
+    return Tensors.vector(index -> {
+      Scalar key = RationalScalar.of(index, 1);
+      return navigableMap.containsKey(key) ? RealScalar.of(navigableMap.get(key)) : RealScalar.ZERO;
+    }, length);
   }
 
   /** counts elements in the intervals:
@@ -41,16 +51,6 @@ public enum BinCounts {
   public static Tensor of(Tensor vector, Scalar width) {
     if (Sign.isNegativeOrZero(width))
       throw TensorRuntimeException.of(width);
-    if (vector.length() == 0)
-      return Tensors.empty();
-    NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector.divide(width)));
-    Scalar first = navigableMap.firstKey().Get();
-    if (Scalars.lessThan(first, RealScalar.ZERO))
-      throw TensorRuntimeException.of(vector);
-    int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
-    return Tensors.vector(index -> {
-      Scalar key = RationalScalar.of(index, 1);
-      return navigableMap.containsKey(key) ? RealScalar.of(navigableMap.get(key)) : RealScalar.ZERO;
-    }, length);
+    return of(vector.divide(width));
   }
 }
