@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.Scalar;
 public interface CDF extends Serializable {
   /** @param distribution
    * @return cumulative distribution function */
-  public static CDF of(Distribution distribution) {
+  static CDF of(Distribution distribution) {
     if (distribution instanceof CDF)
       return (CDF) distribution;
     if (distribution instanceof DiscreteDistribution)

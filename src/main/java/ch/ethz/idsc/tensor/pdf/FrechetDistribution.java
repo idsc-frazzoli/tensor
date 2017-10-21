@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Gamma;
 import ch.ethz.idsc.tensor.sca.Log;
@@ -19,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/FrechetDistribution.html">FrechetDistribution</a> */
 public class FrechetDistribution implements Distribution, //
-    CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   private static final double NEXTDOWNONE = Math.nextDown(1.0);
   private static final Scalar TWO = RealScalar.of(2);
 
@@ -32,6 +33,10 @@ public class FrechetDistribution implements Distribution, //
     if (Sign.isNegativeOrZero(beta))
       throw TensorRuntimeException.of(beta);
     return new FrechetDistribution(alpha, beta);
+  }
+
+  public static Distribution of(Number alpha, Number beta) {
+    return of(RealScalar.of(alpha), RealScalar.of(beta));
   }
 
   // ---
@@ -51,9 +56,17 @@ public class FrechetDistribution implements Distribution, //
   /* package for testing */ Scalar randomVariate(double reference) {
     // avoid result -Infinity when reference is close to 1.0
     double uniform = reference == NEXTDOWNONE ? reference : Math.nextUp(reference);
-    return beta.multiply(Power.of( //
-        Log.FUNCTION.apply(DoubleScalar.of(uniform)).negate(), //
-        alpha.reciprocal().negate()));
+    return quantile_unit(DoubleScalar.of(uniform));
+  }
+
+  @Override // InverseCDF
+  public Scalar quantile(Scalar p) {
+    Clip.unit().isInsideOrThrow(p);
+    return quantile_unit(p);
+  }
+
+  private Scalar quantile_unit(Scalar p) {
+    return beta.multiply(Power.of(Log.FUNCTION.apply(p).negate(), alpha.reciprocal().negate()));
   }
 
   @Override // from MeanInterface

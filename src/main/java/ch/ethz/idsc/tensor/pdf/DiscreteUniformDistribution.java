@@ -64,7 +64,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   }
 
   @Override // from AbstractDiscreteDistribution
-  public Scalar randomVariate(Scalar reference) {
+  public Scalar quantile(Scalar reference) {
     return RationalScalar.of(min, 1).add(Floor.FUNCTION.apply(reference.multiply(RationalScalar.of(max - min, 1))));
   }
 

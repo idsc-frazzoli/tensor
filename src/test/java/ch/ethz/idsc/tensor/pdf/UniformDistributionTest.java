@@ -48,6 +48,32 @@ public class UniformDistributionTest extends TestCase {
     assertEquals(CDF.of(distribution).p_lessEquals(mean), RationalScalar.of(1, 2));
   }
 
+  public void testQuantile() {
+    Distribution distribution = UniformDistribution.of(Quantity.of(3, "g"), Quantity.of(6, "g"));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    assertEquals(inverseCDF.quantile(RationalScalar.of(0, 3)), Quantity.of(3, "g"));
+    assertEquals(inverseCDF.quantile(RationalScalar.of(1, 3)), Quantity.of(4, "g"));
+    assertEquals(inverseCDF.quantile(RationalScalar.of(2, 3)), Quantity.of(5, "g"));
+    assertEquals(inverseCDF.quantile(RationalScalar.of(3, 3)), Quantity.of(6, "g"));
+  }
+
+  public void testQuantileFail() {
+    Distribution distribution = UniformDistribution.of(Quantity.of(3, "g"), Quantity.of(6, "g"));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    try {
+      inverseCDF.quantile(RealScalar.of(-0.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      inverseCDF.quantile(RealScalar.of(1.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testQuantityFail() {
     try {
       UniformDistribution.of(Quantity.of(3, "m"), Quantity.of(5, "km"));

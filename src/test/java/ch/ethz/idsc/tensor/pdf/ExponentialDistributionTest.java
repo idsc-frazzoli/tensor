@@ -119,6 +119,15 @@ public class ExponentialDistributionTest extends TestCase {
     assertTrue(var instanceof Quantity);
   }
 
+  public void testInverseCDF() {
+    InverseCDF inv = InverseCDF.of(ExponentialDistribution.of(Quantity.of(3, "")));
+    Scalar x0 = inv.quantile(RealScalar.of(.0));
+    Scalar x1 = inv.quantile(RealScalar.of(.2));
+    Scalar x2 = inv.quantile(RealScalar.of(.5));
+    assertEquals(x0, RealScalar.ZERO);
+    assertTrue(Scalars.lessThan(x1, x2));
+  }
+
   public void testQuantityPDF() {
     Distribution distribution = ExponentialDistribution.of(Quantity.of(3, "m"));
     {

@@ -106,7 +106,7 @@ public class BinomialDistributionTest extends TestCase {
     for (int n = 10; n < 1200; n += 10) {
       EvaluatedDiscreteDistribution distribution = (EvaluatedDiscreteDistribution) BinomialDistribution.of(n, RealScalar.of(.333));
       double extreme = Math.nextDown(1.0);
-      distribution.randomVariate(RealScalar.of(extreme));
+      distribution.quantile(RealScalar.of(extreme));
       NavigableMap<Scalar, Scalar> navigableMap = distribution.inverse_cdf();
       @SuppressWarnings("unused")
       Entry<Scalar, Scalar> entry = navigableMap.lastEntry();
@@ -131,7 +131,7 @@ public class BinomialDistributionTest extends TestCase {
   public void testNextDownOne() {
     AbstractDiscreteDistribution distribution = //
         (AbstractDiscreteDistribution) BinomialDistribution.of(1000, DoubleScalar.of(.5));
-    distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
+    distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
   }
 
   public void testNZero() {
@@ -140,6 +140,32 @@ public class BinomialDistributionTest extends TestCase {
     assertEquals(Expectation.variance(distribution), RealScalar.ZERO);
     assertEquals(PDF.of(distribution).at(RealScalar.ZERO), RealScalar.ONE);
     assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
+  }
+
+  public void testInverseCDF() {
+    InverseCDF inv = InverseCDF.of(BinomialDistribution.of(100, RationalScalar.of(2, 3)));
+    Scalar x0 = inv.quantile(RealScalar.ZERO);
+    Scalar x1 = inv.quantile(RealScalar.of(.5));
+    Scalar x2 = inv.quantile(RealScalar.of(.8));
+    Scalar x3 = inv.quantile(RealScalar.of(Math.nextDown(1.0)));
+    assertEquals(x0, RealScalar.ZERO);
+    assertEquals(x1, RealScalar.of(67));
+    assertEquals(x2, RealScalar.of(71));
+    assertEquals(x3, RealScalar.of(99));
+  }
+
+  public void testInverseCDF2() {
+    InverseCDF inv = InverseCDF.of(BinomialDistribution.of(10, RationalScalar.of(1, 2)));
+    Scalar x0 = inv.quantile(RealScalar.ZERO);
+    Scalar x1 = inv.quantile(RealScalar.of(.5));
+    Scalar x2 = inv.quantile(RealScalar.of(.8));
+    Scalar x9 = inv.quantile(RealScalar.of(.9));
+    Scalar x3 = inv.quantile(RealScalar.of(Math.nextDown(1.0)));
+    assertEquals(x0, RealScalar.ZERO);
+    assertEquals(x1, RealScalar.of(5));
+    assertEquals(x2, RealScalar.of(6));
+    assertEquals(x9, RealScalar.of(7));
+    assertEquals(x3, RealScalar.of(10));
   }
 
   public void testFailN() {

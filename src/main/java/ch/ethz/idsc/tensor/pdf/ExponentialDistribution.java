@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Sign;
@@ -15,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
 public class ExponentialDistribution implements Distribution, //
-    CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   /** @param lambda positive, may be instance of {@link Quantity}
    * @return */
   public static Distribution of(Scalar lambda) {
@@ -40,8 +41,17 @@ public class ExponentialDistribution implements Distribution, //
 
   /* package for testing */ Scalar randomVariate(double reference) {
     // {@link Random#nextDouble()} samples uniformly from the range 0.0 (inclusive) to 1.0d (exclusive)
-    double uniform = Math.nextUp(reference);
-    return Log.FUNCTION.apply(DoubleScalar.of(uniform)).divide(lambda_negate);
+    return quantile_unit(DoubleScalar.of(Math.nextUp(reference)));
+  }
+
+  @Override
+  public Scalar quantile(Scalar p) {
+    Clip.unit().isInsideOrThrow(p);
+    return quantile_unit(RealScalar.ONE.subtract(p));
+  }
+
+  private Scalar quantile_unit(Scalar p) {
+    return Log.FUNCTION.apply(p).divide(lambda_negate);
   }
 
   @Override // from MeanInterface

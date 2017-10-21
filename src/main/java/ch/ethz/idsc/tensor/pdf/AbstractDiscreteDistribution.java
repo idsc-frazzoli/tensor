@@ -11,15 +11,11 @@ import ch.ethz.idsc.tensor.Scalars;
 
 /** functionality and suggested base class for a discrete probability distribution */
 public abstract class AbstractDiscreteDistribution implements DiscreteDistribution, //
-    MeanInterface, PDF, RandomVariateInterface {
+    InverseCDF, MeanInterface, PDF, RandomVariateInterface {
   @Override // from RandomVariateInterface
   public final Scalar randomVariate(Random random) {
-    return randomVariate(DoubleScalar.of(random.nextDouble()));
+    return quantile(DoubleScalar.of(random.nextDouble()));
   }
-
-  /** @param reference in the half-open interval [0, 1)
-   * @return */
-  public abstract Scalar randomVariate(Scalar reference);
 
   @Override // from PDF
   public final Scalar at(Scalar x) {

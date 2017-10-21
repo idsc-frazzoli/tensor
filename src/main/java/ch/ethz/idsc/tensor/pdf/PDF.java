@@ -19,8 +19,9 @@ public interface PDF extends Serializable {
    * Scalar probability = pdf.p_equals(RealScalar.of(3));
    * 
    * @param distribution
-   * @return probability density function */
-  public static PDF of(Distribution distribution) {
+   * @return probability density function
+   * @throws Exception if given distribution does not implement PDF */
+  static PDF of(Distribution distribution) {
     if (distribution instanceof PDF)
       return (PDF) distribution;
     throw new RuntimeException();
