@@ -9,7 +9,19 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** The probability density for value x in a histogram distribution is a piecewise constant function.
+/** A histogram distribution approximates an unknown continuous distribution using
+ * a collection of observed samples from the distribution.
+ * 
+ * <p>The current implementation is characterized by the following properties
+ * <ul>
+ * <li>the probability density for value x in of histogram distribution is a piecewise constant function, and
+ * <li>depends on two parameters: the minimum possible value, and the constant width of each bin.
+ * </ul>
+ * 
+ * <p>The implementation combines
+ * {@link EmpiricalDistribution}, {@link BinCounts}, and {@link UniformDistribution#unit()}.
+ * 
+ * <p>Other approximation methods are possible and may be available in the future.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HistogramDistribution.html">HistogramDistribution</a> */

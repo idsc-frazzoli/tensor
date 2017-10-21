@@ -13,7 +13,9 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Sign;
 
-/** inspired by
+/** <p>The InverseCDF at p == 1 evaluates to DoubleScalar.POSITIVE_INFINITY.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
 public class ExponentialDistribution implements Distribution, //
     CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
@@ -44,7 +46,7 @@ public class ExponentialDistribution implements Distribution, //
     return quantile_unit(DoubleScalar.of(Math.nextUp(reference)));
   }
 
-  @Override
+  @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
     Clip.unit().isInsideOrThrow(p);
     return quantile_unit(RealScalar.ONE.subtract(p));

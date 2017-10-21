@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * <p>All {@link DiscreteDistribution}s implement the interface {@link InverseCDF}.
  * 
  * <p>Several continuous distributions support the functionality, for instance
- * {@link ExponentialDistribution}, {@link UniformDistribution}, and
+ * {@link UniformDistribution}, {@link ExponentialDistribution}, and
  * {@link FrechetDistribution}.
  * 
  * <p>One application of InverseCDF(distribution) is to generate {@link RandomVariate}s
@@ -28,8 +28,8 @@ public interface InverseCDF {
 
   /** the inverse CDF at p is also referred to as the p-th quantile of a distribution
    * 
-   * @param p in half-open interval [0, 1)
-   * @return x for which P(X <= x) == p
+   * @param p in half-open interval [0, 1). The case p == 1 is documented in the implementing class.
+   * @return x largest for which P(X <= x) <= p
    * @throws Exception if given p is outside of the interval [0, 1] */
   Scalar quantile(Scalar p);
 }

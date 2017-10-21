@@ -12,7 +12,11 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Clip;
 
-/** inspired by
+/** uniform distribution over continuous interval [a, b].
+ * 
+ * <p>InverseCDF is defined over interval [0, 1]
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
 public class UniformDistribution implements Distribution, //
     CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {

@@ -63,7 +63,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
     return min;
   }
 
-  @Override // from AbstractDiscreteDistribution
+  @Override // from InverseCDF
   public Scalar quantile(Scalar reference) {
     return RationalScalar.of(min, 1).add(Floor.FUNCTION.apply(reference.multiply(RationalScalar.of(max - min, 1))));
   }

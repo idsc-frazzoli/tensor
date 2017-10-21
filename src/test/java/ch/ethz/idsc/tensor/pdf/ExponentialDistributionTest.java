@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -120,12 +121,28 @@ public class ExponentialDistributionTest extends TestCase {
   }
 
   public void testInverseCDF() {
-    InverseCDF inv = InverseCDF.of(ExponentialDistribution.of(Quantity.of(3, "")));
-    Scalar x0 = inv.quantile(RealScalar.of(.0));
-    Scalar x1 = inv.quantile(RealScalar.of(.2));
-    Scalar x2 = inv.quantile(RealScalar.of(.5));
+    InverseCDF inverseCDF = InverseCDF.of(ExponentialDistribution.of(Quantity.of(3, "")));
+    Scalar x0 = inverseCDF.quantile(RealScalar.of(.0));
+    Scalar x1 = inverseCDF.quantile(RealScalar.of(.2));
+    Scalar x2 = inverseCDF.quantile(RealScalar.of(.5));
     assertEquals(x0, RealScalar.ZERO);
     assertTrue(Scalars.lessThan(x1, x2));
+  }
+
+  public void testInverseCDF_1() {
+    InverseCDF inverseCDF = InverseCDF.of(ExponentialDistribution.of(Quantity.of(2.8, "")));
+    assertEquals(inverseCDF.quantile(RealScalar.of(1.0)), DoubleScalar.POSITIVE_INFINITY);
+    assertEquals(inverseCDF.quantile(RealScalar.ONE), DoubleScalar.POSITIVE_INFINITY);
+  }
+
+  public void testFailInverseCDF() {
+    InverseCDF inverseCDF = InverseCDF.of(ExponentialDistribution.of(Quantity.of(3, "")));
+    try {
+      inverseCDF.quantile(RealScalar.of(1.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testQuantityPDF() {

@@ -17,7 +17,9 @@ import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sign;
 
-/** inspired by
+/** <p>The InverseCDF at p == 1 is not defined.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/FrechetDistribution.html">FrechetDistribution</a> */
 public class FrechetDistribution implements Distribution, //
     CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
@@ -59,7 +61,7 @@ public class FrechetDistribution implements Distribution, //
     return quantile_unit(DoubleScalar.of(uniform));
   }
 
-  @Override // InverseCDF
+  @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
     Clip.unit().isInsideOrThrow(p);
     return quantile_unit(p);
