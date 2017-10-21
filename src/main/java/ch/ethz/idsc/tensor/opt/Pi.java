@@ -15,7 +15,7 @@ public enum Pi {
   private static final Scalar _12 = RealScalar.of(12);
   private static final Scalar _426880 = RealScalar.of(426880);
 
-  /** @param precision
+  /** @param precision is approximately the number of correct digits in the decimal encoding
    * @return */
   public static Scalar in(int precision) {
     Scalar K = RealScalar.of(6);

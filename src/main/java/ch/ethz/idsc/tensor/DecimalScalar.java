@@ -185,7 +185,7 @@ public final class DecimalScalar extends AbstractRealScalar implements //
       return value.compareTo(decimalScalar.value);
     }
     @SuppressWarnings("unchecked")
-    Comparable<Scalar> comparable = (Comparable<Scalar>) N.in(mathContext()).apply(scalar);
+    Comparable<Scalar> comparable = (Comparable<Scalar>) N.in(precision).apply(scalar);
     return -comparable.compareTo(this);
   }
 

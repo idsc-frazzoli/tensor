@@ -202,7 +202,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from NInterface
   public Scalar n(MathContext mathContext) {
-    N n = N.in(mathContext);
+    N n = N.in(mathContext.getPrecision());
     return ofUnit(n.apply(value));
   }
 

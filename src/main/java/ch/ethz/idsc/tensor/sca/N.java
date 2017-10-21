@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca;
 
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
@@ -21,7 +22,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * <p>The tensor library uses the following notation:
  * <pre>
  * Sqrt.of(N.DOUBLE.of(2)) == 1.4142135623730951
- * Sqrt.of(N.DECIMAL128.of(2)) == 1.414213562373095048801688724209698
+ * Sqrt.of(N.DECIMAL128.of(2)) == 1.414213562373095048801688724209698`34
  * </pre>
  * 
  * <p>inspired by
@@ -39,10 +40,10 @@ public abstract class N implements ScalarUnaryOperator {
   /** creates an instance of N that supplies {@link DecimalScalar}s with precision
    * specified by mathContext.
    * 
-   * @param mathContext
-   * @return conversion to precision in given context */
-  public static N in(MathContext mathContext) {
-    return new NDecimal(mathContext);
+   * @param precision is approximately the number of correct digits in the decimal encoding
+   * @return conversion to given precision in context with RoundingMode.HALF_EVEN */
+  public static N in(int precision) {
+    return new NDecimal(new MathContext(precision, RoundingMode.HALF_EVEN));
   }
 
   /** @param tensor
