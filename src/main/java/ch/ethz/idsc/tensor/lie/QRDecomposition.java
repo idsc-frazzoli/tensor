@@ -13,14 +13,14 @@ public interface QRDecomposition extends Serializable {
    * @return qr-decomposition of matrix
    * @throws Exception if input is not a matrix */
   static QRDecomposition of(Tensor matrix) {
-    return new QRDecompositionDefault(matrix);
+    return new QRDecompositionImpl(matrix, QRSignOperator.DEFAULT);
   }
 
   /** @param matrix
    * @return qr-decomposition of matrix
    * @throws Exception if input is not a matrix */
   static QRDecomposition positive(Tensor matrix) {
-    return new QRDecompositionPositive(matrix);
+    return new QRDecompositionImpl(matrix, QRSignOperator.POSITIVE);
   }
 
   /** @return orthogonal matrix */

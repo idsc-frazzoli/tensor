@@ -20,11 +20,17 @@ import ch.ethz.idsc.tensor.sca.Sign;
 public class ExponentialDistribution implements Distribution, //
     CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   /** @param lambda positive, may be instance of {@link Quantity}
-   * @return */
+   * @return exponential distribution with scale inversely proportional to parameter lambda */
   public static Distribution of(Scalar lambda) {
     if (Sign.isNegativeOrZero(lambda))
       throw TensorRuntimeException.of(lambda);
     return new ExponentialDistribution(lambda);
+  }
+
+  /** @param lambda positive
+   * @return exponential distribution with scale inversely proportional to parameter lambda */
+  public static Distribution of(Number lambda) {
+    return of(RealScalar.of(lambda));
   }
 
   // ---

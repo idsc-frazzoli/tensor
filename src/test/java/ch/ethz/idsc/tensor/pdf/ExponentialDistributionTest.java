@@ -26,7 +26,7 @@ public class ExponentialDistributionTest extends TestCase {
   }
 
   public void testPDF() {
-    Distribution distribution = ExponentialDistribution.of(RealScalar.of(2));
+    Distribution distribution = ExponentialDistribution.of(2);
     {
       Scalar actual = PDF.of(distribution).at(RealScalar.of(3));
       Scalar expected = RealScalar.of(2).divide(Exp.of(RealScalar.of(6)));

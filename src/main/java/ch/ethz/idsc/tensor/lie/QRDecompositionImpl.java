@@ -20,26 +20,28 @@ import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.Imag;
-import ch.ethz.idsc.tensor.sca.Sign;
 
 /** decomposition Q.R = A with Det[Q] == +1
  * householder with even number of reflections
  * reproduces example on wikipedia */
-/* package */ class QRDecompositionDefault implements QRDecomposition {
+/* package */ class QRDecompositionImpl implements QRDecomposition {
   private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final int n;
   private final int m;
   private final Tensor eye;
+  private final QRSignOperator qrSignOperator;
   private Tensor Qinv;
   private Tensor R;
 
   /** @param A
+   * @param qrSignOperator
    * @throws Exception if input is not a matrix */
-  QRDecompositionDefault(Tensor A) {
+  QRDecompositionImpl(Tensor A, QRSignOperator qrSignOperator) {
     n = A.length();
     m = Unprotect.dimension1(A);
     eye = IdentityMatrix.of(n);
+    this.qrSignOperator = qrSignOperator;
     Qinv = eye;
     R = A;
     // the m-th reflection is necessary in the case where A is non-square
@@ -68,7 +70,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
     Scalar xk = R.Get(k, k);
     final Scalar s;
     if (Scalars.isZero(Imag.FUNCTION.apply(xk)))
-      s = sign(xk);
+      s = qrSignOperator.apply(xk);
     else
       s = ComplexScalar.unit(Arg.of(xk)).negate();
     x.set(value -> value.subtract(s.multiply(xn)), k);
@@ -84,10 +86,9 @@ import ch.ethz.idsc.tensor.sca.Sign;
     return r;
   }
 
-  Scalar sign(Scalar xk) {
-    return Sign.isPositive(xk) ? RealScalar.ONE.negate() : RealScalar.ONE;
-  }
-
+  // Scalar sign(Scalar xk) {
+  // return Sign.isPositive(xk) ? RealScalar.ONE.negate() : RealScalar.ONE;
+  // }
   @Override // from QRDecomposition
   public Tensor getInverseQ() {
     return Qinv;
