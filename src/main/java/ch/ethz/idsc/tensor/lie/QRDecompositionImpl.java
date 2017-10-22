@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -16,10 +15,8 @@ import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.red.Total;
-import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
-import ch.ethz.idsc.tensor.sca.Imag;
 
 /** decomposition Q.R = A with Det[Q] == +1
  * householder with even number of reflections
@@ -62,13 +59,8 @@ import ch.ethz.idsc.tensor.sca.Imag;
     Scalar xn = Norm._2.ofVector(x);
     if (Scalars.isZero(xn))
       return eye; // reflection reduces to identity, hopefully => det == 0
-    Scalar xk = R.Get(k, k);
-    final Scalar s;
-    if (Scalars.isZero(Imag.FUNCTION.apply(xk)))
-      s = qrSignOperator.apply(xk);
-    else
-      s = ComplexScalar.unit(Arg.of(xk)).negate();
-    x.set(value -> value.subtract(s.multiply(xn)), k);
+    Scalar sign = qrSignOperator.of(R.Get(k, k));
+    x.set(value -> value.subtract(sign.multiply(xn)), k);
     final Tensor m;
     if (ExactScalarQ.all(x))
       m = TensorProduct.of(x, Conjugate.of(x).multiply(TWO).divide(Norm2Squared.ofVector(x)));
@@ -81,9 +73,6 @@ import ch.ethz.idsc.tensor.sca.Imag;
     return r;
   }
 
-  // Scalar sign(Scalar xk) {
-  // return Sign.isPositive(xk) ? RealScalar.ONE.negate() : RealScalar.ONE;
-  // }
   @Override // from QRDecomposition
   public Tensor getInverseQ() {
     return Qinv;

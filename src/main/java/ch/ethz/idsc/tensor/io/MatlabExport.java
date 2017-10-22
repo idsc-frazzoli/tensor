@@ -29,10 +29,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
  * for the export of vectors and matrices, {@link Pretty} may also be a solution. */
 public enum MatlabExport {
   ;
-  /** The stream of strings can be written to a file using
-   * <code>Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator);</code>
-   * 
-   * @param tensor with array structure
+  /** @param tensor with array structure
    * @param function that maps a {@link Scalar} in the given tensor to a string expression
    * @return lines of MATLAB function that returns tensor
    * @see ArrayQ */
@@ -63,7 +60,10 @@ public enum MatlabExport {
     return list.stream();
   }
 
-  /** @param tensor must not be {@link Scalar}. For scalars, use Tensors.of(scalar);
+  /** Hint: when exporting the strings to a file use {@link Export}
+   * and specify a file with extension "m"
+   * 
+   * @param tensor must not be {@link Scalar}. For scalars, use Tensors.of(scalar);
    * @return lines of MATLAB function that returns tensor */
   public static Stream<String> of(Tensor tensor) {
     return of(tensor, Scalar::toString);
