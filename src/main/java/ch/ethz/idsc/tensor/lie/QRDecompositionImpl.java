@@ -56,11 +56,6 @@ import ch.ethz.idsc.tensor.sca.Imag;
         R.set(Chop._12, i, k);
   }
 
-  // outer product: product of all pairs
-  private static Tensor wcwt(Tensor w, Tensor cw) {
-    return Tensors.matrix((i, j) -> w.Get(i).multiply(cw.Get(j)), w.length(), cw.length());
-  }
-
   // suggestion of wikipedia
   private Tensor reflect(final int k) {
     Tensor x = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
@@ -76,10 +71,10 @@ import ch.ethz.idsc.tensor.sca.Imag;
     x.set(value -> value.subtract(s.multiply(xn)), k);
     final Tensor m;
     if (ExactScalarQ.all(x))
-      m = wcwt(x, Conjugate.of(x).multiply(TWO).divide(Norm2Squared.ofVector(x)));
+      m = TensorProduct.of(x, Conjugate.of(x).multiply(TWO).divide(Norm2Squared.ofVector(x)));
     else {
       Tensor v = Normalize.of(x);
-      m = wcwt(v, Conjugate.of(v).multiply(TWO));
+      m = TensorProduct.of(v, Conjugate.of(v).multiply(TWO));
     }
     Tensor r = eye.subtract(m);
     r.set(Tensor::negate, k); // 2nd reflection

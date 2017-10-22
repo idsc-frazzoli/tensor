@@ -7,13 +7,13 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import ch.ethz.idsc.tensor.sca.Sign;
 
 /* package */ enum QRSignOperator implements ScalarUnaryOperator {
-  DEFAULT() {
+  STABILITY() {
     @Override
     public Scalar apply(Scalar xk) {
       return Sign.isPositive(xk) ? ONE_NEGATE : RealScalar.ONE;
     }
   }, //
-  POSITIVE() {
+  ORIENTATION() {
     @Override
     public Scalar apply(Scalar xk) {
       return ONE_NEGATE;

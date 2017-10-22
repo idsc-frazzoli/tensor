@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -19,8 +20,12 @@ import ch.ethz.idsc.tensor.mat.LowerTriangularize;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.red.Diagonal;
+import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Decrement;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
@@ -84,13 +89,25 @@ public class QRDecompositionTest extends TestCase {
   }
 
   public void testRandomOrthogonal() {
-    Random rnd = new Random();
-    for (int c = 0; c < 5; ++c) {
-      Tensor matrix = Rodriguez.of(Tensors.vector(l -> RealScalar.of(rnd.nextGaussian()), 3));
+    Distribution distribution = NormalDistribution.of(0, 5);
+    for (int count = 0; count < 5; ++count) {
+      Tensor matrix = Rodriguez.of(RandomVariate.of(distribution, 3));
       specialOps(matrix);
-      QRDecomposition qr = QRDecomposition.positive(matrix);
+      QRDecomposition qr = QRDecomposition.preserveOrientation(matrix);
       assertTrue(Chop._13.close(qr.getR(), IdentityMatrix.of(3)));
       assertTrue(Chop._13.close(qr.getQ(), matrix));
+    }
+  }
+
+  public void testRandomOrthogonal2() {
+    Distribution distribution = NormalDistribution.of(0, 5);
+    Distribution noise = UniformDistribution.of(-0.03, 0.03);
+    for (int count = 0; count < 5; ++count) {
+      Tensor matrix = Rodriguez.of(RandomVariate.of(distribution, 3)).add(RandomVariate.of(noise, 3, 3));
+      specialOps(matrix);
+      QRDecomposition qr = QRDecomposition.preserveOrientation(matrix);
+      Scalar infNorm = Norm.INFINITY.ofVector(Diagonal.of(qr.getR()).map(Decrement.ONE));
+      assertTrue(Scalars.lessThan(infNorm, RealScalar.of(.1)));
     }
   }
 
@@ -110,10 +127,6 @@ public class QRDecompositionTest extends TestCase {
   public void testComplexDiagonal() {
     Tensor matrix = DiagonalMatrix.of(ComplexScalar.of(2, 3), ComplexScalar.of(-6, -1));
     specialOps(matrix);
-    // QRDecomposition qr = QRDecomposition.of(matrix);
-    // System.out.println(qr.getR());
-    // System.out.println(Det.of(qr.getR()));
-    // System.out.println(Det.of(qr.getQ()));
   }
 
   public void testHilbert() {
@@ -150,6 +163,25 @@ public class QRDecompositionTest extends TestCase {
     assertTrue(Flatten.of(qr.getQ()).stream().allMatch(ExactScalarQ::of));
   }
 
+  public void testMathematica1() {
+    Tensor matrix = Tensors.fromString("{{1, 2}, {3, 4}, {5, 6}}");
+    specialOps(matrix);
+    QRDecomposition qr = QRDecomposition.preserveOrientation(matrix);
+    Tensor reference = Tensors.fromString("{5.916079783099616`, 0.828078671210825`}");
+    assertTrue(Chop._10.close(reference, Diagonal.of(qr.getR())));
+  }
+
+  public void testMathematica2() {
+    Tensor matrix = Tensors.fromString("{{1., 2., 3.}, {4., 5., 6.}}");
+    specialOps(matrix);
+    try {
+      QRDecomposition.preserveOrientation(matrix);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testLower() {
     Tensor matrix = Tensors.matrixInt( //
         new int[][] { { 0, -51, 4 }, { 6, 167, -68 }, { -4, 24, -41 } });
@@ -172,8 +204,6 @@ public class QRDecompositionTest extends TestCase {
         Quantity::fromString);
     specialOps(matrix);
     specialOps(N.DOUBLE.of(matrix));
-    // QRDecomposition qr = QRDecomposition.of(matrix);
-    // System.out.println(qr.getR());
   }
 
   public void testQuantityComplex() {
