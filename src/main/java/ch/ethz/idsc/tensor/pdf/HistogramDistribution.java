@@ -6,6 +6,7 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
@@ -15,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <p>The current implementation is characterized by the following properties
  * <ul>
  * <li>the probability density for value x in of histogram distribution is a piecewise constant function, and
- * <li>depends on two parameters: the minimum possible value, and the constant width of each bin.
+ * <li>the user-specified, constant width of each bin.
  * </ul>
  * 
  * <p>The implementation combines
@@ -28,17 +29,16 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 public class HistogramDistribution implements Distribution, //
     PDF, RandomVariateInterface {
   /** Example:
-   * HistogramDistribution[{10.2, 3.2, 11.5, 7.3, 3.8, 9.8}, 0, 2]
+   * HistogramDistribution[{10.2, 3.2, 11.5, 7.3, 3.8, 9.8}, 2]
    * 
    * <p>The implementation also supports input of type {@link Quantity}.
    * 
-   * @param samples vector with scalar entries all greater or equal given minimum
-   * @param min lower bound of all samples
+   * @param samples vector
    * @param width of bins over which to assume uniform distribution, i.e. constant PDF
    * @return */
   // TODO binning methods FreedmanDiaconis, Knuth, Scott, Sturges, Wand
-  public static Distribution of(Tensor samples, Scalar min, Scalar width) {
-    return new HistogramDistribution(samples, min, width);
+  public static Distribution of(Tensor samples, Scalar width) {
+    return new HistogramDistribution(samples, width);
   }
 
   // ---
@@ -47,10 +47,10 @@ public class HistogramDistribution implements Distribution, //
   private final Scalar min;
   private final Scalar width;
 
-  private HistogramDistribution(Tensor samples, Scalar min, Scalar width) {
+  private HistogramDistribution(Tensor samples, Scalar width) {
+    this.min = Floor.toMultipleOf(width).apply(samples.stream().reduce(Min::of).get().Get());
     interval_trf = x -> x.subtract(min).divide(width);
     distribution = EmpiricalDistribution.fromUnscaledPDF(BinCounts.of(samples.map(interval_trf)));
-    this.min = min;
     this.width = width;
   }
 
