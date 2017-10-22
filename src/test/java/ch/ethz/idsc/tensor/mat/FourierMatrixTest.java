@@ -35,4 +35,16 @@ public class FourierMatrixTest extends TestCase {
     assertEquals(Norm._1.ofMatrix(m), Frobenius.NORM.of(m));
     // Norm._2.of m == 1 is confirmed with Mathematica
   }
+
+  private static void _check(int n) {
+    Tensor m = FourierMatrix.of(n);
+    Tensor minv = FourierMatrix.inverse(n);
+    assertTrue(Chop._10.close(m.dot(minv), IdentityMatrix.of(n)));
+  }
+
+  public void testInverse() {
+    _check(8);
+    _check(10);
+    _check(11);
+  }
 }

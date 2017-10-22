@@ -21,7 +21,7 @@ public class GompertzMakehamDistribution implements Distribution, //
    * @param xi positive frailty parameter
    * @return */
   public static Distribution of(Scalar lambda, Scalar xi) {
-    if (!Sign.isPositive(lambda))
+    if (Sign.isNegativeOrZero(lambda))
       throw TensorRuntimeException.of(lambda);
     if (Scalars.lessEquals(xi, RealScalar.ZERO))
       throw TensorRuntimeException.of(xi);
@@ -63,7 +63,7 @@ public class GompertzMakehamDistribution implements Distribution, //
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    if (!Sign.isPositive(x))
+    if (Sign.isNegativeOrZero(x))
       return RealScalar.ZERO;
     Scalar exp = RealScalar.ONE.subtract(Exp.FUNCTION.apply(x.multiply(lambda))).multiply(xi);
     return RealScalar.ONE.subtract(Exp.FUNCTION.apply(exp));

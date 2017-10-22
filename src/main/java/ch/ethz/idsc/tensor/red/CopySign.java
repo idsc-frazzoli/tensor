@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.SignInterface;
@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
  * <li>{@link Math#copySign(double, double)}
  * <li><a href="http://en.cppreference.com/w/cpp/numeric/math/copysign">std::copysign</a>
  * </ul> */
-public enum CopySign implements BiFunction<Scalar, Scalar, Scalar> {
+public enum CopySign implements BinaryOperator<Scalar> {
   BIFUNCTION;
   // ---
   /** @param a implements {@link SignInterface}

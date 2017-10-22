@@ -49,7 +49,7 @@ public class NormalDistribution implements Distribution, //
 
   private NormalDistribution(Scalar mean, Scalar sigma) {
     // if (Scalars.lessEquals(sigma, RealScalar.ZERO))
-    if (!Sign.isPositive(sigma))
+    if (Sign.isNegativeOrZero(sigma))
       throw TensorRuntimeException.of(sigma);
     this.mean = mean;
     this.sigma = sigma;

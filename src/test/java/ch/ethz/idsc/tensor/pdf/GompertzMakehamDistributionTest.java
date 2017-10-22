@@ -30,6 +30,8 @@ public class GompertzMakehamDistributionTest extends TestCase {
     Scalar prob = cdf.p_lessEquals(RealScalar.of(0.35));
     assertTrue(Chop._13.close(prob, RealScalar.of(0.3103218390514517)));
     assertEquals(cdf.p_lessEquals(RealScalar.of(4.35)), RealScalar.ONE);
+    assertEquals(CDF.of(distribution).p_lessThan(RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(CDF.of(distribution).p_lessEquals(RealScalar.ZERO), RealScalar.ZERO);
   }
 
   public void testRandomVariate() {
@@ -64,6 +66,8 @@ public class GompertzMakehamDistributionTest extends TestCase {
       assertTrue(Scalars.isZero(prob));
       QuantityMagnitude.SI().in(Unit.of("in^-1")).apply(prob);
     }
+    assertEquals(CDF.of(distribution).p_lessThan(RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(CDF.of(distribution).p_lessEquals(RealScalar.ZERO), RealScalar.ZERO);
   }
 
   public void testFail() {

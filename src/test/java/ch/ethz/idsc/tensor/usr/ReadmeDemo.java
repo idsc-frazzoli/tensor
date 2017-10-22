@@ -1,9 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
-import java.math.MathContext;
-import java.math.RoundingMode;
-
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -83,7 +80,7 @@ enum ReadmeDemo {
   static void demoDecimal() {
     System.out.println(Exp.of(DecimalScalar.of(10)));
     System.out.println(Sqrt.of(DecimalScalar.of(2)));
-    Scalar a = N.in(new MathContext(100, RoundingMode.HALF_EVEN)).of(RealScalar.of(2));
+    Scalar a = N.in(100).of(RealScalar.of(2));
     System.out.println(Sqrt.of(a));
   }
 

@@ -32,4 +32,8 @@ public class PositiveDefiniteMatrixQTest extends TestCase {
     assertTrue(PositiveDefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{10,I},{-I,10}}"))));
     assertFalse(PositiveDefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{10,I},{-I,1/10}}"))));
   }
+
+  public void testVector() {
+    assertFalse(PositiveDefiniteMatrixQ.ofHermitian(Tensors.vector(1, 2, 3)));
+  }
 }

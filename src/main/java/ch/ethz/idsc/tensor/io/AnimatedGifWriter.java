@@ -33,6 +33,7 @@ public class AnimatedGifWriter implements AutoCloseable {
       file.delete();
     return new AnimatedGifWriter(new FileImageOutputStream(file), period, true);
   }
+  // ---
 
   private final ImageOutputStream imageOutputStream;
   private final int period;

@@ -72,10 +72,16 @@ public class DecimalScalar2Test extends TestCase {
     assertEquals(Scalars.compare(scalar, revers), 0);
   }
 
+  public void testPowerFail() {
+    Scalar scalar = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL32));
+    Scalar res = Power.of(scalar, 1682374652836L);
+    assertEquals(res, DoubleScalar.POSITIVE_INFINITY);
+  }
+
   public void testArg() {
     Scalar a = Arg.of(DecimalScalar.of(BigDecimal.ONE.negate()));
     Scalar b = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
-    assertEquals(a, b);
+    assertTrue(Chop._20.close(a, b));
   }
 
   private static void _checkEqCmp(Scalar s1, Scalar s2) {

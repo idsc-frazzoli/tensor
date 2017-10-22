@@ -9,6 +9,7 @@ import java.util.Objects;
  * 
  * <p>For instance, when importing a csv file, the first line may contain
  * column header names which are imported as {@link StringScalar}s. */
+// TODO for compatibility with mathematica: export in quotes {"string", "next", 12, ...}
 public final class StringScalar extends AbstractScalar implements Comparable<Scalar> {
   /** @param string
    * @return new instance of {@link StringScalar} representing string */

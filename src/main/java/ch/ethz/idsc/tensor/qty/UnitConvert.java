@@ -11,9 +11,10 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <a href="https://reference.wolfram.com/language/ref/UnitConvert.html">UnitConvert</a> */
 public class UnitConvert {
   /** @return instance of UnitConvert that uses the built-in SI convention */
-  public static final UnitConvert SI() {
+  public static UnitConvert SI() {
     return BuiltIn.SI.unitConvert;
   }
+  // ---
 
   private final UnitSystem unitSystem;
 

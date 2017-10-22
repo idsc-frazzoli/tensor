@@ -131,8 +131,8 @@ public class DecimalScalar1Test extends TestCase {
   public void testCompare3() {
     assertTrue(Scalars.lessThan(DecimalScalar.of(-3), RealScalar.ZERO));
     assertFalse(Scalars.lessThan(DecimalScalar.of(3), RealScalar.ZERO));
-    assertTrue(!Scalars.lessThan(RealScalar.ZERO, DecimalScalar.of(-3)));
-    assertFalse(!Scalars.lessThan(RealScalar.ZERO, DecimalScalar.of(3)));
+    assertFalse(Scalars.lessThan(RealScalar.ZERO, DecimalScalar.of(-3)));
+    assertTrue(Scalars.lessThan(RealScalar.ZERO, DecimalScalar.of(3)));
   }
 
   public void testEquals() {
@@ -144,7 +144,10 @@ public class DecimalScalar1Test extends TestCase {
 
   public void testEqualsSpecial() {
     final Scalar ds1 = DecimalScalar.of(new BigDecimal("1.0234", MathContext.DECIMAL128));
+    assertTrue(ds1 instanceof DecimalScalar);
     assertFalse(ds1.equals(null));
     assertFalse(ds1.equals(ComplexScalar.of(1, 2)));
+    assertFalse(ds1.equals("hello"));
+    assertFalse(ds1.equals(GaussScalar.of(6, 7)));
   }
 }

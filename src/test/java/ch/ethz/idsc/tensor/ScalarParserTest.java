@@ -22,4 +22,19 @@ public class ScalarParserTest extends TestCase {
     assertEquals(ScalarParser.imagToString(RealScalar.ONE), "I");
     assertEquals(ScalarParser.imagToString(RealScalar.ONE.negate()), "-I");
   }
+
+  public void testRational1() {
+    Scalar z = ComplexScalar.of(RationalScalar.of(1, 2), RationalScalar.of(1, 3));
+    assertEquals(Scalars.fromString(z.toString()), z);
+  }
+
+  public void testRational2() {
+    Scalar z = ComplexScalar.of(RationalScalar.of(1, 2), RationalScalar.of(-1, 3));
+    assertEquals(Scalars.fromString(z.toString()), z);
+  }
+
+  public void testDecimal() {
+    assertEquals(ComplexScalar.of(RealScalar.ZERO, DecimalScalar.of(1)).toString(), "I");
+    assertEquals(ComplexScalar.of(RealScalar.ZERO, DecimalScalar.of(-1)).toString(), "-I");
+  }
 }

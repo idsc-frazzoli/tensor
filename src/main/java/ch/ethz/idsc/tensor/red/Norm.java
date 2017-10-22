@@ -42,6 +42,14 @@ public enum Norm implements NormInterface {
     return normInterface.ofVector(vector);
   }
 
+  /** @param v1 vector
+   * @param v2 vector
+   * @return norm of vector difference || v1 - v2 || */
+  // EXPERIMENTAL
+  public Scalar between(Tensor v1, Tensor v2) {
+    return ofVector(v1.subtract(v2));
+  }
+
   @Override
   public Scalar ofMatrix(Tensor matrix) {
     return normInterface.ofMatrix(matrix);

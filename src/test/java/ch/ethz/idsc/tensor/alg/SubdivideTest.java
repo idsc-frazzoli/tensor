@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import junit.framework.TestCase;
 
 public class SubdivideTest extends TestCase {
@@ -36,5 +38,10 @@ public class SubdivideTest extends TestCase {
   public void testRange() {
     assertEquals(Range.of(1, 11), Subdivide.of(1, 10, 9));
     assertEquals(Reverse.of(Range.of(1, 11)), Subdivide.of(10, 1, 9));
+  }
+
+  public void testQuantity() {
+    Tensor t = Subdivide.of(Quantity.of(-20, "deg"), Quantity.of(20, "deg"), 4);
+    assertEquals(t, QuantityTensor.of(Tensors.vector(-20, -10, 0, 10, 20), "deg"));
   }
 }

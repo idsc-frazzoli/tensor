@@ -20,6 +20,10 @@ import ch.ethz.idsc.tensor.sca.Chop;
  * 1.0000000000000009
  * </pre>
  * 
+ * <p>Normalize also works for tensors with entries of type Quantity.
+ * The computation is consistent with Mathematica:
+ * Normalize[{Quantity[3, "Meters"], Quantity[4, "Meters"]}] == {3/5, 4/5}
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Normalize.html">Normalize</a> */
 public enum Normalize {
@@ -58,14 +62,15 @@ public enum Normalize {
 
   // helper function
   private static Tensor normalize(Tensor vector, VectorNormInterface vectorNormInterface, Scalar norm) {
-    int count = 0;
-    while (!PRECISION.close(norm, RealScalar.ONE)) {
+    if (norm instanceof RealScalar && PRECISION.close(norm, RealScalar.ONE))
+      return vector.copy();
+    int count = -1;
+    while (++count < MAX_ITERATIONS) {
       vector = vector.divide(norm);
       norm = vectorNormInterface.ofVector(vector);
-      ++count;
-      if (MAX_ITERATIONS < count)
-        throw TensorRuntimeException.of("no convergence", norm, vector);
+      if (PRECISION.close(norm, RealScalar.ONE))
+        return vector;
     }
-    return 0 < count ? vector : vector.copy();
+    throw TensorRuntimeException.of("no convergence", norm, vector);
   }
 }

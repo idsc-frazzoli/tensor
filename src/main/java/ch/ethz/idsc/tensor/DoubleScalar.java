@@ -150,9 +150,11 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return isMachineNumber() ? RationalScalar.of(StaticHelper.floor(bigDecimal()), BigInteger.ONE) : this;
   }
 
+  /** @return true if the argument is a finite floating-point
+   * value; false otherwise (for NaN and infinity arguments). */
   @Override // from MachineNumberQInterface
   public boolean isMachineNumber() {
-    return isFinite();
+    return Double.isFinite(value);
   }
 
   @Override // from RoundingInterface
@@ -163,7 +165,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from SignInterface
   public int signInt() {
-    if (isNaN())
+    if (Double.isNaN(value))
       throw TensorRuntimeException.of(this);
     return value < 0 ? -1 : (0 == value ? 0 : 1);
   }
@@ -171,20 +173,6 @@ public final class DoubleScalar extends AbstractRealScalar implements //
   /***************************************************/
   private BigDecimal bigDecimal() {
     return BigDecimal.valueOf(value);
-  }
-
-  /** @return true if the argument is a finite floating-point
-   * value; false otherwise (for NaN and infinity arguments). */
-  public boolean isFinite() {
-    return Double.isFinite(value);
-  }
-
-  public boolean isInfinite() {
-    return Double.isInfinite(value);
-  }
-
-  public boolean isNaN() {
-    return Double.isNaN(value);
   }
 
   /** @return double value stored by instance */

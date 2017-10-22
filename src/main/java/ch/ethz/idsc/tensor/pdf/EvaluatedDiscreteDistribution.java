@@ -21,8 +21,8 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
 
   /** @param reference in the half-open interval [0, 1)
    * @return */
-  @Override // from AbstractDiscreteDistribution
-  public final synchronized Scalar randomVariate(Scalar reference) {
+  @Override // from InverseCDF
+  public final synchronized Scalar quantile(Scalar reference) {
     // if the input is outside the valid range, the while loop below may never terminate
     if (Scalars.lessThan(reference, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, reference))
       throw TensorRuntimeException.of(reference);

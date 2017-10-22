@@ -2,8 +2,10 @@
 package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 
 /** fallback option to robustly generate random variates from a
@@ -14,7 +16,8 @@ import ch.ethz.idsc.tensor.Scalar;
  * distribution as a {@link NormalDistribution} should be considered.
  * 
  * implementation by Claudio Ruch */
-/* package */ class BinomialRandomVariate implements Distribution, RandomVariateInterface {
+/* package */ class BinomialRandomVariate implements Distribution, //
+    MeanInterface, RandomVariateInterface, VarianceInterface {
   private final int n;
   private final Scalar p;
 
@@ -23,17 +26,20 @@ import ch.ethz.idsc.tensor.Scalar;
     this.p = p;
   }
 
-  /** @param random
-   * @param n
-   * @param p
-   * @return */
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
-    int k = 0;
     double p_success = p.number().doubleValue();
-    for (int index = 0; index < n; ++index)
-      if (random.nextDouble() < p_success)
-        ++k;
-    return RationalScalar.of(k, 1);
+    return RationalScalar.of(IntStream.range(0, n) //
+        .filter(i -> random.nextDouble() < p_success).count(), 1);
+  }
+
+  @Override // from MeanInterface
+  public Scalar mean() {
+    return RationalScalar.of(n, 1).multiply(p);
+  }
+
+  @Override // from VarianceInterface
+  public Scalar variance() {
+    return RationalScalar.of(n, 1).multiply(p).multiply(RealScalar.ONE.subtract(p));
   }
 }

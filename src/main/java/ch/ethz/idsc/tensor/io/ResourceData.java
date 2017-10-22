@@ -10,17 +10,21 @@ import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** access to resource data in jar files, for instance,
  * the content included in the tensor library.
  * 
- * <p>Examples of resources provided by the tensor library:
+ * <p>Tensor resources provided by the tensor library include
  * <pre>
  * /colorscheme/classic.csv
- * /colorscheme/hue.csv
  * /number/primes.vector
+ * </pre>
+ * 
+ * <p>Properties provided by the tensor library include
+ * <pre>
+ * /unit/si.properties
  * </pre>
  * 
  * <p>inspired by
@@ -40,7 +44,7 @@ public enum ResourceData {
       if (filename.hasExtension("png"))
         return ImageFormat.from(ImageIO.read(inputStream));
       if (filename.hasExtension("vector"))
-        return Tensor.of(_lines(inputStream).map(Scalars::fromString));
+        return Tensor.of(_lines(inputStream).map(Quantity::fromString));
     } catch (Exception exception) {
       // ---
     }
@@ -48,7 +52,7 @@ public enum ResourceData {
   }
 
   /** @param string
-   * @return */
+   * @return imported properties, or null if resource could not be loaded */
   public static Properties properties(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       Properties properties = new Properties();

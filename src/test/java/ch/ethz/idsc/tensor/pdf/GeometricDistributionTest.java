@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.ExactNumberQ;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -37,7 +37,7 @@ public class GeometricDistributionTest extends TestCase {
     assertEquals(cdf.p_lessEquals(RealScalar.ONE), plt2);
     assertEquals(cdf.p_lessEquals(RealScalar.of(1.1)), plt2);
     Scalar large = cdf.p_lessEquals(RealScalar.of(100.1));
-    assertTrue(ExactNumberQ.of(large));
+    assertTrue(ExactScalarQ.of(large));
   }
 
   public void testFailP() {
@@ -81,15 +81,15 @@ public class GeometricDistributionTest extends TestCase {
     AbstractDiscreteDistribution distribution = //
         (AbstractDiscreteDistribution) GeometricDistribution.of(RealScalar.of(P));
     {
-      Scalar s = distribution.randomVariate(RealScalar.of(Math.nextDown(P)));
+      Scalar s = distribution.quantile(RealScalar.of(Math.nextDown(P)));
       assertEquals(s, RealScalar.ZERO);
     }
     {
-      Scalar s = distribution.randomVariate(RealScalar.of(P));
+      Scalar s = distribution.quantile(RealScalar.of(P));
       assertEquals(s, RealScalar.ONE);
     }
     {
-      Scalar s = distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
+      Scalar s = distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
       assertEquals(s, RealScalar.of(3));
     }
   }
@@ -100,7 +100,7 @@ public class GeometricDistributionTest extends TestCase {
       // System.out.println(p);
       AbstractDiscreteDistribution distribution = //
           (AbstractDiscreteDistribution) GeometricDistribution.of(p);
-      distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
+      distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
     }
   }
 

@@ -46,6 +46,22 @@ public class SignTest extends TestCase {
     assertTrue(Sign.isPositive(Quantity.of(2, Unit.ONE)));
   }
 
+  public void testIsPositiveOrZero() {
+    Unit apples = Unit.of("Apples");
+    assertFalse(Sign.isPositiveOrZero(Quantity.of(-2, apples)));
+    assertTrue(Sign.isPositiveOrZero(Quantity.of(0, apples)));
+    assertTrue(Sign.isPositiveOrZero(Quantity.of(2, apples)));
+  }
+
+  public void testIsNegativeOrZero() {
+    assertTrue(Sign.isNegativeOrZero(Quantity.of(-2, "V*A")));
+    assertTrue(Sign.isNegativeOrZero(Quantity.of(0, "V*A")));
+    assertFalse(Sign.isNegativeOrZero(Quantity.of(2, "V*A")));
+    assertTrue(Sign.isNegativeOrZero(Quantity.of(-2, Unit.ONE)));
+    assertTrue(Sign.isNegativeOrZero(Quantity.of(0, Unit.ONE)));
+    assertFalse(Sign.isNegativeOrZero(Quantity.of(2, Unit.ONE)));
+  }
+
   private static void _checkFail(Scalar value) {
     try {
       Sign.of(value);

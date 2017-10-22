@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.function.BinaryOperator;
 
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
@@ -15,9 +17,10 @@ public enum FoldList {
    * </pre>
    * 
    * @param binaryOperator
-   * @param tensor
-   * @return */
+   * @param tensor must not be a {@link Scalar}
+   * @return see description above */
   public static Tensor of(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {
+    ScalarQ.thenThrow(tensor);
     Tensor result = Tensors.empty();
     if (0 < tensor.length()) {
       Tensor entry = tensor.get(0);

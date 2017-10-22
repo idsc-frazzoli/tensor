@@ -12,7 +12,6 @@ import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.red.Total;
-import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
@@ -30,12 +29,36 @@ public class BooleanScalarTest extends TestCase {
     assertEquals(BooleanScalar.FALSE.add(BooleanScalar.TRUE), BooleanScalar.TRUE);
   }
 
+  public void testNegate() {
+    assertEquals(BooleanScalar.TRUE.negate(), BooleanScalar.TRUE);
+    assertEquals(BooleanScalar.FALSE.negate(), BooleanScalar.FALSE);
+  }
+
+  public void testReciprocal() {
+    assertEquals(BooleanScalar.TRUE.reciprocal(), BooleanScalar.TRUE);
+    try {
+      BooleanScalar.FALSE.reciprocal();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testZero() {
+    assertEquals(BooleanScalar.TRUE.zero(), BooleanScalar.FALSE);
+    assertEquals(BooleanScalar.FALSE.zero(), BooleanScalar.FALSE);
+  }
+
   public void testMultiply() {
     assertEquals(BooleanScalar.TRUE.multiply(BooleanScalar.TRUE), BooleanScalar.TRUE);
     assertEquals(BooleanScalar.FALSE.multiply(BooleanScalar.FALSE), BooleanScalar.FALSE);
     // ---
     assertEquals(BooleanScalar.TRUE.multiply(BooleanScalar.FALSE), BooleanScalar.FALSE);
     assertEquals(BooleanScalar.FALSE.multiply(BooleanScalar.TRUE), BooleanScalar.FALSE);
+  }
+
+  public void testEquals() {
+    assertFalse(BooleanScalar.TRUE.equals(null));
   }
 
   public void testSort() {
@@ -78,14 +101,8 @@ public class BooleanScalarTest extends TestCase {
   }
 
   public void testExactNumberQ() {
-    assertTrue(ExactNumberQ.of(BooleanScalar.FALSE));
-    assertTrue(ExactNumberQ.of(BooleanScalar.TRUE));
-  }
-
-  public void testPower() {
-    assertEquals(Power.of(BooleanScalar.FALSE, 3), BooleanScalar.FALSE);
-    assertEquals(Power.of(BooleanScalar.TRUE, 3), BooleanScalar.TRUE);
-    assertEquals(Power.of(BooleanScalar.FALSE, 0), BooleanScalar.TRUE);
+    assertTrue(ExactScalarQ.of(BooleanScalar.FALSE));
+    assertTrue(ExactScalarQ.of(BooleanScalar.TRUE));
   }
 
   public void testSqrt() {

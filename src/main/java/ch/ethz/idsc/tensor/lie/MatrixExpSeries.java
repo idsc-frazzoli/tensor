@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.mat;
+package ch.ethz.idsc.tensor.lie;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -7,16 +7,15 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.sca.Abs;
-import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.N;
 
 /** matrix exponential via power series
  * 
  * @see {@link MatrixExp} */
-/* package */ class SeriesMatrixExp {
-  private static final int MAXITER = 100;
+/* package */ class MatrixExpSeries {
+  private static final int MAXITER = 500;
 
   /** @param m
    * @return */
@@ -26,12 +25,10 @@ import ch.ethz.idsc.tensor.sca.N;
     Tensor nxt = IdentityMatrix.of(n);
     for (int k = 1; k < MAXITER; ++k) {
       nxt = nxt.dot(m).multiply(RationalScalar.of(1, k));
+      Tensor prv = sum;
       sum = sum.add(nxt);
-      Scalar remainder = _maxAbsNumber(nxt);
-      if (Scalars.isZero(remainder))
+      if (Scalars.isZero(_maxAbsNumber(sum.subtract(prv))))
         return sum;
-      if (Chop._40.allZero(N.DOUBLE.of(remainder)))
-        return N.DOUBLE.of(sum);
     }
     throw TensorRuntimeException.of(m);
   }

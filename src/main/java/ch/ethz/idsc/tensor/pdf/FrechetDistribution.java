@@ -10,16 +10,19 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Gamma;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sign;
 
-/** inspired by
+/** <p>The InverseCDF at p == 1 is not defined.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/FrechetDistribution.html">FrechetDistribution</a> */
 public class FrechetDistribution implements Distribution, //
-    CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   private static final double NEXTDOWNONE = Math.nextDown(1.0);
   private static final Scalar TWO = RealScalar.of(2);
 
@@ -29,9 +32,13 @@ public class FrechetDistribution implements Distribution, //
   public static Distribution of(Scalar alpha, Scalar beta) {
     if (Scalars.lessEquals(alpha, RealScalar.ZERO))
       throw TensorRuntimeException.of(alpha);
-    if (!Sign.isPositive(beta))
+    if (Sign.isNegativeOrZero(beta))
       throw TensorRuntimeException.of(beta);
     return new FrechetDistribution(alpha, beta);
+  }
+
+  public static Distribution of(Number alpha, Number beta) {
+    return of(RealScalar.of(alpha), RealScalar.of(beta));
   }
 
   // ---
@@ -51,9 +58,17 @@ public class FrechetDistribution implements Distribution, //
   /* package for testing */ Scalar randomVariate(double reference) {
     // avoid result -Infinity when reference is close to 1.0
     double uniform = reference == NEXTDOWNONE ? reference : Math.nextUp(reference);
-    return beta.multiply(Power.of( //
-        Log.FUNCTION.apply(DoubleScalar.of(uniform)).negate(), //
-        alpha.reciprocal().negate()));
+    return quantile_unit(DoubleScalar.of(uniform));
+  }
+
+  @Override // from InverseCDF
+  public Scalar quantile(Scalar p) {
+    Clip.unit().isInsideOrThrow(p);
+    return quantile_unit(p);
+  }
+
+  private Scalar quantile_unit(Scalar p) {
+    return beta.multiply(Power.of(Log.FUNCTION.apply(p).negate(), alpha.reciprocal().negate()));
   }
 
   @Override // from MeanInterface
@@ -79,7 +94,7 @@ public class FrechetDistribution implements Distribution, //
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    if (!Sign.isPositive(x))
+    if (Sign.isNegativeOrZero(x))
       return RealScalar.ZERO;
     return Exp.FUNCTION.apply(Power.of(x.divide(beta), alpha.negate()).negate());
   }

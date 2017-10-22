@@ -50,4 +50,8 @@ public class UnprotectTest extends TestCase {
       // ---
     }
   }
+
+  public void testReferencesScalar() {
+    assertSame(Unprotect.references(RealScalar.ONE), RealScalar.ONE);
+  }
 }

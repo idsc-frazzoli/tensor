@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.ExactNumberQ;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -45,7 +45,7 @@ public class NTest extends TestCase {
 
   public void testComplexContext() {
     Scalar s = ComplexScalar.of(3, 7).reciprocal();
-    assertTrue(ExactNumberQ.of(s));
+    assertTrue(ExactScalarQ.of(s));
     Scalar d = N.DECIMAL128.of(s);
     // mathematica gives ...... 0.05172413793103448275862068965517241...-0.12068965517241379310344827586206897 I
     assertEquals(d.toString(), "0.05172413793103448275862068965517241`34-0.1206896551724137931034482758620690`34*I");

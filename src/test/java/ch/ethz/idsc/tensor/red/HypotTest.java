@@ -136,4 +136,14 @@ public class HypotTest extends TestCase {
     Scalar qs2 = Quantity.of(0, "m");
     assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs1);
   }
+
+  public void testQuantityZeroFail() {
+    try {
+      Hypot.BIFUNCTION.apply( //
+          Quantity.of(1, "m"), //
+          Quantity.of(0, "s"));
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

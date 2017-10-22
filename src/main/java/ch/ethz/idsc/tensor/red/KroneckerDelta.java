@@ -1,8 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -23,14 +22,16 @@ public enum KroneckerDelta {
   }
 
   /** @param objects
-   * @return RealScalar.ONE if there are no two objects are distinct */
+   * @return RealScalar.ONE if there are no two objects are distinct,
+   * otherwise RealScalar.ZERO */
   public static Scalar of(Object... objects) {
-    return of(Arrays.asList(objects));
+    return of(Stream.of(objects));
   }
 
-  /** @param collection
-   * @return RealScalar.ONE if there are no two objects in the collection that are distinct */
-  public static Scalar of(Collection<Object> collection) {
-    return collection.stream().distinct().count() <= 1 ? RealScalar.ONE : RealScalar.ZERO;
+  /** @param stream
+   * @return RealScalar.ONE if there are no two objects in the stream that are distinct,
+   * otherwise RealScalar.ZERO */
+  public static Scalar of(Stream<?> stream) {
+    return stream.distinct().count() <= 1 ? RealScalar.ONE : RealScalar.ZERO;
   }
 }

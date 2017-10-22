@@ -55,6 +55,7 @@ public class SimpleUnitSystem implements UnitSystem {
     return scalar;
   }
 
+  // helper function
   private static String format(Entry<String, Scalar> entry) {
     return entry.getKey() + Unit.POWER_DELIMITER + entry.getValue();
   }

@@ -23,4 +23,16 @@ public class KroneckerDeltaTest extends TestCase {
     Tensor res = vector.map(KroneckerDelta.function(RealScalar.of(255)));
     assertEquals(res, Tensors.fromString("{0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0}"));
   }
+
+  public void testStream() {
+    assertEquals(KroneckerDelta.of(Tensors.vector(3, 1, 3).stream()), RealScalar.ZERO);
+    assertEquals(KroneckerDelta.of(Tensors.vector(3, 3, 3).stream()), RealScalar.ONE);
+  }
+
+  public void testStream2() {
+    assertEquals(KroneckerDelta.of("abc", "cde"), RealScalar.ZERO);
+    assertEquals(KroneckerDelta.of("abc", "abc"), RealScalar.ONE);
+    assertEquals(KroneckerDelta.of("abc"), RealScalar.ONE);
+    assertEquals(KroneckerDelta.of(), RealScalar.ONE);
+  }
 }

@@ -60,6 +60,15 @@ public class PoissonDistributionTest extends TestCase {
     assertEquals(Chop._12.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
   }
 
+  public void testInverseCDF() {
+    InverseCDF inv = InverseCDF.of(PoissonDistribution.of(RealScalar.of(5.5)));
+    Scalar x0 = inv.quantile(RealScalar.of(.0));
+    Scalar x1 = inv.quantile(RealScalar.of(.1));
+    Scalar x2 = inv.quantile(RealScalar.of(.5));
+    assertEquals(x0, RealScalar.ZERO);
+    assertTrue(Scalars.lessThan(x1, x2));
+  }
+
   public void testQuantityFail() {
     try {
       PoissonDistribution.of(Quantity.of(3, "m"));
@@ -102,7 +111,7 @@ public class PoissonDistributionTest extends TestCase {
     for (int c = 1; c < 700; c += 3) {
       AbstractDiscreteDistribution distribution = //
           (AbstractDiscreteDistribution) PoissonDistribution.of(DoubleScalar.of(c * .5 + 300));
-      distribution.randomVariate(RealScalar.of(Math.nextDown(1.0)));
+      distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
     }
   }
 }

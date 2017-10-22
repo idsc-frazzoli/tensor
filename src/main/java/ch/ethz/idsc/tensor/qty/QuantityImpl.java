@@ -5,11 +5,13 @@ import java.math.MathContext;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
@@ -145,14 +147,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from ArcTanInterface
   public Scalar arcTan(Scalar x) {
-    if (Scalars.isZero(x))
-      x = zero(); // in case x == 0[?], attach same units as this to x
     if (x instanceof Quantity) {
       Quantity quantity = (Quantity) x;
-      if (unit.equals(quantity.unit()) || Scalars.isZero(value))
+      if (unit.equals(quantity.unit()))
         return ArcTan.of(quantity.value(), value);
     }
     throw TensorRuntimeException.of(x, this);
+  }
+
+  @Override // from ArgInterface
+  public Scalar arg() {
+    return Arg.FUNCTION.apply(value);
   }
 
   @Override // from SqrtInterface
@@ -185,6 +190,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ofUnit(Imag.FUNCTION.apply(value));
   }
 
+  @Override
+  public boolean isExactScalar() {
+    return ExactScalarQ.of(value);
+  }
+
   @Override // from NInterface
   public Scalar n() {
     return ofUnit(N.DOUBLE.apply(value));
@@ -192,7 +202,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from NInterface
   public Scalar n(MathContext mathContext) {
-    N n = N.in(mathContext);
+    N n = N.in(mathContext.getPrecision());
     return ofUnit(n.apply(value));
   }
 

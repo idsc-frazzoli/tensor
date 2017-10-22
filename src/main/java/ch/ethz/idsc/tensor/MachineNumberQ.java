@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * MachineNumberQ[Indeterminate] == false
  * </pre>
  * 
- * <p>see also {@link ExactNumberQ}
+ * <p>see also {@link ExactScalarQ}
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/MachineNumberQ.html">MachineNumberQ</a> */
@@ -30,5 +30,11 @@ public enum MachineNumberQ {
       return machineNumberQInterface.isMachineNumber();
     }
     return false;
+  }
+
+  /** @param tensor
+   * @return true, if any scalar entry in given tensor satisfies {@link MachineNumberQ} predicate */
+  public static boolean any(Tensor tensor) {
+    return tensor.flatten(-1).anyMatch(MachineNumberQ::of);
   }
 }

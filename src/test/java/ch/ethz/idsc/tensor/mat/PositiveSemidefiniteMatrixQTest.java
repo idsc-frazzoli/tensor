@@ -22,4 +22,8 @@ public class PositiveSemidefiniteMatrixQTest extends TestCase {
     assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{10,I},{-I,10}}"))));
     assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{10,I},{-I,1/10}}"))));
   }
+
+  public void testVector() {
+    assertFalse(PositiveSemidefiniteMatrixQ.ofHermitian(Tensors.vector(1, 2, 3)));
+  }
 }

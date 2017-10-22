@@ -36,7 +36,7 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    if (!Sign.isPositive(x))
+    if (Sign.isNegativeOrZero(x))
       return lambda.zero();
     return Exp.FUNCTION.apply(x.negate().multiply(lambda)) //
         .multiply(Power.of(x, k.subtract(RealScalar.ONE))).multiply(factor);

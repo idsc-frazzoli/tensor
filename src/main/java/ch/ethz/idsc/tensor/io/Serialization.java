@@ -46,7 +46,9 @@ public enum Serialization {
     }
   }
 
-  /** @param object that implements {@link Serializable}
+  /** function also known as "deepcopy"
+   * 
+   * @param object that implements {@link Serializable}
    * @return new instance of T with identical content as given object
    * @throws ClassNotFoundException
    * @throws IOException */

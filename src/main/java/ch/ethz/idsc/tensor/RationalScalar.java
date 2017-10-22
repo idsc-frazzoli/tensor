@@ -7,7 +7,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-import ch.ethz.idsc.tensor.sca.ExactNumberQInterface;
+import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
 
 /** a RationalScalar corresponds to an element from the field of rational numbers.
@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.NInterface;
  * 
  * zero().reciprocal() throws a {@link ArithmeticException}. */
 public final class RationalScalar extends AbstractRealScalar implements //
-    ExactNumberQInterface, NInterface {
+    ExactScalarQInterface, NInterface {
   /** real scalar -1 as a {@link RationalScalar} */
   public static final Scalar NEGATIVE_ONE = of(-1, 1);
 
@@ -145,7 +145,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
   }
 
   @Override // from ExactNumberQInterface
-  public boolean isExactNumber() {
+  public boolean isExactScalar() {
     return true;
   }
 

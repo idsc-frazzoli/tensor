@@ -13,12 +13,12 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <a href="https://reference.wolfram.com/language/ref/QuantityMagnitude.html">QuantityMagnitude</a> */
 public class QuantityMagnitude {
   /** @return instance of QuantityMagnitude that uses the built-in SI convention */
-  public static final QuantityMagnitude SI() {
+  public static QuantityMagnitude SI() {
     return BuiltIn.SI.quantityMagnitude;
   }
 
   // EXPERIMENTAL
-  public static final ScalarUnaryOperator singleton(Unit unit) {
+  public static ScalarUnaryOperator singleton(Unit unit) {
     return new QuantityMagnitude(SimpleUnitSystem.from(new Properties())).in(unit);
   }
 

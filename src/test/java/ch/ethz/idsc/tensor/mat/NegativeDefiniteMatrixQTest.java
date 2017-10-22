@@ -17,4 +17,8 @@ public class NegativeDefiniteMatrixQTest extends TestCase {
     assertTrue(NegativeDefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{-10,I},{-I,-10}}"))));
     assertFalse(NegativeDefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{-10,I},{-I,-1/10}}"))));
   }
+
+  public void testVector() {
+    assertFalse(NegativeDefiniteMatrixQ.ofHermitian(Tensors.vector(1, 2, 3)));
+  }
 }

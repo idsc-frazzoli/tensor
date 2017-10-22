@@ -53,4 +53,22 @@ public enum Sign implements ScalarUnaryOperator {
   public static boolean isNegative(Scalar scalar) {
     return ((SignInterface) scalar).signInt() == -1;
   }
+
+  /** function is equivalent to
+   * <code>Scalars.lessEquals(scalar.zero(), scalar)</code>
+   * 
+   * @param scalar may be instance of {@link Quantity}
+   * @return true if sign of given scalar evaluates to +1, or 0 */
+  public static boolean isPositiveOrZero(Scalar scalar) {
+    return ((SignInterface) scalar).signInt() != -1;
+  }
+
+  /** function is equivalent to
+   * <code>Scalars.lessEquals(scalar, scalar.zero())</code>
+   * 
+   * @param scalar may be instance of {@link Quantity}
+   * @return true if sign of given scalar evaluates to -1, or 0 */
+  public static boolean isNegativeOrZero(Scalar scalar) {
+    return ((SignInterface) scalar).signInt() != +1;
+  }
 }
