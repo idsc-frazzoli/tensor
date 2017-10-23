@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixQ.html">MatrixQ</a> */
@@ -21,5 +22,12 @@ public enum MatrixQ {
    * @return true if tensor is a matrix with given number of rows and columns */
   public static boolean ofSize(Tensor tensor, int rows, int cols) {
     return Dimensions.isArrayWithDimensions(tensor, Arrays.asList(rows, cols));
+  }
+
+  /** @param tensor
+   * @throws Exception if given tensor is not a matrix */
+  public static void orThrow(Tensor tensor) {
+    if (!of(tensor))
+      throw TensorRuntimeException.of(tensor);
   }
 }

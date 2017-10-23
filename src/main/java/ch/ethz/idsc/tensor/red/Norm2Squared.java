@@ -20,6 +20,13 @@ public enum Norm2Squared {
         .reduce(Scalar::add).get();
   }
 
+  /** @param v1 vector
+   * @param v2 vector
+   * @return norm of vector difference || v1 - v2 || */
+  public static Scalar between(Tensor v1, Tensor v2) {
+    return ofVector(v1.subtract(v2));
+  }
+
   public static Scalar ofMatrix(Tensor matrix) {
     Scalar value = Norm._2.ofMatrix(matrix);
     return value.multiply(value);
