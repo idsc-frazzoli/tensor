@@ -57,7 +57,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     return DoubleScalar.of(Math.exp(number().doubleValue()));
   }
 
-  @Override
+  @Override // from LogInterface
   public Scalar log() {
     if (isNonNegative()) {
       double value = number().doubleValue();

@@ -7,6 +7,7 @@ import java.util.Set;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -52,6 +53,23 @@ public class HistogramDistributionTest extends TestCase {
       set.add(x);
     }
     assertTrue(90 < set.size());
+  }
+
+  public void testMean() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, 3), "m");
+    Distribution distribution = //
+        HistogramDistribution.of(vector, Quantity.of(1, "m"));
+    Scalar mean = Expectation.mean(distribution);
+    assertEquals(mean, Quantity.of(2.5, "m"));
+  }
+
+  public void testVariance() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, 3), "m");
+    Distribution distribution = //
+        HistogramDistribution.of(vector, Quantity.of(1, "m"));
+    Scalar variance = Expectation.variance(distribution);
+    // System.out.println(var);
+    assertTrue(Scalars.lessEquals(Quantity.of(2 / 3.0, "m^2"), variance));
   }
 
   public void testFailEmpty() {

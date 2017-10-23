@@ -25,12 +25,16 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * <p>"unscaled" pdf means that the values in the input vector are not absolute probabilities,
  * but only proportional to the probabilities P[X == i] for i = 0, 1, 2, ... of the EmpiricalDistribution.
  * 
- * <p>Mathematica also implements HistogramDistribution which has a continuous CDF.
- * In contrast, the CDF of tensor::EmpiricalDistribution has discontinuities.
+ * <p>An instance of EmpiricalDistribution supports the computation of variance via
+ * {@link Expectation#variance(Distribution)}.
+ * 
+ * <p>Mathematica::HistogramDistribution has a <em>continuous</em> CDF.
+ * In contrast, the CDF of Tensor::EmpiricalDistribution has discontinuities.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/EmpiricalDistribution.html">EmpiricalDistribution</a> */
-public class EmpiricalDistribution extends EvaluatedDiscreteDistribution implements CDF {
+public class EmpiricalDistribution extends EvaluatedDiscreteDistribution implements //
+    CDF {
   /** @param unscaledPDF vector of non-negative weights over the numbers
    * [0, 1, 2, ... unscaledPDF.length() - 1]
    * @return */
