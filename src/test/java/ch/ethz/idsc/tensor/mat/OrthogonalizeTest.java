@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -8,6 +10,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.red.VectorAngle;
 import junit.framework.TestCase;
 
 public class OrthogonalizeTest extends TestCase {
@@ -29,6 +32,17 @@ public class OrthogonalizeTest extends TestCase {
     _check(matrix);
   }
 
+  public void testSimple3() {
+    Tensor v0 = Tensors.fromString("{1, 0, 1}");
+    Tensor v1 = Tensors.fromString("{0, 1, 0}");
+    Tensor matrix = Tensors.of(v0, v1);
+    assertFalse(OrthogonalMatrixQ.of(matrix));
+    _check(matrix);
+    Tensor q = Orthogonalize.of(matrix);
+    assertTrue(Scalars.isZero(VectorAngle.of(q.get(0), v0)));
+    assertTrue(Scalars.isZero(VectorAngle.of(q.get(1), v1)));
+  }
+
   public void testRandom() {
     Distribution distribution = NormalDistribution.standard();
     Tensor matrix = RandomVariate.of(distribution, 10, 10);
@@ -36,12 +50,12 @@ public class OrthogonalizeTest extends TestCase {
   }
 
   public void testSpan() {
-    Tensor matrix = Tensors.fromString("{{1, 1, 1}}");
+    Tensor v0 = Tensors.vector(1, 1, 1);
+    Tensor matrix = Tensors.of(v0);
     _check(matrix);
-    Orthogonalize.of(matrix);
-    // it would be nice if orthogonal result is vector scaled by a positive factor
-    // System.out.println(orth);
-    // System.out.println(matrix.pmul(orth.map(Scalar::reciprocal)));
+    Tensor q = Orthogonalize.of(matrix);
+    Scalar a1 = VectorAngle.of(q.get(0), v0);
+    assertTrue(Scalars.isZero(a1));
   }
 
   public void testComplex() {

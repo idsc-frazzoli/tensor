@@ -19,10 +19,6 @@ public enum Orthogonalize {
     int dim1 = Unprotect.dimension1(matrix);
     if (dim1 < dim0)
       throw TensorRuntimeException.of(matrix);
-    // old impl
-    // QRDecomposition qrDecomposition = QRDecomposition.of(Transpose.of(matrix));
-    // return Transpose.of(qrDecomposition.getQ()).extract(0, matrix.length());
-    // TODO check whether ConjugateTranspose or Transpose should be used, also getQ or getInverseQ?
     return QRDecomposition.of(ConjugateTranspose.of(matrix)).getInverseQ().extract(0, matrix.length());
   }
 }

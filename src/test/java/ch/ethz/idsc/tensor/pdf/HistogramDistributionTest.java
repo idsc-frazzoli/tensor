@@ -4,7 +4,13 @@ package ch.ethz.idsc.tensor.pdf;
 import java.util.HashSet;
 import java.util.Set;
 
-import ch.ethz.idsc.tensor.*;
+import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import ch.ethz.idsc.tensor.sca.Clip;
@@ -33,18 +39,18 @@ public class HistogramDistributionTest extends TestCase {
 
   public void testFreedman() {
     HistogramDistribution distribution = //
-            (HistogramDistribution) HistogramDistribution.of(Tensors.vector(-4, -3, -3, -2, -2, 10));
+        (HistogramDistribution) HistogramDistribution.of(Tensors.vector(-4, -3, -3, -2, -2, 10));
     PDF pdf = PDF.of(distribution);
     assertTrue(Scalars.nonZero(pdf.at(RealScalar.of(-3))));
-    assertTrue(Scalars.lessThan(RealScalar.ONE ,distribution.width()));
+    assertTrue(Scalars.lessThan(RealScalar.ONE, distribution.width()));
   }
 
   public void testScott() {
     HistogramDistribution distribution = //
-            (HistogramDistribution) HistogramDistribution.scott(Tensors.vector(-4, -3, -3, -2, -2, 10));
+        (HistogramDistribution) HistogramDistribution.scott(Tensors.vector(-4, -3, -3, -2, -2, 10));
     PDF pdf = PDF.of(distribution);
     assertTrue(Scalars.nonZero(pdf.at(RealScalar.of(-3))));
-    assertTrue(Scalars.lessThan(RealScalar.ONE ,distribution.width()));
+    assertTrue(Scalars.lessThan(RealScalar.ONE, distribution.width()));
   }
 
   public void testQuantity() {

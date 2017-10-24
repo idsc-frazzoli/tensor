@@ -297,7 +297,6 @@ public final class DecimalScalar extends AbstractRealScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    // TODO modify
     int precision = value.precision();
     // return value.toString() + "`" + precision; // <- changes the appearance of Round._3 etc.
     // TODO solution not elegant because result will be parsed as DoubleScalar

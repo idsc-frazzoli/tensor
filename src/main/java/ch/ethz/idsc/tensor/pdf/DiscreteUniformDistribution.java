@@ -15,7 +15,6 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
-// TODO implementation could allow the use of Quantity
 public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {
   /** Example:
    * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/10 for 0 <= x < 10 and x integer
