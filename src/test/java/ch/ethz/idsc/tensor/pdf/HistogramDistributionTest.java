@@ -1,4 +1,4 @@
-// code by jph
+// code by jph and gjoel
 package ch.ethz.idsc.tensor.pdf;
 
 import java.util.HashSet;

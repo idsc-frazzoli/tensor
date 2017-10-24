@@ -1,4 +1,4 @@
-// code by jph
+// code by jph and gjoel
 package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
@@ -51,11 +51,16 @@ public class HistogramDistribution implements Distribution, //
     return new HistogramDistribution(samples, width);
   }
 
+  /** @param samples
+   * @return */
   public static Distribution of(Tensor samples) {
     return freedman(samples);
   }
 
-  /** chooses width automatically according to Freedman–Diaconis' rule */
+  /** chooses width automatically according to Freedman-Diaconis rule
+   * 
+   * @param samples
+   * @return */
   public static Distribution freedman(Tensor samples) {
     Tensor quartiles = Quantile.of(samples, Tensors.vector(0.25, 0.75));
     Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
@@ -63,7 +68,10 @@ public class HistogramDistribution implements Distribution, //
     return new HistogramDistribution(samples, width);
   }
 
-  /** chooses width automatically according to scott's rule */
+  /** chooses width automatically according to Scott's rule
+   * 
+   * @param samples
+   * @return */
   public static Distribution scott(Tensor samples) {
     Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
     Scalar width = RationalScalar.of(7, 2).multiply(StandardDeviation.ofVector(samples)).divide(den);
