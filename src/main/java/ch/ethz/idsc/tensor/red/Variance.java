@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.red;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.TensorMap;
@@ -15,7 +16,7 @@ public enum Variance {
    * @return scalar
    * @throws TensorRuntimeException if input is not a vector, or the input has insufficient length */
   // in Mathematica Variance[{1}] of a list of length 1 is not defined
-  public static Tensor ofVector(Tensor vector) {
+  public static Scalar ofVector(Tensor vector) {
     VectorQ.orThrow(vector);
     Tensor mean = Mean.of(vector);
     return Norm2Squared.ofVector(TensorMap.of(scalar -> scalar.subtract(mean), vector, 1)) //

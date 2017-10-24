@@ -11,11 +11,9 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Min;
-import ch.ethz.idsc.tensor.sca.AbsSquared;
-import ch.ethz.idsc.tensor.sca.Clip;
-import ch.ethz.idsc.tensor.sca.Floor;
-import ch.ethz.idsc.tensor.sca.Increment;
-import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
+import ch.ethz.idsc.tensor.red.Quantile;
+import ch.ethz.idsc.tensor.red.StandardDeviation;
+import ch.ethz.idsc.tensor.sca.*;
 
 /** A histogram distribution approximates an unknown continuous distribution using
  * a collection of observed samples from the distribution.
@@ -43,8 +41,27 @@ public class HistogramDistribution implements Distribution, //
    * @param samples vector
    * @param width of bins over which to assume uniform distribution, i.e. constant PDF
    * @return */
-  // TODO binning methods FreedmanDiaconis, Knuth, Scott, Sturges, Wand
+  // TODO binning methods Knuth, Wand
   public static Distribution of(Tensor samples, Scalar width) {
+    return new HistogramDistribution(samples, width);
+  }
+
+  public static Distribution of(Tensor samples) {
+    return freedman(samples);
+  }
+
+  /** chooses width automatically according to Freedman–Diaconis' rule */
+  public static Distribution freedman(Tensor samples) {
+    Tensor quartiles = Quantile.of(samples, Tensors.vector(0.25, 0.75));
+    Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
+    Scalar width = RealScalar.of(2).multiply(quartiles.Get(1).subtract(quartiles.Get(0))).divide(den);
+    return new HistogramDistribution(samples, width);
+  }
+
+  /** chooses width automatically according to scott's rule */
+  public static Distribution scott(Tensor samples) {
+    Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
+    Scalar width = RationalScalar.of(7, 2).multiply(StandardDeviation.ofVector(samples)).divide(den);
     return new HistogramDistribution(samples, width);
   }
 
@@ -104,5 +121,9 @@ public class HistogramDistribution implements Distribution, //
   @Override // from VarianceInterface
   public Scalar variance() {
     return Expectation.variance(distribution).add(RationalScalar.of(1, 12)).multiply(AbsSquared.of(width));
+  }
+
+  public Scalar width() {
+    return width;
   }
 }
