@@ -7,10 +7,14 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Floor;
+import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** A histogram distribution approximates an unknown continuous distribution using
@@ -30,7 +34,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HistogramDistribution.html">HistogramDistribution</a> */
 public class HistogramDistribution implements Distribution, //
-    MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   /** Example:
    * HistogramDistribution[{10.2, -1.6, 3.2, -0.4, 11.5, 7.3, 3.8, 9.8}, 2]
    * 
@@ -70,6 +74,27 @@ public class HistogramDistribution implements Distribution, //
     return original.apply(Expectation.mean(distribution)).add(width_half);
   }
 
+  @Override // from CDF
+  public Scalar p_lessThan(Scalar x) {
+    Scalar xlo = discrete.apply(Floor.toMultipleOf(width).apply(x));
+    Scalar ofs = Clip.function(xlo, Increment.ONE.apply(xlo)).rescale(discrete.apply(x));
+    CDF cdf = CDF.of(distribution);
+    return LinearInterpolation.of(Tensors.of(cdf.p_lessThan(xlo), cdf.p_lessEquals(xlo))).Get(Tensors.of(ofs));
+  }
+
+  @Override // from CDF
+  public Scalar p_lessEquals(Scalar x) {
+    return p_lessThan(x);
+  }
+
+  @Override // from InverseCDF
+  public Scalar quantile(Scalar p) {
+    Scalar x_floor = InverseCDF.of(distribution).quantile(p);
+    CDF cdf = CDF.of(distribution);
+    return original.apply(x_floor.add( //
+        Clip.function(cdf.p_lessThan(x_floor), cdf.p_lessEquals(x_floor)).rescale(p)));
+  }
+
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     return original.apply(RandomVariate.of(distribution, random) //
@@ -78,7 +103,6 @@ public class HistogramDistribution implements Distribution, //
 
   @Override // from VarianceInterface
   public Scalar variance() {
-    // FIXME formula is probably not yet correct
     return Expectation.variance(distribution).add(RationalScalar.of(1, 12)).multiply(AbsSquared.of(width));
   }
 }

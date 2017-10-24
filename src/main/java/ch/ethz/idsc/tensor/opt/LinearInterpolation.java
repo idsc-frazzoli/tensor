@@ -4,19 +4,23 @@ package ch.ethz.idsc.tensor.opt;
 import java.util.List;
 import java.util.Objects;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.Primitives;
 import ch.ethz.idsc.tensor.sca.Ceiling;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Increment;
 
 /** multi-linear interpolation
  * 
- * valid input for a respective dimension d are in the closed interval
- * [0, Dimensions.of(tensor).get(d) - 1] */
+ * <p>valid input for a respective dimension d are in the closed interval
+ * <code>[0, Dimensions.of(tensor).get(d) - 1]</code>
+ * 
+ * <p>Remark: for scalar inverse linear interpolation use {@link Clip#rescale(Scalar)} */
 public class LinearInterpolation extends AbstractInterpolation {
   /** @param tensor
    * @return

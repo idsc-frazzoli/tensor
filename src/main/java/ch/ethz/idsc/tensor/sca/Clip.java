@@ -87,9 +87,10 @@ public class Clip implements ScalarUnaryOperator {
   }
 
   /** If max - min > 0, the given scalar is divided by width.
-   * Otherwise the result is RealScalar.ZERO.
+   * If max == min the result is always RealScalar.ZERO.
    * 
-   * When using Clip with {@link Quantity}s, all scalars must be of identical unit.
+   * <p>When using Clip with {@link Quantity}s, all three scalars,
+   * i.e. min, max, and given scalar, must be of identical unit.
    * The result of function rescale is always a {@link RealScalar}.
    * 
    * @param scalar
