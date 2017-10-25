@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 
@@ -14,7 +13,7 @@ public enum Variance {
   ;
   /** @param vector with length() of at least 2
    * @return scalar
-   * @throws TensorRuntimeException if input is not a vector, or the input has insufficient length */
+   * @throws Exception if input is not a vector, or the input has insufficient length */
   // in Mathematica Variance[{1}] of a list of length 1 is not defined
   public static Scalar ofVector(Tensor vector) {
     VectorQ.orThrow(vector);

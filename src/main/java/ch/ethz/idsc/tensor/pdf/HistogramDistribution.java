@@ -34,6 +34,8 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * 
  * <p>Other approximation methods are possible and may be available in the future.
  * 
+ * <p>Two automatic bin size computations are provided: Freedman-Diaconis, and Scott.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HistogramDistribution.html">HistogramDistribution</a> */
 public class HistogramDistribution implements Distribution, //
@@ -46,7 +48,6 @@ public class HistogramDistribution implements Distribution, //
    * @param samples vector
    * @param width of bins over which to assume uniform distribution, i.e. constant PDF
    * @return */
-  // TODO binning methods Knuth, Wand
   public static Distribution of(Tensor samples, Scalar width) {
     return new HistogramDistribution(samples, width);
   }
@@ -57,25 +58,27 @@ public class HistogramDistribution implements Distribution, //
     return freedman(samples);
   }
 
-  /** chooses width automatically according to Freedman-Diaconis rule
+  /** chooses width based on inter-quantile range, IQR, according to Freedman-Diaconis rule.
    * 
-   * @param samples
-   * @return */
+   * @param samples with IQR > 0
+   * @return
+   * @throws Exception if IQR == 0 */
   public static Distribution freedman(Tensor samples) {
     Tensor quartiles = Quantile.of(samples, Tensors.vector(0.25, 0.75));
     Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
     Scalar width = RealScalar.of(2).multiply(quartiles.Get(1).subtract(quartiles.Get(0))).divide(den);
-    return new HistogramDistribution(samples, width);
+    return of(samples, width);
   }
 
-  /** chooses width automatically according to Scott's rule
+  /** chooses width based on {@link StandardDeviation} according to Scott's rule.
+   * Outliers have more influence on result than with Freedman-Diaconis.
    * 
    * @param samples
    * @return */
   public static Distribution scott(Tensor samples) {
     Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
     Scalar width = RationalScalar.of(7, 2).multiply(StandardDeviation.ofVector(samples)).divide(den);
-    return new HistogramDistribution(samples, width);
+    return of(samples, width);
   }
 
   // ---
@@ -136,6 +139,8 @@ public class HistogramDistribution implements Distribution, //
     return Expectation.variance(distribution).add(RationalScalar.of(1, 12)).multiply(AbsSquared.of(width));
   }
 
+  /** @return width of each bin */
+  // EXPERIMENTAL
   public Scalar width() {
     return width;
   }

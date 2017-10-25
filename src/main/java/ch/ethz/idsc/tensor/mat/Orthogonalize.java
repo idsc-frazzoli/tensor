@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.lie.QRDecomposition;
 public enum Orthogonalize {
   ;
   /** @param matrix with rows <= cols
-   * @return matrix orthogonal to input
+   * @return matrix with pairwise orthogonal row vectors with the same span as input vectors
    * @see OrthogonalMatrixQ
    * @see UnitaryMatrixQ */
   public static Tensor of(Tensor matrix) {

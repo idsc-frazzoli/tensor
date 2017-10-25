@@ -45,6 +45,16 @@ public class HistogramDistributionTest extends TestCase {
     assertTrue(Scalars.lessThan(RealScalar.ONE, distribution.width()));
   }
 
+  public void testFreedmanMin() {
+    HistogramDistribution.of(Tensors.vector(3, 4));
+    try {
+      HistogramDistribution.of(Tensors.vector(3, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testScott() {
     HistogramDistribution distribution = //
         (HistogramDistribution) HistogramDistribution.scott(Tensors.vector(-4, -3, -3, -2, -2, 10));

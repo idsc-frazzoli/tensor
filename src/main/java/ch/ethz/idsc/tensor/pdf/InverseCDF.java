@@ -7,9 +7,9 @@ import ch.ethz.idsc.tensor.Scalar;
  * 
  * <p>All {@link DiscreteDistribution}s implement the interface {@link InverseCDF}.
  * 
- * <p>Several continuous distributions support the functionality, for instance
- * {@link UniformDistribution}, {@link ExponentialDistribution}, and
- * {@link FrechetDistribution}.
+ * <p>Several continuous distributions support the computation of quantiles, for instance
+ * {@link ExponentialDistribution}, {@link FrechetDistribution},
+ * {@link HistogramDistribution}, and {@link UniformDistribution}.
  * 
  * <p>One application of InverseCDF(distribution) is to generate {@link RandomVariate}s
  * respective of the given distribution from uniform random numbers in the unit interval.
