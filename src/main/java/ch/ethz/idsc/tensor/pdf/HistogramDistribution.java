@@ -35,6 +35,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <p>Other approximation methods are possible and may be available in the future.
  * 
  * <p>Two automatic bin size computations are provided: Freedman-Diaconis, and Scott.
+ * <a href="https://en.wikipedia.org/wiki/Histogram">Histogram</a> on Wikipedia.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HistogramDistribution.html">HistogramDistribution</a> */
@@ -58,7 +59,7 @@ public class HistogramDistribution implements Distribution, //
     return freedman(samples);
   }
 
-  /** chooses width based on inter-quantile range, IQR, according to Freedman-Diaconis rule.
+  /** chooses width based on {@link InterquartileRange} according to Freedman-Diaconis rule.
    * 
    * @param samples with IQR > 0
    * @return

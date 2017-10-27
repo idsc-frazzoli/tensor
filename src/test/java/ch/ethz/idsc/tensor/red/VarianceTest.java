@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import junit.framework.TestCase;
 
 public class VarianceTest extends TestCase {
@@ -31,6 +32,10 @@ public class VarianceTest extends TestCase {
     Tensor vector = Tensors.of(ComplexScalar.of(1, 7), ComplexScalar.of(2, -3), ComplexScalar.of(3, 2));
     Tensor v = Variance.ofVector(vector);
     assertEquals(v, RealScalar.of(26));
+  }
+
+  public void testDistribution() {
+    assertEquals(Variance.of(UniformDistribution.unit()), RationalScalar.of(1, 12));
   }
 
   public void testFailScalar() {
