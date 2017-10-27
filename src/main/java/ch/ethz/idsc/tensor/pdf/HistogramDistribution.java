@@ -10,8 +10,8 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.red.InterquartileRange;
 import ch.ethz.idsc.tensor.red.Min;
-import ch.ethz.idsc.tensor.red.Quantile;
 import ch.ethz.idsc.tensor.red.StandardDeviation;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Clip;
@@ -64,9 +64,8 @@ public class HistogramDistribution implements Distribution, //
    * @return
    * @throws Exception if IQR == 0 */
   public static Distribution freedman(Tensor samples) {
-    Tensor quartiles = Quantile.of(samples, Tensors.vector(0.25, 0.75));
     Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
-    Scalar width = RealScalar.of(2).multiply(quartiles.Get(1).subtract(quartiles.Get(0))).divide(den);
+    Scalar width = RealScalar.of(2).multiply(InterquartileRange.of(samples)).divide(den);
     return of(samples, width);
   }
 
