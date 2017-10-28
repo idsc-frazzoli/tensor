@@ -29,4 +29,26 @@ public class ArrayPadTest extends TestCase {
     Tensor pad = ArrayPad.of(form, Arrays.asList(2, 1, 2), Arrays.asList(1, 3, 4));
     assertEquals(Dimensions.of(pad), Arrays.asList(2 + 4 + 1, 1 + 2 + 3, 2 + 3 + 4));
   }
+
+  public void testNonArray() {
+    Tensor tensor = Tensors.fromString("{{1,2},{3}}");
+    Tensor vector = ArrayPad.of(tensor, Arrays.asList(2), Arrays.asList(3));
+    assertEquals(vector.length(), 2 + 2 + 3);
+  }
+
+  public void testFail() {
+    Tensor vec = Tensors.vector(2, 3, -3, 1);
+    try {
+      ArrayPad.of(vec, Arrays.asList(1), Arrays.asList(-2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArrayPad.of(vec, Arrays.asList(-1), Arrays.asList(2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

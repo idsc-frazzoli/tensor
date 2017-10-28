@@ -44,4 +44,10 @@ public class SubdivideTest extends TestCase {
     Tensor t = Subdivide.of(Quantity.of(-20, "deg"), Quantity.of(20, "deg"), 4);
     assertEquals(t, QuantityTensor.of(Tensors.vector(-20, -10, 0, 10, 20), "deg"));
   }
+
+  public void testLength() {
+    int n = 5;
+    Tensor t = Subdivide.of(2, 3, n);
+    assertEquals(t.length(), n + 1);
+  }
 }

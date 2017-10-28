@@ -40,9 +40,9 @@ public class MatrixQTest extends TestCase {
     assertFalse(MatrixQ.of(LieAlgebras.so3()));
   }
 
-  public void testOrThrow() {
+  public void testElseThrow() {
     try {
-      MatrixQ.orThrow(Tensors.vector(1, 2, 3));
+      MatrixQ.elseThrow(Tensors.vector(1, 2, 3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

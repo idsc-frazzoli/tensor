@@ -32,7 +32,7 @@ public enum Det {
 
   // helper function
   private static Scalar _of(Tensor matrix, Pivot pivot) {
-    MatrixQ.orThrow(matrix);
+    MatrixQ.elseThrow(matrix);
     final int n = matrix.length();
     final int m = Unprotect.dimension1(matrix);
     if (m == 0)

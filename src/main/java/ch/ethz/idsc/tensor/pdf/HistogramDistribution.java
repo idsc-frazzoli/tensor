@@ -10,14 +10,11 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.qty.Quantity;
-import ch.ethz.idsc.tensor.red.InterquartileRange;
 import ch.ethz.idsc.tensor.red.Min;
-import ch.ethz.idsc.tensor.red.StandardDeviation;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Increment;
-import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** A histogram distribution approximates an unknown continuous distribution using
@@ -32,10 +29,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <p>The implementation combines
  * {@link EmpiricalDistribution}, {@link BinCounts}, and {@link UniformDistribution#unit()}.
  * 
- * <p>Other approximation methods are possible and may be available in the future.
- * 
- * <p>Two automatic bin size computations are provided: Freedman-Diaconis, and Scott.
- * <a href="https://en.wikipedia.org/wiki/Histogram">Histogram</a> on Wikipedia.
+ * <p>Other approximation methods may be implemented in the future.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HistogramDistribution.html">HistogramDistribution</a> */
@@ -54,31 +48,16 @@ public class HistogramDistribution implements Distribution, //
   }
 
   /** @param samples
-   * @return */
+   * @param binningMethod
+   * @return histogram distribution with bin width computed from given binning method */
+  public static Distribution of(Tensor samples, BinningMethod binningMethod) {
+    return of(samples, binningMethod.apply(samples));
+  }
+
+  /** @param samples
+   * @return histogram distribution with bin width computed from freedman-diaconis rule */
   public static Distribution of(Tensor samples) {
-    return freedman(samples);
-  }
-
-  /** chooses width based on {@link InterquartileRange} according to Freedman-Diaconis rule.
-   * 
-   * @param samples with IQR > 0
-   * @return
-   * @throws Exception if IQR == 0 */
-  public static Distribution freedman(Tensor samples) {
-    Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
-    Scalar width = RealScalar.of(2).multiply(InterquartileRange.of(samples)).divide(den);
-    return of(samples, width);
-  }
-
-  /** chooses width based on {@link StandardDeviation} according to Scott's rule.
-   * Outliers have more influence on result than with Freedman-Diaconis.
-   * 
-   * @param samples
-   * @return */
-  public static Distribution scott(Tensor samples) {
-    Scalar den = Power.of(RealScalar.of(samples.length()), RationalScalar.of(1, 3));
-    Scalar width = RationalScalar.of(7, 2).multiply(StandardDeviation.ofVector(samples)).divide(den);
-    return of(samples, width);
+    return of(samples, BinningMethod.IQR);
   }
 
   // ---

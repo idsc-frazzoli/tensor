@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** ArrayQ is <em>not</em> consistent with Mathematica for scalar input:
  * <pre>
@@ -38,5 +39,12 @@ public enum ArrayQ {
    * @see MatrixQ */
   public static boolean ofRank(Tensor tensor, int rank) {
     return Dimensions.isArrayWithRank(tensor, rank);
+  }
+
+  /** @param tensor
+   * @throws Exception if given tensor does not have array structure */
+  public static void elseThrow(Tensor tensor) {
+    if (!of(tensor))
+      throw TensorRuntimeException.of(tensor);
   }
 }

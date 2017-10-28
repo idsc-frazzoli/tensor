@@ -54,7 +54,7 @@ public class ExponentialDistribution implements Distribution, //
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    Clip.unit().isInsideOrThrow(p);
+    Clip.unit().isInsideElseThrow(p);
     return quantile_unit(RealScalar.ONE.subtract(p));
   }
 

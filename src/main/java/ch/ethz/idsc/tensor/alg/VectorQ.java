@@ -28,7 +28,7 @@ public enum VectorQ {
 
   /** @param tensor
    * @throws Exception if given tensor is not a vector */
-  public static void orThrow(Tensor tensor) {
+  public static void elseThrow(Tensor tensor) {
     if (tensor.length() != 0 && Unprotect.dimension1(tensor) != Scalar.LENGTH)
       throw TensorRuntimeException.of(tensor);
   }

@@ -56,8 +56,8 @@ public class HistogramDistributionTest extends TestCase {
   }
 
   public void testScott() {
-    HistogramDistribution distribution = //
-        (HistogramDistribution) HistogramDistribution.scott(Tensors.vector(-4, -3, -3, -2, -2, 10));
+    HistogramDistribution distribution = (HistogramDistribution) HistogramDistribution.of( //
+        Tensors.vector(-4, -3, -3, -2, -2, 10), BinningMethod.VARIANCE);
     PDF pdf = PDF.of(distribution);
     assertTrue(Scalars.nonZero(pdf.at(RealScalar.of(-3))));
     assertTrue(Scalars.lessThan(RealScalar.ONE, distribution.width()));

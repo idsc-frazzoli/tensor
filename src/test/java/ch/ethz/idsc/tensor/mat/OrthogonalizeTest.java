@@ -39,6 +39,8 @@ public class OrthogonalizeTest extends TestCase {
     assertFalse(OrthogonalMatrixQ.of(matrix));
     _check(matrix);
     Tensor q = Orthogonalize.of(matrix);
+    // System.out.println(q.get(0));
+    // System.out.println(v0);
     assertTrue(Scalars.isZero(VectorAngle.of(q.get(0), v0)));
     assertTrue(Scalars.isZero(VectorAngle.of(q.get(1), v1)));
   }
@@ -54,7 +56,10 @@ public class OrthogonalizeTest extends TestCase {
     Tensor matrix = Tensors.of(v0);
     _check(matrix);
     Tensor q = Orthogonalize.of(matrix);
+    // System.out.println(q.get(0));
+    // System.out.println(v0);
     Scalar a1 = VectorAngle.of(q.get(0), v0);
+    // System.out.println(a1);
     assertTrue(Scalars.isZero(a1));
   }
 

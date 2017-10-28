@@ -11,7 +11,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.ArrayQ;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Flatten;
@@ -34,8 +33,7 @@ public enum MatlabExport {
    * @return lines of MATLAB function that returns tensor
    * @see ArrayQ */
   public static Stream<String> of(Tensor tensor, Function<Scalar, String> function) {
-    if (!ArrayQ.of(tensor))
-      throw TensorRuntimeException.of(tensor);
+    ArrayQ.elseThrow(tensor);
     List<String> list = new LinkedList<>();
     list.add("function a=anonymous");
     list.add("% auto-generated code. do not modify.");

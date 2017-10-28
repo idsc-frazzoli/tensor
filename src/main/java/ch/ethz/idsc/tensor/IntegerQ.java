@@ -16,7 +16,6 @@ public enum IntegerQ {
       RationalScalar rationalScalar = (RationalScalar) tensor;
       return rationalScalar.denominator().equals(BigInteger.ONE);
     }
-    // TODO DecimalScalar with RoundingMode.UNNECESSARY
     return false;
   }
 }

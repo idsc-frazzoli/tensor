@@ -75,7 +75,7 @@ public class Clip implements ScalarUnaryOperator {
 
   /** @param scalar
    * @return true if given scalar is invariant under this clip */
-  public void isInsideOrThrow(Scalar scalar) {
+  public void isInsideElseThrow(Scalar scalar) {
     if (isOutside(scalar))
       throw TensorRuntimeException.of(min, max, scalar);
   }

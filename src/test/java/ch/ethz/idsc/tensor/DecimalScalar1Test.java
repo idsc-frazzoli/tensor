@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Real;
+import ch.ethz.idsc.tensor.sca.Round;
 import junit.framework.TestCase;
 
 public class DecimalScalar1Test extends TestCase {
@@ -100,11 +101,23 @@ public class DecimalScalar1Test extends TestCase {
     assertEquals(RealScalar.of(BigDecimal.ONE).hashCode(), BigDecimal.ONE.hashCode());
   }
 
-  public void testRounding() {
-    assertEquals(Ceiling.of(DecimalScalar.of(12.1)), RealScalar.of(13));
-    assertEquals(Ceiling.of(DecimalScalar.of(25)), RealScalar.of(25));
+  public void testRound() {
+    assertEquals(Round.of(DecimalScalar.of(12.1)), RealScalar.of(12));
+    assertEquals(Round.of(DecimalScalar.of(12.99)), RealScalar.of(13));
+    assertEquals(Round.of(DecimalScalar.of(25)), RealScalar.of(25));
+    assertTrue(Round.of(DecimalScalar.of(12.99)) instanceof RationalScalar);
+  }
+
+  public void testFloor() {
     assertEquals(Floor.of(DecimalScalar.of(12.99)), RealScalar.of(12));
     assertEquals(Floor.of(DecimalScalar.of(25)), RealScalar.of(25));
+    assertTrue(Floor.of(DecimalScalar.of(12.99)) instanceof RationalScalar);
+  }
+
+  public void testCeiling() {
+    assertEquals(Ceiling.of(DecimalScalar.of(12.1)), RealScalar.of(13));
+    assertEquals(Ceiling.of(DecimalScalar.of(25)), RealScalar.of(25));
+    assertTrue(Ceiling.of(DecimalScalar.of(12.99)) instanceof RationalScalar);
   }
 
   public void testCompare0() {

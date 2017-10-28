@@ -18,7 +18,7 @@ public enum Variance {
    * @throws Exception if input is not a vector, or the input has insufficient length */
   // in Mathematica Variance[{1}] of a list of length 1 is not defined
   public static Scalar ofVector(Tensor vector) {
-    VectorQ.orThrow(vector);
+    VectorQ.elseThrow(vector);
     Tensor mean = Mean.of(vector);
     return Norm2Squared.ofVector(TensorMap.of(scalar -> scalar.subtract(mean), vector, 1)) //
         .multiply(RationalScalar.of(1, vector.length() - 1));

@@ -39,9 +39,9 @@ public class VectorQTest extends TestCase {
   }
 
   public void testEnsure() {
-    VectorQ.orThrow(Tensors.empty());
+    VectorQ.elseThrow(Tensors.empty());
     try {
-      VectorQ.orThrow(HilbertMatrix.of(3));
+      VectorQ.elseThrow(HilbertMatrix.of(3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
