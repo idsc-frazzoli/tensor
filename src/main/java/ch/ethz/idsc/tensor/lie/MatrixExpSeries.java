@@ -2,14 +2,11 @@
 package ch.ethz.idsc.tensor.lie;
 
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.RealScalar;
-import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
-import ch.ethz.idsc.tensor.red.Max;
-import ch.ethz.idsc.tensor.sca.Abs;
+import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 
 /** matrix exponential via power series
  * 
@@ -17,29 +14,26 @@ import ch.ethz.idsc.tensor.sca.Abs;
 /* package */ class MatrixExpSeries {
   private static final int MAXITER = 500;
 
-  /** @param m
+  /** @param matrix
    * @return */
-  static Tensor of(Tensor m) {
-    final int n = m.length();
+  static Tensor of(Tensor matrix) {
+    final int n = matrix.length();
     Tensor sum = IdentityMatrix.of(n);
     Tensor nxt = IdentityMatrix.of(n);
-    for (int k = 1; k < MAXITER; ++k) {
-      nxt = nxt.dot(m).multiply(RationalScalar.of(1, k));
-      Tensor prv = sum;
+    for (int k = 1; k <= n; ++k) {
+      nxt = nxt.dot(matrix).multiply(RationalScalar.of(1, k));
       sum = sum.add(nxt);
-      if (Scalars.isZero(_maxAbsNumber(sum.subtract(prv))))
+      if (Chop.NONE.allZero(nxt))
         return sum;
     }
-    throw TensorRuntimeException.of(m);
-  }
-
-  // helper function to estimate distance to zero array
-  private static Scalar _maxAbsNumber(Tensor matrix) {
-    return matrix.flatten(-1) //
-        .map(Scalar.class::cast) //
-        .map(Abs.FUNCTION) //
-        .map(Scalar::number) //
-        .map(RealScalar::of) //
-        .reduce(Max::of).get(); //
+    sum = N.DOUBLE.of(sum); // switch to numeric precision
+    for (int k = n + 1; k < MAXITER; ++k) {
+      nxt = nxt.dot(matrix).multiply(RationalScalar.of(1, k));
+      Tensor prv = sum;
+      sum = sum.add(nxt);
+      if (Chop.NONE.close(sum, prv))
+        return sum;
+    }
+    throw TensorRuntimeException.of(matrix);
   }
 }
