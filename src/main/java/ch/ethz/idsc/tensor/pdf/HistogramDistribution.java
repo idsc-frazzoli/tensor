@@ -117,10 +117,4 @@ public class HistogramDistribution implements Distribution, //
   public Scalar variance() {
     return Expectation.variance(distribution).add(RationalScalar.of(1, 12)).multiply(AbsSquared.of(width));
   }
-
-  /** @return width of each bin */
-  // EXPERIMENTAL
-  public Scalar width() {
-    return width;
-  }
 }

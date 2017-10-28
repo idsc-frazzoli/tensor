@@ -38,11 +38,11 @@ public class HistogramDistributionTest extends TestCase {
   }
 
   public void testFreedman() {
-    HistogramDistribution distribution = //
-        (HistogramDistribution) HistogramDistribution.of(Tensors.vector(-4, -3, -3, -2, -2, 10));
+    Tensor samples = Tensors.vector(-4, -3, -3, -2, -2, 10);
+    Distribution distribution = HistogramDistribution.of(samples, BinningMethod.IQR);
     PDF pdf = PDF.of(distribution);
     assertTrue(Scalars.nonZero(pdf.at(RealScalar.of(-3))));
-    assertTrue(Scalars.lessThan(RealScalar.ONE, distribution.width()));
+    assertTrue(Scalars.lessThan(RealScalar.ONE, BinningMethod.IQR.apply(samples)));
   }
 
   public void testFreedmanMin() {
@@ -56,11 +56,11 @@ public class HistogramDistributionTest extends TestCase {
   }
 
   public void testScott() {
-    HistogramDistribution distribution = (HistogramDistribution) HistogramDistribution.of( //
-        Tensors.vector(-4, -3, -3, -2, -2, 10), BinningMethod.VARIANCE);
+    Tensor samples = Tensors.vector(-4, -3, -3, -2, -2, 10);
+    Distribution distribution = HistogramDistribution.of(samples, BinningMethod.VARIANCE);
     PDF pdf = PDF.of(distribution);
     assertTrue(Scalars.nonZero(pdf.at(RealScalar.of(-3))));
-    assertTrue(Scalars.lessThan(RealScalar.ONE, distribution.width()));
+    assertTrue(Scalars.lessThan(RealScalar.ONE, BinningMethod.VARIANCE.apply(samples)));
   }
 
   public void testQuantity() {

@@ -40,6 +40,6 @@ import ch.ethz.idsc.tensor.Scalar;
 
   @Override // from VarianceInterface
   public Scalar variance() {
-    return RationalScalar.of(n, 1).multiply(p).multiply(RealScalar.ONE.subtract(p));
+    return mean().multiply(RealScalar.ONE.subtract(p));
   }
 }

@@ -76,6 +76,12 @@ public class DecimalScalar1Test extends TestCase {
     // assertEquals(s23, d23);
   }
 
+  public void testDivide2() {
+    Scalar s = DecimalScalar.of("123.345");
+    Scalar d = s.divide(RationalScalar.of(2, 7));
+    assertEquals(d.toString(), "431.7075");
+  }
+
   public void testSqrt() {
     // Mathematica N[Sqrt[2], 50] gives
     // ................1.4142135623730950488016887242096980785696718753769
