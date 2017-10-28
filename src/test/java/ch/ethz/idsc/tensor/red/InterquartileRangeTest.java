@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.ExponentialDistribution;
 import ch.ethz.idsc.tensor.pdf.PoissonDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Log;
@@ -29,6 +30,11 @@ public class InterquartileRangeTest extends TestCase {
     Scalar lambda = RealScalar.of(5);
     Distribution distribution = ExponentialDistribution.of(lambda);
     assertTrue(Chop._12.close(InterquartileRange.of(distribution), Log.of(RealScalar.of(3)).divide(lambda)));
+  }
+
+  public void testDistributionUniform() { // continuous
+    Distribution distribution = UniformDistribution.of(22, 30);
+    assertTrue(Chop._12.close(InterquartileRange.of(distribution), RealScalar.of(4)));
   }
 
   public void testDistributionPoisson() { // discrete

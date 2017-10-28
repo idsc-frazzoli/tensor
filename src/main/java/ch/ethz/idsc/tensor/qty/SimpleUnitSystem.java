@@ -18,9 +18,9 @@ public class SimpleUnitSystem implements UnitSystem {
    * Example from the built-in file "/unit/si.properties":
    * <pre>
    * rad=1
-   * Hz =1[s^-1]
-   * N =1[m*kg*s^-2]
-   * Pa =1[m^-1*kg*s^-2]
+   * Hz=1[s^-1]
+   * N=1[m*kg*s^-2]
+   * Pa=1[m^-1*kg*s^-2]
    * ...
    * </pre>
    * 

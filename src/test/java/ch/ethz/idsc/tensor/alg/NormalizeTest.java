@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.opt.Projection;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -102,6 +103,15 @@ public class NormalizeTest extends TestCase {
   public void testComplex() {
     Tensor vector = Tensors.fromString("{1+I,2*I,-3-9.2*I}");
     Tensor s = Normalize.of(vector);
+    assertTrue(Chop._13.close(s.dot(Conjugate.of(s)), RealScalar.ONE));
+    assertTrue(Chop._13.close(Conjugate.of(s).dot(s), RealScalar.ONE));
+  }
+
+  public void testComplex2() {
+    Tensor vector = Tensors.fromString("{3*I,4}");
+    Tensor s = Normalize.of(vector);
+    assertEquals(Projection.on(vector).apply(s), s);
+    assertEquals(Projection.on(s).apply(vector), vector);
     assertTrue(Chop._13.close(s.dot(Conjugate.of(s)), RealScalar.ONE));
     assertTrue(Chop._13.close(Conjugate.of(s).dot(s), RealScalar.ONE));
   }

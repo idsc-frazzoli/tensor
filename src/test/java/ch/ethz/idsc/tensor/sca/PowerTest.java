@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.GaussScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -27,6 +28,11 @@ public class PowerTest extends TestCase {
     assertEquals(Power.of(+0, 0), RealScalar.ONE);
     assertEquals(Power.of(-1, 0), RealScalar.ONE);
     assertEquals(Power.of(-2, 0), RealScalar.ONE);
+  }
+
+  public void testNumberScalar() {
+    Scalar s = Power.of(2, RationalScalar.of(2, 3));
+    assertTrue(Chop._13.close(s, Scalars.fromString("1.5874010519681994`")));
   }
 
   public void testSqrt() {

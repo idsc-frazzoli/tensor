@@ -37,9 +37,16 @@ public enum Power {
 
   /** @param scalar
    * @param exponent
-   * @return */
+   * @return scalar ^ exponent */
   public static Scalar of(Scalar scalar, Number exponent) {
     return of(scalar, RealScalar.of(exponent));
+  }
+
+  /** @param number
+   * @param exponent
+   * @return scalar ^ exponent */
+  public static Scalar of(Number number, Scalar exponent) {
+    return of(RealScalar.of(number), exponent);
   }
 
   /** @param scalar

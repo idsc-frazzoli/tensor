@@ -19,4 +19,9 @@ public class PrettyTest extends TestCase {
     String s = Pretty.of(Tensors.fromString("{1,2,{3}}"));
     assertEquals(s, "[\n 1  2  [ 3 ]\n]");
   }
+
+  public void testNonArrayNested() {
+    String s = Pretty.of(Tensors.fromString("{1,2,{3,{4}}}"));
+    assertEquals(s, "[\n 1  2  [\n 3   [ 4 ]\n ]\n]");
+  }
 }
