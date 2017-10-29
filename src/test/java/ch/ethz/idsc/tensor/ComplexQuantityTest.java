@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 public class ComplexQuantityTest extends TestCase {
   public void testPolar() {
-    Scalar abs = Quantity.fromString("2[V*m^-1]");
+    Scalar abs = Quantity.of(2, "V*m^-1");
     Scalar q = ComplexScalar.fromPolar(abs, RealScalar.ONE);
     assertTrue(q instanceof Quantity);
     Scalar modulus = q.abs();
@@ -15,7 +15,7 @@ public class ComplexQuantityTest extends TestCase {
 
   public void testUnder1() {
     Scalar c = ComplexScalar.of(2, 3);
-    Scalar q = Quantity.fromString("1[V]");
+    Scalar q = Quantity.of(1, "V");
     Scalar cuq = c.under(q);
     assertTrue(cuq instanceof Quantity);
     Scalar qdc = q.divide(c);
@@ -28,7 +28,7 @@ public class ComplexQuantityTest extends TestCase {
 
   public void testUnder2() {
     Scalar c = ComplexScalar.of(2, 3);
-    Scalar q = Quantity.fromString("1[V]");
+    Scalar q = Quantity.of(1, "V");
     Scalar quc = q.under(c);
     assertTrue(quc instanceof Quantity);
     Scalar cdq = c.divide(q);
@@ -67,14 +67,14 @@ public class ComplexQuantityTest extends TestCase {
 
   public void testPlusQuantity() {
     Scalar c = ComplexScalar.of(2, 3);
-    Scalar q = Quantity.fromString("0[V]");
+    Scalar q = Quantity.of(0, "V");
     Scalar p = c.add(q);
     assertTrue(p instanceof ComplexScalar);
   }
 
   public void testPlusQuantityFail() {
     Scalar c = ComplexScalar.of(2, 3);
-    Scalar q = Quantity.fromString("1[V]");
+    Scalar q = Quantity.of(1, "V");
     try {
       c.add(q);
       assertTrue(false);

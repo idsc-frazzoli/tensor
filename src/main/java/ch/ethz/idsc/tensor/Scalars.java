@@ -15,6 +15,7 @@ public enum Scalars {
    * "7/9" -> RationalScalar.of(7, 9)
    * "3.14" -> DoubleScalar.of(3.14)
    * "(3+2)*I/(-1+4)+8-I" -> ComplexScalar.of(8, 2/3) == "8+2/3*I"
+   * "9.81[m*s^-2]" -> Quantity.of(9.81, "m*s^-2")
    * </pre>
    * 
    * If the parsing logic encounters an inconsistency, the return type
@@ -26,7 +27,7 @@ public enum Scalars {
    * @return scalar */
   public static Scalar fromString(String string) {
     try {
-      return ScalarParser.of(string);
+      return QuantityParser.of(string);
     } catch (Exception exception) {
       // ---
     }

@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** reference implementation of {@link UnitSystem} with emphasis on simplicity */
@@ -29,7 +30,7 @@ public class SimpleUnitSystem implements UnitSystem {
   public static UnitSystem from(Properties properties) {
     SimpleUnitSystem simpleUnitSystem = new SimpleUnitSystem();
     for (String key : properties.stringPropertyNames())
-      simpleUnitSystem.map.put(key, Quantity.fromString(properties.getProperty(key)));
+      simpleUnitSystem.map.put(key, Scalars.fromString(properties.getProperty(key)));
     return simpleUnitSystem;
   }
   // ---

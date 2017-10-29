@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.Unit;
 import ch.ethz.idsc.tensor.qty.Units;
@@ -22,13 +23,13 @@ public class ErlangDistributionTest extends TestCase {
   public void testMean() {
     Distribution distribution = ErlangDistribution.of(5, Quantity.of(10, "m"));
     Scalar mean = Expectation.mean(distribution);
-    assertEquals(mean, Quantity.fromString("1/2[m^-1]"));
+    assertEquals(mean, Scalars.fromString("1/2[m^-1]"));
   }
 
   public void testVariance() {
     Distribution distribution = ErlangDistribution.of(5, Quantity.of(10, "m"));
     Scalar var = Expectation.variance(distribution);
-    assertEquals(var, Quantity.fromString("1/20[m^-2]"));
+    assertEquals(var, Scalars.fromString("1/20[m^-2]"));
   }
 
   public void testQuantityPDF() {

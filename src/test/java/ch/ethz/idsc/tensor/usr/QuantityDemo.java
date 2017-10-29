@@ -14,8 +14,7 @@ enum QuantityDemo {
   ;
   private static void _cholesky() {
     Tensor matrix = Tensors.fromString( //
-        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
-        Quantity::fromString);
+        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}");
     CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));

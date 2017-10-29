@@ -54,7 +54,7 @@ public class RowReduceTest extends TestCase {
   public void testQuantity2() {
     Tensor ve1 = Tensors.of(Quantity.of(1, "m"), Quantity.of(2, "m"));
     Tensor nul = RowReduce.of(Tensors.of(ve1, ve1));
-    assertEquals(nul, Tensors.fromString("{{1, 2}, {0[m], 0[m]}}", Quantity::fromString));
+    assertEquals(nul, Tensors.fromString("{{1, 2}, {0[m], 0[m]}}"));
     assertTrue(Chop.NONE.close(nul, Tensors.fromString("{{1, 2}, {0, 0}}")));
   }
 }

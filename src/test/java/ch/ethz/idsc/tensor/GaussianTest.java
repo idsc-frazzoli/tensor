@@ -41,21 +41,21 @@ public class GaussianTest extends TestCase {
 
   public void testGaussianWithQuantity() {
     Scalar gq1 = Gaussian.of( //
-        Quantity.fromString("3[m]"), //
-        Quantity.fromString("2[m^2]"));
+        Quantity.of(3, "m"), //
+        Quantity.of(2, "m^2"));
     Scalar gq2 = Gaussian.of( //
-        Quantity.fromString("-3[m]"), //
-        Quantity.fromString("1[m^2]"));
+        Quantity.of(-3, "m"), //
+        Quantity.of(1, "m^2"));
     Scalar gq3 = gq1.add(gq2);
     Scalar ga3 = Gaussian.of( //
-        Quantity.fromString("0[m]"), //
-        Quantity.fromString("3[m^2]"));
+        Quantity.of(0, "m"), //
+        Quantity.of(3, "m^2"));
     assertEquals(gq3, ga3);
-    Scalar qs = Quantity.fromString("7[s]");
+    Scalar qs = Quantity.of(7, "s");
     Scalar gq4 = gq1.multiply(qs);
     Scalar ga4 = Gaussian.of( //
-        Quantity.fromString("21[m*s]"), //
-        Quantity.fromString("98[m^2*s^2]"));
+        Quantity.of(21, "m*s"), //
+        Quantity.of(98, "m^2*s^2"));
     assertEquals(gq4, ga4);
   }
 
@@ -68,14 +68,14 @@ public class GaussianTest extends TestCase {
 
   public void testDistWithQuantity() {
     Gaussian gq1 = (Gaussian) Gaussian.of( //
-        Quantity.fromString("3[m]"), //
-        Quantity.fromString("2[m^2]"));
+        Quantity.of(3, "m"), //
+        Quantity.of(2, "m^2"));
     Distribution distribution = gq1.distribution(); // operates on Quantity
     Scalar rand = RandomVariate.of(distribution); // produces quantity with [m]
     assertTrue(rand instanceof Quantity);
-    assertEquals(Expectation.mean(distribution), Quantity.fromString("3[m]"));
+    assertEquals(Expectation.mean(distribution), Quantity.of(3, "m"));
     assertTrue(Chop._12.close( // exact would be nice
-        Expectation.variance(distribution), Quantity.fromString("2[m^2]")));
+        Expectation.variance(distribution), Quantity.of(2, "m^2")));
   }
 
   public void testFail() {

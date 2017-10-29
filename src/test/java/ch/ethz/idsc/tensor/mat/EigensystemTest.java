@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 public class EigensystemTest extends TestCase {
   public void testQuantity() {
-    Tensor matrix = Tensors.fromString("{{10[m],-2[m]},{-2[m],4[m]}}", Quantity::fromString);
+    Tensor matrix = Tensors.fromString("{{10[m],-2[m]},{-2[m],4[m]}}");
     assertTrue(SymmetricMatrixQ.of(matrix));
     {
       Eigensystem eig = Eigensystem.ofSymmetric(matrix);
@@ -24,7 +24,7 @@ public class EigensystemTest extends TestCase {
   }
 
   public void testQuantityMixed() {
-    Tensor matrix = Tensors.fromString("{{10[m^2],2[m*kg]},{2[m*kg],4[kg^2]}}", Quantity::fromString);
+    Tensor matrix = Tensors.fromString("{{10[m^2],2[m*kg]},{2[m*kg],4[kg^2]}}");
     assertTrue(SymmetricMatrixQ.of(matrix));
     try {
       Eigensystem.ofSymmetric(matrix);
