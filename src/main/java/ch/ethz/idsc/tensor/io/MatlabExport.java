@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.DecimalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Scalars;
@@ -15,14 +16,16 @@ import ch.ethz.idsc.tensor.alg.ArrayQ;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Flatten;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.qty.Quantity;
 
-/** certain scalar's are not supported by the function Scalar::toString:
- * Double.POSITIVE_INFINITY -> results in "Infinity" whereas MATLAB requires "Inf"
- * the user must provide a customized scalar to string mapping to cover these cases.
- * 
- * <p>The tensor library does not differentiate between column- and row-vectors.
+/** The tensor library does not differentiate between column- and row-vectors.
  * Vectors, i.e. tensors or rank 1, are exported to MATLAB as column vectors, i.e.
  * their size in MATLAB is of the form [n, 1].
+ * 
+ * <p>String expressions of certain Scalar types, for instance those of
+ * {@link DecimalScalar}, or {@link Quantity} may not be parsed correctly by MATLAB.
+ * The user can provide a customized scalar-to-string mapping to facilitate the desired
+ * import of these values.
  * 
  * <p>Hint:
  * for the export of vectors and matrices, {@link Pretty} may also be a solution. */
@@ -37,6 +40,7 @@ public enum MatlabExport {
     List<String> list = new LinkedList<>();
     list.add("function a=anonymous");
     list.add("% auto-generated code. do not modify.");
+    list.add("Infinity=Inf;");
     list.add("I=i;");
     if (ScalarQ.of(tensor))
       list.add("a=" + function.apply(tensor.Get()) + ";");

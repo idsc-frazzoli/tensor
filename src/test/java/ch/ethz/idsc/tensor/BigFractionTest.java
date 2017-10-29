@@ -27,4 +27,14 @@ public class BigFractionTest extends TestCase {
     assertFalse(BigFraction.of(7, 3).equals(null));
     assertFalse(BigFraction.of(7, 3).equals("abc"));
   }
+
+  public void testDenZero() {
+    try {
+      BigFraction bigFraction = BigFraction.of(3, 0);
+      System.out.println(bigFraction.toCompactString());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

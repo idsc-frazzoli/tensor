@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
@@ -18,6 +20,13 @@ public class MatlabExportTest extends TestCase {
     List<String> list = stream.collect(Collectors.toList());
     assertTrue(list.contains("a=2+3*I;"));
     // list.forEach(System.out::println);
+  }
+
+  public void testScalar2() {
+    Scalar s = Scalars.fromString("-1/41+73333/12*I");
+    Stream<String> stream = MatlabExport.of(s);
+    List<String> list = stream.collect(Collectors.toList());
+    assertTrue(list.contains("a=-1/41+73333/12*I;"));
   }
 
   public void testVector() {
