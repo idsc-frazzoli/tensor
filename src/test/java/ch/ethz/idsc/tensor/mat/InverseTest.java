@@ -80,8 +80,7 @@ public class InverseTest extends TestCase {
 
   public void testQuantity2() {
     Tensor mat = Tensors.fromString( //
-        "{{1[m^2], 2[m*rad], 3[kg*m]}, {4[m*rad], 2[rad^2], 2[kg*rad]}, {5[kg*m], 1[kg*rad], 7[kg^2]}}", //
-        Quantity::fromString);
+        "{{1[m^2], 2[m*rad], 3[kg*m]}, {4[m*rad], 2[rad^2], 2[kg*rad]}, {5[kg*m], 1[kg*rad], 7[kg^2]}}");
     {
       Tensor eye = IdentityMatrix.of(3);
       Tensor inv = LinearSolve.of(mat, eye);

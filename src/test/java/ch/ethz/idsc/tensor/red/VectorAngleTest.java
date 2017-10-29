@@ -1,12 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class VectorAngleTest extends TestCase {
@@ -30,6 +33,27 @@ public class VectorAngleTest extends TestCase {
     Tensor v = Tensors.fromString("{1+1*I,-1/2+2*I}");
     Scalar s1 = VectorAngle.of(u, v);
     assertEquals(s1.toString(), "1.921525068221019"); // mathematica
+  }
+
+  public void testComplex2() {
+    Tensor u = Tensors.fromString("{0.6246950475544243*I, 0.4685212856658182-0.6246950475544243*I}");
+    Tensor v = Tensors.fromString("{0.4+0.4*I, -0.2+0.8*I}");
+    // mathematica gives 1.9215250682210188` - 2.8189256484623115`*^-17 I +
+    Scalar s1 = VectorAngle.of(u, v);
+    assertTrue(s1 instanceof RealScalar);
+    assertTrue(Chop._14.close(s1, Scalars.fromString("1.921525068221019")));
+  }
+
+  public void testLarge() {
+    Tensor u = Tensors.vector(1e300, 0);
+    Tensor v = Tensors.vector(1e300, 1e300);
+    assertTrue(Chop._14.close(VectorAngle.of(u, v), DoubleScalar.of(0.7853981633974484)));
+  }
+
+  public void testSmall() {
+    Tensor u = Tensors.vector(1e-300, 0);
+    Tensor v = Tensors.vector(-1e-300, -1e-300);
+    assertTrue(Chop._14.close(VectorAngle.of(u, v), DoubleScalar.of(2.356194490192345)));
   }
 
   public void testFail() {

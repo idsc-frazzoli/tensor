@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
@@ -35,5 +36,24 @@ public class BasisTransformTest extends TestCase {
     IntStream.range(0, n).forEach(i -> asd[i] = (i + 1) % n);
     assertEquals(asd[0].intValue(), 1);
     assertEquals(asd[n - 1].intValue(), 0);
+  }
+
+  public void testFormVectorFail() {
+    int n = 3;
+    try {
+      BasisTransform.ofForm(Array.zeros(n, n, n), Array.zeros(n));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMatrixFail() {
+    try {
+      BasisTransform.ofMatrix(IdentityMatrix.of(3), DiagonalMatrix.of(1, 1, 0));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

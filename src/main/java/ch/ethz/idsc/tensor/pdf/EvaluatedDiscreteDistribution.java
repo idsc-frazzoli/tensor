@@ -19,23 +19,23 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
    * the value type of the map is Scalar (instead of Integer) to reuse the instances of Scalar */
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();
 
-  /** @param reference in the half-open interval [0, 1)
+  /** @param p in the half-open interval [0, 1)
    * @return */
   @Override // from InverseCDF
-  public final synchronized Scalar quantile(Scalar reference) {
+  public final synchronized Scalar quantile(Scalar p) {
     // if the input is outside the valid range, the while loop below may never terminate
-    if (Scalars.lessThan(reference, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, reference))
-      throw TensorRuntimeException.of(reference);
+    if (Scalars.lessThan(p, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, p))
+      throw TensorRuntimeException.of(p);
     // ---
     if (inverse_cdf.isEmpty())
       inverse_cdf.put(p_equals(lowerBound()), RationalScalar.of(lowerBound(), 1));
     // ---
-    Entry<Scalar, Scalar> higher = inverse_cdf.higherEntry(reference); // strictly higher
+    Entry<Scalar, Scalar> higher = inverse_cdf.higherEntry(p); // strictly higher
     if (Objects.isNull(higher)) {
-      Entry<Scalar, Scalar> floor = inverse_cdf.floorEntry(reference); // less than or equal
+      Entry<Scalar, Scalar> floor = inverse_cdf.floorEntry(p); // less than or equal
       int sample = (Integer) floor.getValue().number();
       Scalar cumprob = floor.getKey();
-      while (Scalars.lessEquals(cumprob, reference)) { // less equals
+      while (Scalars.lessEquals(cumprob, p)) { // less equals
         ++sample;
         Scalar probability = p_equals(sample);
         if (Scalars.nonZero(probability)) {
@@ -49,7 +49,7 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
           break;
         }
       }
-      higher = inverse_cdf.higherEntry(reference); // strictly higher
+      higher = inverse_cdf.higherEntry(p); // strictly higher
     }
     return higher.getValue();
   }

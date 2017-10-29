@@ -117,7 +117,7 @@ public class ClipTest extends TestCase {
   public void testClipOutside() {
     Clip clip = Clip.function(3, 5);
     try {
-      clip.isInsideOrThrow(RealScalar.of(2.9));
+      clip.isInsideElseThrow(RealScalar.of(2.9));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

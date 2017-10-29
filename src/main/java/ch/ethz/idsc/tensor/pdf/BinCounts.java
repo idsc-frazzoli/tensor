@@ -1,4 +1,4 @@
-// code by joel and jph
+// code by gjoel and jph
 package ch.ethz.idsc.tensor.pdf;
 
 import java.util.NavigableMap;
@@ -29,7 +29,7 @@ public enum BinCounts {
       return Tensors.empty();
     NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector));
     Scalar first = navigableMap.firstKey().Get();
-    if (Scalars.lessThan(first, RealScalar.ZERO))
+    if (Sign.isNegative(first))
       throw TensorRuntimeException.of(vector);
     int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
     return Tensors.vector(index -> {

@@ -41,7 +41,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
   private final Stack<Tensor> stack = new Stack<>();
 
   GrahamScan(Tensor tensor) {
-    VectorQ.orThrow(tensor.get(0));
+    VectorQ.elseThrow(tensor.get(0));
     // list is permuted during computation
     final List<Tensor> list = tensor.stream().collect(Collectors.toList());
     final Tensor point0 = Collections.min(list, MINY_MINX);

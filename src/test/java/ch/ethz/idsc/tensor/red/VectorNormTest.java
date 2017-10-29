@@ -36,7 +36,7 @@ public class VectorNormTest extends TestCase {
     Scalar qs2 = Quantity.of(4, "m");
     Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
     Scalar lhs = VectorNorm.with(RationalScalar.of(7, 3)).ofVector(vec);
-    Scalar rhs = Quantity.fromString("4.774145448367236[m]");
+    Scalar rhs = Quantity.of(4.774145448367236, "m");
     assertTrue(Chop._13.close(lhs, rhs));
   }
 
@@ -45,7 +45,7 @@ public class VectorNormTest extends TestCase {
     Scalar qs2 = Quantity.of(4, "m");
     Tensor vec = Tensors.of(qs1, RealScalar.ZERO, qs2);
     Scalar lhs = VectorNorm.with(Math.PI).ofVector(vec); // the result has unit [m^1.0]
-    Scalar rhs = Quantity.fromString("4.457284396597481[m]");
+    Scalar rhs = Quantity.of(4.457284396597481, "m");
     assertTrue(Chop._13.close(lhs, rhs));
   }
 

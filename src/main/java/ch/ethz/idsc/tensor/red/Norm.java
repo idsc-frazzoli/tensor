@@ -45,7 +45,6 @@ public enum Norm implements NormInterface {
   /** @param v1 vector
    * @param v2 vector
    * @return norm of vector difference || v1 - v2 || */
-  // EXPERIMENTAL
   public Scalar between(Tensor v1, Tensor v2) {
     return ofVector(v1.subtract(v2));
   }

@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.io.ResourceData;
 
+/** singleton instance of built-in SI unit system */
 /* package */ enum BuiltIn {
   SI;
   // ---

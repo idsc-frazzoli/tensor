@@ -11,34 +11,31 @@ import java.util.Objects;
     return of(BigInteger.valueOf(num), BigInteger.valueOf(den));
   }
 
-  public static BigFraction of(BigInteger num, BigInteger den) {
-    return new BigFraction(num, den);
-  }
-
-  /** numerator */
-  public final BigInteger num;
-  /** denominator (always greater than zero) */
-  public final BigInteger den;
-
   /** @param num
    * @param den has to be non-zero
    * @throws {@link ArithmeticException} if den is zero */
-  private BigFraction(final BigInteger num, final BigInteger den) {
-    if (den.equals(BigInteger.ZERO))
+  public static BigFraction of(BigInteger num, BigInteger den) {
+    if (den.signum() == 0)
       throw new ArithmeticException(num + "/" + den);
     BigInteger gcd = num.gcd(den);
     BigInteger res = den.divide(gcd);
-    if (0 < res.signum()) {
-      this.num = num.divide(gcd);
-      this.den = res;
-    } else {
-      this.num = num.divide(gcd).negate();
-      this.den = res.negate();
-    }
+    return res.signum() == 1 //
+        ? new BigFraction(num.divide(gcd), res) //
+        : new BigFraction(num.divide(gcd).negate(), res.negate());
+  }
+
+  /** numerator */
+  private final BigInteger num;
+  /** denominator (always greater than zero) */
+  private final BigInteger den;
+
+  private BigFraction(BigInteger num, BigInteger den) {
+    this.num = num;
+    this.den = den;
   }
 
   public BigFraction negate() {
-    return of(num.negate(), den);
+    return new BigFraction(num.negate(), den);
   }
 
   /** uses gcd of the denominators (better only in special cases than the straight forward formula)
@@ -69,7 +66,12 @@ import java.util.Objects;
 
   /** @return reciprocal == den/num */
   public BigFraction reciprocal() {
-    return of(den, num);
+    int signum = signum();
+    if (signum == 0)
+      throw new ArithmeticException(den + "/" + num);
+    return signum == 1 //
+        ? new BigFraction(den, num) //
+        : new BigFraction(den.negate(), num.negate()); //
   }
 
   public String toCompactString() {
@@ -83,21 +85,29 @@ import java.util.Objects;
     return den.equals(BigInteger.ONE);
   }
 
-  @Override
+  public int signum() {
+    return num.signum();
+  }
+
+  public BigInteger numerator() {
+    return num;
+  }
+
+  public BigInteger denominator() {
+    return den;
+  }
+
+  @Override // from Object
   public int hashCode() {
     return Objects.hash(num, den);
   }
 
-  @Override
+  @Override // from Object
   public boolean equals(Object object) {
     if (object instanceof BigFraction) {
       BigFraction bigFraction = (BigFraction) object;
       return num.equals(bigFraction.num) && den.equals(bigFraction.den); // sufficient since in normal form
     }
     return false;
-  }
-
-  public int signum() {
-    return num.signum();
   }
 }

@@ -91,6 +91,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
         (AbstractDiscreteDistribution) DiscreteUniformDistribution.of(10, 100);
     {
       Scalar s = distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
+      // System.out.println(s);
       assertEquals(s, RealScalar.of(99));
     }
     {

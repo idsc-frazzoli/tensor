@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.qty;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
@@ -52,7 +53,7 @@ public class QuantityAdditiveTest extends TestCase {
 
   public void testComplex() {
     Scalar s1 = ComplexScalar.of(1, 2);
-    Scalar s2 = Quantity.fromString("0[m*s]");
+    Scalar s2 = Quantity.of(0, "m*s");
     assertEquals(s1, s1.add(s2));
   }
 
@@ -60,7 +61,7 @@ public class QuantityAdditiveTest extends TestCase {
     Scalar s1 = Quantity.of(200, "g"); //
     Scalar s2 = Quantity.of(1, "kg");
     Scalar sum = Total.of(Tensors.of(s1, s2).map(UnitSystem.SI())).Get();
-    assertEquals(sum, Quantity.fromString("6/5[kg]"));
+    assertEquals(sum, Scalars.fromString("6/5[kg]"));
   }
 
   public void testPlusFail() {

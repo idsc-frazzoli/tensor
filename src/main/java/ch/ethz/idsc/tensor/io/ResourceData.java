@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** access to resource data in jar files, for instance,
  * the content included in the tensor library.
@@ -44,7 +44,7 @@ public enum ResourceData {
       if (filename.hasExtension("png"))
         return ImageFormat.from(ImageIO.read(inputStream));
       if (filename.hasExtension("vector"))
-        return Tensor.of(_lines(inputStream).map(Quantity::fromString));
+        return Tensor.of(_lines(inputStream).map(Scalars::fromString));
     } catch (Exception exception) {
       // ---
     }

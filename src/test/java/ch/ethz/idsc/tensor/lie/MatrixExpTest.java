@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.lie;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -14,6 +15,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.HermitianMatrixQ;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Trace;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -31,6 +34,18 @@ public class MatrixExpTest extends TestCase {
     assertEquals( //
         Chop._12.of(o.dot(Transpose.of(o)).subtract(IdentityMatrix.of(o.length()))), //
         Array.zeros(Dimensions.of(o)));
+  }
+
+  public void testRodriguez() {
+    Tensor vector = RandomVariate.of(NormalDistribution.standard(), 3);
+    Tensor wedge = LieAlgebras.so3().dot(vector);
+    assertTrue(Chop._13.close(MatrixExp.of(wedge), Rodriguez.of(vector)));
+  }
+
+  public void testExp1() {
+    Scalar exp1 = MatrixExp.of(Tensors.fromString("{{1}}")).Get(0, 0);
+    assertFalse(ExactScalarQ.of(exp1));
+    assertTrue(Chop._13.close(exp1, RealScalar.of(Math.exp(1))));
   }
 
   public void testExp2() {
@@ -58,6 +73,7 @@ public class MatrixExpTest extends TestCase {
   public void testExact() {
     Tensor mat = Tensors.matrixInt(new int[][] { { 0, 2, 3 }, { 0, 0, -1 }, { 0, 0, 0 } });
     Tensor result = MatrixExp.of(mat);
+    assertTrue(ExactScalarQ.all(result));
     Tensor actual = Tensors.matrixInt(new int[][] { { 1, 2, 2 }, { 0, 1, -1 }, { 0, 0, 1 } });
     assertEquals(result, actual);
     assertEquals(result.toString(), actual.toString());
@@ -98,6 +114,15 @@ public class MatrixExpTest extends TestCase {
     }
     try {
       MatrixExp.of(Array.zeros(3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testEmptyFail() {
+    try {
+      MatrixExp.of(Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

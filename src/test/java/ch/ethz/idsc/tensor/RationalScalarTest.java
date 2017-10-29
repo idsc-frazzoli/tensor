@@ -30,6 +30,8 @@ public class RationalScalarTest extends TestCase {
   }
 
   public void testInvertFail() {
+    // Scalar s = RationalScalar.of(0, 1).reciprocal();
+    // System.out.println(s.multiply(RealScalar.of(3)));
     try {
       RationalScalar.of(0, 1).reciprocal();
       assertTrue(false);
@@ -41,6 +43,7 @@ public class RationalScalarTest extends TestCase {
   public void testNegate() {
     Scalar a = RationalScalar.of(3, 17);
     assertEquals(a.negate(), RationalScalar.of(3, -17));
+    assertEquals(a.negate().toString(), "-3/17");
   }
 
   public void testTensor() {

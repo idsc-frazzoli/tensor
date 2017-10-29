@@ -25,7 +25,7 @@ public enum ToeplitzMatrix {
    * @param vector with odd number of entries
    * @return */
   public static Tensor of(Tensor vector) {
-    VectorQ.orThrow(vector);
+    VectorQ.elseThrow(vector);
     if (vector.length() % 2 == 0)
       throw TensorRuntimeException.of(vector);
     final int n = (vector.length() + 1) / 2;

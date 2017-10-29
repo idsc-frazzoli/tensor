@@ -90,6 +90,7 @@ public class EmpiricalDistributionTest extends TestCase {
     Scalar x0 = inv.quantile(RealScalar.ZERO);
     Scalar x1 = inv.quantile(RealScalar.of(.5));
     Scalar x2 = inv.quantile(RealScalar.of(.8));
+    // Scalar x3 = inv.quantile(RealScalar.of(1)); // at the moment: forbidden
     assertEquals(x0, RealScalar.ONE);
     assertEquals(x0, x1);
     assertEquals(x2, RealScalar.of(2));

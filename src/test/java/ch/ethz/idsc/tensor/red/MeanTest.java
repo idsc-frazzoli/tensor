@@ -4,11 +4,13 @@ package ch.ethz.idsc.tensor.red;
 import java.util.Optional;
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -54,5 +56,9 @@ public class MeanTest extends TestCase {
   public void testEmpty3() {
     Tensor s = Tensors.of(Tensors.empty());
     assertEquals(Mean.of(s), Tensors.empty());
+  }
+
+  public void testDistribution() {
+    assertEquals(Mean.of(UniformDistribution.unit()), RationalScalar.of(1, 2));
   }
 }

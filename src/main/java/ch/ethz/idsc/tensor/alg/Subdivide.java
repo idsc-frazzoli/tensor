@@ -52,8 +52,8 @@ public enum Subdivide {
    * 
    * @param startInclusive
    * @param endInclusive
-   * @param n
-   * @return */
+   * @param n > 0
+   * @return tensor with n+1 entries obtained by subdividing the range */
   public static Tensor of(Number startInclusive, Number endInclusive, int n) {
     return of(RealScalar.of(startInclusive), RealScalar.of(endInclusive), n);
   }

@@ -143,8 +143,7 @@ public class QRDecompositionTest extends TestCase {
 
   public void testQuantity() {
     Tensor matrix = Tensors.fromString( //
-        "{{ 12[s], -51[s], 4[s] }, { 6[s], 167[s], -68[s] }, { -4[s], 24[s], -41[s] } }", //
-        Quantity::fromString);
+        "{{ 12[s], -51[s], 4[s] }, { 6[s], 167[s], -68[s] }, { -4[s], 24[s], -41[s] } }");
     specialOps(matrix);
     specialOps(N.DOUBLE.of(matrix));
     QRDecomposition qr = QRDecomposition.of(matrix);
@@ -190,8 +189,7 @@ public class QRDecompositionTest extends TestCase {
 
   public void testQuantityMixed() {
     Tensor matrix = Tensors.fromString( //
-        "{{ 12[s], -51[A], 4[m] }, { 6[s], 167[A], -68[m] }, { -4[s], 24[A], -41[m] } }", //
-        Quantity::fromString);
+        "{{ 12[s], -51[A], 4[m] }, { 6[s], 167[A], -68[m] }, { -4[s], 24[A], -41[m] } }");
     specialOps(matrix);
     specialOps(N.DOUBLE.of(matrix));
     QRDecomposition qr = QRDecomposition.of(matrix);
@@ -199,17 +197,14 @@ public class QRDecompositionTest extends TestCase {
   }
 
   public void testComplexMathematica() {
-    Tensor matrix = Tensors.fromString( //
-        "{{8 + I, 2 - 3 *I}, {3 + I, I}} ", //
-        Quantity::fromString);
+    Tensor matrix = Tensors.fromString("{{8 + I, 2 - 3 *I}, {3 + I, I}} ");
     specialOps(matrix);
     specialOps(N.DOUBLE.of(matrix));
   }
 
   public void testQuantityComplex() {
     Tensor matrix = Tensors.fromString( //
-        "{{ 12+3*I[s], -51[A], 4[m] }, { 6[s], 167-7*I[A], -68[m] }, { -4*I[s], 24[A], -41-9*I[m] } }", //
-        Quantity::fromString);
+        "{{ 12+3*I[s], -51[A], 4[m] }, { 6[s], 167-7*I[A], -68[m] }, { -4*I[s], 24[A], -41-9*I[m] } }");
     specialOps(matrix);
     specialOps(N.DOUBLE.of(matrix));
   }

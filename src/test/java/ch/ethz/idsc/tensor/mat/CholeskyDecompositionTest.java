@@ -131,8 +131,7 @@ public class CholeskyDecompositionTest extends TestCase {
 
   public void testQuantity2() {
     Tensor mat = Tensors.fromString( //
-        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
-        Quantity::fromString);
+        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}");
     {
       Tensor eye = IdentityMatrix.of(3);
       Tensor inv = LinearSolve.of(mat, eye);
@@ -169,7 +168,7 @@ public class CholeskyDecompositionTest extends TestCase {
   }
 
   public void testQuantityComplex() {
-    Tensor mat = Tensors.fromString("{{10[m^2],I[m*kg]},{-I[m*kg],10[kg^2]}}", Quantity::fromString);
+    Tensor mat = Tensors.fromString("{{10[m^2],I[m*kg]},{-I[m*kg],10[kg^2]}}");
     CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
     Tensor sdiag = Sqrt.of(cd.diagonal());
     Tensor upper = sdiag.pmul(ConjugateTranspose.of(cd.getL()));

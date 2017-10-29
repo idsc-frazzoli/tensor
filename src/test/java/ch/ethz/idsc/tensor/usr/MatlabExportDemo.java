@@ -2,29 +2,51 @@
 package ch.ethz.idsc.tensor.usr;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Partition;
-import ch.ethz.idsc.tensor.io.MatlabExport;
+import ch.ethz.idsc.tensor.alg.ArrayReshape;
+import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MatlabExportDemo {
   ;
-  static void export3D() {
-    Tensor tensor = Partition.of(Tensors.matrix((i, j) -> RationalScalar.of(i * 5 + j, 1), 6, 5), 3);
+  static void vector1() throws IOException {
+    Tensor tensor = Tensors.vectorDouble(3.2, -3, .234, 3, 3e-20, 0);
+    Export.of(UserHome.file("me_vector1.m"), tensor);
+  }
+
+  static void vector2() throws IOException {
+    Tensor tensor = Tensors.fromString( //
+        "{Infinity, 0,0, 2.1342134E-300, -Infinity, NaN, 0, 136458123548175/23947236498726349876239876234}");
+    boolean status = tensor.stream().filter(s -> s instanceof StringScalar).findAny().isPresent();
+    if (status)
+      throw TensorRuntimeException.of(tensor);
+    Export.of(UserHome.file("me_vector2.m"), tensor);
+  }
+
+  static void matrix1() throws IOException {
+    Tensor tensor = Tensors.matrix((i, j) -> RationalScalar.of(i * 5 + j, 1), 6, 5);
+    System.out.println(Pretty.of(tensor));
+    Export.of(UserHome.file("me_matrix1.m"), tensor);
+  }
+
+  static void matrix2() throws IOException {
+    Tensor tensor = Tensors.fromString("{{1/2,0,1.3},{-0.12,2+3*I,0}}");
+    Export.of(UserHome.file("me_matrix2.m"), tensor);
+  }
+
+  static void form1() throws IOException {
+    Tensor tensor = ArrayReshape.of(Range.of(0, 2 * 3 * 5), 2, 3, 5);
+    System.out.println(Dimensions.of(tensor));
     Pretty.of(tensor);
-    // System.out.println(Pretty.of(tensor));
-    // System.out.println(Dimensions.of(tensor));
-    try {
-      // Files.write(Paths.get("exported.m"), (Iterable<String>) MatlabExport.of(tensor)::iterator);
-    } catch (Exception exception) {
-      exception.printStackTrace();
-    }
+    Export.of(UserHome.file("me_form1.m"), tensor);
     // in matlab this is imported as 2x3x5 array
     // with
     // reshape(a(1,:,:),[3 5])
@@ -34,19 +56,11 @@ enum MatlabExportDemo {
     // 10 11 12 13 14
   }
 
-  static void _matrix() throws IOException {
-    Tensor tensor = Tensors.matrix((i, j) -> RationalScalar.of(i * 5 + j, 1), 6, 5);
-    System.out.println(Pretty.of(tensor));
-    Files.write(Paths.get(UserHome.file("me_matrix.m").toString()), (Iterable<String>) MatlabExport.of(tensor)::iterator);
-  }
-
-  static void _vector() throws IOException {
-    Tensor tensor = Tensors.vectorDouble(3.2, -3, .234, 3, 3e-20, 0);
-    Files.write(Paths.get(UserHome.file("me_vector.m").toString()), (Iterable<String>) MatlabExport.of(tensor)::iterator);
-  }
-
   public static void main(String[] args) throws IOException {
-    _vector();
-    _matrix();
+    vector1();
+    vector2();
+    matrix1();
+    matrix2();
+    form1();
   }
 }

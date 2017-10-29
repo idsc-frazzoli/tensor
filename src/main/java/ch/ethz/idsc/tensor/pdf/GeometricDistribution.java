@@ -51,8 +51,8 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
   }
 
   @Override // from AbstractDiscreteDistribution
-  public Scalar quantile(Scalar reference) {
-    Scalar num = Log.FUNCTION.apply(RealScalar.ONE.subtract(reference));
+  public Scalar quantile(Scalar p) { // p shadows member, ok
+    Scalar num = Log.FUNCTION.apply(RealScalar.ONE.subtract(p));
     Scalar den = Log.FUNCTION.apply(_1_p);
     return Floor.FUNCTION.apply(num.divide(den));
   }

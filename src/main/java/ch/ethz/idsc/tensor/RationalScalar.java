@@ -24,19 +24,14 @@ public final class RationalScalar extends AbstractRealScalar implements //
    * @param den
    * @return scalar encoding the exact fraction num / den */
   public static Scalar of(BigInteger num, BigInteger den) {
-    return _of(BigFraction.of(num, den));
+    return new RationalScalar(BigFraction.of(num, den));
   }
 
   /** @param num
    * @param den
    * @return scalar encoding the exact fraction num / den */
   public static Scalar of(long num, long den) {
-    return _of(BigFraction.of(num, den));
-  }
-
-  // method _of is private because BigFraction has package visibility
-  private static Scalar _of(BigFraction bigFraction) {
-    return new RationalScalar(bigFraction);
+    return new RationalScalar(BigFraction.of(num, den));
   }
 
   private final BigFraction bigFraction;
@@ -51,14 +46,14 @@ public final class RationalScalar extends AbstractRealScalar implements //
   /***************************************************/
   @Override // from Scalar
   public Scalar negate() {
-    return _of(bigFraction.negate());
+    return new RationalScalar(bigFraction.negate());
   }
 
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof RationalScalar) {
       RationalScalar rationalScalar = (RationalScalar) scalar;
-      return _of(bigFraction.multiply(rationalScalar.bigFraction));
+      return new RationalScalar(bigFraction.multiply(rationalScalar.bigFraction));
     }
     return scalar.multiply(this);
   }
@@ -68,7 +63,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
     if (scalar instanceof RationalScalar) {
       // default implementation in AbstractScalar uses 2x gcd
       RationalScalar rationalScalar = (RationalScalar) scalar;
-      return _of(bigFraction.divide(rationalScalar.bigFraction));
+      return new RationalScalar(bigFraction.divide(rationalScalar.bigFraction));
     }
     return scalar.under(this);
   }
@@ -78,14 +73,14 @@ public final class RationalScalar extends AbstractRealScalar implements //
     if (scalar instanceof RationalScalar) {
       // default implementation in AbstractScalar uses 2x gcd
       RationalScalar rationalScalar = (RationalScalar) scalar;
-      return _of(rationalScalar.bigFraction.divide(bigFraction));
+      return new RationalScalar(rationalScalar.bigFraction.divide(bigFraction));
     }
     return scalar.divide(this);
   }
 
   @Override // from Scalar
   public Scalar reciprocal() {
-    return _of(bigFraction.reciprocal());
+    return new RationalScalar(bigFraction.reciprocal());
   }
 
   @Override // from Scalar
@@ -116,7 +111,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof RationalScalar)
-      return _of(bigFraction.add(((RationalScalar) scalar).bigFraction));
+      return new RationalScalar(bigFraction.add(((RationalScalar) scalar).bigFraction));
     return scalar.add(this);
   }
 
@@ -197,8 +192,8 @@ public final class RationalScalar extends AbstractRealScalar implements //
   public Scalar sqrt() {
     try {
       boolean isNonNegative = isNonNegative();
-      BigInteger sqrtnum = BigIntegerMath.sqrt(isNonNegative ? bigFraction.num : bigFraction.num.negate());
-      BigInteger sqrtden = BigIntegerMath.sqrt(bigFraction.den);
+      BigInteger sqrtnum = BigIntegerMath.sqrt(isNonNegative ? numerator() : numerator().negate());
+      BigInteger sqrtden = BigIntegerMath.sqrt(denominator());
       return isNonNegative ? of(sqrtnum, sqrtden) : ComplexScalarImpl.of(ZERO, of(sqrtnum, sqrtden));
     } catch (Exception exception) {
       // ---
@@ -209,13 +204,13 @@ public final class RationalScalar extends AbstractRealScalar implements //
   /***************************************************/
   /** @return numerator as {@link BigInteger} */
   public BigInteger numerator() {
-    return bigFraction.num;
+    return bigFraction.numerator();
   }
 
   /** @return denominator as {@link BigInteger},
    * the denominator of a {@link RationalScalar} is always positive */
   public BigInteger denominator() {
-    return bigFraction.den;
+    return bigFraction.denominator();
   }
 
   private BigDecimal toBigDecimal(int scale, RoundingMode roundingMode) {

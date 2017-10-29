@@ -31,7 +31,7 @@ public class CentralMomentTest extends TestCase {
   public void testQuantity() {
     Tensor vector = Tensors.of(Quantity.of(2, "kg"), Quantity.of(3, "kg"));
     Scalar result = CentralMoment.of(vector, 2);
-    assertEquals(result, Quantity.fromString("1/4[kg^2]"));
+    assertEquals(result, Scalars.fromString("1/4[kg^2]"));
   }
 
   public void testFail() {

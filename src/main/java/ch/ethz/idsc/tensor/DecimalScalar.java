@@ -110,8 +110,8 @@ public final class DecimalScalar extends AbstractRealScalar implements //
       return of(value.divide(decimalScalar.value, hint(precision, decimalScalar.precision)));
     }
     if (scalar instanceof RationalScalar) {
-      RationalScalar rationalScalar = (RationalScalar) scalar;
-      return of(value.divide(rationalScalar.toBigDecimal(mathContext()), mathContext()));
+      RationalScalar reciprocal = (RationalScalar) scalar.reciprocal();
+      return of(value.multiply(reciprocal.toBigDecimal(mathContext()), mathContext()));
     }
     return scalar.under(this);
   }
@@ -297,7 +297,6 @@ public final class DecimalScalar extends AbstractRealScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    // TODO modify
     int precision = value.precision();
     // return value.toString() + "`" + precision; // <- changes the appearance of Round._3 etc.
     // TODO solution not elegant because result will be parsed as DoubleScalar

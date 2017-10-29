@@ -18,6 +18,7 @@ public class UnitConvert {
 
   private final UnitSystem unitSystem;
 
+  /** @param unitSystem */
   public UnitConvert(UnitSystem unitSystem) {
     if (Objects.isNull(unitSystem))
       throw new NullPointerException();

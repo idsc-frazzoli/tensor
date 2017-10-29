@@ -23,6 +23,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * </pre>
  * 
  * <p>NumberQ does not indicate whether {@link Scalar#number()} returns a Number.
+ * For instance, {@link ComplexScalar#number()} throws an exception.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/NumberQ.html">NumberQ</a> */
@@ -40,5 +41,11 @@ public enum NumberQ {
     if (tensor instanceof Quantity)
       return false;
     return MachineNumberQ.of(tensor) || ExactScalarQ.of(tensor);
+  }
+
+  /** @param tensor
+   * @return true if all scalar entries in given tensor satisfy the predicate {@link NumberQ#of(Tensor)} */
+  public static boolean all(Tensor tensor) {
+    return tensor.flatten(-1).allMatch(NumberQ::of);
   }
 }

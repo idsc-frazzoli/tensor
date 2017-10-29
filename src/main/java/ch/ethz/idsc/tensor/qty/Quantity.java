@@ -27,19 +27,13 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * The NumberQ relations for {@link Quantity} evaluate to
  * <pre>
  * NumberQ[Quantity[3, "Meters"]] == False
- * ExactNumberQ[Quantity[3, "Meters"]] == False
  * MachineNumberQ[Quantity[3.123, "Meters"]] == False
  * </pre>
  * 
- * <p>The convention of equality: "0[unit] == 0 evaluates to true"
- * is used in
- * {@link #plus(Scalar)}
- * {@link #compareTo(Scalar)}
- * {@link #equals(Object)}
- * 
- * In particular, the rule allows to up-cast any
- * {@link Scalar#zero()} to a zero with any unit,
- * for instance 0 == 0[m^2] == 0[rad*s] == 0
+ * <p>The sum of two quantities is well defined whenever the
+ * units are identical. Two quantities with different units
+ * are added if one of the values equals to zero. In that case
+ * the result carries the unit of the non-zero input quantity.
  * 
  * <p>For export and import of tensors with scalars of type
  * {@link Quantity} use {@link ObjectFormat} and {@link CsvFormat}.
@@ -98,12 +92,6 @@ public interface Quantity extends Scalar, //
    * @return */
   static Scalar of(Number number, String string) {
     return QuantityImpl.of(RealScalar.of(number), Unit.of(string));
-  }
-
-  /** @param string for example "9.81[m*s^-2]"
-   * @return */
-  static Scalar fromString(String string) {
-    return QuantityParser.of(string);
   }
 
   /** Quote from Mathematica::QuantityMagnitude

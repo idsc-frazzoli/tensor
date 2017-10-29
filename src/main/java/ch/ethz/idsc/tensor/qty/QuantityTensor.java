@@ -7,15 +7,20 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/QuantityArray.html">QuantityArray</a> */
 public enum QuantityTensor {
   ;
-  /** @param unit
+  /** @param tensor
+   * @param unit
    * @return */
   public static Tensor of(Tensor tensor, Unit unit) {
     return tensor.map(scalar -> Quantity.of(scalar, unit));
   }
 
   /** Example:
+   * <pre>
    * QuantityTensor.of(Tensors.vector(2, 3, -1), "m*s^-1")
+   * == {2[m*s^-1], 3[m*s^-1], -1[m*s^-1]}
+   * </pre>
    * 
+   * @param tensor
    * @param unit
    * @return */
   public static Tensor of(Tensor tensor, String unit) {

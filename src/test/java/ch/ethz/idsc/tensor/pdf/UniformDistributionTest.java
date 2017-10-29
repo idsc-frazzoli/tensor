@@ -6,6 +6,7 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
 import ch.ethz.idsc.tensor.qty.Unit;
@@ -40,7 +41,7 @@ public class UniformDistributionTest extends TestCase {
     assertEquals(mean, Quantity.of(4, "g"));
     Scalar var = Expectation.variance(distribution);
     assertTrue(var instanceof Quantity);
-    assertEquals(var, Quantity.fromString("1/3[g^2]"));
+    assertEquals(var, Scalars.fromString("1/3[g^2]"));
     {
       Scalar prob = PDF.of(distribution).at(mean);
       QuantityMagnitude.SI().in(Unit.of("lb^-1")).apply(prob);

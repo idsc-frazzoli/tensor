@@ -1,12 +1,14 @@
-// code by jph
+// code by jph and gjoel
 package ch.ethz.idsc.tensor.pdf;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -35,6 +37,32 @@ public class HistogramDistributionTest extends TestCase {
     assertTrue(90 < set.size());
   }
 
+  public void testFreedman() {
+    Tensor samples = Tensors.vector(-4, -3, -3, -2, -2, 10);
+    Distribution distribution = HistogramDistribution.of(samples, BinningMethod.IQR);
+    PDF pdf = PDF.of(distribution);
+    assertTrue(Scalars.nonZero(pdf.at(RealScalar.of(-3))));
+    assertTrue(Scalars.lessThan(RealScalar.ONE, BinningMethod.IQR.apply(samples)));
+  }
+
+  public void testFreedmanMin() {
+    HistogramDistribution.of(Tensors.vector(3, 4));
+    try {
+      HistogramDistribution.of(Tensors.vector(3, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testScott() {
+    Tensor samples = Tensors.vector(-4, -3, -3, -2, -2, 10);
+    Distribution distribution = HistogramDistribution.of(samples, BinningMethod.VARIANCE);
+    PDF pdf = PDF.of(distribution);
+    assertTrue(Scalars.nonZero(pdf.at(RealScalar.of(-3))));
+    assertTrue(Scalars.lessThan(RealScalar.ONE, BinningMethod.VARIANCE.apply(samples)));
+  }
+
   public void testQuantity() {
     Tensor vector = QuantityTensor.of(Tensors.vector(1, 1.7, 2, 3, 3.9, 4, 4.1), "m");
     Distribution distribution = //
@@ -52,6 +80,120 @@ public class HistogramDistributionTest extends TestCase {
       set.add(x);
     }
     assertTrue(90 < set.size());
+  }
+
+  public void testMean() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, 3), "m");
+    Distribution distribution = //
+        HistogramDistribution.of(vector, Quantity.of(1, "m"));
+    Scalar mean = Expectation.mean(distribution);
+    assertEquals(mean, Quantity.of(2.5, "m"));
+  }
+
+  public void testVariance() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, 3), "m");
+    Distribution distribution = HistogramDistribution.of(vector, Quantity.of(1, "m"));
+    assertEquals( //
+        Expectation.variance(distribution), //
+        Quantity.of( //
+            Expectation.variance(UniformDistribution.of(0, 3)), "m^2"));
+  }
+
+  public void testVariance1() {
+    assertEquals( //
+        Expectation.variance(HistogramDistribution.of(Tensors.vector(0.5), RealScalar.of(1))), //
+        RationalScalar.of(1, 12));
+    assertEquals( //
+        Expectation.variance(HistogramDistribution.of(Tensors.vector(0.5), RealScalar.of(2))), //
+        Expectation.variance(UniformDistribution.of(0, 2)));
+  }
+
+  public void testVariance2() {
+    assertEquals( //
+        Expectation.variance(HistogramDistribution.of(Tensors.vector(0.5, 1.5), RealScalar.of(1))), //
+        Expectation.variance(UniformDistribution.of(0, 2)));
+    assertEquals( //
+        Expectation.variance(HistogramDistribution.of(Tensors.vector(0.5, 2.5), RealScalar.of(2))), //
+        Expectation.variance(UniformDistribution.of(0, 4)));
+  }
+
+  public void testVarianceIr1() {
+    assertEquals(Expectation.variance(HistogramDistribution.of(Tensors.vector(0.5, 1.5, 1.5), RealScalar.of(1))), RationalScalar.of(11, 36));
+    assertEquals(Expectation.variance(HistogramDistribution.of(Tensors.vector(2.5, 1.5, 1.5), RealScalar.of(1))), RationalScalar.of(11, 36));
+  }
+
+  public void testVarianceIr2() {
+    assertEquals(Expectation.variance(HistogramDistribution.of(Tensors.vector(4.5, 4.5, 2.5), RealScalar.of(2))), RationalScalar.of(11, 9));
+    assertEquals(Expectation.variance(HistogramDistribution.of(Tensors.vector(2.5, 1.5, 1.5), RealScalar.of(2))), RationalScalar.of(11, 9));
+  }
+
+  public void testVarianceIr3() {
+    assertEquals(Expectation.variance(HistogramDistribution.of(Tensors.vector(4.5, 4.5, 2.5, 10.5), RealScalar.of(2))), RationalScalar.of(28, 3));
+    assertEquals(Expectation.variance(HistogramDistribution.of(Tensors.vector(2.5, 1.5, 1.5, 10.5), RealScalar.of(2))), RationalScalar.of(52, 3));
+  }
+
+  public void testCDF() {
+    Distribution distribution = HistogramDistribution.of(Tensors.vector(0.5, 1.5, 1.5, 2.2), RealScalar.of(1));
+    CDF cdf = CDF.of(distribution);
+    assertEquals(cdf.p_lessThan(RationalScalar.of(0, 1)), RationalScalar.of(0, 1));
+    assertEquals(cdf.p_lessThan(RationalScalar.of(1, 1)), RationalScalar.of(1, 4));
+    assertEquals(cdf.p_lessThan(RationalScalar.of(3, 2)), RationalScalar.of(1, 2));
+    assertEquals(cdf.p_lessThan(RationalScalar.of(2, 1)), RationalScalar.of(3, 4));
+    assertEquals(cdf.p_lessThan(RationalScalar.of(3, 1)), RationalScalar.of(1, 1));
+  }
+
+  public void testQuantityCDF() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, 3), "m");
+    Distribution distribution = HistogramDistribution.of(vector, Quantity.of(2, "m"));
+    CDF cdf = CDF.of(distribution);
+    assertEquals(cdf.p_lessEquals(Quantity.of(2, "m")), RationalScalar.of(1, 3));
+    assertEquals(cdf.p_lessEquals(Quantity.of(3, "m")), RationalScalar.of(2, 3));
+  }
+
+  public void testInverseCDF() {
+    Distribution distribution = HistogramDistribution.of(Tensors.vector(0.5, 1.5, 1.5, 2.2), RealScalar.of(1));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    {
+      Scalar x = inverseCDF.quantile(RealScalar.ZERO);
+      assertTrue(ExactScalarQ.of(x));
+      assertEquals(x, RealScalar.ZERO);
+    }
+    {
+      Scalar x = inverseCDF.quantile(RationalScalar.of(1, 2));
+      assertTrue(ExactScalarQ.of(x));
+      assertEquals(x, RationalScalar.of(3, 2));
+    }
+    {
+      Scalar x = inverseCDF.quantile(RationalScalar.of(1, 4));
+      assertTrue(ExactScalarQ.of(x));
+      assertEquals(x, RationalScalar.of(1, 1));
+    }
+    {
+      Scalar x = inverseCDF.quantile(RationalScalar.of(3, 4));
+      assertTrue(ExactScalarQ.of(x));
+      assertEquals(x, RationalScalar.of(2, 1));
+    }
+  }
+
+  public void testInverseCDF2() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, 3), "m");
+    Distribution distribution = HistogramDistribution.of(vector, Quantity.of(2, "m"));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    {
+      Scalar x = inverseCDF.quantile(RealScalar.ZERO);
+      assertTrue(ExactScalarQ.of(x));
+      assertEquals(x, Quantity.of(0, "m"));
+    }
+    {
+      Scalar x = inverseCDF.quantile(RationalScalar.of(2, 3));
+      assertTrue(ExactScalarQ.of(x));
+      assertEquals(x, Quantity.of(RationalScalar.of(3, 1), "m"));
+    }
+    {
+      Scalar x = inverseCDF.quantile(RationalScalar.of(1, 2));
+      assertTrue(ExactScalarQ.of(x));
+      assertEquals(x, Quantity.of(RationalScalar.of(5, 2), "m"));
+    }
   }
 
   public void testFailEmpty() {
@@ -77,4 +219,24 @@ public class HistogramDistributionTest extends TestCase {
       // ---
     }
   }
+  // private static final Scalar THREE = RealScalar.of(3);
+  //
+  // private Scalar contrib(Scalar a, Scalar mean) {
+  // Scalar diff = a.subtract(mean);
+  // return diff.multiply(diff).add(diff.multiply(width)).add(width.multiply(width).divide(THREE));
+  // }
+  //
+  // @Override // from VarianceInterface
+  // public Scalar variance() {
+  // Scalar m = mean();
+  // EmpiricalDistribution ed = (EmpiricalDistribution) distribution;
+  // Tensor pdf = ed.pdf_table();
+  // Scalar sum = RealScalar.ZERO;
+  // for (int index = 0; index < pdf.length(); ++index)
+  // sum = sum.add(pdf.Get(index).multiply(contrib(original.apply(RealScalar.of(index)), m)));
+  // Scalar cmp = Expectation.variance(distribution).add(RationalScalar.of(1, 12)).multiply(AbsSquared.of(width));
+  // if (!cmp.equals(sum))
+  // TensorRuntimeException.of(cmp, sum).printStackTrace();
+  // return cmp;
+  // }
 }

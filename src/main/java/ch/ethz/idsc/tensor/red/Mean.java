@@ -8,6 +8,8 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.Expectation;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Mean.html">Mean</a> */
@@ -40,5 +42,11 @@ public enum Mean {
    * @return average of entries in tensor, or Optional.empty() if tensor is empty */
   public static Optional<Tensor> optional(Tensor tensor) {
     return tensor.length() == 0 ? Optional.empty() : Optional.of(of(tensor));
+  }
+
+  /** @param distribution
+   * @return mean of given probability distribution */
+  public static Scalar of(Distribution distribution) {
+    return Expectation.mean(distribution);
   }
 }

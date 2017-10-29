@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.Tensor;
 enum TensorWedge {
   ;
   public static Tensor of(Tensor a, Tensor b) {
-    // TODO
+    // LONGTERM implement
     return null;
   }
 }
