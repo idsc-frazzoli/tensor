@@ -1,11 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ScalarQTest extends TestCase {
   public void testSimple() {
-    assertTrue(ScalarQ.of(Scalars.fromString("3[m]")));
+    assertTrue(ScalarQ.of(Quantity.of(3, "m")));
   }
 
   public void testVector() {

@@ -30,7 +30,7 @@ public class UnitConvertTest extends TestCase {
 
   public void testResistance() {
     UnitConvert unitConvert = UnitConvert.SI();
-    Scalar q = Scalars.fromString("2[mV^-1*mA*s^2]");
+    Scalar q = Quantity.of(2, "mV^-1*mA*s^2");
     Scalar scalar = unitConvert.to(Unit.of("Ohm^-1*s^2")).apply(q);
     assertEquals(scalar, Quantity.of(2, "Ohm^-1*s^2"));
   }

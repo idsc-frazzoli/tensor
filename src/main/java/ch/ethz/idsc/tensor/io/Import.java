@@ -43,7 +43,7 @@ public enum Import {
     if (filename.hasExtension("png"))
       return ImageFormat.from(ImageIO.read(file));
     if (filename.hasExtension("tensor"))
-      return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
+      return object(file);
     throw new RuntimeException(file.toString());
   }
 
