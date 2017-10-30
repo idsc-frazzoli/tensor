@@ -10,13 +10,6 @@ import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
 
 public class TensorsTest extends TestCase {
-  public void testFromString() {
-    assertEquals(Tensors.fromString("{   }"), Tensors.empty());
-    assertEquals(Tensors.fromString("{ 2 ,-3   , 4}"), Tensors.vector(2, -3, 4));
-    assertEquals(Tensors.fromString("{   {2, -3, 4  }, {2.3,-.2   }, {  }   }"), //
-        Tensors.of(Tensors.vector(2, -3, 4), Tensors.vector(2.3, -.2), Tensors.empty()));
-  }
-
   public void testEmpty() {
     assertEquals(Tensors.empty(), Tensors.empty());
     assertEquals(Tensors.empty(), Tensors.vector());

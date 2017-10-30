@@ -55,9 +55,10 @@ public class MathematicaFormatTest extends TestCase {
         "{{3 + I}, -1.0348772853950305 - 0.042973906265653894*I, {}, ", //
         " 0.1 + I, 0.1 - I, ", // <- these were manually added
         " 0. + 0.123*I, 0. - 123233.323123*I, {0. + 1982.6716245387552*I,", //
-        "  {(81263581726538*I)/42921390881, 0. + 892.5158065769785*I}} " };
+        "  {(81263581726538*I)/42921390881, 0. + 892.5158065769785*I}} }" };
     Tensor tensor = MathematicaFormat.parse(Stream.of(strings));
     checkNonString(tensor);
+    assertEquals(tensor.length(), 8);
   }
 
   public void testBasic() throws IOException {
