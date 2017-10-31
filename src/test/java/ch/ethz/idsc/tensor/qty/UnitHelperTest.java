@@ -37,5 +37,7 @@ public class UnitHelperTest extends TestCase {
   public void testDubious() {
     assertEquals(UnitHelper.MEMO.lookup("*a"), UnitHelper.MEMO.lookup("a"));
     assertEquals(UnitHelper.MEMO.lookup("a*"), UnitHelper.MEMO.lookup("a"));
+    assertEquals(UnitHelper.MEMO.lookup("a***"), UnitHelper.MEMO.lookup("a"));
+    assertEquals(UnitHelper.MEMO.lookup("**a***b**"), UnitHelper.MEMO.lookup("a*b"));
   }
 }

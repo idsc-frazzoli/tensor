@@ -148,7 +148,9 @@ public class QuantityTest extends TestCase {
   public void testEmpty() {
     Scalar q1 = Quantity.of(3, "m*s");
     Scalar q2 = Quantity.of(7, "s*m");
-    assertTrue(q1.divide(q2) instanceof RationalScalar);
+    Scalar s3 = q1.divide(q2);
+    // System.out.println(s3);
+    assertTrue(s3 instanceof RationalScalar);
     assertTrue(q1.under(q2) instanceof RationalScalar);
   }
 
