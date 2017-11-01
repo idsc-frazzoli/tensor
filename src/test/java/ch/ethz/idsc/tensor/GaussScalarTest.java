@@ -28,7 +28,8 @@ public class GaussScalarTest extends TestCase {
 
   public void testGetter() {
     GaussScalar num = (GaussScalar) GaussScalar.of(32, 193);
-    assertEquals(num.value(), 32);
+    assertEquals(num.number().intValue(), 32);
+    assertEquals(num.number().longValue(), 32);
     assertEquals(num.prime(), 193);
   }
 
@@ -75,6 +76,17 @@ public class GaussScalarTest extends TestCase {
     }
     try {
       GaussScalar.of(2, 100101);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testIllegalGauss() {
+    Scalar a = GaussScalar.of(4, 7);
+    Scalar b = GaussScalar.of(4, 11);
+    try {
+      a.add(b);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -150,6 +162,28 @@ public class GaussScalarTest extends TestCase {
   public void testSqrt0() {
     Scalar zero = GaussScalar.of(0, 7);
     assertEquals(Sqrt.of(zero), zero);
+  }
+
+  public void testSqrt11() {
+    final int prime = 11;
+    int count = 0;
+    for (int c = 0; c < prime; ++c) {
+      Scalar s = GaussScalar.of(c, prime);
+      try {
+        Scalar sqrt = Sqrt.of(s);
+        ++count;
+        assertEquals(sqrt.multiply(sqrt), s);
+        // System.out.println(s+" -> "+sqrt);
+      } catch (Exception exception) {
+        // ---
+      }
+    }
+    assertEquals(count, 6);
+  }
+
+  public void testNumber() {
+    Scalar scalar = GaussScalar.of(9, 23);
+    assertTrue(scalar.number() instanceof Long);
   }
 
   public void testSort() {

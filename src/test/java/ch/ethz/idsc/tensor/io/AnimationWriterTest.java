@@ -14,12 +14,13 @@ public class AnimationWriterTest extends TestCase {
     AnimationWriter agw = AnimationWriter.of(file, 100);
     agw.append(Array.zeros(3, 4));
     agw.append(Array.zeros(3, 4));
+    agw.close();
     file.delete();
   }
 
   public void testSimple() {
     try {
-      AnimationWriter.of(new File("asd.bin"), 100);
+      AnimationWriter.of(new File("asd.bin"), 100); // extension unknown
       assertTrue(false);
     } catch (Exception exception) {
       // ---

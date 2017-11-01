@@ -85,7 +85,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   @Override // from Scalar
   public Number number() {
-    if (IntegerQ.of(this)) {
+    if (bigFraction.isInteger()) { // IntegerQ.of(this)
       BigInteger bigInteger = numerator();
       try {
         return bigInteger.intValueExact();

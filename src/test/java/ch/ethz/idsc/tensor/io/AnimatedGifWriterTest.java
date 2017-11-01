@@ -15,6 +15,7 @@ public class AnimatedGifWriterTest extends TestCase {
     AnimatedGifWriter agw = AnimatedGifWriter.of(file, 100);
     agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
     agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
+    agw.close();
     file.delete();
   }
 
@@ -24,6 +25,15 @@ public class AnimatedGifWriterTest extends TestCase {
     AnimatedGifWriter agw = AnimatedGifWriter.of(file, 100);
     agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
     agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
+    agw.close();
+    file.delete();
+  }
+
+  public void testEmpty() throws IOException {
+    File file = UserHome.file("tensorLib_AnimatedGifWriterTest.gif");
+    assertFalse(file.isFile());
+    AnimatedGifWriter agw = AnimatedGifWriter.of(file, 100);
+    agw.close();
     file.delete();
   }
 }
