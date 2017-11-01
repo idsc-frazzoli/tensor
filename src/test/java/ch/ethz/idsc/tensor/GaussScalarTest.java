@@ -147,6 +147,11 @@ public class GaussScalarTest extends TestCase {
     assertEquals(n2s, a);
   }
 
+  public void testSqrt0() {
+    Scalar zero = GaussScalar.of(0, 7);
+    assertEquals(Sqrt.of(zero), zero);
+  }
+
   public void testSort() {
     Tensor v = Tensors.of(GaussScalar.of(4, 7), GaussScalar.of(1, 7), GaussScalar.of(2, 7), GaussScalar.of(0, 7));
     Tensor r = Tensors.of(GaussScalar.of(0, 7), GaussScalar.of(1, 7), GaussScalar.of(2, 7), GaussScalar.of(4, 7));

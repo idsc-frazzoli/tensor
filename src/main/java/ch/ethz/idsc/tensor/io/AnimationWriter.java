@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -14,8 +15,8 @@ public interface AnimationWriter extends AutoCloseable {
   /** @param file
    * @param period between frames in milliseconds
    * @return
-   * @throws Exception */
-  public static AnimationWriter of(File file, int period) throws Exception {
+   * @throws IOException */
+  public static AnimationWriter of(File file, int period) throws IOException {
     Filename filename = new Filename(file);
     if (filename.hasExtension("gif"))
       return new GifAnimationWriter(file, period);

@@ -49,4 +49,9 @@ public class NumberQTest extends TestCase {
   public void testVector() {
     assertFalse(NumberQ.of(Tensors.vector(1, 2, 3)));
   }
+
+  public void testAll() {
+    assertTrue(NumberQ.all(Tensors.fromString("{1, 3}")));
+    assertFalse(NumberQ.all(Tensors.fromString("{1, 3[m]}")));
+  }
 }

@@ -48,6 +48,8 @@ public class BinomialTest extends TestCase {
   }
 
   public void testDecimal() {
+    assertTrue(Chop._08.close(Binomial.of(RealScalar.of(5), RealScalar.of(8.915)), DoubleScalar.of(-0.0001814896744175351)));
+    assertTrue(Chop._08.close(Binomial.of(RealScalar.of(3.21), RealScalar.of(4.5)), DoubleScalar.of(-0.03395179589776722)));
     assertTrue(Chop._08.close(Binomial.of(RealScalar.of(10.21), RealScalar.of(3)), DoubleScalar.of(128.66999350000037)));
     assertTrue(Chop._08.close(Binomial.of(RealScalar.of(8.81), RealScalar.of(11.3)), DoubleScalar.of(0.0011937860196171754)));
   }

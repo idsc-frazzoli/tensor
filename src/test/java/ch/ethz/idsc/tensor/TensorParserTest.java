@@ -28,4 +28,14 @@ public class TensorParserTest extends TestCase {
     Tensor vector = Tensors.fromString("{2.2,3,}"); // parses to {2.2, 3}
     vector.length();
   }
+
+  public void testFromStringFunction() {
+    Tensor tensor = Tensors.fromString("{ 2 ,-3   , 4}", string -> RealScalar.of(3));
+    assertEquals(tensor, Tensors.vector(3, 3, 3));
+  }
+
+  public void testFromStringFunctionNested() {
+    Tensor tensor = Tensors.fromString("{ 2 ,{-3   , 4} }", string -> RealScalar.of(3));
+    assertEquals(tensor, Tensors.fromString("{3, {3, 3}}"));
+  }
 }

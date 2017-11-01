@@ -83,7 +83,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
     }
     if (exponent instanceof RealScalar) {
       double result = Math.pow(number().doubleValue(), exponent.number().doubleValue());
-      if (result == result)
+      if (result == result) // !Double::isNaN
         return DoubleScalar.of(result);
     }
     return Exp.FUNCTION.apply(exponent.multiply(Log.FUNCTION.apply(this)));

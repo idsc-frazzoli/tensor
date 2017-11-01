@@ -22,9 +22,7 @@ public interface PDF extends Serializable {
    * @return probability density function
    * @throws Exception if given distribution does not implement PDF */
   static PDF of(Distribution distribution) {
-    if (distribution instanceof PDF)
-      return (PDF) distribution;
-    throw new RuntimeException();
+    return (PDF) distribution;
   }
 
   /** "PDF.of(distribution).at(x)" corresponds to Mathematica::PDF[distribution, x]

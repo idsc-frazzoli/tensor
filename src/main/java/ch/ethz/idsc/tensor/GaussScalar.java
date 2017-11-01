@@ -118,7 +118,7 @@ public class GaussScalar extends AbstractScalar implements //
   @Override // from SqrtInterface
   public Scalar sqrt() {
     // implementation is slow, could use memo function
-    for (long index = 1; index < prime; ++index) {
+    for (long index = 0; index < prime; ++index) {
       Scalar candidate = of(index, prime);
       GaussScalar square = (GaussScalar) candidate.multiply(candidate);
       if (value == square.value)
