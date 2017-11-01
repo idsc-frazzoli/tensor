@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 public interface SimplexPivot extends Serializable {
   /** nonbasic gradient method, or "steepest decent policy"
@@ -23,7 +23,7 @@ public interface SimplexPivot extends Serializable {
       int m = tab.length() - 1;
       for (int i = 0; i < m; ++i) {
         Scalar tab_ij = tab.Get(i, j);
-        if (((SignInterface) tab_ij).signInt() == 1) {
+        if (Sign.isPositive(tab_ij)) {
           Scalar ratio = tab.Get(i, n).divide(tab_ij);
           if (Objects.isNull(min) || 0 < Scalars.compare(min, ratio)) {
             min = ratio;
@@ -40,11 +40,9 @@ public interface SimplexPivot extends Serializable {
     @Override // from SimplexPivot
     public int get(Tensor tab, int j, int n) {
       int m = tab.length() - 1;
-      for (int i = 0; i < m; ++i) {
-        SignInterface tab_ij = (SignInterface) tab.Get(i, j);
-        if (tab_ij.signInt() == 1)
+      for (int i = 0; i < m; ++i)
+        if (Sign.isPositive(tab.Get(i, j)))
           return i;
-      }
       throw TensorRuntimeException.of(tab);
     }
   };

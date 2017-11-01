@@ -1,12 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
-import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** !!! EXPERIMENTAL !!!
  * 
@@ -86,7 +87,6 @@ public enum LinearProgramming {
    * @return true if all entries in vector are non-negative */
   /* package */ static boolean isNonNegative(Tensor vector) {
     return vector.stream() // all vector_i >= 0
-        .map(SignInterface.class::cast) //
-        .allMatch(signInterface -> 0 <= signInterface.signInt());
+        .map(Scalar.class::cast).allMatch(Sign::isPositiveOrZero);
   }
 }

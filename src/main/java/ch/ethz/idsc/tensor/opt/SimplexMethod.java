@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.red.ArgMax;
 import ch.ethz.idsc.tensor.red.ArgMin;
-import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** traditional simplex algorithm that performs poorly on Klee-Minty cube */
 /* package */ class SimplexMethod {
@@ -62,10 +62,10 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
       // System.out.println(Pretty.of(tab));
       Tensor c = tab.get(m).extract(0, n);
       final int j = ArgMin.of(numbers(c));
-      if (((SignInterface) c.Get(j)).signInt() == -1) {
+      if (Sign.isNegative(c.Get(j))) {
         { // check if unbounded
           int argmax = ArgMax.of(numbers(tab.get(Tensor.ALL, j).extract(0, m)));
-          if (((SignInterface) tab.Get(argmax, j)).signInt() != 1)
+          if (Sign.isNegativeOrZero(tab.Get(argmax, j)))
             throw TensorRuntimeException.of(tab); // problem unbounded
         }
         int p = simplexPivot.get(tab, j, n);

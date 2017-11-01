@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Ordering;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Hypot;
-import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** The Jacobi transformations of a real symmetric matrix establishes the
  * diagonal matrix D
@@ -72,7 +72,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
             } else {
               Scalar theta = HALF.multiply(h).divide(A.Get(ip, iq));
               t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).reciprocal();
-              if (((SignInterface) theta).signInt() == -1)
+              if (Sign.isNegative(theta))
                 t = t.negate();
             }
             Scalar c = Hypot.BIFUNCTION.apply(t, RealScalar.ONE).Get().reciprocal();

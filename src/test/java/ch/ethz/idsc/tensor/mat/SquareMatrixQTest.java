@@ -2,8 +2,10 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.MatrixQ;
 import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import junit.framework.TestCase;
@@ -23,5 +25,12 @@ public class SquareMatrixQTest extends TestCase {
 
   public void testEmpty() {
     assertFalse(SquareMatrixQ.of(Tensors.empty()));
+  }
+
+  public void testEmptyNested() {
+    Tensor tensor = Tensors.fromString("{{}}");
+    assertTrue(MatrixQ.of(tensor));
+    assertFalse(SquareMatrixQ.of(tensor));
+    assertTrue(SquareMatrixQ.of(Tensors.fromString("{{1}}")));
   }
 }

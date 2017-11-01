@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
-import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** suggested base class for implementations of {@link RealScalar} */
 public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
@@ -75,8 +75,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
         return ONE; // <- not generic
       if (exponent instanceof ComplexEmbedding) {
         ComplexEmbedding complexEmbedding = (ComplexEmbedding) exponent;
-        SignInterface signInterface = (SignInterface) complexEmbedding.real();
-        if (signInterface.signInt() == 1)
+        if (Sign.isPositive(complexEmbedding.real()))
           return zero();
       }
       throw TensorRuntimeException.of(this, exponent);

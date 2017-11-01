@@ -11,8 +11,6 @@ import java.util.stream.Stream;
 
 /** reference implementation of the interface Tensor */
 /* package */ class TensorImpl implements Tensor {
-  private static final String DELIMITER = ", ";
-  // ---
   /** list is accessed by UnmodifiableTensor, ParallelDot, Unprotect */
   /* package */ final List<Tensor> list;
 
@@ -206,7 +204,8 @@ import java.util.stream.Stream;
     return Tensor.of(list.stream().map(tensor -> tensor.map(function)));
   }
 
-  @Override
+  /***************************************************/
+  @Override // from Iterable
   public Iterator<Tensor> iterator() {
     return list.iterator();
   }
@@ -227,11 +226,6 @@ import java.util.stream.Stream;
 
   @Override // from Object
   public String toString() {
-    String string = list.stream().map(Tensor::toString).collect(Collectors.joining(DELIMITER));
-    StringBuilder stringBuilder = new StringBuilder(2 + string.length());
-    stringBuilder.append(OPENING_BRACKET);
-    stringBuilder.append(string);
-    stringBuilder.append(CLOSING_BRACKET);
-    return stringBuilder.toString(); // "{x, y, z}"
+    return list.stream().map(Tensor::toString).collect(Collectors.joining(", ", "{", "}"));
   }
 }

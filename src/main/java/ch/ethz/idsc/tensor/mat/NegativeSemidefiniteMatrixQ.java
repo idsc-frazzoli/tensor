@@ -1,10 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
-import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NegativeSemidefiniteMatrixQ.html">NegativeSemidefiniteMatrixQ</a> */
@@ -16,7 +17,6 @@ public enum NegativeSemidefiniteMatrixQ {
   public static boolean ofHermitian(Tensor tensor) {
     return MatrixQ.of(tensor) && //
         CholeskyDecomposition.of(tensor).diagonal().stream() //
-            .map(SignInterface.class::cast) //
-            .allMatch(signInterface -> signInterface.signInt() <= 0);
+            .map(Scalar.class::cast).allMatch(Sign::isNegativeOrZero);
   }
 }

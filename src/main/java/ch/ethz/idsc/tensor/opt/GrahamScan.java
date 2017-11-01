@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
-import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** Quote from Wikipedia:
  * Graham's scan is a method of finding the convex hull of a finite set of points
@@ -78,8 +78,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
       Tensor top = stack.pop();
       while (true) {
         Scalar ccw = ccw(stack.peek(), top, point);
-        SignInterface signInterface = (SignInterface) ccw;
-        if (0 < signInterface.signInt())
+        if (Sign.isPositive(ccw))
           break;
         top = stack.pop();
       }
