@@ -153,6 +153,6 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    return String.format("%d'%d", value, prime);
+    return String.format("G:%d'%d", value, prime);
   }
 }

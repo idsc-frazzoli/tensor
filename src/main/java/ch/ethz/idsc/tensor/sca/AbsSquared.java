@@ -17,7 +17,7 @@ public enum AbsSquared implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof ComplexEmbedding)
+    if (scalar instanceof ConjugateInterface)
       return scalar.multiply(Conjugate.FUNCTION.apply(scalar));
     Scalar abs = scalar.abs();
     return abs.multiply(abs);
