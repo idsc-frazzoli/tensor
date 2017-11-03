@@ -40,7 +40,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   }
 
   private final Scalar value;
-  private final Unit unit; // non-empty
+  private final Unit unit; // not Unit.ONE
 
   private QuantityImpl(Scalar value, Unit unit) {
     this.value = value;
