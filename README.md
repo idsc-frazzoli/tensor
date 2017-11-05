@@ -308,4 +308,4 @@ The library is used in the projects:
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1710` unit tests.
+The repository has over `1720` unit tests.
