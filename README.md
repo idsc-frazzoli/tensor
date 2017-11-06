@@ -4,7 +4,7 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.4.1`
+Version `0.4.2`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
@@ -281,7 +281,7 @@ The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.1/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.2/*
 
 ## Optional
 
@@ -308,4 +308,4 @@ The library is used in the projects:
 * `SimBus`
 * `lcm-java`
 
-The repository has over `1720` unit tests.
+The repository has over `1730` unit tests.
