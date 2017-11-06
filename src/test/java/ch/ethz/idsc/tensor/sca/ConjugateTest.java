@@ -19,8 +19,8 @@ public class ConjugateTest extends TestCase {
   public void testQuantity2() {
     Scalar s = Scalars.fromString("3+5*I[m*s]");
     assertTrue(s instanceof Quantity);
-    assertEquals(Real.of(s), Scalars.fromString("3[m*s]"));
-    assertEquals(Imag.of(s), Scalars.fromString("5[m*s]"));
+    assertEquals(Real.of(s), Quantity.of(3, "m*s"));
+    assertEquals(Imag.of(s), Quantity.of(5, "m*s"));
     assertEquals(Conjugate.of(s), Scalars.fromString("3-5*I[m*s]"));
   }
 

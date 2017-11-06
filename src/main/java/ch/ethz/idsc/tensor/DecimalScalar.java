@@ -259,13 +259,8 @@ public final class DecimalScalar extends AbstractRealScalar implements //
     return of(BigDecimalMath.sinh(value, mathContext()));
   }
 
-  /***************************************************/
-  /** @return BigDecimal value stored by instance */
-  public BigDecimal value() {
-    return value;
-  }
-
-  public MathContext mathContext() {
+  // helper function used in the implementation of TrigonometryInterface etc.
+  private MathContext mathContext() {
     return new MathContext(precision, RoundingMode.HALF_EVEN);
   }
 

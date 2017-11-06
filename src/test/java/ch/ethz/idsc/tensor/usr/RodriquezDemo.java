@@ -21,7 +21,7 @@ enum RodriquezDemo {
   private static Scalar Z;
 
   private static Scalar function(int y, int x) {
-    Tensor mat = Rodriguez.of(Tensors.of(RE.Get(x), IM.Get(y), Z));
+    Tensor mat = Rodriguez.exp(Tensors.of(RE.Get(x), IM.Get(y), Z));
     return mat.Get(0, 2);
   }
 

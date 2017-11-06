@@ -13,6 +13,11 @@ public class QuantityMagnitudeTest extends TestCase {
     assertEquals(scalar, RealScalar.of(2_000_000));
   }
 
+  public void testSimpleString() {
+    Scalar scalar = QuantityMagnitude.SI().in("K*m^2*s").apply(Quantity.of(2, "K*km^2*s"));
+    assertEquals(scalar, RealScalar.of(2_000_000));
+  }
+
   public void testRad() {
     QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
     Scalar q = Quantity.of(360, "deg");
@@ -36,9 +41,9 @@ public class QuantityMagnitudeTest extends TestCase {
   public void testFailConversion() {
     QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
     Scalar quantity = Quantity.of(360, "kg");
-    Unit unit = Unit.of("m");
+    ScalarUnaryOperator suo = quantityMagnitude.in("m");
     try {
-      quantityMagnitude.in(unit).apply(quantity);
+      suo.apply(quantity);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

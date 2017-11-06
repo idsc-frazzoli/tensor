@@ -1,10 +1,22 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class PrettyTest extends TestCase {
+  public void testEmpty() {
+    assertEquals(Pretty.of(Tensors.empty()), "[]");
+  }
+
+  public void testScalar() {
+    Scalar scalar = ComplexScalar.of(3, 4);
+    String string = Pretty.of(scalar);
+    assertEquals(string, scalar.toString());
+  }
+
   public void testVector() {
     String s = Pretty.of(Tensors.vector(10, 2, 3));
     assertEquals(s, "[ 10   2   3 ]");

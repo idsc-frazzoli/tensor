@@ -172,14 +172,9 @@ public final class DoubleScalar extends AbstractRealScalar implements //
     return value < 0 ? -1 : (0 == value ? 0 : 1);
   }
 
-  /***************************************************/
+  // helper function used for implementation in RoundingInterface
   private BigDecimal bigDecimal() {
     return BigDecimal.valueOf(value);
-  }
-
-  /** @return double value stored by instance */
-  public double value() {
-    return value;
   }
 
   /***************************************************/

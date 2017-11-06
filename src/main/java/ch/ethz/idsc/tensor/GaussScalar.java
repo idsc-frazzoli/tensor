@@ -29,8 +29,12 @@ public class GaussScalar extends AbstractScalar implements //
    * @return value in finite field with prime number of elements */
   public static Scalar of(long value, long prime) {
     assertIsProbablePrime(prime);
-    long _value = ((value % prime) + prime) % prime;
-    return new GaussScalar(_value, prime);
+    return in(value, prime);
+  }
+
+  // helper function
+  private static Scalar in(long value, long prime) {
+    return new GaussScalar(((value % prime) + prime) % prime, prime);
   }
 
   // ---
@@ -50,19 +54,19 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from Scalar
   public Scalar reciprocal() {
-    return of(new ExtendedGcd(value, prime).x, prime);
+    return in(new ExtendedGcd(value, prime).x, prime);
   }
 
   @Override // from Scalar
   public Scalar negate() {
-    return of(-value, prime);
+    return in(-value, prime);
   }
 
   @Override // from Scalar
   public Scalar multiply(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
-      return of(value * gaussScalar.value, prime);
+      return in(Math.multiplyExact(value, gaussScalar.value), prime);
     }
     throw TensorRuntimeException.of(this, scalar);
   }
@@ -74,7 +78,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from Scalar
   public Scalar zero() {
-    return of(0, prime);
+    return in(0, prime);
   }
 
   /***************************************************/
@@ -82,7 +86,9 @@ public class GaussScalar extends AbstractScalar implements //
   protected Scalar plus(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
-      return of(value + gaussScalar.value, prime);
+      if (prime != gaussScalar.prime)
+        throw TensorRuntimeException.of(this, scalar);
+      return in(Math.addExact(value, gaussScalar.value), prime);
     }
     throw TensorRuntimeException.of(this, scalar);
   }
@@ -107,10 +113,10 @@ public class GaussScalar extends AbstractScalar implements //
   @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
     if (Scalars.isZero(exponent))
-      return of(1, prime);
+      return in(1, prime);
     if (IntegerQ.of(exponent)) {
       RationalScalar rationalScalar = (RationalScalar) exponent;
-      return Scalars.binaryPower(of(1, prime)).apply(this, rationalScalar.numerator());
+      return Scalars.binaryPower(in(1, prime)).apply(this, rationalScalar.numerator());
     }
     throw TensorRuntimeException.of(this, exponent);
   }
@@ -118,21 +124,13 @@ public class GaussScalar extends AbstractScalar implements //
   @Override // from SqrtInterface
   public Scalar sqrt() {
     // implementation is slow, could use memo function
-    for (long index = 1; index < prime; ++index) {
-      Scalar candidate = of(index, prime);
-      GaussScalar square = (GaussScalar) candidate.multiply(candidate);
-      if (value == square.value)
-        return candidate;
-    }
-    throw TensorRuntimeException.of(this);
+    for (long index = 0; index < prime; ++index)
+      if (equals(in(Math.multiplyExact(index, index), prime))) //
+        return in(index, prime);
+    throw TensorRuntimeException.of(this); // sqrt of this does not exist
   }
 
   /***************************************************/
-  /** @return value in the range 0, 1, ..., prime()-1 */
-  public long value() {
-    return value;
-  }
-
   /** @return prime order of finite field */
   public long prime() {
     return prime;
@@ -155,6 +153,6 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    return String.format("%d'%d", value, prime);
+    return String.format("G:%d'%d", value, prime);
   }
 }

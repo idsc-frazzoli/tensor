@@ -38,7 +38,7 @@ public enum Export {
       ImageIO.write(ImageFormat.of(tensor), "png", file);
     else //
     if (filename.hasExtension("tensor"))
-      Files.write(file.toPath(), ObjectFormat.of(tensor));
+      object(file, tensor);
     else //
       throw new RuntimeException(file.toString());
   }

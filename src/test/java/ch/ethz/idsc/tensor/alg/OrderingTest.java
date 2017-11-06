@@ -38,4 +38,9 @@ public class OrderingTest extends TestCase {
         IntStream.range(0, array.length).mapToObj(index -> vector.Get(array[index])));
     assertEquals(ascending, Sort.of(vector));
   }
+
+  public void testEnum() {
+    assertEquals(Ordering.valueOf("INCREASING"), Ordering.INCREASING);
+    assertEquals(Ordering.valueOf("DECREASING"), Ordering.DECREASING);
+  }
 }

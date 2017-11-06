@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -37,8 +36,9 @@ public class TrigonometryInterfaceTest extends TestCase {
   }
 
   public void testQuantityFail() {
+    Scalar scalar = Quantity.of(1.2, "m");
     try {
-      Sin.of(Scalars.fromString("1.2[m]"));
+      Sin.of(scalar);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

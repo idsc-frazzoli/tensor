@@ -49,6 +49,17 @@ public class TraceTest extends TestCase {
     assertEquals(red, RealScalar.of(n));
   }
 
+  public void testEmpty() {
+    // mathematica gives 0 == Tr[{{}}]
+    Tensor empty = Tensors.fromString("{{}}");
+    try {
+      Tensor result = Trace.of(empty); // TODO throws exception but shouldn't
+      System.out.println(result);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testDimensionsFail() {
     try {
       Trace.of(RealScalar.ONE);

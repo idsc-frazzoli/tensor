@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.Unprotect;
 public enum VectorQ {
   ;
   /** @param tensor
-   * @return true if tensor is a vector */
+   * @return true if all entries of given tensor are of type {@link Scalar} */
   public static boolean of(Tensor tensor) {
     return !ScalarQ.of(tensor) && tensor.stream().allMatch(ScalarQ::of);
   }

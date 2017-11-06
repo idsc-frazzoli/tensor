@@ -23,6 +23,14 @@ public class SignTest extends TestCase {
     assertEquals(Sign.of(RealScalar.of(9 - 3)), RealScalar.ONE);
   }
 
+  public void testDoubleNegZero() {
+    Scalar d1 = DoubleScalar.of(-0.0);
+    assertEquals(d1.toString(), "-0.0");
+    Scalar s1 = Sign.of(d1);
+    assertEquals(s1.toString(), "0");
+    assertEquals(d1, d1.zero());
+  }
+
   public void testInfinity() {
     assertEquals(Sign.of(DoubleScalar.POSITIVE_INFINITY), RealScalar.of(+1));
     assertEquals(Sign.of(DoubleScalar.NEGATIVE_INFINITY), RealScalar.of(-1));

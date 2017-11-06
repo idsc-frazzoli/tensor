@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
 /** 1-norm, for vectors |a_1| + ... + |a_n| also known as ManhattanDistance */
 /* package */ enum Norm1 implements NormInterface {
   INSTANCE;
+  // ---
   @Override
   public Scalar ofVector(Tensor vector) {
     return vector.stream() //

@@ -9,6 +9,11 @@ import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import junit.framework.TestCase;
 
 public class MatrixQTest extends TestCase {
+  public void testEmpty() {
+    assertTrue(MatrixQ.of(Tensors.fromString("{{}}")));
+    assertTrue(MatrixQ.of(Tensors.fromString("{{},{}}")));
+  }
+
   public void testScalar() {
     assertFalse(MatrixQ.of(RealScalar.ONE));
     assertFalse(MatrixQ.of(ComplexScalar.I));

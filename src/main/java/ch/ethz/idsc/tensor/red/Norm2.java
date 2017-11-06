@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 /** 2-norm, uses SVD for matrices */
 /* package */ enum Norm2 implements NormInterface {
   INSTANCE;
+  // ---
   @Override
   public Scalar ofVector(Tensor vector) {
     try {

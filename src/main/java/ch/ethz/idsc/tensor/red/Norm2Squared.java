@@ -12,7 +12,8 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
  * @see AbsSquared */
 public enum Norm2Squared {
   ;
-  // ---
+  /** @param vector
+   * @return squared euclidean norm of given vector, i.e. || v1 || ^ 2 */
   public static Scalar ofVector(Tensor vector) {
     return vector.stream() //
         .map(Scalar.class::cast) //
@@ -22,11 +23,13 @@ public enum Norm2Squared {
 
   /** @param v1 vector
    * @param v2 vector
-   * @return norm of vector difference || v1 - v2 || */
+   * @return squared euclidean norm of vector difference, i.e. || v1 - v2 || ^ 2 */
   public static Scalar between(Tensor v1, Tensor v2) {
     return ofVector(v1.subtract(v2));
   }
 
+  /** @param matrix
+   * @return 2-norm of matrix squared */
   public static Scalar ofMatrix(Tensor matrix) {
     Scalar value = Norm._2.ofMatrix(matrix);
     return value.multiply(value);

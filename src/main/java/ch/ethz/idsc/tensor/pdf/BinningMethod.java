@@ -1,7 +1,6 @@
 // code by gjoel and jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.io.Serializable;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -20,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * <a href="https://en.wikipedia.org/wiki/Histogram">Histogram</a>
  * 
  * <p>The bin size computation works on samples of type {@link Quantity}. */
-public enum BinningMethod implements Function<Tensor, Scalar>, Serializable {
+public enum BinningMethod implements Function<Tensor, Scalar> {
   /** chooses width based on {@link StandardDeviation} according to Scott's rule.
    * Outliers have more influence on result than with Freedman-Diaconis.
    * The method typically yields a width larger than that determined by

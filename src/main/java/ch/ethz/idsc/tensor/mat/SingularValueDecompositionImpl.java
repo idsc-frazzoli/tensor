@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Increment;
-import ch.ethz.idsc.tensor.sca.SignInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class SingularValueDecompositionImpl implements SingularValueDecomposition {
@@ -35,7 +35,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /** elements of w below this threshold will be considered as 0 */
   private double w_threshold = 1e-12;
 
-  /** @param A
+  /** @param A with cols <= rows
    * @param epsilon influences if levelW manipulates w and u
    * @param maxIterations */
   /* package */ SingularValueDecompositionImpl(Tensor A) {
@@ -55,14 +55,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     // ---
     v = Array.zeros(cols, cols);
     v.set(RealScalar.ONE, cols - 1, cols - 1);
-    for (int i = cols - 2; 0 <= i; --i) {
+    for (int i = cols - 2; 0 <= i; --i)
       initV(i);
-      v.set(RealScalar.ONE, i, i);
-    }
-    // ---
-    for (int i = Math.min(rows, cols) - 1; 0 <= i; --i)
+    for (int i = cols - 1; 0 <= i; --i)
       initU3(i);
-    // ---
     for (int i = cols - 1; 0 <= i; --i) {
       for (int iteration = 0; iteration <= MAX_ITERATIONS; ++iteration) {
         int l = levelW(i, chop);
@@ -104,36 +100,29 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   private void initU1(int i) {
     Scalar p = RealScalar.ZERO;
-    Scalar scale = RealScalar.ZERO;
-    if (i < rows) {
-      scale = Norm._1.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
-      if (Scalars.nonZero(scale)) {
-        Scalar fi = scale;
-        IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(fi), k, i));
-        Scalar s = Norm2Squared.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
-        Scalar f = u.Get(i, i);
-        p = CopySign.of(Sqrt.FUNCTION.apply(s), f).negate();
-        Scalar h = f.multiply(p).subtract(s);
-        u.set(f.subtract(p), i, i);
-        Scalar fs = scale;
-        for (int j = i + 1; j < cols; ++j)
-          _addscaled(i, rows, u, i, j, //
-              ((Scalar) u.extract(i, rows).get(Tensor.ALL, i).dot(u.extract(i, rows).get(Tensor.ALL, j))).divide(h));
-        IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(fs), k, i));
-      }
+    Scalar scale = Norm._1.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
+    if (Scalars.nonZero(scale)) {
+      IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(scale), k, i));
+      Scalar s = Norm2Squared.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
+      Scalar f = u.Get(i, i);
+      p = CopySign.of(Sqrt.FUNCTION.apply(s), f).negate();
+      Scalar h = f.multiply(p).subtract(s);
+      u.set(f.subtract(p), i, i);
+      for (int j = i + 1; j < cols; ++j)
+        _addscaled(i, rows, u, i, j, //
+            ((Scalar) u.extract(i, rows).get(Tensor.ALL, i).dot(u.extract(i, rows).get(Tensor.ALL, j))).divide(h));
+      IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(scale), k, i));
     }
     w.set(scale.multiply(p), i);
   }
 
   private void initU2(int i) {
     final int ip1 = i + 1;
-    Scalar p = RealScalar.ZERO;
-    Scalar scale = RealScalar.ZERO;
-    if (i < rows && ip1 != cols) {
-      scale = Norm._1.ofVector(u.get(i).extract(ip1, cols));
+    if (ip1 != cols) {
+      Scalar p = RealScalar.ZERO;
+      Scalar scale = Norm._1.ofVector(u.get(i).extract(ip1, cols));
       if (Scalars.nonZero(scale)) {
-        Scalar si = scale;
-        IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.divide(si), i, k));
+        IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.divide(scale), i, k));
         {
           Scalar s = Norm2Squared.ofVector(u.get(i).extract(ip1, cols));
           Scalar f = u.Get(i, ip1);
@@ -149,12 +138,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
             u.set(x -> x.add(srv), j, k);
           }
         }
-        Scalar fs = scale;
-        IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.multiply(fs), i, k));
+        IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.multiply(scale), i, k));
       }
-    }
-    if (i < cols - 1)
       r.set(scale.multiply(p), ip1);
+    }
   }
 
   private void initV(int i) {
@@ -168,6 +155,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     }
     IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, i, j));
     IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, j, i));
+    v.set(RealScalar.ONE, i, i);
   }
 
   private void initU3(int i) {
@@ -258,8 +246,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   private void positiveW(int i) {
     Scalar z = w.Get(i);
-    SignInterface signInterface = (SignInterface) z;
-    if (signInterface.signInt() < 0) {
+    if (Sign.isNegative(z)) {
       w.set(z.negate(), i);
       v.set(Tensor::negate, Tensor.ALL, i);
     }

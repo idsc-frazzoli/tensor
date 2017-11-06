@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -13,10 +12,9 @@ import java.util.stream.Stream;
 /** utility class that provides constructors of tensors for convenience.
  * 
  * <p>The methods are intentionally non-parallel to ensure a deterministic
- * construction process.
- * 
- * <p>Parallel stream processing can lead to significant speed-up.
- * Parallel stream processing has to be decided case by case. */
+ * construction process. Parallel stream processing can lead to significant
+ * speed-up. Parallel stream processing has to be decided case by case.
+ * Several parallel methods are provided in {@link Parallelize}. */
 public enum Tensors {
   ;
   /** @return new modifiable tensor instance with no entries, i.e. length() == 0
@@ -107,42 +105,20 @@ public enum Tensors {
     return Tensor.of(Stream.of(data).map(Tensors::vectorDouble));
   }
 
-  private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
-
-  /** @param string
+  /** Example:
+   * Tensors.fromString("{1+3/2*I,{3.7[m*s],9/4[kg^-1]}}");
+   * 
+   * @param string
    * @return */
-  public static Tensor fromString(final String string) {
-    return fromString(string, Scalars::fromString);
+  public static Tensor fromString(String string) {
+    return TensorParser.of(string, Scalars::fromString);
   }
 
   /** @param string
    * @param function that parses a string to a scalar
    * @return */
-  public static Tensor fromString(final String string, Function<String, Scalar> function) {
-    // could implement using stack?
-    if (string.startsWith(OPENING_BRACKET_STRING)) {
-      List<Tensor> list = new ArrayList<>();
-      int level = 0;
-      int beg = -1;
-      for (int index = 0; index < string.length(); ++index) {
-        final char chr = string.charAt(index);
-        if (chr == Tensor.OPENING_BRACKET) {
-          ++level;
-          if (level == 1)
-            beg = index + 1;
-        }
-        if (level == 1 && (chr == ',' || chr == Tensor.CLOSING_BRACKET)) {
-          String entry = string.substring(beg, index).trim(); // trim is required
-          if (!entry.isEmpty())
-            list.add(fromString(entry, function));
-          beg = index + 1;
-        }
-        if (chr == Tensor.CLOSING_BRACKET)
-          --level;
-      }
-      return Tensor.of(list.stream());
-    }
-    return function.apply(string);
+  public static Tensor fromString(String string, Function<String, Scalar> function) {
+    return TensorParser.of(string, function);
   }
 
   /***************************************************/

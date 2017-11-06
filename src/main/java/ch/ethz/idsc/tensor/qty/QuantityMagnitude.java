@@ -62,4 +62,11 @@ public class QuantityMagnitude {
       }
     };
   }
+
+  /** @param string
+   * @return
+   * @see #in(Unit) */
+  public ScalarUnaryOperator in(String string) {
+    return in(Unit.of(string));
+  }
 }

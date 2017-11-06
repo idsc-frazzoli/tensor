@@ -17,9 +17,9 @@ public enum Conjugate implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    if (scalar instanceof ComplexEmbedding) {
-      ComplexEmbedding complexEmbedding = (ComplexEmbedding) scalar;
-      return complexEmbedding.conjugate();
+    if (scalar instanceof ConjugateInterface) {
+      ConjugateInterface conjugateInterface = (ConjugateInterface) scalar;
+      return conjugateInterface.conjugate();
     }
     throw TensorRuntimeException.of(scalar.getClass().getName(), scalar);
   }

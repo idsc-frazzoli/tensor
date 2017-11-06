@@ -21,7 +21,7 @@ public class DecimalScalar2Test extends TestCase {
   public void testReciprocal() {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL32));
     DecimalScalar r = (DecimalScalar) s.reciprocal();
-    assertTrue(7 <= r.value().precision());
+    assertTrue(7 <= ((BigDecimal) r.number()).precision());
   }
 
   public void testDivide() {

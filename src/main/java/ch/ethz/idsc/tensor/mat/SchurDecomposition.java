@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum SchurDecomposition {
   ;
   public static Tensor of(Tensor matrix) {
+    // LONGTERM implement
     throw TensorRuntimeException.of(matrix);
   }
 }

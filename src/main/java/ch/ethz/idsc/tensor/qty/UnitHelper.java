@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -16,6 +17,7 @@ import ch.ethz.idsc.tensor.Scalars;
   MEMO;
   // ---
   private static final int SIZE = 500;
+  private static final Pattern PATTERN = Pattern.compile("[a-zA-Z]+");
   // ---
   private final Map<String, Unit> map = new LinkedHashMap<String, Unit>(SIZE * 4 / 3, 0.75f, true) {
     @Override
@@ -52,6 +54,8 @@ import ch.ethz.idsc.tensor.Scalars;
         exponent = RealScalar.ONE;
       }
       String key = unit.trim();
+      if (!PATTERN.matcher(key).matches())
+        throw new IllegalArgumentException(string);
       map.put(key, map.containsKey(key) ? map.get(key).add(exponent) : exponent);
     }
     return new UnitImpl(map);

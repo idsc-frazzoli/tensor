@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -15,6 +17,7 @@ public class BinningMethodTest extends TestCase {
   public void testSimple() {
     Scalar width = BinningMethod.SQRT.apply(Tensors.vector(2, 4, 3, 6));
     assertEquals(width, RealScalar.of(2));
+    assertTrue(BinningMethod.SQRT instanceof Serializable);
   }
 
   public void testQuantity() {

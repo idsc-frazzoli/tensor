@@ -91,7 +91,7 @@ public class QRDecompositionTest extends TestCase {
   public void testRandomOrthogonal() {
     Distribution distribution = NormalDistribution.of(0, 5);
     for (int count = 0; count < 5; ++count) {
-      Tensor matrix = Rodriguez.of(RandomVariate.of(distribution, 3));
+      Tensor matrix = Rodriguez.exp(RandomVariate.of(distribution, 3));
       specialOps(matrix);
       QRDecomposition qr = QRDecomposition.preserveOrientation(matrix);
       assertTrue(Chop._13.close(qr.getR(), IdentityMatrix.of(3)));
@@ -103,7 +103,7 @@ public class QRDecompositionTest extends TestCase {
     Distribution distribution = NormalDistribution.of(0, 5);
     Distribution noise = UniformDistribution.of(-0.03, 0.03);
     for (int count = 0; count < 5; ++count) {
-      Tensor matrix = Rodriguez.of(RandomVariate.of(distribution, 3)).add(RandomVariate.of(noise, 3, 3));
+      Tensor matrix = Rodriguez.exp(RandomVariate.of(distribution, 3)).add(RandomVariate.of(noise, 3, 3));
       specialOps(matrix);
       QRDecomposition qr = QRDecomposition.preserveOrientation(matrix);
       Scalar infNorm = Norm.INFINITY.ofVector(Diagonal.of(qr.getR()).map(Decrement.ONE));

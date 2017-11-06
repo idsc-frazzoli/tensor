@@ -7,67 +7,67 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /* package */ class UnitImpl implements Unit {
-  private static final Pattern UNIT_PATTERN = Pattern.compile("\\w+");
-  // ---
-  private final NavigableMap<String, Scalar> navigableMap = new TreeMap<>();
+  private final NavigableMap<String, Scalar> navigableMap;
 
   /* package */ UnitImpl(Map<String, Scalar> map) {
+    NavigableMap<String, Scalar> treeMap = new TreeMap<>();
     for (Entry<String, Scalar> entry : map.entrySet()) {
-      final String string = entry.getKey();
-      if (!UNIT_PATTERN.matcher(string).matches())
-        throw new RuntimeException(string);
       Scalar exponent = entry.getValue();
       if (Scalars.nonZero(exponent))
-        navigableMap.put(entry.getKey(), exponent);
+        treeMap.put(entry.getKey(), exponent);
     }
+    navigableMap = Collections.unmodifiableNavigableMap(treeMap);
   }
 
-  @Override
+  @Override // from Unit
   public Unit negate() {
     return new UnitImpl(navigableMap.entrySet().stream() //
         .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().negate())));
   }
 
-  @Override
+  @Override // from Unit
   public Unit add(Unit unit) {
     Map<String, Scalar> map = new HashMap<>(navigableMap);
-    for (Entry<String, Scalar> entry : ((UnitImpl) unit).navigableMap.entrySet()) {
+    for (Entry<String, Scalar> entry : unit.map().entrySet()) {
       String key = entry.getKey();
-      if (map.containsKey(key)) {
-        Scalar exponent = map.get(key).add(entry.getValue());
-        if (Scalars.nonZero(exponent))
-          map.put(key, exponent);
-        else
-          map.remove(key);
-      } else
-        map.put(key, entry.getValue());
+      Scalar exponent = entry.getValue();
+      map.put(key, map.containsKey(key) ? map.get(key).add(exponent) : exponent);
     }
     return new UnitImpl(map);
   }
 
-  @Override
+  @Override // from Unit
   public Unit multiply(Scalar factor) {
-    return new UnitImpl(navigableMap.entrySet().stream() //
-        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().multiply(factor))));
+    if (factor instanceof RealScalar)
+      return new UnitImpl(navigableMap.entrySet().stream() //
+          .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().multiply(factor))));
+    throw TensorRuntimeException.of(factor);
   }
 
-  @Override
+  @Override // from Unit
+  public NavigableMap<String, Scalar> map() {
+    return navigableMap;
+  }
+
+  /***************************************************/
+  @Override // from Object
   public int hashCode() {
     return navigableMap.hashCode();
   }
 
-  @Override
+  @Override // from Object
   public boolean equals(Object object) {
     if (object instanceof Unit) {
-      UnitImpl unit = (UnitImpl) object;
-      return navigableMap.equals(unit.navigableMap);
+      Unit unit = (Unit) object;
+      return navigableMap.equals(unit.map());
     }
     return false;
   }
@@ -77,15 +77,10 @@ import ch.ethz.idsc.tensor.Scalars;
     return string.equals("1") ? "" : Unit.POWER_DELIMITER + string;
   }
 
-  @Override
+  @Override // from Object
   public String toString() {
     return navigableMap.entrySet().stream() //
         .map(entry -> entry.getKey() + exponentString(entry.getValue())) //
         .collect(Collectors.joining(Unit.JOIN_DELIMITER));
-  }
-
-  @Override
-  public NavigableMap<String, Scalar> map() {
-    return Collections.unmodifiableNavigableMap(navigableMap);
   }
 }

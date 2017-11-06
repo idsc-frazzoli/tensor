@@ -254,7 +254,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       ComplexEmbedding z = (ComplexEmbedding) object;
       return re.equals(z.real()) && im.equals(z.imag());
     }
-    return false;
+    return Objects.nonNull(object) && object.equals(this);
   }
 
   @Override // from AbstractScalar
