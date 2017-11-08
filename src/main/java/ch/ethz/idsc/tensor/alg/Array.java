@@ -81,7 +81,7 @@ public enum Array {
     copy.add(-1);
     int length = dimensions.get(level);
     if (length < 0)
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException(dimensions.toString());
     for (int count = 0; count < length; ++count) {
       copy.set(level, count);
       tensor.append(_of(function, dimensions, copy));

@@ -24,4 +24,23 @@ public class ListConvolveTest extends TestCase {
     Tensor actual = Tensors.fromString("{{8, 2, -2, -2, 2}, {15, 16, 101, 58, 145}}");
     assertEquals(result, actual);
   }
+
+  public void testLastLayer() {
+    Tensor kernel = Tensors.vector(1, -1);
+    Tensor matrix = Tensors.matrixInt(new int[][] { //
+        { 2, 1, 3, 0, 1 }, //
+        { 0, 1, -1, 3, 3 } });
+    Tensor result = TensorMap.of(tensor -> ListConvolve.of(kernel, tensor), matrix, TensorRank.of(matrix) - 1);
+    assertEquals(Dimensions.of(result), Arrays.asList(2, 4));
+  }
+
+  public void testOperator() {
+    Tensor kernel = Tensors.vector(1, -1);
+    Tensor matrix = Tensors.matrixInt(new int[][] { //
+        { 2, 1, 3, 0, 1 }, //
+        { 0, 1, -1, 3, 3 } });
+    Tensor result = TensorMap.of(ListConvolve.with(kernel), matrix, TensorRank.of(matrix) - 1);
+    assertEquals(Dimensions.of(result), Arrays.asList(2, 4));
+    assertEquals(result, Tensors.matrixInt(new int[][] { { -1, 2, -3, 1 }, { 1, -2, 4, 0 } }));
+  }
 }
