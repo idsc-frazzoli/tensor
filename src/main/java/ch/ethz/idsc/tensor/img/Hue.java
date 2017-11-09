@@ -2,9 +2,9 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.img;
 
-import ch.ethz.idsc.tensor.NumberQ;
+import java.awt.Color;
 
-import java.awt.*;
+import ch.ethz.idsc.tensor.NumberQ;
 
 /** standalone hsv to rgb conversion
  * 

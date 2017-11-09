@@ -1,13 +1,11 @@
-// code by jph
+// code by gjoel and jph
 package ch.ethz.idsc.tensor.img;
 
-import ch.ethz.idsc.tensor.RealScalar;
-import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.VectorQ;
-
 import java.util.function.UnaryOperator;
+import java.util.stream.IntStream;
+
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 
 /* package */ enum StaticHelper {
   ;
@@ -17,15 +15,15 @@ import java.util.function.UnaryOperator;
     return TRANSPARENT.copy();
   }
 
-  static Tensor apply(Tensor vector, int radius, UnaryOperator<Tensor> function) {
-      VectorQ.elseThrow(vector);
-      if (radius < 0) throw TensorRuntimeException.of(vector, RealScalar.of(radius));
-      Tensor result = Tensors.empty();
-      for (int i = 0; i < vector.length(); i++) {
-          int lowerBound = Math.max(0, i - radius);
-          int upperBound = Math.min(vector.length() - 1, i + radius);
-          result.append(function.apply(vector.extract(lowerBound, upperBound + 1)));
-      }
-      return result;
+  /** @param tensor
+   * @param radius
+   * @param unaryOperator
+   * @return */
+  static Tensor filter(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
+    if (radius < 0)
+      throw new IllegalArgumentException("" + radius);
+    return Tensor.of(IntStream.range(0, tensor.length()) //
+        .mapToObj(index -> tensor.extract(Math.max(0, index - radius), Math.min(tensor.length(), index + radius + 1))) //
+        .map(unaryOperator));
   }
 }
