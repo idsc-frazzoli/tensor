@@ -30,7 +30,7 @@ public class Pretty {
 
   private Pretty(Tensor tensor) {
     final int max = tensor.flatten(-1) //
-        .map(Tensor::toString) //
+        .map(Object::toString) //
         .mapToInt(String::length) //
         .max().orElse(0);
     format = " %" + max + "s ";

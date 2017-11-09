@@ -226,6 +226,6 @@ import java.util.stream.Stream;
 
   @Override // from Object
   public String toString() {
-    return list.stream().map(Tensor::toString).collect(Collectors.joining(", ", "{", "}"));
+    return list.stream().map(Object::toString).collect(Collectors.joining(", ", "{", "}"));
   }
 }

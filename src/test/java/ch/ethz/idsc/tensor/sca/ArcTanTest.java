@@ -21,8 +21,15 @@ public class ArcTanTest extends TestCase {
   }
 
   public void testRealZero() {
-    Scalar r = ArcTan.of(RealScalar.ZERO, RealScalar.ZERO);
-    assertEquals(r, RealScalar.ZERO);
+    assertEquals(ArcTan.of(RealScalar.ZERO, RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(ArcTan.of(0, 0), RealScalar.ZERO);
+  }
+
+  public void testNumber() {
+    assertEquals(ArcTan.of(2, 0), RealScalar.ZERO);
+    assertEquals(ArcTan.of(-3, 0), RealScalar.of(Math.PI));
+    assertEquals(ArcTan.of(0, 4), RealScalar.of(Math.PI / 2));
+    assertEquals(ArcTan.of(0, -5), RealScalar.of(-Math.PI / 2));
   }
 
   public void testComplexReal() {

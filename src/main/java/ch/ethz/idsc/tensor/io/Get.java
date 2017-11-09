@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** import tensor expression that was created by {@link Put}.
- * The format is similar to Tensor::toString and readable in any text editor.
+ * The format is similar to Object::toString and readable in any text editor.
  * 
  * <p>The file format is intended for data exchange between
  * Mathematica and the tensor library.

@@ -31,8 +31,8 @@ public enum ArcTan implements ScalarUnaryOperator {
    * consistent with Mathematica::ArcTan[x, y]
    * but opposite to java.lang.Math::atan2(y, x)
    * 
-   * ArcTan.of(0, 0) == 0 is not consistent with
-   * Mathematica::ArcTan[0, 0] as undefined
+   * ArcTan.of(0, 0) == 0 is not consistent with Mathematica.
+   * Mathematica::ArcTan[0, 0] is undefined
    * 
    * @param x
    * @param y
@@ -50,5 +50,10 @@ public enum ArcTan implements ScalarUnaryOperator {
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(FUNCTION);
+  }
+
+  // EXPERIMENTAL
+  public static Scalar of(Number x, Number y) {
+    return of(RealScalar.of(x), RealScalar.of(y));
   }
 }

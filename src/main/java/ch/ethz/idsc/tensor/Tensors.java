@@ -111,14 +111,14 @@ public enum Tensors {
    * @param string
    * @return */
   public static Tensor fromString(String string) {
-    return TensorParser.of(string, Scalars::fromString);
+    return TensorParser.DEFAULT.parse(string);
   }
 
   /** @param string
    * @param function that parses a string to a scalar
    * @return */
   public static Tensor fromString(String string, Function<String, Scalar> function) {
-    return TensorParser.of(string, function);
+    return new TensorParser(function).parse(string);
   }
 
   /***************************************************/
