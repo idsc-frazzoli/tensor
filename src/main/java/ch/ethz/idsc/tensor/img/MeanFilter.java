@@ -1,19 +1,34 @@
 // code by gjoel
 package ch.ethz.idsc.tensor.img;
 
+import java.util.function.UnaryOperator;
+
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.VectorQ;
+import ch.ethz.idsc.tensor.alg.TensorMap;
+import ch.ethz.idsc.tensor.alg.TensorRank;
 import ch.ethz.idsc.tensor.red.Mean;
 
-/** inspired by
+/** the implementation is consistent with Mathematica.
+ * 
+ * <p>For images apply the mean filter to each of the RGB channels separately.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/MeanFilter.html">MeanFilter</a> */
 public enum MeanFilter {
   ;
-  /** @param tensor
-   * @param radius
+  /** Example:
+   * <pre>
+   * MeanFilter.of({-3, 3, 6, 0, 0, 3, -3, -9}, 1) == {0, 2, 3, 2, 1, 0, -3, -6}
+   * </pre>
+   * 
+   * @param tensor of arbitrary rank
+   * @param radius non-negative integer, for radius == 0 the function returns a copy of the given tensor
    * @return */
   public static Tensor of(Tensor tensor, int radius) {
-    VectorQ.elseThrow(tensor); // TODO does not yet work for non-vectors
-    return StaticHelper.filter(tensor, radius, Mean::of);
+    int rank = TensorRank.of(tensor);
+    UnaryOperator<Tensor> unaryOperator = value -> StaticHelper.filter(value, radius, Mean::of);
+    for (int level = 0; level < rank; ++level)
+      tensor = TensorMap.of(unaryOperator, tensor, level);
+    return rank == 0 ? tensor.copy() : tensor;
   }
 }

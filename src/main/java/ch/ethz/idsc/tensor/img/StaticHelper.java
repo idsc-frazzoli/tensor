@@ -19,11 +19,13 @@ import ch.ethz.idsc.tensor.Tensors;
    * @param radius
    * @param unaryOperator
    * @return */
+  // helper function used in MeanFilter, MedianFilter
   static Tensor filter(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
     if (radius < 0)
       throw new IllegalArgumentException("" + radius);
-    return Tensor.of(IntStream.range(0, tensor.length()) //
-        .mapToObj(index -> tensor.extract(Math.max(0, index - radius), Math.min(tensor.length(), index + radius + 1))) //
+    int length = tensor.length();
+    return Tensor.of(IntStream.range(0, length) //
+        .mapToObj(index -> tensor.extract(Math.max(0, index - radius), Math.min(length, index + radius + 1))) //
         .map(unaryOperator));
   }
 }

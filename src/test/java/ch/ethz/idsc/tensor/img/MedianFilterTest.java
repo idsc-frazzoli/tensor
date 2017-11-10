@@ -1,6 +1,7 @@
 // code by gjoel
 package ch.ethz.idsc.tensor.img;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -22,5 +23,12 @@ public class MedianFilterTest extends TestCase {
     Tensor vector2 = Tensors.vector(1, 2, 4, 8, 16, 32, 64, 128, 256);
     Tensor result2 = MedianFilter.of(vector2, 2);
     assertEquals(Tensors.vector(2, 3, 4, 8, 16, 32, 64, 96, 128), result2);
+  }
+
+  public void testEmpty() {
+    Tensor input = Tensors.empty();
+    Tensor result = MedianFilter.of(input, 2);
+    input.append(RealScalar.ZERO);
+    assertEquals(result, Tensors.empty());
   }
 }
