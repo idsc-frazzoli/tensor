@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
@@ -57,15 +56,14 @@ public enum Transpose {
   /** transpose according to permutation sigma.
    * function conforms to Mathematica::Transpose
    * 
+   * <p>Transpose[scalar, {}] is undefined.
+   * 
    * @param tensor with array structure
    * @param sigma is a permutation with sigma.length == rank of tensor
    * @return */
   public static Tensor of(Tensor tensor, Integer... sigma) {
     if (!ArrayQ.ofRank(tensor, sigma.length))
       throw TensorRuntimeException.of(tensor);
-    if (ScalarQ.of(tensor))
-      throw TensorRuntimeException.of("Transpose[scalar, {}] undefined", tensor);
-    // ---
     List<Integer> dims = Dimensions.of(tensor);
     int[] size = new int[dims.size()];
     for (int index = 0; index < size.length; ++index)
@@ -96,7 +94,7 @@ public enum Transpose {
   public static Tensor nonArray(Tensor tensor, Integer... sigma) {
     Tensor _sigma = Tensors.vector(sigma);
     if (!Sort.of(_sigma).equals(Range.of(0, sigma.length)))
-      throw TensorRuntimeException.of(_sigma);
+      throw TensorRuntimeException.of(_sigma); // sigma does not encode a permutation
     return Array.of(list -> tensor.get(permute(list, sigma)), //
         inverse(Dimensions.of(tensor), _sigma));
   }

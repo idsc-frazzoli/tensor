@@ -1,4 +1,4 @@
-// code by gjoel
+// code by gjoel and jph
 package ch.ethz.idsc.tensor.img;
 
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -48,11 +48,30 @@ public class MeanFilterTest extends TestCase {
     assertEquals(result, Tensors.fromString(mathematica));
   }
 
+  public void testScalarFail() {
+    try {
+      MeanFilter.of(RealScalar.of(3), 1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testNonArray() {
     Tensor matrix = Tensors.fromString("{{1,2,3,3,{3,2,3}},{3},{0,0,0}}");
     matrix.flatten(-1).map(RationalScalar.class::cast); // test if parsing went ok
     try {
       MeanFilter.of(matrix, 1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRadiusFail() {
+    try {
+      MeanFilter.of(Tensors.vector(1, 2, 3, 4), -1);
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

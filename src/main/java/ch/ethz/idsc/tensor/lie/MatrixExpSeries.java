@@ -34,6 +34,6 @@ import ch.ethz.idsc.tensor.sca.N;
       if (Chop.NONE.close(sum, prv))
         return sum;
     }
-    throw TensorRuntimeException.of(matrix);
+    throw TensorRuntimeException.of(matrix); // insufficient convergence
   }
 }
