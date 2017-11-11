@@ -3,6 +3,9 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.red.Mean;
+import ch.ethz.idsc.tensor.red.Variance;
 import junit.framework.TestCase;
 
 public class HypergeometricDistributionTest extends TestCase {
@@ -15,14 +18,28 @@ public class HypergeometricDistributionTest extends TestCase {
   }
 
   public void testFail() {
+    // int N, int n, int m_n
+    // 0 < N && N <= m_n && 0 <= n && n <= m_n
     try {
-      HypergeometricDistribution.of(0, 50, 100);
+      HypergeometricDistribution.of(0, 50, 100); // violates 0 < N
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      HypergeometricDistribution.of(5, -1, 100);
+      HypergeometricDistribution.of(5, -1, 100); // violates 0 <= n
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      HypergeometricDistribution.of(11, 10, 10); // violates N <= m_n
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      HypergeometricDistribution.of(10, 11, 10); // violates n <= m_n
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -41,5 +58,15 @@ public class HypergeometricDistributionTest extends TestCase {
     PDF pdf = PDF.of(HypergeometricDistribution.of(10, 50, 100));
     assertEquals(pdf.at(RealScalar.of(-1)), RealScalar.ZERO);
     assertEquals(pdf.at(RealScalar.of(11)), RealScalar.ZERO);
+  }
+
+  public void testMean() {
+    Scalar mean = Mean.of(HypergeometricDistribution.of(10, 50, 100));
+    assertEquals(mean, RealScalar.of(5));
+  }
+
+  public void testVariance() {
+    Scalar variance = Variance.of(HypergeometricDistribution.of(10, 50, 100));
+    assertEquals(variance, Scalars.fromString("25/11"));
   }
 }

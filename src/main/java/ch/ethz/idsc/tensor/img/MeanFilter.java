@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.red.Mean;
  * 
  * <p>For images apply the mean filter to each of the RGB channels separately.
  * 
- * <p>{@link MeanFilter} requires less operations than {@link MedianFilter}.
+ * <p>{@link MeanFilter} requires less operations for computation than {@link MedianFilter}.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/MeanFilter.html">MeanFilter</a> */
