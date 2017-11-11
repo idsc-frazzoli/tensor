@@ -16,7 +16,7 @@ public interface AnimationWriter extends AutoCloseable {
    * @param period between frames in milliseconds
    * @return
    * @throws IOException */
-  public static AnimationWriter of(File file, int period) throws IOException {
+  static AnimationWriter of(File file, int period) throws IOException {
     Filename filename = new Filename(file);
     if (filename.hasExtension("gif"))
       return new GifAnimationWriter(file, period);

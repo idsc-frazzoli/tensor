@@ -1,12 +1,39 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import ch.ethz.idsc.tensor.Tensor;
+import java.util.stream.IntStream;
 
-enum TensorWedge {
+import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.alg.TensorRank;
+import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.sca.Factorial;
+
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/TensorWedge.html">TensorWedge</a> */
+public enum TensorWedge {
   ;
+  /** @param a
+   * @param b
+   * @return */
   public static Tensor of(Tensor a, Tensor b) {
-    // LONGTERM implement
-    return null;
+    return of(TensorProduct.of(a, b));
+  }
+
+  /** @param tensor
+   * @return */
+  public static Tensor of(Tensor tensor) {
+    Tensor sum = tensor.map(Scalar::zero);
+    int rank = TensorRank.of(tensor);
+    Integer[] sigma = new Integer[rank];
+    for (Tensor permutation : Permutations.of(Range.of(0, rank))) {
+      IntStream.range(0, rank).forEach(index -> sigma[index] = permutation.Get(index).number().intValue());
+      sum = Signature.of(permutation).equals(RealScalar.ONE) //
+          ? sum.add(Transpose.of(tensor, sigma)) //
+          : sum.subtract(Transpose.of(tensor, sigma));
+    }
+    return sum.divide(Factorial.of(rank));
   }
 }
