@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-/** the content of the UnmodifiableTensorImpl is read-only.
- * an attempt to modify the content results in an exception.
+/** the content of the UnmodifiableTensor is read-only.
+ * An attempt to modify the content results in an exception.
  * 
- * UnmodifiableTensorImpl wraps the original content list as a
+ * <p>UnmodifiableTensor wraps the original content list as a
  * Collections.unmodifiableList. All methods in TensorImpl that
  * 1) give references of sub-tensors, or that
  * 2) may result in the modification of the content
  * are overloaded.
  * 
- * UnmodifiableTensorImpl does not duplicate memory. */
+ * <p>UnmodifiableTensor does not duplicate memory. */
 /* package */ class UnmodifiableTensor extends TensorImpl {
   UnmodifiableTensor(List<Tensor> list) {
     super(Collections.unmodifiableList(list));

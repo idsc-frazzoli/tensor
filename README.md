@@ -273,7 +273,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.4.1</version>
+        <version>0.4.2</version>
       </dependency>
     </dependencies>
 
