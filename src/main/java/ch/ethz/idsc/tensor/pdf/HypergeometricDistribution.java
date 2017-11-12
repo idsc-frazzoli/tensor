@@ -20,7 +20,8 @@ public class HypergeometricDistribution extends EvaluatedDiscreteDistribution im
    * @param m_n population size
    * @return */
   public static Distribution of(int N, int n, int m_n) {
-    if (N <= 0 || m_n < N || m_n < n || n < 0)
+    // (0 < N && N <= m_n && 0 <= n && n <= m_n)
+    if (N <= 0 || m_n < N || n < 0 || m_n < n)
       throw new RuntimeException(String.format("N=%d n=%d m_n=%d", N, n, m_n));
     return new HypergeometricDistribution(N, n, m_n);
   }

@@ -17,15 +17,15 @@ import ch.ethz.idsc.tensor.Tensors;
   final int[] size;
   private final int[] prod;
 
+  /** @param dims
+   * @throws Exception if dims.length == 0 */
   private Size(int... dims) {
     size = dims;
     prod = new int[dims.length];
-    if (0 < dims.length) {
-      final int dmo = dims.length - 1;
-      prod[dmo - 0] = 1;
-      for (int index = 0; index < dmo; ++index)
-        prod[dmo - (index + 1)] = prod[dmo - index] * size[dmo - index];
-    }
+    final int dmo = dims.length - 1;
+    prod[dmo] = 1;
+    for (int index = 0; index < dmo; ++index)
+      prod[dmo - (index + 1)] = prod[dmo - index] * size[dmo - index];
   }
 
   public Size permute(int... sigma) {

@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
@@ -184,5 +185,11 @@ public class TensorsTest extends TestCase {
     assertFalse(Tensors.isUnmodifiable(canwrite));
     assertTrue(Tensors.isUnmodifiable(readonly));
     assertFalse(Tensors.isUnmodifiable(readonly.copy()));
+  }
+
+  public void testNCopies() {
+    Tensor ncopies = Tensor.of(Collections.nCopies(6, RealScalar.of(3)).stream());
+    ncopies.set(RealScalar.ZERO, 2);
+    assertEquals(ncopies, Tensors.vector(3, 3, 0, 3, 3, 3));
   }
 }

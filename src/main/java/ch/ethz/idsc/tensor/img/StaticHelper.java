@@ -1,4 +1,4 @@
-// code by jph
+// code by gjoel and jph
 package ch.ethz.idsc.tensor.img;
 
 import ch.ethz.idsc.tensor.Tensor;

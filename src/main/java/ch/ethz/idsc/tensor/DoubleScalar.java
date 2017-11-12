@@ -12,30 +12,31 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
 
 /** scalar with double precision, 64-bit, MATLAB style
  * 
- * The value of {@link DoubleScalar} is backed by a double type.
+ * <p>The value of {@link DoubleScalar} is backed by a double type.
  * double types are <em>not</em> closed under multiplicative inversion:
  * <pre>
  * a / b != a * (1.0 / b)
  * </pre>
  * For instance, the smallest double is 4.9E-324.
- * but 1.0 / 4.9E-324 == Infinity
+ * But 1.0 / 4.9E-324 == Infinity.
  * 
- * The range of double values closed under 2x inversion, i.e.
+ * <p>The range of double values closed under 2x inversion, i.e.
  * value == 1.0 / (1.0 / value) is
  * [5.562684646268010E-309, 1.7976931348623151E308]
  * 
- * zero().reciprocal() equals {@link DoubleScalar#POSITIVE_INFINITY}
+ * <p>zero().reciprocal() equals {@link DoubleScalar#POSITIVE_INFINITY}
  * 
- * The numeric zero has a sign, i.e. positive +0.0 and negative -0.0 exist
+ * <p>The numeric zero has a sign, i.e. positive +0.0 and negative -0.0 exist.
  * The implementation of DoubleScalar uses the following rules:
  * <ul>
  * <li>DoubleScalar.of(-0.0) is backed by the double value -0.0
  * <li>DoubleScalar.of(-0.0) equals DoubleScalar.of(0.0)
- * <li>their hashCode is also identical
+ * <li>their hashCode is also identical, which is not the case when using
+ * {@link Double#hashCode(double)}
  * <li>Scalars.compare(DoubleScalar.of(-0.0), DoubleScalar.of(0.0)) gives 0
  * </ul>
  * 
- * Special case:
+ * <p>Special case:
  * Scalars.fromString("-0.0") gives DoubleScalar.of(0.0) */
 public final class DoubleScalar extends AbstractRealScalar implements //
     ChopInterface, MachineNumberQInterface {

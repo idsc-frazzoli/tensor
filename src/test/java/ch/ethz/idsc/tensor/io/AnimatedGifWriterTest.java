@@ -16,6 +16,11 @@ public class AnimatedGifWriterTest extends TestCase {
     agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
     agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
     agw.close();
+    assertTrue(file.isFile());
+    agw = AnimatedGifWriter.of(file, 100);
+    agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
+    agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
+    agw.close();
     file.delete();
   }
 

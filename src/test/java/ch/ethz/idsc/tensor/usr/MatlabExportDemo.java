@@ -25,7 +25,7 @@ enum MatlabExportDemo {
   static void vector2() throws IOException {
     Tensor tensor = Tensors.fromString( //
         "{Infinity, 0,0, 2.1342134E-300, -Infinity, NaN, 0, 136458123548175/23947236498726349876239876234}");
-    boolean status = tensor.stream().filter(s -> s instanceof StringScalar).findAny().isPresent();
+    boolean status = tensor.stream().anyMatch(s -> s instanceof StringScalar);
     if (status)
       throw TensorRuntimeException.of(tensor);
     Export.of(UserHome.file("me_vector2.m"), tensor);

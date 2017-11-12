@@ -1,23 +1,26 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 
-/* package */ enum TensorParser {
-  ;
+/* package */ class TensorParser {
   private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
   private static final char COMMA = ',';
+  // ---
+  public static final TensorParser DEFAULT = new TensorParser(Scalars::fromString);
+  // ---
+  private final Function<String, Scalar> function;
 
-  /** @param string
-   * @param function that parses a string to a scalar
-   * @return */
-  static Tensor of(final String string, Function<String, Scalar> function) {
+  /** @param function that parses a string to a scalar */
+  public TensorParser(Function<String, Scalar> function) {
+    this.function = function;
+  }
+
+  public Tensor parse(String string) {
     // could implement using stack?
-    if (string.startsWith(OPENING_BRACKET_STRING)) {
-      List<Tensor> list = new ArrayList<>();
-      int level = 0;
+    if (string.startsWith(OPENING_BRACKET_STRING)) { // first character is "{"
+      Tensor tensor = Tensors.empty();
+      int level = 0; // track nesting with "{" and "}"
       int beg = -1;
       for (int index = 0; index < string.length(); ++index) {
         final char chr = string.charAt(index);
@@ -26,18 +29,20 @@ import java.util.function.Function;
           if (level == 1)
             beg = index + 1;
         }
-        if (level == 1 && (chr == COMMA || chr == Tensor.CLOSING_BRACKET)) {
+        boolean isComma = chr == COMMA;
+        boolean closing = chr == Tensor.CLOSING_BRACKET;
+        if (level == 1 && (isComma || closing)) {
           String entry = string.substring(beg, index).trim(); // trim is required
-          if (!entry.isEmpty())
-            list.add(of(entry, function));
+          if (!entry.isEmpty() || !closing || 0 < tensor.length())
+            tensor.append(parse(entry));
           beg = index + 1;
         }
-        if (chr == Tensor.CLOSING_BRACKET)
+        if (closing)
           --level;
       }
       if (level != 0)
         return StringScalar.of(string);
-      return Tensor.of(list.stream());
+      return tensor;
     }
     return function.apply(string);
   }

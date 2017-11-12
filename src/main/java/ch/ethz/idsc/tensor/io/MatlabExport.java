@@ -68,6 +68,6 @@ public enum MatlabExport {
    * @param tensor must not be {@link Scalar}. For scalars, use Tensors.of(scalar);
    * @return lines of MATLAB function that returns tensor */
   public static Stream<String> of(Tensor tensor) {
-    return of(tensor, Scalar::toString);
+    return of(tensor, Object::toString);
   }
 }

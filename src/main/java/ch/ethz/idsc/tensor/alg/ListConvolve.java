@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.function.UnaryOperator;
+
 import ch.ethz.idsc.tensor.Tensor;
 
 /** One application of {@link ListConvolve} is the computation of the coefficients
@@ -20,5 +22,12 @@ public enum ListConvolve {
    * @return convolution of kernel with tensor */
   public static Tensor of(Tensor kernel, Tensor tensor) {
     return ListCorrelate.of(Reverse.all(kernel), tensor);
+  }
+
+  /** @param kernel
+   * @return operator that performs convolution with given kernel on tensor input */
+  public static UnaryOperator<Tensor> with(Tensor kernel) {
+    Tensor reverse = Reverse.all(kernel);
+    return tensor -> ListCorrelate.of(reverse, tensor);
   }
 }

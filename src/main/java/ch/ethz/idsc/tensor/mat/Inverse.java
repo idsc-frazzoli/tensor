@@ -9,13 +9,13 @@ public enum Inverse {
   ;
   /** @param m square matrix
    * @return inverse of m */
-  public static final Tensor of(Tensor m) {
+  public static Tensor of(Tensor m) {
     return of(m, IdentityMatrix.of(m.length()));
   }
 
   /** @param m square matrix
    * @return inverse of m */
-  public static final Tensor of(Tensor m, Tensor identity) {
+  public static Tensor of(Tensor m, Tensor identity) {
     return LinearSolve.of(m, identity);
   }
 
@@ -23,7 +23,7 @@ public enum Inverse {
    * 
    * @param m
    * @return */
-  public static final Tensor withoutAbs(Tensor m) {
+  public static Tensor withoutAbs(Tensor m) {
     return withoutAbs(m, IdentityMatrix.of(m.length()));
   }
 
@@ -32,7 +32,7 @@ public enum Inverse {
    * @param m
    * @param identity
    * @return inverse of m with respect to identity */
-  public static final Tensor withoutAbs(Tensor m, Tensor identity) {
+  public static Tensor withoutAbs(Tensor m, Tensor identity) {
     return LinearSolve.withoutAbs(m, identity);
   }
 }

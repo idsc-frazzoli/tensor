@@ -56,7 +56,7 @@ import java.util.stream.Stream;
     _set(tensor, Arrays.asList(index));
   }
 
-  // package visibility in order to override in unmodifiable()
+  // package visibility in order to override in UnmodifiableTensor
   /* package */ void _set(Tensor tensor, List<Integer> index) {
     final int head = index.get(0);
     if (index.size() == 1)
@@ -81,7 +81,7 @@ import java.util.stream.Stream;
   }
 
   @SuppressWarnings("unchecked")
-  // package visibility in order to override in unmodifiable()
+  // package visibility in order to override in UnmodifiableTensor
   /* package */ <T extends Tensor> void _set(Function<T, ? extends Tensor> function, List<Integer> index) {
     final int head = index.get(0);
     if (index.size() == 1)
@@ -226,6 +226,6 @@ import java.util.stream.Stream;
 
   @Override // from Object
   public String toString() {
-    return list.stream().map(Tensor::toString).collect(Collectors.joining(", ", "{", "}"));
+    return list.stream().map(Object::toString).collect(Collectors.joining(", ", "{", "}"));
   }
 }

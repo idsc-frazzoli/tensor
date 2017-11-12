@@ -37,4 +37,37 @@ public class ListCorrelateTest extends TestCase {
     Tensor actual = Tensors.fromString("{{{2, 2, -2, -2, 2}, {6, 1, -46, 43, 4}}}");
     assertEquals(result, actual);
   }
+
+  public void testNarrow1() {
+    Tensor kernel = Tensors.vector(2, 1, 3);
+    Tensor tensor = Tensors.vector(4, 5);
+    try {
+      ListCorrelate.of(kernel, tensor);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNarrow2() {
+    Tensor kernel = Tensors.fromString("{{1,2,3}}");
+    Tensor tensor = Tensors.fromString("{{1,2}}");
+    try {
+      ListCorrelate.of(kernel, tensor);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNarrow3() {
+    Tensor kernel = Tensors.fromString("{{1,2,3},{2,3,4}}");
+    Tensor tensor = Tensors.fromString("{{1,2,3}}");
+    try {
+      ListCorrelate.of(kernel, tensor);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

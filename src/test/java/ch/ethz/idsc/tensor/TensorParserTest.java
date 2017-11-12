@@ -24,9 +24,23 @@ public class TensorParserTest extends TestCase {
     assertTrue(scalar instanceof StringScalar);
   }
 
-  public void testDubious() {
-    Tensor vector = Tensors.fromString("{2.2,3,}"); // parses to {2.2, 3}
-    vector.length();
+  public void testEmptyPost() {
+    Tensor vector = Tensors.fromString("{2.2,3,}");
+    assertEquals(vector.length(), 3);
+    assertTrue(vector.Get(2) instanceof StringScalar);
+  }
+
+  public void testEmptyAnte() {
+    Tensor vector = Tensors.fromString("{,2.2,3}");
+    assertEquals(vector.length(), 3);
+    assertTrue(vector.Get(0) instanceof StringScalar);
+  }
+
+  public void testEmptyMid() {
+    Tensor vector = Tensors.fromString("{2.2,,,3}");
+    assertEquals(vector.length(), 4);
+    assertTrue(vector.Get(1) instanceof StringScalar);
+    assertTrue(vector.Get(2) instanceof StringScalar);
   }
 
   public void testFromStringFunction() {

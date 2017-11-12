@@ -32,7 +32,7 @@ public enum CsvFormat {
    * @return stream of lines that make up the csv format */
   public static Stream<String> of(Tensor tensor) {
     return tensor.flatten(0).parallel() //
-        .map(Tensor::toString) //
+        .map(Object::toString) //
         .map(string -> string.replace(", ", ",")) // remove whitespace
         .map(CsvFormat::removeEnclosingBracketsIfPresent); // destroys information about dimension
   }

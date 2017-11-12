@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Unprotect;
 
 /** inspired by
@@ -27,6 +28,8 @@ public enum ListCorrelate {
     List<Integer> dimensions = IntStream.range(0, mask.size()) //
         .mapToObj(index -> size.get(index) - mask.get(index) + 1) //
         .collect(Collectors.toList());
+    if (dimensions.stream().anyMatch(i -> i <= 0))
+      throw TensorRuntimeException.of(kernel, tensor);
     return Array.of(index -> kernel.pmul(refs.block(index, mask)).flatten(-1) //
         .reduce(Tensor::add).get(), dimensions);
   }

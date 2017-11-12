@@ -15,6 +15,11 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class TransposeTest extends TestCase {
+  public void testScalar() {
+    Tensor scalar = DoubleScalar.NEGATIVE_INFINITY;
+    assertEquals(Transpose.of(scalar, new Integer[] {}), scalar);
+  }
+
   public void testScalarFail() {
     Tensor v = DoubleScalar.NEGATIVE_INFINITY;
     try {
@@ -24,7 +29,7 @@ public class TransposeTest extends TestCase {
       // ---
     }
     try {
-      Transpose.of(v, new Integer[] {});
+      Transpose.of(v, new Integer[] { 2 });
       assertTrue(false);
     } catch (Exception exception) {
       // ---
