@@ -2,10 +2,10 @@
 package ch.ethz.idsc.tensor.opt;
 
 import java.util.Objects;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.io.Primitives;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Round;
@@ -20,15 +20,15 @@ public class MappedInterpolation extends AbstractInterpolation {
   /** @param tensor
    * @param function
    * @return */
-  public static Interpolation of(Tensor tensor, Function<Tensor, Tensor> function) {
+  public static Interpolation of(Tensor tensor, TensorUnaryOperator function) {
     return new MappedInterpolation(tensor, function);
   }
 
   // ---
   private final Tensor tensor;
-  private final Function<Tensor, Tensor> function;
+  private final TensorUnaryOperator function;
 
-  /* package */ MappedInterpolation(Tensor tensor, Function<Tensor, Tensor> function) {
+  /* package */ MappedInterpolation(Tensor tensor, TensorUnaryOperator function) {
     if (Objects.isNull(tensor))
       throw new NullPointerException();
     this.tensor = tensor;
@@ -37,6 +37,10 @@ public class MappedInterpolation extends AbstractInterpolation {
 
   @Override // from AbstractInterpolation
   protected final Tensor _get(Tensor index) {
-    return tensor.get(Primitives.toListInteger(function.apply(index)));
+    return tensor.get(function.apply(index).stream() //
+        .map(Scalar.class::cast) //
+        .map(Scalar::number) //
+        .map(Number::intValue) //
+        .collect(Collectors.toList()));
   }
 }

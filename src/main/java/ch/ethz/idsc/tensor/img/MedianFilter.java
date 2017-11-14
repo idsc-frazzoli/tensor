@@ -18,7 +18,7 @@ public enum MedianFilter {
   }
 
   // helper function
-  private static Tensor flatten(Tensor block) {
-    return Median.of(Tensor.of(block.flatten(-1)));
+  private static Tensor flatten(Tensor tensor) {
+    return Median.of(Tensor.of(tensor.flatten(-1)));
   }
 }

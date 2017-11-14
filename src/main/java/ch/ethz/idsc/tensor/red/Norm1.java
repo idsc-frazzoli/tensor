@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
 /* package */ enum Norm1 implements NormInterface {
   INSTANCE;
   // ---
-  @Override
+  @Override // from VectorNormInterface
   public Scalar ofVector(Tensor vector) {
     return vector.stream() //
         .map(Scalar.class::cast) //
@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
         .reduce(Scalar::add).get();
   }
 
-  @Override
+  @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
     return Total.of(Abs.of(matrix)).stream() //
         .map(Scalar.class::cast) //
