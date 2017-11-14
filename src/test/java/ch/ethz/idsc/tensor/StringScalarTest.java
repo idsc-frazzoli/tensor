@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.io.StringScalar;
 import junit.framework.TestCase;
 
 public class StringScalarTest extends TestCase {

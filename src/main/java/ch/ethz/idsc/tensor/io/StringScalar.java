@@ -1,11 +1,15 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.io;
 
 import java.util.Objects;
 
+import ch.ethz.idsc.tensor.AbstractScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+
 /** StringScalar represents a string.
  * 
- * <p>No mathematical operations are supported.
+ * <p>No mathematical operations add, multiply, ... are supported.
  * 
  * <p>For instance, when importing a csv file, the first line may contain
  * column header names which are imported as {@link StringScalar}s. */

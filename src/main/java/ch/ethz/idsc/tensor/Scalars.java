@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.math.BigInteger;
 
 import ch.ethz.idsc.tensor.alg.BinaryPower;
+import ch.ethz.idsc.tensor.io.StringScalar;
 
 /** collection of useful static functions related to {@link Scalar} */
 public enum Scalars {

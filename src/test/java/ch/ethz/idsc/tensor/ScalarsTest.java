@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor;
 
 import java.util.regex.Pattern;
 
+import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.io.StringScalarQ;
 import junit.framework.TestCase;
 
 public class ScalarsTest extends TestCase {
@@ -153,13 +155,13 @@ public class ScalarsTest extends TestCase {
   }
 
   public void testParseFail() {
-    assertTrue(Scalars.fromString("(3+2)(-1+4") instanceof StringScalar);
+    assertTrue(StringScalarQ.of(Scalars.fromString("(3+2)(-1+4")));
     assertTrue(Scalars.fromString("(3+2)(-1+4+") instanceof StringScalar);
     assertTrue(Scalars.fromString("3+2-1+4+") instanceof StringScalar);
     assertTrue(Scalars.fromString("3+2-1+4-") instanceof StringScalar);
     assertTrue(Scalars.fromString("3++4") instanceof StringScalar);
     assertTrue(Scalars.fromString("3--4") instanceof StringScalar);
     assertTrue(Scalars.fromString("3**4") instanceof StringScalar);
-    assertTrue(Scalars.fromString("3//4") instanceof StringScalar);
+    assertTrue(StringScalarQ.of(Scalars.fromString("3//4")));
   }
 }

@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor;
 
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.io.StringScalar;
+
 /* package */ class TensorParser {
   private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
   private static final char COMMA = ',';

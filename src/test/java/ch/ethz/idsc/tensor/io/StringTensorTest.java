@@ -1,12 +1,13 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.io;
 
+import ch.ethz.idsc.tensor.Tensor;
 import junit.framework.TestCase;
 
 public class StringTensorTest extends TestCase {
   public void testSimple() {
     Tensor tensor = StringTensor.vector("IDSC", "ETH-Z", "ch");
-    assertTrue(tensor.Get(0) instanceof StringScalar);
+    assertTrue(StringScalarQ.of(tensor.Get(0)));
     assertEquals(tensor.Get(0).toString(), "IDSC");
   }
 }
