@@ -4,8 +4,10 @@ package ch.ethz.idsc.tensor.opt;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -19,6 +21,17 @@ public class ConvexHullTest extends TestCase {
   public void testSingle() {
     Tensor v = Tensors.of(Tensors.vector(-1.3, 2.5));
     assertEquals(ConvexHull.of(v), v);
+  }
+
+  public void testSingleCopies() {
+    Tensor vec = Tensors.vector(-1.3, 2.5);
+    Tensor v = Tensors.of( //
+        vec.copy(), //
+        vec.copy(), //
+        vec.copy(), //
+        vec.copy() //
+    );
+    assertEquals(ConvexHull.of(v), Tensors.of(vec));
   }
 
   public void testDuo() {
@@ -62,6 +75,27 @@ public class ConvexHullTest extends TestCase {
     Tensor mat = Tensors.of(ve2, ve1);
     Tensor hul = ConvexHull.of(mat);
     assertEquals(hul, mat);
+  }
+
+  public void testChallenge() {
+    double variance = 1e-10;
+    Tensor cube = Tensors.fromString("{{0, 0}, {1, 0}, {1, 1}, {0, 1}}");
+    Distribution distribution = NormalDistribution.of(0.5, variance);
+    Tensor join = Join.of(cube, RandomVariate.of(distribution, 300, 2));
+    Tensor hull = ConvexHull.of(join);
+    assertEquals(hull, cube);
+  }
+
+  // this issue appeared first in owly
+  // due to the introduction of chop._12 the issue of clustering in the
+  // epsilon range seems to be resolved at least for interior points
+  public void testChallenge2() {
+    double variance = 1e-15;
+    Tensor cube = Tensors.fromString("{{0, 0}, {1, 0}, {1, 1}, {0, 1}}");
+    Distribution distribution = NormalDistribution.of(0.5, variance);
+    Tensor joined = Join.of(cube, RandomVariate.of(distribution, 300, 2));
+    Tensor hull = ConvexHull.of(joined);
+    assertEquals(hull, cube);
   }
 
   public void testFail() {

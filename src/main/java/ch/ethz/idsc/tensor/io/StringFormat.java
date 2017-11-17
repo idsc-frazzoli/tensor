@@ -69,7 +69,8 @@ class TensorJoiningInverse implements JoiningInverse<Tensor> {
   }
 }
 
-public class StringFormat<T> {
+// EXPERIMENTAL
+class StringFormat<T> {
   public static Tensor parse(String string, Function<String, Scalar> function) {
     return new StringFormat<>(new TensorJoiningInverse(function), string).parse();
   }

@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -12,9 +13,19 @@ import ch.ethz.idsc.tensor.alg.Transpose;
  * <a href="https://reference.wolfram.com/language/ref/MatrixRank.html">MatrixRank</a> */
 public enum MatrixRank {
   ;
-  /** @param matrix with exact precision entries
+  /** if the matrix contains only exact precision entries,
+   * the method {@link #usingRowReduce(Tensor)} is used,
+   * otherwise {@link #usingSvd(Tensor)} is used.
+   * 
+   * @param matrix with exact and/or numeric precision entries
    * @return rank of matrix */
   public static int of(Tensor matrix) {
+    return ExactScalarQ.all(matrix) ? usingRowReduce(matrix) : usingSvd(matrix);
+  }
+
+  /** @param matrix with exact precision entries
+   * @return rank of matrix */
+  public static int usingRowReduce(Tensor matrix) {
     int n = matrix.length();
     int m = Unprotect.dimension1(matrix);
     Tensor lhs = RowReduce.of(matrix);
