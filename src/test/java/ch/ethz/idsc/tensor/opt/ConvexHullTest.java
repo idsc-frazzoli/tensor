@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.stream.Stream;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -86,12 +88,16 @@ public class ConvexHullTest extends TestCase {
   // due to the introduction of chop._12 the issue of clustering in the
   // epsilon range seems to be resolved at least for interior points
   public void testChallenge2() {
-    double variance = 1e-15;
     Tensor cube = Tensors.fromString("{{0, 0}, {1, 0}, {1, 1}, {0, 1}}");
+    double variance = 1e-15;
     Distribution distribution = NormalDistribution.of(0.5, variance);
     Tensor joined = Join.of(cube, RandomVariate.of(distribution, 300, 2));
     Tensor hull = ConvexHull.of(joined);
     assertEquals(hull, cube);
+  }
+
+  public void testStream() {
+    ConvexHull.of(Stream.empty());
   }
 
   public void testFail() {
@@ -116,6 +122,23 @@ public class ConvexHullTest extends TestCase {
     }
     try {
       ConvexHull.of(Tensors.fromString("{{2,3},{{1},2}}"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailMore() {
+    Tensor bad1 = Tensors.fromString("{{1,2},{3,4,5}}");
+    try {
+      ConvexHull.of(bad1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    Tensor bad2 = Tensors.fromString("{{1,2,3},{3,4}}");
+    try {
+      ConvexHull.of(bad2);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

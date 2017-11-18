@@ -9,10 +9,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -27,7 +30,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * It uses a stack to detect and remove concavities in the boundary efficiently.
  * 
  * https://en.wikipedia.org/wiki/Graham_scan */
-/* package */ class GrahamScan {
+/* package */ enum GrahamScan {
+  ;
   private static final Comparator<Tensor> MINY_MINX = new Comparator<Tensor>() {
     @Override
     public int compare(Tensor p1, Tensor p2) {
@@ -35,20 +39,19 @@ import ch.ethz.idsc.tensor.sca.Sign;
       return cmp != 0 ? cmp : Scalars.compare(getX(p1), getX(p2));
     }
   };
-  // ---
+
   /** The Java API recommends to use ArrayDeque instead of Stack. However,
    * in the implementation of GrahamScan, we can't conveniently exchange Stack
    * and ArrayDeque because {@link ArrayDeque#stream()} reverses the order.
-   * 
    * GrahamScan is used in several applications. No performance issues were
    * reported so far. */
-  // private final Deque<Tensor> stack = new ArrayDeque<Tensor>();
-  private final Stack<Tensor> stack = new Stack<>();
-
-  GrahamScan(Tensor tensor) {
-    VectorQ.elseThrow(tensor.get(0));
+  static Tensor of(Stream<Tensor> stream) {
     // list is permuted during computation of convex hull
-    final List<Tensor> list = tensor.stream().collect(Collectors.toList());
+    List<Tensor> list = stream.collect(Collectors.toList());
+    if (list.isEmpty())
+      return Tensors.empty();
+    if (!VectorQ.ofLength(list.get(0), 2))
+      throw TensorRuntimeException.of(list.get(0));
     final Tensor point0 = Collections.min(list, MINY_MINX);
     Collections.sort(list, new Comparator<Tensor>() {
       @Override
@@ -60,6 +63,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
         // : Scalars.compare(Norm._2.ofVector(d10), Norm._2.ofVector(d20));
       }
     });
+    // final Deque<Tensor> stack = new ArrayDeque<Tensor>();
+    Stack<Tensor> stack = new Stack<>();
     stack.push(point0);
     int k1 = 1;
     Tensor point1 = null; // find point1 different from point0
@@ -71,7 +76,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
       ++k1;
     }
     if (Objects.isNull(point1))
-      return;
+      return Tensors.of(point0);
     ++k1;
     // find point not co-linear with point0 and point1
     for (Tensor point : list.subList(k1, list.size()))
@@ -83,18 +88,15 @@ import ch.ethz.idsc.tensor.sca.Sign;
     stack.push(list.get(k1 - 1));
     for (Tensor point : list.subList(k1, list.size())) {
       Tensor top = stack.pop();
-      while (true) {
+      while (!stack.isEmpty()) {
         Scalar ccw = ccw(stack.peek(), top, point);
-        if (Sign.isPositive(Chop._15.apply(ccw))) // magic const
+        if (Sign.isPositive(Chop._15.apply(ccw))) // magic const as threshold
           break;
         top = stack.pop();
       }
       stack.push(top);
       stack.push(point);
     }
-  }
-
-  /* package */ Tensor getConvexHull() {
     return Tensor.of(stack.stream());
   }
 
