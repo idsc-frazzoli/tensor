@@ -9,9 +9,8 @@ import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.Sign;
 
-/** !!! EXPERIMENTAL !!!
- * 
- * <p>linear optimization
+/** linear programming solution for small scale problems.
+ * The implementation has only been tested on a few cases.
  * 
  * <p>implementation uses traditional simplex algorithm that performs poorly on Klee-Minty cube
  * 

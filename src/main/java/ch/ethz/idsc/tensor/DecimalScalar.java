@@ -29,7 +29,6 @@ import ch.ethz.idsc.tensor.sca.NInterface;
  * 
  * @see N
  * @see Pi */
-// EXPERIMENTAL API not finalized
 public final class DecimalScalar extends AbstractRealScalar implements //
     ChopInterface, NInterface {
   private static final int DEFAULT_CONTEXT = 34;
@@ -294,7 +293,7 @@ public final class DecimalScalar extends AbstractRealScalar implements //
   public String toString() {
     int precision = value.precision();
     // return value.toString() + "`" + precision; // <- changes the appearance of Round._3 etc.
-    // TODO solution not elegant because result will be parsed as DoubleScalar
+    // LONGTERM solution not elegant because result will be parsed as DoubleScalar
     return value.toString() + (precision <= DOUBLE_PRECISION ? "" : "`" + precision);
   }
 }

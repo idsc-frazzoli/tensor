@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.opt;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
@@ -25,12 +26,7 @@ public class ConvexHullTest extends TestCase {
 
   public void testSingleCopies() {
     Tensor vec = Tensors.vector(-1.3, 2.5);
-    Tensor v = Tensors.of( //
-        vec.copy(), //
-        vec.copy(), //
-        vec.copy(), //
-        vec.copy() //
-    );
+    Tensor v = Array.of(l -> vec, 4);
     assertEquals(ConvexHull.of(v), Tensors.of(vec));
   }
 

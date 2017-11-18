@@ -10,6 +10,58 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
+/** LONGTERM
+ * StringFormat should be the replacement of TensorParser
+ * that is used in {@link Tensors#fromString(String)} */
+class StringFormat<T> {
+  public static Tensor parse(String string, Function<String, Scalar> function) {
+    return new StringFormat<>(new TensorJoiningInverse(function), string).parse();
+  }
+
+  public static Tensor parse(String string) {
+    return parse(string, Scalars::fromString);
+  }
+
+  // ---
+  private final JoiningInverse<T> inverseJoining;
+  private final String string;
+  private int head = 0;
+  private int index = 0;
+
+  private StringFormat(JoiningInverse<T> inverseJoining, String string) {
+    this.inverseJoining = inverseJoining;
+    this.string = string;
+  }
+
+  private void handle(int chr) {
+    if (chr == Tensor.OPENING_BRACKET) {
+      inverseJoining.prefix();
+      head = index + 1;
+    } else //
+    if (chr == ',') {
+      inverseJoining.delimiter(string.substring(head, index));
+      head = index + 1;
+    } else //
+    if (chr == Tensor.CLOSING_BRACKET) {
+      inverseJoining.suffix(string.substring(head, index));
+      head = index + 1;
+    }
+    ++index;
+  }
+
+  private T parse() {
+    try {
+      string.chars().forEach(this::handle);
+      if (head != index)
+        inverseJoining.delimiter(string.substring(head, index));
+      return inverseJoining.emit();
+    } catch (Exception exception) {
+      // ---
+    }
+    return inverseJoining.fallback(string);
+  }
+}
+
 interface JoiningInverse<T> {
   void prefix();
 
@@ -66,55 +118,5 @@ class TensorJoiningInverse implements JoiningInverse<Tensor> {
   @Override
   public Tensor fallback(String string) {
     return StringScalar.of(string);
-  }
-}
-
-// EXPERIMENTAL
-class StringFormat<T> {
-  public static Tensor parse(String string, Function<String, Scalar> function) {
-    return new StringFormat<>(new TensorJoiningInverse(function), string).parse();
-  }
-
-  public static Tensor parse(String string) {
-    return parse(string, Scalars::fromString);
-  }
-
-  // ---
-  private final JoiningInverse<T> inverseJoining;
-  private final String string;
-  private int head = 0;
-  private int index = 0;
-
-  private StringFormat(JoiningInverse<T> inverseJoining, String string) {
-    this.inverseJoining = inverseJoining;
-    this.string = string;
-  }
-
-  private void handle(int chr) {
-    if (chr == Tensor.OPENING_BRACKET) {
-      inverseJoining.prefix();
-      head = index + 1;
-    } else //
-    if (chr == ',') {
-      inverseJoining.delimiter(string.substring(head, index));
-      head = index + 1;
-    } else //
-    if (chr == Tensor.CLOSING_BRACKET) {
-      inverseJoining.suffix(string.substring(head, index));
-      head = index + 1;
-    }
-    ++index;
-  }
-
-  private T parse() {
-    try {
-      string.chars().forEach(this::handle);
-      if (head != index)
-        inverseJoining.delimiter(string.substring(head, index));
-      return inverseJoining.emit();
-    } catch (Exception exception) {
-      // ---
-    }
-    return inverseJoining.fallback(string);
   }
 }

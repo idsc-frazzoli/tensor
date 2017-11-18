@@ -2,6 +2,7 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -35,14 +36,18 @@ import ch.ethz.idsc.tensor.sca.Sign;
     }
   };
   // ---
-  // TODO we can't easily switch to ArrayDeque since the stream()
-  // ... reverses the order when compared to Stack
-  // private final Deque<Tensor> deque = new ArrayDeque<Tensor>();
+  /** The Java API recommends to use ArrayDeque instead of Stack. However,
+   * in the implementation of GrahamScan, we can't conveniently exchange Stack
+   * and ArrayDeque because {@link ArrayDeque#stream()} reverses the order.
+   * 
+   * GrahamScan is used in several applications. No performance issues were
+   * reported so far. */
+  // private final Deque<Tensor> stack = new ArrayDeque<Tensor>();
   private final Stack<Tensor> stack = new Stack<>();
 
   GrahamScan(Tensor tensor) {
     VectorQ.elseThrow(tensor.get(0));
-    // list is permuted during computation
+    // list is permuted during computation of convex hull
     final List<Tensor> list = tensor.stream().collect(Collectors.toList());
     final Tensor point0 = Collections.min(list, MINY_MINX);
     Collections.sort(list, new Comparator<Tensor>() {
@@ -51,17 +56,15 @@ import ch.ethz.idsc.tensor.sca.Sign;
         Tensor d10 = p1.subtract(point0);
         Tensor d20 = p2.subtract(point0);
         int cmp = Scalars.compare(arg(d10), arg(d20));
-        return cmp != 0 //
-            ? cmp //
-            : MINY_MINX.compare(p1, p2);
+        return cmp != 0 ? cmp : MINY_MINX.compare(p1, p2);
         // : Scalars.compare(Norm._2.ofVector(d10), Norm._2.ofVector(d20));
       }
     });
     stack.push(point0);
     int k1 = 1;
-    Tensor point1 = null;
+    Tensor point1 = null; // find point1 different from point0
     for (Tensor point : list.subList(k1, list.size())) {
-      if (!point0.equals(point)) { // find point1 different from point0
+      if (!point0.equals(point)) {
         point1 = point;
         break;
       }
@@ -70,7 +73,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
     if (Objects.isNull(point1))
       return;
     ++k1;
-    for (Tensor point : list.subList(k1, list.size())) // find point not co-linear with point0 and point1
+    // find point not co-linear with point0 and point1
+    for (Tensor point : list.subList(k1, list.size()))
       if (Scalars.isZero(ccw(point0, point1, point)))
         ++k1;
       else

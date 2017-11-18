@@ -24,6 +24,11 @@ public class StringScalarTest extends TestCase {
     assertFalse(StringScalar.of("3.14").equals(DoubleScalar.of(3.14)));
   }
 
+  public void testCurrentStandard() {
+    String string = "{Hello, World}";
+    assertTrue(string.equals(Tensors.fromString(string).toString()));
+  }
+
   public void testFailOp() {
     try {
       StringScalar.of("asd").reciprocal();

@@ -21,5 +21,5 @@ public enum BasisTransform {
   /* package until approved */ static Tensor ofMatrix(Tensor matrix, Tensor v) {
     return LinearSolve.of(v, matrix.dot(v));
   }
-  // TODO general for (r,s)-tensors
+  // LONGTERM general for (r,s)-tensors
 }

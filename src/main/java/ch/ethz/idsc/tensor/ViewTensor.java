@@ -3,7 +3,17 @@ package ch.ethz.idsc.tensor;
 
 import java.util.List;
 
-// EXPERIMENTAL
+import ch.ethz.idsc.tensor.alg.ListCorrelate;
+import ch.ethz.idsc.tensor.opt.LinearInterpolation;
+
+/** ViewTensor overrides the methods {@link #extract(int, int)} and {@link #block(List, List)}.
+ * The implementation returns the content provided by these methods via reference.
+ * Since this access exposes the content of this ViewTensor for modification from the outside
+ * the functionality is used only in very special and controlled applications.
+ * 
+ * A ViewTensor is created using {@link Unprotect#references(Tensor)}.
+ * Within the tensor library, ViewTensor is used to speed up the computations in
+ * {@link LinearInterpolation}, and {@link ListCorrelate}. */
 /* package */ class ViewTensor extends TensorImpl {
   static ViewTensor wrap(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;

@@ -46,7 +46,7 @@ public enum RamerDouglasPeucker {
     Tensor last = Last.of(tensor);
     Tensor diff = last.subtract(first);
     Scalar norm = Norm._2.ofVector(diff);
-    if (Scalars.isZero(norm)) // TODO not sure what to do when |diff| == 0
+    if (Scalars.isZero(norm)) // LONGTERM not sure what to do when |diff| == 0
       throw TensorRuntimeException.of(tensor);
     Tensor vector = diff.divide(norm);
     Tensor cross2 = Tensors.of(vector.Get(1).negate(), vector.Get(0));

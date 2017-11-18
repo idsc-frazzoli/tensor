@@ -53,7 +53,7 @@ public enum LinearSolve {
    * @return x with m.x == b
    * @throws TensorRuntimeException if such an x does not exist */
   public static Tensor any(Tensor m, Tensor b) {
-    if (!ExactScalarQ.all(m)) // TODO explore options for machine scalars
+    if (!ExactScalarQ.all(m)) // LONGTERM explore options for machine scalars
       throw TensorRuntimeException.of(m, b);
     switch (TensorRank.of(b)) {
     case 1:
@@ -71,7 +71,7 @@ public enum LinearSolve {
     int j = 0;
     int c0 = 0;
     while (c0 < cols) {
-      if (Scalars.nonZero(r.Get(j, c0))) { // TODO use chop for numeric input?
+      if (Scalars.nonZero(r.Get(j, c0))) { // use chop for numeric input?
         x.set(r.Get(j, cols), c0);
         ++j;
       }

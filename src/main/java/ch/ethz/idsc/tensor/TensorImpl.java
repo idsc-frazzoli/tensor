@@ -99,13 +99,13 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public final Tensor append(Tensor tensor) {
+  public Tensor append(Tensor tensor) {
     list.add(tensor.copy());
     return this;
   }
 
   @Override
-  public final int length() {
+  public int length() {
     return list.size();
   }
 
@@ -115,7 +115,7 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public final Stream<Tensor> flatten(int level) {
+  public Stream<Tensor> flatten(int level) {
     if (level == 0)
       return stream(); // UnmodifiableTensor overrides stream()
     int ldecr = level - 1;
