@@ -5,6 +5,7 @@ import java.util.function.UnaryOperator;
 
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 import ch.ethz.idsc.tensor.red.Mean;
@@ -21,12 +22,13 @@ public enum MeanFilter {
   ;
   /** Example:
    * <pre>
-   * MeanFilter.of({-3, 3, 6, 0, 0, 3, -3, -9}, 1) == {0, 2, 3, 2, 1, 0, -3, -6}
+   * MeanFilter.of({-3, 3, 6, 0, 0, 3, -3, -9}, 2) == {0, 2, 3, 2, 1, 0, -3, -6}
    * </pre>
    * 
    * @param tensor of arbitrary rank
    * @param radius non-negative integer
-   * @return for radius == 0 the function returns a copy of the given tensor */
+   * @return filtered version of input tensor with same {@link Dimensions};
+   * for radius == 0 the function returns a copy of the given tensor */
   public static Tensor of(Tensor tensor, int radius) {
     ScalarQ.thenThrow(tensor);
     if (radius < 0)

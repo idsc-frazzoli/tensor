@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.opt;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.sca.Chop;
 
 /** Computation of convex hull of point cloud in 2D
  * 
@@ -20,13 +21,22 @@ public enum ConvexHull {
    * @return points in counter-clockwise order with no 3 co-linear points
    * @throws Exception for input of invalid format */
   public static Tensor of(Tensor tensor) {
-    return of(tensor.stream());
+    return of(tensor, Chop._15);
+  }
+
+  /** @param tensor of n x 2 coordinates
+   * @param chop to identify clusters of very close points
+   * @return points in counter-clockwise order with no 3 co-linear points
+   * @throws Exception for input of invalid format */
+  public static Tensor of(Tensor tensor, Chop chop) {
+    return of(tensor.stream(), chop);
   }
 
   /** @param stream of 2-vectors
+   * @param chop to identify clusters of very close points
    * @return points in counter-clockwise order with no 3 co-linear points
    * @throws Exception for input of invalid format */
-  public static Tensor of(Stream<Tensor> stream) {
-    return GrahamScan.of(stream);
+  public static Tensor of(Stream<Tensor> stream, Chop chop) {
+    return GrahamScan.of(stream, chop);
   }
 }

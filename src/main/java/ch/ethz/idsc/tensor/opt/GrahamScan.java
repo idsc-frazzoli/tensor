@@ -45,7 +45,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
    * and ArrayDeque because {@link ArrayDeque#stream()} reverses the order.
    * GrahamScan is used in several applications. No performance issues were
    * reported so far. */
-  static Tensor of(Stream<Tensor> stream) {
+  static Tensor of(Stream<Tensor> stream, Chop chop) {
     // list is permuted during computation of convex hull
     List<Tensor> list = stream.collect(Collectors.toList());
     if (list.isEmpty())
@@ -69,7 +69,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
     int k1 = 1;
     Tensor point1 = null; // find point1 different from point0
     for (Tensor point : list.subList(k1, list.size())) {
-      if (!point0.equals(point)) {
+      if (!point0.equals(point)) { // should Chop.08 be used for consistency with chop below ?
         point1 = point;
         break;
       }
@@ -80,7 +80,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
     ++k1;
     // find point not co-linear with point0 and point1
     for (Tensor point : list.subList(k1, list.size()))
-      if (Scalars.isZero(ccw(point0, point1, point)))
+      if (Scalars.isZero(ccw(point0, point1, point))) // ... also here ?
         ++k1;
       else
         break;
@@ -90,7 +90,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
       Tensor top = stack.pop();
       while (!stack.isEmpty()) {
         Scalar ccw = ccw(stack.peek(), top, point);
-        if (Sign.isPositive(Chop._15.apply(ccw))) // magic const as threshold
+        if (Sign.isPositive(chop.apply(ccw)))
           break;
         top = stack.pop();
       }

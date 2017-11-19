@@ -11,9 +11,9 @@ import ch.ethz.idsc.tensor.sca.Sin;
  * <a href="https://reference.wolfram.com/language/ref/AngleVector.html">AngleVector</a> */
 public enum AngleVector {
   ;
-  /** @param theta
-   * @return vector as {Cos[theta], Sin[theta]} */
-  public static Tensor of(Scalar theta) {
-    return Tensors.of(Cos.FUNCTION.apply(theta), Sin.FUNCTION.apply(theta));
+  /** @param angle in radians
+   * @return vector as {Cos[angle], Sin[angle]} */
+  public static Tensor of(Scalar angle) {
+    return Tensors.of(Cos.FUNCTION.apply(angle), Sin.FUNCTION.apply(angle));
   }
 }

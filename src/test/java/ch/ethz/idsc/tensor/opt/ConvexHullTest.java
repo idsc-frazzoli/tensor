@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class ConvexHullTest extends TestCase {
@@ -97,7 +98,7 @@ public class ConvexHullTest extends TestCase {
   }
 
   public void testStream() {
-    ConvexHull.of(Stream.empty());
+    ConvexHull.of(Stream.empty(), Chop._10);
   }
 
   public void testFail() {
