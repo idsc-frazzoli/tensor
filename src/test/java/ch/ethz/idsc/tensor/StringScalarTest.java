@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.io.StringScalar;
 import junit.framework.TestCase;
 
 public class StringScalarTest extends TestCase {
@@ -21,6 +22,11 @@ public class StringScalarTest extends TestCase {
   public void testEquals() {
     assertTrue(StringScalar.of("3.14").equals(StringScalar.of("3.14")));
     assertFalse(StringScalar.of("3.14").equals(DoubleScalar.of(3.14)));
+  }
+
+  public void testCurrentStandard() {
+    String string = "{Hello, World}";
+    assertTrue(string.equals(Tensors.fromString(string).toString()));
   }
 
   public void testFailOp() {

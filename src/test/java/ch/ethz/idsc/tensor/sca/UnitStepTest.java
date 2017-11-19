@@ -14,6 +14,8 @@ public class UnitStepTest extends TestCase {
 
   public void testPredicateQuantity() {
     assertEquals(UnitStep.of(Quantity.of(-.3, "m")), RealScalar.ZERO);
+    assertEquals(UnitStep.of(Quantity.of(0.0, "m")), RealScalar.ONE);
+    assertEquals(UnitStep.of(Quantity.of(0, "m")), RealScalar.ONE);
     assertEquals(UnitStep.of(Quantity.of(1, "m")), RealScalar.ONE);
   }
 }

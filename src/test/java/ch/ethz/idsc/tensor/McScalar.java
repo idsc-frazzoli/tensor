@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
-// EXPERIMENTAL towards a Quaternion scalar
+// alternative implementation of a Quaternion that uses 2 complex scalars instead of 4 reals
 /* package */ final class McScalar extends AbstractScalar implements ComplexEmbedding {
   public static Scalar of(Scalar re, Scalar im) {
     if (Scalars.isZero(im))

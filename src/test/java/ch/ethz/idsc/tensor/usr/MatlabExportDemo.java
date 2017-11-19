@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.usr;
 import java.io.IOException;
 
 import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.StringScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
@@ -13,6 +12,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.Pretty;
+import ch.ethz.idsc.tensor.io.StringScalar;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MatlabExportDemo {

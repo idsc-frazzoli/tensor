@@ -3,12 +3,16 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** Sign gives the signum of a scalar provided by the implementation of {@link SignInterface}.
  * If the scalar type does not implement {@link SignInterface}, then an exception is thrown.
+ * 
+ * <p>Sign offers predicates to check positive, non-negative, negative, and non-positive scalars.
+ * As checks for zero, and non-zero use {@link Scalars#isZero(Scalar)}, and {@link Scalars#nonZero(Scalar)}.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sign.html">Sign</a> */
@@ -20,7 +24,7 @@ public enum Sign implements ScalarUnaryOperator {
       RealScalar.ZERO, // 0
       RealScalar.ONE }; // +1
 
-  @Override
+  @Override // from ScalarUnaryOperator
   public Scalar apply(Scalar scalar) {
     if (scalar instanceof SignInterface) {
       SignInterface signInterface = (SignInterface) scalar;

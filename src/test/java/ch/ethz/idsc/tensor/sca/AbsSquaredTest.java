@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.StringScalar;
+import ch.ethz.idsc.tensor.io.StringScalar;
 import junit.framework.TestCase;
 
 public class AbsSquaredTest extends TestCase {

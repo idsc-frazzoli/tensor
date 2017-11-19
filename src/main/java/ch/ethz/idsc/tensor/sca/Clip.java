@@ -98,4 +98,19 @@ public class Clip implements ScalarUnaryOperator {
   public Scalar rescale(Scalar scalar) {
     return Scalars.isZero(width) ? RealScalar.ZERO : apply(scalar).subtract(min).divide(width);
   }
+
+  /** @return lower bound of clip interval */
+  public Scalar min() {
+    return min;
+  }
+
+  /** @return upper bound of clip interval */
+  public Scalar max() {
+    return max;
+  }
+
+  /** @return difference between upper and lower bound of clip interval */
+  public Scalar width() {
+    return width;
+  }
 }

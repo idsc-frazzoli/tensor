@@ -13,7 +13,15 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Sign;
 
-/** <p>The InverseCDF at p == 1 evaluates to DoubleScalar.POSITIVE_INFINITY.
+/** Characteristics of an exponential distribution:
+ * <ul>
+ * <li>Random variates are non-negative real numbers.
+ * <li>The distribution depends on a rate-of-decay parameter lambda.
+ * Increasing lambda results in a distribution with mean moving towards 0,
+ * i.e. faster decay.
+ * </ul>
+ * 
+ * <p>The InverseCDF at p == 1 evaluates to DoubleScalar.POSITIVE_INFINITY.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */

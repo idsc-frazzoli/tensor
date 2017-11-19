@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.StringScalar;
+import ch.ethz.idsc.tensor.io.StringScalar;
 import junit.framework.TestCase;
 
 public class SincTest extends TestCase {

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -19,6 +20,7 @@ public class PermutationsTest extends TestCase {
 
   public void testSimple32() {
     Tensor res = Permutations.of(Tensors.vector(1, 2, 1));
+    // System.out.println(res);
     assertEquals(res.get(0), Tensors.vector(1, 2, 1));
     assertEquals(res.get(1), Tensors.vector(1, 1, 2));
     assertEquals(res.get(2), Tensors.vector(2, 1, 1));
@@ -38,5 +40,14 @@ public class PermutationsTest extends TestCase {
     assertEquals(res.get(3), Tensors.vector(-1, 2, 2, -1));
     assertEquals(res.length(), 6);
     // res.stream().forEach(System.out::println);
+  }
+
+  public void testFail() {
+    try {
+      Permutations.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

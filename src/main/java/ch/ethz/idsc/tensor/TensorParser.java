@@ -3,13 +3,15 @@ package ch.ethz.idsc.tensor;
 
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.io.StringScalar;
+
 /* package */ class TensorParser {
   private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
   private static final char COMMA = ',';
   // ---
   public static final TensorParser DEFAULT = new TensorParser(Scalars::fromString);
   // ---
-  private final Function<String, Scalar> function;
+  private final Function<String, Scalar> function; // not Serializable
 
   /** @param function that parses a string to a scalar */
   public TensorParser(Function<String, Scalar> function) {

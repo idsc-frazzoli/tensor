@@ -5,19 +5,30 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Sort;
 
 /** implementation is consistent with Mathematica
  * 
+ * <p>Example:
+ * <pre>
+ * Permutations.of({1, 2, 1}) == {{1, 2, 1}, {1, 1, 2}, {2, 1, 1}}
+ * </pre>
+ * 
+ * <p>For Scalar input the function is not defined
+ * Permutations.of(5) // throws an exception
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Permutations.html">Permutations</a> */
 public enum Permutations {
   ;
-  /** @param tensor
+  /** @param tensor that is not a {@link Scalar}
    * @return */
   public static Tensor of(Tensor tensor) {
+    ScalarQ.thenThrow(tensor);
     return Build.permutations(tensor);
   }
 

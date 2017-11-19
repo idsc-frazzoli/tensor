@@ -21,7 +21,6 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
 /** algorithm visits all corners
  * the runtime is prohibitive
  * only for testing */
-// EXPERIMENTAL
 /* package */ enum SimplexCorners {
   ;
   /** @param c

@@ -14,14 +14,14 @@ import ch.ethz.idsc.tensor.sca.Chop;
 public enum PowerIteration {
   ;
   /** @param m
-   * @return */
+   * @return Eigenvector to the largest eigenvalue (with high probability) */
   public static Tensor of(Tensor m) {
     return of(m, RandomVariate.of(NormalDistribution.standard(), m.length()));
   }
 
   /** @param m
    * @param x
-   * @return */
+   * @return Eigenvector to the largest eigenvalue if x is not already Eigenvector */
   public static Tensor of(Tensor m, Tensor x) {
     final int max = m.length() * 15;
     for (int iteration = 0; iteration < max; ++iteration) {

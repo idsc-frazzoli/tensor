@@ -223,7 +223,7 @@ public interface Tensor extends Iterable<Tensor>, Serializable {
    * @return this minus input tensor */
   Tensor subtract(Tensor tensor);
 
-  /** point-wise multiplication of this with tensor.
+  /** point-wise multiplication of this instance with given tensor.
    * 
    * <p>{@link Dimensions} of <em>this</em> have to match the <em>onset</em> of dimensions of tensor.
    * Tensor::multiply is used on remaining entries in dimensions of tensors exceeding

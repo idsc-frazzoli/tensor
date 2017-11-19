@@ -1,15 +1,30 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.io;
 
 import java.util.Objects;
 
+import ch.ethz.idsc.tensor.AbstractScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+
 /** StringScalar represents a string.
  * 
- * <p>No mathematical operations are supported.
+ * <p>No mathematical operations add, multiply, ... are supported.
  * 
  * <p>For instance, when importing a csv file, the first line may contain
- * column header names which are imported as {@link StringScalar}s. */
-// TODO for compatibility with mathematica: export in quotes {"string", "next", 12, ...}
+ * column header names which are imported as {@link StringScalar}s.
+ * 
+ * <p>In the tensor library
+ * <pre>
+ * String string = "{Hello, World}";
+ * string.equals(Tensors.fromString(string).toString()); // evaluates to true
+ * </pre>
+ * 
+ * <p>That means StringScalar is <em>not</em> compatible with Mathematica !
+ * In Mathematica string expressions begin and terminate with quotes.
+ * For example, Mathematica::{"Hello", "World"}.
+ * Whether this convention will adopted in the tensor library at some point
+ * in the future is open for discussion. */
 public final class StringScalar extends AbstractScalar implements Comparable<Scalar> {
   /** @param string
    * @return new instance of {@link StringScalar} representing string */

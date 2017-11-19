@@ -53,7 +53,7 @@ public class TraceTest extends TestCase {
     // mathematica gives 0 == Tr[{{}}]
     Tensor empty = Tensors.fromString("{{}}");
     try {
-      Tensor result = Trace.of(empty); // TODO throws exception but shouldn't
+      Tensor result = Trace.of(empty);
       System.out.println(result);
     } catch (Exception exception) {
       // ---

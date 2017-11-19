@@ -1,9 +1,9 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.io;
 
 import java.util.stream.Stream;
 
-import ch.ethz.idsc.tensor.io.CsvFormat;
+import ch.ethz.idsc.tensor.Tensor;
 
 /** auxiliary functions related to {@link StringScalar} */
 public enum StringTensor {

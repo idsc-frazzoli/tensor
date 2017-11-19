@@ -11,13 +11,13 @@ import ch.ethz.idsc.tensor.alg.VectorQ;
 public enum Frobenius implements NormInterface {
   NORM;
   // ---
-  @Override
+  @Override // from VectorNormInterface
   public Scalar ofVector(Tensor vector) {
     VectorQ.elseThrow(vector);
     return of(vector);
   }
 
-  @Override
+  @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
     MatrixQ.elseThrow(matrix);
     return of(matrix);

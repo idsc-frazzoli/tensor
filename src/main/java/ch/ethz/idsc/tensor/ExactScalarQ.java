@@ -36,8 +36,8 @@ public enum ExactScalarQ {
    * @return true, if tensor is instance of {@link ExactScalarQInterface} which evaluates to true */
   public static boolean of(Tensor tensor) {
     if (tensor instanceof ExactScalarQInterface) {
-      ExactScalarQInterface exactNumberQInterface = (ExactScalarQInterface) tensor;
-      return exactNumberQInterface.isExactScalar();
+      ExactScalarQInterface exactScalarQInterface = (ExactScalarQInterface) tensor;
+      return exactScalarQInterface.isExactScalar();
     }
     return false;
   }

@@ -52,7 +52,9 @@ public enum ArcTan implements ScalarUnaryOperator {
     return (T) tensor.map(FUNCTION);
   }
 
-  // EXPERIMENTAL
+  /** @param x
+   * @param y
+   * @return ArcTan.of(RealScalar.of(x), RealScalar.of(y)) */
   public static Scalar of(Number x, Number y) {
     return of(RealScalar.of(x), RealScalar.of(y));
   }

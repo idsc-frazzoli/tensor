@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 /* package */ enum Norm2 implements NormInterface {
   INSTANCE;
   // ---
-  @Override
+  @Override // from VectorNormInterface
   public Scalar ofVector(Tensor vector) {
     try {
       // Hypot prevents the incorrect evaluation: Norm_2[ {1e-300, 1e-300} ] == 0
@@ -24,7 +24,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return Sqrt.FUNCTION.apply(Norm2Squared.ofVector(vector));
   }
 
-  @Override
+  @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
     if (matrix.length() < Unprotect.dimension1(matrix))
       matrix = Transpose.of(matrix);

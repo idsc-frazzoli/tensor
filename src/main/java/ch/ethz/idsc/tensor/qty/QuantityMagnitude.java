@@ -12,6 +12,8 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/QuantityMagnitude.html">QuantityMagnitude</a> */
 public class QuantityMagnitude {
+  private static final QuantityMagnitude EMPTY = new QuantityMagnitude(SimpleUnitSystem.from(new Properties()));
+
   /** @return instance of QuantityMagnitude that uses the built-in SI convention */
   public static QuantityMagnitude SI() {
     return BuiltIn.SI.quantityMagnitude;
@@ -20,7 +22,7 @@ public class QuantityMagnitude {
   /** @param unit
    * @return operator that extracts the value from a Quantity of given unit */
   public static ScalarUnaryOperator singleton(Unit unit) {
-    return new QuantityMagnitude(SimpleUnitSystem.from(new Properties())).in(unit);
+    return EMPTY.in(unit);
   }
 
   /** @param string

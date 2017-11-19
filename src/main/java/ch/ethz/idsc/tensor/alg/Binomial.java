@@ -58,7 +58,7 @@ public class Binomial {
     if (n < m) {
       if (0 <= n)
         return RealScalar.ZERO;
-      // TODO this case is defined in Mathematica
+      // LONGTERM this case is defined in Mathematica
       throw new RuntimeException(String.format("Binomial[%d,%d]", n, m));
     }
     return _binomial(n).over(m);

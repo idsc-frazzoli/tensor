@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 /** reference implementation of the interface Tensor */
 /* package */ class TensorImpl implements Tensor {
-  /** list is accessed by UnmodifiableTensor, ParallelDot, Unprotect */
+  /** list is accessed by UnmodifiableTensor, Parallelize, Unprotect */
   /* package */ final List<Tensor> list;
 
   /* package */ TensorImpl(List<Tensor> list) {
@@ -99,13 +99,13 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public final Tensor append(Tensor tensor) {
+  public Tensor append(Tensor tensor) {
     list.add(tensor.copy());
     return this;
   }
 
   @Override
-  public final int length() {
+  public int length() {
     return list.size();
   }
 
@@ -115,7 +115,7 @@ import java.util.stream.Stream;
   }
 
   @Override
-  public final Stream<Tensor> flatten(int level) {
+  public Stream<Tensor> flatten(int level) {
     if (level == 0)
       return stream(); // UnmodifiableTensor overrides stream()
     int ldecr = level - 1;

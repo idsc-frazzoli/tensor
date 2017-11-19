@@ -1,24 +1,42 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.Unprotect;
+import java.util.stream.Stream;
 
-/** inspired by
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.sca.Chop;
+
+/** Computation of convex hull of point cloud in 2D
+ * 
+ * <p>When {x, y} are taken as pixel coordinates, the ordering appears clockwise.
+ * 
+ * <p>Clusters of three points in numerical precision with cross product p1-p2 x p3-p2
+ * of norm below 1e-15 are treated as a single coordinate.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ConvexHull.html">ConvexHull</a> */
 public enum ConvexHull {
   ;
   /** @param tensor of n x 2 coordinates
    * @return points in counter-clockwise order with no 3 co-linear points
-   * careful: when (x,y) are taken as pixel coordinates, the ordering appears clockwise
    * @throws Exception for input of invalid format */
   public static Tensor of(Tensor tensor) {
-    if (tensor.length() == 0)
-      return Tensors.empty();
-    if (Unprotect.dimension1(tensor) == 2)
-      return new GrahamScan(tensor).getConvexHull();
-    throw TensorRuntimeException.of(tensor);
+    return of(tensor, Chop._15);
+  }
+
+  /** @param tensor of n x 2 coordinates
+   * @param chop to identify clusters of very close points
+   * @return points in counter-clockwise order with no 3 co-linear points
+   * @throws Exception for input of invalid format */
+  public static Tensor of(Tensor tensor, Chop chop) {
+    return of(tensor.stream(), chop);
+  }
+
+  /** @param stream of 2-vectors
+   * @param chop to identify clusters of very close points
+   * @return points in counter-clockwise order with no 3 co-linear points
+   * @throws Exception for input of invalid format */
+  public static Tensor of(Stream<Tensor> stream, Chop chop) {
+    return GrahamScan.of(stream, chop);
   }
 }
