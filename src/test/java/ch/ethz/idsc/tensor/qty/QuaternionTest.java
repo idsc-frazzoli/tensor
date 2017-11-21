@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -13,6 +14,7 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
@@ -104,6 +106,31 @@ public class QuaternionTest extends TestCase {
       Scalar nrm = Norm._2.ofVector(vec);
       Scalar abs = q1.abs();
       assertTrue(Chop._12.close(nrm, abs));
+    }
+  }
+
+  public void testExactScalarQ() {
+    Scalar q1 = Quaternion.of(1, 3, -2, 2);
+    assertTrue(ExactScalarQ.of(q1));
+    Scalar q2 = Quaternion.of(1, 3, -2., 2);
+    assertFalse(ExactScalarQ.of(q2));
+  }
+
+  public void testN() {
+    Scalar q1 = Quaternion.of(1, 3, -2, 2);
+    assertTrue(ExactScalarQ.of(q1));
+    Scalar n1 = N.DOUBLE.apply(q1);
+    assertFalse(ExactScalarQ.of(n1));
+    assertEquals(n1.toString(), "Q:1.0'3.0'-2.0'2.0");
+  }
+
+  public void testNumberFail() {
+    Scalar quaternion = Quaternion.of(1, 3, -2, 2);
+    try {
+      quaternion.number();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
     }
   }
 }

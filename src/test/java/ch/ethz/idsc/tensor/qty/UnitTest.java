@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import junit.framework.TestCase;
 
@@ -25,6 +26,18 @@ public class UnitTest extends TestCase {
     assertEquals(kg1.hashCode(), kg2.hashCode());
     assertFalse(kg1.equals(m));
     assertFalse(kg1.equals(new Object()));
+  }
+
+  public void testMultiplyZero() {
+    Unit unit = Unit.of("kg");
+    Unit gone = unit.multiply(RealScalar.ZERO);
+    assertTrue(Units.isOne(gone));
+  }
+
+  public void testMultiplyZero2() {
+    Unit unit = Unit.of("kg*m^-3");
+    Unit gone = unit.multiply(RealScalar.ZERO);
+    assertTrue(Units.isOne(gone));
   }
 
   public void testMultiplyFail() {

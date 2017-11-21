@@ -105,7 +105,7 @@ public class GaussScalar extends AbstractScalar implements //
     throw TensorRuntimeException.of(this, scalar);
   }
 
-  @Override // from ExactNumberQInterface
+  @Override // from ExactScalarQInterface
   public boolean isExactScalar() {
     return true;
   }
