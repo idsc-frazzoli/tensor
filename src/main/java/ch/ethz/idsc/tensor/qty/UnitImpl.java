@@ -22,7 +22,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   @Override // from Unit
   public Unit negate() {
     return new UnitImpl(navigableMap.entrySet().stream().collect(Collectors.toMap( //
-        Entry::getKey, entry -> entry.getValue().negate(), (e1, e2) -> e1, TreeMap::new)));
+        Entry::getKey, entry -> entry.getValue().negate(), (e1, e2) -> null, TreeMap::new)));
   }
 
   @Override // from Unit

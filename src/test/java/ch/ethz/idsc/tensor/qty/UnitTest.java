@@ -20,10 +20,10 @@ public class UnitTest extends TestCase {
 
   public void testEqualsHash() {
     Unit kg1 = Unit.of("kg");
-    Unit kg2 = Unit.of("kg");
+    Unit kg2 = Unit.of("kg*m");
     Unit m = Unit.of("m");
-    assertEquals(kg1, kg2);
-    assertEquals(kg1.hashCode(), kg2.hashCode());
+    assertEquals(kg1, kg2.add(m.negate()));
+    assertEquals(kg1.hashCode(), kg2.add(m.negate()).hashCode());
     assertFalse(kg1.equals(m));
     assertFalse(kg1.equals(new Object()));
   }
