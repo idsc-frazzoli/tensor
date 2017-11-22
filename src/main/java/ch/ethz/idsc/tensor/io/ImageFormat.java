@@ -53,7 +53,7 @@ public enum ImageFormat {
     List<Integer> dims = Dimensions.of(tensor);
     if (dims.size() == 2)
       return toTYPE_BYTE_GRAY(tensor, dims.get(1), dims.get(0));
-    return toTYPE_INT_ARGB(tensor, dims.get(1), dims.get(0));
+    return toTYPE_INT(tensor, dims.get(1), dims.get(0), BufferedImage.TYPE_INT_ARGB);
   }
 
   /** @param bufferedImage grayscale image with dimensions [width x height]
@@ -81,10 +81,22 @@ public enum ImageFormat {
   }
 
   // fast extraction of color information to buffered image
-  private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, int width, int height) {
-    BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+  private static BufferedImage toTYPE_INT(Tensor tensor, int width, int height, int imageType) {
+    BufferedImage bufferedImage = new BufferedImage(width, height, imageType);
     int[] array = tensor.flatten(1).mapToInt(ColorFormat::toInt).toArray();
     bufferedImage.setRGB(0, 0, width, height, array, 0, width);
     return bufferedImage;
+  }
+
+  /***************************************************/
+  /** functionality for export to jpg image format
+   * 
+   * @param tensor
+   * @return image of type BufferedImage.TYPE_BYTE_GRAY or BufferedImage.TYPE_INT_BGR */
+  /* package */ static BufferedImage jpg(Tensor tensor) {
+    List<Integer> dims = Dimensions.of(tensor);
+    if (dims.size() == 2)
+      return toTYPE_BYTE_GRAY(tensor, dims.get(1), dims.get(0));
+    return toTYPE_INT(tensor, dims.get(1), dims.get(0), BufferedImage.TYPE_INT_BGR);
   }
 }

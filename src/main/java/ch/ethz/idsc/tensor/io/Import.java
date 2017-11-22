@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** supported file formats are: CSV, PNG, TENSOR
+/** supported file formats are: CSV, JPG, PNG, TENSOR
  * 
  * <p>Do not use Import when exchanging {@link Tensor}s with
  * Mathematica. For that purpose use {@link Put} and {@link Get}.
@@ -25,9 +25,12 @@ public enum Import {
   /** supported extensions are
    * <ul>
    * <li>csv for {@link CsvFormat}
+   * <li>jpg for {@link ImageFormat}
    * <li>png for {@link ImageFormat}
    * <li>tensor for {@link ObjectFormat}
    * </ul>
+   * 
+   * <p>Important: the import of jpg image files is not thoroughly verified.
    * 
    * @param file source
    * @return file content as {@link Tensor}
@@ -40,6 +43,8 @@ public enum Import {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
       return CsvFormat.parse(Files.lines(file.toPath()));
+    if (filename.hasExtension("jpg"))
+      return ImageFormat.from(ImageIO.read(file));
     if (filename.hasExtension("png"))
       return ImageFormat.from(ImageIO.read(file));
     if (filename.hasExtension("tensor"))

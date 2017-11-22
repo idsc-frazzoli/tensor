@@ -21,7 +21,7 @@ public enum Conjugate implements ScalarUnaryOperator {
       ConjugateInterface conjugateInterface = (ConjugateInterface) scalar;
       return conjugateInterface.conjugate();
     }
-    throw TensorRuntimeException.of(scalar.getClass().getName(), scalar);
+    throw TensorRuntimeException.of(scalar);
   }
 
   /** see also {@link ConjugateTranspose}

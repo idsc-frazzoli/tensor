@@ -71,6 +71,6 @@ public enum Normalize {
       if (PRECISION.close(norm, RealScalar.ONE))
         return vector;
     }
-    throw TensorRuntimeException.of("no convergence", norm, vector);
+    throw TensorRuntimeException.of(norm, vector); // no convergence
   }
 }
