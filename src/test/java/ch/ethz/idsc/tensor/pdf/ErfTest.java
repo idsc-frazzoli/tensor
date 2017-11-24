@@ -1,12 +1,14 @@
 // code by jph
-package ch.ethz.idsc.tensor.sca;
+package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Subdivide;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class ErfTest extends TestCase {
@@ -27,6 +29,11 @@ public class ErfTest extends TestCase {
       assertTrue(Chop._07.close(res, erf));
       ++index;
     }
+  }
+
+  public void testLimits() {
+    assertEquals(Erf.FUNCTION.apply(DoubleScalar.POSITIVE_INFINITY), RealScalar.ONE);
+    assertEquals(Erf.FUNCTION.apply(DoubleScalar.NEGATIVE_INFINITY), RealScalar.ONE.negate());
   }
 
   public void testMathematica2() {

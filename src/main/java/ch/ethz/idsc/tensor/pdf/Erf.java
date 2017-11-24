@@ -1,6 +1,6 @@
 // code by gjoel
 // formula from https://en.wikipedia.org/wiki/Error_function
-package ch.ethz.idsc.tensor.sca;
+package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -8,6 +8,11 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.sca.Abs;
+import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** the implementation guarantees an error smaller than 1.2 x 10^-7
  * 

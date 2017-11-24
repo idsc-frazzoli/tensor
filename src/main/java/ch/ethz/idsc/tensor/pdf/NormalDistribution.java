@@ -9,7 +9,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/** inspired by
+/** Remark: the implementation of InverseCDF is not very accurate, expect errors of 1%.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
 public class NormalDistribution implements Distribution, //
     CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
@@ -67,8 +69,7 @@ public class NormalDistribution implements Distribution, //
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    // LONGTERM -Sqrt[2] InverseErfc[2 y]
-    throw TensorRuntimeException.of(p);
+    return StandardNormalDistribution.INSTANCE.quantile(p).multiply(sigma).add(mean);
   }
 
   @Override // from MeanInterface
