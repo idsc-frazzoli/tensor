@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class StandardNormalDistributionTest extends TestCase {
@@ -22,7 +23,7 @@ public class StandardNormalDistributionTest extends TestCase {
     CDF cdf = StandardNormalDistribution.INSTANCE;
     {
       Scalar p = cdf.p_lessEquals(RealScalar.ZERO);
-      assertEquals(p, RealScalar.of(0.5));
+      assertTrue(Chop._07.close(p, RealScalar.of(0.5)));
     }
     {
       Scalar p = cdf.p_lessThan(RealScalar.of(.3));

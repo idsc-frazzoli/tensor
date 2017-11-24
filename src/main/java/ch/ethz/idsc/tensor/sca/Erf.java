@@ -1,15 +1,22 @@
 // code by gjoel
+// formula from https://en.wikipedia.org/wiki/Error_function
 package ch.ethz.idsc.tensor.sca;
 
-import ch.ethz.idsc.tensor.*;
+import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Multinomial;
 
-/** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Erf.html">Erfc</a> */
+/** the implementation guarantees an error smaller than 1.2 x 10^-7
+ * 
+ * <p>inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Erf.html">Erf</a> */
 public enum Erf implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Tensor coeffs = Tensors.vector( //
+  private static final Tensor COEFFS = Tensors.vector( //
       -1.26551223, //
       +1.00002368, // x
       +0.37409196, // x^2
@@ -21,16 +28,22 @@ public enum Erf implements ScalarUnaryOperator {
       -0.82215223, // x^8
       +0.17087277 // x^9
   );
+  private static final Scalar HALF = DoubleScalar.of(0.5);
 
   @Override
-  // error < 1.2 x 10^-7
   public Scalar apply(Scalar scalar) {
-    Scalar t = RealScalar.ONE.add( Abs.of(scalar).divide(RealScalar.of(2.0)) ).reciprocal();
+    Scalar t = Abs.of(scalar).multiply(HALF).add(RealScalar.ONE).reciprocal();
     Scalar x2 = AbsSquared.FUNCTION.apply(scalar);
-    Scalar tau = t.multiply(Exp.FUNCTION.apply( x2.negate().add(Multinomial.horner(coeffs, t)) ));
-    if (Sign.isPositiveOrZero(scalar))
-      return RealScalar.ONE.subtract(tau);
-    else
-      return tau.subtract(RealScalar.ONE);
+    Scalar tau = Exp.FUNCTION.apply(Multinomial.horner(COEFFS, t).subtract(x2)).multiply(t);
+    return Sign.isPositiveOrZero(scalar) //
+        ? RealScalar.ONE.subtract(tau)
+        : tau.subtract(RealScalar.ONE);
+  }
+
+  /** @param tensor
+   * @return tensor with all scalar entries replaced by the evaluation under Erf */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(FUNCTION);
   }
 }

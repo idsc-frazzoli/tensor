@@ -74,7 +74,7 @@ public class QuaternionTest extends TestCase {
       Tensor arg = RandomVariate.of(NormalDistribution.standard(), 4);
       Scalar q = Quaternion.of(arg.Get(0), arg.Get(1), arg.Get(2), arg.Get(3));
       Scalar r = Sqrt.of(q);
-      assertTrue(Chop._13.close(r.multiply(r), q));
+      assertTrue(Chop._11.close(r.multiply(r), q));
     }
   }
 

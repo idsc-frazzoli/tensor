@@ -298,14 +298,11 @@ Subsequently, the documentation is accessible through the file
 ## References
 
 The library is used in the projects:
-* `matsim`
-* `owly`
+* `matsim`, and `queuey` 
 * `subare`
-* `owly3d`
 * `SwissTrolley+` that implements Scalar with physical units from `javax.measure.Unit`
+* `owl`, `owly`, and `owly3d`
 * `retina`
-* `queuey`
-* `SimBus`
 * `lcm-java`
 
-The repository has over `1800` unit tests.
+The repository has over `1810` unit tests.
