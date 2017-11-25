@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -13,6 +15,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 public enum InverseErf implements ScalarUnaryOperator {
   FUNCTION;
   // ---
+  private static final Scalar ONE_NEGATE = RealScalar.ONE.negate();
   private static final Tensor COEFFS = Tensors.vectorDouble( //
       0, 0.8842319013499945, //
       0, 0.5279697289942278, //
@@ -33,6 +36,10 @@ public enum InverseErf implements ScalarUnaryOperator {
   @Override
   public Scalar apply(Scalar scalar) {
     Clip.absoluteOne().isInsideElseThrow(scalar);
+    if (scalar.equals(ONE_NEGATE))
+      return DoubleScalar.NEGATIVE_INFINITY;
+    if (scalar.equals(RealScalar.ONE))
+      return DoubleScalar.POSITIVE_INFINITY;
     return Multinomial.horner(COEFFS, scalar);
   }
 

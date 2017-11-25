@@ -305,4 +305,4 @@ The library is used in the projects:
 * `retina`
 * `lcm-java`
 
-The repository has over `1810` unit tests.
+The repository has over `1820` unit tests.
