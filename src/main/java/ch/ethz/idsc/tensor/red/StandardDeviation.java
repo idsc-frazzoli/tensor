@@ -15,6 +15,6 @@ public enum StandardDeviation {
    * @return square root of variance
    * @throws Exception if input is not a vector, or the input has insufficient length */
   public static Scalar ofVector(Tensor vector) {
-    return Sqrt.of(Variance.ofVector(vector));
+    return Sqrt.FUNCTION.apply(Variance.ofVector(vector));
   }
 }

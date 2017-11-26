@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.zip.DataFormatException;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import junit.framework.TestCase;
 
@@ -23,10 +24,11 @@ public class ImportTest extends TestCase {
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
   }
 
-  public void testTensor() throws Exception {
-    // File file = new File(getClass().getResource("/io/hilbert6x8.tensor").getFile());
-    // Tensor tensor = Import.of(file);
-    // assertEquals(tensor, HilbertMatrix.of(6, 8));
+  public void testJpg() throws Exception {
+    File file = new File(getClass().getResource("/io/rgb15x33.jpg").getFile());
+    Tensor tensor = Import.of(file);
+    assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
+    assertEquals(Tensors.vector(180, 46, 47, 255), tensor.get(21, 3)); // verified with gimp
   }
 
   public void testObject() throws ClassNotFoundException, DataFormatException, IOException {

@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** supported file formats are: CSV, M, PNG, TENSOR
+/** supported file formats are: CSV, JPG, M, PNG, TENSOR
  * 
  * <p>Do not use Export when exchanging {@link Tensor}s with
  * Mathematica. For that purpose use {@link Put} and {@link Get}.
@@ -30,6 +30,9 @@ public enum Export {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
       Files.write(file.toPath(), (Iterable<String>) CsvFormat.of(tensor)::iterator);
+    else //
+    if (filename.hasExtension("jpg"))
+      ImageIO.write(ImageFormat.jpg(tensor), "jpg", file);
     else //
     if (filename.hasExtension("m"))
       Files.write(file.toPath(), (Iterable<String>) MatlabExport.of(tensor)::iterator);

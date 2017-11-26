@@ -2,8 +2,6 @@
 package ch.ethz.idsc.tensor.qty;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -17,38 +15,45 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /* package */ class UnitImpl implements Unit {
   private final NavigableMap<String, Scalar> navigableMap;
 
-  /* package */ UnitImpl(Map<String, Scalar> map) {
-    NavigableMap<String, Scalar> treeMap = new TreeMap<>();
-    for (Entry<String, Scalar> entry : map.entrySet()) {
-      Scalar exponent = entry.getValue();
-      if (Scalars.nonZero(exponent))
-        treeMap.put(entry.getKey(), exponent);
-    }
-    navigableMap = Collections.unmodifiableNavigableMap(treeMap);
+  UnitImpl(NavigableMap<String, Scalar> navigableMap) {
+    this.navigableMap = Collections.unmodifiableNavigableMap(navigableMap);
   }
 
   @Override // from Unit
   public Unit negate() {
-    return new UnitImpl(navigableMap.entrySet().stream() //
-        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().negate())));
+    return new UnitImpl(navigableMap.entrySet().stream().collect(Collectors.toMap( //
+        Entry::getKey, entry -> entry.getValue().negate(), (e1, e2) -> null, TreeMap::new)));
   }
 
   @Override // from Unit
   public Unit add(Unit unit) {
-    Map<String, Scalar> map = new HashMap<>(navigableMap);
+    NavigableMap<String, Scalar> map = new TreeMap<>(navigableMap);
     for (Entry<String, Scalar> entry : unit.map().entrySet()) {
       String key = entry.getKey();
-      Scalar exponent = entry.getValue();
-      map.put(key, map.containsKey(key) ? map.get(key).add(exponent) : exponent);
+      Scalar value = entry.getValue();
+      if (map.containsKey(key)) {
+        Scalar sum = map.get(key).add(value);
+        if (Scalars.isZero(sum))
+          map.remove(key); // exponents cancel out
+        else
+          map.put(key, sum); // exponent is updated
+      } else
+        map.put(key, value); // unit is introduced
     }
     return new UnitImpl(map);
   }
 
   @Override // from Unit
   public Unit multiply(Scalar factor) {
-    if (factor instanceof RealScalar)
-      return new UnitImpl(navigableMap.entrySet().stream() //
-          .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().multiply(factor))));
+    if (factor instanceof RealScalar) {
+      NavigableMap<String, Scalar> map = new TreeMap<>();
+      for (Entry<String, Scalar> entry : navigableMap.entrySet()) {
+        Scalar value = entry.getValue().multiply(factor);
+        if (Scalars.nonZero(value))
+          map.put(entry.getKey(), value);
+      }
+      return new UnitImpl(map);
+    }
     throw TensorRuntimeException.of(factor);
   }
 

@@ -139,7 +139,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return of(toBigDecimal(0, RoundingMode.FLOOR).toBigIntegerExact(), BigInteger.ONE);
   }
 
-  @Override // from ExactNumberQInterface
+  @Override // from ExactScalarQInterface
   public boolean isExactScalar() {
     return true;
   }

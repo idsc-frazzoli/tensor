@@ -3,17 +3,18 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/** inspired by
+/** Remark: the implementation of InverseCDF is not very accurate, expect errors of 1%.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
 public class NormalDistribution implements Distribution, //
-    CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
   private static final Distribution STANDARD = of(RealScalar.ZERO, RealScalar.ONE);
 
   /** @param mean
@@ -40,7 +41,8 @@ public class NormalDistribution implements Distribution, //
    * @throws Exception if mean or variance of distribution cannot be established */
   public static Distribution fit(Distribution distribution) {
     return new NormalDistribution( //
-        Expectation.mean(distribution), Sqrt.FUNCTION.apply(Expectation.variance(distribution)));
+        Expectation.mean(distribution), // mean
+        Sqrt.FUNCTION.apply(Expectation.variance(distribution))); // standard deviation
   }
 
   // ---
@@ -48,7 +50,6 @@ public class NormalDistribution implements Distribution, //
   private final Scalar sigma;
 
   private NormalDistribution(Scalar mean, Scalar sigma) {
-    // if (Scalars.lessEquals(sigma, RealScalar.ZERO))
     if (Sign.isNegativeOrZero(sigma))
       throw TensorRuntimeException.of(sigma);
     this.mean = mean;
@@ -56,9 +57,19 @@ public class NormalDistribution implements Distribution, //
     mean.add(sigma); // <- assert that parameters are compatible
   }
 
-  @Override // from RandomVariateInterface
-  public Scalar randomVariate(Random random) {
-    return mean.add(DoubleScalar.of(random.nextGaussian()).multiply(sigma));
+  @Override // from CDF
+  public Scalar p_lessThan(Scalar x) {
+    return StandardNormalDistribution.INSTANCE.p_lessThan(x.subtract(mean).divide(sigma));
+  }
+
+  @Override // from CDF
+  public Scalar p_lessEquals(Scalar x) {
+    return p_lessThan(x);
+  }
+
+  @Override // from InverseCDF
+  public Scalar quantile(Scalar p) {
+    return StandardNormalDistribution.INSTANCE.quantile(p).multiply(sigma).add(mean);
   }
 
   @Override // from MeanInterface
@@ -72,18 +83,13 @@ public class NormalDistribution implements Distribution, //
         x.subtract(mean).divide(sigma)).divide(sigma);
   }
 
+  @Override // from RandomVariateInterface
+  public Scalar randomVariate(Random random) {
+    return mean.add(StandardNormalDistribution.INSTANCE.randomVariate(random).multiply(sigma));
+  }
+
   @Override // from VarianceInterface
   public Scalar variance() {
     return sigma.multiply(sigma);
-  }
-
-  @Override // from CDF
-  public Scalar p_lessThan(Scalar x) {
-    return StandardNormalDistribution.INSTANCE.p_lessThan(x.subtract(mean).divide(sigma));
-  }
-
-  @Override // from CDF
-  public Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
   }
 }

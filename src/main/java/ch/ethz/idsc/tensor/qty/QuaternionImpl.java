@@ -5,6 +5,7 @@ import java.math.MathContext;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -13,10 +14,12 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
+import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/* package */ class QuaternionImpl extends AbstractScalar implements Quaternion {
+/* package */ class QuaternionImpl extends AbstractScalar implements Quaternion, //
+    ExactScalarQInterface {
   private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final Scalar re;
@@ -122,6 +125,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from ConjugateInterface
   public Scalar conjugate() {
     return new QuaternionImpl(re, im.negate(), jm.negate(), km.negate());
+  }
+
+  @Override // from ExactScalarQInterface
+  public boolean isExactScalar() {
+    return ExactScalarQ.of(re) && ExactScalarQ.of(im) //
+        && ExactScalarQ.of(jm) && ExactScalarQ.of(km);
   }
 
   @Override // from NInterface

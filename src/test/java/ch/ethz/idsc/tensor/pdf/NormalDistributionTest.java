@@ -37,10 +37,10 @@ public class NormalDistributionTest extends TestCase {
   }
 
   public void testCdf() {
-    CDF distribution = (CDF) NormalDistribution.of(RealScalar.of(-10.2), RealScalar.of(2.3));
+    CDF cdf = (CDF) NormalDistribution.of(RealScalar.of(-10.2), RealScalar.of(2.3));
     Scalar x = RealScalar.of(-11);
-    Scalar s = distribution.p_lessThan(x);
-    assertEquals(s, distribution.p_lessEquals(x));
+    Scalar s = cdf.p_lessThan(x);
+    assertEquals(s, cdf.p_lessEquals(x));
     assertTrue(s.toString().startsWith("0.363985"));
   }
 
@@ -56,7 +56,9 @@ public class NormalDistributionTest extends TestCase {
       Scalar prob = PDF.of(distribution).at(mean);
       QuantityMagnitude.SI().in(Unit.of("in^-1")).apply(prob);
     }
-    assertEquals(CDF.of(distribution).p_lessEquals(mean), RationalScalar.of(1, 2));
+    assertTrue(Chop._07.close( //
+        CDF.of(distribution).p_lessEquals(mean), //
+        RationalScalar.of(1, 2)));
   }
 
   public void testQuantityFail() {

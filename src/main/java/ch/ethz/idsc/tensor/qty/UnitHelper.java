@@ -1,11 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -39,7 +40,7 @@ import ch.ethz.idsc.tensor.Scalars;
 
   // helper function
   private static Unit create(String string) {
-    Map<String, Scalar> map = new HashMap<>();
+    NavigableMap<String, Scalar> map = new TreeMap<>();
     StringTokenizer stringTokenizer = new StringTokenizer(string, Unit.JOIN_DELIMITER);
     while (stringTokenizer.hasMoreTokens()) {
       String token = stringTokenizer.nextToken();
@@ -56,7 +57,15 @@ import ch.ethz.idsc.tensor.Scalars;
       String key = unit.trim();
       if (!PATTERN.matcher(key).matches())
         throw new IllegalArgumentException(string);
-      map.put(key, map.containsKey(key) ? map.get(key).add(exponent) : exponent);
+      if (map.containsKey(key)) { // exponent exists
+        Scalar sum = map.get(key).add(exponent);
+        if (Scalars.isZero(sum))
+          map.remove(key); // exponents cancel
+        else
+          map.put(key, sum); // update total exponent
+      } else //
+      if (Scalars.nonZero(exponent)) // introduce exponent
+        map.put(key, exponent);
     }
     return new UnitImpl(map);
   }

@@ -34,13 +34,8 @@ public class TensorRuntimeExceptionTest extends TestCase {
     Serialization.of(TensorRuntimeException.of(RealScalar.ONE));
   }
 
-  public void testMessage1() {
-    Exception exception = TensorRuntimeException.of("text");
-    assertEquals(exception.getMessage(), "text");
-  }
-
-  public void testMessage2() {
-    Exception exception = TensorRuntimeException.of("text", RealScalar.ZERO);
-    assertEquals(exception.getMessage(), "text: 0");
+  public void testMessage() {
+    Exception exception = TensorRuntimeException.of();
+    assertEquals(exception.getMessage(), "");
   }
 }

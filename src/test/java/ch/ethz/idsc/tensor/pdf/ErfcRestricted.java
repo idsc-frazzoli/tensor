@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.sca;
+package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -8,13 +8,16 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Erfc.html">Erfc</a> */
-public enum Erfc implements ScalarUnaryOperator {
+/** IMPLEMENTATION IS BASED ON THE TAYLOR SERIES
+ * RESTRICTED TO A BOUNDED INTERVAL AROUND ZERO
+ * 
+ * the purpose is only for comparison */
+public enum ErfcRestricted implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Tensor coeffs = Tensors.vector( //
+  private static final Tensor COEFFS = Tensors.vector( //
       1, //
       -1.1283791670955126, 0, // x
       +0.3761263890318375, 0, // x^3
@@ -29,8 +32,7 @@ public enum Erfc implements ScalarUnaryOperator {
   @Override
   public Scalar apply(Scalar scalar) {
     if (Scalars.lessThan(scalar.abs(), DoubleScalar.of(.7))) // error < 10^-9
-      return Multinomial.horner(coeffs, scalar);
-    // LONGTERM implement
+      return Multinomial.horner(COEFFS, scalar);
     throw TensorRuntimeException.of(scalar);
   }
 }

@@ -61,7 +61,7 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
     return 0;
   }
 
-  @Override
+  @Override // from EvaluatedDiscreteDistribution
   protected int upperBound() {
     return P_EQUALS_MAX;
   }

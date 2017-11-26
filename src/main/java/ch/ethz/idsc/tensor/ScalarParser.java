@@ -58,10 +58,11 @@ import java.util.regex.Pattern;
       Scalar sum = first == 0 ? RealScalar.ZERO : of(string.substring(0, first));
       for (int index = 0; index < plusMinus.size(); ++index) {
         int curr = plusMinus.get(index);
-        final char c = chars[curr];
+        char c = chars[curr];
         int next = index + 1 < plusMinus.size() ? plusMinus.get(index + 1) : string.length();
         if (c == ADD)
           sum = sum.add(of(string.substring(curr + 1, next)));
+        else //
         if (c == SUBTRACT)
           sum = sum.subtract(of(string.substring(curr + 1, next)));
       }
@@ -81,11 +82,11 @@ import java.util.regex.Pattern;
       return DoubleScalar.of(Double.parseDouble(string));
     final int prime = string.indexOf(DECIMAL_PRIME); // check decimal
     if (0 < prime) {
-      final String ante = string.substring(0, prime);
-      final String post = string.substring(prime + 1);
+      String ante = string.substring(0, prime);
+      String post = string.substring(prime + 1);
       if (post.isEmpty())
         return of(ante);
-      int precision = (int) Math.round(Double.parseDouble(post));
+      int precision = Math.toIntExact(Math.round(Double.parseDouble(post)));
       MathContext mathContext = new MathContext(precision, RoundingMode.HALF_EVEN);
       BigDecimal bigDecimal = new BigDecimal(ante, mathContext);
       return DecimalScalar.of(bigDecimal);
