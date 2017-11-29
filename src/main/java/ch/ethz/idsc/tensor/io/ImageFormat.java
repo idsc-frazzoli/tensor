@@ -6,6 +6,7 @@ import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -31,6 +32,15 @@ import ch.ethz.idsc.tensor.img.ColorFormat;
  * <a href="https://reference.wolfram.com/language/ref/ImageData.html">ImageData</a> */
 public enum ImageFormat {
   ;
+  /** there are only [0, 1, ..., 255] possible values for red, green, blue, and alpha.
+   * We preallocate instances of these scalars in a lookup table to save memory and
+   * possibly enhance execution time. */
+  private static final Scalar[] LOOKUP = new Scalar[256];
+  static {
+    IntStream.range(0, 256).forEach(index -> LOOKUP[index] = RationalScalar.of(index, 1));
+  }
+
+  // ---
   /** encode image as tensor. {@link Dimensions} of output are
    * [height x width] for grayscale images of type BufferedImage.TYPE_BYTE_GRAY
    * [height x width x 4] for color images
@@ -62,7 +72,7 @@ public enum ImageFormat {
     WritableRaster writableRaster = bufferedImage.getRaster();
     DataBufferByte dataBufferByte = (DataBufferByte) writableRaster.getDataBuffer();
     ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
-    return Tensors.matrix((i, j) -> RationalScalar.of(byteBuffer.get() & 0xff, 1), //
+    return Tensors.matrix((i, j) -> LOOKUP[byteBuffer.get() & 0xff], //
         bufferedImage.getHeight(), bufferedImage.getWidth());
   }
 

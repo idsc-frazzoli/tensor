@@ -22,6 +22,9 @@ import ch.ethz.idsc.tensor.alg.Array;
  * <a href="https://reference.wolfram.com/language/ref/RandomVariate.html">RandomVariate</a> */
 public enum RandomVariate {
   ;
+  /** The default constructor of {@link Random} determines the seed at time of creation
+   * using {@link System#nanoTime()}. Typically, the implementation will produce a different
+   * random sequence for two successive program executions. */
   private static final Random RANDOM = new Random();
 
   /** @param randomVariateInterface
