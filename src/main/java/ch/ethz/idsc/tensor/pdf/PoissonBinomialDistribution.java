@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -42,12 +43,12 @@ public class PoissonBinomialDistribution implements Distribution, //
 
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
-    return RealScalar.of(p_vector.stream() //
+    return RationalScalar.of(p_vector.stream() //
         .map(Scalar.class::cast) //
         .map(Scalar::number) //
         .map(Number::doubleValue) //
         .filter(p -> random.nextDouble() < p) //
-        .count());
+        .count(), 1);
   }
 
   @Override // from VarianceInterface

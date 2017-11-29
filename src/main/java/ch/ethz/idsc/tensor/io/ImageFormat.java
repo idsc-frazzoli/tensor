@@ -7,7 +7,7 @@ import java.awt.image.WritableRaster;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -62,7 +62,7 @@ public enum ImageFormat {
     WritableRaster writableRaster = bufferedImage.getRaster();
     DataBufferByte dataBufferByte = (DataBufferByte) writableRaster.getDataBuffer();
     ByteBuffer byteBuffer = ByteBuffer.wrap(dataBufferByte.getData());
-    return Tensors.matrix((i, j) -> RealScalar.of(byteBuffer.get() & 0xff), //
+    return Tensors.matrix((i, j) -> RationalScalar.of(byteBuffer.get() & 0xff, 1), //
         bufferedImage.getHeight(), bufferedImage.getWidth());
   }
 
