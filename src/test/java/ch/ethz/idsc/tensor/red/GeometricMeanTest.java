@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class GeometricMeanTest extends TestCase {
@@ -38,5 +40,11 @@ public class GeometricMeanTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testMatrixFail() {
+    Tensor mean = GeometricMean.of(HilbertMatrix.of(4));
+    Tensor expected = Tensors.vector(0.4518010018049224, 0.3021375397356768, 0.2295748846661433, 0.18575057999133598);
+    assertTrue(Chop._14.close(mean, expected));
   }
 }

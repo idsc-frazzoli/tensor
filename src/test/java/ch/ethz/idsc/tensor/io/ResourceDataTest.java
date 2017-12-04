@@ -49,6 +49,11 @@ public class ResourceDataTest extends TestCase {
     assertEquals(primes.Get(5), Scalars.fromString("13"));
   }
 
+  public void testJpg() throws IOException {
+    Tensor image = ResourceData.of("/io/rgb15x33.jpg");
+    assertEquals(Dimensions.of(image), Arrays.asList(33, 15, 4));
+  }
+
   public void testFailNull() {
     assertNull(ResourceData.of("/number/exists.fail"));
   }

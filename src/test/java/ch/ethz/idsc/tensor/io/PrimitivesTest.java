@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.LongBuffer;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,6 +71,7 @@ public class PrimitivesTest extends TestCase {
     assertEquals(floatBuffer.get(), -2.7f);
     assertEquals(floatBuffer.get(), 4.3f);
     assertEquals(floatBuffer.get(), 5.4f);
+    assertEquals(floatBuffer.limit(), 6);
   }
 
   public void testFloatArray() {
@@ -96,11 +98,24 @@ public class PrimitivesTest extends TestCase {
   public void testIntBuffer() {
     Tensor a = Tensors.vector(-2, -27, Math.PI);
     Tensor b = Tensors.vector(43, 54, 62, 105);
-    IntBuffer doubleBuffer = Primitives.toIntBuffer(Tensors.of(a, b));
-    assertEquals(doubleBuffer.get(), -2);
-    assertEquals(doubleBuffer.get(), -27);
-    assertEquals(doubleBuffer.get(), 3);
-    assertEquals(doubleBuffer.get(), 43);
-    assertEquals(doubleBuffer.get(), 54);
+    IntBuffer intBuffer = Primitives.toIntBuffer(Tensors.of(a, b));
+    assertEquals(intBuffer.get(), -2);
+    assertEquals(intBuffer.get(), -27);
+    assertEquals(intBuffer.get(), 3);
+    assertEquals(intBuffer.get(), 43);
+    assertEquals(intBuffer.get(), 54);
+    assertEquals(intBuffer.limit(), 7);
+  }
+
+  public void testLongBuffer() {
+    Tensor a = Tensors.vector(-2, -27, Math.PI);
+    Tensor b = Tensors.vector(43, 54, 62, 105);
+    LongBuffer longBuffer = Primitives.toLongBuffer(Tensors.of(a, b));
+    assertEquals(longBuffer.get(), -2);
+    assertEquals(longBuffer.get(), -27);
+    assertEquals(longBuffer.get(), 3);
+    assertEquals(longBuffer.get(), 43);
+    assertEquals(longBuffer.get(), 54);
+    assertEquals(longBuffer.limit(), 7);
   }
 }

@@ -17,13 +17,13 @@ public enum TensorWedge {
   ;
   /** @param a
    * @param b
-   * @return */
+   * @return alternating tensor product of a and b */
   public static Tensor of(Tensor a, Tensor b) {
     return of(TensorProduct.of(a, b));
   }
 
   /** @param tensor
-   * @return */
+   * @return alternating tensor */
   public static Tensor of(Tensor tensor) {
     Tensor sum = tensor.map(Scalar::zero);
     int rank = TensorRank.of(tensor);
