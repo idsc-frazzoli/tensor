@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.sca.Clip;
 
 /** functionality and suggested base class for a discrete probability distribution */
 public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDistribution {
@@ -24,13 +24,12 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
   @Override // from InverseCDF
   public final synchronized Scalar quantile(Scalar p) {
     // if the input is outside the valid range, the while loop below may never terminate
-    if (Scalars.lessThan(p, RealScalar.ZERO) || Scalars.lessEquals(RealScalar.ONE, p))
-      throw TensorRuntimeException.of(p);
+    Clip.unit().isInsideElseThrow(p);
     // ---
     if (inverse_cdf.isEmpty())
       inverse_cdf.put(p_equals(lowerBound()), RationalScalar.of(lowerBound(), 1));
     // ---
-    Entry<Scalar, Scalar> higher = inverse_cdf.higherEntry(p); // strictly higher
+    Entry<Scalar, Scalar> higher = lookup(p);
     if (Objects.isNull(higher)) {
       Entry<Scalar, Scalar> floor = inverse_cdf.floorEntry(p); // less than or equal
       int sample = (Integer) floor.getValue().number();
@@ -49,17 +48,21 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
           break;
         }
       }
-      higher = inverse_cdf.higherEntry(p); // strictly higher
+      higher = lookup(p);
     }
     return higher.getValue();
+  }
+
+  private Entry<Scalar, Scalar> lookup(Scalar p) {
+    return Scalars.lessThan(p, RealScalar.ONE) //
+        ? inverse_cdf.higherEntry(p) // strictly higher
+        : inverse_cdf.ceilingEntry(p);
   }
 
   /** optional safeguard when computing CDF for probabilities with machine precision
    * 
    * @return greatest integer n for which 0 < p(n) */
-  protected int upperBound() {
-    return Integer.MAX_VALUE;
-  }
+  protected abstract int upperBound();
 
   /* package for testing */ final NavigableMap<Scalar, Scalar> inverse_cdf() {
     return Collections.unmodifiableNavigableMap(inverse_cdf);

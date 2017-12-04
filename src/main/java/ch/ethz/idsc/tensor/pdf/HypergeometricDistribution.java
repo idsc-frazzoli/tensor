@@ -67,6 +67,11 @@ public class HypergeometricDistribution extends EvaluatedDiscreteDistribution im
     return 0;
   }
 
+  @Override // from EvaluatedDiscreteDistribution
+  protected int upperBound() {
+    return Math.min(N, n);
+  }
+
   @Override // from AbstractDiscreteDistribution
   protected Scalar protected_p_equals(int i) {
     if (N < i || n < i)

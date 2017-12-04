@@ -168,6 +168,12 @@ public class BinomialDistributionTest extends TestCase {
     assertEquals(x3, RealScalar.of(10));
   }
 
+  public void testInverseCDFOne() {
+    InverseCDF inv = InverseCDF.of(BinomialDistribution.of(100, RationalScalar.of(2, 3)));
+    Scalar last = inv.quantile(RealScalar.ONE);
+    assertEquals(last, RealScalar.of(100)); // consistent with Mathematica
+  }
+
   public void testFailN() {
     try {
       BinomialDistribution.of(-1, RationalScalar.of(1, 3));

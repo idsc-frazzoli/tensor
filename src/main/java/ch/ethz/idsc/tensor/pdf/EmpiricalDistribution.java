@@ -66,7 +66,7 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
 
   @Override // from EvaluatedDiscreteDistribution
   protected int upperBound() {
-    return cdf.length() - 1; // override probably not necessary
+    return cdf.length() - 1;
   }
 
   @Override // from AbstractDiscreteDistribution
