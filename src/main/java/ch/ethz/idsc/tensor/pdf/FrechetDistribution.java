@@ -21,8 +21,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/FrechetDistribution.html">FrechetDistribution</a> */
-public class FrechetDistribution implements Distribution, //
-    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+public class FrechetDistribution extends AbstractContinuousDistribution implements //
+    InverseCDF, MeanInterface, VarianceInterface {
   private static final double NEXTDOWNONE = Math.nextDown(1.0);
   private static final Scalar TWO = RealScalar.of(2);
 

@@ -13,8 +13,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
-public class NormalDistribution implements Distribution, //
-    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+public class NormalDistribution extends AbstractContinuousDistribution implements //
+    InverseCDF, MeanInterface, VarianceInterface {
   private static final Distribution STANDARD = of(RealScalar.ZERO, RealScalar.ONE);
 
   /** @param mean

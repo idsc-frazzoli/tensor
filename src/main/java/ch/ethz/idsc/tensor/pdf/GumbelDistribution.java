@@ -15,8 +15,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/GumbelDistribution.html">GumbelDistribution</a> */
-public class GumbelDistribution implements Distribution, //
-    CDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+public class GumbelDistribution extends AbstractContinuousDistribution implements //
+    MeanInterface, VarianceInterface {
   private static final double NEXTDOWNONE = Math.nextDown(1.0);
   private static final Scalar PISQUARED_6 = DoubleScalar.of(1.644934066848226436472415166646);
 

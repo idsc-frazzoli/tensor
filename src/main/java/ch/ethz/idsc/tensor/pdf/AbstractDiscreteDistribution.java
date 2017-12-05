@@ -35,4 +35,15 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
   /** @param n with n >= lowerBound()
    * @return P(X == n), i.e. probability of random variable X == n */
   protected abstract Scalar protected_p_equals(int n);
+
+  /***************************************************/
+  @Override // from Object
+  public int hashCode() {
+    return StaticHelper.hashCode(this);
+  }
+
+  @Override // from Object
+  public boolean equals(Object object) {
+    return object instanceof Distribution ? StaticHelper.equals(this, (Distribution) object) : false;
+  }
 }

@@ -42,4 +42,15 @@ import ch.ethz.idsc.tensor.Scalar;
   public Scalar variance() {
     return mean().multiply(RealScalar.ONE.subtract(p));
   }
+
+  /***************************************************/
+  @Override // from Object
+  public int hashCode() {
+    return StaticHelper.hashCode(this);
+  }
+
+  @Override // from Object
+  public boolean equals(Object object) {
+    return object instanceof Distribution ? StaticHelper.equals(this, (Distribution) object) : false;
+  }
 }

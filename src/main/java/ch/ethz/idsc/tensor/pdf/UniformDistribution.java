@@ -18,8 +18,8 @@ import ch.ethz.idsc.tensor.sca.Clip;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
-public class UniformDistribution implements Distribution, //
-    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+public class UniformDistribution extends AbstractContinuousDistribution implements //
+    InverseCDF, MeanInterface, VarianceInterface {
   private static final Distribution UNIT = new UniformDistribution(RealScalar.ZERO, RealScalar.ONE) {
     @Override
     public Scalar randomVariate(Random random) {
