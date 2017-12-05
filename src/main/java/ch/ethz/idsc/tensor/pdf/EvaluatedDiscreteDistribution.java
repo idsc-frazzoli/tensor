@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** functionality and suggested base class for a discrete probability distribution */
 public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDistribution {
@@ -19,12 +19,14 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
    * the value type of the map is Scalar (instead of Integer) to reuse the instances of Scalar */
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();
 
-  /** @param p in the half-open interval [0, 1)
+  /** @param p in the interval [0, 1]
    * @return */
+  // LONGTERM implementation can be improved
   @Override // from InverseCDF
   public final synchronized Scalar quantile(Scalar p) {
     // if the input is outside the valid range, the while loop below may never terminate
-    Clip.unit().isInsideElseThrow(p);
+    if (Scalars.lessThan(p, RealScalar.ZERO) || Scalars.lessThan(RealScalar.ONE, p))
+      throw TensorRuntimeException.of(p);
     // ---
     if (inverse_cdf.isEmpty())
       inverse_cdf.put(p_equals(lowerBound()), RationalScalar.of(lowerBound(), 1));
