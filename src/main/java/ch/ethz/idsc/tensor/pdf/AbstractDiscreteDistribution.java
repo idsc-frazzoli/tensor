@@ -14,7 +14,13 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
     InverseCDF, MeanInterface, PDF, RandomVariateInterface {
   @Override // from RandomVariateInterface
   public final Scalar randomVariate(Random random) {
-    return quantile(DoubleScalar.of(random.nextDouble()));
+    return quantile_fast(DoubleScalar.of(random.nextDouble()));
+  }
+
+  /** @param p in semi-open interval [0, 1)
+   * @return */
+  protected Scalar quantile_fast(Scalar p) {
+    return quantile(p); // default implementation
   }
 
   @Override // from PDF
@@ -35,15 +41,4 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
   /** @param n with n >= lowerBound()
    * @return P(X == n), i.e. probability of random variable X == n */
   protected abstract Scalar protected_p_equals(int n);
-
-  /***************************************************/
-  @Override // from Object
-  public int hashCode() {
-    return StaticHelper.hashCode(this);
-  }
-
-  @Override // from Object
-  public boolean equals(Object object) {
-    return object instanceof Distribution ? StaticHelper.equals(this, (Distribution) object) : false;
-  }
 }

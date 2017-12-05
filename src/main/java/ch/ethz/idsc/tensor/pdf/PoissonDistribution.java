@@ -76,4 +76,9 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
     }
     return values.Get(n);
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%s]", getClass().getSimpleName(), lambda);
+  }
 }

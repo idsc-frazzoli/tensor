@@ -95,4 +95,9 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
       return RealScalar.ONE;
     return cdf.Get(index);
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%s]", getClass().getSimpleName(), pdf);
+  }
 }

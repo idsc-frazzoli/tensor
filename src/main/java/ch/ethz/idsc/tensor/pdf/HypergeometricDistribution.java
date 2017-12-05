@@ -78,4 +78,9 @@ public class HypergeometricDistribution extends EvaluatedDiscreteDistribution im
       return RealScalar.ZERO;
     return binomial_n.over(i).multiply(binomial_m.over(N - i)).divide(binomial_m_n.over(N));
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%d, %d, %d]", getClass().getSimpleName(), N, n, m_n);
+  }
 }

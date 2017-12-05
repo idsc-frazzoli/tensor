@@ -28,7 +28,7 @@ public interface InverseCDF {
 
   /** the inverse CDF at p is also referred to as the p-th quantile of a distribution
    * 
-   * @param p in half-open interval [0, 1). The case p == 1 is documented in the implementing class.
+   * @param p in the closed interval [0, 1]
    * @return x largest for which P(X <= x) <= p
    * @throws Exception if given p is outside of the interval [0, 1] */
   Scalar quantile(Scalar p);

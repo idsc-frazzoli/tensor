@@ -97,4 +97,9 @@ public class ExponentialDistribution extends AbstractContinuousDistribution impl
   public Scalar p_lessEquals(Scalar x) {
     return p_lessThan(x);
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%s]", getClass().getSimpleName(), lambda);
+  }
 }

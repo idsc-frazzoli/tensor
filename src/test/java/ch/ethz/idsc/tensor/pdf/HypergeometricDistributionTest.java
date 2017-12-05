@@ -88,4 +88,9 @@ public class HypergeometricDistributionTest extends TestCase {
     Scalar variance = Variance.of(HypergeometricDistribution.of(10, 50, 100));
     assertEquals(variance, Scalars.fromString("25/11"));
   }
+
+  public void testToString() {
+    Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
+    assertEquals(distribution.toString(), "HypergeometricDistribution[10, 50, 100]");
+  }
 }

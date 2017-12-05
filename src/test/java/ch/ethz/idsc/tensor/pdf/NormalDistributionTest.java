@@ -61,6 +61,12 @@ public class NormalDistributionTest extends TestCase {
         RationalScalar.of(1, 2)));
   }
 
+  public void testToString() {
+    Distribution distribution = NormalDistribution.of(Quantity.of(3, "m"), Quantity.of(2, "m"));
+    String string = distribution.toString();
+    assertEquals(string, "NormalDistribution[3[m], 2[m]]");
+  }
+
   public void testQuantityFail() {
     try {
       NormalDistribution.of(Quantity.of(3, "m"), Quantity.of(2, "km"));

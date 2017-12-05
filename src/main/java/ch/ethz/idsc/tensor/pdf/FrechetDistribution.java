@@ -103,4 +103,9 @@ public class FrechetDistribution extends AbstractContinuousDistribution implemen
   public Scalar p_lessEquals(Scalar x) {
     return p_lessThan(x);
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%s, %s]", getClass().getSimpleName(), alpha, beta);
+  }
 }

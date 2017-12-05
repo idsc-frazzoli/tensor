@@ -34,6 +34,14 @@ public class GammaDistributionTest extends TestCase {
     assertEquals(Expectation.variance(distribution), a.multiply(b).multiply(b));
   }
 
+  public void testToString() {
+    Scalar a = RealScalar.of(1.123);
+    Scalar b = RealScalar.of(2.3);
+    Distribution distribution = GammaDistribution.of(a, b);
+    // Distribution distribution = GeometricDistribution.of(RationalScalar.of(1, 3));
+    assertEquals(distribution.toString(), "GammaDistribution[1.123, 2.3]");
+  }
+
   public void testFail() {
     try {
       GammaDistribution.of(RealScalar.of(-1.0), RealScalar.of(2.3));

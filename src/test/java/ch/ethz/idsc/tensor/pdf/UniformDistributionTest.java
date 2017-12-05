@@ -58,6 +58,11 @@ public class UniformDistributionTest extends TestCase {
     assertEquals(inverseCDF.quantile(RationalScalar.of(3, 3)), Quantity.of(6, "g"));
   }
 
+  public void testToString() {
+    Distribution distribution = UniformDistribution.of(Quantity.of(3, "g"), Quantity.of(6, "g"));
+    assertEquals(distribution.toString(), "UniformDistribution[3[g], 6[g]]");
+  }
+
   public void testQuantileFail() {
     Distribution distribution = UniformDistribution.of(Quantity.of(3, "g"), Quantity.of(6, "g"));
     InverseCDF inverseCDF = InverseCDF.of(distribution);

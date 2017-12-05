@@ -51,4 +51,9 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
   public Scalar variance() {
     return k.divide(lambda.multiply(lambda));
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%s, %s]", getClass().getSimpleName(), k, lambda);
+  }
 }

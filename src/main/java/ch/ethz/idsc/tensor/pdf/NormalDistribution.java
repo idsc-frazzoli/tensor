@@ -92,4 +92,9 @@ public class NormalDistribution extends AbstractContinuousDistribution implement
   public Scalar variance() {
     return sigma.multiply(sigma);
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%s, %s]", getClass().getSimpleName(), mean, sigma);
+  }
 }

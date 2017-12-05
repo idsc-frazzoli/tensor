@@ -2,9 +2,7 @@
 package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Collections;
-import java.util.Map.Entry;
 import java.util.NavigableMap;
-import java.util.Objects;
 import java.util.TreeMap;
 
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -12,6 +10,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** functionality and suggested base class for a discrete probability distribution */
 public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDistribution {
@@ -19,54 +18,39 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
    * the value type of the map is Scalar (instead of Integer) to reuse the instances of Scalar */
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();
 
-  /** @param p in the interval [0, 1]
-   * @return */
-  // LONGTERM implementation can be improved
-  @Override // from InverseCDF
-  public final synchronized Scalar quantile(Scalar p) {
-    // if the input is outside the valid range, the while loop below may never terminate
-    if (Scalars.lessThan(p, RealScalar.ZERO) || Scalars.lessThan(RealScalar.ONE, p))
-      throw TensorRuntimeException.of(p);
-    // ---
-    if (inverse_cdf.isEmpty())
-      inverse_cdf.put(p_equals(lowerBound()), RationalScalar.of(lowerBound(), 1));
-    // ---
-    Entry<Scalar, Scalar> higher = lookup(p);
-    if (Objects.isNull(higher)) {
-      Entry<Scalar, Scalar> floor = inverse_cdf.floorEntry(p); // less than or equal
-      int sample = (Integer) floor.getValue().number();
-      Scalar cumprob = floor.getKey();
-      while (Scalars.lessEquals(cumprob, p)) { // less equals
-        ++sample;
-        Scalar probability = p_equals(sample);
-        if (Scalars.nonZero(probability)) {
-          cumprob = cumprob.add(probability);
+  private void build() {
+    if (inverse_cdf.isEmpty()) {
+      Scalar cumprob = RealScalar.ZERO;
+      for (int sample = lowerBound(); sample < upperBound(); ++sample) {
+        Scalar prob = p_equals(sample);
+        if (Scalars.nonZero(prob)) {
+          cumprob = cumprob.add(prob);
           inverse_cdf.put(cumprob, RationalScalar.of(sample, 1));
-        }
-        if (sample == upperBound()) {
-          Scalar last = inverse_cdf.lastKey();
-          if (Scalars.lessThan(last, RealScalar.ONE))
-            inverse_cdf.put(RealScalar.ONE, RationalScalar.of(sample, 1));
-          break;
+          if (Scalars.lessEquals(RealScalar.ONE, cumprob))
+            return;
         }
       }
-      higher = lookup(p);
+      inverse_cdf.put(RealScalar.ONE, RationalScalar.of(upperBound(), 1));
     }
-    return higher.getValue();
   }
 
-  private Entry<Scalar, Scalar> lookup(Scalar p) {
+  @Override // from InverseCDF
+  public final Scalar quantile(Scalar p) {
+    if (Sign.isNegative(p))
+      throw TensorRuntimeException.of(p);
+    build();
     return Scalars.lessThan(p, RealScalar.ONE) //
-        ? inverse_cdf.higherEntry(p) // strictly higher
-        : inverse_cdf.ceilingEntry(p);
+        ? inverse_cdf.higherEntry(p).getValue() // strictly higher
+        : inverse_cdf.ceilingEntry(p).getValue();
   }
 
-  /** optional safeguard when computing CDF for probabilities with machine precision
+  /** safeguard when computing CDF for probabilities with machine precision
    * 
-   * @return greatest integer n for which 0 < p(n) */
+   * @return greatest integer n for which 0 < p(n), i.e. upper bound is inclusive */
   protected abstract int upperBound();
 
   /* package for testing */ final NavigableMap<Scalar, Scalar> inverse_cdf() {
+    build();
     return Collections.unmodifiableNavigableMap(inverse_cdf);
   }
 }

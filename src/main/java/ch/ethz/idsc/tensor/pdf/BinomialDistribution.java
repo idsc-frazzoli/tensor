@@ -99,4 +99,9 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
       return RealScalar.ZERO;
     return table.Get(k);
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%d, %s]", getClass().getSimpleName(), n, p);
+  }
 }
