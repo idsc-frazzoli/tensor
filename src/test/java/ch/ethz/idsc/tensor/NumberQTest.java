@@ -33,6 +33,7 @@ public class NumberQTest extends TestCase {
     assertFalse(NumberQ.of(DoubleScalar.POSITIVE_INFINITY));
     assertFalse(NumberQ.of(DoubleScalar.NEGATIVE_INFINITY));
     assertFalse(NumberQ.of(RealScalar.of(Double.NaN)));
+    assertFalse(NumberQ.of(DoubleScalar.INDETERMINATE));
   }
 
   public void testCornerFloat() {

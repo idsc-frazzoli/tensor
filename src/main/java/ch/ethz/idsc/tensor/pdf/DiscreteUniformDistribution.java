@@ -15,7 +15,8 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
-public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {
+public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements //
+    CDF, VarianceInterface {
   /** Example:
    * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/10 for 0 <= x < 10 and x integer
    * 
@@ -85,5 +86,10 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   public Scalar p_lessEquals(Scalar x) {
     Scalar num = RealScalar.ONE.add(Floor.FUNCTION.apply(x)).subtract(RationalScalar.of(min, 1));
     return (Scalar) num.multiply(p).map(Clip.unit());
+  }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%d, %d]", getClass().getSimpleName(), min, max);
   }
 }

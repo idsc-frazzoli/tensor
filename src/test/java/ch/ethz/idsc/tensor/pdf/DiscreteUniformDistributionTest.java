@@ -56,6 +56,11 @@ public class DiscreteUniformDistributionTest extends TestCase {
     assertTrue(Clip.function(4, 5).isInside(s));
   }
 
+  public void testToString() {
+    Distribution distribution = DiscreteUniformDistribution.of(3, 10);
+    assertEquals(distribution.toString(), "DiscreteUniformDistribution[3, 10]");
+  }
+
   public void testFailsOrder() {
     try {
       DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(2));
