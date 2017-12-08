@@ -106,6 +106,23 @@ public class GeometricDistributionTest extends TestCase {
     }
   }
 
+  public void testFailQuantile() {
+    Distribution distribution = GeometricDistribution.of(RealScalar.of(.2));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    try {
+      inverseCDF.quantile(RealScalar.of(-.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      inverseCDF.quantile(RealScalar.of(1.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testNextDownOne() {
     for (int c = 500; c <= 700; c += 100) {
       Scalar p = DoubleScalar.of(.1 / c);

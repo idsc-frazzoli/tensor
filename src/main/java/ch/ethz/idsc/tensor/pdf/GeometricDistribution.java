@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Ceiling;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Power;
@@ -50,8 +51,14 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
     return 0;
   }
 
+  @Override // from InverseCDF
+  public Scalar quantile(Scalar p) {
+    Clip.unit().isInsideElseThrow(p);
+    return protected_quantile(p);
+  }
+
   @Override // from AbstractDiscreteDistribution
-  public Scalar quantile(Scalar p) { // p shadows member, ok
+  protected Scalar protected_quantile(Scalar p) { // p shadows member, ok
     Scalar num = Log.FUNCTION.apply(RealScalar.ONE.subtract(p));
     Scalar den = Log.FUNCTION.apply(_1_p);
     return Floor.FUNCTION.apply(num.divide(den));

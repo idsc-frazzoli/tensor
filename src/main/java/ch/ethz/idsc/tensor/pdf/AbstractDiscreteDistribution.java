@@ -14,14 +14,12 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
     InverseCDF, MeanInterface, PDF, RandomVariateInterface {
   @Override // from RandomVariateInterface
   public final Scalar randomVariate(Random random) {
-    return quantile_fast(DoubleScalar.of(random.nextDouble()));
+    return protected_quantile(DoubleScalar.of(random.nextDouble()));
   }
 
-  /** @param p in semi-open interval [0, 1)
+  /** @param p in the semi-open interval [0, 1)
    * @return */
-  protected Scalar quantile_fast(Scalar p) {
-    return quantile(p); // default implementation
-  }
+  protected abstract Scalar protected_quantile(Scalar p);
 
   @Override // from PDF
   public final Scalar at(Scalar x) {
