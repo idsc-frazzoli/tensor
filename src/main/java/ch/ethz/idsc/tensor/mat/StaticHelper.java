@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
+/** helper functions used in {@link SingularValueDecompositionImpl} */
 /* package */ enum StaticHelper {
   ;
   static void addScaled(int l, int cols, Tensor v, int i, int j, Scalar s) {

@@ -1,13 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.sca.Chop;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixRank.html">MatrixRank</a> */
@@ -45,13 +45,17 @@ public enum MatrixRank {
     return of(SingularValueDecomposition.of(m <= n ? matrix : Transpose.of(matrix)));
   }
 
-  /** @return rank of matrix decomposed in svd */
-  public static int of(SingularValueDecomposition svd) {
-    Scalar w_threshold = DoubleScalar.of(svd.getThreshold());
+  /** @param svd
+   * @param chop threshold
+   * @return rank of matrix decomposed in svd */
+  public static int of(SingularValueDecomposition svd, Chop chop) {
     return Math.toIntExact(svd.values().stream() //
-        .map(Scalar.class::cast) //
-        .map(Scalar::abs) //
-        .filter(value -> Scalars.lessEquals(w_threshold, value)) //
-        .count());
+        .map(Scalar.class::cast).map(chop).filter(Scalars::nonZero).count());
+  }
+
+  /** @param svd
+   * @return rank of matrix decomposed in svd */
+  public static int of(SingularValueDecomposition svd) {
+    return of(svd, Chop._12);
   }
 }

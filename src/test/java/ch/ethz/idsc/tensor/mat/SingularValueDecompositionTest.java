@@ -17,6 +17,7 @@ import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Sign;
 import junit.framework.TestCase;
 
 public class SingularValueDecompositionTest extends TestCase {
@@ -54,10 +55,13 @@ public class SingularValueDecompositionTest extends TestCase {
     // System.out.println(AiA);
     // assertEquals(AiA, TensorBuild.zeros(AiA.dimensions()));
     // System.out.println(svd.toInfoString());
-    assertFalse(w.flatten(-1).map(Scalar.class::cast) //
-        .anyMatch(s -> s.number().doubleValue() < 0));
+    assertFalse(w.flatten(-1).map(Scalar.class::cast).anyMatch(Sign::isNegative));
+    // int rank = MatrixRank.of(svd);
     if (MatrixRank.of(svd) < N) {
-      Tensor res = A.dot(Transpose.of(NullSpace.of(svd)));
+      Tensor nul = NullSpace.of(svd);
+      // System.out.println(nul);
+      // System.out.println(Dimensions.of(nul));
+      Tensor res = A.dot(Transpose.of(nul));
       assertEquals(Chop._12.of(res), Array.zeros(Dimensions.of(res)));
     }
     return svd;

@@ -32,8 +32,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private final Tensor w;
   private final Tensor r;
   private final Tensor v;
-  /** elements of w below this threshold will be considered as 0 */
-  private double w_threshold = 1e-12;
 
   /** @param A with cols <= rows
    * @param epsilon influences if levelW manipulates w and u
@@ -85,17 +83,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from SingularValueDecomposition
   public Tensor getV() {
     return v.unmodifiable();
-  }
-
-  @Override // from SingularValueDecomposition
-  public void setThreshold(double w_threshold) {
-    this.w_threshold = w_threshold;
-  }
-
-  /** @return threshold strictly below which singular values are considered to be zero */
-  @Override // from SingularValueDecomposition
-  public double getThreshold() {
-    return w_threshold;
   }
 
   private void initU1(int i) {
@@ -185,7 +172,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         for (int i = l; i < k + 1; ++i) {
           Scalar f = s.multiply(r.Get(i));
           r.set(c.multiply(r.Get(i)), i);
-          if (chop.allZero(f))
+          if (chop.allZero(f)) // <- never true in tests
             break;
           Scalar g = w.Get(i);
           Scalar h = Hypot.of(f, g);
@@ -231,7 +218,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       y = y.multiply(c);
       z = Hypot.of(f, h);
       w.set(z, j);
-      if (Scalars.nonZero(z)) {
+      if (Scalars.nonZero(z)) { // <- never false in tests
         c = f.divide(z);
         s = h.divide(z);
       }

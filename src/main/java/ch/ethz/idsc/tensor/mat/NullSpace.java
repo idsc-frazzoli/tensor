@@ -10,20 +10,21 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.sca.Chop;
 
-/** <p>Quote from Wikipedia:
+/** for matrices in exact precision use {@link NullSpace#usingRowReduce(Tensor)}
+ * 
+ * <p>for matrices in numeric precision use {@link NullSpace#usingSvd(Tensor)}
+ * 
+ * <p>{@link NullSpace#of(Tensor)} automatically switches between these two cases.
+ * 
+ * <p>Quote from Wikipedia:
  * For matrices whose entries are floating-point numbers, the problem of computing the kernel
  * makes sense only for matrices such that the number of rows is equal to their rank:
  * because of the rounding errors, a floating-point matrix has almost always a full rank,
  * even when it is an approximation of a matrix of a much smaller rank. Even for a full-rank
  * matrix, it is possible to compute its kernel only if it is well conditioned, i.e. it has a
  * low condition number.
- * 
- * <p>for matrices in exact precision use {@link NullSpace#usingRowReduce(Tensor)}
- * 
- * for matrices in numeric precision use {@link NullSpace#usingSvd(Tensor)}
- * 
- * {@link NullSpace#of(Tensor)} automatically switches between these two cases.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/NullSpace.html">NullSpace</a> */
@@ -73,12 +74,18 @@ public enum NullSpace {
   }
 
   /** @param svd
-   * @return */
-  public static Tensor of(SingularValueDecomposition svd) {
-    double w_threshold = svd.getThreshold();
+   * @param chop
+   * @return tensor of vectors that span the kernel of given matrix */
+  public static Tensor of(SingularValueDecomposition svd, Chop chop) {
     Tensor vt = Transpose.of(svd.getV());
     return Tensor.of(IntStream.range(0, svd.values().length()) //
-        .filter(index -> svd.values().Get(index).abs().number().doubleValue() < w_threshold) //
+        .filter(index -> Scalars.isZero(chop.apply(svd.values().Get(index).abs()))) //
         .mapToObj(vt::get));
+  }
+
+  /** @param svd
+   * @return tensor of vectors that span the kernel of given matrix */
+  public static Tensor of(SingularValueDecomposition svd) {
+    return of(svd, Chop._12);
   }
 }

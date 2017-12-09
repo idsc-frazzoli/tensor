@@ -24,16 +24,22 @@ public enum PseudoInverse {
   }
 
   /** @param svd
+   * @param chop
    * @return pseudoinverse of matrix determined by given svd */
-  public static Tensor of(SingularValueDecomposition svd) {
-    double w_threshold = svd.getThreshold();
-    Tensor wi = svd.values().map(orInvert(w_threshold));
+  public static Tensor of(SingularValueDecomposition svd, Chop chop) {
+    Tensor wi = svd.values().map(orInvert(chop));
     return Tensor.of(svd.getV().stream().map(row -> row.pmul(wi))).dot(Transpose.of(svd.getU()));
   }
 
+  /** @param svd
+   * @return pseudoinverse of matrix determined by given svd */
+  public static Tensor of(SingularValueDecomposition svd) {
+    return of(svd, Chop._12);
+  }
+
   /** @return chop(scalar) == zero ? zero : scalar.reciprocal() */
-  /* package */ static ScalarUnaryOperator orInvert(double threshold) {
-    Function<Scalar, Scalar> function = InvertUnlessZero.FUNCTION.compose(Chop.below(threshold));
+  /* package */ static ScalarUnaryOperator orInvert(Chop chop) {
+    Function<Scalar, Scalar> function = InvertUnlessZero.FUNCTION.compose(chop);
     return scalar -> function.apply(scalar);
   }
 }

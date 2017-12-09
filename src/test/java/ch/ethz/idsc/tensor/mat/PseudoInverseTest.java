@@ -26,7 +26,7 @@ public class PseudoInverseTest extends TestCase {
   }
 
   public void testChopOrReciprocal() {
-    ScalarUnaryOperator func = PseudoInverse.orInvert(.5);
+    ScalarUnaryOperator func = PseudoInverse.orInvert(Chop.below(.5));
     assertEquals(func.apply(RealScalar.of(-.5)), RealScalar.of(-2));
     assertEquals(func.apply(RealScalar.of(-.4)), RealScalar.of(0));
     assertEquals(func.apply(RealScalar.of(-1)), RealScalar.of(-1));

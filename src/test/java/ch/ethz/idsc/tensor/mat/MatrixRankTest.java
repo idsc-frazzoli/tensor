@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import junit.framework.TestCase;
 
@@ -46,5 +47,12 @@ public class MatrixRankTest extends TestCase {
     assertEquals(MatrixRank.usingRowReduce(m), 2);
     assertEquals(MatrixRank.usingSvd(m), 1); // <- numeric
     assertEquals(MatrixRank.of(m), 2); // <- exact
+  }
+
+  public void testZeros() {
+    Tensor m = Array.zeros(9, 5);
+    SingularValueDecomposition svd = SingularValueDecomposition.of(m);
+    int rank = MatrixRank.of(svd);
+    assertEquals(rank, 0);
   }
 }
