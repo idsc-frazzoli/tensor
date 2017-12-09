@@ -56,6 +56,6 @@ public enum MatrixRank {
   /** @param svd
    * @return rank of matrix decomposed in svd */
   public static int of(SingularValueDecomposition svd) {
-    return of(svd, Chop._12);
+    return of(svd, NullSpace.CHOP_DEFAULT);
   }
 }

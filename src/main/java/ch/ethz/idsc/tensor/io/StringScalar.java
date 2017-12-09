@@ -27,7 +27,8 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * in the future is open for discussion. */
 public final class StringScalar extends AbstractScalar implements Comparable<Scalar> {
   /** @param string
-   * @return new instance of {@link StringScalar} representing string */
+   * @return new instance of {@link StringScalar} representing string
+   * @throws Exception if argument is null */
   public static Scalar of(String string) {
     if (Objects.isNull(string))
       throw new IllegalArgumentException();
@@ -66,7 +67,7 @@ public final class StringScalar extends AbstractScalar implements Comparable<Sca
     throw TensorRuntimeException.of(this);
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar zero() {
     throw TensorRuntimeException.of(this);
   }

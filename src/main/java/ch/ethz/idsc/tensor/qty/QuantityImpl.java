@@ -249,7 +249,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from AbstractScalar
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
+    StringBuilder stringBuilder = new StringBuilder(32); // initial buffer size
     stringBuilder.append(value);
     stringBuilder.append(UNIT_OPENING_BRACKET);
     stringBuilder.append(unit);

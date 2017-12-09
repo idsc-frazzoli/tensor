@@ -35,7 +35,7 @@ public enum LinearSolve {
    * @param b tensor with first dimension identical to size of matrix
    * @return x with m.dot(x) == b
    * @throws TensorRuntimeException if matrix m is singular */
-  public static Tensor withoutAbs(Tensor m, Tensor b) { // function name is not final
+  public static Tensor withoutAbs(Tensor m, Tensor b) {
     return new GaussianElimination(m, b, PivotFirstNonZero.INSTANCE).solution();
   }
 

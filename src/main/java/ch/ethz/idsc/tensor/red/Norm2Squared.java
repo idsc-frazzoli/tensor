@@ -13,7 +13,8 @@ import ch.ethz.idsc.tensor.sca.AbsSquared;
 public enum Norm2Squared {
   ;
   /** @param vector
-   * @return squared euclidean norm of given vector, i.e. || v1 || ^ 2 */
+   * @return squared euclidean norm of given vector, i.e. || v1 || ^ 2
+   * @throws Exception if vector is empty */
   public static Scalar ofVector(Tensor vector) {
     return vector.stream() //
         .map(Scalar.class::cast) //

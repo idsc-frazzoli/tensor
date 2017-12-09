@@ -30,6 +30,9 @@ import ch.ethz.idsc.tensor.sca.Chop;
  * <a href="https://reference.wolfram.com/language/ref/NullSpace.html">NullSpace</a> */
 public enum NullSpace {
   ;
+  /** default threshold below which to consider a singular value as zero */
+  /* package */ static final Chop CHOP_DEFAULT = Chop._12;
+
   /** if matrix has any entry in machine precision, i.e. {@link MachineNumberQ} returns true,
    * the nullspace is computed using {@link SingularValueDecomposition}.
    * In that case the vectors in the return value are normalized.
@@ -86,6 +89,6 @@ public enum NullSpace {
   /** @param svd
    * @return tensor of vectors that span the kernel of given matrix */
   public static Tensor of(SingularValueDecomposition svd) {
-    return of(svd, Chop._12);
+    return of(svd, CHOP_DEFAULT);
   }
 }

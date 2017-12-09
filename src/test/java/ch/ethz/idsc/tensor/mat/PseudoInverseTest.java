@@ -1,13 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class PseudoInverseTest extends TestCase {
@@ -23,12 +21,5 @@ public class PseudoInverseTest extends TestCase {
     Tensor result = PseudoInverse.of(matrix);
     Tensor actual = Transpose.of(Tensors.fromString("{{-(29/60), -(11/45), -(1/180), 7/30}, {-(1/30), -(1/90), 1/90, 1/30}, {5/12, 2/9, 1/36, -(1/6)}}"));
     assertEquals(Chop._12.of(result.subtract(actual)), Array.zeros(4, 3));
-  }
-
-  public void testChopOrReciprocal() {
-    ScalarUnaryOperator func = PseudoInverse.orInvert(Chop.below(.5));
-    assertEquals(func.apply(RealScalar.of(-.5)), RealScalar.of(-2));
-    assertEquals(func.apply(RealScalar.of(-.4)), RealScalar.of(0));
-    assertEquals(func.apply(RealScalar.of(-1)), RealScalar.of(-1));
   }
 }

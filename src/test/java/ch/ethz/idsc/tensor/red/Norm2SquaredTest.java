@@ -27,4 +27,13 @@ public class Norm2SquaredTest extends TestCase {
     Scalar s = DoubleScalar.of(9.493062577750756);
     assertTrue(Chop._14.close(nrm, s.multiply(s)));
   }
+
+  public void testEmpty() {
+    try {
+      Norm2Squared.ofVector(Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

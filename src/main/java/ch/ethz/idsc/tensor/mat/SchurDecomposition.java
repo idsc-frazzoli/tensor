@@ -4,11 +4,10 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-//LONGTERM implement
+// LONGTERM implement
 /* package */ enum SchurDecomposition {
   ;
   public static Tensor of(Tensor matrix) {
-    // LONGTERM implement
     throw TensorRuntimeException.of(matrix);
   }
 }

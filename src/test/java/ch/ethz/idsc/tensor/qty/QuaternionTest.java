@@ -124,6 +124,14 @@ public class QuaternionTest extends TestCase {
     assertEquals(n1.toString(), "Q:1.0'3.0'-2.0'2.0");
   }
 
+  public void testN2() {
+    Scalar q1 = Quaternion.of(1, 3, -2, 2);
+    assertTrue(ExactScalarQ.of(q1));
+    Scalar n1 = N.DECIMAL64.apply(q1);
+    assertFalse(ExactScalarQ.of(n1));
+    assertEquals(n1.toString(), "Q:1'3'-2'2");
+  }
+
   public void testNumberFail() {
     Scalar quaternion = Quaternion.of(1, 3, -2, 2);
     try {
