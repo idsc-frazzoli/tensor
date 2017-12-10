@@ -26,7 +26,9 @@ import ch.ethz.idsc.tensor.sca.Sign;
   // ---
   private static final Scalar ONE_NEGATE = RealScalar.ONE.negate();
 
-  final Scalar of(Scalar xk) {
+  /** @param xk
+   * @return */
+  Scalar of(Scalar xk) {
     return Scalars.isZero(Imag.FUNCTION.apply(xk)) ? apply(xk) : ComplexScalar.unit(Arg.of(xk)).negate();
   }
 }

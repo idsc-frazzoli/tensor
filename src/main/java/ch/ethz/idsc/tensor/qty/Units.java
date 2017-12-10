@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.Scalar;
 
 /** auxiliary functions and operators for {@link Unit} */
@@ -13,6 +15,8 @@ public enum Units {
       Quantity quantity = (Quantity) scalar;
       return quantity.unit();
     }
+    if (Objects.isNull(scalar))
+      throw new IllegalArgumentException(); // scalar == null
     return Unit.ONE;
   }
 

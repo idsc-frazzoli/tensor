@@ -24,4 +24,13 @@ public class UnitsTest extends TestCase {
   public void testScalar() {
     assertEquals(Units.of(RealScalar.ONE), Unit.ONE);
   }
+
+  public void testNullFail() {
+    try {
+      Units.of(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
