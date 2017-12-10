@@ -25,8 +25,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ExponentialDistribution.html">ExponentialDistribution</a> */
-public class ExponentialDistribution implements Distribution, //
-    CDF, InverseCDF, MeanInterface, PDF, RandomVariateInterface, VarianceInterface {
+public class ExponentialDistribution extends AbstractContinuousDistribution implements //
+    InverseCDF, MeanInterface, VarianceInterface {
   /** @param lambda positive, may be instance of {@link Quantity}
    * @return exponential distribution with scale inversely proportional to parameter lambda */
   public static Distribution of(Scalar lambda) {
@@ -96,5 +96,10 @@ public class ExponentialDistribution implements Distribution, //
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
     return p_lessThan(x);
+  }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%s]", getClass().getSimpleName(), lambda);
   }
 }

@@ -76,6 +76,18 @@ public class GeometricDistributionTest extends TestCase {
     assertEquals(pdf.at(RealScalar.of(-1)), RealScalar.ZERO);
   }
 
+  public void testInverseCDF() {
+    Distribution distribution = GeometricDistribution.of(RationalScalar.of(1, 3));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    assertEquals(inverseCDF.quantile(DoubleScalar.of(1)), DoubleScalar.POSITIVE_INFINITY);
+    assertEquals(inverseCDF.quantile(RealScalar.ONE), DoubleScalar.POSITIVE_INFINITY);
+  }
+
+  public void testToString() {
+    Distribution distribution = GeometricDistribution.of(RationalScalar.of(1, 3));
+    assertEquals(distribution.toString(), "GeometricDistribution[1/3]");
+  }
+
   public void testRandomVariate() {
     double P = 0.9999;
     AbstractDiscreteDistribution distribution = //
@@ -91,6 +103,23 @@ public class GeometricDistributionTest extends TestCase {
     {
       Scalar s = distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
       assertEquals(s, RealScalar.of(3));
+    }
+  }
+
+  public void testFailQuantile() {
+    Distribution distribution = GeometricDistribution.of(RealScalar.of(.2));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    try {
+      inverseCDF.quantile(RealScalar.of(-.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      inverseCDF.quantile(RealScalar.of(1.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
     }
   }
 

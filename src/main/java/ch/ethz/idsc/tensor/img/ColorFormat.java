@@ -2,7 +2,9 @@
 package ch.ethz.idsc.tensor.img;
 
 import java.awt.Color;
+import java.util.stream.IntStream;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -14,10 +16,23 @@ import ch.ethz.idsc.tensor.io.ImageFormat;
  * <p>functions are used in {@link ImageFormat} */
 public enum ColorFormat {
   ;
+  /** there are only [0, 1, ..., 255] possible values for red, green, blue, and alpha.
+   * We preallocate instances of these scalars in a lookup table to save memory and
+   * possibly enhance execution time. */
+  private static final Scalar[] LOOKUP = new Scalar[256];
+  static {
+    IntStream.range(0, 256).forEach(index -> LOOKUP[index] = RationalScalar.of(index, 1));
+  }
+  // ---
+
   /** @param color
    * @return vector with {@link Scalar} entries as {R, G, B, A} */
   public static Tensor toVector(Color color) {
-    return Tensors.vector(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+    return Tensors.of( //
+        LOOKUP[color.getRed()], //
+        LOOKUP[color.getGreen()], //
+        LOOKUP[color.getBlue()], //
+        LOOKUP[color.getAlpha()]);
   }
 
   /** @param argb encoding color as 0xAA:RR:GG:BB
@@ -27,8 +42,8 @@ public enum ColorFormat {
   }
 
   /** @param vector with {@link Scalar} entries as {R, G, B, A}
-   * 
-   * @return encoding color as 0xAA:RR:GG:BB */
+   * @return encoding color as 0xAA:RR:GG:BB
+   * @throws Exception if either color value is outside the allowed range [0, ..., 255] */
   public static Color toColor(Tensor vector) {
     if (vector.length() != 4)
       throw TensorRuntimeException.of(vector);

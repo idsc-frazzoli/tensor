@@ -1,9 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.io.Serializable;
-import java.util.function.UnaryOperator;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -12,7 +9,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Projection.html">Projection</a> */
-public class Projection implements UnaryOperator<Tensor>, Serializable {
+public class Projection implements TensorUnaryOperator {
   /** function is equivalent to Mathematica::Projection
    * 
    * <p>however, for repeated projection onto the same vector v, use

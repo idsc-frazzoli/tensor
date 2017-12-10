@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Clip;
 import junit.framework.TestCase;
 
 public class PoissonDistributionTest extends TestCase {
@@ -69,6 +70,18 @@ public class PoissonDistributionTest extends TestCase {
     assertTrue(Scalars.lessThan(x1, x2));
   }
 
+  public void testInverseCDFOne() {
+    InverseCDF inv = InverseCDF.of(PoissonDistribution.of(RealScalar.of(5.5)));
+    assertTrue(Clip.function(30, 40).isInside(inv.quantile(RealScalar.of(1.0))));
+    assertTrue(Clip.function(30, 40).isInside(inv.quantile(RealScalar.ONE)));
+  }
+
+  public void testToString() {
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(5.5));
+    String string = distribution.toString();
+    assertEquals(string, "PoissonDistribution[5.5]");
+  }
+
   public void testQuantityFail() {
     try {
       PoissonDistribution.of(Quantity.of(3, "m"));
@@ -109,9 +122,12 @@ public class PoissonDistributionTest extends TestCase {
 
   public void testNextDownOne() {
     for (int c = 1; c < 700; c += 3) {
+      Scalar lambda = DoubleScalar.of(c * .5 + 300);
       AbstractDiscreteDistribution distribution = //
-          (AbstractDiscreteDistribution) PoissonDistribution.of(DoubleScalar.of(c * .5 + 300));
+          (AbstractDiscreteDistribution) PoissonDistribution.of(lambda);
+      // Scalar s =
       distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
+      // System.out.println(lambda + " -> " + s);
     }
   }
 }

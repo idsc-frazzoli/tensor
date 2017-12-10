@@ -54,6 +54,25 @@ public class HypergeometricDistributionTest extends TestCase {
     assertEquals(pdf.at(RealScalar.of(10)), RealScalar.ZERO);
   }
 
+  public void testInverseCDF1() {
+    Distribution distribution = HypergeometricDistribution.of(10, 0, 100);
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    Scalar r = inverseCDF.quantile(RealScalar.ONE);
+    assertEquals(r, RealScalar.ZERO);
+  }
+
+  public void testInverseCDF2() {
+    Distribution distribution = HypergeometricDistribution.of(10, 5, 100);
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    assertEquals(inverseCDF.quantile(RealScalar.ONE), RealScalar.of(5)); // confirmed with Mathematica
+  }
+
+  public void testInverseCDF3() {
+    Distribution distribution = HypergeometricDistribution.of(6, 10, 100);
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    assertEquals(inverseCDF.quantile(RealScalar.ONE), RealScalar.of(6)); // confirmed with Mathematica
+  }
+
   public void testOutside() {
     PDF pdf = PDF.of(HypergeometricDistribution.of(10, 50, 100));
     assertEquals(pdf.at(RealScalar.of(-1)), RealScalar.ZERO);
@@ -68,5 +87,10 @@ public class HypergeometricDistributionTest extends TestCase {
   public void testVariance() {
     Scalar variance = Variance.of(HypergeometricDistribution.of(10, 50, 100));
     assertEquals(variance, Scalars.fromString("25/11"));
+  }
+
+  public void testToString() {
+    Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
+    assertEquals(distribution.toString(), "HypergeometricDistribution[10, 50, 100]");
   }
 }

@@ -41,8 +41,8 @@ public class OrthogonalizeTest extends TestCase {
     Tensor q = Orthogonalize.of(matrix);
     // System.out.println(q.get(0));
     // System.out.println(v0);
-    assertTrue(Scalars.isZero(VectorAngle.of(q.get(0), v0)));
-    assertTrue(Scalars.isZero(VectorAngle.of(q.get(1), v1)));
+    assertTrue(Scalars.isZero(VectorAngle.of(q.get(0), v0).get()));
+    assertTrue(Scalars.isZero(VectorAngle.of(q.get(1), v1).get()));
   }
 
   public void testRandom() {
@@ -58,7 +58,7 @@ public class OrthogonalizeTest extends TestCase {
     Tensor q = Orthogonalize.of(matrix);
     // System.out.println(q.get(0));
     // System.out.println(v0);
-    Scalar a1 = VectorAngle.of(q.get(0), v0);
+    Scalar a1 = VectorAngle.of(q.get(0), v0).get();
     // System.out.println(a1);
     assertTrue(Scalars.isZero(a1));
   }

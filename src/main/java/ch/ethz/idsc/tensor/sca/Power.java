@@ -49,11 +49,11 @@ public enum Power {
     return of(RealScalar.of(number), exponent);
   }
 
-  /** @param scalar
+  /** @param number
    * @param exponent
-   * @return scalar ^ exponent */
-  public static Scalar of(Number scalar, Number exponent) {
-    return of(RealScalar.of(scalar), RealScalar.of(exponent));
+   * @return number ^ exponent */
+  public static Scalar of(Number number, Number exponent) {
+    return of(RealScalar.of(number), RealScalar.of(exponent));
   }
 
   /** @param exponent

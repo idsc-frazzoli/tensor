@@ -32,8 +32,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private final Tensor w;
   private final Tensor r;
   private final Tensor v;
-  /** elements of w below this threshold will be considered as 0 */
-  private double w_threshold = 1e-12;
 
   /** @param A with cols <= rows
    * @param epsilon influences if levelW manipulates w and u
@@ -87,17 +85,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return v.unmodifiable();
   }
 
-  @Override // from SingularValueDecomposition
-  public void setThreshold(double w_threshold) {
-    this.w_threshold = w_threshold;
-  }
-
-  /** @return threshold strictly below which singular values are considered to be zero */
-  @Override // from SingularValueDecomposition
-  public double getThreshold() {
-    return w_threshold;
-  }
-
   private void initU1(int i) {
     Scalar p = RealScalar.ZERO;
     Scalar scale = Norm._1.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
@@ -109,7 +96,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       Scalar h = f.multiply(p).subtract(s);
       u.set(f.subtract(p), i, i);
       for (int j = i + 1; j < cols; ++j)
-        _addscaled(i, rows, u, i, j, //
+        StaticHelper.addScaled(i, rows, u, i, j, //
             ((Scalar) u.extract(i, rows).get(Tensor.ALL, i).dot(u.extract(i, rows).get(Tensor.ALL, j))).divide(h));
       IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(scale), k, i));
     }
@@ -150,7 +137,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     if (Scalars.nonZero(p)) {
       IntStream.range(ip1, cols).forEach(j -> v.set(u.Get(i, j).divide(u.Get(i, ip1)).divide(p), j, i));
       for (int j = ip1; j < cols; ++j)
-        _addscaled(ip1, cols, v, i, j, //
+        StaticHelper.addScaled(ip1, cols, v, i, j, //
             (Scalar) u.get(i).extract(ip1, cols).dot(v.extract(ip1, cols).get(Tensor.ALL, j)));
     }
     IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, i, j));
@@ -168,7 +155,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       Scalar gi = p;
       for (int j = ip1; j < cols; ++j) {
         Scalar s = (Scalar) u.extract(ip1, rows).get(Tensor.ALL, i).dot(u.extract(ip1, rows).get(Tensor.ALL, j));
-        _addscaled(i, rows, u, i, j, s.divide(u.Get(i, i)).divide(gi));
+        StaticHelper.addScaled(i, rows, u, i, j, s.divide(u.Get(i, i)).divide(gi));
       }
       IntStream.range(i, rows).forEach(j -> u.set(x -> x.divide(gi), j, i));
     }
@@ -185,14 +172,14 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         for (int i = l; i < k + 1; ++i) {
           Scalar f = s.multiply(r.Get(i));
           r.set(c.multiply(r.Get(i)), i);
-          if (chop.allZero(f))
+          if (chop.allZero(f)) // <- never true in tests
             break;
           Scalar g = w.Get(i);
           Scalar h = Hypot.of(f, g);
           w.set(h, i);
           c = g.divide(h);
           s = f.divide(h).negate();
-          _rotate(u, rows, c, s, i, l - 1);
+          StaticHelper.rotate(u, rows, c, s, i, l - 1);
         }
         return l;
       }
@@ -224,18 +211,18 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       r.set(z, j);
       c = f.divide(z);
       s = h.divide(z);
-      _rotate(v, cols, c, s, jp1, j);
+      StaticHelper.rotate(v, cols, c, s, jp1, j);
       f = x.multiply(c).add(p.multiply(s));
       p = p.multiply(c).subtract(x.multiply(s));
       h = y.multiply(s);
       y = y.multiply(c);
       z = Hypot.of(f, h);
       w.set(z, j);
-      if (Scalars.nonZero(z)) {
+      if (Scalars.nonZero(z)) { // <- never false in tests
         c = f.divide(z);
         s = h.divide(z);
       }
-      _rotate(u, rows, c, s, jp1, j);
+      StaticHelper.rotate(u, rows, c, s, jp1, j);
       f = c.multiply(p).add(s.multiply(y));
       x = c.multiply(y).subtract(s.multiply(p));
     }
@@ -249,22 +236,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     if (Sign.isNegative(z)) {
       w.set(z.negate(), i);
       v.set(Tensor::negate, Tensor.ALL, i);
-    }
-  }
-
-  private static void _addscaled(int l, int cols, Tensor v, int i, int j, Scalar s) {
-    for (int k = l; k < cols; ++k) {
-      Scalar a = s.multiply(v.Get(k, i));
-      v.set(x -> x.add(a), k, j);
-    }
-  }
-
-  private static void _rotate(Tensor m, int length, Scalar c, Scalar s, int i, int j) {
-    for (int k = 0; k < length; ++k) {
-      Scalar x = m.Get(k, j);
-      Scalar z = m.Get(k, i);
-      m.set(x.multiply(c).add(z.multiply(s)), k, j);
-      m.set(z.multiply(c).subtract(x.multiply(s)), k, i);
     }
   }
 }

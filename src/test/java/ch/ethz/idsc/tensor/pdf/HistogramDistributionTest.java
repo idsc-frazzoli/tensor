@@ -196,6 +196,13 @@ public class HistogramDistributionTest extends TestCase {
     }
   }
 
+  public void testInverseCDFOne() {
+    Tensor vector = QuantityTensor.of(Tensors.vector(1, 2, 3), "m");
+    Distribution distribution = HistogramDistribution.of(vector, Quantity.of(2, "m"));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    assertEquals(inverseCDF.quantile(RealScalar.ONE), Quantity.of(4, "m"));
+  }
+
   public void testFailEmpty() {
     try {
       HistogramDistribution.of(Tensors.empty(), RealScalar.of(2));

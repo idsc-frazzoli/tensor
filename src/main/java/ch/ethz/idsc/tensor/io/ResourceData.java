@@ -41,7 +41,8 @@ public enum ResourceData {
       Filename filename = new Filename(new File(string)); // to determine file extension
       if (filename.hasExtension("csv"))
         return CsvFormat.parse(_lines(inputStream));
-      if (filename.hasExtension("png"))
+      if (filename.hasExtension("jpg") || //
+          filename.hasExtension("png"))
         return ImageFormat.from(ImageIO.read(inputStream));
       if (filename.hasExtension("vector"))
         return Tensor.of(_lines(inputStream).map(Scalars::fromString));

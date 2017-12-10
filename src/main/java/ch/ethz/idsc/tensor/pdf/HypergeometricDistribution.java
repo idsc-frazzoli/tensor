@@ -43,6 +43,7 @@ public class HypergeometricDistribution extends EvaluatedDiscreteDistribution im
     binomial_n = Binomial.of(n);
     binomial_m = Binomial.of(m);
     binomial_m_n = Binomial.of(m_n);
+    inverse_cdf_build();
   }
 
   @Override // from MeanInterface
@@ -67,10 +68,20 @@ public class HypergeometricDistribution extends EvaluatedDiscreteDistribution im
     return 0;
   }
 
+  @Override // from EvaluatedDiscreteDistribution
+  protected int upperBound() {
+    return Math.min(N, n);
+  }
+
   @Override // from AbstractDiscreteDistribution
   protected Scalar protected_p_equals(int i) {
     if (N < i || n < i)
       return RealScalar.ZERO;
     return binomial_n.over(i).multiply(binomial_m.over(N - i)).divide(binomial_m_n.over(N));
+  }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%d, %d, %d]", getClass().getSimpleName(), N, n, m_n);
   }
 }

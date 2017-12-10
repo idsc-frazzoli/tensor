@@ -135,6 +135,12 @@ public class ExponentialDistributionTest extends TestCase {
     assertEquals(inverseCDF.quantile(RealScalar.ONE), DoubleScalar.POSITIVE_INFINITY);
   }
 
+  public void testToString() {
+    Distribution distribution = ExponentialDistribution.of(Quantity.of(3, "m"));
+    String string = distribution.toString();
+    assertEquals(string, "ExponentialDistribution[3[m]]");
+  }
+
   public void testFailInverseCDF() {
     InverseCDF inverseCDF = InverseCDF.of(ExponentialDistribution.of(Quantity.of(3, "")));
     try {

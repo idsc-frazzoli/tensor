@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
@@ -42,5 +43,11 @@ public class OrderingTest extends TestCase {
   public void testEnum() {
     assertEquals(Ordering.valueOf("INCREASING"), Ordering.INCREASING);
     assertEquals(Ordering.valueOf("DECREASING"), Ordering.DECREASING);
+  }
+
+  public void testSerializable() throws Exception {
+    Ordering a = Ordering.DECREASING;
+    Ordering b = Serialization.copy(a);
+    assertEquals(a, b);
   }
 }

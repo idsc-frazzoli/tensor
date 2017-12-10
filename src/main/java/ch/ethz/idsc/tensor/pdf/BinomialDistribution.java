@@ -71,6 +71,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
     this.n = n;
     this.p = p;
     this.table = table;
+    inverse_cdf_build();
   }
 
   @Override // from EvaluatedDiscreteDistribution
@@ -98,5 +99,10 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
     if (n < k)
       return RealScalar.ZERO;
     return table.Get(k);
+  }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%d, %s]", getClass().getSimpleName(), n, p);
   }
 }

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 
@@ -11,6 +12,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.red.Tally;
 import junit.framework.TestCase;
 
@@ -98,7 +100,7 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testBug3() {
-    int size = Tally.of(RandomVariate.of(BinomialDistribution.of(1207, RationalScalar.of(2, 3)), 10000)).size();
+    int size = Tally.of(RandomVariate.of(BinomialDistribution.of(1207, RationalScalar.of(2, 3)), 1000)).size();
     assertTrue(50 < size);
   }
 
@@ -166,6 +168,34 @@ public class BinomialDistributionTest extends TestCase {
     assertEquals(x2, RealScalar.of(6));
     assertEquals(x9, RealScalar.of(7));
     assertEquals(x3, RealScalar.of(10));
+  }
+
+  public void testInverseCDFOne() {
+    InverseCDF inv = InverseCDF.of(BinomialDistribution.of(10, RationalScalar.of(2, 3)));
+    Scalar last = inv.quantile(RealScalar.ONE);
+    assertEquals(last, RealScalar.of(10)); // consistent with Mathematica
+  }
+
+  public void testHashEquals() throws Exception {
+    Distribution d1 = BinomialDistribution.of(3, RationalScalar.of(1, 2));
+    Distribution d2 = BinomialDistribution.of(3, RationalScalar.of(1, 2));
+    Distribution d3 = BinomialDistribution.of(3, RationalScalar.of(1, 3));
+    Distribution d4 = NormalDistribution.of(1, 2);
+    // assertEquals(d1, d2);
+    // assertEquals(d1.hashCode(), d2.hashCode());
+    assertFalse(d1.equals(d3));
+    assertFalse(d1.hashCode() == d3.hashCode());
+    assertFalse(d1.equals(d4));
+    assertFalse(d1.hashCode() == d4.hashCode());
+    byte[] b1 = Serialization.of(d1);
+    byte[] b2 = Serialization.of(d2);
+    assertTrue(Arrays.equals(b1, b2));
+  }
+
+  public void testToString() {
+    Distribution d1 = BinomialDistribution.of(3, RationalScalar.of(1, 2));
+    String string = d1.toString();
+    assertEquals(string, "BinomialDistribution[3, 1/2]");
   }
 
   public void testFailN() {

@@ -31,10 +31,4 @@ public interface SingularValueDecomposition extends Serializable {
 
   /** @return square matrix of dimensions cols x cols */
   Tensor getV();
-
-  /** @param w_threshold strictly below which singular values are clipped to zero */
-  void setThreshold(double w_threshold);
-
-  /** @return threshold strictly below which singular values are considered to be zero */
-  double getThreshold();
 }

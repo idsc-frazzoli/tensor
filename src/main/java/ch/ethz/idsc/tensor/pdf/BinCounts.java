@@ -34,7 +34,9 @@ public enum BinCounts {
     int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
     return Tensors.vector(index -> {
       Scalar key = RationalScalar.of(index, 1);
-      return navigableMap.containsKey(key) ? RealScalar.of(navigableMap.get(key)) : RealScalar.ZERO;
+      return navigableMap.containsKey(key) //
+          ? RationalScalar.of(navigableMap.get(key), 1)
+          : RealScalar.ZERO;
     }, length);
   }
 

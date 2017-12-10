@@ -56,4 +56,9 @@ public class GammaDistribution implements Distribution, MeanInterface, PDF, Vari
   public Scalar variance() {
     return alpha.multiply(beta).multiply(beta);
   }
+
+  @Override // from Object
+  public String toString() {
+    return String.format("%s[%s, %s]", getClass().getSimpleName(), alpha, beta);
+  }
 }

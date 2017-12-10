@@ -6,18 +6,20 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** implementation is consistent with Mathematica::HarmonicMean
+ * for vector input, but not for matrix input.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HarmonicMean.html">HarmonicMean</a> */
+// LONGTERM HarmonicMean is defined for matrices
 public enum HarmonicMean {
   ;
   /** computes the harmonic mean of the {@link Scalar}s on the first level of given tensor.
    * 
-   * @param tensor is vector of non-zero scalars
-   * @return harmonic mean of entries in tensor
-   * @throws ArithmeticException if any entry of tensor is zero, or tensor is empty */
-  public static Tensor of(Tensor tensor) {
-    return RationalScalar.of(tensor.length(), 1) //
-        .divide((Scalar) Total.of(tensor.map(Scalar::reciprocal)));
+   * @param vector of non-zero scalars
+   * @return harmonic mean of entries in given vector
+   * @throws ArithmeticException if any entry of vector is zero, or vector is empty */
+  public static Scalar ofVector(Tensor vector) {
+    return RationalScalar.of(vector.length(), 1) //
+        .divide((Scalar) Total.of(vector.map(Scalar::reciprocal)));
   }
 }

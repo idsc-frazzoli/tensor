@@ -70,6 +70,12 @@ public class GumbelDistributionTest extends TestCase {
     assertTrue(Chop._13.close(var, Quantity.of(3.7011016504085092, "m^-2")));
   }
 
+  public void testToString() {
+    Distribution distribution = //
+        GumbelDistribution.of(RealScalar.of(3), RealScalar.of(.2));
+    assertEquals(distribution.toString(), "GumbelDistribution[3, 0.2]");
+  }
+
   public void testFail() {
     try {
       GumbelDistribution.of(RealScalar.of(3), RealScalar.of(0));

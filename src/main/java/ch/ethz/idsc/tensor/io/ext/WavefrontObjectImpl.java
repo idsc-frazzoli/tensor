@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io.ext;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
@@ -35,8 +35,8 @@ class WavefrontObjectImpl implements WavefrontObject {
     Tensor in = Tensors.empty();
     for (int index = 0; index < nodes.length; ++index) {
       String[] node = nodes[index].split("/");
-      iv.append(RealScalar.of(Integer.parseInt(node[0]) - 1));
-      in.append(RealScalar.of(Integer.parseInt(node[2]) - 1));
+      iv.append(RationalScalar.of(Integer.parseInt(node[0]) - 1, 1));
+      in.append(RationalScalar.of(Integer.parseInt(node[2]) - 1, 1));
     }
     faces.append(iv);
     normals.append(in);

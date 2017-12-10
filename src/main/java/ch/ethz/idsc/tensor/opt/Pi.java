@@ -14,6 +14,7 @@ public enum Pi {
   private static final Scalar _262537412640768000 = RealScalar.of(-262537412640768000L);
   private static final Scalar _12 = RealScalar.of(12);
   private static final Scalar _426880 = RealScalar.of(426880);
+  private static final Scalar _16 = RealScalar.of(16);
 
   /** @param precision is approximately the number of correct digits in the decimal encoding
    * @return */
@@ -28,7 +29,7 @@ public enum Pi {
     Scalar prev = RealScalar.ZERO;
     while (true) {
       ++k;
-      M = Power.of(K, 3).subtract(RealScalar.of(16).multiply(K)).multiply(M).divide(Power.of(k, 3));
+      M = Power.of(K, 3).subtract(_16.multiply(K)).multiply(M).divide(Power.of(k, 3));
       L = L.add(_545140134);
       X = X.multiply(_262537412640768000);
       S = S.add(M.multiply(L).divide(X));

@@ -43,9 +43,8 @@ public enum Import {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
       return CsvFormat.parse(Files.lines(file.toPath()));
-    if (filename.hasExtension("jpg"))
-      return ImageFormat.from(ImageIO.read(file));
-    if (filename.hasExtension("png"))
+    if (filename.hasExtension("jpg") || //
+        filename.hasExtension("png"))
       return ImageFormat.from(ImageIO.read(file));
     if (filename.hasExtension("tensor"))
       return object(file);

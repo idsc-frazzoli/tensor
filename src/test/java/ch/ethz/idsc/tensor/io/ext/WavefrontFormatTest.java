@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.MatrixQ;
 import junit.framework.TestCase;
 
 public class WavefrontFormatTest extends TestCase {
@@ -29,6 +30,7 @@ public class WavefrontFormatTest extends TestCase {
       assertEquals(list, Arrays.asList(4, 32));
       // System.out.println(Pretty.of(wo.faces()));
       // System.out.println(Pretty.of(wo.normals()));
+      assertTrue(MatrixQ.of(wavefront.normals()));
     }
   }
 }

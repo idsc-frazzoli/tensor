@@ -96,6 +96,12 @@ public class EmpiricalDistributionTest extends TestCase {
     assertEquals(x2, RealScalar.of(2));
   }
 
+  public void testInverseCDFOne() {
+    AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
+    EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0, 0, 0));
+    assertEquals(distribution.quantile(RealScalar.of(1)), RealScalar.of(4));
+  }
+
   public void testFailInverseCDF() {
     InverseCDF inv = InverseCDF.of(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 3, 1)));
     try {
@@ -117,14 +123,6 @@ public class EmpiricalDistributionTest extends TestCase {
       AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
       EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
       distribution.quantile(RealScalar.of(Math.nextDown(0.0)));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
-      EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
-      distribution.quantile(RealScalar.of(1));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
