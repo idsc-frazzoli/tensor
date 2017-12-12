@@ -16,8 +16,8 @@ public enum Subdivide {
   ;
   /** Examples:
    * <pre>
-   * Subdivide.of(RealScalar.of(10), RealScalar.of(15), 5) == {10, 11, 12, 13, 14, 15}
-   * Subdivide.of(RealScalar.of(10), RealScalar.of(15), 4) == {10, 45/4, 25/2, 55/4, 15}
+   * Subdivide.of(10, 15, 5) == {10, 11, 12, 13, 14, 15}
+   * Subdivide.of(10, 15, 4) == {10, 45/4, 25/2, 55/4, 15}
    * </pre>
    * 
    * Subdivide operates on decreasing values:
