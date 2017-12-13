@@ -163,4 +163,19 @@ public class RationalScalarTest extends TestCase {
     Scalar eps = DoubleScalar.of(Math.nextUp(0.0));
     assertEquals(zero.divide(eps), zero);
   }
+
+  public void testNullFail() {
+    try {
+      RationalScalar.of(null, BigInteger.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      RationalScalar.of(BigInteger.ONE, null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

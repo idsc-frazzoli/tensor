@@ -20,6 +20,27 @@ public class ComplexScalarTest extends TestCase {
     }
   }
 
+  public void testNullFail() {
+    try {
+      ComplexScalar.of(RealScalar.ONE, null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ComplexScalar.of(null, RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ComplexScalar.of(null, RealScalar.ZERO);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testPolarFail() {
     try {
       ComplexScalar.fromPolar(RealScalar.ONE, ComplexScalar.I);

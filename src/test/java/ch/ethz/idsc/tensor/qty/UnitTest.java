@@ -78,4 +78,13 @@ public class UnitTest extends TestCase {
       // ---
     }
   }
+
+  public void testNullFail() {
+    try {
+      Unit.of(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

@@ -66,6 +66,8 @@ public interface Quantity extends Scalar, //
   static Scalar of(Scalar value, Unit unit) {
     if (value instanceof Quantity)
       throw TensorRuntimeException.of(value);
+    // if (Objects.isNull(value) || Objects.isNull(unit))
+    // throw new NullPointerException();
     return QuantityImpl.of(value, unit);
   }
 
@@ -73,7 +75,11 @@ public interface Quantity extends Scalar, //
    * @param string for instance "m*s^-2"
    * @return */
   static Scalar of(Scalar value, String string) {
-    return of(value, Unit.of(string));
+    if (value instanceof Quantity)
+      throw TensorRuntimeException.of(value);
+    // if (Objects.isNull(value))
+    // throw new NullPointerException();
+    return QuantityImpl.of(value, Unit.of(string));
   }
 
   /** creates quantity with number encoded as {@link RealScalar}
@@ -82,6 +88,8 @@ public interface Quantity extends Scalar, //
    * @param unit
    * @return */
   static Scalar of(Number number, Unit unit) {
+    // if (Objects.isNull(unit))
+    // throw new NullPointerException();
     return QuantityImpl.of(RealScalar.of(number), unit);
   }
 
