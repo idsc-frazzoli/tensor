@@ -8,10 +8,7 @@ import ch.ethz.idsc.tensor.io.CsvFormat;
 import ch.ethz.idsc.tensor.io.ObjectFormat;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.ArgInterface;
-import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
-import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
-import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
@@ -53,10 +50,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Quantity.html">Quantity</a> */
 public interface Quantity extends Scalar, //
-    ArcTanInterface, ArgInterface, ChopInterface, ComplexEmbedding, //
-    ExactScalarQInterface, NInterface, PowerInterface, RoundingInterface, //
-    SignInterface, SqrtInterface, //
-    Comparable<Scalar> {
+    ArcTanInterface, ArgInterface, ComplexEmbedding, PowerInterface, //
+    RoundingInterface, SignInterface, SqrtInterface, Comparable<Scalar> {
   static final char UNIT_OPENING_BRACKET = '[';
   static final char UNIT_CLOSING_BRACKET = ']';
 

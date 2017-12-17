@@ -14,17 +14,21 @@ import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/* package */ class QuantityImpl extends AbstractScalar implements Quantity {
+/* package */ class QuantityImpl extends AbstractScalar implements Quantity, //
+    ChopInterface, ExactScalarQInterface, NInterface {
   private static final Scalar HALF = RationalScalar.of(1, 2);
 
   /** @param value is assumed to be not instance of {@link Quantity}
@@ -190,7 +194,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return ofUnit(Imag.FUNCTION.apply(value));
   }
 
-  @Override
+  @Override // from ExactScalarQInterface
   public boolean isExactScalar() {
     return ExactScalarQ.of(value);
   }

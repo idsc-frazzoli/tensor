@@ -8,10 +8,12 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.Log;
+import ch.ethz.idsc.tensor.sca.Ramp;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** documentation:
- * https://en.wikipedia.org/wiki/Rectifier_(neural_networks) */
+/** softplus is a smooth {@link Ramp}
+ * 
+ * <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)">documentation</a> */
 public enum Softplus implements ScalarUnaryOperator {
   FUNCTION;
   // ---
