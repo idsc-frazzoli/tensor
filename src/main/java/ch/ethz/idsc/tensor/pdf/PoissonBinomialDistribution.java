@@ -46,7 +46,7 @@ public class PoissonBinomialDistribution implements Distribution, //
     return RationalScalar.of(p_vector.stream() //
         .map(Scalar.class::cast) //
         .map(Scalar::number) //
-        .map(Number::doubleValue) //
+        .mapToDouble(Number::doubleValue) //
         .filter(p -> random.nextDouble() < p) //
         .count(), 1);
   }

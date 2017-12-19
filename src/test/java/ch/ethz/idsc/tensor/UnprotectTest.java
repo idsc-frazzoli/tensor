@@ -52,6 +52,11 @@ public class UnprotectTest extends TestCase {
   }
 
   public void testReferencesScalar() {
-    assertSame(Unprotect.references(RealScalar.ONE), RealScalar.ONE);
+    try {
+      Unprotect.references(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

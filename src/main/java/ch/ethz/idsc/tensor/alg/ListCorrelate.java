@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Unprotect;
@@ -20,7 +21,9 @@ public enum ListCorrelate {
    * 
    * @param kernel
    * @param tensor
-   * @return correlation of kernel with tensor */
+   * @return correlation of kernel with tensor
+   * @throws Exception if dimensions of kernel and tensor are unsuitable for convolution,
+   * for instance if tensor is a {@link Scalar} */
   public static Tensor of(Tensor kernel, Tensor tensor) {
     List<Integer> mask = Dimensions.of(kernel);
     List<Integer> size = Dimensions.of(tensor);
