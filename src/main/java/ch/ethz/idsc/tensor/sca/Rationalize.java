@@ -1,5 +1,5 @@
 // code by jph
-// code adapted from http://www.ics.uci.edu/~eppstein/numth/frap.c
+// adapted from http://www.ics.uci.edu/~eppstein/numth/frap.c
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.IntegerQ;

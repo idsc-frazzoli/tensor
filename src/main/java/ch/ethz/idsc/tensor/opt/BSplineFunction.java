@@ -43,7 +43,9 @@ public class BSplineFunction implements ScalarTensorFunction {
     last = tensor.length() - 1;
     clip = Clip.function(0, last);
     ofs = p / 2;
-    shift = degree % 2 == 0 ? RationalScalar.of(1, 2) : RealScalar.ZERO;
+    shift = degree % 2 == 0 //
+        ? RationalScalar.of(1, 2)
+        : RealScalar.ZERO;
   }
 
   @Override
