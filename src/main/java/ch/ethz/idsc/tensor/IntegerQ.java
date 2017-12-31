@@ -18,4 +18,11 @@ public enum IntegerQ {
     }
     return false;
   }
+
+  /** @param tensor
+   * @throws Exception if given tensor is not a vector */
+  public static void elseThrow(Tensor tensor) {
+    if (!of(tensor))
+      throw TensorRuntimeException.of(tensor);
+  }
 }

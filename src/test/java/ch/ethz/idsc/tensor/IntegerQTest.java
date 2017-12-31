@@ -18,4 +18,18 @@ public class IntegerQTest extends TestCase {
     assertFalse(IntegerQ.of(Tensors.empty()));
     assertFalse(IntegerQ.of(Tensors.vector(1)));
   }
+
+  public void testElseThrow() {
+    IntegerQ.elseThrow(RealScalar.of(2));
+    try {
+      IntegerQ.elseThrow(RealScalar.of(.2));
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      IntegerQ.elseThrow(Tensors.vector(1, 2, 7));
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

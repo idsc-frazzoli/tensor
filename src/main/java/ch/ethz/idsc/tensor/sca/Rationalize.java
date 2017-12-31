@@ -1,11 +1,13 @@
 // code by jph
-// code from http://www.ics.uci.edu/~eppstein/numth/frap.c
+// code adapted from http://www.ics.uci.edu/~eppstein/numth/frap.c
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.red.Max;
 
 /** Rationalize is <em>not<em> a substitute for {@link Round}, or {@link Floor}.
@@ -17,8 +19,25 @@ import ch.ethz.idsc.tensor.red.Max;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Rationalize.html">Rationalize</a> */
-public enum Rationalize {
-  ;
+public class Rationalize implements ScalarUnaryOperator {
+  /** @param max positive integer
+   * @return {@link ScalarUnaryOperator} that returns the closest {@link RationalScalar} to the
+   * given argument, with denominator less or equals to max, and ties rounding to positive infinity.
+   * @throws Exception if max does not satisfy {@link IntegerQ}, or is negative */
+  public static ScalarUnaryOperator withDenominatorLessEquals(Scalar max) {
+    return new Rationalize(max);
+  }
+  // ---
+
+  private final Scalar max;
+
+  private Rationalize(Scalar max) {
+    if (Sign.isNegativeOrZero(max))
+      throw TensorRuntimeException.of(max);
+    IntegerQ.elseThrow(max);
+    this.max = max;
+  }
+
   /* find rational approximation to given real number
    * David Eppstein / UC Irvine / 8 Aug 1993
    *
@@ -37,59 +56,48 @@ public enum Rationalize {
    * ( 1 0 ) ( 1 0 ) ( 1 0 )
    * Instead of keeping the sequence of continued fraction terms,
    * we just keep the last partial product of these matrices. */
-  /** @param realScalar for instance Math.PI, or 2./3.
+  /** @param scalar for instance Math.PI, or 2./3.
    * @param max denominator
-   * @return approximation of realScalar as RationalScalar with denominator bounded by max */
-  private static Scalar ofRealScalar(final RealScalar realScalar, final long max) {
-    long m00 = 1; /* initialize matrix */
-    long m01 = 0;
-    long m10 = 0;
-    long m11 = 1;
-    double x = realScalar.number().doubleValue();
-    long ain;
+   * @return approximation of given scalar as {@link RationalScalar} with denominator bounded by max */
+  @Override
+  public Scalar apply(final Scalar scalar) {
+    Scalar m00 = RealScalar.ONE; /* initialize matrix */
+    Scalar m01 = RealScalar.ZERO;
+    Scalar m10 = RealScalar.ZERO;
+    Scalar m11 = RealScalar.ONE;
+    // ---
+    Scalar x = scalar;
+    Scalar ain = Floor.FUNCTION.apply(x);
     // loop finding terms until denominator gets too big
-    while (m10 * (ain = toLong(x)) + m11 <= max) {
-      long tmp;
-      tmp = m00 * ain + m01;
+    while (Scalars.lessEquals(affine(m10, m11, ain), max)) {
+      Scalar tmp = affine(m00, m01, ain);
       m01 = m00;
       m00 = tmp;
-      tmp = m10 * ain + m11;
+      tmp = affine(m10, m11, ain);
       m11 = m10;
       m10 = tmp;
-      if (x == ain)
+      if (x.equals(ain))
         break; // AF: division by zero
-      x = 1 / (x - ain);
-      if (x > Long.MAX_VALUE)
-        throw new IllegalArgumentException(); // AF: representation failure
+      x = x.subtract(ain).reciprocal();
+      ain = Floor.FUNCTION.apply(x);
     }
-    // now remaining x is between 0 and 1/ai
+    // ---
+    // now remaining x is between 0 and 1/ai (?)
     // approx as either 0 or 1/m where m is max that will fit in maxden
-    // first try zero
-    Scalar sol0 = RationalScalar.of(m00, m10);
-    // now try other possibility
-    ain = (max - m11) / m10;
-    Scalar sol1 = RationalScalar.of(m00 * ain + m01, m10 * ain + m11);
-    // System.out.println(realScalar + " -> " + sol0 + " " + sol1);
-    final double err0 = sol0.subtract(realScalar).abs().number().doubleValue();
-    final double err1 = sol1.subtract(realScalar).abs().number().doubleValue();
-    if (err0 == err1)
+    Scalar sol0 = m00.divide(m10); // first try zero
+    Scalar sol1 = affine(sol0, m01, max.subtract(m11)).divide(max); // now try other possibility
+    RationalScalar rs = (RationalScalar) sol1;
+    if (Scalars.lessThan(max, RealScalar.of(rs.denominator())))
+      return sol0;
+    Scalar err0 = sol0.subtract(scalar).abs();
+    Scalar err1 = sol1.subtract(scalar).abs();
+    if (err0.equals(err1))
       return Max.of(sol0, sol1); // ties rounding to positive infinity
-    return err0 < err1 ? sol0 : sol1; // choose the one with less error
+    return Scalars.lessThan(err0, err1) ? sol0 : sol1; // choose the one with less error
   }
 
-  /** Returns the closest {@link RationalScalar} to the argument, with ties
-   * rounding to positive infinity.
-   * 
-   * @param tensor for instance Math.PI, or 2./3.
-   * @param max denominator
-   * @return approximation of realScalar as RationalScalar with denominator bounded by max */
-  public static Tensor of(Tensor tensor, long max) {
-    return tensor.map(scalar -> ofRealScalar((RealScalar) scalar, max));
-  }
-
-  // function used in Rationalize
-  private static long toLong(double val) {
-    long floor = (long) val;
-    return val < floor ? floor - 1 : floor;
+  // helper function
+  private static Scalar affine(Scalar m0, Scalar m1, Scalar x) {
+    return m0.multiply(x).add(m1);
   }
 }

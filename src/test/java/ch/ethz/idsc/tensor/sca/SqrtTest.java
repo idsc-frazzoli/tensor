@@ -15,10 +15,11 @@ import junit.framework.TestCase;
 
 public class SqrtTest extends TestCase {
   public void testNegative() {
+    ScalarUnaryOperator suo = Rationalize.withDenominatorLessEquals(RealScalar.of(10000));
     Scalar n2 = RealScalar.of(-2);
     Scalar sr = Sqrt.FUNCTION.apply(n2);
-    assertEquals(Rationalize.of(AbsSquared.FUNCTION.apply(sr), 10000), RealScalar.of(2));
-    assertEquals(Rationalize.of(sr.multiply(sr), 10000), n2);
+    assertEquals(suo.apply(AbsSquared.FUNCTION.apply(sr)), RealScalar.of(2));
+    assertEquals(suo.apply(sr.multiply(sr)), n2);
   }
 
   public void testMixingTemplates() {
