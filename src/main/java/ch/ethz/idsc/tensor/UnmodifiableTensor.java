@@ -11,12 +11,16 @@ import java.util.stream.Stream;
  * An attempt to modify the content results in an exception.
  * 
  * <p>UnmodifiableTensor wraps the original content list as a
- * Collections.unmodifiableList. All methods in TensorImpl that
+ * {@link Collections#unmodifiableList(List)}.
+ * 
+ * <p>All methods in the default implementation {@link TensorImpl} that
  * 1) give references of sub-tensors, or that
  * 2) may result in the modification of the content
  * are overloaded.
  * 
- * <p>UnmodifiableTensor does not duplicate memory. */
+ * <p>UnmodifiableTensor does not duplicate memory.
+ * 
+ * <p>The copy {@link UnmodifiableTensor#copy()} is modifiable. */
 /* package */ class UnmodifiableTensor extends TensorImpl {
   UnmodifiableTensor(List<Tensor> list) {
     super(Collections.unmodifiableList(list));

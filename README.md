@@ -2,7 +2,7 @@
 
 <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java 8.
+Library for tensor computations in Java 8 or beyond.
 
 Version `0.4.6`
 
