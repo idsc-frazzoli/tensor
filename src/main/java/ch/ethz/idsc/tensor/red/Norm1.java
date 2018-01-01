@@ -27,7 +27,6 @@ import ch.ethz.idsc.tensor.sca.Abs;
     return stream //
         .map(Scalar.class::cast) //
         .map(Scalar::abs) //
-        .reduce(Scalar::add) //
-        .get();
+        .reduce(Scalar::add).get();
   }
 }

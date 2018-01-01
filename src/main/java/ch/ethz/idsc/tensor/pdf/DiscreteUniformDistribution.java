@@ -55,7 +55,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   @Override // from VarianceInterface
   public Scalar variance() {
     Scalar width = RationalScalar.of(max - 1 - min, 1);
-    return width.multiply(RealScalar.of(2).add(width)).multiply(RationalScalar.of(1, 12));
+    return width.multiply(RealScalar.of(2).add(width)).divide(RationalScalar.of(12, 1));
   }
 
   @Override // from DiscreteDistribution

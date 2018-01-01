@@ -32,7 +32,7 @@ public enum Mean {
    * @throws ArithmeticException if tensor is empty
    * @throws TensorRuntimeException if tensor is a {@link Scalar} */
   public static Tensor of(Tensor tensor) {
-    return Total.of(tensor).multiply(RationalScalar.of(1, tensor.length()));
+    return Total.of(tensor).divide(RationalScalar.of(tensor.length(), 1));
   }
 
   /** identical to function {@link Mean#of(Tensor)}

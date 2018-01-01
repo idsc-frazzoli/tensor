@@ -37,7 +37,7 @@ public enum Norm implements NormInterface {
     this.normInterface = normInterface;
   }
 
-  @Override
+  @Override // from VectorNormInterface
   public Scalar ofVector(Tensor vector) {
     return normInterface.ofVector(vector);
   }
@@ -49,7 +49,7 @@ public enum Norm implements NormInterface {
     return ofVector(v1.subtract(v2));
   }
 
-  @Override
+  @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
     return normInterface.ofMatrix(matrix);
   }
@@ -69,7 +69,7 @@ public enum Norm implements NormInterface {
     Optional<Integer> rank = TensorRank.ofArray(tensor);
     if (rank.isPresent())
       switch (rank.get()) {
-      // Norm.of(Scalar) is not supported to prevent mistakes.
+      // Norm::of(Scalar) is not supported to prevent mistakes.
       // For scalars use Scalar::abs instead
       case 1:
         return normInterface.ofVector(tensor);

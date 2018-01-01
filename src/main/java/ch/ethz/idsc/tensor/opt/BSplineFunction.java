@@ -16,6 +16,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * 
  * cubic basis functions over unit interval [0, 1]
  * {(1 - t)^3, 4 - 6 t^2 + 3 t^3, 1 + 3 t + 3 t^2 - 3 t^3, t^3}/6 */
+// EXPERIMENTAL
 public class BSplineFunction implements ScalarTensorFunction {
   /** the control point are stored by reference, i.e.
    * modifications to given tensor alter the behavior

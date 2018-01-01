@@ -6,8 +6,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.alg.VectorQ;
 
 /* package */ enum DeBoor {
   ;
@@ -17,10 +15,6 @@ import ch.ethz.idsc.tensor.alg.VectorQ;
    * @param x
    * @return control point evaluated at x */
   static Tensor of(int p, Tensor c, Tensor t, Scalar x) {
-    if (c.length() != p + 1)
-      throw TensorRuntimeException.of(c);
-    if (!VectorQ.ofLength(t, 2 * p))
-      throw TensorRuntimeException.of(t);
     Tensor d = c.copy(); // d is modified over the course of the algorithm
     for (int r = 1; r < p + 1; ++r)
       for (int j = p; j >= r; --j) {

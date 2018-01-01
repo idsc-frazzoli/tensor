@@ -15,6 +15,6 @@ public enum MeanDeviation {
   public static Scalar ofVector(Tensor vector) {
     Tensor mean = Mean.of(vector);
     return Norm1.INSTANCE.ofStream(vector.stream().map(scalar -> scalar.subtract(mean))) //
-        .multiply(RationalScalar.of(1, vector.length()));
+        .divide(RationalScalar.of(vector.length(), 1));
   }
 }

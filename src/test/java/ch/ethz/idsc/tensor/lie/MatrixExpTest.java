@@ -23,6 +23,13 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class MatrixExpTest extends TestCase {
+  public void testZeros() {
+    Tensor zeros = Array.zeros(7, 7);
+    Tensor eye = MatrixExp.of(zeros);
+    assertEquals(eye, IdentityMatrix.of(7));
+    assertTrue(ExactScalarQ.all(eye));
+  }
+
   public void testExp() {
     Random ra = new Random();
     double val = ra.nextGaussian();

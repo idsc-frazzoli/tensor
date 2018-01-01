@@ -2,9 +2,15 @@
 
 <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java 8 or beyond.
+Library for tensor computations in Java 8.
 
 Version `0.4.6`
+
+The tensor library was developed with the following objectives in mind
+* support for exact precision using integer fractions
+* support for calculation with physical units
+* suitable for use in safety-critical real-time systems
+* API inspired by `Mathematica`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
@@ -73,8 +79,7 @@ The tensor library implements `Quantity`, i.e. numbers with physical units.
 Several algorithms are verified to work with scalars of type `Quantity`.
 
     Tensor matrix = Tensors.fromString( //
-        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
-        Quantity::fromString);
+        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}");
     CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));

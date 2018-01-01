@@ -72,7 +72,7 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
     if (P_EQUALS_MAX < n)
       return RealScalar.ZERO;
     while (values.length() <= n) {
-      Scalar factor = lambda.multiply(RationalScalar.of(1, values.length()));
+      Scalar factor = lambda.divide(RationalScalar.of(values.length(), 1));
       values.append(Last.of(values).multiply(factor));
     }
     return values.Get(n);

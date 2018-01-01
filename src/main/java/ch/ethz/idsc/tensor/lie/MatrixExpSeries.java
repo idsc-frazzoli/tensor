@@ -21,14 +21,14 @@ import ch.ethz.idsc.tensor.sca.N;
     Tensor sum = IdentityMatrix.of(n);
     Tensor nxt = IdentityMatrix.of(n);
     for (int k = 1; k <= n; ++k) {
-      nxt = nxt.dot(matrix).multiply(RationalScalar.of(1, k));
+      nxt = nxt.dot(matrix).divide(RationalScalar.of(k, 1));
       sum = sum.add(nxt);
       if (Chop.NONE.allZero(nxt))
         return sum;
     }
     sum = N.DOUBLE.of(sum); // switch to numeric precision
     for (int k = n + 1; k < MAXITER; ++k) {
-      nxt = nxt.dot(matrix).multiply(RationalScalar.of(1, k));
+      nxt = nxt.dot(matrix).divide(RationalScalar.of(k, 1));
       Tensor prv = sum;
       sum = sum.add(nxt);
       if (Chop.NONE.close(sum, prv))

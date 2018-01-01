@@ -149,6 +149,7 @@ public class CholeskyDecompositionTest extends TestCase {
     }
     {
       CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
+      // System.out.println(Det.of(mat));
       assertEquals(Det.of(mat), cd.det()); // 100[kg^2,m^2,rad^2]
       Tensor lower = rows_pmul_v(cd.getL(), Sqrt.of(cd.diagonal()));
       Tensor upper = Sqrt.of(cd.diagonal()).pmul(ConjugateTranspose.of(cd.getL()));

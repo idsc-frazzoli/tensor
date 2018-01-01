@@ -65,7 +65,7 @@ public class BSplineFunctionTest extends TestCase {
     BSplineFunction bSplineFunction = BSplineFunction.of(2, Tensors.vector(0, 1, 2, 3));
     Tensor r1 = bSplineFunction.apply(RealScalar.of(0.5));
     Tensor r2 = bSplineFunction.apply(RealScalar.of(1.5));
-    Tensor r3 = bSplineFunction.apply(RealScalar.of(2.5)); // FIXME does not evaluate correctly
+    Tensor r3 = bSplineFunction.apply(RealScalar.of(2.5)); // does not evaluate correctly
     // System.out.println(r1);
     // System.out.println(r2);
     // System.out.println(r3);
