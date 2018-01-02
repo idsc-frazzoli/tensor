@@ -32,6 +32,25 @@ public class RationalizeTest extends TestCase {
     assertEquals(suo.apply(RealScalar.of(0)).toString(), "0");
   }
 
+  private static void betterEquals(Scalar value) {
+    Scalar eps = RationalScalar.of(1, 100);
+    Scalar hi = Ceiling.toMultipleOf(eps).apply(value);
+    Scalar lo = Floor.toMultipleOf(eps).apply(value);
+    ScalarUnaryOperator suo = Rationalize.withDenominatorLessEquals(100);
+    Scalar me = suo.apply(value);
+    Scalar e1 = value.subtract(lo).abs();
+    Scalar e2 = value.subtract(hi).abs();
+    Scalar be = value.subtract(me).abs();
+    assertTrue(Scalars.lessEquals(be, e1));
+    assertTrue(Scalars.lessEquals(be, e2));
+  }
+
+  public void testLong() {
+    RandomVariate.of(UniformDistribution.of(-20, 20), 1000).stream() //
+        .map(Scalar.class::cast) //
+        .forEach(RationalizeTest::betterEquals);
+  }
+
   public void testBasics5() {
     final Scalar max = RealScalar.of(5);
     ScalarUnaryOperator suo = Rationalize.withDenominatorLessEquals(max);

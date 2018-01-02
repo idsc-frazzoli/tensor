@@ -41,20 +41,6 @@ public enum Round implements ScalarUnaryOperator {
     throw TensorRuntimeException.of(scalar);
   }
 
-  /** for best results, the parameter increment should be a instance of
-   * {@link DecimalScalar}, or {@link RationalScalar}
-   * Examples:
-   * DecimalScalar.of(0.1), or RationalScalar.of(1, 10)
-   * 
-   * <p>if instead increment is a {@link DoubleScalar} the return value
-   * may suffer from numeric round off error in the style of "3.4000000000000004"
-   * 
-   * @param increment
-   * @return */
-  public static ScalarUnaryOperator toMultipleOf(Scalar increment) {
-    return scalar -> FUNCTION.apply(scalar.divide(increment)).multiply(increment);
-  }
-
   /** rounds all entries of tensor to nearest integers, with
    * ties rounding to positive infinity.
    * 
@@ -63,5 +49,19 @@ public enum Round implements ScalarUnaryOperator {
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(FUNCTION);
+  }
+
+  /** for best results, the parameter increment should be a instance of
+   * {@link DecimalScalar}, or {@link RationalScalar}
+   * Examples:
+   * DecimalScalar.of(0.1), or RationalScalar.of(1, 10)
+   * 
+   * <p>if instead increment is a {@link DoubleScalar} the return value
+   * may suffer from numeric round off error in the style of "3.4000000000000004"
+   * 
+   * @param increment non-zero
+   * @return */
+  public static ScalarUnaryOperator toMultipleOf(Scalar increment) {
+    return scalar -> FUNCTION.apply(scalar.divide(increment)).multiply(increment);
   }
 }

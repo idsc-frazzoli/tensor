@@ -69,6 +69,15 @@ public class CeilingTest extends TestCase {
     assertTrue(r instanceof RationalScalar);
   }
 
+  public void testMultiple() {
+    Scalar w = Quantity.of(2, "K");
+    ScalarUnaryOperator suo = Ceiling.toMultipleOf(w);
+    assertEquals(suo.apply(Quantity.of(3.9, "K")), w.multiply(RealScalar.of(2)));
+    assertEquals(suo.apply(Quantity.of(-2, "K")), w.negate());
+    assertEquals(suo.apply(Quantity.of(-2.1, "K")), w.multiply(RealScalar.of(-1)));
+    assertEquals(suo.apply(Quantity.of(-3.9, "K")), w.multiply(RealScalar.of(-1)));
+  }
+
   public void testNonFailInf() {
     {
       Scalar s = DoubleScalar.of(Double.POSITIVE_INFINITY);

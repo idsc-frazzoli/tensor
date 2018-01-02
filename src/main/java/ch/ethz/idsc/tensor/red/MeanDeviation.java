@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/MeanDeviation.html">MeanDeviation</a> */
 public enum MeanDeviation {
   ;
-  /** @param vector with at least 1 entry
+  /** @param vector with at least one entry
    * @return mean deviation of entries in given vector
    * @throws Exception if input is not a vector, or is empty */
   public static Scalar ofVector(Tensor vector) {
