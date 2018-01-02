@@ -95,7 +95,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
         .anyMatch(i -> n <= i);
   }
 
-  // helper function to determine pivot
+  // helper function to determine pivot in case entries of vector are of type Quantity
   private static Tensor numbers(Tensor vector) {
     return Tensor.of(vector.stream() //
         .map(Scalar.class::cast) //

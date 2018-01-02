@@ -79,6 +79,15 @@ public class RoundTest extends TestCase {
     assertEquals(sr.toString(), "7/2");
   }
 
+  public void testMultiple() {
+    Scalar w = Quantity.of(2, "K");
+    ScalarUnaryOperator suo = Round.toMultipleOf(w);
+    assertEquals(suo.apply(Quantity.of(3.9, "K")), w.multiply(RealScalar.of(2)));
+    assertEquals(suo.apply(Quantity.of(-2, "K")), w.negate());
+    assertEquals(suo.apply(Quantity.of(-2.1, "K")), w.multiply(RealScalar.of(-1)));
+    assertEquals(suo.apply(Quantity.of(-3.9, "K")), w.multiply(RealScalar.of(-2)));
+  }
+
   public void testRoundOptions() {
     Scalar pi = DoubleScalar.of(Math.PI);
     assertEquals(pi.map(Round._1).toString(), "3.1");

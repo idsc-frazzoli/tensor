@@ -36,7 +36,7 @@ public enum Floor implements ScalarUnaryOperator {
     return (T) tensor.map(FUNCTION);
   }
 
-  /** @param increment
+  /** @param increment non-zero
    * @return */
   public static ScalarUnaryOperator toMultipleOf(Scalar increment) {
     return scalar -> FUNCTION.apply(scalar.divide(increment)).multiply(increment);

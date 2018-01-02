@@ -169,4 +169,25 @@ public class DecimalScalar1Test extends TestCase {
     assertFalse(ds1.equals("hello"));
     assertFalse(ds1.equals(GaussScalar.of(6, 7)));
   }
+
+  public void testNullFail() {
+    try {
+      DecimalScalar.of((BigDecimal) null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      DecimalScalar.of((String) null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      DecimalScalar.of((String) null, 10);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

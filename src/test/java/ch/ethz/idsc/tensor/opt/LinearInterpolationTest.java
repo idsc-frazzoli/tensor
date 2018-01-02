@@ -118,7 +118,16 @@ public class LinearInterpolationTest extends TestCase {
     assertEquals(vec, Tensors.of(r1, r2));
   }
 
-  public void testFail() {
+  public void testFailScalar() {
+    try {
+      LinearInterpolation.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailNull() {
     try {
       LinearInterpolation.of(null);
       assertTrue(false);

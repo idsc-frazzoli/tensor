@@ -31,11 +31,12 @@ public enum Unprotect {
    * @return tensor that overrides functions
    * {@link Tensor#block(List, List)}, and
    * {@link Tensor#extract(int, int)}
-   * for access by reference */
+   * for access by reference
+   * @throws Exception if given tensor is unmodifiable, or an instance of {@link Scalar} */
   public static Tensor references(Tensor tensor) {
     if (tensor instanceof UnmodifiableTensor)
       throw TensorRuntimeException.of(tensor);
-    return ScalarQ.of(tensor) ? tensor : ViewTensor.wrap(tensor);
+    return ViewTensor.wrap(tensor);
   }
 
   /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !

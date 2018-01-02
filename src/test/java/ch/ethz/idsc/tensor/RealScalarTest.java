@@ -100,4 +100,13 @@ public class RealScalarTest extends TestCase {
       // ---
     }
   }
+
+  public void testNullFail() {
+    try {
+      RealScalar.of(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

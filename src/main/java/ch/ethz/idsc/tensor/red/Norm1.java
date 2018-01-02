@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.util.stream.Stream;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.Abs;
@@ -11,10 +13,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
   // ---
   @Override // from VectorNormInterface
   public Scalar ofVector(Tensor vector) {
-    return vector.stream() //
-        .map(Scalar.class::cast) //
-        .map(Scalar::abs) //
-        .reduce(Scalar::add).get();
+    return ofStream(vector.stream());
   }
 
   @Override // from NormInterface
@@ -22,5 +21,12 @@ import ch.ethz.idsc.tensor.sca.Abs;
     return Total.of(Abs.of(matrix)).stream() //
         .map(Scalar.class::cast) //
         .reduce(Max::of).get();
+  }
+
+  /* package */ Scalar ofStream(Stream<Tensor> stream) {
+    return stream //
+        .map(Scalar.class::cast) //
+        .map(Scalar::abs) //
+        .reduce(Scalar::add).get();
   }
 }

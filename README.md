@@ -4,7 +4,13 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.4.5`
+Version `0.4.6`
+
+The tensor library was developed with the following objectives in mind
+* support for exact precision using integer fractions
+* support for calculation with physical units
+* suitable for use in safety-critical real-time systems
+* API inspired by `Mathematica`
 
 Features:
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
@@ -73,8 +79,7 @@ The tensor library implements `Quantity`, i.e. numbers with physical units.
 Several algorithms are verified to work with scalars of type `Quantity`.
 
     Tensor matrix = Tensors.fromString( //
-        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}", //
-        Quantity::fromString);
+        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}");
     CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));
@@ -273,7 +278,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.4.5</version>
+        <version>0.4.6</version>
       </dependency>
     </dependencies>
 
@@ -281,7 +286,7 @@ The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.5/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.6/*
 
 ## Optional
 
@@ -305,4 +310,4 @@ The library is used in the projects:
 * `retina`
 * `lcm-java`
 
-The repository has over `1860` unit tests.
+The repository has over `1920` unit tests.

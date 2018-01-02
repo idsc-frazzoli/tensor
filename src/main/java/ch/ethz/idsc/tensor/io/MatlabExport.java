@@ -34,7 +34,7 @@ public enum MatlabExport {
   /** @param tensor with array structure
    * @param function that maps a {@link Scalar} in the given tensor to a string expression
    * @return lines of MATLAB function that returns tensor
-   * @see ArrayQ */
+   * @throws Exception if given tensor does not satisfy {@link ArrayQ} */
   public static Stream<String> of(Tensor tensor, Function<Scalar, String> function) {
     ArrayQ.elseThrow(tensor);
     List<String> list = new LinkedList<>();
@@ -65,8 +65,10 @@ public enum MatlabExport {
   /** Hint: when exporting the strings to a file use {@link Export}
    * and specify a file with extension "m"
    * 
-   * @param tensor must not be {@link Scalar}. For scalars, use Tensors.of(scalar);
-   * @return lines of MATLAB function that returns tensor */
+   * @param tensor with array structure
+   * @return lines of MATLAB function that returns tensor
+   * @throws Exception if given tensor does not satisfy {@link ArrayQ}
+   * @see Export */
   public static Stream<String> of(Tensor tensor) {
     return of(tensor, Object::toString);
   }

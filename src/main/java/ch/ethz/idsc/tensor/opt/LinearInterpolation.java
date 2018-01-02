@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.opt;
 
 import java.util.List;
-import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -22,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.Increment;
  * 
  * <p>Remark: for scalar inverse linear interpolation use {@link Clip#rescale(Scalar)} */
 public class LinearInterpolation extends AbstractInterpolation {
-  /** @param tensor
+  /** @param tensor not instance of {@link Scalar}
    * @return
    * @throws Exception if tensor == null */
   public static Interpolation of(Tensor tensor) {
@@ -33,9 +32,7 @@ public class LinearInterpolation extends AbstractInterpolation {
   private final Tensor tensor;
 
   private LinearInterpolation(Tensor tensor) {
-    if (Objects.isNull(tensor))
-      throw new NullPointerException();
-    this.tensor = Unprotect.references(tensor); // <- for faster block extraction
+    this.tensor = Unprotect.references(tensor); // <- for fast block extraction
   }
 
   @Override // from AbstractInterpolation

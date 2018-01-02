@@ -163,4 +163,18 @@ public class QuantityTest extends TestCase {
     assertTrue(tensor.Get(1, 0) instanceof Quantity);
     assertTrue(tensor.Get(1, 1) instanceof RealScalar);
   }
+  // public void testNullFail() {
+  // try {
+  // Quantity.of((Scalar) null, Unit.of("s"));
+  // assertTrue(false);
+  // } catch (Exception exception) {
+  // // ---
+  // }
+  // try {
+  // Quantity.of(RealScalar.ZERO, (Unit) null);
+  // assertTrue(false);
+  // } catch (Exception exception) {
+  // // ---
+  // }
+  // }
 }

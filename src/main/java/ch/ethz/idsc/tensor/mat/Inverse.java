@@ -7,32 +7,17 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Inverse.html">Inverse</a> */
 public enum Inverse {
   ;
-  /** @param m square matrix
-   * @return inverse of m */
-  public static Tensor of(Tensor m) {
-    return of(m, IdentityMatrix.of(m.length()));
+  /** @param matrix with square dimensions
+   * @return inverse of given matrix */
+  public static Tensor of(Tensor matrix) {
+    return LinearSolve.of(matrix, IdentityMatrix.of(matrix.length()));
   }
 
-  /** @param m square matrix
-   * @return inverse of m */
-  public static Tensor of(Tensor m, Tensor identity) {
-    return LinearSolve.of(m, identity);
-  }
-
-  /** doesn't require Scalar::abs
+  /** function doesn't invoke Scalar::abs but pivots at the first non-zero column entry
    * 
-   * @param m
+   * @param matrix with square dimensions
    * @return */
-  public static Tensor withoutAbs(Tensor m) {
-    return withoutAbs(m, IdentityMatrix.of(m.length()));
-  }
-
-  /** doesn't require Scalar::abs
-   *
-   * @param m
-   * @param identity
-   * @return inverse of m with respect to identity */
-  public static Tensor withoutAbs(Tensor m, Tensor identity) {
-    return LinearSolve.withoutAbs(m, identity);
+  public static Tensor withoutAbs(Tensor matrix) {
+    return LinearSolve.withoutAbs(matrix, IdentityMatrix.of(matrix.length()));
   }
 }

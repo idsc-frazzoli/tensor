@@ -74,10 +74,11 @@ public class FloorTest extends TestCase {
 
   public void testMultiple() {
     Scalar w = Quantity.of(2, "K");
-    assertEquals(Floor.toMultipleOf(w).apply(Quantity.of(3.9, "K")), w);
-    assertEquals(Floor.toMultipleOf(w).apply(Quantity.of(-2, "K")), w.negate());
-    assertEquals(Floor.toMultipleOf(w).apply(Quantity.of(-2.1, "K")), w.multiply(RealScalar.of(-2)));
-    assertEquals(Floor.toMultipleOf(w).apply(Quantity.of(-3.9, "K")), w.multiply(RealScalar.of(-2)));
+    ScalarUnaryOperator suo = Floor.toMultipleOf(w);
+    assertEquals(suo.apply(Quantity.of(3.9, "K")), w);
+    assertEquals(suo.apply(Quantity.of(-2, "K")), w.negate());
+    assertEquals(suo.apply(Quantity.of(-2.1, "K")), w.multiply(RealScalar.of(-2)));
+    assertEquals(suo.apply(Quantity.of(-3.9, "K")), w.multiply(RealScalar.of(-2)));
   }
 
   public void testFailInf() {

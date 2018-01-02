@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.ArgInterface;
@@ -35,6 +37,8 @@ public interface ComplexScalar extends Scalar, //
       throw TensorRuntimeException.of(re, im);
     if (re instanceof Quantity || im instanceof Quantity)
       throw TensorRuntimeException.of(re, im);
+    if (Objects.isNull(re))
+      throw new NullPointerException();
     return ComplexScalarImpl.of(re, im);
   }
 

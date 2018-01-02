@@ -17,6 +17,8 @@ public enum Median {
     return ofSorted(Sort.of(tensor));
   }
 
+  /** @param sorted vector either ascending or descending
+   * @return entry in the center if length is odd, otherwise the average of the two center entries */
   public static Tensor ofSorted(Tensor sorted) {
     int length = sorted.length();
     int index = length / 2;

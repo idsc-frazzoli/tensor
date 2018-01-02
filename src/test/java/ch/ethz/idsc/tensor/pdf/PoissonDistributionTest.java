@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.NavigableMap;
+
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -71,9 +73,17 @@ public class PoissonDistributionTest extends TestCase {
   }
 
   public void testInverseCDFOne() {
-    InverseCDF inv = InverseCDF.of(PoissonDistribution.of(RealScalar.of(5.5)));
-    assertTrue(Clip.function(30, 40).isInside(inv.quantile(RealScalar.of(1.0))));
-    assertTrue(Clip.function(30, 40).isInside(inv.quantile(RealScalar.ONE)));
+    Distribution distribution = PoissonDistribution.of(RealScalar.of(5.5));
+    EvaluatedDiscreteDistribution edd = (EvaluatedDiscreteDistribution) distribution;
+    NavigableMap<Scalar, Scalar> navigableMap = edd.inverse_cdf();
+    assertTrue(34 < navigableMap.size());
+    assertTrue(navigableMap.size() < 38);
+    // navigableMap.forEach((k, v) -> System.out.println(k + " " + v));
+    InverseCDF inv = InverseCDF.of(distribution);
+    // System.out.println(inv.quantile(RealScalar.of(0.9999999999999985)));
+    assertTrue(Clip.function(24, 26).isInside(inv.quantile(RealScalar.of(0.9999999989237532))));
+    assertTrue(Clip.function(32, 34).isInside(inv.quantile(RealScalar.of(0.9999999999999985))));
+    assertTrue(Clip.function(1900, 2000).isInside(inv.quantile(RealScalar.ONE)));
   }
 
   public void testToString() {

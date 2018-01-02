@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -37,18 +38,41 @@ public class InverseTest extends TestCase {
     assertEquals(A.dot(x), b);
     Tensor id = IdentityMatrix.of(n, GaussScalar.of(1, p));
     {
-      Tensor Ai = Inverse.withoutAbs(A, id);
+      Tensor Ai = LinearSolve.withoutAbs(A, id);
       assertEquals(A.dot(Ai), id);
       assertEquals(Ai.dot(A), id);
     }
     {
-      Tensor Ai = Inverse.of(A, id);
+      Tensor Ai = LinearSolve.of(A, id);
       assertEquals(A.dot(Ai), id);
       assertEquals(Ai.dot(A), id);
     }
   }
 
-  public void testFail() {
+  public void testGeneralIdentity() {
+    Tensor A = HilbertMatrix.of(3, 3);
+    Tensor b = UnitVector.of(3, 1);
+    Tensor x = LinearSolve.of(A, b);
+    assertEquals(A.dot(x), b);
+    assertEquals(Inverse.of(A).dot(b), x);
+  }
+
+  public void testFailNonSquare() {
+    try {
+      Inverse.of(HilbertMatrix.of(3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Inverse.of(HilbertMatrix.of(4, 3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailRank3() {
     try {
       Inverse.of(LieAlgebras.sl3());
       assertTrue(false);
