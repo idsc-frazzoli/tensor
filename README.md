@@ -4,7 +4,7 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.4.6`
+Version `0.4.7`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -278,7 +278,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.4.6</version>
+        <version>0.4.7</version>
       </dependency>
     </dependencies>
 
@@ -286,7 +286,7 @@ The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.6/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.7/*
 
 ## Optional
 
