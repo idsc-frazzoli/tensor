@@ -59,7 +59,7 @@ public enum Import {
    * @throws ClassNotFoundException
    * @throws DataFormatException
    * @throws IOException */
-  public static <T extends Serializable> T object(File file) //
+  public static <T> T object(File file) //
       throws ClassNotFoundException, DataFormatException, IOException {
     return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
   }

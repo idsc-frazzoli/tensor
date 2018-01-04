@@ -9,6 +9,7 @@ import java.util.zip.DataFormatException;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.utl.UserHome;
 import junit.framework.TestCase;
 
 public class ImportTest extends TestCase {
@@ -46,5 +47,14 @@ public class ImportTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testTensor() throws Exception {
+    File file = UserHome.file("asdfghjk.tensortest");
+    assertFalse(file.exists());
+    Export.object(file, Tensors.vector(1, 2, 3, 4));
+    Tensor vector = Import.object(file);
+    assertEquals(vector, Tensors.vector(1, 2, 3, 4));
+    file.delete();
   }
 }

@@ -21,9 +21,9 @@ import java.util.zip.DataFormatException;
 public enum ObjectFormat {
   ;
   /** @param object
-   * @return deflated serialization of object as bytes
+   * @return deflated serialization of object as byte array
    * @throws IOException */
-  public static <T extends Serializable> byte[] of(T object) throws IOException {
+  public static byte[] of(Object object) throws IOException {
     return Compression.deflate(Serialization.of(object));
   }
 
@@ -32,7 +32,7 @@ public enum ObjectFormat {
    * @throws ClassNotFoundException
    * @throws DataFormatException
    * @throws IOException */
-  public static <T extends Serializable> T parse(byte[] bytes) //
+  public static <T> T parse(byte[] bytes) //
       throws ClassNotFoundException, DataFormatException, IOException {
     return Serialization.parse(Compression.inflate(bytes));
   }
