@@ -39,9 +39,7 @@ public class QuantityMagnitude {
    * 
    * @param unitSystem */
   public QuantityMagnitude(UnitSystem unitSystem) {
-    if (Objects.isNull(unitSystem))
-      throw new NullPointerException();
-    this.unitSystem = unitSystem;
+    this.unitSystem = Objects.requireNonNull(unitSystem);
   }
 
   /** Example:

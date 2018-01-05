@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class QuantityCompareTest extends TestCase {
-  private void _checkEquals(Scalar s1, Scalar s2, boolean actual) {
+  private static void _checkEquals(Scalar s1, Scalar s2, boolean actual) {
     assertEquals(s1.equals(s2), s2.equals(s1));
     assertEquals(s1.equals(s2), actual);
   }
@@ -71,7 +71,7 @@ public class QuantityCompareTest extends TestCase {
     assertFalse(_isNonNegative(Quantity.of(-3, "m")));
   }
 
-  private void _checkCompareTo(Scalar s1, Scalar s2, int value) {
+  private static void _checkCompareTo(Scalar s1, Scalar s2, int value) {
     int res1 = +Scalars.compare(s1, s2);
     int res2 = -Scalars.compare(s2, s1);
     assertEquals(res1, res2);

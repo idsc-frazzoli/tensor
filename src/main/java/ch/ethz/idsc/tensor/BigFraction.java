@@ -97,17 +97,16 @@ import java.util.Objects;
     return den;
   }
 
+  /** @param bigFraction non-null
+   * @return */
+  boolean _equals(BigFraction bigFraction) {
+    return num.equals(bigFraction.num) && den.equals(bigFraction.den); // sufficient since in normal form
+  }
+
+  /***************************************************/
   @Override // from Object
   public int hashCode() {
     return Objects.hash(num, den);
   }
-
-  @Override // from Object
-  public boolean equals(Object object) {
-    if (object instanceof BigFraction) {
-      BigFraction bigFraction = (BigFraction) object;
-      return num.equals(bigFraction.num) && den.equals(bigFraction.den); // sufficient since in normal form
-    }
-    return false;
-  }
+  // intentional: no override of Object::equals
 }

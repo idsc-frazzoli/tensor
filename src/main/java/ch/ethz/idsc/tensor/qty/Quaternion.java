@@ -5,9 +5,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
-import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** Important: not all algorithms are tested for {@link Quaternion} input.
@@ -22,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * <a href="https://reference.wolfram.com/language/ref/Quaternion.html">Quaternion</a> */
 // EXPERIMENTAL
 public interface Quaternion extends Scalar, //
-    ChopInterface, ConjugateInterface, NInterface, SqrtInterface {
+    ConjugateInterface, SqrtInterface {
   /** @param re
    * @param im
    * @param jm

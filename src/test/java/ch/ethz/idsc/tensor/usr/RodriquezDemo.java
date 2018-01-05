@@ -26,13 +26,14 @@ enum RodriquezDemo {
   }
 
   public static void main(String[] args) throws Exception {
-    AnimationWriter ani = AnimationWriter.of(UserHome.Pictures("rodriquez.gif"), 100);
-    for (Tensor _z : Subdivide.of(-4 * Math.PI, 4 * Math.PI, 40)) {
-      System.out.println(_z);
-      Z = _z.Get();
-      Tensor matrix = Parallelize.matrix(RodriquezDemo::function, RES, RES);
-      ani.append(ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
+    try (AnimationWriter ani = AnimationWriter.of(UserHome.Pictures("rodriquez.gif"), 100)) {
+      for (Tensor _z : Subdivide.of(-4 * Math.PI, 4 * Math.PI, 40)) {
+        System.out.println(_z);
+        Z = _z.Get();
+        Tensor matrix = Parallelize.matrix(RodriquezDemo::function, RES, RES);
+        ani.append(ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
+      }
+      ani.close();
     }
-    ani.close();
   }
 }

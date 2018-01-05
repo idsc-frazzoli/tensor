@@ -51,7 +51,7 @@ public class TransposeTest extends TestCase {
     }
   }
 
-  private Tensor _checkBoth(Tensor tensor, Integer... sigma) {
+  private static Tensor _checkBoth(Tensor tensor, Integer... sigma) {
     Tensor t1 = Transpose.of(tensor, sigma);
     Tensor t2 = Transpose.nonArray(tensor, sigma);
     assertEquals(t1, t2);
