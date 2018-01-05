@@ -15,13 +15,11 @@ public class AnimatedGifWriterTest extends TestCase {
     try (AnimatedGifWriter agw = AnimatedGifWriter.of(file, 100)) {
       agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
       agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
-      agw.close();
     }
     assertTrue(file.isFile());
-    try (AnimatedGifWriter agw = AnimatedGifWriter.of(file, 100)) {
+    try (AnimatedGifWriter agw = AnimatedGifWriter.of(file, 120)) {
       agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
       agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
-      agw.close();
     }
     file.delete();
   }
@@ -32,7 +30,6 @@ public class AnimatedGifWriterTest extends TestCase {
     try (AnimatedGifWriter agw = AnimatedGifWriter.of(file, 100)) {
       agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
       agw.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
-      agw.close();
     }
     file.delete();
   }
@@ -41,8 +38,9 @@ public class AnimatedGifWriterTest extends TestCase {
     File file = UserHome.file("tensorLib_AnimatedGifWriterTest.gif");
     assertFalse(file.isFile());
     try (AnimatedGifWriter agw = AnimatedGifWriter.of(file, 100)) {
-      agw.close();
+      // ---
     }
+    assertTrue(file.isFile());
     file.delete();
   }
 }

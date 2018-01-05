@@ -21,8 +21,6 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** inspired by Mathematica's documentation of DensityPlot */
 class InverseTrigDemo {
-  ;
-  // ---
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int EXPONENT = 3;
   private static final Tensor RE = Subdivide.of(-2.0, +2.0, RES - 1);

@@ -19,7 +19,7 @@ enum ConvexHullDemo {
       System.out.println(Tensor.of(deque.stream()));
     }
     {
-      Deque<Tensor> deque = new ArrayDeque<Tensor>();
+      Deque<Tensor> deque = new ArrayDeque<>();
       deque.push(Tensors.vector(0, 0));
       deque.push(Tensors.vector(1, 0));
       deque.push(Tensors.vector(1, 1));

@@ -14,7 +14,6 @@ public class AnimationWriterTest extends TestCase {
     try (AnimationWriter agw = AnimationWriter.of(file, 100)) {
       agw.append(Array.zeros(3, 4));
       agw.append(Array.zeros(3, 4));
-      agw.close();
     }
     file.delete();
   }

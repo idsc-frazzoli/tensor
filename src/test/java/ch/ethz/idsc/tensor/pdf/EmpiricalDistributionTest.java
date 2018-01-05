@@ -80,8 +80,8 @@ public class EmpiricalDistributionTest extends TestCase {
   }
 
   public void testVariance() {
-    Distribution distribution = (AbstractDiscreteDistribution) //
-    EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
+    Distribution distribution = //
+        EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
     assertEquals(Expectation.variance(distribution), RealScalar.ONE);
   }
 
