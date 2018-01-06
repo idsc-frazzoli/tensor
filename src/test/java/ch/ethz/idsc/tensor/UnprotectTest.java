@@ -59,4 +59,13 @@ public class UnprotectTest extends TestCase {
       // ---
     }
   }
+
+  public void testReferencesNull() {
+    try {
+      Unprotect.references(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
