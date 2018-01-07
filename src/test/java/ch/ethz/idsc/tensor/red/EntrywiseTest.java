@@ -18,30 +18,43 @@ public class EntrywiseTest extends TestCase {
     assertEquals(result, Tensors.vector(3, 4, 4));
   }
 
+  public void testHelpOf() {
+    assertEquals(Entrywise.with(Max::of).of(Tensors.vector(1, 2, 3), Tensors.vector(5, 0, 4)), Tensors.vector(5, 2, 4));
+    assertEquals(Entrywise.with(Min::of).of(Tensors.vector(1, 2, 3), Tensors.vector(5, 0, 4)), Tensors.vector(1, 0, 3));
+  }
+
+  public void testStreamReduce() {
+    Tensor box = Tensors.fromString("{{0, 7}, {0, 8}, {1, 8}, {1, 7}}");
+    Tensor max = box.stream().reduce(Entrywise.max()).get();
+    Tensor min = box.stream().reduce(Entrywise.min()).get();
+    assertEquals(max, Tensors.vector(1, 8));
+    assertEquals(min, Tensors.vector(0, 7));
+  }
+
   public void testMaxSimple() {
     Entrywise entrywise = Entrywise.max();
-    Tensor result = entrywise.of( //
+    Tensor result = entrywise.apply( //
         Tensors.vector(3, 2, 3), Tensors.vector(-2, 1, 4));
     assertEquals(result, Tensors.vector(3, 2, 4));
   }
 
   public void testMinSimple() {
     Entrywise entrywise = Entrywise.min();
-    Tensor result = entrywise.of( //
+    Tensor result = entrywise.apply( //
         Tensors.vector(3, 2, 3), Tensors.vector(-2, 1, 4));
     assertEquals(result, Tensors.vector(-2, 1, 3));
   }
 
   public void testMaxScalar() {
     Entrywise entrywise = Entrywise.max();
-    Tensor result = entrywise.of( //
+    Tensor result = entrywise.apply( //
         RealScalar.of(3), RealScalar.of(5));
     assertEquals(result, RealScalar.of(5));
   }
 
   public void testMinScalar() {
     Entrywise entrywise = Entrywise.min();
-    Tensor result = entrywise.of( //
+    Tensor result = entrywise.apply( //
         RealScalar.of(3), RealScalar.of(5));
     assertEquals(result, RealScalar.of(3));
   }
@@ -86,7 +99,7 @@ public class EntrywiseTest extends TestCase {
   public void testFail() {
     Entrywise entrywise = Entrywise.max();
     try {
-      entrywise.of(Tensors.vector(3, 2, 3), Tensors.vector(-2, 1));
+      entrywise.apply(Tensors.vector(3, 2, 3), Tensors.vector(-2, 1));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -96,13 +109,13 @@ public class EntrywiseTest extends TestCase {
   public void testScalarTensorFail() {
     Entrywise entrywise = Entrywise.max();
     try {
-      entrywise.of(Tensors.vector(3, 2, 3), RealScalar.ONE);
+      entrywise.apply(Tensors.vector(3, 2, 3), RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      entrywise.of(RealScalar.ONE, Tensors.vector(3, 2, 3));
+      entrywise.apply(RealScalar.ONE, Tensors.vector(3, 2, 3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

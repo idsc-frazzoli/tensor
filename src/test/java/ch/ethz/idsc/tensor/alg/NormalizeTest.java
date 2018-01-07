@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -20,9 +22,8 @@ import junit.framework.TestCase;
 public class NormalizeTest extends TestCase {
   // function requires that vector != 0
   private static void _checkNormalize(Tensor vector, Norm norm) {
-    Scalar n = norm.of(Normalize.of(vector, norm));
-    // System.out.println(n);
-    assertTrue(Chop._13.close(n, RealScalar.ONE));
+    Scalar value = norm.of(Normalize.of(vector, norm));
+    assertTrue(Chop._13.close(value, RealScalar.ONE));
     assertTrue(Chop._13.close(norm.of(Normalize.unlessZero(vector, norm)), RealScalar.ONE));
   }
 
@@ -41,9 +42,23 @@ public class NormalizeTest extends TestCase {
   }
 
   public void testVector2() {
-    Distribution d = NormalDistribution.standard();
-    _checkNormalizeAllNorms(RandomVariate.of(d, 1000));
-    _checkNormalizeAllNorms(RandomVariate.of(d, 50000));
+    Distribution distribution = NormalDistribution.standard();
+    _checkNormalizeAllNorms(RandomVariate.of(distribution, 1000));
+    _checkNormalizeAllNorms(RandomVariate.of(distribution, 50000));
+  }
+
+  public void testNorm1Documentation() {
+    Tensor vector = Tensors.vector(2, -3, 1);
+    Tensor result = Normalize.of(vector, Norm._1);
+    assertEquals(result, Tensors.fromString("{1/3, -1/2, 1/6}"));
+    assertTrue(ExactScalarQ.all(result));
+  }
+
+  public void testNormInfinityDocumentation() {
+    Tensor vector = Tensors.vector(2, -3, 1);
+    Tensor result = Normalize.of(vector, Norm.INFINITY);
+    assertEquals(result, Tensors.fromString("{2/3, -1, 1/3}"));
+    assertTrue(ExactScalarQ.all(result));
   }
 
   public void testEmpty() {
@@ -85,10 +100,52 @@ public class NormalizeTest extends TestCase {
     _checkNormalizeAllNorms(v);
   }
 
+  public void testNormalizeInfinity() {
+    try {
+      Tensor vector = Tensors.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE);
+      Normalize.of(vector);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Tensor vector = Tensors.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE);
+      Normalize.unlessZero(vector);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Tensor vector = Tensors.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ONE, DoubleScalar.POSITIVE_INFINITY);
+      Normalize.of(vector);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNormalizeNaN() {
+    try {
+      Tensor vector = Tensors.of(RealScalar.ONE, DoubleScalar.INDETERMINATE, RealScalar.ONE);
+      Normalize.of(vector);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Tensor vector = Tensors.of(RealScalar.ONE, DoubleScalar.INDETERMINATE, RealScalar.ONE);
+      Normalize.unlessZero(vector);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testNormInf() {
     Tensor d = Tensors.vector(1, 1, 1).multiply(RealScalar.of(2));
     Tensor n = Normalize.of(d, Norm.INFINITY);
     assertEquals(n, Tensors.vector(1, 1, 1));
+    assertTrue(ExactScalarQ.all(n));
     _checkNormalizeAllNorms(d);
     _checkNormalizeAllNorms(n);
   }

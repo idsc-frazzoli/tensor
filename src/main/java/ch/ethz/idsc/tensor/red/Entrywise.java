@@ -13,13 +13,18 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** Entrywise applies a BinaryOperator<Scalar> across multiple tensors.
  * The tensors are required to have the same dimensions/structure.
  * 
+ * <p>Example:
+ * <pre>
+ * Tensor box = {{0,7}, {0,8}, {1,8}, {1,7}};
+ * box.stream().reduce(Entrywise.max()).get() == {1, 8}
+ * box.stream().reduce(Entrywise.min()).get() == {0, 7}
+ * </pre>
+ * 
  * <p>Entrywise reproduces existing functionality:
  * <pre>
  * Entrywise.with(Scalar::add).of(a, b, c) == a.add(b).add(c)
  * Entrywise.with(Scalar::multiply).of(a, b, c) == a.pmul(b).pmul(c)
- * </pre>
- * 
- * <p>Typical examples that are pointwise maximum, or pointwise minimum. */
+ * </pre> */
 public class Entrywise implements BinaryOperator<Tensor> {
   private static final Entrywise MAX = Entrywise.with(Max::of);
   private static final Entrywise MIN = Entrywise.with(Min::of);
@@ -58,6 +63,14 @@ public class Entrywise implements BinaryOperator<Tensor> {
         .mapToObj(index -> apply(a.get(index), b.get(index))));
   }
 
+  /** Example:
+   * <pre>
+   * Entrywise.with(Max::of).of({1, 2, 3}, {5, 0, 4}) == {5, 2, 4}
+   * Entrywise.with(Max::of).of({1, 2, 3}, {5, 0, 4}) == {1, 0, 3}
+   * </pre>
+   * 
+   * @param tensors with identical dimensions/structure
+   * @return */
   public Tensor of(Tensor... tensors) {
     return 1 == tensors.length //
         ? tensors[0].copy()

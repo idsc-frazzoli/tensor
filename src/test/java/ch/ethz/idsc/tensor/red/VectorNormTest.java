@@ -8,6 +8,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -29,6 +32,15 @@ public class VectorNormTest extends TestCase {
     VectorNormInterface vni = VectorNorm.with(2.6);
     Tensor nrm = Normalize.of(Tensors.vector(1, 2, 3), vni);
     assertTrue(Chop._15.close(vni.ofVector(nrm), RealScalar.ONE));
+  }
+
+  public void testNormalize2() {
+    Distribution distribution = NormalDistribution.standard();
+    VectorNormInterface vni = VectorNorm.with(3.4);
+    Tensor vector = RandomVariate.of(distribution, 1000);
+    Tensor result = Normalize.of(vector, vni);
+    Scalar norm = vni.ofVector(result);
+    assertTrue(Chop._15.close(norm, RealScalar.ONE));
   }
 
   public void testQuantity1() {

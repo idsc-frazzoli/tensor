@@ -256,7 +256,7 @@ gives
 
 An overview of pre-defined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/31055704-418756c0-a6c7-11e7-8ec9-1ef1882fbb7f.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/34641669-d0009b50-f307-11e7-8572-1e423fd4ab22.png)
 
 
 ## Include in your project
@@ -310,4 +310,4 @@ The library is used in the projects:
 * `retina`
 * `lcm-java`
 
-The repository has over `1930` unit tests.
+The repository has over `1940` unit tests.

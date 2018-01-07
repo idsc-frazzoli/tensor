@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 public enum Hypot implements BinaryOperator<Scalar> {
   BIFUNCTION;
   // ---
-  @Override
+  @Override // from BinaryOperator
   public Scalar apply(Scalar a, Scalar b) {
     Scalar ax = a.abs();
     Scalar ay = b.abs();
