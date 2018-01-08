@@ -11,10 +11,10 @@ public class AnimationWriterTest extends TestCase {
   public void testColor() throws Exception {
     File file = UserHome.file("tensorLib_AnimatedGifWriterTest.gif");
     assertFalse(file.isFile());
-    AnimationWriter agw = AnimationWriter.of(file, 100);
-    agw.append(Array.zeros(3, 4));
-    agw.append(Array.zeros(3, 4));
-    agw.close();
+    try (AnimationWriter agw = AnimationWriter.of(file, 100)) {
+      agw.append(Array.zeros(3, 4));
+      agw.append(Array.zeros(3, 4));
+    }
     file.delete();
   }
 

@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
 
 public class QuantityAdditiveTest extends TestCase {
-  private void _checkPlusSymmetry(Scalar s1, Scalar s2) {
+  private static void _checkPlusSymmetry(Scalar s1, Scalar s2) {
     Scalar r1 = s1.add(s2);
     Scalar r2 = s2.add(s1);
     assertEquals(r1.toString(), r2.toString());

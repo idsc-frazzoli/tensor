@@ -23,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
         .reduce(Max::of).get();
   }
 
-  /* package */ Scalar ofStream(Stream<Tensor> stream) {
+  /* package */ static Scalar ofStream(Stream<Tensor> stream) {
     return stream //
         .map(Scalar.class::cast) //
         .map(Scalar::abs) //

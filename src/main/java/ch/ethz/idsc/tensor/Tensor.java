@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -30,7 +29,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * 
  * <p>Example of a tensor with regular array structure:
  * <code>{{1, 2, 3}, {4, 5, 6}}</code> */
-public interface Tensor extends Iterable<Tensor>, Serializable {
+public interface Tensor extends Iterable<Tensor> {
   /** constant ALL is used in the function
    * <ul>
    * <li>{@link #get(Integer...)} to extract <em>all</em> elements from the respective dimension.

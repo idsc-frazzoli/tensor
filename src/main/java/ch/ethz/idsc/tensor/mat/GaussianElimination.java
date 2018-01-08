@@ -98,7 +98,7 @@ import ch.ethz.idsc.tensor.Unprotect;
 
   /** @return lhs */
   Tensor lhs() {
-    return Tensor.of(IntStream.range(0, lhs.length()).map(i -> ind[i]).mapToObj(lhs::get));
+    return Tensor.of(IntStream.of(ind).mapToObj(lhs::get));
   }
 
   /** @return determinant */

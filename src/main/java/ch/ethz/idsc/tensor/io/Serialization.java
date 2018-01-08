@@ -18,7 +18,7 @@ public enum Serialization {
    * @param object
    * @return serialization of object
    * @throws IOException */
-  public static <T extends Serializable> byte[] of(T object) throws IOException {
+  public static byte[] of(Object object) throws IOException {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
       objectOutputStream.writeObject(object);
@@ -38,7 +38,7 @@ public enum Serialization {
    * @throws ClassNotFoundException
    * @throws IOException */
   @SuppressWarnings("unchecked")
-  public static <T extends Serializable> T parse(byte[] bytes) //
+  public static <T> T parse(byte[] bytes) //
       throws ClassNotFoundException, IOException {
     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
     try (ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
@@ -52,7 +52,7 @@ public enum Serialization {
    * @return new instance of T with identical content as given object
    * @throws ClassNotFoundException
    * @throws IOException */
-  public static <T extends Serializable> T copy(T object) //
+  public static <T> T copy(T object) //
       throws ClassNotFoundException, IOException {
     return parse(of(object));
   }

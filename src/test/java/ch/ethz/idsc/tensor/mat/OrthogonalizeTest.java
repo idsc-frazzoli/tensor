@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.red.VectorAngle;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class OrthogonalizeTest extends TestCase {
@@ -39,10 +40,13 @@ public class OrthogonalizeTest extends TestCase {
     assertFalse(OrthogonalMatrixQ.of(matrix));
     _check(matrix);
     Tensor q = Orthogonalize.of(matrix);
+    // System.out.println(q);
     // System.out.println(q.get(0));
     // System.out.println(v0);
-    assertTrue(Scalars.isZero(VectorAngle.of(q.get(0), v0).get()));
-    assertTrue(Scalars.isZero(VectorAngle.of(q.get(1), v1).get()));
+    Scalar angle1 = VectorAngle.of(q.get(0), v0).get();
+    Scalar angle2 = VectorAngle.of(q.get(1), v1).get();
+    assertTrue(Chop._07.allZero(angle1));
+    assertTrue(Scalars.isZero(angle2));
   }
 
   public void testRandom() {

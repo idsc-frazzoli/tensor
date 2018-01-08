@@ -14,7 +14,7 @@ public enum MeanDeviation {
    * @throws Exception if input is not a vector, or is empty */
   public static Scalar ofVector(Tensor vector) {
     Tensor mean = Mean.of(vector);
-    return Norm1.INSTANCE.ofStream(vector.stream().map(scalar -> scalar.subtract(mean))) //
+    return Norm1.ofStream(vector.stream().map(scalar -> scalar.subtract(mean))) //
         .divide(RationalScalar.of(vector.length(), 1));
   }
 }

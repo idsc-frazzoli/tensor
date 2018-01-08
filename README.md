@@ -4,7 +4,7 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.4.6`
+Version `0.4.7`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -256,7 +256,7 @@ gives
 
 An overview of pre-defined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/31055704-418756c0-a6c7-11e7-8ec9-1ef1882fbb7f.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/34641669-d0009b50-f307-11e7-8572-1e423fd4ab22.png)
 
 
 ## Include in your project
@@ -278,7 +278,7 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.4.6</version>
+        <version>0.4.7</version>
       </dependency>
     </dependencies>
 
@@ -286,7 +286,7 @@ The source code is attached to every release.
 
 *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.6/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.7/*
 
 ## Optional
 
@@ -310,4 +310,4 @@ The library is used in the projects:
 * `retina`
 * `lcm-java`
 
-The repository has over `1920` unit tests.
+The repository has over `1940` unit tests.

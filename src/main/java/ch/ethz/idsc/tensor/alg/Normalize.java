@@ -3,44 +3,53 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.VectorNormInterface;
-import ch.ethz.idsc.tensor.sca.Chop;
 
-/** norms of resulting vectors may deviate from 1 numerically.
- * Observed deviations are
+/** Example:
  * <pre>
- * 0.9999999999999998
- * 1.0000000000000004
- * 1.0000000000000009
+ * Normalize.of({2, -3, 1}, Norm._1) == {1/3, -1/2, 1/6}
+ * Normalize.of({2, -3, 1}, Norm.INFINITY) == {2/3, -1, 1/3}
  * </pre>
  * 
  * <p>Normalize also works for tensors with entries of type Quantity.
  * The computation is consistent with Mathematica:
  * Normalize[{Quantity[3, "Meters"], Quantity[4, "Meters"]}] == {3/5, 4/5}
  * 
+ * <p>For {@link Norm#INFINITY} the norm of the normalized vector evaluates
+ * to the exact value 1.0.
+ * In general, the norms of resulting vectors may deviate from 1.0 numerically.
+ * The deviations depend on the type of norm.
+ * Tests for vectors with 1000 normal distributed random entries exhibit
+ * <pre>
+ * {@link Norm#_1} min = 0.9999999999999987; max = 1.0000000000000018
+ * {@link Norm#_2} min = 0.9999999999999996; max = 1.0000000000000004
+ * </pre>
+ * 
+ * <p>The implementation divides a given vector by the norm until the
+ * iteration stops improving. The implementation is parameter free.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Normalize.html">Normalize</a> */
 public enum Normalize {
   ;
-  private static final Chop PRECISION = Chop._15; // magic const
-  /** in the tests the maximum iteration count == 2 */
-  private static final int MAX_ITERATIONS = 5;
-
   /** @param vector
    * @return normalized form of vector with respect to 2-norm
-   * @throws Exception if input is not a vector */
+   * @throws Exception if input is not a vector
+   * @throws Exception if vector contains Infinity, or NaN */
   public static Tensor of(Tensor vector) {
     return of(vector, Norm._2);
   }
 
   /** @param vector
    * @return normalized vector with respect to 2-norm, or copy of vector if norm evaluates to 0
-   * @throws Exception if input is not a vector */
+   * @throws Exception if input is not a vector
+   * @throws Exception if vector contains Infinity, or NaN */
   public static Tensor unlessZero(Tensor vector) {
     return unlessZero(vector, Norm._2);
   }
@@ -49,7 +58,8 @@ public enum Normalize {
    * @param function
    * @return result = vector*scale with positive scale such that
    * VectorNorm(result) == 1 (or numerically close to 1)
-   * @throws Exception if input is not a vector */
+   * @throws Exception if input is not a vector
+   * @throws Exception if vector contains Infinity, or NaN */
   public static Tensor of(Tensor vector, VectorNormInterface vectorNormInterface) {
     return _normalize(vector, vectorNormInterface, vectorNormInterface.ofVector(vector));
   }
@@ -57,7 +67,8 @@ public enum Normalize {
   /** @param vector
    * @param function
    * @return copy of vector if function(vector) == 0, else same as {@link #of(Tensor, Function)}
-   * @throws Exception if input is not a vector */
+   * @throws Exception if input is not a vector
+   * @throws Exception if vector contains Infinity, or NaN */
   public static Tensor unlessZero(Tensor vector, VectorNormInterface vectorNormInterface) {
     Scalar norm = vectorNormInterface.ofVector(vector); // throws exception if input is not a vector
     return Scalars.isZero(norm) ? vector.copy() : _normalize(vector, vectorNormInterface, norm);
@@ -65,16 +76,17 @@ public enum Normalize {
 
   // helper function
   private static Tensor _normalize(Tensor vector, VectorNormInterface vectorNormInterface, Scalar norm) {
-    if (norm instanceof RealScalar && PRECISION.close(norm, RealScalar.ONE))
-      return vector.copy();
-    for (int count = 0; count < MAX_ITERATIONS; ++count) {
-      vector = vector.divide(norm);
-      norm = vectorNormInterface.ofVector(vector);
-      if (PRECISION.close(norm, RealScalar.ONE))
-        return vector;
-    }
-    // desired precision not reached, but
-    // result is expected to have norm close to 1
-    return vector; // case not covered by tests
+    vector = vector.divide(norm); // eliminate common Unit if present
+    norm = vectorNormInterface.ofVector(vector); // for verification
+    Scalar error_next = norm.subtract(RealScalar.ONE).abs(); // error
+    Scalar error_prev = DoubleScalar.POSITIVE_INFINITY;
+    if (Scalars.nonZero(error_next))
+      while (Scalars.lessThan(error_next, error_prev)) { // iteration
+        vector = vector.divide(norm);
+        norm = vectorNormInterface.ofVector(vector);
+        error_prev = error_next;
+        error_next = norm.subtract(RealScalar.ONE).abs();
+      }
+    return vector;
   }
 }

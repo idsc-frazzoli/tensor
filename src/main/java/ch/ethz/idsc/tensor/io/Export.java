@@ -52,7 +52,7 @@ public enum Export {
    * @param file
    * @param object implements {@link Serializable}
    * @throws IOException */
-  public static <T extends Serializable> void object(File file, T object) throws IOException {
+  public static void object(File file, Object object) throws IOException {
     Files.write(file.toPath(), ObjectFormat.of(object));
   }
 }

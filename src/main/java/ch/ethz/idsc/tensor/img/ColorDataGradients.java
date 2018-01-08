@@ -29,15 +29,18 @@ public enum ColorDataGradients implements ColorDataFunction {
   /** hsluv is hue with brightness equalized, see hsluv.org */
   HSLUV, // <- cyclic
   SUNSET, //
+  /** [0, 1] corresponds to wavelengths [380, 750] */
+  VISIBLESPECTRUM, //
   RAINBOW, //
   CMYK_REVERSED, //
   TEMPERATURE, // blue to red, has yellow before turning red
   TEMPERATURE_LIGHT, // blue to red, has yellow before turning red
   THERMOMETER, // blue to red, symmetric
+  BROWNCYAN, //
   MINT, // green to red pastel, symmetric
+  PARULA, // matlab default
   PASTEL, //
   BEACH, //
-  PARULA, // matlab default
   SOLAR, //
   GRAYSCALE(GrayscaleColorData.FUNCTION), //
   /** the tensor library is made in Switzerland

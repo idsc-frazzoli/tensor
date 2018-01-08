@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /** reference implementation of the interface Tensor */
-/* package */ class TensorImpl implements Tensor {
+/* package */ class TensorImpl implements Tensor, Serializable {
   /** list is accessed by UnmodifiableTensor, Parallelize, Unprotect */
   /* package */ final List<Tensor> list;
 

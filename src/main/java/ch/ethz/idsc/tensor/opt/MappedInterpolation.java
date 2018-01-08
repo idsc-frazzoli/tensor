@@ -29,9 +29,7 @@ public class MappedInterpolation extends AbstractInterpolation {
   private final TensorUnaryOperator function;
 
   /* package */ MappedInterpolation(Tensor tensor, TensorUnaryOperator function) {
-    if (Objects.isNull(tensor))
-      throw new NullPointerException();
-    this.tensor = tensor;
+    this.tensor = Objects.requireNonNull(tensor);
     this.function = function;
   }
 

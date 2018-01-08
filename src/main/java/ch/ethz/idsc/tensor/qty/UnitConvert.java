@@ -20,9 +20,7 @@ public class UnitConvert {
 
   /** @param unitSystem */
   public UnitConvert(UnitSystem unitSystem) {
-    if (Objects.isNull(unitSystem))
-      throw new NullPointerException();
-    this.unitSystem = unitSystem;
+    this.unitSystem = Objects.requireNonNull(unitSystem);
   }
 
   /** Example:
