@@ -25,7 +25,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <a href="https://reference.wolfram.com/language/ref/Rescale.html">Rescale</a> */
 public enum Rescale {
   ;
-  private static ScalarUnaryOperator FINITE_NUMBER_ZERO = //
+  private static final ScalarUnaryOperator FINITE_NUMBER_ZERO = //
       scalar -> isFiniteNumber(scalar) ? RealScalar.ZERO : scalar;
 
   /** Example:
