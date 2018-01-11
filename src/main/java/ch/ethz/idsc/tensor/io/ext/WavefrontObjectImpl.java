@@ -1,11 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.io.ext;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
-class WavefrontObjectImpl implements WavefrontObject {
+class WavefrontObjectImpl implements WavefrontObject, Serializable {
   private final String string;
   private final Tensor faces = Tensors.empty();
   private final Tensor normals = Tensors.empty();

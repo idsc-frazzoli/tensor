@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Scalar;
@@ -16,7 +15,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/CDF.html">CDF</a> */
-public interface CDF extends Serializable {
+public interface CDF {
   /** @param distribution
    * @return cumulative distribution function */
   static CDF of(Distribution distribution) {

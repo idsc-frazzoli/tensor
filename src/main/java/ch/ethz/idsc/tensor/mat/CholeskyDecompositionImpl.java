@@ -2,6 +2,8 @@
 // adapted from wikipedia - Cholesky decomposition
 package ch.ethz.idsc.tensor.mat;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -9,7 +11,7 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
-/* package */ class CholeskyDecompositionImpl implements CholeskyDecomposition {
+/* package */ class CholeskyDecompositionImpl implements CholeskyDecomposition, Serializable {
   private final Tensor l;
   private final Tensor d;
 

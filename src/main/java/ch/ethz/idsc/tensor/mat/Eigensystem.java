@@ -1,14 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import java.io.Serializable;
-
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Eigensystem.html">Eigensystem</a> */
-public interface Eigensystem extends Serializable {
+public interface Eigensystem {
   /** @param matrix symmetric and real valued
    * @return
    * @throws Exception if input is not a symmetric matrix */

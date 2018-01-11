@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -21,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 /** decomposition Q.R = A with Det[Q] == +1
  * householder with even number of reflections
  * reproduces example on wikipedia */
-/* package */ class QRDecompositionImpl implements QRDecomposition {
+/* package */ class QRDecompositionImpl implements QRDecomposition, Serializable {
   private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final int n;

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
@@ -12,7 +13,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/* package */ class UnitImpl implements Unit {
+/* package */ class UnitImpl implements Unit, Serializable {
   private final NavigableMap<String, Scalar> navigableMap;
 
   UnitImpl(NavigableMap<String, Scalar> navigableMap) {

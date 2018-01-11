@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io.ext;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -9,7 +10,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
-class WavefrontImpl implements Wavefront {
+class WavefrontImpl implements Wavefront, Serializable {
   private final Tensor vertices = Tensors.empty();
   private final Tensor normals = Tensors.empty();
   private final List<WavefrontObject> objects = new ArrayList<>();
