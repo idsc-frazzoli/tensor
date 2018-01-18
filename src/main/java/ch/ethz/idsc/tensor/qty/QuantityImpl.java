@@ -64,7 +64,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /***************************************************/
   @Override // from Scalar
   public Scalar negate() {
-    return of(value.negate(), unit);
+    return ofUnit(value.negate());
   }
 
   @Override // from Scalar
@@ -91,12 +91,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       Quantity quantity = (Quantity) scalar;
       return of(value.under(quantity.value()), unit.negate().add(quantity.unit()));
     }
-    return of(value.under(scalar), unit.negate());
+    return new QuantityImpl(value.under(scalar), unit.negate());
   }
 
   @Override // from Scalar
   public Scalar reciprocal() {
-    return of(value.reciprocal(), unit.negate());
+    return new QuantityImpl(value.reciprocal(), unit.negate());
   }
 
   @Override // from Scalar

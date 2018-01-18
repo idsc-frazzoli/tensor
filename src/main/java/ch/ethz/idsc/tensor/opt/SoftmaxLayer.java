@@ -2,8 +2,8 @@
 package ch.ethz.idsc.tensor.opt;
 
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.alg.Normalize;
+import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Exp;
 
 /** inspired by
@@ -14,9 +14,6 @@ public enum SoftmaxLayer {
    * @return
    * @throws Exception if vector is empty */
   public static Tensor of(Tensor vector) {
-    if (vector.length() == 0)
-      throw TensorRuntimeException.of(vector);
-    Tensor values = Exp.of(vector);
-    return values.divide(Total.of(values).Get());
+    return Normalize.of(Exp.of(vector), Norm._1);
   }
 }

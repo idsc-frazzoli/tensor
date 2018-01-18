@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class ExpTest extends TestCase {
@@ -35,6 +36,10 @@ public class ExpTest extends TestCase {
     // mathematica gives -1.4189653368301074` + 2.3185326117622904` I
     Scalar m = Scalars.fromString("-1.4189653368301074 + 2.3185326117622904 * I");
     assertTrue(Chop._15.close(e, m));
+  }
+
+  public void testEmpty() {
+    assertEquals(Exp.of(Tensors.empty()), Tensors.empty());
   }
 
   public void testFail() {
