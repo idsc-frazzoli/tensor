@@ -7,9 +7,11 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** implicit function f:Tensor -> Scalar
+/** function f that maps a {@link Tensor} to a {@link Scalar}
  * 
- * implicit functions define regions via {x | f(x) < 0 or f(x) > 0} */
+ * Examples:
+ * 1) an implicit function that defines a region as {x | f(x) < 0}
+ * 2) a smooth noise function that maps a vector to a value in the interval [-1, 1] */
 public interface TensorScalarFunction extends Function<Tensor, Scalar>, Serializable {
   // ---
 }

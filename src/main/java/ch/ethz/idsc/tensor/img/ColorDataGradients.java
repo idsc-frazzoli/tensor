@@ -38,15 +38,17 @@ public enum ColorDataGradients implements ColorDataFunction {
   THERMOMETER, // blue to red, symmetric
   BROWNCYAN, //
   MINT, // green to red pastel, symmetric
-  PARULA, // matlab default
   PASTEL, //
   BEACH, //
+  PARULA, // matlab default
+  DENSITY, // mathematica default
   SOLAR, //
   GRAYSCALE(GrayscaleColorData.FUNCTION), //
+  COPPER, //
+  AVOCADO, //
   /** the tensor library is made in Switzerland
    * the alpine color scheme was added August 1st */
   ALPINE, //
-  COPPER, //
   PINK, //
   GREENBROWNTERRAIN, //
   STARRYNIGHT, //

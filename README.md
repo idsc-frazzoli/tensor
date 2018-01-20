@@ -79,7 +79,7 @@ The tensor library implements `Quantity`, i.e. numbers with physical units.
 Several algorithms are verified to work with scalars of type `Quantity`.
 
     Tensor matrix = Tensors.fromString( //
-        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}");
+      "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}");
     CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));
@@ -210,8 +210,8 @@ gives
 Image synthesis
 
     int n = 251;
-    Export.of(new File("image.png"), Tensors.matrix((i, j) -> //
-    Tensors.of(RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
+    Export.of(new File("image.png"), Tensors.matrix((i, j) -> Tensors.of( //
+      RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
 
 gives
 
@@ -254,9 +254,9 @@ gives
 
 ---
 
-An overview of pre-defined color gradients
+An overview of predefined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/34641669-d0009b50-f307-11e7-8572-1e423fd4ab22.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/35181637-eb1d63aa-fdc5-11e7-9e9c-232828d7e9fc.png)
 
 
 ## Include in your project
