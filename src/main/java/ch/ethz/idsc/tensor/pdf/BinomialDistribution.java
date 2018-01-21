@@ -6,7 +6,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.red.Total;
@@ -20,7 +19,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
   /** Example:
    * PDF[BinomialDistribution[10, 1/3], 1] == 5120/59049
    * 
-   * For some input parameters (n, p), the computation of the exact PDF can be challenging:
+   * <p>For some input parameters (n, p), the computation of the exact PDF can be challenging:
    * Extreme cases are
    * BinomialDistribution[10000, 0.5] <- several probabilities are below machine precision (~10^-300)
    * BinomialDistribution[10000, 11/13] <- probabilities are complicated integer fractions
@@ -33,8 +32,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
   public static Distribution of(int n, Scalar p) {
     if (n < 0)
       throw new RuntimeException("n=" + n);
-    if (Clip.unit().isOutside(p))
-      throw TensorRuntimeException.of(p);
+    Clip.unit().isInsideElseThrow(p);
     // ---
     boolean revert = Scalars.lessThan(RationalScalar.HALF, p);
     Scalar q = revert ? RealScalar.ONE.subtract(p) : p;

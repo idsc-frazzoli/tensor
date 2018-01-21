@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.io.ResourceData;
 
 /** the {@link ColorDataFunction}s provided in the list below can be used in {@link ArrayPlot}.
@@ -66,9 +65,9 @@ public enum ColorDataGradients implements ColorDataFunction {
 
   private ColorDataGradients() {
     Tensor tensor = ResourceData.of("/colorscheme/" + name().toLowerCase() + ".csv");
-    boolean failure = Objects.isNull(tensor);
-    colorDataFunction = ColorDataGradient.of(failure ? Array.zeros(2, 4) : tensor);
-    if (failure)
+    boolean success = Objects.nonNull(tensor);
+    colorDataFunction = success ? ColorDataGradient.of(tensor) : StaticHelper.FALLBACK;
+    if (!success)
       System.err.println("fail to load " + name());
   }
 
