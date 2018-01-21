@@ -28,7 +28,11 @@ public enum Quantile {
     return ofSorted(Sort.of(tensor), param);
   }
 
-  /** @param sorted vector
+  /** Hint: the function does not verify that the sequence of entries in the
+   * given vector are ordered. Should that not be the case, the return value
+   * is most likely incorrect.
+   * 
+   * @param sorted vector
    * @param param is scalar or tensor with elements in interval [0, 1]
    * @return tensor with same dimensions as param */
   public static Tensor ofSorted(Tensor sorted, Tensor param) {

@@ -1,12 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.VectorQ;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -130,6 +133,12 @@ public class QuaternionTest extends TestCase {
     Scalar n1 = N.DECIMAL64.apply(q1);
     assertFalse(ExactScalarQ.of(n1));
     assertEquals(n1.toString(), "Q:1'3'-2'2");
+  }
+
+  public void testSerializable() throws ClassNotFoundException, IOException {
+    Scalar q1 = Quaternion.of(1, 3, -2, 2);
+    Scalar q2 = Serialization.copy(q1);
+    assertEquals(q1, q2);
   }
 
   public void testNumberFail() {

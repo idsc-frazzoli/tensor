@@ -36,7 +36,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
     if (Clip.unit().isOutside(p))
       throw TensorRuntimeException.of(p);
     // ---
-    boolean revert = Scalars.lessThan(RationalScalar.of(1, 2), p);
+    boolean revert = Scalars.lessThan(RationalScalar.HALF, p);
     Scalar q = revert ? RealScalar.ONE.subtract(p) : p;
     Tensor table = Tensors.empty();
     Scalar last = Power.of(RealScalar.ONE.subtract(q), n);

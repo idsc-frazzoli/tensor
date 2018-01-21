@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
 import java.math.MathContext;
 import java.util.Objects;
 
@@ -26,9 +27,7 @@ import ch.ethz.idsc.tensor.sca.Sinh;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ final class ComplexScalarImpl extends AbstractScalar implements ComplexScalar, //
-    ChopInterface, ExactScalarQInterface, MachineNumberQInterface, NInterface {
-  private static final Scalar HALF = RationalScalar.of(1, 2);
-
+    ChopInterface, ExactScalarQInterface, MachineNumberQInterface, NInterface, Serializable {
   /** creator with package visibility
    * 
    * @param re neither a {@link ComplexScalar}, or {@link Quantity}
@@ -211,7 +210,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
-    return ComplexScalar.fromPolar(Sqrt.FUNCTION.apply(abs()), arg().multiply(HALF));
+    return ComplexScalar.fromPolar(Sqrt.FUNCTION.apply(abs()), arg().multiply(RationalScalar.HALF));
   }
 
   @Override // from TrigonometryInterface

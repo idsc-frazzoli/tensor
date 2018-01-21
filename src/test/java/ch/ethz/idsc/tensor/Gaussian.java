@@ -2,6 +2,7 @@
 // adapted by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
 import java.math.MathContext;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * implementation for demonstration purpose */
 public class Gaussian extends AbstractScalar implements //
-    NInterface {
+    NInterface, Serializable {
   /** additive zero */
   private static final Scalar ZERO = of(RealScalar.ZERO, RealScalar.ZERO);
 

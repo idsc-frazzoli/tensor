@@ -37,9 +37,9 @@ public enum ColorDataGradients implements ColorDataFunction {
   TEMPERATURE_LIGHT, // blue to red, has yellow before turning red
   THERMOMETER, // blue to red, symmetric
   BROWNCYAN, //
-  MINT, // green to red pastel, symmetric
   PASTEL, //
   BEACH, //
+  MINT, // green to red pastel, symmetric
   PARULA, // matlab default
   DENSITY, // mathematica default
   SOLAR, //

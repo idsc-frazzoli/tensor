@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -39,7 +40,7 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * <p>Special case:
  * Scalars.fromString("-0.0") gives DoubleScalar.of(0.0) */
 public final class DoubleScalar extends AbstractRealScalar implements //
-    ChopInterface, MachineNumberQInterface {
+    ChopInterface, MachineNumberQInterface, Serializable {
   /** real scalar that encodes +Infinity. value is backed by Double.POSITIVE_INFINITY */
   public static final Scalar POSITIVE_INFINITY = of(Double.POSITIVE_INFINITY);
   /** real scalar that encodes -Infinity. value is backed by Double.NEGATIVE_INFINITY */

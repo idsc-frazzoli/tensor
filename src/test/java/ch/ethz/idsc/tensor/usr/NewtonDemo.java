@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.usr;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.Parallelize;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -11,7 +12,9 @@ import ch.ethz.idsc.tensor.alg.Multinomial;
 import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
+import ch.ethz.idsc.tensor.io.AnimationWriter;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.lie.CirclePoints;
 import ch.ethz.idsc.tensor.red.Nest;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.N;
@@ -19,17 +22,23 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** inspired by Mathematica's documentation of Gamma */
-enum NewtonDemo {
-  ;
-  // ---
+class NewtonDemo {
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 2;
   private static final Tensor RE = Subdivide.of(-2, +2, RES - 1);
   private static final Tensor IM = Subdivide.of(-2, +2, RES - 1);
-  private static final ScalarUnaryOperator FUNCTION = //
-      z -> z.subtract(Multinomial.horner(Tensors.vector(1, 5, 0, 1), z).divide(Multinomial.horner(Tensors.vector(5, 0, 3), z)));
+  // ---
+  private final Tensor COEFFS;
+  private final Tensor DERIVE;
+  private final ScalarUnaryOperator FUNCTION;
 
-  private static Scalar function(int y, int x) {
+  public NewtonDemo(Tensor coeffs) {
+    COEFFS = coeffs;
+    DERIVE = Multinomial.derivative(coeffs);
+    FUNCTION = z -> z.subtract(Multinomial.horner(COEFFS, z).divide(Multinomial.horner(DERIVE, z)));
+  }
+
+  private Scalar function(int y, int x) {
     Scalar seed = ComplexScalar.of(RE.Get(x), IM.Get(y));
     try {
       return Arg.of(Nest.of(FUNCTION, N.DOUBLE.apply(seed), DEPTH));
@@ -39,9 +48,23 @@ enum NewtonDemo {
     return DoubleScalar.INDETERMINATE;
   }
 
+  static void _animation() throws Exception {
+    try (AnimationWriter animationWriter = AnimationWriter.of(UserHome.Pictures("newtondemo.gif"), 100)) {
+      for (Tensor s : CirclePoints.of(20)) {
+        Scalar z = ComplexScalar.of(s.Get(0), s.Get(0));
+        NewtonDemo newtonDemo = new NewtonDemo(Tensors.of(RealScalar.ONE, RealScalar.of(5), RealScalar.ZERO, z));
+        Tensor matrix = Parallelize.matrix(newtonDemo::function, RES, RES);
+        Tensor image = ArrayPlot.of(matrix, ColorDataGradients.PARULA);
+        animationWriter.append(image);
+      }
+    }
+    System.out.println("done");
+  }
+
   public static void main(String[] args) throws Exception {
-    Tensor matrix = Parallelize.matrix(NewtonDemo::function, RES, RES);
-    Export.of(UserHome.Pictures(NewtonDemo.class.getSimpleName() + ".png"), //
-        ArrayPlot.of(matrix, ColorDataGradients.DENSITY));
+    NewtonDemo newtonDemo = new NewtonDemo(Tensors.vector(1, 5, 0, 1));
+    Tensor matrix = Parallelize.matrix(newtonDemo::function, RES, RES);
+    Tensor image = ArrayPlot.of(matrix, ColorDataGradients.PARULA);
+    Export.of(UserHome.Pictures("newtonpoly.png"), image);
   }
 }

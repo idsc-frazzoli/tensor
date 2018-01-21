@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.Serializable;
 import java.math.MathContext;
 import java.util.Objects;
 
@@ -28,9 +29,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class QuantityImpl extends AbstractScalar implements Quantity, //
-    ChopInterface, ExactScalarQInterface, NInterface {
-  private static final Scalar HALF = RationalScalar.of(1, 2);
-
+    ChopInterface, ExactScalarQInterface, NInterface, Serializable {
   /** @param value is assumed to be not instance of {@link Quantity}
    * @param unit
    * @return */
@@ -166,7 +165,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
-    return of(Sqrt.FUNCTION.apply(value), unit.multiply(HALF));
+    return of(Sqrt.FUNCTION.apply(value), unit.multiply(RationalScalar.HALF));
   }
 
   @Override // from RoundingInterface

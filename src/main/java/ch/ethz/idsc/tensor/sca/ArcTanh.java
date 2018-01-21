@@ -13,11 +13,9 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ArcTanh implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Scalar ONE_HALF = RationalScalar.of(1, 2);
-
   @Override
   public Scalar apply(Scalar scalar) {
-    return ONE_HALF.multiply( //
+    return RationalScalar.HALF.multiply( //
         Log.FUNCTION.apply(RealScalar.ONE.add(scalar)).subtract( //
             Log.FUNCTION.apply(RealScalar.ONE.subtract(scalar))));
   }

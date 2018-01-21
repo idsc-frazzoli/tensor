@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -30,7 +31,7 @@ import ch.ethz.idsc.tensor.sca.NInterface;
  * @see N
  * @see Pi */
 public final class DecimalScalar extends AbstractRealScalar implements //
-    ChopInterface, NInterface {
+    ChopInterface, NInterface, Serializable {
   private static final int DEFAULT_CONTEXT = 34;
   private static final Scalar DECIMAL_ZERO = of(BigDecimal.ZERO);
   /** BigDecimal precision of a double */

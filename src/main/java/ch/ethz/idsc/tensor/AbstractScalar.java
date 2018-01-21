@@ -1,14 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 /** suggested base class for implementations of {@link Scalar} */
-public abstract class AbstractScalar implements Scalar, Serializable {
+public abstract class AbstractScalar implements Scalar {
   @Override // from Tensor
   public final Tensor copy() {
     return this; // instance of Scalar is immutable
