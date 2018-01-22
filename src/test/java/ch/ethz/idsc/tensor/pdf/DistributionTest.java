@@ -36,7 +36,7 @@ public class DistributionTest extends TestCase {
     _check(BinomialDistribution.of(10, RationalScalar.of(7, 8)), 1000);
     _check(DiscreteUniformDistribution.of(RealScalar.of(10), RealScalar.of(30)), 1000);
     _check(GeometricDistribution.of(RealScalar.of(0.7)), 2800);
-    _check(GeometricDistribution.of(RealScalar.of(0.1)), 2000);
+    _check(GeometricDistribution.of(RealScalar.of(0.1)), 2300);
     _check(HypergeometricDistribution.of(10, 40, 100), 1000); //
     _check(HypergeometricDistribution.of(10, 20, 31), 1000);
     _check(PoissonDistribution.of(RealScalar.of(2.5)), 1000);

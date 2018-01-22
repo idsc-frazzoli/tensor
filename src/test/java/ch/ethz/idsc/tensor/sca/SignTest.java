@@ -71,17 +71,17 @@ public class SignTest extends TestCase {
   }
 
   public void testRequireNonNegative() {
-    Sign.requireNonNegative(RealScalar.ZERO);
-    Sign.requireNonNegative(RealScalar.ONE);
-    Sign.requireNonNegative(Quantity.of(2, "m*s^-2"));
+    Sign.requirePositiveOrZero(RealScalar.ZERO);
+    Sign.requirePositiveOrZero(RealScalar.ONE);
+    Sign.requirePositiveOrZero(Quantity.of(2, "m*s^-2"));
     try {
-      Sign.requireNonNegative(RealScalar.ONE.negate());
+      Sign.requirePositiveOrZero(RealScalar.ONE.negate());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      Sign.requireNonNegative(DoubleScalar.INDETERMINATE);
+      Sign.requirePositiveOrZero(DoubleScalar.INDETERMINATE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

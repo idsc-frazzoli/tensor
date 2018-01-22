@@ -20,11 +20,9 @@ public class GompertzMakehamDistribution extends AbstractContinuousDistribution 
    * @param xi positive frailty parameter
    * @return */
   public static Distribution of(Scalar lambda, Scalar xi) {
-    if (Sign.isNegativeOrZero(lambda))
-      throw TensorRuntimeException.of(lambda);
     if (Scalars.lessEquals(xi, RealScalar.ZERO))
       throw TensorRuntimeException.of(xi);
-    return new GompertzMakehamDistribution(lambda, xi);
+    return new GompertzMakehamDistribution(Sign.requirePositive(lambda), xi);
   }
 
   // ---

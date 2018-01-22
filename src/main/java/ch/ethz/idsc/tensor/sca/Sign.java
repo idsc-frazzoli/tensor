@@ -96,7 +96,7 @@ public enum Sign implements ScalarUnaryOperator {
    * 
    * @param scalar
    * @return */
-  public static Scalar requireNonNegative(Scalar scalar) {
+  public static Scalar requirePositiveOrZero(Scalar scalar) {
     if (isNegative(scalar))
       throw TensorRuntimeException.of(scalar);
     return scalar;

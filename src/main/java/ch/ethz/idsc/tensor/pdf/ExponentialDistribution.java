@@ -6,7 +6,6 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Exp;
@@ -30,9 +29,7 @@ public class ExponentialDistribution extends AbstractContinuousDistribution impl
   /** @param lambda positive, may be instance of {@link Quantity}
    * @return exponential distribution with scale inversely proportional to parameter lambda */
   public static Distribution of(Scalar lambda) {
-    if (Sign.isNegativeOrZero(lambda))
-      throw TensorRuntimeException.of(lambda);
-    return new ExponentialDistribution(lambda);
+    return new ExponentialDistribution(Sign.requirePositive(lambda));
   }
 
   /** @param lambda positive
