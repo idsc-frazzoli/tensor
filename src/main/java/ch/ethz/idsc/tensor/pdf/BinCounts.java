@@ -28,9 +28,7 @@ public enum BinCounts {
     if (vector.length() == 0)
       return Tensors.empty();
     NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector));
-    Scalar first = navigableMap.firstKey().Get();
-    if (Sign.isNegative(first))
-      throw TensorRuntimeException.of(vector);
+    Sign.requireNonNegative(navigableMap.firstKey().Get());
     int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
     return Tensors.vector(index -> {
       Scalar key = RationalScalar.of(index, 1);

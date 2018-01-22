@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -78,5 +80,25 @@ public enum Sign implements ScalarUnaryOperator {
   public static boolean isNegativeOrZero(Scalar scalar) {
     SignInterface signInterface = (SignInterface) scalar;
     return signInterface.signInt() != +1;
+  }
+
+  /** Remark: Functionality inspired by {@link Objects#requireNonNull(Object)}
+   * 
+   * @param scalar
+   * @return */
+  public static Scalar requirePositive(Scalar scalar) {
+    if (isNegativeOrZero(scalar))
+      throw TensorRuntimeException.of(scalar);
+    return scalar;
+  }
+
+  /** Remark: Functionality inspired by {@link Objects#requireNonNull(Object)}
+   * 
+   * @param scalar
+   * @return */
+  public static Scalar requireNonNegative(Scalar scalar) {
+    if (isNegative(scalar))
+      throw TensorRuntimeException.of(scalar);
+    return scalar;
   }
 }

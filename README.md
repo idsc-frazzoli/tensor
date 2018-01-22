@@ -43,6 +43,12 @@ Trigonometry
 
 Nylander Power
 
+<td>
+
+![newtondemo](https://user-images.githubusercontent.com/4012178/35206180-22bed070-ff3b-11e7-8def-407345e3693e.png)
+
+Newton
+
 </tr>
 </table>
 
@@ -256,7 +262,7 @@ gives
 
 An overview of predefined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/35181637-eb1d63aa-fdc5-11e7-9e9c-232828d7e9fc.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/35206196-39acb66c-ff3b-11e7-9db8-8590a2ee2777.png)
 
 
 ## Include in your project

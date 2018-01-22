@@ -65,6 +65,6 @@ class NewtonDemo {
     NewtonDemo newtonDemo = new NewtonDemo(Tensors.vector(1, 5, 0, 1));
     Tensor matrix = Parallelize.matrix(newtonDemo::function, RES, RES);
     Tensor image = ArrayPlot.of(matrix, ColorDataGradients.PARULA);
-    Export.of(UserHome.Pictures("newtonpoly.png"), image);
+    Export.of(UserHome.Pictures(NewtonDemo.class.getSimpleName() + ".png"), image);
   }
 }

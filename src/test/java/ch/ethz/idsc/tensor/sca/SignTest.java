@@ -70,6 +70,47 @@ public class SignTest extends TestCase {
     assertFalse(Sign.isNegativeOrZero(Quantity.of(2, Unit.ONE)));
   }
 
+  public void testRequireNonNegative() {
+    Sign.requireNonNegative(RealScalar.ZERO);
+    Sign.requireNonNegative(RealScalar.ONE);
+    Sign.requireNonNegative(Quantity.of(2, "m*s^-2"));
+    try {
+      Sign.requireNonNegative(RealScalar.ONE.negate());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Sign.requireNonNegative(DoubleScalar.INDETERMINATE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRequirePositive() {
+    Sign.requirePositive(RealScalar.ONE);
+    Sign.requirePositive(Quantity.of(2, "m*s^-2"));
+    try {
+      Sign.requirePositive(RealScalar.ZERO);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Sign.requirePositive(RealScalar.ONE.negate());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Sign.requirePositive(DoubleScalar.INDETERMINATE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   private static void _checkFail(Scalar value) {
     try {
       Sign.of(value);
