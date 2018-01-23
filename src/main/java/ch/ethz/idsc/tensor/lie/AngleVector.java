@@ -7,7 +7,9 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Sin;
 
-/** inspired by
+/** @see CirclePoints
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/AngleVector.html">AngleVector</a> */
 public enum AngleVector {
   ;

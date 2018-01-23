@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.red.Max;
 
 /** Rationalize is <em>not<em> a substitute for {@link Round}, or {@link Floor}.
@@ -40,10 +39,8 @@ public class Rationalize implements ScalarUnaryOperator {
   private final Scalar max;
 
   private Rationalize(Scalar max) {
-    if (Sign.isNegativeOrZero(max))
-      throw TensorRuntimeException.of(max);
     IntegerQ.elseThrow(max);
-    this.max = max;
+    this.max = Sign.requirePositive(max);
   }
 
   /* find rational approximation to given real number

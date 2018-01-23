@@ -1,13 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import ch.ethz.idsc.tensor.Scalar;
 
 /** implementations are immutable */
-public interface Unit extends Serializable {
+public interface Unit {
   /** Example: cd*m*s */
   static final String JOIN_DELIMITER = "*";
   /** Example: A*kg^-2 */

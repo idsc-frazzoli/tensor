@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -21,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <li>p==Infinity
  * </ul>
  * rather use {@link Norm} */
-public class VectorNorm implements VectorNormInterface {
+public class VectorNorm implements VectorNormInterface, Serializable {
   /** Hint: for enhanced precision, use p as instance of {@link RationalScalar} if possible
    * 
    * @param p exponent

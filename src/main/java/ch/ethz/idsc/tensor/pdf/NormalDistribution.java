@@ -5,7 +5,6 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
@@ -50,10 +49,8 @@ public class NormalDistribution extends AbstractContinuousDistribution implement
   private final Scalar sigma;
 
   private NormalDistribution(Scalar mean, Scalar sigma) {
-    if (Sign.isNegativeOrZero(sigma))
-      throw TensorRuntimeException.of(sigma);
     this.mean = mean;
-    this.sigma = sigma;
+    this.sigma = Sign.requirePositive(sigma);
     mean.add(sigma); // <- assert that parameters are compatible
   }
 

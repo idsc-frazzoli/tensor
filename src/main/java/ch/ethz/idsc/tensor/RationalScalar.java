@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -16,9 +17,9 @@ import ch.ethz.idsc.tensor.sca.NInterface;
  * 
  * zero().reciprocal() throws a {@link ArithmeticException}. */
 public final class RationalScalar extends AbstractRealScalar implements //
-    ExactScalarQInterface, NInterface {
-  /** real scalar -1 as a {@link RationalScalar} */
-  public static final Scalar NEGATIVE_ONE = of(-1, 1);
+    ExactScalarQInterface, NInterface, Serializable {
+  /** rational number {@code 1/2} with decimal value {@code 0.5} */
+  public static final Scalar HALF = of(1, 2);
 
   /** @param num
    * @param den

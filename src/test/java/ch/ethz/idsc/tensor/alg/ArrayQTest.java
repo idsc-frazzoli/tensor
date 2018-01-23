@@ -27,4 +27,13 @@ public class ArrayQTest extends TestCase {
     Tensor c = Tensors.of(a, b);
     assertFalse(ArrayQ.of(c));
   }
+
+  public void testNullFail() {
+    try {
+      ArrayQ.of(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

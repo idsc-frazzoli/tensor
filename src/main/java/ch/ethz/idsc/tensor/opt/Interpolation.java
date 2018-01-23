@@ -1,15 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.io.Serializable;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Interpolation.html">Interpolation</a> */
-public interface Interpolation extends Serializable {
+public interface Interpolation {
   /** if index.length() is less than the rank r of the tensor object that is being interpolated,
    * then the function get(...) returns a tensor of rank r - index.length()
    * 

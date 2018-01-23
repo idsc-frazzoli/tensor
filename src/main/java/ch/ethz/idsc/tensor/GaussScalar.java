@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 /** over finite field with prime number of elements denoted by
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
-    Comparable<Scalar>, ExactScalarQInterface, PowerInterface, SqrtInterface {
+    Comparable<Scalar>, ExactScalarQInterface, PowerInterface, Serializable, SqrtInterface {
   private static final Set<Long> PROBABLE_PRIMES = new HashSet<>();
 
   private static void assertIsProbablePrime(long prime) {

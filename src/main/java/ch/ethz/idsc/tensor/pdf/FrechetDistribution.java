@@ -32,9 +32,7 @@ public class FrechetDistribution extends AbstractContinuousDistribution implemen
   public static Distribution of(Scalar alpha, Scalar beta) {
     if (Scalars.lessEquals(alpha, RealScalar.ZERO))
       throw TensorRuntimeException.of(alpha);
-    if (Sign.isNegativeOrZero(beta))
-      throw TensorRuntimeException.of(beta);
-    return new FrechetDistribution(alpha, beta);
+    return new FrechetDistribution(alpha, Sign.requirePositive(beta));
   }
 
   public static Distribution of(Number alpha, Number beta) {

@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.Floor;
@@ -28,9 +27,7 @@ public enum BinCounts {
     if (vector.length() == 0)
       return Tensors.empty();
     NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector));
-    Scalar first = navigableMap.firstKey().Get();
-    if (Sign.isNegative(first))
-      throw TensorRuntimeException.of(vector);
+    Sign.requirePositiveOrZero(navigableMap.firstKey().Get());
     int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
     return Tensors.vector(index -> {
       Scalar key = RationalScalar.of(index, 1);
@@ -51,8 +48,6 @@ public enum BinCounts {
    * @return
    * @throws Exception if any scalar in the given vector is less than zero */
   public static Tensor of(Tensor vector, Scalar width) {
-    if (Sign.isNegativeOrZero(width))
-      throw TensorRuntimeException.of(width);
-    return of(vector.divide(width));
+    return of(vector.divide(Sign.requirePositive(width)));
   }
 }

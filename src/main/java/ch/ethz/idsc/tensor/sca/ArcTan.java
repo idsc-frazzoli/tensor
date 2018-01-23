@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 public enum ArcTan implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Scalar I_HALF = ComplexScalar.I.multiply(RationalScalar.of(1, 2));
+  private static final Scalar I_HALF = ComplexScalar.I.multiply(RationalScalar.HALF);
 
   @Override
   public Scalar apply(Scalar scalar) {

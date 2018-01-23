@@ -1,8 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.Collections;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -20,6 +19,6 @@ public enum CauchyTensor {
    * @throws Exception if input is not a vector */
   public static Tensor of(Tensor vector, int rank) {
     return Array.of(list -> list.stream().map(vector::Get).reduce(Scalar::add).get().reciprocal(), //
-        IntStream.range(0, rank).mapToObj(i -> vector.length()).collect(Collectors.toList()));
+        Collections.nCopies(rank, vector.length()));
   }
 }

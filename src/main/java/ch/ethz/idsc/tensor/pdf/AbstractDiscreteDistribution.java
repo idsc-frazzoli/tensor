@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
@@ -11,7 +12,7 @@ import ch.ethz.idsc.tensor.Scalars;
 
 /** functionality and suggested base class for a discrete probability distribution */
 public abstract class AbstractDiscreteDistribution implements DiscreteDistribution, //
-    InverseCDF, MeanInterface, PDF, RandomVariateInterface {
+    InverseCDF, MeanInterface, PDF, RandomVariateInterface, Serializable {
   @Override // from RandomVariateInterface
   public final Scalar randomVariate(Random random) {
     return protected_quantile(DoubleScalar.of(random.nextDouble()));

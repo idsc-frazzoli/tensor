@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.Serializable;
 import java.math.MathContext;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class QuaternionImpl extends AbstractScalar implements Quaternion, //
-    ChopInterface, ExactScalarQInterface, NInterface {
+    ChopInterface, ExactScalarQInterface, NInterface, Serializable {
   private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final Scalar re;

@@ -51,9 +51,7 @@ public interface ComplexScalar extends Scalar, //
    * @param arg angle
    * @return complex scalar with polar coordinates abs and arg */
   static Scalar fromPolar(Scalar abs, Scalar arg) {
-    if (Sign.isNegative(abs))
-      throw TensorRuntimeException.of(abs);
-    return abs.multiply(unit(arg));
+    return Sign.requirePositiveOrZero(abs).multiply(unit(arg));
   }
 
   /** @param abs radius

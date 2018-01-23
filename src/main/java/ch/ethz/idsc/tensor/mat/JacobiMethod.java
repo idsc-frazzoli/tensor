@@ -2,6 +2,7 @@
 // modified by jph
 package ch.ethz.idsc.tensor.mat;
 
+import java.io.Serializable;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
@@ -29,9 +30,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * is the product of the successive Jacobi rotation matrices Pi. The diagonal
  * entries of D are the eigenvalues of A and the columns of V are the
  * eigenvectors of A. */
-/* package */ class JacobiMethod implements Eigensystem {
+/* package */ class JacobiMethod implements Eigensystem, Serializable {
   private static final int MAX_ITERATIONS = 50;
-  private static final Scalar HALF = RationalScalar.of(1, 2);
   private static final Scalar HUNDRED = RealScalar.of(100);
   private static final Scalar EPS = DoubleScalar.of(Math.ulp(1));
   // ---
@@ -70,7 +70,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
             if (Scalars.lessEquals(g, EPS.multiply(h.abs()))) {
               t = A.Get(ip, iq).divide(h);
             } else {
-              Scalar theta = HALF.multiply(h).divide(A.Get(ip, iq));
+              Scalar theta = RationalScalar.HALF.multiply(h).divide(A.Get(ip, iq));
               t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).reciprocal();
               if (Sign.isNegative(theta))
                 t = t.negate();

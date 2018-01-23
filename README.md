@@ -4,22 +4,21 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.4.7`
+Version `0.4.8`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
 * support for calculation with physical units
 * suitable for use in safety-critical real-time systems
-* API inspired by `Mathematica`
+* API and string expressions inspired by `Mathematica`
 
-Features:
+## Features
+
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
 * scalars are real-, or complex numbers, from finite fields, or quantities with physical units
 * values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
 * probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
 * import from and export to `Mathematica`, `CSV`-, and image files
-
-The naming of functions, as well as the string format of the expressions are inspired by Wolfram's `Mathematica`.
 
 ## Gallery
 
@@ -41,12 +40,18 @@ Trigonometry
 
 ![mandelbulbdemo](https://user-images.githubusercontent.com/4012178/28755696-bd98789a-7560-11e7-8ebc-001c37f0a4fd.png)
 
-Nylander Power
+Nylander's formula
+
+<td>
+
+![newtondemo](https://user-images.githubusercontent.com/4012178/35206180-22bed070-ff3b-11e7-8def-407345e3693e.png)
+
+Newton's method
 
 </tr>
 </table>
 
-## Code Examples
+## Examples
 
 Solving systems of linear equations
 
@@ -79,7 +84,7 @@ The tensor library implements `Quantity`, i.e. numbers with physical units.
 Several algorithms are verified to work with scalars of type `Quantity`.
 
     Tensor matrix = Tensors.fromString( //
-        "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}");
+      "{{60[m^2], 30[m*rad], 20[kg*m]}, {30[m*rad], 20[rad^2], 15[kg*rad]}, {20[kg*m], 15[kg*rad], 12[kg^2]}}");
     CholeskyDecomposition cd = CholeskyDecomposition.of(matrix);
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));
@@ -210,8 +215,8 @@ gives
 Image synthesis
 
     int n = 251;
-    Export.of(new File("image.png"), Tensors.matrix((i, j) -> //
-    Tensors.of(RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
+    Export.of(new File("image.png"), Tensors.matrix((i, j) -> Tensors.of( //
+      RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
 
 gives
 
@@ -254,14 +259,14 @@ gives
 
 ---
 
-An overview of pre-defined color gradients
+Predefined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/34641669-d0009b50-f307-11e7-8572-1e423fd4ab22.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/35206196-39acb66c-ff3b-11e7-9db8-8590a2ee2777.png)
 
 
-## Include in your project
+## Integration
 
-Modify the `pom` file of your project to specify `repository` and `dependency` of the tensor library:
+Specify `repository` and `dependency` of the tensor library in the `pom.xml` file of your maven project:
 
     <repositories>
       <repository>
@@ -278,25 +283,24 @@ Modify the `pom` file of your project to specify `repository` and `dependency` o
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.4.7</version>
+        <version>0.4.8</version>
       </dependency>
     </dependencies>
 
 The source code is attached to every release.
 
-*Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
+> *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.7/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.8/*
 
-## Optional
+## Documentation
 
-Clone the repository.
-
-The `javadoc` API can be generated with
+The source code is documented.
+The `javadoc` API is generated with
 
     .../tensor/mvn javadoc:javadoc
 
-Subsequently, the documentation is accessible through the file
+The documentation is accessible through the file
 
     .../tensor/target/site/apidocs/index.html
 
@@ -306,8 +310,8 @@ The library is used in the projects:
 * `matsim`, and `queuey` 
 * `subare`
 * `SwissTrolley+` that implements Scalar with physical units from `javax.measure.Unit`
-* `owl`, `owly`, and `owly3d`
+* `owl`, and `owly3d`
 * `retina`
 * `lcm-java`
 
-The repository has over `1940` unit tests.
+The repository has over `1950` unit tests.

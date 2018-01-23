@@ -6,7 +6,6 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Gamma;
@@ -26,9 +25,7 @@ public class GumbelDistribution extends AbstractContinuousDistribution implement
    * @param beta positive
    * @return */
   public static Distribution of(Scalar alpha, Scalar beta) {
-    if (Sign.isNegativeOrZero(beta))
-      throw TensorRuntimeException.of(beta);
-    return new GumbelDistribution(alpha, beta);
+    return new GumbelDistribution(alpha, Sign.requirePositive(beta));
   }
 
   // ---

@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.io.Serializable;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 
@@ -13,7 +11,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/PDF.html">PDF</a> */
-public interface PDF extends Serializable {
+public interface PDF {
   /** Example use:
    * PDF pdf = PDF.of(PoissonDistribution.of(RealScalar.of(2)));
    * Scalar probability = pdf.p_equals(RealScalar.of(3));

@@ -15,7 +15,6 @@ import ch.ethz.idsc.tensor.sca.Exp;
   // ---
   private static final Scalar DEN = DoubleScalar.of(0.398942280401432677939946059934);
   private static final Scalar NEGATIVE_HALF = DoubleScalar.of(-0.5);
-  private static final Scalar HALF = RationalScalar.of(1, 2);
   private static final Scalar FACTOR = DoubleScalar.of(-Math.sqrt(0.5));
   private static final Scalar NEGATIVE_SRTQ2 = DoubleScalar.of(-Math.sqrt(2));
   private static final Scalar TWO = DoubleScalar.of(2.0);
@@ -24,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     // 1/2 Erfc[-(x/Sqrt[2])]
-    return Erfc.FUNCTION.apply(x.multiply(FACTOR)).multiply(HALF);
+    return Erfc.FUNCTION.apply(x.multiply(FACTOR)).multiply(RationalScalar.HALF);
   }
 
   @Override // from CDF

@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import java.io.Serializable;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -17,7 +15,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/QRDecomposition.html">QRDecomposition</a> */
-public interface QRDecomposition extends Serializable {
+public interface QRDecomposition {
   /** householder reflections with highest numerical stability
    * 
    * @param matrix

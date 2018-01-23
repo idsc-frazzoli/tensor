@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
@@ -8,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * multiplication is logical AND
  * addition is logical XOR */
 /* package */ final class BooleanScalar extends AbstractScalar implements //
-    Comparable<Scalar>, ExactScalarQInterface, SqrtInterface {
+    Comparable<Scalar>, ExactScalarQInterface, Serializable, SqrtInterface {
   /** instance with value true, toString() == "true" */
   public static final Scalar TRUE = new BooleanScalar(true);
   /** instance with value false, toString() == "false" */

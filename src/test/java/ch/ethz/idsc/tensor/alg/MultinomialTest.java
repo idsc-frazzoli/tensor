@@ -65,4 +65,23 @@ public class MultinomialTest extends TestCase {
     Scalar res = Multinomial.horner(Tensors.of(qs1, qs2), val);
     assertEquals(res.toString(), "2[m*s]");
   }
+
+  public void testDerivative() {
+    Tensor coeffs = Tensors.vector(-3, 4, -5, 8, 1);
+    Tensor result = Multinomial.derivative(coeffs);
+    assertEquals(result, Tensors.vector(4, -5 * 2, 8 * 3, 1 * 4));
+  }
+
+  public void testDerivativeEmpty() {
+    assertEquals(Multinomial.derivative(Tensors.vector()), Tensors.vector());
+  }
+
+  public void testDerivativeScalarFail() {
+    try {
+      Multinomial.derivative(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

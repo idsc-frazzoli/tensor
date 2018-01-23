@@ -30,7 +30,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 public enum Rodriguez {
   ;
   private static final Tensor ID3 = IdentityMatrix.of(3);
-  private static final Scalar HALF = RationalScalar.of(1, 2);
+  private static final Scalar HALF = RationalScalar.HALF;
   private static final Scalar TWO = RealScalar.of(2);
 
   /** @param vector of length() == 3

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
@@ -25,14 +26,12 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * For example, Mathematica::{"Hello", "World"}.
  * Whether this convention will adopted in the tensor library at some point
  * in the future is open for discussion. */
-public final class StringScalar extends AbstractScalar implements Comparable<Scalar> {
+public final class StringScalar extends AbstractScalar implements Comparable<Scalar>, Serializable {
   /** @param string
    * @return new instance of {@link StringScalar} representing string
    * @throws Exception if argument is null */
   public static Scalar of(String string) {
-    if (Objects.isNull(string))
-      throw new IllegalArgumentException();
-    return new StringScalar(string);
+    return new StringScalar(Objects.requireNonNull(string));
   }
 
   private final String string;

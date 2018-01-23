@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import java.io.Serializable;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -20,7 +18,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/CholeskyDecomposition.html">CholeskyDecomposition</a> */
-public interface CholeskyDecomposition extends Serializable {
+public interface CholeskyDecomposition {
   /** @param matrix hermitian and positive semi-definite matrix
    * @return Cholesky decomposition of matrix
    * @throws TensorRuntimeException if matrix is not hermitian, or decomposition failed

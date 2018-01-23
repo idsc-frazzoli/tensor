@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.io.ResourceData;
 
 /** the {@link ColorDataFunction}s provided in the list below can be used in {@link ArrayPlot}.
@@ -37,16 +36,18 @@ public enum ColorDataGradients implements ColorDataFunction {
   TEMPERATURE_LIGHT, // blue to red, has yellow before turning red
   THERMOMETER, // blue to red, symmetric
   BROWNCYAN, //
-  MINT, // green to red pastel, symmetric
-  PARULA, // matlab default
   PASTEL, //
   BEACH, //
+  MINT, // green to red pastel, symmetric
+  PARULA, // matlab default
+  DENSITY, // mathematica default
   SOLAR, //
   GRAYSCALE(GrayscaleColorData.FUNCTION), //
+  COPPER, //
+  AVOCADO, //
   /** the tensor library is made in Switzerland
    * the alpine color scheme was added August 1st */
   ALPINE, //
-  COPPER, //
   PINK, //
   GREENBROWNTERRAIN, //
   STARRYNIGHT, //
@@ -64,9 +65,9 @@ public enum ColorDataGradients implements ColorDataFunction {
 
   private ColorDataGradients() {
     Tensor tensor = ResourceData.of("/colorscheme/" + name().toLowerCase() + ".csv");
-    boolean failure = Objects.isNull(tensor);
-    colorDataFunction = ColorDataGradient.of(failure ? Array.zeros(2, 4) : tensor);
-    if (failure)
+    boolean success = Objects.nonNull(tensor);
+    colorDataFunction = success ? ColorDataGradient.of(tensor) : StaticHelper.FALLBACK;
+    if (!success)
       System.err.println("fail to load " + name());
   }
 

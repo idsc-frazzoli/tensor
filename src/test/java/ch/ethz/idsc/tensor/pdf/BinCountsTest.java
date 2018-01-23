@@ -63,6 +63,12 @@ public class BinCountsTest extends TestCase {
 
   public void testFail() {
     try {
+      BinCounts.of(Tensors.vector(-1e-10), RealScalar.of(0.0));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       BinCounts.of(Tensors.vector(-1e-10), RealScalar.of(-.2));
       assertTrue(false);
     } catch (Exception exception) {

@@ -65,8 +65,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
       if (Sign.isNegative(c.Get(j))) {
         { // check if unbounded
           int argmax = ArgMax.of(numbers(tab.get(Tensor.ALL, j).extract(0, m)));
-          if (Sign.isNegativeOrZero(tab.Get(argmax, j)))
-            throw TensorRuntimeException.of(tab); // problem unbounded
+          Sign.requirePositive(tab.Get(argmax, j)); // otherwise problem unbounded
         }
         int p = simplexPivot.get(tab, j, n);
         ind.set(RationalScalar.of(j, 1), p);
