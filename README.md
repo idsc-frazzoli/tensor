@@ -4,7 +4,7 @@
 
 Library for tensor computations in Java 8.
 
-Version `0.4.8`
+Version `0.4.9`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -96,18 +96,12 @@ Statistics
 
     Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
     System.out.println(RandomVariate.of(distribution, 20));
-
-gives
-
-    {6, 5, 1, 4, 3, 4, 7, 5, 7, 4, 6, 3, 5, 4, 5, 4, 6, 2, 6, 7}
-
-and
-
     PDF pdf = PDF.of(distribution);
     System.out.println("P(X=3)=" + pdf.at(RealScalar.of(3)));
 
 gives
 
+    {6, 5, 1, 4, 3, 4, 7, 5, 7, 4, 6, 3, 5, 4, 5, 4, 6, 2, 6, 7}
     P(X=3)=84000/742729
 
 ### Physical Quantities
@@ -221,7 +215,7 @@ Image synthesis
 
     int n = 251;
     Export.of(new File("image.png"), Tensors.matrix((i, j) -> Tensors.of( //
-      RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
+        RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
 
 gives
 
@@ -246,7 +240,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.4.8</version>
+        <version>0.4.9</version>
       </dependency>
     </dependencies>
 
@@ -254,7 +248,7 @@ The source code is attached to every release.
 
 > *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.8/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.9/*
 
 ## Documentation
 
@@ -277,4 +271,4 @@ The library is used in the projects:
 * `retina`
 * `lcm-java`
 
-The repository has over `1950` unit tests.
+The repository has over `1960` unit tests.
