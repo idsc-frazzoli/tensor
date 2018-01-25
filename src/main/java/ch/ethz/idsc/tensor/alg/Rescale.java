@@ -19,22 +19,27 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * Rescale[{-.7, .5, 1.2, 5.6, 1.8}] == {0., 0.190476, 0.301587, 1., 0.396825}
  * </code>
  * 
- * Mathematica handles Infinity in a non-trivial way.
+ * <p>Mathematica handles Infinity in a non-trivial way.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Rescale.html">Rescale</a> */
 public enum Rescale {
   ;
+  /** RealScalar.ZERO is used instead of {@link Scalar#zero()}
+   * to eliminate unit of {@link Quantity}. */
   private static final ScalarUnaryOperator FINITE_NUMBER_ZERO = //
       scalar -> isFiniteNumber(scalar) ? RealScalar.ZERO : scalar;
 
-  /** Example:
-   * Rescale[{10, 20, 30}] == {0, 1/2, 1}
-   * 
-   * The scalar entries of the given tensor may also be instance of
+  /** The scalar entries of the given tensor may also be instance of
    * {@link Quantity} with identical unit.
    * 
-   * @param tensor
+   * <p>Example:
+   * <pre>
+   * Rescale[{10, 20, 30}] == {0, 1/2, 1}
+   * Rescale[{3[s], Infinity[s], 6[s], 2[s]}] == {1/4, Infinity, 1, 0}
+   * </pre>
+   * 
+   * @param tensor of arbitrary structure
    * @return
    * @throws Exception if any entry is a {@link ComplexScalar} */
   public static Tensor of(Tensor tensor) {

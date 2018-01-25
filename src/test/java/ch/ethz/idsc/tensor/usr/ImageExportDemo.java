@@ -1,9 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
+import java.util.function.UnaryOperator;
+
 import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.img.ArrayPlot;
+import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
@@ -20,8 +26,20 @@ enum ImageExportDemo {
     Tensors.of(RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
   }
 
+  public static void _im3() throws Exception {
+    int n = 251;
+    Tensor matrix = Tensors.matrix((i, j) -> //
+    GaussScalar.of(i + 14 * j + i * i + i * j * 3, n), n, n);
+    // System.out.println(Pretty.of(Rescale.of(matrix)));
+    UnaryOperator<Scalar> asd = s -> RealScalar.of(s.number());
+    matrix.map(asd);
+    Tensor image = ArrayPlot.of(matrix.map(asd), ColorDataGradients.AURORA);
+    Export.of(UserHome.Pictures("image3.png"), image);
+  }
+
   public static void main(String[] args) throws Exception {
     _im1();
     _im2();
+    _im3();
   }
 }

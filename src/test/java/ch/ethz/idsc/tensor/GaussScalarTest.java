@@ -193,6 +193,15 @@ public class GaussScalarTest extends TestCase {
     assertEquals(s, r);
   }
 
+  public void testComparableFail() {
+    try {
+      DoubleScalar.of(3.14).compareTo(GaussScalar.of(1, 7));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testArgMax() {
     Tensor v = Tensors.of(GaussScalar.of(1, 7), GaussScalar.of(4, 7), GaussScalar.of(2, 7), GaussScalar.of(0, 7));
     int i = ArgMax.of(v);

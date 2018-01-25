@@ -24,27 +24,19 @@ public class ColorDataGradient implements ColorDataFunction {
   }
 
   // ---
-  private final Tensor tensor;
   private final Interpolation interpolation;
   private final Scalar scale;
 
   private ColorDataGradient(Tensor tensor) {
-    this.tensor = N.DOUBLE.of(tensor);
-    interpolation = LinearInterpolation.of(this.tensor);
+    interpolation = LinearInterpolation.of(N.DOUBLE.of(tensor));
     scale = DoubleScalar.of(tensor.length() - 1);
   }
 
   @Override
   public Tensor apply(Scalar scalar) {
     Scalar value = scalar.multiply(scale);
-    return MachineNumberQ.of(value) ? interpolation.get(Tensors.of(value)) : ColorDataFunction.transparent();
-  }
-
-  /** the application of this function is to derive a new color scheme
-   * from an existing one, for instance to modify the brightness or transparency
-   * 
-   * @return n x 4 table with rows as {r,g,b,a} values */
-  /* package for testing */ Tensor rgbaTable() {
-    return tensor.unmodifiable();
+    return MachineNumberQ.of(value) //
+        ? interpolation.get(Tensors.of(value))
+        : ColorDataFunction.transparent();
   }
 }

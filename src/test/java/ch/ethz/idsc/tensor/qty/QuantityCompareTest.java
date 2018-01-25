@@ -92,6 +92,15 @@ public class QuantityCompareTest extends TestCase {
     }
   }
 
+  public void testCompareFail2() {
+    try {
+      DoubleScalar.of(3.14).compareTo(Quantity.of(0, "m*s"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testDistinct() {
     Scalar qs0 = Quantity.of(0, Unit.ONE);
     Scalar qs1 = Quantity.of(0, "m");

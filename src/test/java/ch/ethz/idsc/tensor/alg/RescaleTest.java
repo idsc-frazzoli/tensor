@@ -79,6 +79,12 @@ public class RescaleTest extends TestCase {
     assertEquals(rescal.toString(), expect.toString());
   }
 
+  public void testQuantityEx() {
+    Tensor vector = Tensors.fromString("{3[s], Infinity[s], 6[s], 2[s]}");
+    Tensor result = Tensors.fromString("{1/4, Infinity, 1, 0}");
+    assertEquals(Rescale.of(vector), result);
+  }
+
   public void testQuantitySpecial() {
     Tensor vector = QuantityTensor.of(Tensors.vector(3, Double.POSITIVE_INFINITY, 3), Unit.of("s"));
     Tensor rescal = Rescale.of(vector);

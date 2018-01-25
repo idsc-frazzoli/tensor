@@ -27,6 +27,8 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * 
  * <p>zero().reciprocal() equals {@link DoubleScalar#POSITIVE_INFINITY}
  * 
+ * <p>DoubleScalar is comparable to Scalar types that implement {@link RealScalar}.
+ * 
  * <p>The numeric zero has a sign, i.e. positive +0.0 and negative -0.0 exist.
  * The implementation of DoubleScalar uses the following rules:
  * <ul>
@@ -134,9 +136,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
         return 0;
       return Double.compare(value, other);
     }
-    @SuppressWarnings("unchecked")
-    Comparable<Scalar> comparable = (Comparable<Scalar>) scalar;
-    return -comparable.compareTo(this);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
   @Override // from RoundingInterface
