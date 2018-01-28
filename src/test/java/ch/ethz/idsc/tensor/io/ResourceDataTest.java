@@ -65,4 +65,8 @@ public class ResourceDataTest extends TestCase {
   public void testUnknownExtension() {
     assertNull(ResourceData.of("/io/extension.unknown"));
   }
+
+  public void testCorruptContent() {
+    assertNull(ResourceData.of("/io/corrupt.png"));
+  }
 }
