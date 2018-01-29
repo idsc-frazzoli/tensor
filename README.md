@@ -209,7 +209,7 @@ gives the vector
 
 Predefined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/35206196-39acb66c-ff3b-11e7-9db8-8590a2ee2777.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/35498514-f0a56830-04ce-11e8-904b-ec463464e30f.png)
 
 Image synthesis
 

@@ -34,7 +34,7 @@ public class ColorDataGradient implements ColorDataFunction {
 
   @Override
   public Tensor apply(Scalar scalar) {
-    Scalar value = scalar.multiply(scale);
+    Scalar value = scalar.multiply(scale); // throws Exception for GaussScalar
     return MachineNumberQ.of(value) //
         ? interpolation.get(Tensors.of(value))
         : ColorDataFunction.transparent();
