@@ -55,36 +55,42 @@ public interface Quantity extends Scalar, //
   static final char UNIT_OPENING_BRACKET = '[';
   static final char UNIT_CLOSING_BRACKET = ']';
 
-  /** @param value
+  /** Hint: function does not check parameters for null, although
+   * null as input is likely to cause problems subsequently.
+   * 
+   * @param value
    * @param unit for instance Unit.of("m*s^-1")
-   * @return */
+   * @return
+   * @throws Exception if value is instance of {@code Quantity} */
   static Scalar of(Scalar value, Unit unit) {
     if (value instanceof Quantity)
       throw TensorRuntimeException.of(value);
-    // if (Objects.isNull(value) || Objects.isNull(unit))
-    // throw new NullPointerException();
     return QuantityImpl.of(value, unit);
   }
 
-  /** @param value
+  /** Hint: function does not check parameters for null, although
+   * null as input is likely to cause problems subsequently.
+   * 
+   * @param value
    * @param string for instance "m*s^-2"
-   * @return */
+   * @return
+   * @throws Exception if value is instance of {@code Quantity} */
   static Scalar of(Scalar value, String string) {
     if (value instanceof Quantity)
       throw TensorRuntimeException.of(value);
-    // if (Objects.isNull(value))
-    // throw new NullPointerException();
     return QuantityImpl.of(value, Unit.of(string));
   }
 
   /** creates quantity with number encoded as {@link RealScalar}
    * 
-   * @param number
+   * Hint: function does not check parameters for null, although
+   * null as input is likely to cause problems subsequently.
+   * 
+   * @param number non-null
    * @param unit
-   * @return */
+   * @return
+   * @throws Exception if parameter number equals null */
   static Scalar of(Number number, Unit unit) {
-    // if (Objects.isNull(unit))
-    // throw new NullPointerException();
     return QuantityImpl.of(RealScalar.of(number), unit);
   }
 
@@ -92,7 +98,8 @@ public interface Quantity extends Scalar, //
    * 
    * @param number
    * @param string for instance "kg^3*m*s^-2"
-   * @return */
+   * @return
+   * @throws Exception if either parameter equals null */
   static Scalar of(Number number, String string) {
     return QuantityImpl.of(RealScalar.of(number), Unit.of(string));
   }
