@@ -11,22 +11,27 @@ import ch.ethz.idsc.tensor.sca.Sinc;
 /* package */ class LanczosKernel implements ScalarUnaryOperator {
   private static final Scalar PI = DoubleScalar.of(Math.PI);
   // ---
+  static final LanczosKernel _3 = new LanczosKernel(3);
+  // ---
+  final int semi;
   private final Scalar bound;
   private final Clip clip;
 
-  public LanczosKernel(int size) {
-    bound = RealScalar.of(size);
+  public LanczosKernel(int semi) {
+    this.semi = semi;
+    bound = RealScalar.of(semi);
     clip = Clip.function(bound.negate(), bound);
   }
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (clip.isInside(scalar)) {
-      Scalar _scalar = scalar.multiply(PI);
-      return Sinc.FUNCTION.apply(_scalar).multiply(Sinc.FUNCTION.apply(_scalar.divide(bound)));
-    }
-    // LONGTERM <- ideally implementations should not reach this point
-    // System.out.println("don't evaluate here");
+    if (clip.isInside(scalar))
+      inside(scalar);
     return RealScalar.ZERO;
+  }
+
+  Scalar inside(Scalar scalar) {
+    Scalar _scalar = scalar.multiply(PI);
+    return Sinc.FUNCTION.apply(_scalar).multiply(Sinc.FUNCTION.apply(_scalar.divide(bound)));
   }
 }

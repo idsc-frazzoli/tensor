@@ -6,26 +6,36 @@ import java.util.stream.IntStream;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.sca.Floor;
 
-/** https://en.wikipedia.org/wiki/Lanczos_resampling */
-// LONGTERM implementation is inefficient, possibly too many multiplications by zero
+/** A typical application of {@code LanczosInterpolation} is image resizing.
+ * For efficiency, the filter should be applied to dimensions separately.
+ * 
+ * <p>The Lanczos kernel does not have the partition of unity property.
+ * A constant signal should not be interpolated using the filter.
+ * 
+ * https://en.wikipedia.org/wiki/Lanczos_resampling */
 public class LanczosInterpolation extends AbstractInterpolation {
   /** @param tensor
-   * @param size
+   * @param semi positive, typically greater than 1
    * @return */
-  public static Interpolation of(Tensor tensor, int size) {
-    return new LanczosInterpolation(tensor, size);
+  public static Interpolation of(Tensor tensor, int semi) {
+    return new LanczosInterpolation(tensor, new LanczosKernel(semi));
+  }
+
+  /** @param tensor
+   * @return Lanczos interpolation operator with {@code semi == 3} */
+  public static Interpolation of(Tensor tensor) {
+    return new LanczosInterpolation(tensor, LanczosKernel._3);
   }
 
   // ---
   private final Tensor tensor;
-  private final int size;
   private final LanczosKernel lanczosKernel;
 
-  private LanczosInterpolation(Tensor tensor, int size) {
+  private LanczosInterpolation(Tensor tensor, LanczosKernel lanczosKernel) {
     this.tensor = tensor;
-    this.size = size;
-    lanczosKernel = new LanczosKernel(size);
+    this.lanczosKernel = lanczosKernel;
   }
 
   @Override // from AbstractInterpolation
@@ -36,9 +46,8 @@ public class LanczosInterpolation extends AbstractInterpolation {
     for (int pos = 0; pos < index.length(); ++pos) {
       Tensor _sum = sum;
       Scalar value = index.Get(pos);
-      int min = value.Get().number().intValue() - size;
-      int max = value.Get().number().intValue() + size;
-      sum = IntStream.range(min, max) //
+      int center = Floor.FUNCTION.apply(value).Get().number().intValue();
+      sum = IntStream.range(center - lanczosKernel.semi + 1, center + lanczosKernel.semi) //
           .mapToObj(count -> flow(_sum, count, value)) //
           .reduce(Tensor::add).get();
     }
@@ -46,8 +55,7 @@ public class LanczosInterpolation extends AbstractInterpolation {
   }
 
   private Tensor flow(Tensor tensor, int count, Scalar value) {
-    int ind = Math.min(Math.max(0, count), tensor.length() - 1);
-    Scalar weight = lanczosKernel.apply(value.subtract(RealScalar.of(count)));
-    return tensor.get(ind).multiply(weight);
+    return tensor.get(Math.min(Math.max(0, count), tensor.length() - 1)) //
+        .multiply(lanczosKernel.inside(value.subtract(RealScalar.of(count))));
   }
 }
