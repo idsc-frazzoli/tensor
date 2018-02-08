@@ -4,10 +4,15 @@ package ch.ethz.idsc.tensor.io;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** comma separated values format
  * 
@@ -75,6 +80,26 @@ public enum CsvFormat {
     return Tensor.of(stream.parallel() //
         .map(CsvFormat::encloseWithBrackets) //
         .map(function));
+  }
+
+  /** the scalar operator attempts to guarantee that the CSV import in Mathematica
+   * as numeric values.
+   * 
+   * <p>Scalars of type
+   * <ul>
+   * <li>{@link RationalScalar} are converted to {@link DoubleScalar} unless the
+   * fraction has denominator == 1.
+   * <li>{@link StringScalar} is enclosed in quotes if necessary. The result must
+   * not contain any other quotes character.
+   * <li>{@link ComplexScalar}, or {@link Quantity} are not allowed.
+   * </ul>
+   * 
+   * <p>Example use:
+   * <pre>
+   * Export.of(new File("name.csv"), tensor.map(CsvFormat.strict()));
+   * </pre> */
+  public static ScalarUnaryOperator strict() {
+    return CsvHelper.FUNCTION;
   }
 
   private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;

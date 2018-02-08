@@ -1,6 +1,4 @@
-<a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
-
-# ch.ethz.idsc.tensor
+# ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
 Library for tensor computations in Java, version `0.4.9`
 
@@ -10,10 +8,37 @@ The tensor library was developed with the following objectives in mind
 * suitable for use in safety-critical real-time systems
 * API and string expressions inspired by `Mathematica`
 
+Diverse projects rely on the library:
+
+<table>
+<tr>
+<td>
+
+![usecase_amodeus](https://user-images.githubusercontent.com/4012178/35968174-668b6e54-0cc3-11e8-9c1b-a3e011fa0600.png)
+Mobility on Demand
+
+<td>
+
+![usecase_swisstrolley](https://user-images.githubusercontent.com/4012178/35968228-88547e90-0cc3-11e8-978d-4f822515156f.png)
+SwissTrolley plus
+
+<td>
+
+![usecase_motionplan](https://user-images.githubusercontent.com/4012178/35968244-96577dee-0cc3-11e8-80a1-b38691e863af.png)
+Motion Planning
+
+<td>
+
+![usecase_gokart](https://user-images.githubusercontent.com/4012178/35968269-a92a3b46-0cc3-11e8-8d5e-1276762cdc36.png)
+Autonomous Gokart
+
+</tr>
+</table>
+
 ## Features
 
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
-* unstructured nested tensors, for instance `{{1, 2}, {{3}, 4, 5}}`
+* unstructured, nested tensors, for instance `{{1+2*I[A], -3/4}, {{5.678}, 9[kg*s^-1], 2[m^3]}}`
 * scalars are real-, or complex numbers, from finite fields, or quantities with physical units
 * values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
 * probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
@@ -26,25 +51,21 @@ The tensor library was developed with the following objectives in mind
 <td>
 
 ![gammademo](https://user-images.githubusercontent.com/4012178/28755698-bdb96546-7560-11e7-88d5-2d143e155e75.png)
-
 Gamma
 
 <td>
 
 ![inversetrigdemo2](https://user-images.githubusercontent.com/4012178/28755697-bdb72d58-7560-11e7-8a70-3ef9d82ff48c.png)
-
 Trigonometry
 
 <td>
 
 ![mandelbulbdemo](https://user-images.githubusercontent.com/4012178/28755696-bd98789a-7560-11e7-8ebc-001c37f0a4fd.png)
-
 Nylander's formula
 
 <td>
 
 ![newtondemo](https://user-images.githubusercontent.com/4012178/35206180-22bed070-ff3b-11e7-8def-407345e3693e.png)
-
 Newton's method
 
 </tr>
@@ -210,47 +231,6 @@ Predefined color gradients
 
 ![colordatagradients](https://user-images.githubusercontent.com/4012178/35498514-f0a56830-04ce-11e8-904b-ec463464e30f.png)
 
-Image synthesis
-
-    int n = 251;
-    Export.of(new File("image.png"), Tensors.matrix((i, j) -> Tensors.of( //
-        RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
-
-gives
-
-![gauss_scalar](https://cloud.githubusercontent.com/assets/4012178/26045629/63b756ee-394b-11e7-85f4-d9121905badd.png)
-
-## References
-
-<table>
-<tr>
-<td>
-
-![usecase_amodeus](https://user-images.githubusercontent.com/4012178/35968174-668b6e54-0cc3-11e8-9c1b-a3e011fa0600.png)
-
-Mobility on Demand
-
-<td>
-
-![usecase_swisstrolley](https://user-images.githubusercontent.com/4012178/35968228-88547e90-0cc3-11e8-978d-4f822515156f.png)
-
-Swisstrolley Plus
-
-<td>
-
-![usecase_motionplan](https://user-images.githubusercontent.com/4012178/35968244-96577dee-0cc3-11e8-80a1-b38691e863af.png)
-
-Motion Planning
-
-<td>
-
-![usecase_gokart](https://user-images.githubusercontent.com/4012178/35968269-a92a3b46-0cc3-11e8-8d5e-1276762cdc36.png)
-
-Autonomous Gokart
-
-</tr>
-</table>
-
 ## Integration
 
 Specify `repository` and `dependency` of the tensor library in the `pom.xml` file of your maven project:
@@ -290,4 +270,3 @@ The `javadoc` API is generated with
 The documentation is accessible through the file
 
     .../tensor/target/site/apidocs/index.html
-
