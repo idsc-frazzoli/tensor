@@ -1,10 +1,8 @@
-# ch.ethz.idsc.tensor
-
 <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java 8.
+# ch.ethz.idsc.tensor
 
-Version `0.4.9`
+Library for tensor computations in Java, version `0.4.9`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -15,10 +13,11 @@ The tensor library was developed with the following objectives in mind
 ## Features
 
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
+* unstructured nested tensors, for instance `{{1, 2}, {{3}, 4, 5}}`
 * scalars are real-, or complex numbers, from finite fields, or quantities with physical units
 * values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
 * probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
-* import from and export to `Mathematica`, `CSV`-, and image files
+* import from and export to `Mathematica`, `CSV`, and image files
 
 ## Gallery
 
@@ -221,6 +220,37 @@ gives
 
 ![gauss_scalar](https://cloud.githubusercontent.com/assets/4012178/26045629/63b756ee-394b-11e7-85f4-d9121905badd.png)
 
+## References
+
+<table>
+<tr>
+<td>
+
+![usecase_amodeus](https://user-images.githubusercontent.com/4012178/35968174-668b6e54-0cc3-11e8-9c1b-a3e011fa0600.png)
+
+Mobility on Demand
+
+<td>
+
+![usecase_swisstrolley](https://user-images.githubusercontent.com/4012178/35968228-88547e90-0cc3-11e8-978d-4f822515156f.png)
+
+Swisstrolley Plus
+
+<td>
+
+![usecase_motionplan](https://user-images.githubusercontent.com/4012178/35968244-96577dee-0cc3-11e8-80a1-b38691e863af.png)
+
+Motion Planning
+
+<td>
+
+![usecase_gokart](https://user-images.githubusercontent.com/4012178/35968269-a92a3b46-0cc3-11e8-8d5e-1276762cdc36.png)
+
+Autonomous Gokart
+
+</tr>
+</table>
+
 ## Integration
 
 Specify `repository` and `dependency` of the tensor library in the `pom.xml` file of your maven project:
@@ -261,14 +291,3 @@ The documentation is accessible through the file
 
     .../tensor/target/site/apidocs/index.html
 
-## References
-
-The library is used in the projects:
-* `matsim`, and `queuey` 
-* `subare`
-* `SwissTrolley+` that implements Scalar with physical units from `javax.measure.Unit`
-* `owl`, and `owly3d`
-* `retina`
-* `lcm-java`
-
-The repository has over `1980` unit tests.
