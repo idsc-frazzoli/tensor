@@ -53,8 +53,7 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    Clip.unit().isInsideElseThrow(p);
-    return protected_quantile(p);
+    return protected_quantile(Clip.unit().requireInside(p));
   }
 
   @Override // from AbstractDiscreteDistribution

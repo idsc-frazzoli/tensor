@@ -51,7 +51,7 @@ public class BSplineFunction implements ScalarTensorFunction {
 
   @Override
   public Tensor apply(Scalar scalar) {
-    clip.isInsideElseThrow(scalar);
+    clip.requireInside(scalar);
     scalar = scalar.add(shift);
     Scalar lo = Floor.FUNCTION.apply(scalar);
     int k = lo.number().intValue();

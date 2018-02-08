@@ -35,7 +35,7 @@ public enum InverseErf implements ScalarUnaryOperator {
 
   @Override
   public Scalar apply(Scalar scalar) {
-    Clip.absoluteOne().isInsideElseThrow(scalar);
+    Clip.absoluteOne().requireInside(scalar);
     if (scalar.equals(ONE_NEGATE))
       return DoubleScalar.NEGATIVE_INFINITY;
     if (scalar.equals(RealScalar.ONE))
