@@ -59,8 +59,7 @@ public class ExponentialDistribution extends AbstractContinuousDistribution impl
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    Clip.unit().isInsideElseThrow(p);
-    return quantile_unit(RealScalar.ONE.subtract(p));
+    return quantile_unit(RealScalar.ONE.subtract(Clip.unit().requireInside(p)));
   }
 
   private Scalar quantile_unit(Scalar p) {

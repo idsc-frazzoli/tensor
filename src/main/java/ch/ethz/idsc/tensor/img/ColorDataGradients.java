@@ -30,6 +30,7 @@ public enum ColorDataGradients implements ColorDataFunction {
   SUNSET, //
   /** [0, 1] corresponds to wavelengths [380, 750] */
   VISIBLESPECTRUM, //
+  JET, //
   RAINBOW, //
   CMYK_REVERSED, //
   TEMPERATURE, // blue to red, has yellow before turning red
@@ -43,6 +44,7 @@ public enum ColorDataGradients implements ColorDataFunction {
   DENSITY, // mathematica default
   SOLAR, //
   GRAYSCALE(GrayscaleColorData.FUNCTION), //
+  BONE, //
   COPPER, //
   AVOCADO, //
   /** the tensor library is made in Switzerland

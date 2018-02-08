@@ -66,8 +66,7 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    Clip.unit().isInsideElseThrow(p);
-    return quantile_unit(p);
+    return quantile_unit(Clip.unit().requireInside(p));
   }
 
   private Scalar quantile_unit(Scalar p) {

@@ -1,10 +1,6 @@
-# ch.ethz.idsc.tensor
+# ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-<a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
-
-Library for tensor computations in Java 8.
-
-Version `0.4.8`
+Library for tensor computations in Java, version `0.4.9`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -12,13 +8,45 @@ The tensor library was developed with the following objectives in mind
 * suitable for use in safety-critical real-time systems
 * API and string expressions inspired by `Mathematica`
 
+Diverse projects rely on the tensor library:
+
+<table>
+<tr>
+<td>
+
+![usecase_amodeus](https://user-images.githubusercontent.com/4012178/35968174-668b6e54-0cc3-11e8-9c1b-a3e011fa0600.png)
+
+Mobility on Demand
+
+<td>
+
+![usecase_swisstrolley](https://user-images.githubusercontent.com/4012178/35968228-88547e90-0cc3-11e8-978d-4f822515156f.png)
+
+SwissTrolley plus
+
+<td>
+
+![usecase_motionplan](https://user-images.githubusercontent.com/4012178/35968244-96577dee-0cc3-11e8-80a1-b38691e863af.png)
+
+Motion Planning
+
+<td>
+
+![usecase_gokart](https://user-images.githubusercontent.com/4012178/35968269-a92a3b46-0cc3-11e8-8d5e-1276762cdc36.png)
+
+Autonomous Gokart
+
+</tr>
+</table>
+
 ## Features
 
 * multi-dimensional arrays: scalars, vectors, matrices, n-linear forms, Lie-algebra ad-tensor, ...
+* unstructured, nested tensors, for instance `{{1+2*I[A], -3/4}, {{5.678}, 9[kg*s^-1], 2[m^3]}}`
 * scalars are real-, or complex numbers, from finite fields, or quantities with physical units
 * values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
 * probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
-* import from and export to `Mathematica`, `CSV`-, and image files
+* import from and export to `Mathematica`, `CSV`, and image files
 
 ## Gallery
 
@@ -96,18 +124,12 @@ Statistics
 
     Distribution distribution = HypergeometricDistribution.of(10, 50, 100);
     System.out.println(RandomVariate.of(distribution, 20));
-
-gives
-
-    {6, 5, 1, 4, 3, 4, 7, 5, 7, 4, 6, 3, 5, 4, 5, 4, 6, 2, 6, 7}
-
-and
-
     PDF pdf = PDF.of(distribution);
     System.out.println("P(X=3)=" + pdf.at(RealScalar.of(3)));
 
 gives
 
+    {6, 5, 1, 4, 3, 4, 7, 5, 7, 4, 6, 3, 5, 4, 5, 4, 6, 2, 6, 7}
     P(X=3)=84000/742729
 
 ### Physical Quantities
@@ -215,17 +237,7 @@ gives the vector
 
 Predefined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/35206196-39acb66c-ff3b-11e7-9db8-8590a2ee2777.png)
-
-Image synthesis
-
-    int n = 251;
-    Export.of(new File("image.png"), Tensors.matrix((i, j) -> Tensors.of( //
-      RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
-
-gives
-
-![gauss_scalar](https://cloud.githubusercontent.com/assets/4012178/26045629/63b756ee-394b-11e7-85f4-d9121905badd.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/35498514-f0a56830-04ce-11e8-904b-ec463464e30f.png)
 
 ## Integration
 
@@ -246,7 +258,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.4.8</version>
+        <version>0.4.9</version>
       </dependency>
     </dependencies>
 
@@ -254,7 +266,7 @@ The source code is attached to every release.
 
 > *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
 
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.8/*
+    ~/.m2/repository/ch/ethz/idsc/tensor/0.4.9/*
 
 ## Documentation
 
@@ -266,15 +278,3 @@ The `javadoc` API is generated with
 The documentation is accessible through the file
 
     .../tensor/target/site/apidocs/index.html
-
-## References
-
-The library is used in the projects:
-* `matsim`, and `queuey` 
-* `subare`
-* `SwissTrolley+` that implements Scalar with physical units from `javax.measure.Unit`
-* `owl`, and `owly3d`
-* `retina`
-* `lcm-java`
-
-The repository has over `1950` unit tests.

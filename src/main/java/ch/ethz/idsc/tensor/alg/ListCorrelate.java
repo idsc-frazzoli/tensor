@@ -1,14 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ListCorrelate.html">ListCorrelate</a> */
@@ -20,20 +15,18 @@ public enum ListCorrelate {
    * </pre>
    * 
    * @param kernel
-   * @param tensor
+   * @param tensor of the same rank as kernel
    * @return correlation of kernel with tensor
-   * @throws Exception if dimensions of kernel and tensor are unsuitable for convolution,
-   * for instance if tensor is a {@link Scalar} */
+   * @throws Exception if dimensions of kernel and tensor are unsuitable for correlation,
+   * for instance if tensor is a {@link Scalar}
+   * @see ListConvolve */
   public static Tensor of(Tensor kernel, Tensor tensor) {
-    List<Integer> mask = Dimensions.of(kernel);
-    List<Integer> size = Dimensions.of(tensor);
-    Tensor refs = Unprotect.references(tensor);
-    List<Integer> dimensions = IntStream.range(0, mask.size()) //
-        .mapToObj(index -> size.get(index) - mask.get(index) + 1) //
-        .collect(Collectors.toList());
-    if (dimensions.stream().anyMatch(i -> i <= 0))
-      throw TensorRuntimeException.of(kernel, tensor);
-    return Array.of(index -> kernel.pmul(refs.block(index, mask)).flatten(-1) //
-        .reduce(Tensor::add).get(), dimensions);
+    return with(kernel).apply(tensor);
+  }
+
+  /** @param kernel
+   * @return operator that performs correlation with given kernel on tensor input */
+  public static TensorUnaryOperator with(Tensor kernel) {
+    return new ListCorrelateOperator(kernel);
   }
 }

@@ -1,9 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import java.util.function.UnaryOperator;
-
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 
 /** One application of {@link ListConvolve} is the computation of the coefficients
  * of the product of two polynomials.
@@ -18,16 +17,16 @@ public enum ListConvolve {
    * </pre>
    * 
    * @param kernel
-   * @param tensor
-   * @return convolution of kernel with tensor */
+   * @param tensor of the same rank as kernel
+   * @return convolution of kernel with tensor
+   * @see ListCorrelate */
   public static Tensor of(Tensor kernel, Tensor tensor) {
-    return ListCorrelate.of(Reverse.all(kernel), tensor);
+    return with(kernel).apply(tensor);
   }
 
   /** @param kernel
    * @return operator that performs convolution with given kernel on tensor input */
-  public static UnaryOperator<Tensor> with(Tensor kernel) {
-    Tensor reverse = Reverse.all(kernel);
-    return tensor -> ListCorrelate.of(reverse, tensor);
+  public static TensorUnaryOperator with(Tensor kernel) {
+    return new ListCorrelateOperator(Reverse.all(kernel));
   }
 }

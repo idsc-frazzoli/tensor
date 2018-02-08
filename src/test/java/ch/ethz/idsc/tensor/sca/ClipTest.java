@@ -84,21 +84,6 @@ public class ClipTest extends TestCase {
     }
   }
 
-  public void testZeroWidth() {
-    Clip clip = Clip.function(2, 2);
-    assertEquals(clip.apply(RealScalar.of(3)), RealScalar.of(2));
-  }
-
-  public void testRescaleZeroWidth() {
-    Clip clip = Clip.function(2, 2);
-    assertEquals(clip.rescale(RealScalar.of(-1)), RealScalar.ZERO);
-    assertEquals(clip.rescale(RealScalar.ZERO), RealScalar.ZERO);
-    assertEquals(clip.rescale(RealScalar.of(2)), RealScalar.ZERO);
-    assertEquals(clip.rescale(RealScalar.of(4)), RealScalar.ZERO);
-    assertEquals(clip.min(), RealScalar.of(2));
-    assertEquals(clip.max(), RealScalar.of(2));
-  }
-
   public void testRescaleQuantity() {
     Scalar min = Quantity.of(-3, "m");
     Scalar max = Quantity.of(2, "m");
@@ -131,8 +116,9 @@ public class ClipTest extends TestCase {
 
   public void testClipOutside() {
     Clip clip = Clip.function(3, 5);
+    assertEquals(clip.requireInside(RealScalar.of(3.9)), RealScalar.of(3.9));
     try {
-      clip.isInsideElseThrow(RealScalar.of(2.9));
+      clip.requireInside(RealScalar.of(2.9));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

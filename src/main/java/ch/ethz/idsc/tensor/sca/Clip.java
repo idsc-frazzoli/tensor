@@ -1,92 +1,78 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** Clip encodes a closed interval in the ordered set of real numbers.
  * 
+ * Example:
+ * <pre>
+ * Clip clip = Clip.function(5, 10);
+ * clip.apply(3) == 5
+ * clip.apply(5) == 5
+ * clip.apply(6) == 6
+ * clip.apply(10) == 10
+ * clip.apply(20) == 10
+ * </pre>
+ * 
+ * <p>{@code Clip} also works for intervals defined by {@link Quantity}.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Clip.html">Clip</a> */
-public class Clip implements ScalarUnaryOperator {
-  private static final Clip UNIT = function(0, 1);
-  private static final Clip ABSOLUTE_ONE = function(-1, 1);
-
+public interface Clip extends ScalarUnaryOperator {
   /** clip function that maps to the unit interval [0, 1] */
-  public static Clip unit() {
-    return UNIT;
+  static Clip unit() {
+    return ClipInterval.UNIT;
   }
 
   /** clip function that clips scalars to the interval [-1, 1] */
-  public static Clip absoluteOne() {
-    return ABSOLUTE_ONE;
+  static Clip absoluteOne() {
+    return ClipInterval.ABSOLUTE_ONE;
   }
 
   /** @param min
    * @param max
-   * @return function that clips the input to the closed interval [min, max] */
+   * @return function that clips the input to the closed interval [min, max]
+   * @throws Exception if min is greater than max */
   public static Clip function(Number min, Number max) {
     return function(RealScalar.of(min), RealScalar.of(max));
   }
 
   /** @param min
    * @param max
-   * @return function that clips the input to the closed interval [min, max] */
+   * @return function that clips the input to the closed interval [min, max]
+   * @throws Exception if min is greater than max */
   public static Clip function(Scalar min, Scalar max) {
-    if (Scalars.lessThan(max, min))
+    Scalar width = max.subtract(min);
+    if (Sign.isNegative(width))
       throw TensorRuntimeException.of(min, max);
-    return new Clip(min, max);
+    return min.equals(max) ? new ClipPoint(min, width) : new ClipInterval(min, max, width);
   }
 
-  // ---
-  private final Scalar min;
-  private final Scalar max;
-  private final Scalar width;
-
-  private Clip(Scalar min, Scalar max) {
-    this.min = min;
-    this.max = max;
-    width = max.subtract(min);
-  }
-
-  @Override
-  public Scalar apply(Scalar scalar) {
-    boolean cmpMin = Scalars.lessThan(scalar, min);
-    boolean cmpMax = Scalars.lessThan(max, scalar);
-    if (cmpMin)
-      return min;
-    if (cmpMax)
-      return max;
-    return scalar;
-  }
-
-  @SuppressWarnings("unchecked")
-  public <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(this);
-  }
+  /** @param tensor
+   * @return tensor with all entries of given tensor applied to clip function */
+  <T extends Tensor> T of(T tensor);
 
   /** @param scalar
    * @return true if given scalar is invariant under this clip */
-  public boolean isInside(Scalar scalar) {
-    return apply(scalar).equals(scalar);
-  }
+  boolean isInside(Scalar scalar);
 
-  /** @param scalar
-   * @return true if given scalar is invariant under this clip */
-  public void isInsideElseThrow(Scalar scalar) {
-    if (isOutside(scalar))
-      throw TensorRuntimeException.of(min, max, scalar);
-  }
+  /** Remark: Functionality inspired by {@link Objects#requireNonNull(Object)}
+   * 
+   * @param scalar
+   * @return scalar that is guaranteed to be invariant under this clip
+   * @throws Exception if given scalar is not invariant under this clip */
+  Scalar requireInside(Scalar scalar);
 
   /** @param scalar
    * @return true if given scalar is not invariant under this clip */
-  public boolean isOutside(Scalar scalar) {
-    return !isInside(scalar);
-  }
+  boolean isOutside(Scalar scalar);
 
   /** If max - min > 0, the given scalar is divided by width.
    * If max == min the result is always RealScalar.ZERO.
@@ -99,22 +85,14 @@ public class Clip implements ScalarUnaryOperator {
    * @return value in interval [0, 1] relative to position of scalar in clip interval.
    * If the clip interval width is zero, the return value is zero.
    * If the given scalar is outside the clip interval, the return value is outside [0, 1]. */
-  public Scalar rescale(Scalar scalar) {
-    return Scalars.isZero(width) ? RealScalar.ZERO : apply(scalar).subtract(min).divide(width);
-  }
+  Scalar rescale(Scalar scalar);
 
   /** @return lower bound of clip interval */
-  public Scalar min() {
-    return min;
-  }
+  Scalar min();
 
   /** @return upper bound of clip interval */
-  public Scalar max() {
-    return max;
-  }
+  Scalar max();
 
   /** @return difference between upper and lower bound of clip interval */
-  public Scalar width() {
-    return width;
-  }
+  Scalar width();
 }

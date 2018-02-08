@@ -67,8 +67,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   public Scalar quantile(Scalar p) {
     if (p.equals(RealScalar.ONE))
       return RealScalar.of(max - 1); // consistent with Mathematica
-    Clip.unit().isInsideElseThrow(p);
-    return protected_quantile(p);
+    return protected_quantile(Clip.unit().requireInside(p));
   }
 
   @Override // from InverseCDF

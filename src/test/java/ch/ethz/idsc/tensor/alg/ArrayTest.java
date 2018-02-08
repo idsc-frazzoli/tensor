@@ -65,6 +65,7 @@ public class ArrayTest extends TestCase {
   }
 
   public void testEmpty() {
+    assertEquals(Array.zeros(), RealScalar.ZERO);
     assertEquals(Array.zeros(0), Tensors.empty());
     assertEquals(Array.zeros(0, 1), Tensors.empty());
     assertEquals(Array.zeros(0, 0, 1), Tensors.empty());

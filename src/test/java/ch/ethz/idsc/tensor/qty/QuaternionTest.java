@@ -112,6 +112,23 @@ public class QuaternionTest extends TestCase {
     }
   }
 
+  public void testPlusFail() {
+    Scalar quaternion = Quaternion.of(1, 3, -2, 2);
+    Scalar quantity = Quantity.of(1, "m");
+    try {
+      quaternion.add(quantity);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      quantity.add(quaternion);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testExactScalarQ() {
     Scalar q1 = Quaternion.of(1, 3, -2, 2);
     assertTrue(ExactScalarQ.of(q1));

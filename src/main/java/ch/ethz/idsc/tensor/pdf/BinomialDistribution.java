@@ -32,7 +32,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
   public static Distribution of(int n, Scalar p) {
     if (n < 0)
       throw new RuntimeException("n=" + n);
-    Clip.unit().isInsideElseThrow(p);
+    Clip.unit().requireInside(p);
     // ---
     boolean revert = Scalars.lessThan(RationalScalar.HALF, p);
     Scalar q = revert ? RealScalar.ONE.subtract(p) : p;

@@ -15,9 +15,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * <p>Example:
  * <pre>
- * Tensor box = {{0,7}, {0,8}, {1,8}, {1,7}};
- * box.stream().reduce(Entrywise.max()).get() == {1, 8}
- * box.stream().reduce(Entrywise.min()).get() == {0, 7}
+ * Tensor box = {{0,7}, {0,8}, {1,5}, {2,7}};
+ * box.stream().reduce(Entrywise.max()).get() == {2, 8}
+ * box.stream().reduce(Entrywise.min()).get() == {0, 5}
  * </pre>
  * 
  * <p>Entrywise reproduces existing functionality:
@@ -66,7 +66,7 @@ public class Entrywise implements BinaryOperator<Tensor> {
   /** Example:
    * <pre>
    * Entrywise.with(Max::of).of({1, 2, 3}, {5, 0, 4}) == {5, 2, 4}
-   * Entrywise.with(Max::of).of({1, 2, 3}, {5, 0, 4}) == {1, 0, 3}
+   * Entrywise.with(Min::of).of({1, 2, 3}, {5, 0, 4}) == {1, 0, 3}
    * </pre>
    * 
    * @param tensors with identical dimensions/structure

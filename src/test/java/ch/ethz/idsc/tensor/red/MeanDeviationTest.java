@@ -29,7 +29,7 @@ public class MeanDeviationTest extends TestCase {
   public void testArray() {
     Scalar value = MeanDeviation.ofVector(RandomVariate.of(UniformDistribution.unit(), 10000));
     Clip clip = Clip.function(0.23, 0.27);
-    clip.isInsideElseThrow(value);
+    clip.requireInside(value);
   }
 
   public void testFail() {

@@ -24,11 +24,11 @@ public class EntrywiseTest extends TestCase {
   }
 
   public void testStreamReduce() {
-    Tensor box = Tensors.fromString("{{0, 7}, {0, 8}, {1, 8}, {1, 7}}");
+    Tensor box = Tensors.fromString("{{0,7}, {0,8}, {1,5}, {2,7}}");
     Tensor max = box.stream().reduce(Entrywise.max()).get();
     Tensor min = box.stream().reduce(Entrywise.min()).get();
-    assertEquals(max, Tensors.vector(1, 8));
-    assertEquals(min, Tensors.vector(0, 7));
+    assertEquals(max, Tensors.vector(2, 8));
+    assertEquals(min, Tensors.vector(0, 5));
   }
 
   public void testMaxSimple() {

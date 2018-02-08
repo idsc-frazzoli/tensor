@@ -36,8 +36,9 @@ public interface RealScalar extends Scalar, //
    * the value is encoded as {@link RationalScalar},
    * {@link DoubleScalar}, or {@link DecimalScalar}.
    * 
-   * @param number
-   * @return scalar with best possible accuracy to encode given number */
+   * @param number non-null
+   * @return scalar with best possible accuracy to encode given number
+   * @throws Exception if number is null, or instance of an unsupported type */
   static Scalar of(Number number) {
     if (number instanceof Integer || //
         number instanceof Long || //
