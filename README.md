@@ -8,28 +8,32 @@ The tensor library was developed with the following objectives in mind
 * suitable for use in safety-critical real-time systems
 * API and string expressions inspired by `Mathematica`
 
-Diverse projects rely on the library:
+Diverse projects rely on the tensor library:
 
 <table>
 <tr>
 <td>
 
 ![usecase_amodeus](https://user-images.githubusercontent.com/4012178/35968174-668b6e54-0cc3-11e8-9c1b-a3e011fa0600.png)
+
 Mobility on Demand
 
 <td>
 
 ![usecase_swisstrolley](https://user-images.githubusercontent.com/4012178/35968228-88547e90-0cc3-11e8-978d-4f822515156f.png)
+
 SwissTrolley plus
 
 <td>
 
 ![usecase_motionplan](https://user-images.githubusercontent.com/4012178/35968244-96577dee-0cc3-11e8-80a1-b38691e863af.png)
+
 Motion Planning
 
 <td>
 
 ![usecase_gokart](https://user-images.githubusercontent.com/4012178/35968269-a92a3b46-0cc3-11e8-8d5e-1276762cdc36.png)
+
 Autonomous Gokart
 
 </tr>
@@ -51,21 +55,25 @@ Autonomous Gokart
 <td>
 
 ![gammademo](https://user-images.githubusercontent.com/4012178/28755698-bdb96546-7560-11e7-88d5-2d143e155e75.png)
+
 Gamma
 
 <td>
 
 ![inversetrigdemo2](https://user-images.githubusercontent.com/4012178/28755697-bdb72d58-7560-11e7-8a70-3ef9d82ff48c.png)
+
 Trigonometry
 
 <td>
 
 ![mandelbulbdemo](https://user-images.githubusercontent.com/4012178/28755696-bd98789a-7560-11e7-8ebc-001c37f0a4fd.png)
+
 Nylander's formula
 
 <td>
 
 ![newtondemo](https://user-images.githubusercontent.com/4012178/35206180-22bed070-ff3b-11e7-8def-407345e3693e.png)
+
 Newton's method
 
 </tr>
