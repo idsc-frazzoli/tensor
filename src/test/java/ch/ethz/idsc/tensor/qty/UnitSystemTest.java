@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor.qty;
 
 import java.util.Properties;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -77,5 +79,18 @@ public class UnitSystemTest extends TestCase {
     assertEquals(total, Quantity.of(16, "CHF"));
     Scalar euro = new UnitConvert(prices).to(Unit.of("EUR")).apply(total);
     assertEquals(euro, Quantity.of(12.8, "EUR"));
+  }
+
+  public void testKnots() {
+    UnitSystem unitSystem = UnitSystem.SI();
+    Scalar r1 = unitSystem.apply(Quantity.of(1, "knots"));
+    Unit unit = Units.of(r1);
+    assertEquals(unit, Unit.of("m*s^-1"));
+    assertTrue(ExactScalarQ.of(r1));
+    Scalar r2 = UnitConvert.SI().to(Unit.of("km*h^-1")).apply(r1);
+    assertTrue(ExactScalarQ.of(r2));
+    Scalar r3 = Quantity.of(RationalScalar.of(463, 250), "km*h^-1");
+    assertTrue(ExactScalarQ.of(r3));
+    assertEquals(r2, r3);
   }
 }

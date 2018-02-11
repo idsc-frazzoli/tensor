@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import junit.framework.TestCase;
@@ -38,6 +39,14 @@ public class UnitConvertTest extends TestCase {
   public void testForce() {
     Scalar force = UnitConvert.SI().to(Unit.of("N")).apply(Quantity.of(981, "cm*kg*s^-2"));
     assertEquals(force, Scalars.fromString("981/100[N]"));
+  }
+
+  public void testNauticalMiles() {
+    Scalar scalar = Quantity.of(1, "nmi");
+    Scalar result = UnitConvert.SI().to(Unit.of("km")).apply(scalar);
+    assertEquals(result, Scalars.fromString("1.852[km]"));
+    assertTrue(ExactScalarQ.of(scalar));
+    assertTrue(ExactScalarQ.of(result));
   }
 
   public void testFail() {
