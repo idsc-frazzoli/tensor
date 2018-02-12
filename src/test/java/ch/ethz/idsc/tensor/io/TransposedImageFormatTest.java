@@ -18,8 +18,8 @@ import ch.ethz.idsc.tensor.alg.Flatten;
 import ch.ethz.idsc.tensor.alg.ListConvolve;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
-import ch.ethz.idsc.tensor.img.ColorDataFunction;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
+import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -111,7 +111,7 @@ public class TransposedImageFormatTest extends TestCase {
   private static Tensor _gradients() {
     Tensor arr = Array.of(list -> RealScalar.of(list.get(1)), 2, 128);
     Tensor image = Tensors.empty();
-    for (ColorDataFunction cdf : ColorDataGradients.values())
+    for (ScalarTensorFunction cdf : ColorDataGradients.values())
       image.append(ArrayPlot.of(arr, cdf));
     image = Flatten.of(image, 1);
     image = Transpose.of(image, 1, 0, 2);

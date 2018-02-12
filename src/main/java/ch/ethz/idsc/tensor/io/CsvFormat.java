@@ -11,7 +11,6 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.qty.Quantity;
-import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** comma separated values format
@@ -28,8 +27,9 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * the preferred option. However, the csv format may produce smaller
  * files. Mathematica::Import of csv files requires the table entries
  * to be decimal numbers. In particular, exact fractions, e.g. 5/7,
- * are imported to string expressions "5/7". {@link N#DOUBLE} can be
- * used to map the entries to decimal expressions prior to export.
+ * are imported to string expressions "5/7". The scalar operator
+ * {@link CsvFormat#strict()} can be used to map the entries to decimal
+ * expressions prior to export.
  * 
  * <p>Within the realm of Java, use {@link ObjectFormat}
  * to store and reload tensors, and do not use csv format. */

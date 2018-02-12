@@ -16,10 +16,10 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Flatten;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
-import ch.ethz.idsc.tensor.img.ColorDataFunction;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.ImageFormat;
+import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** export of available {@link ColorDataGradients} to a single image */
@@ -32,7 +32,7 @@ enum ColorDataGradientsDemo {
     final int sep = 120;
     Tensor arr = Array.of(list -> RealScalar.of(list.get(1)), hei, 256);
     Tensor image = Tensors.empty();
-    for (ColorDataFunction cdf : ColorDataGradients.values())
+    for (ScalarTensorFunction cdf : ColorDataGradients.values())
       image.append(ArrayPlot.of(arr, cdf));
     image = Flatten.of(image, 1);
     List<Integer> dims = Dimensions.of(image);

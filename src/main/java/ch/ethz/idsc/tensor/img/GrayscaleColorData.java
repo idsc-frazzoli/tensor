@@ -5,9 +5,10 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 import ch.ethz.idsc.tensor.sca.N;
 
-/* package */ enum GrayscaleColorData implements ColorDataFunction {
+/* package */ enum GrayscaleColorData implements ScalarTensorFunction {
   FUNCTION;
   // ---
   private final Tensor[] tensors = new Tensor[256];
@@ -24,6 +25,6 @@ import ch.ethz.idsc.tensor.sca.N;
   public Tensor apply(Scalar scalar) {
     double value = scalar.number().doubleValue();
     return Double.isFinite(value) ? //
-        tensors[(int) (value * 255 + 0.5)] : ColorDataFunction.transparent();
+        tensors[(int) (value * 255 + 0.5)] : StaticHelper.transparent();
   }
 }

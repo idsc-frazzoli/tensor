@@ -13,15 +13,18 @@ import ch.ethz.idsc.tensor.Scalar;
  * pass over a stream of {@link Scalar}s. The stream may be processed in
  * parallel.
  * 
- * The scalars are required to be comparable. For instance, complex numbers
+ * <p>The scalars are required to be comparable. For instance, complex numbers
  * do not have a natural ordering, therefore the minimum is not well defined.
  * 
- * API inspired by {@link IntSummaryStatistics} */
+ * <p>API inspired by {@link IntSummaryStatistics} */
 public class ScalarSummaryStatistics implements Consumer<Scalar> {
   /** Example:
    * <pre>
    * ScalarSummaryStatistics scalarSummaryStatistics = Tensors.vector(1, 4, 2, 8, 3, 10)
    * .stream().parallel().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
+   * scalarSummaryStatistics.getMin() == 1
+   * scalarSummaryStatistics.getMax() == 10
+   * scalarSummaryStatistics.getSum() == 28
    * </pre>
    * 
    * @return */

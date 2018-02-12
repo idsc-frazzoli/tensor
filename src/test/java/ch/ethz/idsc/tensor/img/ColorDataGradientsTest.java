@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Increment;
@@ -16,7 +17,7 @@ import junit.framework.TestCase;
 
 public class ColorDataGradientsTest extends TestCase {
   public void testSimple() {
-    for (ColorDataFunction cdf : ColorDataGradients.values()) {
+    for (ScalarTensorFunction cdf : ColorDataGradients.values()) {
       assertEquals(Dimensions.of(cdf.apply(RealScalar.ZERO)), Arrays.asList(4));
       assertEquals(Dimensions.of(cdf.apply(RealScalar.ONE)), Arrays.asList(4));
     }
@@ -40,7 +41,7 @@ public class ColorDataGradientsTest extends TestCase {
   }
 
   public void testFail() {
-    for (ColorDataFunction cdf : ColorDataGradients.values()) {
+    for (ScalarTensorFunction cdf : ColorDataGradients.values()) {
       ColorDataGradients cdg = (ColorDataGradients) cdf;
       cdf.apply(RealScalar.of(0.5));
       cdf.apply(RealScalar.of(0.99));
