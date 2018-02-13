@@ -19,6 +19,7 @@ public class UnitSystemTest extends TestCase {
     Scalar scalar = unitSystem.apply(Quantity.of(3, "Hz^-2*N*m^-1"));
     assertEquals(scalar, Quantity.of(3, "kg"));
     assertTrue(ExactScalarQ.of(scalar));
+    assertTrue(48 <= unitSystem.map().size());
   }
 
   public void testScalar() {

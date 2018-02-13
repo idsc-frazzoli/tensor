@@ -38,6 +38,12 @@ import ch.ethz.idsc.tensor.Scalars;
     return unit;
   }
 
+  /* package */ static String requireValid(String key) {
+    if (!PATTERN.matcher(key).matches())
+      throw new IllegalArgumentException(key);
+    return key;
+  }
+
   // helper function
   private static Unit create(String string) {
     NavigableMap<String, Scalar> map = new TreeMap<>();
@@ -54,9 +60,7 @@ import ch.ethz.idsc.tensor.Scalars;
         unit = token;
         exponent = RealScalar.ONE;
       }
-      String key = unit.trim();
-      if (!PATTERN.matcher(key).matches())
-        throw new IllegalArgumentException(string);
+      String key = requireValid(unit.trim());
       if (map.containsKey(key)) { // exponent exists
         Scalar sum = map.get(key).add(exponent);
         if (Scalars.isZero(sum))
