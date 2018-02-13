@@ -24,7 +24,8 @@ import ch.ethz.idsc.tensor.sca.N;
   @Override
   public Tensor apply(Scalar scalar) {
     double value = scalar.number().doubleValue();
-    return Double.isFinite(value) ? //
-        tensors[(int) (value * 255 + 0.5)] : StaticHelper.transparent();
+    return Double.isFinite(value) //
+        ? tensors[(int) (value * 255 + 0.5)]
+        : StaticHelper.transparent();
   }
 }

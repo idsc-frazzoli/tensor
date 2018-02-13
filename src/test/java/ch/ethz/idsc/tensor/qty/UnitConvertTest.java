@@ -13,6 +13,7 @@ public class UnitConvertTest extends TestCase {
     Unit unit = Unit.of("cm^2");
     Scalar scalar = unitConvert.to(unit).apply(q);
     assertEquals(scalar, Quantity.of(20000000000L, "cm^2"));
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testVelocity() {
@@ -27,6 +28,7 @@ public class UnitConvertTest extends TestCase {
     Scalar q = Quantity.of(1, "rad");
     Scalar scalar = unitConvert.to(Unit.of("")).apply(q);
     assertEquals(scalar, Quantity.of(1, ""));
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testResistance() {
@@ -39,6 +41,7 @@ public class UnitConvertTest extends TestCase {
   public void testForce() {
     Scalar force = UnitConvert.SI().to(Unit.of("N")).apply(Quantity.of(981, "cm*kg*s^-2"));
     assertEquals(force, Scalars.fromString("981/100[N]"));
+    assertTrue(ExactScalarQ.of(force));
   }
 
   public void testNauticalMiles() {

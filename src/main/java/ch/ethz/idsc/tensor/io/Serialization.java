@@ -12,12 +12,14 @@ public enum Serialization {
   ;
   /** encodes {@link Serializable} input {@link Object} as array of bytes.
    * 
-   * In order to store the object uncompressed to a file, use
+   * <p>In order to store the object <b>uncompressed</b> to a file, use
    * <code>Files.write(Paths.get("filePath"), bytes)</code>
    * 
    * @param object
    * @return serialization of object
-   * @throws IOException */
+   * @throws IOException
+   * @see ObjectFormat
+   * @see Export */
   public static byte[] of(Object object) throws IOException {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
@@ -30,13 +32,15 @@ public enum Serialization {
   /** decodes {@link Serializable} object from array of bytes,
    * deserialization of object
    * 
-   * In order to retrieve the object uncompressed from a file, use
+   * In order to retrieve the object from an <b>uncompressed</b> file, use
    * <code>Files.readAllBytes(Paths.get("filePath"))</code>
    * 
    * @param bytes
    * @return {@link Serializable} object encoded in input bytes
    * @throws ClassNotFoundException
-   * @throws IOException */
+   * @throws IOException
+   * @see ObjectFormat
+   * @see Import */
   @SuppressWarnings("unchecked")
   public static <T> T parse(byte[] bytes) //
       throws ClassNotFoundException, IOException {

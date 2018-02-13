@@ -11,8 +11,9 @@ import ch.ethz.idsc.tensor.sca.MachineNumberQInterface;
  * 
  * <p>Special cases are
  * <pre>
- * MachineNumberQ[Infinity] == false
- * MachineNumberQ[Indeterminate] == false
+ * MachineNumberQ[ Infinity ] == false
+ * MachineNumberQ[ Indeterminate ] == false
+ * MachineNumberQ[ 3.0[m] ] == false
  * </pre>
  * 
  * <p>see also {@link ExactScalarQ}
