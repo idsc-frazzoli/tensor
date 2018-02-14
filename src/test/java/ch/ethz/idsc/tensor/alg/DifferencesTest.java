@@ -23,4 +23,9 @@ public class DifferencesTest extends TestCase {
     ));
     assertEquals(dif, Tensors.fromString("{{6, 1, -8}}"));
   }
+
+  public void testConsistent() {
+    assertEquals(Differences.of(Tensors.empty()), Tensors.empty());
+    assertEquals(Differences.of(Tensors.vector(1)), Tensors.empty());
+  }
 }

@@ -46,9 +46,7 @@ public enum Array {
   public static Tensor zeros(List<Integer> dimensions) {
     if (dimensions.size() == 0)
       return RealScalar.ZERO;
-    int length = dimensions.get(0);
-    if (length < 0)
-      throw new IllegalArgumentException();
+    int length = requirePositiveOrZero(dimensions.get(0));
     return Tensor.of(IntStream.range(0, length) //
         .mapToObj(i -> zeros(dimensions.subList(1, dimensions.size()))));
   }
@@ -79,13 +77,17 @@ public enum Array {
     Tensor tensor = Tensors.empty();
     List<Integer> copy = new ArrayList<>(index);
     copy.add(-1);
-    int length = dimensions.get(level);
-    if (length < 0)
-      throw new IllegalArgumentException(dimensions.toString());
+    int length = requirePositiveOrZero(dimensions.get(level));
     for (int count = 0; count < length; ++count) {
       copy.set(level, count);
       tensor.append(_of(function, dimensions, copy));
     }
     return tensor;
+  }
+
+  private static int requirePositiveOrZero(int length) {
+    if (length < 0)
+      throw new IllegalArgumentException("" + length);
+    return length;
   }
 }

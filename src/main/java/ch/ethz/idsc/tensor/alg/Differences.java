@@ -7,7 +7,13 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** simplified version of Mathematica::Differences
  * 
- * inspired by
+ * <p>The implementation is consistent for the special cases
+ * <pre>
+ * Differences[ {} ] == {}
+ * Differences[ {single} ] == {}
+ * </pre>
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Differences.html">Differences</a> */
 public enum Differences {
   ;

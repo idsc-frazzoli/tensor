@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.pdf.Distribution;
@@ -150,6 +151,16 @@ public class QuaternionTest extends TestCase {
     Scalar n1 = N.DECIMAL64.apply(q1);
     assertFalse(ExactScalarQ.of(n1));
     assertEquals(n1.toString(), "Q:1'3'-2'2");
+  }
+
+  public void testHashcode() {
+    Tensor tensor = Tensors.of( //
+        Quaternion.of(1, 3, -2, 2), //
+        Quaternion.of(3, 1, -2, 2), //
+        Quaternion.of(3, 2, -2, 1), //
+        Quaternion.of(1, 3, 2, -2));
+    long count = tensor.stream().mapToInt(Tensor::hashCode).distinct().count();
+    assertEquals(count, tensor.length());
   }
 
   public void testSerializable() throws ClassNotFoundException, IOException {

@@ -87,9 +87,7 @@ Solving systems of linear equations
 
     Tensor matrix = Tensors.matrixInt(new int[][] { { 2, -3, 2 }, { 4, 9, -3 }, { -1, 3, 2 } });
     System.out.println(Pretty.of(Inverse.of(matrix)));
-
-gives
-
+    
     [
      [   9/37    4/37   -3/37 ]
      [ -5/111    2/37  14/111 ]
@@ -103,18 +101,14 @@ Linear programming
         Tensors.fromString("{{4, -1}, {2, 1}, {-5, 2}}"), // matrix
         Tensors.vector(8, 7, 2)); // rhs
     System.out.println(x);
-
-gives
-
+    
     {4/3, 13/3}
 
 Null-space
 
     Tensor matrix = Tensors.fromString("{{-1/3, 0, I}}");
     System.out.println(Pretty.of(NullSpace.of(matrix)));
-
-gives
-
+    
     [
      [    1     0  -I/3 ]
      [    0     1     0 ]
@@ -126,9 +120,7 @@ Statistics
     System.out.println(RandomVariate.of(distribution, 20));
     PDF pdf = PDF.of(distribution);
     System.out.println("P(X=3)=" + pdf.at(RealScalar.of(3)));
-
-gives
-
+    
     {6, 5, 1, 4, 3, 4, 7, 5, 7, 4, 6, 3, 5, 4, 5, 4, 6, 2, 6, 7}
     P(X=3)=84000/742729
 
@@ -143,9 +135,7 @@ Several algorithms are verified to work with scalars of type `Quantity`.
     System.out.println(cd.diagonal());
     System.out.println(Pretty.of(cd.getL()));
     System.out.println(cd.det().divide(Quantity.of(20, "m^2*rad")));
-
-gives
-
+    
     {60[m^2], 5[rad^2], 1/3[kg^2]}
     [
      [             1              0              0 ]
@@ -166,9 +156,7 @@ The example below makes use of these provided definitions
     System.out.println(force);
     Scalar force_N = UnitConvert.SI().to(Unit.of("N")).apply(force);
     System.out.println(force_N);
-
-gives
-
+    
     294300[cm*g*s^-2]
     2943/1000[N]
 
@@ -183,27 +171,21 @@ Tensors of rank 3
     Tensor y = Tensors.vector(-3, 5, 2);
     System.out.println(ad);
     System.out.println(ad.dot(x).dot(y)); // coincides with cross product of x and y
-
-gives
-
+    
     {{{0, 0, 0}, {0, 0, -1}, {0, 1, 0}}, {{0, 0, 1}, {0, 0, 0}, {-1, 0, 0}}, {{0, -1, 0}, {1, 0, 0}, {0, 0, 0}}}
     {24, -2, 41}
 
 Functions for complex numbers
 
     System.out.println(Sqrt.of(RationalScalar.of(-9, 16)));
-
-gives
-
+    
     3/4*I
 
 Several functions support evaluation to higher than machine precision for type `DecimalScalar`.
 
     System.out.println(Exp.of(DecimalScalar.of(10)));
     System.out.println(Sqrt.of(DecimalScalar.of(2)));
-
-gives
-
+    
     220255.6579480671651695790064528423`34
     1.414213562373095048801688724209698`34
 
@@ -216,9 +198,7 @@ Indices for the `set` and `get` functions start from zero like in C/Java:
     matrix.set(Tensors.vector(9, 8, 4, 5), 2);
     matrix.set(Tensors.vector(6, 7, 8), Tensor.ALL, 1);
     System.out.println(Pretty.of(matrix));
-
-gives
-
+    
     [
      [ 0  6  0  0 ]
      [ 0  7  0  0 ]
@@ -228,9 +208,7 @@ gives
 Extraction of the 4th column
 
     System.out.println(matrix.get(Tensor.ALL, 3));
-
-gives the vector
-
+    
     {0, 0, 5}
 
 ### Visualization
