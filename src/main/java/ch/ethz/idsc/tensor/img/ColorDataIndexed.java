@@ -9,4 +9,7 @@ public interface ColorDataIndexed extends ScalarTensorFunction {
   /** @param index
    * @return */
   Color getColor(int index);
+
+  /** @return number of available colors */
+  int size();
 }

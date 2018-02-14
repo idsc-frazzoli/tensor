@@ -12,15 +12,25 @@ import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.sca.Floor;
 
 public enum ColorDataLists implements ColorDataIndexed {
+  _001, //
+  _003, //
+  _058, //
+  _061, //
+  _063, //
+  _074, //
+  _094, //
+  _096, //
   /** mathematica default */
-  _97, //
+  _097, //
+  _098, //
+  _099, //
+  _100, //
   ;
   private final Tensor tensor;
   private final List<Color> list;
 
   private ColorDataLists() {
-    String string = "/colorlist/" + name().toLowerCase() + ".csv";
-    tensor = ResourceData.of(string);
+    tensor = ResourceData.of("/colorlist/" + name().toLowerCase() + ".csv");
     list = tensor.stream().map(ColorFormat::toColor).collect(Collectors.toList());
   }
 
@@ -34,5 +44,10 @@ public enum ColorDataLists implements ColorDataIndexed {
   @Override // from ColorDataIndexed
   public Color getColor(int index) {
     return list.get(index);
+  }
+
+  @Override // from ColorDataIndexed
+  public int size() {
+    return list.size();
   }
 }
