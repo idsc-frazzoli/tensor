@@ -14,9 +14,21 @@ import junit.framework.TestCase;
 
 public class ImportTest extends TestCase {
   public void testCsv() throws Exception {
-    File file = new File(getClass().getResource("/io/libreoffice_calc.csv").getFile());
+    String string = "/io/libreoffice_calc.csv";
+    File file = new File(getClass().getResource(string).getFile());
     Tensor table = Import.of(file);
     assertEquals(Dimensions.of(table), Arrays.asList(4, 2));
+    assertEquals(ResourceData.of(string), table);
+  }
+
+  public void testCsvFail() throws Exception {
+    File file = new File("/io/doesnotexist.csv");
+    try {
+      Import.of(file);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
@@ -53,14 +65,8 @@ public class ImportTest extends TestCase {
     assertTrue(12 <= file.length());
     Tensor table = Import.of(file);
     assertEquals(Dimensions.of(table), Arrays.asList(3, 2));
-    {
-      boolean deleted = file.delete();
-      assertTrue(deleted);
-    }
-    {
-      boolean deleted = dir.delete();
-      assertTrue(deleted);
-    }
+    assertTrue(file.delete());
+    assertTrue(dir.delete());
   }
 
   public void testPng() throws Exception {

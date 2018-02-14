@@ -34,15 +34,13 @@ public enum Import {
    * 
    * <p>Important: the import of jpg image files is not thoroughly verified.
    * 
-   * 
-   * 
    * @param file source
    * @return file content as {@link Tensor}
+   * @throws IOException
    * @throws ClassNotFoundException
    * @throws DataFormatException
-   * @throws IOException
    * @see Get */
-  public static Tensor of(File file) throws ClassNotFoundException, DataFormatException, IOException {
+  public static Tensor of(File file) throws IOException, ClassNotFoundException, DataFormatException {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
       /** gjoel found that {@link Files#lines(Path)} was unsuitable on Windows */
@@ -62,11 +60,10 @@ public enum Import {
    * 
    * @param file
    * @return object prior to serialization
+   * @throws IOException
    * @throws ClassNotFoundException
-   * @throws DataFormatException
-   * @throws IOException */
-  public static <T> T object(File file) //
-      throws ClassNotFoundException, DataFormatException, IOException {
+   * @throws DataFormatException */
+  public static <T> T object(File file) throws IOException, ClassNotFoundException, DataFormatException {
     return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
   }
 }

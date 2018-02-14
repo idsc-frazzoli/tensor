@@ -40,12 +40,12 @@ public enum ResourceData {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
       Filename filename = new Filename(new File(string)); // to determine file extension
       if (filename.hasExtension("csv"))
-        return CsvFormat.parse(_lines(inputStream));
+        return CsvFormat.parse(lines(inputStream));
       if (filename.hasExtension("jpg") || //
           filename.hasExtension("png"))
         return ImageFormat.from(ImageIO.read(inputStream));
       if (filename.hasExtension("vector"))
-        return Tensor.of(_lines(inputStream).map(Scalars::fromString));
+        return Tensor.of(lines(inputStream).map(Scalars::fromString));
     } catch (Exception exception) {
       // ---
     }
@@ -66,7 +66,7 @@ public enum ResourceData {
   }
 
   // helper function
-  private static Stream<String> _lines(InputStream inputStream) {
+  private static Stream<String> lines(InputStream inputStream) {
     return new BufferedReader(new InputStreamReader(inputStream)).lines();
   }
 }

@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -34,6 +35,7 @@ public enum Get {
   ;
   /** @param file source
    * @return
+   * @throws FileNotFoundException
    * @throws IOException */
   public static Tensor of(File file) throws IOException {
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
@@ -43,6 +45,7 @@ public enum Get {
 
   /** @param path source
    * @return
+   * @throws FileNotFoundException
    * @throws IOException */
   public static Tensor of(Path path) throws IOException {
     return of(path.toFile());

@@ -11,9 +11,11 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.red.KroneckerDelta;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -27,6 +29,7 @@ public class QuaternionTest extends TestCase {
     Scalar c1 = ComplexScalar.of(1, 3);
     Scalar q1 = Quaternion.of(1, 3, 0, 0);
     assertEquals(c1, q1);
+    assertEquals(q1, q1);
     assertFalse(c1.equals(Quaternion.of(1, 3, 1, 0)));
   }
 
@@ -92,9 +95,14 @@ public class QuaternionTest extends TestCase {
   }
 
   public void testSome() {
-    @SuppressWarnings("unused")
-    Scalar s = Quaternion.of(1, 23, 4, 5);
-    // System.out.println(s);
+    Scalar q1 = Quaternion.of(1, 23, 4, 5);
+    Scalar q2 = Quaternion.of(1, 2, 4, 5);
+    Scalar q3 = Quaternion.of(1, 23, 3, 5);
+    Scalar q4 = Quaternion.of(1, 23, 4, 4);
+    Tensor v = Tensors.of(q1, q2, q3, q4);
+    int n = v.length();
+    Tensor matrix = Tensors.matrix((i, j) -> KroneckerDelta.of(v.Get(i), v.Get(j)), n, n);
+    assertEquals(matrix, IdentityMatrix.of(n));
   }
 
   private static Scalar _createQ(Tensor vec) {

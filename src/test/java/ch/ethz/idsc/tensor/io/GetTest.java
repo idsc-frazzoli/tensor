@@ -16,5 +16,16 @@ public class GetTest extends TestCase {
     assertTrue(Objects.nonNull(tensor));
     assertFalse(ScalarQ.of(tensor));
     assertEquals(tensor.length(), 13);
+    assertEquals(tensor, Get.of(file.toPath()));
+  }
+
+  public void testMissing() throws IOException {
+    File file = new File("/io/doesnotexist");
+    try {
+      Get.of(file);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
