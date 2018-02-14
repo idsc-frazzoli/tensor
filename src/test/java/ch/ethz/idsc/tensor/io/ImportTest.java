@@ -19,10 +19,65 @@ public class ImportTest extends TestCase {
     assertEquals(Dimensions.of(table), Arrays.asList(4, 2));
   }
 
+  public void testCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
+    File file = UserHome.file("tensorTest" + ImportTest.class.getSimpleName() + ".csv");
+    assertFalse(file.exists());
+    Export.of(file, Tensors.fromString("{{1, 2}, {3, 4}}"));
+    assertTrue(file.exists());
+    assertTrue(8 <= file.length());
+    Import.of(file);
+    boolean deleted = file.delete();
+    assertTrue(deleted);
+  }
+
+  public void testImageClose() throws Exception {
+    Tensor tensor = Tensors.fromString("{{1, 2}, {3, 4}}");
+    File file = UserHome.file("tensorTest" + ImportTest.class.getSimpleName() + ".png");
+    Export.of(file, tensor);
+    assertTrue(file.exists());
+    Tensor image = Import.of(file);
+    assertEquals(tensor, image);
+    file.delete();
+    assertFalse(file.exists());
+  }
+
+  public void testFolderCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
+    File dir = UserHome.file("tensorTest" + System.currentTimeMillis());
+    assertFalse(dir.exists());
+    dir.mkdir();
+    assertTrue(dir.isDirectory());
+    File file = new File(dir, "tensorTest" + ImportTest.class.getSimpleName() + ".csv");
+    assertFalse(file.exists());
+    Export.of(file, Tensors.fromString("{{1, 2}, {3, 4}, {5, 6}}"));
+    assertTrue(file.exists());
+    assertTrue(12 <= file.length());
+    Tensor table = Import.of(file);
+    assertEquals(Dimensions.of(table), Arrays.asList(3, 2));
+    {
+      boolean deleted = file.delete();
+      assertTrue(deleted);
+    }
+    {
+      boolean deleted = dir.delete();
+      assertTrue(deleted);
+    }
+  }
+
   public void testPng() throws Exception {
     File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
     Tensor tensor = Import.of(file);
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
+  }
+
+  public void testPngClose() throws Exception {
+    Tensor tensor = ResourceData.of("/io/rgba15x33.png");
+    assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
+    File file = UserHome.file("tensorTest" + ImportTest.class.getSimpleName() + ".png");
+    Export.of(file, tensor);
+    assertTrue(file.exists());
+    Import.of(file);
+    file.delete();
+    assertFalse(file.exists());
   }
 
   public void testJpg() throws Exception {

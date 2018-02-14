@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -32,17 +34,21 @@ public enum Import {
    * 
    * <p>Important: the import of jpg image files is not thoroughly verified.
    * 
+   * 
+   * 
    * @param file source
    * @return file content as {@link Tensor}
    * @throws ClassNotFoundException
    * @throws DataFormatException
    * @throws IOException
    * @see Get */
-  public static Tensor of(File file) //
-      throws ClassNotFoundException, DataFormatException, IOException {
+  public static Tensor of(File file) throws ClassNotFoundException, DataFormatException, IOException {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
-      return CsvFormat.parse(Files.lines(file.toPath()));
+      /** gjoel found that {@link Files#lines(Path)} was unsuitable on Windows */
+      try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+        return CsvFormat.parse(bufferedReader.lines());
+      }
     if (filename.hasExtension("jpg") || //
         filename.hasExtension("png"))
       return ImageFormat.from(ImageIO.read(file));

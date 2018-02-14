@@ -87,19 +87,19 @@ public class CsvFormatTest extends TestCase {
 
   public void testLibreofficeCalcFile() throws Exception {
     String string = getClass().getResource("/io/libreoffice_calc.csv").getPath();
-    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    Tensor table = CsvFormat.parse(Files.readAllLines(Paths.get(string)).stream());
     assertEquals(Dimensions.of(table), Arrays.asList(4, 2));
   }
 
   public void testMatlabFile() throws Exception {
     String string = getClass().getResource("/io/matlab_3x5.csv").getPath();
-    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    Tensor table = CsvFormat.parse(Files.readAllLines(Paths.get(string)).stream());
     assertEquals(Dimensions.of(table), Arrays.asList(3, 5));
   }
 
   public void testGeditFile() throws Exception {
     String string = getClass().getResource("/io/gedit_mixed.csv").getPath();
-    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    Tensor table = CsvFormat.parse(Files.readAllLines(Paths.get(string)).stream());
     assertEquals(table, Tensors.fromString("{{hello, blub}, {1, 4.22}, {-3, 0.323, asdf}, {}, {2, 1.223}, {3+8*I, 12, 33}}"));
   }
 

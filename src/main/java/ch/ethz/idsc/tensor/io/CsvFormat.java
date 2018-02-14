@@ -50,16 +50,15 @@ public enum CsvFormat {
         .map(CsvFormat::removeEnclosingBracketsIfPresent); // destroys information about dimension
   }
 
-  /** The strings can be read from a file using
-   * <code>Files.lines(Paths.get("filePath"));</code>
-   * 
-   * <p>Example: The stream of the following strings
+  /** Example: The stream of the following strings
    * <pre>
    * "10,200,3"
    * "78"
    * "-3,2.3"
    * </pre>
    * results in the tensor {{10, 200, 3}, {78}, {-3, 2.3}}
+   * 
+   * <p>Hint: To import a table from a csv file use {@link Import}.
    * 
    * @param stream of lines of file
    * @return tensor with rows defined by the entries of the input stream */

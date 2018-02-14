@@ -1,9 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import ch.ethz.idsc.tensor.Tensor;
@@ -35,13 +36,15 @@ public enum Get {
    * @return
    * @throws IOException */
   public static Tensor of(File file) throws IOException {
-    return of(file.toPath());
+    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+      return MathematicaFormat.parse(bufferedReader.lines());
+    }
   }
 
   /** @param path source
    * @return
    * @throws IOException */
   public static Tensor of(Path path) throws IOException {
-    return MathematicaFormat.parse(Files.lines(path));
+    return of(path.toFile());
   }
 }
