@@ -70,9 +70,20 @@ public class QuantileTest extends TestCase {
     assertTrue(Scalars.lessThan(maxError, RealScalar.of(0.05)));
   }
 
-  public void testFail() {
+  public void testFailComplex() {
     Tensor tensor = Tensors.vector(-3, 2, 1, 100);
     Tensor weight = Tensors.of(RealScalar.ONE, ComplexScalar.of(1, 2));
+    try {
+      Quantile.of(tensor, weight);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailQuantity() {
+    Tensor tensor = Tensors.vector(-3, 2, 1, 100);
+    Tensor weight = Tensors.of(Quantity.of(0.2, "m"));
     try {
       Quantile.of(tensor, weight);
       assertTrue(false);

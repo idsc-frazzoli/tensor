@@ -65,7 +65,7 @@ public class CsvFormatTest extends TestCase {
   public void testSpacing() {
     Tensor r = Tensors.fromString("{{10, {200, 3}}, {},  {78}, {-3, 2.3, 1-3*I}}");
     List<String> list = CsvFormat.of(r).collect(Collectors.toList());
-    assertEquals(list.get(0), "10,{200,3}");
+    assertEquals(list.get(0), "10,{200, 3}");
     assertEquals(list.get(1), "");
     assertEquals(list.get(2), "78");
     assertEquals(list.get(3), "-3,2.3,1-3*I");
@@ -111,5 +111,31 @@ public class CsvFormatTest extends TestCase {
         DoubleScalar.of(1.25)));
     Tensor strict = matrix.map(CsvFormat.strict());
     assertEquals(strict.toString(), "{{\"PUT\", 0.5, 5, 1.25}}");
+  }
+
+  public void testStringWithComma() {
+    Tensor row = Tensors.of(StringTensor.vector("123", "[ , ]", "a"));
+    Stream<String> stream = CsvFormat.of(row);
+    List<String> list = stream.collect(Collectors.toList());
+    assertEquals(list.size(), 1); // only 1 row
+    assertEquals(list.get(0), "123,[ , ],a");
+  }
+
+  public void testStringStrict() {
+    Tensor row = Tensors.of(StringTensor.vector("123", "[ , ]", "a"));
+    Stream<String> stream = CsvFormat.of(row.map(CsvFormat.strict()));
+    List<String> list = stream.collect(Collectors.toList());
+    assertEquals(list.size(), 1); // only 1 row
+    assertEquals(list.get(0), "\"123\",\"[ , ]\",\"a\"");
+  }
+
+  public void testVectorWithComma() {
+    Tensor row = StringTensor.vector(" 2  ,  3 ", "[ , ]", "` ;  ;  ,   ;`");
+    Stream<String> stream = CsvFormat.of(row);
+    List<String> list = stream.collect(Collectors.toList());
+    assertEquals(list.size(), 3); // 3 rows
+    assertEquals(list.get(0), " 2  ,  3 ");
+    assertEquals(list.get(1), "[ , ]");
+    assertEquals(list.get(2), "` ;  ;  ,   ;`");
   }
 }

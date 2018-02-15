@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -13,12 +15,23 @@ import ch.ethz.idsc.tensor.qty.Unit;
 import junit.framework.TestCase;
 
 public class UniformDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testCdf() {
     CDF cdf = CDF.of(UniformDistribution.of(RealScalar.ONE, RealScalar.of(3)));
     assertEquals(cdf.p_lessThan(RealScalar.ONE), RealScalar.ZERO);
     assertEquals(cdf.p_lessThan(RealScalar.of(2)), RationalScalar.of(1, 2));
     assertEquals(cdf.p_lessThan(RealScalar.of(3)), RealScalar.ONE);
     assertEquals(cdf.p_lessThan(RealScalar.of(4)), RealScalar.ONE);
+    Scalar prob = cdf.p_lessThan(RealScalar.of(2));
+    assertTrue(ExactScalarQ.of(prob));
+  }
+
+  public void testPdf() {
+    PDF pdf = PDF.of(UniformDistribution.of(RealScalar.ONE, RealScalar.of(3)));
+    assertEquals(pdf.at(RealScalar.ZERO), RealScalar.ZERO);
+    assertEquals(pdf.at(RealScalar.of(1)), RationalScalar.HALF);
+    assertEquals(pdf.at(RealScalar.of(2)), RationalScalar.HALF);
+    assertEquals(pdf.at(RealScalar.of(3)), RationalScalar.HALF);
+    assertEquals(pdf.at(DoubleScalar.POSITIVE_INFINITY), RealScalar.ZERO);
   }
 
   public void testUnit() {
@@ -45,6 +58,7 @@ public class UniformDistributionTest extends TestCase {
     {
       Scalar prob = PDF.of(distribution).at(mean);
       QuantityMagnitude.SI().in(Unit.of("lb^-1")).apply(prob);
+      assertEquals(prob.toString(), "1/2[g^-1]");
     }
     assertEquals(CDF.of(distribution).p_lessEquals(mean), RationalScalar.of(1, 2));
   }

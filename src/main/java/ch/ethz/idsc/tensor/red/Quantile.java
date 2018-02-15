@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 
@@ -36,14 +35,12 @@ public enum Quantile {
    * @param param is scalar or tensor with elements in interval [0, 1]
    * @return tensor with same dimensions as param */
   public static Tensor ofSorted(Tensor sorted, Tensor param) {
-    return param.map(scalar -> _of(sorted, scalar));
+    return param.map(scalar -> pick(sorted, scalar));
   }
 
-  private static Scalar _of(Tensor sorted, Scalar scalar) {
-    if (scalar instanceof RealScalar) {
-      Scalar index = Ceiling.FUNCTION.apply(scalar.multiply(RealScalar.of(sorted.length())));
-      return sorted.Get(Scalars.isZero(scalar) ? 0 : Scalars.intValueExact(index.subtract(RealScalar.ONE)));
-    }
-    throw TensorRuntimeException.of(sorted, scalar);
+  // helper function
+  private static Scalar pick(Tensor sorted, Scalar scalar) {
+    Scalar index = Ceiling.FUNCTION.apply(scalar.multiply(RealScalar.of(sorted.length())));
+    return sorted.Get(Scalars.isZero(scalar) ? 0 : Scalars.intValueExact(index.subtract(RealScalar.ONE)));
   }
 }
