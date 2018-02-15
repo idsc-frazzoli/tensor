@@ -38,6 +38,7 @@ public enum Get {
    * @throws FileNotFoundException
    * @throws IOException */
   public static Tensor of(File file) throws IOException {
+    // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
       return MathematicaFormat.parse(bufferedReader.lines());
     }

@@ -74,6 +74,7 @@ public class MultinomialTest extends TestCase {
 
   public void testDerivativeEmpty() {
     assertEquals(Multinomial.derivative(Tensors.vector()), Tensors.vector());
+    assertEquals(Multinomial.derivative(Tensors.vector(3)), Tensors.empty());
   }
 
   public void testDerivativeScalarFail() {

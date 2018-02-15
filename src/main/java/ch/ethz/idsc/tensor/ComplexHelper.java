@@ -38,8 +38,6 @@ package ch.ethz.idsc.tensor;
    * @param d
    * @return c + d / c * d */
   static Scalar c_dcd(Scalar c, Scalar d) {
-    // if (Scalars.isZero(c)) // <- consistency check during development
-    // throw TensorRuntimeException.of(c);
     return c.add(d.divide(c).multiply(d));
   }
 }

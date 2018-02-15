@@ -32,12 +32,13 @@ public enum RamerDouglasPeucker {
     if (Unprotect.dimension1(tensor) == 2) {
       if (tensor.length() == 1)
         return tensor;
-      return _of(tensor, epsilon);
+      return recur(tensor, epsilon);
     }
     throw TensorRuntimeException.of(tensor);
   }
 
-  private static Tensor _of(Tensor tensor, Scalar epsilon) {
+  // helper function
+  private static Tensor recur(Tensor tensor, Scalar epsilon) {
     if (tensor.length() == 2)
       return tensor;
     if (tensor.length() <= 1)
@@ -61,8 +62,8 @@ public enum RamerDouglasPeucker {
       }
     }
     if (Scalars.lessThan(epsilon, dmax)) {
-      Tensor lo = _of(tensor.extract(0, split + 1), epsilon);
-      Tensor hi = _of(tensor.extract(split, tensor.length()), epsilon);
+      Tensor lo = recur(tensor.extract(0, split + 1), epsilon);
+      Tensor hi = recur(tensor.extract(split, tensor.length()), epsilon);
       return Join.of(lo.extract(0, lo.length() - 1), hi);
     }
     return Tensors.of(first, last);

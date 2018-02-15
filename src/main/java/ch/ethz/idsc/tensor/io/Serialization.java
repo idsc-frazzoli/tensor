@@ -42,8 +42,7 @@ public enum Serialization {
    * @see ObjectFormat
    * @see Import */
   @SuppressWarnings("unchecked")
-  public static <T> T parse(byte[] bytes) //
-      throws ClassNotFoundException, IOException {
+  public static <T> T parse(byte[] bytes) throws ClassNotFoundException, IOException {
     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
     try (ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
       return (T) objectInputStream.readObject();

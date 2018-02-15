@@ -50,11 +50,11 @@ public enum Join {
    * @param list
    * @return joins tensors in the list along dimension level */
   public static Tensor of(int level, List<Tensor> list) {
-    return MapThread.of(Join::_flatten, list, level);
+    return MapThread.of(Join::flatten, list, level);
   }
 
   // helper function called in base case of more general function of(...)
-  private static Tensor _flatten(List<Tensor> list) {
+  private static Tensor flatten(List<Tensor> list) {
     if (list.stream().anyMatch(ScalarQ::of))
       throw TensorRuntimeException.of(list.toArray(new Tensor[list.size()]));
     return Tensor.of(list.stream().flatMap(tensor -> tensor.stream()));

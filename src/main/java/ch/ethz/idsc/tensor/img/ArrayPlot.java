@@ -11,7 +11,10 @@ import ch.ethz.idsc.tensor.alg.Rescale;
  * <a href="https://reference.wolfram.com/language/ref/ArrayPlot.html">ArrayPlot</a> */
 public enum ArrayPlot {
   ;
-  /** Hint: the function replaces scalar entries of given tensor with 4-vector that
+  /** the given function is required to map values from the interval [0, 1] to vectors
+   * of the form {R, G, B, A} with entries in the interval [0, 255].
+   * 
+   * <p>Hint: the function replaces scalar entries of given tensor with 4-vector that
    * encodes RGBA color values. If the input tensor does not have matrix structure,
    * the return tensor cannot be exported to an image.
    * 

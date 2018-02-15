@@ -46,6 +46,7 @@ public enum CsvFormat {
   public static Stream<String> of(Tensor tensor) {
     return tensor.flatten(0).parallel() //
         .map(Object::toString) //
+        // TODO may change commas in string expressions!
         .map(string -> string.replace(", ", ",")) // remove whitespace
         .map(CsvFormat::removeEnclosingBracketsIfPresent); // destroys information about dimension
   }
@@ -115,12 +116,7 @@ public enum CsvFormat {
 
   /** @param string
    * @return '{' + string + '}' */
-  // function only used in CsvFormat
   private static String encloseWithBrackets(String string) {
-    StringBuilder stringBuilder = new StringBuilder(1 + string.length() + 1);
-    stringBuilder.append(Tensor.OPENING_BRACKET);
-    stringBuilder.append(string);
-    stringBuilder.append(Tensor.CLOSING_BRACKET);
-    return stringBuilder.toString();
+    return Tensor.OPENING_BRACKET + string + Tensor.CLOSING_BRACKET;
   }
 }

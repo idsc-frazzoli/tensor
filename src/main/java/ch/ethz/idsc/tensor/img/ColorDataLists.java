@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.sca.Floor;
 
+/** <p>inspired by Mathematica::ColorData[97] */
 public enum ColorDataLists implements ColorDataIndexed {
   _001, //
   _003, //

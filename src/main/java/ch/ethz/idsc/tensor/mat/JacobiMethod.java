@@ -86,10 +86,10 @@ import ch.ethz.idsc.tensor.sca.Sign;
             A.set(RealScalar.ZERO, ip, iq);
             final int fip = ip;
             final int fiq = iq;
-            IntStream.range(0, ip).forEach(j -> _rotate(A, s, tau, j, fip, j, fiq));
-            IntStream.range(ip + 1, iq).forEach(j -> _rotate(A, s, tau, fip, j, j, fiq));
-            IntStream.range(iq + 1, n).forEach(j -> _rotate(A, s, tau, fip, j, fiq, j));
-            IntStream.range(0, n).forEach(j -> _rotate(V, s, tau, fip, j, fiq, j));
+            IntStream.range(0, ip).forEach(j -> rotate(A, s, tau, j, fip, j, fiq));
+            IntStream.range(ip + 1, iq).forEach(j -> rotate(A, s, tau, fip, j, j, fiq));
+            IntStream.range(iq + 1, n).forEach(j -> rotate(A, s, tau, fip, j, fiq, j));
+            IntStream.range(0, n).forEach(j -> rotate(V, s, tau, fip, j, fiq, j));
           }
         }
       }
@@ -110,7 +110,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
     return d;
   }
 
-  private static void _rotate(Tensor A, Scalar s, Scalar tau, int i, int j, int k, int l) {
+  private static void rotate(Tensor A, Scalar s, Scalar tau, int i, int j, int k, int l) {
     Scalar g = A.Get(i, j);
     Scalar h = A.Get(k, l);
     A.set(g.subtract(s.multiply(h.add(g.multiply(tau)))), i, j);

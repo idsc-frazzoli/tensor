@@ -37,7 +37,7 @@ public enum Array {
    * @param dimensions
    * @return tensor with given dimensions and entries as function(index) */
   public static Tensor of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions) {
-    return _of(function, dimensions, Collections.emptyList());
+    return of(function, dimensions, Collections.emptyList());
   }
 
   /** @param dimensions
@@ -70,7 +70,7 @@ public enum Array {
   }
 
   // helper function
-  private static Tensor _of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions, List<Integer> index) {
+  private static Tensor of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions, List<Integer> index) {
     int level = index.size();
     if (level == dimensions.size())
       return function.apply(index);
@@ -80,7 +80,7 @@ public enum Array {
     int length = requirePositiveOrZero(dimensions.get(level));
     for (int count = 0; count < length; ++count) {
       copy.set(level, count);
-      tensor.append(_of(function, dimensions, copy));
+      tensor.append(of(function, dimensions, copy));
     }
     return tensor;
   }

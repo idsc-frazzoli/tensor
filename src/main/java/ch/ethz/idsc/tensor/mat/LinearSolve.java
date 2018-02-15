@@ -57,14 +57,15 @@ public enum LinearSolve {
       throw TensorRuntimeException.of(m, b);
     switch (TensorRank.of(b)) {
     case 1:
-      return _vector(m, b);
+      return vector(m, b);
     default:
       break;
     }
     throw TensorRuntimeException.of(m, b);
   }
 
-  private static Tensor _vector(Tensor m, Tensor b) {
+  // helper function
+  private static Tensor vector(Tensor m, Tensor b) {
     int cols = Unprotect.dimension1(m);
     Tensor r = RowReduce.of(Join.of(1, m, Partition.of(b, 1)));
     Tensor x = Array.zeros(cols);

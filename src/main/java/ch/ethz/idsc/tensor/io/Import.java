@@ -43,7 +43,7 @@ public enum Import {
   public static Tensor of(File file) throws IOException, ClassNotFoundException, DataFormatException {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
-      /** gjoel found that {@link Files#lines(Path)} was unsuitable on Windows */
+      // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
       try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
         return CsvFormat.parse(bufferedReader.lines());
       }

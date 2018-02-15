@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.lie;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.StringTensor;
 import junit.framework.TestCase;
 
 public class PermutationsTest extends TestCase {
@@ -39,7 +40,12 @@ public class PermutationsTest extends TestCase {
     assertEquals(res.get(2), Tensors.vector(2, 2, -1, -1));
     assertEquals(res.get(3), Tensors.vector(-1, 2, 2, -1));
     assertEquals(res.length(), 6);
-    // res.stream().forEach(System.out::println);
+  }
+
+  public void testStrings() {
+    Tensor vector = StringTensor.vector("a", "b", "a");
+    Tensor tensor = Permutations.of(vector);
+    assertEquals(tensor, Tensors.fromString("{{a, b, a}, {a, a, b}, {b, a, a}}"));
   }
 
   public void testFail() {
