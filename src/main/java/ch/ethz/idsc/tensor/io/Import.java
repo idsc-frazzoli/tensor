@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -34,15 +36,17 @@ public enum Import {
    * 
    * @param file source
    * @return file content as {@link Tensor}
+   * @throws IOException
    * @throws ClassNotFoundException
    * @throws DataFormatException
-   * @throws IOException
    * @see Get */
-  public static Tensor of(File file) //
-      throws ClassNotFoundException, DataFormatException, IOException {
+  public static Tensor of(File file) throws IOException, ClassNotFoundException, DataFormatException {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
-      return CsvFormat.parse(Files.lines(file.toPath()));
+      // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
+      try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+        return CsvFormat.parse(bufferedReader.lines());
+      }
     if (filename.hasExtension("jpg") || //
         filename.hasExtension("png"))
       return ImageFormat.from(ImageIO.read(file));
@@ -56,11 +60,10 @@ public enum Import {
    * 
    * @param file
    * @return object prior to serialization
+   * @throws IOException
    * @throws ClassNotFoundException
-   * @throws DataFormatException
-   * @throws IOException */
-  public static <T> T object(File file) //
-      throws ClassNotFoundException, DataFormatException, IOException {
+   * @throws DataFormatException */
+  public static <T> T object(File file) throws IOException, ClassNotFoundException, DataFormatException {
     return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
   }
 }

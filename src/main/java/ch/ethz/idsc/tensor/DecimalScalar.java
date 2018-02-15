@@ -47,7 +47,8 @@ public final class DecimalScalar extends AbstractRealScalar implements //
   /** @param value
    * @return */
   public static Scalar of(BigDecimal value) {
-    return of(value, value.precision() <= 34 ? DEFAULT_CONTEXT : value.precision());
+    int precision = value.precision();
+    return of(value, precision <= DEFAULT_CONTEXT ? DEFAULT_CONTEXT : precision);
   }
 
   /** @param value

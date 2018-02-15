@@ -20,4 +20,12 @@ public class ArrayPlotTest extends TestCase {
     Tensor image = ArrayPlot.of(matrix, HueColorData.FUNCTION);
     assertEquals(Dimensions.of(image), Arrays.asList(3, 2, 4));
   }
+
+  public void testIndexed() {
+    Tensor matrix = Tensors.fromString("{{0, 1}, {3, 1}, {3, 2}}");
+    for (ColorDataIndexed cdi : ColorDataLists.values()) {
+      Tensor image = matrix.map(cdi);
+      assertEquals(Dimensions.of(image), Arrays.asList(3, 2, 4));
+    }
+  }
 }

@@ -25,12 +25,12 @@ import ch.ethz.idsc.tensor.sca.Sinc;
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (clip.isInside(scalar))
-      inside(scalar);
-    return RealScalar.ZERO;
+    return clip.isInside(scalar) ? inside(scalar) : RealScalar.ZERO;
   }
 
-  Scalar inside(Scalar scalar) {
+  /** @param scalar inside clip
+   * @return */
+  /* package */ Scalar inside(Scalar scalar) {
     Scalar _scalar = scalar.multiply(PI);
     return Sinc.FUNCTION.apply(_scalar).multiply(Sinc.FUNCTION.apply(_scalar.divide(bound)));
   }

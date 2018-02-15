@@ -35,12 +35,11 @@ public enum InverseErf implements ScalarUnaryOperator {
 
   @Override
   public Scalar apply(Scalar scalar) {
-    Clip.absoluteOne().requireInside(scalar);
     if (scalar.equals(ONE_NEGATE))
       return DoubleScalar.NEGATIVE_INFINITY;
     if (scalar.equals(RealScalar.ONE))
       return DoubleScalar.POSITIVE_INFINITY;
-    return Multinomial.horner(COEFFS, scalar);
+    return Multinomial.horner(COEFFS, Clip.absoluteOne().requireInside(scalar));
   }
 
   /** @param tensor

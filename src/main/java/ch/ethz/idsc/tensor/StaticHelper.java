@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
@@ -11,6 +13,9 @@ import ch.ethz.idsc.tensor.sca.Sign;
 
 /* package */ enum StaticHelper {
   ;
+  static final Collector<CharSequence, ?, String> EMBRACE = //
+      Collectors.joining(", ", "" + Tensor.OPENING_BRACKET, "" + Tensor.CLOSING_BRACKET);
+  // ---
   /** code from java.lang.Double */
   private static final String Digits = "(\\p{Digit}+)";
   private static final String HexDigits = "(\\p{XDigit}+)";

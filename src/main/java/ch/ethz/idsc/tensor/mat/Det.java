@@ -21,17 +21,17 @@ public enum Det {
   /** @param matrix
    * @return determinant of matrix */
   public static Scalar of(Tensor matrix) {
-    return _of(matrix, PivotArgMaxAbs.INSTANCE);
+    return of(matrix, PivotArgMaxAbs.INSTANCE);
   }
 
   /** @param matrix square matrix
    * @return determinant of m */
   public static Scalar withoutAbs(Tensor matrix) {
-    return _of(matrix, PivotFirstNonZero.INSTANCE);
+    return of(matrix, PivotFirstNonZero.INSTANCE);
   }
 
   // helper function
-  private static Scalar _of(Tensor matrix, Pivot pivot) {
+  private static Scalar of(Tensor matrix, Pivot pivot) {
     MatrixQ.elseThrow(matrix);
     final int n = matrix.length();
     final int m = Unprotect.dimension1(matrix);

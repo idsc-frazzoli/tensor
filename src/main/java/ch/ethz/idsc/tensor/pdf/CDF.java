@@ -23,8 +23,7 @@ public interface CDF {
       return (CDF) distribution;
     if (distribution instanceof DiscreteDistribution)
       return new DiscreteCDF((DiscreteDistribution) distribution);
-    if (Objects.isNull(distribution))
-      throw new NullPointerException();
+    Objects.requireNonNull(distribution);
     throw new RuntimeException(distribution.getClass().getName());
   }
 

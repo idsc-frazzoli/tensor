@@ -26,7 +26,7 @@ public interface Quaternion extends Scalar, //
    * @param jm
    * @param km
    * @return */
-  public static Scalar of(Number re, Number im, Number jm, Number km) {
+  static Scalar of(Number re, Number im, Number jm, Number km) {
     return of(RealScalar.of(re), RealScalar.of(im), RealScalar.of(jm), RealScalar.of(km));
   }
 
@@ -35,7 +35,7 @@ public interface Quaternion extends Scalar, //
    * @param jm
    * @param km
    * @return */
-  public static Scalar of(Scalar re, Scalar im, Scalar jm, Scalar km) {
+  static Scalar of(Scalar re, Scalar im, Scalar jm, Scalar km) {
     if (Scalars.isZero(jm) && Scalars.isZero(km))
       return ComplexScalar.of(re, im);
     return new QuaternionImpl(re, im, jm, km);

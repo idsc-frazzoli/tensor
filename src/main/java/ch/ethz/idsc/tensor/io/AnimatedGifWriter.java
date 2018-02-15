@@ -52,7 +52,7 @@ public class AnimatedGifWriter implements AutoCloseable {
   }
 
   // invoked when first image is appended
-  private void _initialize(int type) throws IOException {
+  private void initialize(int type) throws IOException {
     ImageTypeSpecifier imageTypeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(type);
     iIOMetadata = imageWriter.getDefaultImageMetadata(imageTypeSpecifier, imageWriteParam);
     String metadataFormatName = iIOMetadata.getNativeMetadataFormatName();
@@ -86,7 +86,7 @@ public class AnimatedGifWriter implements AutoCloseable {
 
   public void append(BufferedImage bufferedImage) throws IOException {
     if (isEmpty())
-      _initialize(bufferedImage.getType());
+      initialize(bufferedImage.getType());
     imageWriter.writeToSequence(new IIOImage(bufferedImage, null, iIOMetadata), imageWriteParam);
   }
 

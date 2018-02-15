@@ -94,11 +94,7 @@ public final class StringScalar extends AbstractScalar implements Comparable<Sca
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    if (object instanceof StringScalar) {
-      StringScalar stringScalar = (StringScalar) object;
-      return string.equals(stringScalar.string);
-    }
-    return false;
+    return object instanceof StringScalar && string.equals(((StringScalar) object).string);
   }
 
   @Override // from AbstractScalar

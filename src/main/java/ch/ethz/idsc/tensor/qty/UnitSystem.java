@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.util.Map;
+
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** UnitSystem is an operator that maps a given {@link Quantity} to a {@link Quantity}
@@ -22,4 +25,7 @@ public interface UnitSystem extends ScalarUnaryOperator {
   static UnitSystem SI() {
     return BuiltIn.SI.unitSystem;
   }
+
+  /** @return unmodifiable view on map that defines the unit system */
+  Map<String, Scalar> map();
 }

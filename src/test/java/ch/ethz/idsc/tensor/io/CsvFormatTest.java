@@ -65,7 +65,7 @@ public class CsvFormatTest extends TestCase {
   public void testSpacing() {
     Tensor r = Tensors.fromString("{{10, {200, 3}}, {},  {78}, {-3, 2.3, 1-3*I}}");
     List<String> list = CsvFormat.of(r).collect(Collectors.toList());
-    assertEquals(list.get(0), "10,{200,3}");
+    assertEquals(list.get(0), "10,{200, 3}");
     assertEquals(list.get(1), "");
     assertEquals(list.get(2), "78");
     assertEquals(list.get(3), "-3,2.3,1-3*I");
@@ -87,19 +87,19 @@ public class CsvFormatTest extends TestCase {
 
   public void testLibreofficeCalcFile() throws Exception {
     String string = getClass().getResource("/io/libreoffice_calc.csv").getPath();
-    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    Tensor table = CsvFormat.parse(Files.readAllLines(Paths.get(string)).stream());
     assertEquals(Dimensions.of(table), Arrays.asList(4, 2));
   }
 
   public void testMatlabFile() throws Exception {
     String string = getClass().getResource("/io/matlab_3x5.csv").getPath();
-    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    Tensor table = CsvFormat.parse(Files.readAllLines(Paths.get(string)).stream());
     assertEquals(Dimensions.of(table), Arrays.asList(3, 5));
   }
 
   public void testGeditFile() throws Exception {
     String string = getClass().getResource("/io/gedit_mixed.csv").getPath();
-    Tensor table = CsvFormat.parse(Files.lines(Paths.get(string)));
+    Tensor table = CsvFormat.parse(Files.readAllLines(Paths.get(string)).stream());
     assertEquals(table, Tensors.fromString("{{hello, blub}, {1, 4.22}, {-3, 0.323, asdf}, {}, {2, 1.223}, {3+8*I, 12, 33}}"));
   }
 
@@ -111,5 +111,31 @@ public class CsvFormatTest extends TestCase {
         DoubleScalar.of(1.25)));
     Tensor strict = matrix.map(CsvFormat.strict());
     assertEquals(strict.toString(), "{{\"PUT\", 0.5, 5, 1.25}}");
+  }
+
+  public void testStringWithComma() {
+    Tensor row = Tensors.of(StringTensor.vector("123", "[ , ]", "a"));
+    Stream<String> stream = CsvFormat.of(row);
+    List<String> list = stream.collect(Collectors.toList());
+    assertEquals(list.size(), 1); // only 1 row
+    assertEquals(list.get(0), "123,[ , ],a");
+  }
+
+  public void testStringStrict() {
+    Tensor row = Tensors.of(StringTensor.vector("123", "[ , ]", "a"));
+    Stream<String> stream = CsvFormat.of(row.map(CsvFormat.strict()));
+    List<String> list = stream.collect(Collectors.toList());
+    assertEquals(list.size(), 1); // only 1 row
+    assertEquals(list.get(0), "\"123\",\"[ , ]\",\"a\"");
+  }
+
+  public void testVectorWithComma() {
+    Tensor row = StringTensor.vector(" 2  ,  3 ", "[ , ]", "` ;  ;  ,   ;`");
+    Stream<String> stream = CsvFormat.of(row);
+    List<String> list = stream.collect(Collectors.toList());
+    assertEquals(list.size(), 3); // 3 rows
+    assertEquals(list.get(0), " 2  ,  3 ");
+    assertEquals(list.get(1), "[ , ]");
+    assertEquals(list.get(2), "` ;  ;  ,   ;`");
   }
 }

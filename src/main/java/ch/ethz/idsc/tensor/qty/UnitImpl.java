@@ -71,11 +71,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
   @Override // from Object
   public boolean equals(Object object) {
-    if (object instanceof Unit) {
-      Unit unit = (Unit) object;
-      return navigableMap.equals(unit.map());
-    }
-    return false;
+    return object instanceof Unit && navigableMap.equals(((Unit) object).map());
   }
 
   private static String exponentString(Scalar exponent) {

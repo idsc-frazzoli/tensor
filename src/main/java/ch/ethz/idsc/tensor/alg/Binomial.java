@@ -33,7 +33,7 @@ public class Binomial {
   public static Binomial of(int n) {
     if (n < 0)
       throw new RuntimeException(String.format("Binomial[%d]", n));
-    return _binomial(n);
+    return binomial(n);
   }
 
   /** <code>Mathematica::Binomial[n, m]</code>
@@ -61,7 +61,7 @@ public class Binomial {
       // LONGTERM this case is defined in Mathematica
       throw new RuntimeException(String.format("Binomial[%d,%d]", n, m));
     }
-    return _binomial(n).over(m);
+    return binomial(n).over(m);
   }
 
   /***************************************************/
@@ -75,7 +75,7 @@ public class Binomial {
   };
 
   // function does not require synchronized
-  private static Binomial _binomial(int n) {
+  private static Binomial binomial(int n) {
     Binomial binomial = MEMO.get(n);
     if (Objects.isNull(binomial)) {
       binomial = new Binomial(n);

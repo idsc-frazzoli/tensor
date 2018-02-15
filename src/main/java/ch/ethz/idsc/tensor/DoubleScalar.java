@@ -163,8 +163,9 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from RoundingInterface
   public Scalar round() {
-    return isMachineNumber() ? //
-        RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE) : this;
+    return isMachineNumber() //
+        ? RationalScalar.of(bigDecimal().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact(), BigInteger.ONE)
+        : this;
   }
 
   @Override // from SignInterface

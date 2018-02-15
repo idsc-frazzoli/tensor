@@ -2,16 +2,18 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.qty.Quantity;
-import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** comma separated values format
@@ -28,38 +30,38 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * the preferred option. However, the csv format may produce smaller
  * files. Mathematica::Import of csv files requires the table entries
  * to be decimal numbers. In particular, exact fractions, e.g. 5/7,
- * are imported to string expressions "5/7". {@link N#DOUBLE} can be
- * used to map the entries to decimal expressions prior to export.
+ * are imported to string expressions "5/7". The scalar operator
+ * {@link CsvFormat#strict()} can be used to map the entries to decimal
+ * expressions prior to export.
  * 
  * <p>Within the realm of Java, use {@link ObjectFormat}
  * to store and reload tensors, and do not use csv format. */
 public enum CsvFormat {
   ;
-  /** The stream of strings can be written to a file using
-   * <code>Files.write(Paths.get("filePath"), (Iterable<String>) stream::iterator);</code>
+  private static final Collector<CharSequence, ?, String> COLLECTOR = Collectors.joining(",");
+
+  /** In Mathematica the csv file is imported using
+   * A=Import["filename.csv"];
    * 
    * <p>In MATLAB the csv file can be imported using
    * A=load('filename.csv');
    * 
    * @param tensor
-   * @return stream of lines that make up the csv format */
+   * @return stream of lines that make up the csv format
+   * @see Export */
   public static Stream<String> of(Tensor tensor) {
-    return tensor.flatten(0).parallel() //
-        .map(Object::toString) //
-        .map(string -> string.replace(", ", ",")) // remove whitespace
-        .map(CsvFormat::removeEnclosingBracketsIfPresent); // destroys information about dimension
+    return tensor.flatten(0).parallel().map(CsvFormat::row); //
   }
 
-  /** The strings can be read from a file using
-   * <code>Files.lines(Paths.get("filePath"));</code>
-   * 
-   * <p>Example: The stream of the following strings
+  /** Example: The stream of the following strings
    * <pre>
    * "10,200,3"
    * "78"
    * "-3,2.3"
    * </pre>
    * results in the tensor {{10, 200, 3}, {78}, {-3, 2.3}}
+   * 
+   * <p>Hint: To import a table from a csv file use {@link Import}.
    * 
    * @param stream of lines of file
    * @return tensor with rows defined by the entries of the input stream */
@@ -77,9 +79,7 @@ public enum CsvFormat {
    * @param function that parses a string to a tensor
    * @return */
   public static Tensor parse(Stream<String> stream, Function<String, Tensor> function) {
-    return Tensor.of(stream.parallel() //
-        .map(CsvFormat::encloseWithBrackets) //
-        .map(function));
+    return Tensor.of(stream.parallel().map(CsvFormat::embrace).map(function));
   }
 
   /** the scalar operator attempts to guarantee that the CSV import in Mathematica
@@ -102,26 +102,15 @@ public enum CsvFormat {
     return CsvHelper.FUNCTION;
   }
 
-  private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
-  private static final String CLOSING_BRACKET_STRING = "" + Tensor.CLOSING_BRACKET;
-
-  /** @param string
-   * @return string with opening and closing bracket removed, if brackets are present */
-  // function only used in CsvFormat
-  private static String removeEnclosingBracketsIfPresent(String string) {
-    if (string.startsWith(OPENING_BRACKET_STRING) && string.endsWith(CLOSING_BRACKET_STRING))
-      return string.substring(1, string.length() - 1);
-    return string;
+  // helper function
+  private static String row(Tensor tensor) {
+    return tensor instanceof Scalar //
+        ? tensor.toString()
+        : tensor.stream().map(Tensor::toString).collect(COLLECTOR);
   }
 
-  /** @param string
-   * @return '{' + string + '}' */
-  // function only used in CsvFormat
-  private static String encloseWithBrackets(String string) {
-    StringBuilder stringBuilder = new StringBuilder(1 + string.length() + 1);
-    stringBuilder.append(Tensor.OPENING_BRACKET);
-    stringBuilder.append(string);
-    stringBuilder.append(Tensor.CLOSING_BRACKET);
-    return stringBuilder.toString();
+  // helper function
+  private static String embrace(String string) {
+    return Tensor.OPENING_BRACKET + string + Tensor.CLOSING_BRACKET;
   }
 }

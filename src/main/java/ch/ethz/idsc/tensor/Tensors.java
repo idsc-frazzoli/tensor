@@ -111,7 +111,6 @@ public enum Tensors {
    * @param string
    * @return */
   public static Tensor fromString(String string) {
-    // return StringFormat.parse(string);
     return TensorParser.DEFAULT.parse(string);
   }
 

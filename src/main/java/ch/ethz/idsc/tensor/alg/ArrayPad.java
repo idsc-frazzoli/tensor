@@ -18,11 +18,11 @@ public enum ArrayPad {
     List<Integer> dimensions = Dimensions.of(tensor);
     for (int index = 0; index < dimensions.size(); ++index)
       dimensions.set(index, ante.get(index) + dimensions.get(index) + post.get(index));
-    return _of(tensor, dimensions, ante, post);
+    return of(tensor, dimensions, ante, post);
   }
 
   // helper function
-  private static Tensor _of(Tensor tensor, List<Integer> dimensions, List<Integer> ante, List<Integer> post) {
+  private static Tensor of(Tensor tensor, List<Integer> dimensions, List<Integer> ante, List<Integer> post) {
     int rank = dimensions.size();
     List<Integer> copy = new ArrayList<>(dimensions);
     copy.set(0, ante.get(0));
@@ -32,6 +32,6 @@ public enum ArrayPad {
     if (1 == rank)
       return Join.of(0, a, tensor, b);
     return Join.of(0, a, Tensor.of(tensor.stream() //
-        .map(entry -> _of(entry, copy.subList(1, rank), ante.subList(1, rank), post.subList(1, rank)))), b);
+        .map(entry -> of(entry, copy.subList(1, rank), ante.subList(1, rank), post.subList(1, rank)))), b);
   }
 }

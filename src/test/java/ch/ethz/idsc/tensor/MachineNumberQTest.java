@@ -37,8 +37,8 @@ public class MachineNumberQTest extends TestCase {
   }
 
   public void testQuantity() {
-    Scalar s1 = Quantity.of(3, "m");
-    assertFalse(MachineNumberQ.of(s1));
+    assertFalse(MachineNumberQ.of(Quantity.of(3, "m")));
+    assertFalse(MachineNumberQ.of(Quantity.of(3.1415, "m")));
   }
 
   public void testAny() {

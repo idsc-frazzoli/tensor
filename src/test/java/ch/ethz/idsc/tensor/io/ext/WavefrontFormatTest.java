@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 public class WavefrontFormatTest extends TestCase {
   public void testSimple() throws IOException {
     String string = getClass().getResource("/io/ext/blender0.obj").getPath();
-    Wavefront wavefront = WavefrontFormat.parse(Files.lines(Paths.get(string)));
+    Wavefront wavefront = WavefrontFormat.parse(Files.readAllLines(Paths.get(string)).stream());
     assertEquals(wavefront.objects().size(), 2);
     assertEquals(wavefront.objects().get(0).name(), "Cylinder");
     assertEquals(wavefront.objects().get(1).name(), "Cube");

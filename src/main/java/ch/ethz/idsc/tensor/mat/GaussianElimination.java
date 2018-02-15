@@ -44,15 +44,15 @@ import ch.ethz.idsc.tensor.Unprotect;
     IntStream.range(0, n).forEach(index -> ind[index] = index);
     rhs = b.copy();
     for (int c0 = 0; c0 < n; ++c0) {
-      _swap(pivot.get(c0, c0, ind, lhs), c0);
+      swap(pivot.get(c0, c0, ind, lhs), c0);
       Scalar piv = lhs.Get(ind[c0], c0);
       if (Scalars.isZero(piv))
         throw TensorRuntimeException.of(matrix, piv);
-      _eliminate(c0, piv);
+      eliminate(c0, piv);
     }
   }
 
-  private void _eliminate(int c0, Scalar piv) {
+  private void eliminate(int c0, Scalar piv) {
     IntStream.range(c0 + 1, lhs.length()).forEach(c1 -> { // deliberately without parallel
       Scalar fac = lhs.Get(ind[c1], c0).divide(piv).negate();
       lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
@@ -73,7 +73,7 @@ import ch.ethz.idsc.tensor.Unprotect;
     IntStream.range(0, n).forEach(index -> ind[index] = index);
     int j = 0;
     for (int c0 = 0; c0 < n && j < m; ++j) {
-      _swap(pivot.get(c0, j, ind, lhs), c0);
+      swap(pivot.get(c0, j, ind, lhs), c0);
       Scalar piv = lhs.Get(ind[c0], j);
       if (Scalars.nonZero(piv)) {
         for (int c1 = 0; c1 < n; ++c1)
@@ -87,7 +87,7 @@ import ch.ethz.idsc.tensor.Unprotect;
     }
   }
 
-  private void _swap(int k, int c0) {
+  private void swap(int k, int c0) {
     if (k != c0) {
       ++transpositions;
       int swap = ind[k];

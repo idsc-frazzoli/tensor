@@ -61,7 +61,7 @@ public enum Normalize {
    * @throws Exception if input is not a vector
    * @throws Exception if vector contains Infinity, or NaN */
   public static Tensor of(Tensor vector, VectorNormInterface vectorNormInterface) {
-    return _normalize(vector, vectorNormInterface, vectorNormInterface.ofVector(vector));
+    return normalize(vector, vectorNormInterface, vectorNormInterface.ofVector(vector));
   }
 
   /** @param vector
@@ -71,11 +71,11 @@ public enum Normalize {
    * @throws Exception if vector contains Infinity, or NaN */
   public static Tensor unlessZero(Tensor vector, VectorNormInterface vectorNormInterface) {
     Scalar norm = vectorNormInterface.ofVector(vector); // throws exception if input is not a vector
-    return Scalars.isZero(norm) ? vector.copy() : _normalize(vector, vectorNormInterface, norm);
+    return Scalars.isZero(norm) ? vector.copy() : normalize(vector, vectorNormInterface, norm);
   }
 
   // helper function
-  private static Tensor _normalize(Tensor vector, VectorNormInterface vectorNormInterface, Scalar norm) {
+  private static Tensor normalize(Tensor vector, VectorNormInterface vectorNormInterface, Scalar norm) {
     vector = vector.divide(norm); // eliminate common Unit if present
     norm = vectorNormInterface.ofVector(vector); // for verification
     Scalar error_next = norm.subtract(RealScalar.ONE).abs(); // error

@@ -12,8 +12,6 @@ public enum ShannonEntropy implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return Scalars.isZero(scalar) //
-        ? scalar
-        : scalar.multiply(Log.FUNCTION.apply(scalar)).negate();
+    return Scalars.isZero(scalar) ? scalar : scalar.multiply(Log.FUNCTION.apply(scalar)).negate();
   }
 }

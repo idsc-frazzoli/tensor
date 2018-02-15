@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.Clip;
 public class UniformDistribution extends AbstractContinuousDistribution implements //
     InverseCDF, MeanInterface, VarianceInterface {
   private static final Distribution UNIT = new UniformDistribution(RealScalar.ZERO, RealScalar.ONE) {
-    @Override
+    @Override // from RandomVariateInterface
     public Scalar randomVariate(Random random) {
       return DoubleScalar.of(random.nextDouble());
     }
@@ -51,12 +51,12 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
   }
 
   // ---
-  private final Scalar min;
+  private final Clip clip;
   private final Scalar width;
 
   private UniformDistribution(Scalar min, Scalar max) {
-    this.min = min;
-    width = max.subtract(min);
+    clip = Clip.function(min, max);
+    width = clip.width();
   }
 
   @Override // from RandomVariateInterface
@@ -70,12 +70,12 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
   }
 
   private Scalar quantile_unit(Scalar p) {
-    return p.multiply(width).add(min);
+    return p.multiply(width).add(clip.min());
   }
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return min.add(width.divide(RationalScalar.of(2, 1)));
+    return clip.min().add(width.divide(RationalScalar.of(2, 1)));
   }
 
   @Override // from VarianceInterface
@@ -85,12 +85,12 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    return width.reciprocal();
+    return clip.isInside(x) ? width.reciprocal() : RealScalar.ZERO;
   }
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return Clip.unit().apply(x.subtract(min).divide(width));
+    return clip.rescale(x);
   }
 
   @Override // from CDF
@@ -100,6 +100,6 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
 
   @Override // from Object
   public String toString() {
-    return String.format("%s[%s, %s]", getClass().getSimpleName(), min, min.add(width));
+    return String.format("%s[%s, %s]", getClass().getSimpleName(), clip.min(), clip.max());
   }
 }

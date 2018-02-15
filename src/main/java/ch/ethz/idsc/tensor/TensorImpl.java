@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -218,15 +217,11 @@ import java.util.stream.Stream;
 
   @Override // from Object
   public boolean equals(Object object) {
-    if (object instanceof TensorImpl) {
-      TensorImpl impl = (TensorImpl) object;
-      return list.equals(impl.list);
-    }
-    return false;
+    return object instanceof TensorImpl && list.equals(((TensorImpl) object).list);
   }
 
   @Override // from Object
   public String toString() {
-    return list.stream().map(Object::toString).collect(Collectors.joining(", ", "{", "}"));
+    return list.stream().map(Tensor::toString).collect(StaticHelper.EMBRACE);
   }
 }

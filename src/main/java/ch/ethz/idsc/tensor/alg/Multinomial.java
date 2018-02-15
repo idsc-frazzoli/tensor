@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.Tensors;
 
 /** <p>ordering of coefficients is <em>reversed</em> compared to
  * MATLAB::polyval, MATLAB::polyfit, etc. ! */
-// API not finalized
 public enum Multinomial {
   ;
   /** the horner scheme improves speed and stability for the numeric evaluation of large polynomials

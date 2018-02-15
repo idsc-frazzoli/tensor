@@ -37,7 +37,7 @@ public enum Array {
    * @param dimensions
    * @return tensor with given dimensions and entries as function(index) */
   public static Tensor of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions) {
-    return _of(function, dimensions, Collections.emptyList());
+    return of(function, dimensions, Collections.emptyList());
   }
 
   /** @param dimensions
@@ -46,9 +46,7 @@ public enum Array {
   public static Tensor zeros(List<Integer> dimensions) {
     if (dimensions.size() == 0)
       return RealScalar.ZERO;
-    int length = dimensions.get(0);
-    if (length < 0)
-      throw new IllegalArgumentException();
+    int length = requirePositiveOrZero(dimensions.get(0));
     return Tensor.of(IntStream.range(0, length) //
         .mapToObj(i -> zeros(dimensions.subList(1, dimensions.size()))));
   }
@@ -72,20 +70,24 @@ public enum Array {
   }
 
   // helper function
-  private static Tensor _of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions, List<Integer> index) {
+  private static Tensor of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions, List<Integer> index) {
     int level = index.size();
     if (level == dimensions.size())
       return function.apply(index);
     Tensor tensor = Tensors.empty();
     List<Integer> copy = new ArrayList<>(index);
     copy.add(-1);
-    int length = dimensions.get(level);
-    if (length < 0)
-      throw new IllegalArgumentException(dimensions.toString());
+    int length = requirePositiveOrZero(dimensions.get(level));
     for (int count = 0; count < length; ++count) {
       copy.set(level, count);
-      tensor.append(_of(function, dimensions, copy));
+      tensor.append(of(function, dimensions, copy));
     }
     return tensor;
+  }
+
+  private static int requirePositiveOrZero(int length) {
+    if (length < 0)
+      throw new IllegalArgumentException("" + length);
+    return length;
   }
 }

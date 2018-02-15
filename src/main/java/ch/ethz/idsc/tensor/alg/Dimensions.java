@@ -27,7 +27,7 @@ public enum Dimensions {
    * 
    * @return dimensions of this tensor */
   public static List<Integer> of(Tensor tensor) {
-    return _list(_complete(tensor));
+    return list(complete(tensor));
   }
 
   /***************************************************/
@@ -36,30 +36,30 @@ public enum Dimensions {
    * 
    * @see ArrayQ */
   /* package */ static boolean isArray(Tensor tensor) {
-    return _isArray(_complete(tensor));
+    return check(complete(tensor));
   }
 
   /* package */ static boolean isArrayWithRank(Tensor tensor, int rank) {
-    List<Set<Integer>> complete = _complete(tensor);
-    return _list(complete).size() == rank && _isArray(complete);
+    List<Set<Integer>> complete = complete(tensor);
+    return list(complete).size() == rank && check(complete);
   }
 
   /* package */ static boolean isArrayWithDimensions(Tensor tensor, List<Integer> dims) {
-    List<Set<Integer>> complete = _complete(tensor);
-    return _list(complete).equals(dims) && _isArray(complete);
+    List<Set<Integer>> complete = complete(tensor);
+    return list(complete).equals(dims) && check(complete);
   }
 
   /* package */ static Optional<Integer> arrayRank(Tensor tensor) {
-    List<Set<Integer>> complete = _complete(tensor);
-    return _isArray(complete) ? Optional.of(_list(complete).size()) : Optional.empty();
+    List<Set<Integer>> complete = complete(tensor);
+    return check(complete) ? Optional.of(list(complete).size()) : Optional.empty();
   }
 
   /***************************************************/
-  private static boolean _isArray(List<Set<Integer>> complete) {
+  private static boolean check(List<Set<Integer>> complete) {
     return complete.stream().mapToInt(Set::size).allMatch(size -> size == 1);
   }
 
-  private static List<Integer> _list(List<Set<Integer>> complete) {
+  private static List<Integer> list(List<Set<Integer>> complete) {
     List<Integer> ret = new ArrayList<>();
     for (Set<Integer> set : complete)
       if (set.size() == 1) {
@@ -75,17 +75,17 @@ public enum Dimensions {
   /** @param tensor
    * @return list of set of lengths on all levels
    * also includes length of scalars as Scalar.LENGTH == -1 */
-  private static List<Set<Integer>> _complete(Tensor tensor) {
-    return _sets(tensor, 0, new ArrayList<>());
+  private static List<Set<Integer>> complete(Tensor tensor) {
+    return sets(tensor, 0, new ArrayList<>());
   }
 
   // helper function
-  private static List<Set<Integer>> _sets(Tensor tensor, int level, List<Set<Integer>> sets) {
+  private static List<Set<Integer>> sets(Tensor tensor, int level, List<Set<Integer>> sets) {
     if (sets.size() <= level)
       sets.add(new HashSet<>());
     sets.get(level).add(tensor.length());
     if (!ScalarQ.of(tensor))
-      tensor.stream().forEach(entry -> _sets(entry, level + 1, sets));
+      tensor.stream().forEach(entry -> sets(entry, level + 1, sets));
     return sets;
   }
 }

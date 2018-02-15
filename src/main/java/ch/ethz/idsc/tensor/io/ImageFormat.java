@@ -83,9 +83,7 @@ public enum ImageFormat {
     DataBufferByte dataBufferByte = (DataBufferByte) writableRaster.getDataBuffer();
     byte[] bytes = dataBufferByte.getData();
     ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-    tensor.flatten(1) //
-        .map(Scalar.class::cast) //
-        .map(Scalar::number) //
+    tensor.flatten(1).map(Scalar.class::cast).map(Scalar::number) //
         .forEach(number -> byteBuffer.put(number.byteValue()));
     return bufferedImage;
   }

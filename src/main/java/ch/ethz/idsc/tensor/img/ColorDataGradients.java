@@ -6,8 +6,9 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.ResourceData;
+import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 
-/** the {@link ColorDataFunction}s provided in the list below can be used in {@link ArrayPlot}.
+/** the functions provided in the list below can be used in {@link ArrayPlot}.
  * 
  * <p>To obtain a single color value use
  * <pre>
@@ -20,7 +21,7 @@ import ch.ethz.idsc.tensor.io.ResourceData;
  * table of RGBA values implemented in {@link ColorDataGradient}.
  * 
  * <p>inspired by Mathematica::ColorData["Gradients"] */
-public enum ColorDataGradients implements ColorDataFunction {
+public enum ColorDataGradients implements ScalarTensorFunction {
   /** classic is default */
   CLASSIC, //
   /** hue is backed by {@link Hue#of(double, double, double, double)} */
@@ -33,15 +34,21 @@ public enum ColorDataGradients implements ColorDataFunction {
   JET, //
   RAINBOW, //
   CMYK_REVERSED, //
-  TEMPERATURE, // blue to red, has yellow before turning red
-  TEMPERATURE_LIGHT, // blue to red, has yellow before turning red
-  THERMOMETER, // blue to red, symmetric
+  /** blue to red, has yellow before turning red */
+  TEMPERATURE, //
+  /** blue to red, has yellow before turning red */
+  TEMPERATURE_LIGHT, //
+  /** blue to red, symmetric */
+  THERMOMETER, //
   BROWNCYAN, //
   PASTEL, //
   BEACH, //
-  MINT, // green to red pastel, symmetric
-  PARULA, // matlab default
-  DENSITY, // mathematica default
+  /** green to red pastel, symmetric */
+  MINT, //
+  /** matlab default */
+  PARULA, //
+  /** mathematica default */
+  DENSITY, //
   SOLAR, //
   GRAYSCALE(GrayscaleColorData.FUNCTION), //
   BONE, //
@@ -59,22 +66,22 @@ public enum ColorDataGradients implements ColorDataFunction {
   AURORA, //
   ;
   // ---
-  private final ColorDataFunction colorDataFunction;
+  private final ScalarTensorFunction scalarTensorFunction;
 
-  private ColorDataGradients(ColorDataFunction colorDataFunction) {
-    this.colorDataFunction = colorDataFunction;
+  private ColorDataGradients(ScalarTensorFunction scalarTensorFunction) {
+    this.scalarTensorFunction = scalarTensorFunction;
   }
 
   private ColorDataGradients() {
     Tensor tensor = ResourceData.of("/colorscheme/" + name().toLowerCase() + ".csv");
     boolean success = Objects.nonNull(tensor);
-    colorDataFunction = success ? ColorDataGradient.of(tensor) : StaticHelper.FALLBACK;
+    scalarTensorFunction = success ? ColorDataGradient.of(tensor) : StaticHelper.FALLBACK;
     if (!success)
       System.err.println("fail to load " + name());
   }
 
   @Override
   public Tensor apply(Scalar scalar) {
-    return colorDataFunction.apply(scalar);
+    return scalarTensorFunction.apply(scalar);
   }
 }

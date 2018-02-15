@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** Clip encodes a closed interval in the ordered set of real numbers.
  * 
- * Example:
+ * <p>Example:
  * <pre>
  * Clip clip = Clip.function(5, 10);
  * clip.apply(3) == 5
@@ -40,7 +40,7 @@ public interface Clip extends ScalarUnaryOperator {
    * @param max
    * @return function that clips the input to the closed interval [min, max]
    * @throws Exception if min is greater than max */
-  public static Clip function(Number min, Number max) {
+  static Clip function(Number min, Number max) {
     return function(RealScalar.of(min), RealScalar.of(max));
   }
 
@@ -48,7 +48,7 @@ public interface Clip extends ScalarUnaryOperator {
    * @param max
    * @return function that clips the input to the closed interval [min, max]
    * @throws Exception if min is greater than max */
-  public static Clip function(Scalar min, Scalar max) {
+  static Clip function(Scalar min, Scalar max) {
     Scalar width = max.subtract(min);
     if (Sign.isNegative(width))
       throw TensorRuntimeException.of(min, max);
