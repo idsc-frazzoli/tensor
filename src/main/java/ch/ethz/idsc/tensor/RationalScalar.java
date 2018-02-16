@@ -222,6 +222,10 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return new BigDecimal(numerator()).divide(new BigDecimal(denominator()), mathContext);
   }
 
+  /* package */ boolean isInteger() {
+    return bigFraction.isInteger();
+  }
+
   /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {

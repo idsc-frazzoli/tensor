@@ -81,6 +81,7 @@ import java.util.Objects;
     return stringBuilder.toString();
   }
 
+  /** @return true if the fraction encodes an integer, i.e. if the denominator equals 1 */
   public boolean isInteger() {
     return den.equals(BigInteger.ONE);
   }
