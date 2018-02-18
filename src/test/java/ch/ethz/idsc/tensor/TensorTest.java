@@ -261,7 +261,7 @@ public class TensorTest extends TestCase {
   }
 
   public void testScalarStream() {
-    List<Scalar> asd = Arrays.asList(RealScalar.ZERO, RealScalar.of(3));
+    List<Tensor> asd = Arrays.asList(RealScalar.ZERO, RealScalar.of(3));
     Tensor a = Tensor.of(asd.stream());
     assertEquals(a.length(), 2);
   }

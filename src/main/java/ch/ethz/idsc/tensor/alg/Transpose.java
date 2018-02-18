@@ -77,7 +77,7 @@ public enum Transpose {
     Tensor data = Tensor.of(tensor.flatten(-1));
     int[] inverse = new int[sigma.length];
     IntStream.range(0, sigma.length).forEach(index -> inverse[sigma[index]] = index);
-    List<Scalar> list = new ArrayList<>();
+    List<Tensor> list = new ArrayList<>();
     for (MultiIndex src : tensorSize)
       list.add(data.Get(mySize.indexOf(src.permute(inverse))));
     Integer[] tsize = new Integer[sigma.length]; // int[] to Integer[]
