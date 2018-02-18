@@ -26,6 +26,11 @@ public class TotalTest extends TestCase {
     assertEquals(b, Tensors.empty());
   }
 
+  public void testExample() {
+    Tensor tensor = Total.of(Tensors.fromString("{{1, 2}, {3, 4}, {5, 6}}"));
+    assertEquals(tensor, Tensors.vector(9, 12));
+  }
+
   public void testPmulEmpty() {
     Tensor a = Tensors.of(Tensors.empty());
     Tensor b = Total.prod(a);

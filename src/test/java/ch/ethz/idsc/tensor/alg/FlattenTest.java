@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Arrays;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
@@ -32,13 +33,20 @@ public class FlattenTest extends TestCase {
   public void testSimpleMinusOne() {
     assertEquals(Flatten.of(Tensors.fromString("{{0,1,{{2},3}},{4,5}}")), Range.of(0, 6));
   }
-  // public void testFail() {
-  // Tensor ad = LieAlgebras.heisenberg3();
-  // try {
-  // Flatten.of(ad, 3);
-  // assertTrue(false);
-  // } catch (Exception exception) {
-  // // ---
-  // }
-  // }
+
+  public void testScalar() {
+    assertEquals(Flatten.of(RealScalar.of(3)), Tensors.vector(3));
+    assertEquals(Flatten.of(RealScalar.of(3), 4), Tensors.vector(3));
+  }
+
+  public void testExcess() {
+    Tensor ad = LieAlgebras.heisenberg3();
+    Tensor tensor = Flatten.of(ad, 10);
+    assertEquals(tensor.length(), Numel.of(ad));
+  }
+
+  public void testVarargs() {
+    Tensor res = Flatten.of(Tensors.vector(1, 2, 3), RealScalar.of(4), Tensors.fromString("{{5},6,{{7},8}}"));
+    assertEquals(res, Range.of(1, 9));
+  }
 }
