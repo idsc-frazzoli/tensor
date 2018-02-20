@@ -27,7 +27,7 @@ public enum ArrayReshape {
    * @return tensor with {@link Scalar} entries from stream and {@link Dimensions} size
    * @throws Exception if the product of the elemnst in dimensions
    * does not equal the number of tensors in the given stream */
-  public static Tensor of(Stream<Tensor> stream, Integer... size) {
+  public static Tensor of(Stream<? extends Tensor> stream, Integer... size) {
     Tensor transpose = Tensor.of(stream);
     int length = transpose.length();
     int numel = 1;

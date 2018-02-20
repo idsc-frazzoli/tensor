@@ -29,7 +29,6 @@ public enum Import {
    * <li>csv for {@link CsvFormat}
    * <li>jpg for {@link ImageFormat}
    * <li>png for {@link ImageFormat}
-   * <li>tensor for {@link ObjectFormat}
    * </ul>
    * 
    * <p>Important: the import of jpg image files is not thoroughly verified.
@@ -37,10 +36,8 @@ public enum Import {
    * @param file source
    * @return file content as {@link Tensor}
    * @throws IOException
-   * @throws ClassNotFoundException
-   * @throws DataFormatException
    * @see Get */
-  public static Tensor of(File file) throws IOException, ClassNotFoundException, DataFormatException {
+  public static Tensor of(File file) throws IOException {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
@@ -50,8 +47,6 @@ public enum Import {
     if (filename.hasExtension("jpg") || //
         filename.hasExtension("png"))
       return ImageFormat.from(ImageIO.read(file));
-    if (filename.hasExtension("tensor"))
-      return object(file);
     throw new RuntimeException(file.toString());
   }
 

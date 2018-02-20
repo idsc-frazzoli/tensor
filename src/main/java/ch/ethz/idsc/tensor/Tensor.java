@@ -56,8 +56,8 @@ public interface Tensor extends Iterable<Tensor> {
    * 
    * @param stream of tensors to form the first level of the return value
    * @return tensor that holds the tensors of the input stream */
-  static Tensor of(Stream<Tensor> stream) {
-    return new TensorImpl(stream.collect(Collectors.toList()));
+  static Tensor of(Stream<? extends Tensor> stream) {
+    return new TensorImpl(stream.map(Tensor.class::cast).collect(Collectors.toList()));
   }
 
   /** The operation doesn't duplicate data, but wraps the data container

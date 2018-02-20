@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Export {
   ;
   /** See the documentation of {@link CsvFormat}, {@link ImageFormat},
-   * {@link MatlabExport}, and {@link ObjectFormat}
+   * {@link MatlabExport}
    * for information on how tensors are encoded in the respective format.
    * 
    * @param file destination
@@ -39,9 +39,6 @@ public enum Export {
     else //
     if (filename.hasExtension("png"))
       ImageIO.write(ImageFormat.of(tensor), "png", file);
-    else //
-    if (filename.hasExtension("tensor"))
-      object(file, tensor);
     else //
       throw new RuntimeException(file.toString());
   }

@@ -19,17 +19,13 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 import junit.framework.TestCase;
 
 public class ExportTest extends TestCase {
-  private static void static_check(File file) throws ClassNotFoundException, DataFormatException, IOException {
+  public void testCsv() throws IOException, ClassNotFoundException, DataFormatException {
+    File file = UserHome.file("tensorLib_ExportTest.csv");
     assertFalse(file.isFile());
     Tensor tensor = Tensors.fromString("{{2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
     Export.of(file, tensor);
     assertEquals(tensor, Import.of(file));
     file.delete();
-  }
-
-  public void testCsvAndTensor() throws IOException, ClassNotFoundException, DataFormatException {
-    static_check(UserHome.file("tensorLib_ExportTest.csv"));
-    static_check(UserHome.file("tensorLib_ExportTest.tensor"));
   }
 
   public void testPngColor() throws ClassNotFoundException, DataFormatException, IOException {
