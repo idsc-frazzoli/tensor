@@ -26,12 +26,11 @@ public enum Import {
   ;
   /** supported extensions are
    * <ul>
+   * <li>bmp for {@link ImageFormat}
    * <li>csv for {@link CsvFormat}
    * <li>jpg for {@link ImageFormat}
    * <li>png for {@link ImageFormat}
    * </ul>
-   * 
-   * <p>Important: the import of jpg image files is not thoroughly verified.
    * 
    * @param file source
    * @return file content as {@link Tensor}
@@ -44,7 +43,8 @@ public enum Import {
       try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
         return CsvFormat.parse(bufferedReader.lines());
       }
-    if (filename.hasExtension("jpg") || //
+    if (filename.hasExtension("bmp") || //
+        filename.hasExtension("jpg") || //
         filename.hasExtension("png"))
       return ImageFormat.from(ImageIO.read(file));
     throw new RuntimeException(file.toString());
@@ -58,7 +58,8 @@ public enum Import {
    * @throws IOException
    * @throws ClassNotFoundException
    * @throws DataFormatException */
-  public static <T> T object(File file) throws IOException, ClassNotFoundException, DataFormatException {
+  public static <T> T object(File file) //
+      throws IOException, ClassNotFoundException, DataFormatException {
     return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
   }
 }

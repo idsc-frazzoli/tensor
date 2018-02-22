@@ -22,8 +22,8 @@ public enum Mean {
    * <li>for a matrix, the function returns a the average of rows as a vector
    * </ul>
    * 
+   * <p>Careful: Mean.of({}) throws an exception.
    * In Mathematica, Mean[{}] is undefined.
-   * Mean.of({}) throws an exception.
    * 
    * @param tensor non-empty
    * @return average of entries in tensor

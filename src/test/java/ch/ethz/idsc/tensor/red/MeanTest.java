@@ -33,7 +33,6 @@ public class MeanTest extends TestCase {
       Mean.of(Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
-      // ---
       assertTrue(exception instanceof ArithmeticException);
     }
   }

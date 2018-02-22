@@ -15,6 +15,11 @@ public class AbstractRealScalarTest extends TestCase {
     assertEquals(one, RealScalar.ONE);
   }
 
+  public void testPower00Numeric() {
+    Scalar one = Power.of(0.0, 0.0);
+    assertEquals(one, RealScalar.ONE);
+  }
+
   public void testPowerFail() {
     try {
       Power.of(0, GaussScalar.of(2, 7));

@@ -97,11 +97,11 @@ public enum ImageFormat {
   }
 
   /***************************************************/
-  /** functionality for export to jpg image format
+  /** functionality for export a color image to bmp and jpg format
    * 
    * @param tensor
    * @return image of type BufferedImage.TYPE_BYTE_GRAY or BufferedImage.TYPE_INT_BGR */
-  /* package */ static BufferedImage jpg(Tensor tensor) {
+  /* package */ static BufferedImage bgr(Tensor tensor) {
     List<Integer> dims = Dimensions.of(tensor);
     if (dims.size() == 2)
       return toTYPE_BYTE_GRAY(tensor, dims.get(1), dims.get(0));

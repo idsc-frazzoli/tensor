@@ -55,8 +55,7 @@ public enum Serialization {
    * @return new instance of T with identical content as given object
    * @throws ClassNotFoundException
    * @throws IOException */
-  public static <T> T copy(T object) //
-      throws ClassNotFoundException, IOException {
+  public static <T> T copy(T object) throws ClassNotFoundException, IOException {
     return parse(of(object));
   }
 }
