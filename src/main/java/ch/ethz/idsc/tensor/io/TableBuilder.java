@@ -38,7 +38,7 @@ import ch.ethz.idsc.tensor.alg.Flatten;
  * 
  * <p>Due to the use of a LinkedList, TableBuilder is typically faster than
  * {@link Tensors#empty()} with subsequent {@link Tensor#append(Tensor)} */
-public class TableBuilder {
+public final class TableBuilder {
   /** LinkedList was found to be the faster than ArrayDeque */
   private final Deque<Tensor> deque = new LinkedList<>();
 
@@ -57,12 +57,9 @@ public class TableBuilder {
     return deque.size();
   }
 
-  /** a modification to the return value does not affect
-   * the content of the instance of TableBuilder.
-   * 
-   * @return tensor with rows as entries */
+  /** @return unmodifiable tensor with rows as entries */
   public Tensor toTable() {
-    return Tensor.of(deque.stream().map(Tensor::copy));
+    return Tensor.of(deque.stream()).unmodifiable();
   }
 
   /** @return stream of references to rows */
