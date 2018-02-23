@@ -14,11 +14,13 @@ public enum Total {
   ;
   /** The return value has {@link Dimensions} of input tensor reduced by 1.
    * 
+   * <pre>
    * Total[{a, b, c, d}] == a + b + c + d
    * Total[{}] == 0
+   * Total[{{1, 2}, {3, 4}, {5, 6}}] == {9, 12}
+   * </pre>
    * 
-   * <p>Scalar input is not allowed.
-   * For example, Total[3.14] throws an exception.
+   * <p>Scalar input is not allowed. For example, Total[3.14] throws an exception.
    * 
    * @param tensor
    * @return total sum of tensor entries at first level, or 0 if tensor is empty

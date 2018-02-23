@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.util.Objects;
 
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
@@ -189,11 +188,7 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    if (object instanceof RealScalar) {
-      RealScalar realScalar = (RealScalar) object;
-      return value == realScalar.number().doubleValue();
-    }
-    return Objects.nonNull(object) && object.equals(this);
+    return object instanceof RealScalar && value == ((RealScalar) object).number().doubleValue();
   }
 
   @Override // from AbstractScalar

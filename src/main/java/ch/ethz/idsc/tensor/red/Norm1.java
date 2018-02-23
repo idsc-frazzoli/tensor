@@ -18,9 +18,7 @@ import ch.ethz.idsc.tensor.sca.Abs;
 
   @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
-    return Total.of(Abs.of(matrix)).stream() //
-        .map(Scalar.class::cast) //
-        .reduce(Max::of).get();
+    return Total.of(Abs.of(matrix)).stream().reduce(Max::of).get().Get();
   }
 
   /* package */ static Scalar ofStream(Stream<Tensor> stream) {

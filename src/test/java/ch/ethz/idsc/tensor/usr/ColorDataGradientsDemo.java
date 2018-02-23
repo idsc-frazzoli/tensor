@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.usr;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -55,7 +56,7 @@ enum ColorDataGradientsDemo {
     Tensor top = image2.extract(0, half);
     Tensor bot = image2.extract(half, image2.length());
     Tensor res = Join.of(1, top, bot);
-    Export.of(UserHome.Pictures(ColorDataGradients.class.getSimpleName() + ".png"), //
-        res);
+    File file = UserHome.Pictures(ColorDataGradients.class.getSimpleName() + ".png");
+    Export.of(file, res);
   }
 }

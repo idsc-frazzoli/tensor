@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import java.util.Optional;
-
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -24,8 +22,8 @@ public enum Mean {
    * <li>for a matrix, the function returns a the average of rows as a vector
    * </ul>
    * 
+   * <p>Careful: Mean.of({}) throws an exception.
    * In Mathematica, Mean[{}] is undefined.
-   * Mean.of({}) throws an exception.
    * 
    * @param tensor non-empty
    * @return average of entries in tensor
@@ -33,15 +31,6 @@ public enum Mean {
    * @throws TensorRuntimeException if tensor is a {@link Scalar} */
   public static Tensor of(Tensor tensor) {
     return Total.of(tensor).divide(RationalScalar.of(tensor.length(), 1));
-  }
-
-  /** identical to function {@link Mean#of(Tensor)}
-   * except that Mean.optional({}) == Optional.empty()
-   *
-   * @param tensor
-   * @return average of entries in tensor, or Optional.empty() if tensor is empty */
-  public static Optional<Tensor> optional(Tensor tensor) {
-    return tensor.length() == 0 ? Optional.empty() : Optional.of(of(tensor));
   }
 
   /** @param distribution

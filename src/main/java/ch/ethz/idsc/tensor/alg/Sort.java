@@ -17,6 +17,6 @@ public enum Sort {
 
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> Tensor of(Tensor tensor, Comparator<T> comparator) {
-    return Tensor.of(tensor.stream().map(x -> (T) x).sorted(comparator));
+    return Tensor.of(tensor.stream().map(x -> (T) x).sorted(comparator).map(Tensor.class::cast));
   }
 }

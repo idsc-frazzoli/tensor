@@ -72,7 +72,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
   public Scalar power(Scalar exponent) {
     if (Scalars.isZero(this)) {
       if (Scalars.isZero(exponent))
-        return ONE; // <- not generic
+        return ONE;
       if (exponent instanceof ComplexEmbedding) {
         ComplexEmbedding complexEmbedding = (ComplexEmbedding) exponent;
         if (Sign.isPositive(complexEmbedding.real()))

@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.5.0`
+Library for tensor computations in Java, version `0.5.1`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -56,7 +56,7 @@ Autonomous Gokart
 
 ![gammademo](https://user-images.githubusercontent.com/4012178/28755698-bdb96546-7560-11e7-88d5-2d143e155e75.png)
 
-Gamma
+Gamma function
 
 <td>
 
@@ -160,7 +160,7 @@ The example below makes use of these provided definitions
     294300[cm*g*s^-2]
     2943/1000[N]
 
-The arithmetic for the scalar type `Quantity` was developed in collaboration with the project `Swisstrolley+`.
+The arithmetic for the scalar type `Quantity` was developed in collaboration with the project `SwissTrolley+`.
 
 ### Miscellaneous
 
@@ -236,15 +236,11 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.5.0</version>
+        <version>0.5.1</version>
       </dependency>
     </dependencies>
 
 The source code is attached to every release.
-
-> *Note*: If your IDE or maven compiler fails to download the repository automatically, you can place the binary files from the branch mvn-repo manually in the target location rooted in your user directory
-
-    ~/.m2/repository/ch/ethz/idsc/tensor/0.5.0/*
 
 ## Documentation
 

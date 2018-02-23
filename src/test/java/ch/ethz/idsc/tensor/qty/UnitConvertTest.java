@@ -52,6 +52,14 @@ public class UnitConvertTest extends TestCase {
     assertTrue(ExactScalarQ.of(result));
   }
 
+  public void testKiloMega() {
+    assertEquals(UnitSystem.SI().apply(Quantity.of(1e-3, "kHz")), Quantity.of(1, "s^-1"));
+    assertEquals(UnitSystem.SI().apply(Quantity.of(1e-6, "MHz")), Quantity.of(1, "s^-1"));
+    Scalar one_ohm = UnitSystem.SI().apply(Quantity.of(1, "Ohm"));
+    assertEquals(UnitSystem.SI().apply(Quantity.of(1e-3, "kOhm")), one_ohm);
+    assertEquals(UnitSystem.SI().apply(Quantity.of(1e-6, "MOhm")), one_ohm);
+  }
+
   public void testFail() {
     Scalar mass = Quantity.of(200, "g"); // gram
     Scalar a = Quantity.of(981, "cm*s^-2");

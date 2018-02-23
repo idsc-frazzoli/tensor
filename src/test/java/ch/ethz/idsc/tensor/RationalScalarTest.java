@@ -30,8 +30,6 @@ public class RationalScalarTest extends TestCase {
   }
 
   public void testInvertFail() {
-    // Scalar s = RationalScalar.of(0, 1).reciprocal();
-    // System.out.println(s.multiply(RealScalar.of(3)));
     try {
       RationalScalar.of(0, 1).reciprocal();
       assertTrue(false);
@@ -41,9 +39,9 @@ public class RationalScalarTest extends TestCase {
   }
 
   public void testNegate() {
-    Scalar a = RationalScalar.of(3, 17);
-    assertEquals(a.negate(), RationalScalar.of(3, -17));
-    assertEquals(a.negate().toString(), "-3/17");
+    Scalar scalar = RationalScalar.of(3, 17);
+    assertEquals(scalar.negate(), RationalScalar.of(3, -17));
+    assertEquals(scalar.negate().toString(), "-3/17");
   }
 
   public void testTensor() {
@@ -162,6 +160,20 @@ public class RationalScalarTest extends TestCase {
     Scalar zero = RealScalar.ZERO;
     Scalar eps = DoubleScalar.of(Math.nextUp(0.0));
     assertEquals(zero.divide(eps), zero);
+  }
+
+  public void testIsInteger() {
+    assertTrue(((RationalScalar) RationalScalar.of(0, 990)).isInteger());
+    assertTrue(((RationalScalar) RationalScalar.of(0, -10)).isInteger());
+    assertTrue(((RationalScalar) RationalScalar.of(5, 1)).isInteger());
+    assertFalse(((RationalScalar) RationalScalar.of(1, 5)).isInteger());
+    assertFalse(((RationalScalar) RationalScalar.of(5, 2)).isInteger());
+    assertTrue(((RationalScalar) RationalScalar.of(5, -1)).isInteger());
+    assertFalse(((RationalScalar) RationalScalar.of(1, -5)).isInteger());
+    assertFalse(((RationalScalar) RationalScalar.of(5, -2)).isInteger());
+    assertTrue(((RationalScalar) RationalScalar.of(-5, 1)).isInteger());
+    assertFalse(((RationalScalar) RationalScalar.of(-1, 5)).isInteger());
+    assertFalse(((RationalScalar) RationalScalar.of(-5, 2)).isInteger());
   }
 
   public void testNullFail() {

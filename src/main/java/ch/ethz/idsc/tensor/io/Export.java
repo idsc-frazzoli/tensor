@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Export {
   ;
   /** See the documentation of {@link CsvFormat}, {@link ImageFormat},
-   * {@link MatlabExport}, and {@link ObjectFormat}
+   * {@link MatlabExport}
    * for information on how tensors are encoded in the respective format.
    * 
    * @param file destination
@@ -28,20 +28,20 @@ public enum Export {
    * @throws IOException */
   public static void of(File file, Tensor tensor) throws IOException {
     Filename filename = new Filename(file);
+    if (filename.hasExtension("bmp"))
+      ImageIO.write(ImageFormat.bgr(tensor), "bmp", file);
+    else //
     if (filename.hasExtension("csv"))
       Files.write(file.toPath(), (Iterable<String>) CsvFormat.of(tensor)::iterator);
     else //
     if (filename.hasExtension("jpg"))
-      ImageIO.write(ImageFormat.jpg(tensor), "jpg", file);
+      ImageIO.write(ImageFormat.bgr(tensor), "jpg", file);
     else //
     if (filename.hasExtension("m"))
       Files.write(file.toPath(), (Iterable<String>) MatlabExport.of(tensor)::iterator);
     else //
     if (filename.hasExtension("png"))
       ImageIO.write(ImageFormat.of(tensor), "png", file);
-    else //
-    if (filename.hasExtension("tensor"))
-      object(file, tensor);
     else //
       throw new RuntimeException(file.toString());
   }

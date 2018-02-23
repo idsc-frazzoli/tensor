@@ -188,7 +188,7 @@ public class TensorsTest extends TestCase {
   }
 
   public void testNCopies() {
-    Tensor ncopies = Tensor.of(Collections.nCopies(6, RealScalar.of(3)).stream());
+    Tensor ncopies = Tensor.of(Collections.nCopies(6, RealScalar.of(3)).stream().map(Tensor.class::cast));
     ncopies.set(RealScalar.ZERO, 2);
     assertEquals(ncopies, Tensors.vector(3, 3, 0, 3, 3, 3));
   }

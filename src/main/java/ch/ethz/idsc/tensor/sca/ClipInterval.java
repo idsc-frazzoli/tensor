@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** clip to an interval of non-zero width */
-class ClipInterval implements Clip {
+/* package */ class ClipInterval implements Clip {
   static final Clip UNIT = Clip.function(0, 1);
   static final Clip ABSOLUTE_ONE = Clip.function(-1, 1);
   // ---

@@ -26,32 +26,27 @@ public enum Import {
   ;
   /** supported extensions are
    * <ul>
+   * <li>bmp for {@link ImageFormat}
    * <li>csv for {@link CsvFormat}
    * <li>jpg for {@link ImageFormat}
    * <li>png for {@link ImageFormat}
-   * <li>tensor for {@link ObjectFormat}
    * </ul>
-   * 
-   * <p>Important: the import of jpg image files is not thoroughly verified.
    * 
    * @param file source
    * @return file content as {@link Tensor}
    * @throws IOException
-   * @throws ClassNotFoundException
-   * @throws DataFormatException
    * @see Get */
-  public static Tensor of(File file) throws IOException, ClassNotFoundException, DataFormatException {
+  public static Tensor of(File file) throws IOException {
     Filename filename = new Filename(file);
     if (filename.hasExtension("csv"))
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
       try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
         return CsvFormat.parse(bufferedReader.lines());
       }
-    if (filename.hasExtension("jpg") || //
+    if (filename.hasExtension("bmp") || //
+        filename.hasExtension("jpg") || //
         filename.hasExtension("png"))
       return ImageFormat.from(ImageIO.read(file));
-    if (filename.hasExtension("tensor"))
-      return object(file);
     throw new RuntimeException(file.toString());
   }
 
@@ -63,7 +58,8 @@ public enum Import {
    * @throws IOException
    * @throws ClassNotFoundException
    * @throws DataFormatException */
-  public static <T> T object(File file) throws IOException, ClassNotFoundException, DataFormatException {
+  public static <T> T object(File file) //
+      throws IOException, ClassNotFoundException, DataFormatException {
     return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
   }
 }

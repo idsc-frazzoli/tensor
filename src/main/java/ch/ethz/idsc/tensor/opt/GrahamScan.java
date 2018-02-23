@@ -25,7 +25,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * Graham's scan is a method of finding the convex hull of a finite set of points
  * in the plane with time complexity O(n log n).
  * 
- * Ronald Graham published the original algorithm in 1972.
+ * <p>Ronald Graham published the original algorithm in 1972.
  * The algorithm finds all vertices of the convex hull ordered along its boundary.
  * It uses a stack to detect and remove concavities in the boundary efficiently.
  * 
@@ -60,10 +60,9 @@ import ch.ethz.idsc.tensor.sca.Sign;
         Tensor d20 = p2.subtract(point0);
         int cmp = Scalars.compare(arg(d10), arg(d20));
         return cmp != 0 ? cmp : MINY_MINX.compare(p1, p2);
-        // : Scalars.compare(Norm._2.ofVector(d10), Norm._2.ofVector(d20));
       }
     });
-    // final Deque<Tensor> stack = new ArrayDeque<Tensor>();
+    // ArrayDeque::stream is reverse of Stack::stream
     Stack<Tensor> stack = new Stack<>();
     stack.push(point0);
     int k1 = 1;
