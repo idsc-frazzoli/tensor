@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.5.1`
+Library for tensor computations in Java, version `0.5.2`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -198,17 +198,13 @@ Indices for the `set` and `get` functions start from zero like in C/Java:
     matrix.set(Tensors.vector(9, 8, 4, 5), 2);
     matrix.set(Tensors.vector(6, 7, 8), Tensor.ALL, 1);
     System.out.println(Pretty.of(matrix));
+    System.out.println(matrix.get(Tensor.ALL, 3)); // extraction of the 4th column
     
     [
      [ 0  6  0  0 ]
      [ 0  7  0  0 ]
      [ 9  8  4  5 ]
     ]
-
-Extraction of the 4th column
-
-    System.out.println(matrix.get(Tensor.ALL, 3));
-    
     {0, 0, 5}
 
 ### Visualization
@@ -236,7 +232,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.5.1</version>
+        <version>0.5.2</version>
       </dependency>
     </dependencies>
 

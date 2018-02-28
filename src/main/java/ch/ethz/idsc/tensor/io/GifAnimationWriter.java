@@ -9,15 +9,15 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** wraps {@link AnimatedGifWriter} as {@link AnimationWriter} */
 /* package */ class GifAnimationWriter implements AnimationWriter {
-  private final AnimatedGifWriter gifAnimationWriter;
+  private final AnimatedGifWriter animatedGifWriter;
 
   public GifAnimationWriter(File file, int period) throws IOException {
-    gifAnimationWriter = AnimatedGifWriter.of(file, period);
+    animatedGifWriter = AnimatedGifWriter.of(file, period);
   }
 
   @Override // from AnimationWriter
   public void append(BufferedImage bufferedImage) throws Exception {
-    gifAnimationWriter.append(bufferedImage);
+    animatedGifWriter.append(bufferedImage);
   }
 
   @Override // from AnimationWriter
@@ -27,6 +27,6 @@ import ch.ethz.idsc.tensor.Tensor;
 
   @Override // from AutoCloseable
   public void close() throws Exception {
-    gifAnimationWriter.close();
+    animatedGifWriter.close();
   }
 }
