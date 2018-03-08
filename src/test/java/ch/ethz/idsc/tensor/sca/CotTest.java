@@ -27,4 +27,17 @@ public class CotTest extends TestCase {
     Tensor expected = Tensors.fromString("{-0.6420926159343306`, -0.45765755436028577`, 7.015252551434534`}");
     assertTrue(Chop._12.close(Cot.of(vector), expected));
   }
+
+  private static void checkCot(double value) {
+    Scalar z = RealScalar.of(value);
+    Scalar h = Cos.FUNCTION.apply(z).divide(Sin.FUNCTION.apply(z));
+    Scalar s = Cot.FUNCTION.apply(RealScalar.of(value));
+    assertEquals(s, h);
+  }
+
+  public void testPiHalf() {
+    final double pi_h = Math.PI / 2;
+    checkCot(pi_h);
+    checkCot(Math.nextUp(pi_h));
+  }
 }

@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.io;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.ArrayQ;
 import ch.ethz.idsc.tensor.alg.TensorRank;
@@ -16,6 +15,9 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixForm.html">MatrixForm</a> */
 public class Pretty {
+  private static final String OPENING = "[\n";
+  private static final String CLOSING = "]\n";
+
   /** @param tensor
    * @return string expression of tensor for use in System.out.println
    * @see Put#string(Tensor) */
@@ -34,44 +36,33 @@ public class Pretty {
         .mapToInt(String::length) //
         .max().orElse(0);
     format = " %" + max + "s ";
+    branch(tensor);
+  }
+
+  private void branch(Tensor tensor) {
     if (ArrayQ.of(tensor))
-      recurArray(tensor);
-    else
-      recur(tensor);
+      stringBuilder.append(array(tensor));
+    else {
+      stringBuilder.append(spaces(level++) + OPENING);
+      tensor.stream().forEach(this::branch);
+      stringBuilder.append(spaces(--level) + CLOSING);
+    }
   }
 
-  private void recur(Tensor tensor) {
-    stringBuilder.append(spaces(level) + "[\n");
-    ++level;
-    for (Tensor entry : tensor)
-      if (ArrayQ.of(entry))
-        recurArray(entry);
-      else
-        recur(entry);
-    --level;
-    stringBuilder.append(spaces(level) + "]\n");
-  }
-
-  private void recurArray(Tensor tensor) {
+  private String array(Tensor tensor) {
     switch (TensorRank.of(tensor)) {
     case 0: // scalar
-      stringBuilder.append(String.format(format, tensor.toString()));
-      break;
+      return String.format(format, tensor.toString());
     case 1: // vector
-      stringBuilder.append(spaces(level) + "[");
-      for (Tensor entry : tensor) {
-        Scalar scalar = (Scalar) entry;
-        recurArray(scalar);
-      }
-      stringBuilder.append("]\n");
-      break;
+      return tensor.stream() //
+          .map(this::array) //
+          .collect(Collectors.joining("", spaces(level) + "[", CLOSING));
     default:
-      stringBuilder.append(spaces(level) + "[\n");
-      ++level;
-      for (Tensor entry : tensor)
-        recurArray(entry);
-      --level;
-      stringBuilder.append(spaces(level) + "]\n");
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append(spaces(level++) + OPENING);
+      tensor.stream().map(this::array).forEach(stringBuilder::append);
+      stringBuilder.append(spaces(--level) + CLOSING);
+      return stringBuilder.toString();
     }
   }
 
