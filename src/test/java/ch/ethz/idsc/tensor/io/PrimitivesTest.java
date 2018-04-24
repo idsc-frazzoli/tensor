@@ -8,6 +8,7 @@ import java.nio.LongBuffer;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -35,6 +36,34 @@ public class PrimitivesTest extends TestCase {
         new int[] { -2, -3, 4, 5, 6, 11 }));
     assertTrue(Arrays.equals(Primitives.toArrayInt(b), //
         new int[] { -2, -3, 4, 5, 6, 11 }));
+  }
+
+  public void testToArrayDouble2D() {
+    Tensor tensor = Tensors.fromString("{{1,2},{3,{4},5},{6}}");
+    double[][] array = Primitives.toArrayDouble2D(tensor);
+    assertEquals(Tensors.vectorDouble(array[0]), Tensors.vector(1, 2));
+    assertEquals(Tensors.vectorDouble(array[1]), Tensors.vector(3, 4, 5));
+    assertEquals(Tensors.vectorDouble(array[2]), Tensors.vector(6));
+    assertEquals(array.length, 3);
+  }
+
+  public void testToArrayDouble2Dvector() {
+    Tensor tensor = Tensors.fromString("{1,2,{3,{4},5},{{6},7}}");
+    double[][] array = Primitives.toArrayDouble2D(tensor);
+    assertEquals(Tensors.vectorDouble(array[0]), Tensors.vector(1));
+    assertEquals(Tensors.vectorDouble(array[1]), Tensors.vector(2));
+    assertEquals(Tensors.vectorDouble(array[2]), Tensors.vector(3, 4, 5));
+    assertEquals(Tensors.vectorDouble(array[3]), Tensors.vector(6, 7));
+    assertEquals(array.length, 4);
+  }
+
+  public void testToArrayDouble2Dscalar() {
+    try {
+      Primitives.toArrayDouble2D(RealScalar.of(123.456));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testToDouble() {

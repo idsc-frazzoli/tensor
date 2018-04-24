@@ -32,6 +32,13 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * <li>{@code 1.23e-45} non numeric, imported as {@link StringScalar}
  * </ul>
  * 
+ * <p>MATLAB::dlmwrite creates CSV files in the required decimal format
+ * <pre>
+ * dlmwrite(filename, matrix, 'precision', '%E');
+ * dlmwrite(filename, matrix, '-append', 'precision', '%E');
+ * </pre>
+ * Reference: https://www.mathworks.com/help/matlab/ref/dlmwrite.html
+ * 
  * <p>For export of matrices to Mathematica, {@link Put} is
  * the preferred option. However, the csv format may produce smaller
  * files. Mathematica::Import of csv files requires the table entries

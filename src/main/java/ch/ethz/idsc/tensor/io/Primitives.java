@@ -38,6 +38,15 @@ public enum Primitives {
   }
 
   /** @param tensor
+   * @return 2-dimensional array of double's with first dimension equal to tensor.length() */
+  public static double[][] toArrayDouble2D(Tensor tensor) {
+    double[][] array = new double[tensor.length()][];
+    for (int index = 0; index < tensor.length(); ++index)
+      array[index] = toArrayDouble(tensor.get(index));
+    return array;
+  }
+
+  /** @param tensor
    * @return */
   public static DoubleBuffer toDoubleBuffer(Tensor tensor) {
     DoubleBuffer doubleBuffer = DoubleBuffer.allocate(Numel.of(tensor));
