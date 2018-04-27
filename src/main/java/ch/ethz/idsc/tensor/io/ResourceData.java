@@ -66,6 +66,20 @@ public enum ResourceData {
     return null;
   }
 
+  /** @param string
+   * @return imported object, or null if resource could not be loaded */
+  public static <T> T object(String string) {
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
+      int length = inputStream.available();
+      byte[] bytes = new byte[length];
+      inputStream.read(bytes);
+      return ObjectFormat.parse(bytes);
+    } catch (Exception exception) {
+      // ---
+    }
+    return null;
+  }
+
   // helper function
   private static Stream<String> lines(InputStream inputStream) {
     return new BufferedReader(new InputStreamReader(inputStream)).lines();
