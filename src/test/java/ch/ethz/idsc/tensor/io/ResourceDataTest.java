@@ -58,6 +58,10 @@ public class ResourceDataTest extends TestCase {
     assertNull(ResourceData.of("/number/exists.fail"));
   }
 
+  public void testObjectNull() {
+    assertNull(ResourceData.object("/number/exists.fail"));
+  }
+
   public void testPropertiesFailNull() {
     assertNull(ResourceData.properties("/number/exists.properties"));
   }

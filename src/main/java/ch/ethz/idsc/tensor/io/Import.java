@@ -20,6 +20,9 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>In order to import content from jar files use {@link ResourceData}.
  * 
+ * <p>See also the documentation of {@link CsvFormat} regarding the decimal
+ * format for numeric import using the tensor library.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Import.html">Import</a> */
 public enum Import {

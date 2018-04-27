@@ -8,6 +8,7 @@ import java.nio.LongBuffer;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -20,7 +21,7 @@ public class PrimitivesTest extends TestCase {
     List<Long> listB = Primitives.toListLong(b);
     assertEquals(a, Tensors.vector(listA));
     assertEquals(a, Tensors.vector(listB));
-    long[] array = Primitives.toArrayLong(a);
+    long[] array = Primitives.toLongArray(a);
     assertEquals(array[6], Long.MAX_VALUE);
   }
 
@@ -31,15 +32,71 @@ public class PrimitivesTest extends TestCase {
     List<Integer> listB = Primitives.toListInteger(b);
     assertEquals(a, Tensors.vector(listA));
     assertEquals(a, Tensors.vector(listB));
-    assertTrue(Arrays.equals(Primitives.toArrayInt(a), //
+    assertTrue(Arrays.equals(Primitives.toIntArray(a), //
         new int[] { -2, -3, 4, 5, 6, 11 }));
-    assertTrue(Arrays.equals(Primitives.toArrayInt(b), //
+    assertTrue(Arrays.equals(Primitives.toIntArray(b), //
         new int[] { -2, -3, 4, 5, 6, 11 }));
+  }
+
+  public void testToDoubleArray2D() {
+    Tensor tensor = Tensors.fromString("{{1,2},{3,{4},5},{6}}");
+    double[][] array = Primitives.toDoubleArray2D(tensor);
+    assertEquals(Tensors.vectorDouble(array[0]), Tensors.vector(1, 2));
+    assertEquals(Tensors.vectorDouble(array[1]), Tensors.vector(3, 4, 5));
+    assertEquals(Tensors.vectorDouble(array[2]), Tensors.vector(6));
+    assertEquals(array.length, 3);
+  }
+
+  public void testToDoubleArray2Dvector() {
+    Tensor tensor = Tensors.fromString("{1,2,{3,{4},5},{{6},7}}");
+    double[][] array = Primitives.toDoubleArray2D(tensor);
+    assertEquals(Tensors.vectorDouble(array[0]), Tensors.vector(1));
+    assertEquals(Tensors.vectorDouble(array[1]), Tensors.vector(2));
+    assertEquals(Tensors.vectorDouble(array[2]), Tensors.vector(3, 4, 5));
+    assertEquals(Tensors.vectorDouble(array[3]), Tensors.vector(6, 7));
+    assertEquals(array.length, 4);
+  }
+
+  public void testToDoubleArray2Dscalar() {
+    try {
+      Primitives.toDoubleArray2D(RealScalar.of(123.456));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testToIntArray2D() {
+    Tensor tensor = Tensors.fromString("{{1,2},{3,{4},5},{6}}");
+    int[][] array = Primitives.toIntArray2D(tensor);
+    assertEquals(Tensors.vectorInt(array[0]), Tensors.vector(1, 2));
+    assertEquals(Tensors.vectorInt(array[1]), Tensors.vector(3, 4, 5));
+    assertEquals(Tensors.vectorInt(array[2]), Tensors.vector(6));
+    assertEquals(array.length, 3);
+  }
+
+  public void testToIntArray2Dvector() {
+    Tensor tensor = Tensors.fromString("{1,2,{3,{4},5},{{6},7}}");
+    int[][] array = Primitives.toIntArray2D(tensor);
+    assertEquals(Tensors.vectorInt(array[0]), Tensors.vector(1));
+    assertEquals(Tensors.vectorInt(array[1]), Tensors.vector(2));
+    assertEquals(Tensors.vectorInt(array[2]), Tensors.vector(3, 4, 5));
+    assertEquals(Tensors.vectorInt(array[3]), Tensors.vector(6, 7));
+    assertEquals(array.length, 4);
+  }
+
+  public void testToIntArray2Dscalar() {
+    try {
+      Primitives.toIntArray2D(RealScalar.of(123.456));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testToDouble() {
     Tensor tensor = Tensors.vector(Double.NaN, Math.PI, Double.POSITIVE_INFINITY);
-    double[] array = Primitives.toArrayDouble(tensor);
+    double[] array = Primitives.toDoubleArray(tensor);
     assertEquals(array.length, 3);
     assertTrue(Double.isNaN(array[0]));
     assertEquals(array[1], Math.PI);
@@ -77,7 +134,7 @@ public class PrimitivesTest extends TestCase {
   public void testFloatArray() {
     Tensor a = Tensors.vector(-2.5f, -2.7f);
     Tensor b = Tensors.vector(4.3f, 5.4f, 6.2f, 10.5f);
-    float[] array = Primitives.toArrayFloat(Tensors.of(a, b));
+    float[] array = Primitives.toFloatArray(Tensors.of(a, b));
     assertEquals(array[0], -2.5f);
     assertEquals(array[1], -2.7f);
     assertEquals(array[2], 4.3f);

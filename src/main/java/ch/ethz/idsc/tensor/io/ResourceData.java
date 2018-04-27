@@ -41,7 +41,8 @@ public enum ResourceData {
       Filename filename = new Filename(new File(string)); // to determine file extension
       if (filename.hasExtension("csv"))
         return CsvFormat.parse(lines(inputStream));
-      if (filename.hasExtension("jpg") || //
+      if (filename.hasExtension("bmp") || //
+          filename.hasExtension("jpg") || //
           filename.hasExtension("png"))
         return ImageFormat.from(ImageIO.read(inputStream));
       if (filename.hasExtension("vector"))
@@ -59,6 +60,20 @@ public enum ResourceData {
       Properties properties = new Properties();
       properties.load(inputStream);
       return properties;
+    } catch (Exception exception) {
+      // ---
+    }
+    return null;
+  }
+
+  /** @param string
+   * @return imported object, or null if resource could not be loaded */
+  public static <T> T object(String string) {
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
+      int length = inputStream.available();
+      byte[] bytes = new byte[length];
+      inputStream.read(bytes);
+      return ObjectFormat.parse(bytes);
     } catch (Exception exception) {
       // ---
     }

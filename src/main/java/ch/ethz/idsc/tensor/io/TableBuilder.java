@@ -64,6 +64,6 @@ public final class TableBuilder {
 
   /** @return stream of references to rows */
   public Stream<Tensor> stream() {
-    return deque.stream();
+    return deque.stream().map(Tensor::unmodifiable);
   }
 }

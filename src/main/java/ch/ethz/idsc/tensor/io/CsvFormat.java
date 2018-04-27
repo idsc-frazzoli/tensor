@@ -25,6 +25,20 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * vectors or matrices to other applications such as MATLAB.
  * {@link MatlabExport} preserves dimensions of multi-dimensional arrays.
  * 
+ * <p>Careful: ensure that decimal numbers adhere to the java format.
+ * The letter for the exponent has to be capitalized:
+ * <ul>
+ * <li>{@code 1.23E-45} valid numeric expression, imported as {@link DoubleScalar}
+ * <li>{@code 1.23e-45} non numeric, imported as {@link StringScalar}
+ * </ul>
+ * 
+ * <p>MATLAB::dlmwrite creates CSV files in the required decimal format
+ * <pre>
+ * dlmwrite(filename, matrix, 'precision', '%E');
+ * dlmwrite(filename, matrix, '-append', 'precision', '%E');
+ * </pre>
+ * Reference: https://www.mathworks.com/help/matlab/ref/dlmwrite.html
+ * 
  * <p>For export of matrices to Mathematica, {@link Put} is
  * the preferred option. However, the csv format may produce smaller
  * files. Mathematica::Import of csv files requires the table entries

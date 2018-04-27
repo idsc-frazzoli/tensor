@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.io.StringScalarQ;
 import junit.framework.TestCase;
 
 public class TensorParserTest extends TestCase {
@@ -52,5 +53,10 @@ public class TensorParserTest extends TestCase {
   public void testFromStringFunctionNested() {
     Tensor tensor = Tensors.fromString("{ 2 ,{-3   , 4} }", string -> RealScalar.of(3));
     assertEquals(tensor, Tensors.fromString("{3, {3, 3}}"));
+  }
+
+  public void testEMatlab() {
+    Tensor tensor = Tensors.fromString("3e-2");
+    assertTrue(StringScalarQ.any(tensor));
   }
 }
