@@ -62,7 +62,7 @@ import ch.ethz.idsc.tensor.img.ColorFormat;
   private static BufferedImage toTYPE_INT_ARGB(Tensor tensor, int width, int height) {
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     Tensor argb = TensorMap.of(vector -> RealScalar.of(ColorFormat.toInt(vector)), tensor, 2);
-    int[] array = Primitives.toArrayInt(Transpose.of(argb));
+    int[] array = Primitives.toIntArray(Transpose.of(argb));
     bufferedImage.setRGB(0, 0, width, height, array, 0, width);
     return bufferedImage;
   }

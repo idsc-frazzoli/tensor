@@ -33,16 +33,16 @@ public enum Primitives {
 
   /** @param tensor
    * @return array of double values of all scalars in tensor */
-  public static double[] toArrayDouble(Tensor tensor) {
+  public static double[] toDoubleArray(Tensor tensor) {
     return toStreamNumber(tensor).mapToDouble(Number::doubleValue).toArray();
   }
 
   /** @param tensor
    * @return 2-dimensional array of double's with first dimension equal to tensor.length() */
-  public static double[][] toArrayDouble2D(Tensor tensor) {
+  public static double[][] toDoubleArray2D(Tensor tensor) {
     double[][] array = new double[tensor.length()][];
     for (int index = 0; index < tensor.length(); ++index)
-      array[index] = toArrayDouble(tensor.get(index));
+      array[index] = toDoubleArray(tensor.get(index));
     return array;
   }
 
@@ -64,7 +64,7 @@ public enum Primitives {
 
   /** @param tensor
    * @return array of double values of all scalars in tensor */
-  public static float[] toArrayFloat(Tensor tensor) {
+  public static float[] toFloatArray(Tensor tensor) {
     return toFloatBuffer(tensor).array();
   }
 
@@ -90,7 +90,7 @@ public enum Primitives {
    * 
    * @param tensor
    * @return array of long values of all scalars in tensor */
-  public static long[] toArrayLong(Tensor tensor) {
+  public static long[] toLongArray(Tensor tensor) {
     return toStreamNumber(tensor).mapToLong(Number::longValue).toArray();
   }
 
@@ -116,8 +116,19 @@ public enum Primitives {
    * 
    * @param tensor
    * @return array of int values of all scalars in tensor */
-  public static int[] toArrayInt(Tensor tensor) {
+  public static int[] toIntArray(Tensor tensor) {
     return toStreamNumber(tensor).mapToInt(Number::intValue).toArray();
+  }
+
+  /** does not perform rounding, but uses Scalar::number().intValue()
+   * 
+   * @param tensor
+   * @return 2-dimensional array of int's with first dimension equal to tensor.length() */
+  public static int[][] toIntArray2D(Tensor tensor) {
+    int[][] array = new int[tensor.length()][];
+    for (int index = 0; index < tensor.length(); ++index)
+      array[index] = toIntArray(tensor.get(index));
+    return array;
   }
 
   /** @param tensor
