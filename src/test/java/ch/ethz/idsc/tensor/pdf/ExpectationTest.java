@@ -36,4 +36,23 @@ public class ExpectationTest extends TestCase {
     _check(GeometricDistribution.of(RealScalar.of(.3)));
     _check(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(3, .2, 1, .4)));
   }
+
+  public void testFail() {
+    try {
+      Expectation.of(s -> s, NormalDistribution.standard());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFail2() {
+    Distribution distribution = GompertzMakehamDistribution.of(RealScalar.of(1), RealScalar.of(2));
+    try {
+      Expectation.mean(distribution);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

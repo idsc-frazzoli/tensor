@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 public class RandomVariateTest extends TestCase {
   public void testVarying() {
     Distribution distribution = NormalDistribution.standard();
-    Set<Tensor> set = RandomVariate.of(distribution, 1000).flatten(0).collect(Collectors.toSet());
+    Set<Tensor> set = RandomVariate.of(distribution, 1000).stream().collect(Collectors.toSet());
     assertTrue(970 < set.size());
   }
 

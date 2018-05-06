@@ -97,7 +97,7 @@ public class RationalizeTest extends TestCase {
 
   public void testRoundConsistency() {
     Tensor s = Tensors.vectorDouble(-2.5, -2, -1.5, -1, -0.5, 0, 0.1, 0.5, 1, 1.5, 2, 2.5);
-    List<Long> round = s.flatten(0) //
+    List<Long> round = s.stream() //
         .map(RealScalar.class::cast) //
         .map(RealScalar::number) //
         .map(Number::doubleValue) //

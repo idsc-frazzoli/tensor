@@ -20,15 +20,17 @@ public class MinTest extends TestCase {
 
   public void testColumnwise() {
     Tensor matrix = Tensors.matrixInt(new int[][] { { 1, 3, 3 }, { 2, 2, 7 } });
-    Tensor res = MapThread.of(MinTest::min, matrix.flatten(0).collect(Collectors.toList()), 1);
-    assertEquals(res, Tensors.vector(1, 2, 3));
+    Tensor res = matrix.stream().reduce(Entrywise.min()).get();
+    Tensor map = MapThread.of(MinTest::min, matrix.stream().collect(Collectors.toList()), 1);
+    assertEquals(map, Tensors.vector(1, 2, 3));
+    assertEquals(map, res);
   }
 
   public void testRowwise() {
     Tensor matrix = Tensors.matrixInt(new int[][] { { 8, 3, 3 }, { 2, 2, 7 } });
-    Tensor res = Tensor.of(matrix.flatten(0).map( //
-        row -> row.flatten(0).map(Scalar.class::cast).reduce(Min::of).get()));
-    assertEquals(res, Tensors.vector(3, 2));
+    Tensor map = Tensor.of(matrix.stream().map( //
+        row -> row.stream().reduce(Min::of).get()));
+    assertEquals(map, Tensors.vector(3, 2));
   }
 
   public void testElementWise() {

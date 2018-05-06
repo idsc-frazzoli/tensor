@@ -54,6 +54,12 @@ public class ResourceDataTest extends TestCase {
     assertEquals(Dimensions.of(image), Arrays.asList(33, 15, 4));
   }
 
+  public void testBmp() throws IOException {
+    Tensor image = ResourceData.of("/io/rgb7x11.bmp");
+    assertEquals(Dimensions.of(image), Arrays.asList(11, 7, 4));
+    assertEquals(image.get(10, 4), Tensors.vector(0, 7, 95, 255));
+  }
+
   public void testFailNull() {
     assertNull(ResourceData.of("/number/exists.fail"));
   }

@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
     mask = Dimensions.of(kernel);
   }
 
-  @Override
+  @Override // from TensorUnaryOperator
   public Tensor apply(Tensor tensor) {
     List<Integer> size = Dimensions.of(tensor);
     if (mask.size() != size.size())
