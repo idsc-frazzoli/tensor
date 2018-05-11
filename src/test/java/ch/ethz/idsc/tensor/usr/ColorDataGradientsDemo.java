@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.usr;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +21,7 @@ import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.ImageFormat;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
+import ch.ethz.idsc.tensor.utl.GraphicsUtil;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** export of available {@link ColorDataGradients} to a single image */
@@ -42,7 +43,8 @@ enum ColorDataGradientsDemo {
     Tensor image2;
     {
       BufferedImage bufferedImage = ImageFormat.of(image);
-      Graphics graphics = bufferedImage.getGraphics();
+      Graphics2D graphics = bufferedImage.createGraphics();
+      GraphicsUtil.setQualityHigh(graphics);
       int piy = -3;
       graphics.setColor(Color.BLACK);
       for (ColorDataGradients cdg : ColorDataGradients.values()) {

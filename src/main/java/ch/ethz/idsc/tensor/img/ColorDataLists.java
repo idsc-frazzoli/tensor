@@ -26,6 +26,13 @@ public enum ColorDataLists implements ColorDataIndexed {
   _098, //
   _099, //
   _100, //
+  _103, //
+  _104, //
+  _106, //
+  _108, //
+  _109, //
+  _110, //
+  _112, //
   ;
   private final Tensor tensor;
   private final List<Color> list;
