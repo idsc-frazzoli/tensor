@@ -20,7 +20,7 @@ public enum Unprotect {
     TensorImpl impl = (TensorImpl) tensor;
     List<Tensor> list = impl.list;
     int length = list.get(0).length();
-    if (list.stream().anyMatch(entry -> entry.length() != length))
+    if (list.stream().skip(1).anyMatch(entry -> entry.length() != length))
       throw TensorRuntimeException.of(tensor);
     return length;
   }

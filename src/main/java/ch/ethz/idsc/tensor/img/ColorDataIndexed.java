@@ -14,4 +14,9 @@ public interface ColorDataIndexed extends ScalarTensorFunction {
 
   /** @return number of available colors */
   int size();
+
+  /** @param alpha
+   * @return new instance of ColorDataIndexed with identical RGB color values
+   * but with transparency as given alpha */
+  ColorDataIndexed deriveWithAlpha(int alpha);
 }

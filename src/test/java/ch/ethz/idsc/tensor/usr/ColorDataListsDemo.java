@@ -26,15 +26,13 @@ enum ColorDataListsDemo {
   ;
   public static void main(String[] args) throws IOException {
     Tensor image = Tensors.empty();
-    // System.out.println(ColorDataLists.values().length);
     for (ColorDataLists cdi : ColorDataLists.values()) {
-      Tensor vector = Tensors.vector(i -> i < cdi.size() ? RealScalar.of(i) : DoubleScalar.INDETERMINATE, 16);
-      image.append(vector.map(cdi));
+      Tensor vector = Tensors.vector(i -> i < cdi.getColorDataIndexed().size() ? RealScalar.of(i) : DoubleScalar.INDETERMINATE, 16);
+      image.append(vector.map(cdi.getColorDataIndexed()));
     }
     image = PadLeft.with(RealScalar.of(255), image.length(), 16 + 2, 4).apply(image);
     int ceil = Ceiling.FUNCTION.apply(RationalScalar.of(image.length(), 3)).multiply(RealScalar.of(3)).number().intValue();
     image = PadRight.with(RealScalar.of(0), ceil, 19, 4).apply(image);
-    // System.out.println(Dimensions.of(image));
     int size = 12;
     Tensor large = ImageResize.nearest(image, size);
     BufferedImage bufferedImage = ImageFormat.of(large);

@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
@@ -36,6 +37,32 @@ public class VectorQTest extends TestCase {
 
   public void testAd() {
     assertFalse(VectorQ.of(LieAlgebras.so3()));
+  }
+
+  public void testRequire() {
+    Tensor tensor = VectorQ.requireOfLength(Tensors.vector(1, 2, 3), 3);
+    assertEquals(tensor, Tensors.vector(1, 2, 3));
+  }
+
+  public void testRequireFail() {
+    try {
+      VectorQ.requireOfLength(Tensors.vector(1, 2, 3), 4);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      VectorQ.requireOfLength(Tensors.vector(1, 2, 3), -3);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      VectorQ.requireOfLength(RealScalar.ZERO, Scalar.LENGTH);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testEnsure() {
