@@ -14,4 +14,10 @@ import ch.ethz.idsc.tensor.alg.Array;
   /* package */ static Tensor transparent() {
     return TRANSPARENT.copy();
   }
+
+  static String colorlist(String name) {
+    if (name.charAt(0) == '_')
+      name = name.substring(1);
+    return "/colorlist/" + name.toLowerCase() + ".csv";
+  }
 }

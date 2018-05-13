@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.ResourceData;
 
 /** inspired by Mathematica::ColorData[97] */
@@ -25,11 +26,21 @@ public enum ColorDataLists {
   _109, //
   _110, //
   _112, //
+  /** hue palette with 13 colors normalized according to brightness, tensor library default */
+  _250, // luma
+  /** hue palette with 13 colors */
+  _251, //
   ;
-  private final ColorDataIndexed colorDataIndexed = //
-      new SimpleColorDataIndexed(ResourceData.of("/colorlist/" + name().substring(1) + ".csv"));
+  private final Tensor tensor = ResourceData.of(StaticHelper.colorlist(name()));
+  private final ColorDataIndexed colorDataIndexed = new CyclicColorDataIndexed(tensor);
 
-  public ColorDataIndexed getColorDataIndexed() {
+  /** @return */
+  public ColorDataIndexed cyclic() {
     return colorDataIndexed;
+  }
+
+  /** @return number of unique colors before cycling */
+  public int size() {
+    return tensor.length();
   }
 }

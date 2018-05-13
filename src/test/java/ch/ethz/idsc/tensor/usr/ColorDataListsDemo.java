@@ -24,11 +24,17 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum ColorDataListsDemo {
   ;
+  static String csv(String name) {
+    if (name.charAt(0) == '_')
+      name = name.substring(1);
+    return name.toLowerCase();
+  }
+
   public static void main(String[] args) throws IOException {
     Tensor image = Tensors.empty();
     for (ColorDataLists cdi : ColorDataLists.values()) {
-      Tensor vector = Tensors.vector(i -> i < cdi.getColorDataIndexed().size() ? RealScalar.of(i) : DoubleScalar.INDETERMINATE, 16);
-      image.append(vector.map(cdi.getColorDataIndexed()));
+      Tensor vector = Tensors.vector(i -> i < cdi.size() ? RealScalar.of(i) : DoubleScalar.INDETERMINATE, 16);
+      image.append(vector.map(cdi.cyclic()));
     }
     image = PadLeft.with(RealScalar.of(255), image.length(), 16 + 2, 4).apply(image);
     int ceil = Ceiling.FUNCTION.apply(RationalScalar.of(image.length(), 3)).multiply(RealScalar.of(3)).number().intValue();
@@ -43,7 +49,7 @@ enum ColorDataListsDemo {
       int y = -1;
       for (ColorDataLists cdi : ColorDataLists.values()) {
         y += size;
-        graphics.drawString(cdi.name().substring(1), 0, y);
+        graphics.drawString(csv(cdi.name()), 0, y);
       }
     }
     large = ImageFormat.from(bufferedImage);

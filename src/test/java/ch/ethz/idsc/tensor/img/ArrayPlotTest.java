@@ -23,8 +23,8 @@ public class ArrayPlotTest extends TestCase {
 
   public void testIndexed() {
     Tensor matrix = Tensors.fromString("{{0, 1}, {3, 1}, {3, 2}}");
-    for (ColorDataLists cdi : ColorDataLists.values()) {
-      Tensor image = matrix.map(cdi.getColorDataIndexed());
+    for (ColorDataLists colorDataLists : ColorDataLists.values()) {
+      Tensor image = matrix.map(colorDataLists.cyclic());
       assertEquals(Dimensions.of(image), Arrays.asList(3, 2, 4));
     }
   }
