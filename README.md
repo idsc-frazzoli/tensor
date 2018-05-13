@@ -215,7 +215,7 @@ Predefined color gradients
 
 Predefined color lists
 
-![colordatalists](https://user-images.githubusercontent.com/4012178/39910111-eb321552-54f5-11e8-8bd3-35a5d55256bf.png)
+![colordatalists](https://user-images.githubusercontent.com/4012178/39964904-ee0176ca-568e-11e8-8038-5924aaa204ef.png)
 
 ## Integration
 

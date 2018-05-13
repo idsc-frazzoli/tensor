@@ -23,19 +23,27 @@ public class ColorDataListsTest extends TestCase {
   }
 
   public void testQuantityTransparent() {
-    Tensor rgba = ColorDataLists._097.apply(Quantity.of(2, "s"));
+    Tensor rgba = ColorDataLists._103.apply(Quantity.of(2, "s"));
     assertEquals(rgba, Array.zeros(4));
   }
 
   public void testInfinityTransparent() {
-    assertEquals(ColorDataLists._097.apply(DoubleScalar.INDETERMINATE), Array.zeros(4));
-    assertEquals(ColorDataLists._097.apply(DoubleScalar.NEGATIVE_INFINITY), Array.zeros(4));
-    assertEquals(ColorDataLists._097.apply(DoubleScalar.POSITIVE_INFINITY), Array.zeros(4));
+    assertEquals(ColorDataLists._104.apply(DoubleScalar.INDETERMINATE), Array.zeros(4));
+    assertEquals(ColorDataLists._106.apply(DoubleScalar.NEGATIVE_INFINITY), Array.zeros(4));
+    assertEquals(ColorDataLists._108.apply(DoubleScalar.POSITIVE_INFINITY), Array.zeros(4));
+  }
+
+  public void testDerive() {
+    for (int alpha = 0; alpha < 256; ++alpha) {
+      ColorDataIndexed colorDataIndexed = ColorDataLists._112.deriveWithAlpha(alpha);
+      Color color = colorDataIndexed.getColor(3);
+      assertEquals(color.getAlpha(), alpha);
+    }
   }
 
   public void testFailNeg() {
     try {
-      ColorDataLists._097.apply(RealScalar.of(-0.3));
+      ColorDataLists._058.apply(RealScalar.of(-0.3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

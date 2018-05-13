@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.NumberQ;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.sca.Floor;
 
-/** <p>inspired by Mathematica::ColorData[97] */
+/** inspired by Mathematica::ColorData[97] */
 public enum ColorDataLists implements ColorDataIndexed {
   _001, //
   _003, //
@@ -34,6 +35,7 @@ public enum ColorDataLists implements ColorDataIndexed {
   _110, //
   _112, //
   ;
+  /** matrix with dimensions N x 4 */
   private final Tensor tensor;
   private final List<Color> list;
 
@@ -57,5 +59,15 @@ public enum ColorDataLists implements ColorDataIndexed {
   @Override // from ColorDataIndexed
   public int size() {
     return list.size();
+  }
+
+  /** @param alpha
+   * @return new instance of ColorDataIndexed with identical RGB color values
+   * but with transparency as given alpha */
+  public ColorDataIndexed deriveWithAlpha(int alpha) {
+    Tensor tensor = this.tensor.copy();
+    Scalar scalar = RealScalar.of(alpha);
+    tensor.set(entry -> scalar, Tensor.ALL, 3);
+    return new SimpleColorDataList(tensor);
   }
 }

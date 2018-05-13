@@ -130,6 +130,13 @@ public enum Tensors {
   }
 
   /** @param tensor
+   * @return false if tensor is a vector with zero entries, and
+   * true if tensor contains entries or is a {@link Scalar} */
+  public static boolean nonEmpty(Tensor tensor) {
+    return tensor.length() != 0;
+  }
+
+  /** @param tensor
    * @return true if tensor is not modifiable */
   public static boolean isUnmodifiable(Tensor tensor) {
     return tensor instanceof UnmodifiableTensor;

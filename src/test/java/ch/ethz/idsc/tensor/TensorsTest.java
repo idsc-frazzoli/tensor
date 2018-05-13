@@ -179,6 +179,13 @@ public class TensorsTest extends TestCase {
     assertFalse(Tensors.isEmpty(Tensors.vector(1, 2, 3)));
   }
 
+  public void testNonEmpty() {
+    assertTrue(Tensors.nonEmpty(RealScalar.ONE));
+    assertFalse(Tensors.nonEmpty(Tensors.empty()));
+    assertFalse(Tensors.nonEmpty(Tensors.vector()));
+    assertTrue(Tensors.nonEmpty(Tensors.vector(1, 2, 3)));
+  }
+
   public void testIsUnmodifiable() {
     Tensor canwrite = Tensors.vector(1, 2, 3);
     Tensor readonly = canwrite.unmodifiable();

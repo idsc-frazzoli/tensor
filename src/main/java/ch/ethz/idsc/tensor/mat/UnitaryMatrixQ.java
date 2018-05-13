@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
-import ch.ethz.idsc.tensor.sca.Chop;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/UnitaryMatrixQ.html">UnitaryMatrixQ</a> */
@@ -16,6 +15,6 @@ public enum UnitaryMatrixQ {
    * @return true, if tensor is a matrix and tensor.ConjugateTranspose[tensor] is the identity matrix */
   public static boolean of(Tensor tensor) {
     return MatrixQ.of(tensor) && //
-        Chop._12.close(tensor.dot(ConjugateTranspose.of(tensor)), IdentityMatrix.of(tensor.length()));
+        NullSpace.CHOP_DEFAULT.close(tensor.dot(ConjugateTranspose.of(tensor)), IdentityMatrix.of(tensor.length()));
   }
 }

@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.red.Max;
  * 
  * The tensor library simply uses
  * <pre>
- * Ramp[x] == Max[0, x]
+ * Ramp[x] == Max[x.zero(), x]
  * </pre>
  * 
  * <p>inspired by
