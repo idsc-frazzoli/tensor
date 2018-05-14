@@ -20,14 +20,14 @@ public class IntegerQTest extends TestCase {
   }
 
   public void testElseThrow() {
-    IntegerQ.elseThrow(RealScalar.of(2));
+    IntegerQ.require(RealScalar.of(2));
     try {
-      IntegerQ.elseThrow(RealScalar.of(.2));
+      IntegerQ.require(RealScalar.of(.2));
     } catch (Exception exception) {
       // ---
     }
     try {
-      IntegerQ.elseThrow(Tensors.vector(1, 2, 7));
+      IntegerQ.require(Tensors.vector(1, 2, 7));
     } catch (Exception exception) {
       // ---
     }

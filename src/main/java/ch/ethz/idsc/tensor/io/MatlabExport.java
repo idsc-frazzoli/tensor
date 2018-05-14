@@ -36,7 +36,7 @@ public enum MatlabExport {
    * @return lines of MATLAB function that returns tensor
    * @throws Exception if given tensor does not satisfy {@link ArrayQ} */
   public static Stream<String> of(Tensor tensor, Function<Scalar, String> function) {
-    ArrayQ.elseThrow(tensor);
+    ArrayQ.require(tensor);
     List<String> list = new LinkedList<>();
     list.add("function a=anonymous");
     list.add("% auto-generated code. do not modify.");

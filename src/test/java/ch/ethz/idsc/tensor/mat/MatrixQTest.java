@@ -47,7 +47,7 @@ public class MatrixQTest extends TestCase {
 
   public void testElseThrow() {
     try {
-      MatrixQ.elseThrow(Tensors.vector(1, 2, 3));
+      MatrixQ.require(Tensors.vector(1, 2, 3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

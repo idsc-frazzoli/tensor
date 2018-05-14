@@ -27,19 +27,20 @@ public enum VectorQ {
   }
 
   /** @param tensor
-   * @param length non-negative
-   * @return given tensor
-   * @throws Exception if given tensor is not a vector of length */
-  public static Tensor requireOfLength(Tensor tensor, int length) {
-    if (tensor.length() == length && tensor.stream().allMatch(ScalarQ::of))
+   * @throws Exception if given tensor is not a vector */
+  public static Tensor require(Tensor tensor) {
+    if (tensor.length() == 0 || Unprotect.dimension1(tensor) == Scalar.LENGTH)
       return tensor;
     throw TensorRuntimeException.of(tensor);
   }
 
   /** @param tensor
-   * @throws Exception if given tensor is not a vector */
-  public static void elseThrow(Tensor tensor) {
-    if (tensor.length() != 0 && Unprotect.dimension1(tensor) != Scalar.LENGTH)
-      throw TensorRuntimeException.of(tensor);
+   * @param length non-negative
+   * @return given tensor
+   * @throws Exception if given tensor is not a vector of length */
+  public static Tensor requireLength(Tensor tensor, int length) {
+    if (tensor.length() == length && tensor.stream().allMatch(ScalarQ::of))
+      return tensor;
+    throw TensorRuntimeException.of(tensor);
   }
 }

@@ -40,25 +40,25 @@ public class VectorQTest extends TestCase {
   }
 
   public void testRequire() {
-    Tensor tensor = VectorQ.requireOfLength(Tensors.vector(1, 2, 3), 3);
+    Tensor tensor = VectorQ.requireLength(Tensors.vector(1, 2, 3), 3);
     assertEquals(tensor, Tensors.vector(1, 2, 3));
   }
 
   public void testRequireFail() {
     try {
-      VectorQ.requireOfLength(Tensors.vector(1, 2, 3), 4);
+      VectorQ.requireLength(Tensors.vector(1, 2, 3), 4);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      VectorQ.requireOfLength(Tensors.vector(1, 2, 3), -3);
+      VectorQ.requireLength(Tensors.vector(1, 2, 3), -3);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      VectorQ.requireOfLength(RealScalar.ZERO, Scalar.LENGTH);
+      VectorQ.requireLength(RealScalar.ZERO, Scalar.LENGTH);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -66,9 +66,10 @@ public class VectorQTest extends TestCase {
   }
 
   public void testEnsure() {
-    VectorQ.elseThrow(Tensors.empty());
+    Tensor empty = VectorQ.require(Tensors.empty());
+    assertTrue(Tensors.isEmpty(empty));
     try {
-      VectorQ.elseThrow(HilbertMatrix.of(3));
+      VectorQ.require(HilbertMatrix.of(3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -28,7 +28,7 @@ public enum RamerDouglasPeucker {
   public static Tensor of(Tensor tensor, Scalar epsilon) {
     if (tensor.length() == 0)
       return Tensors.empty();
-    MatrixQ.elseThrow(tensor);
+    MatrixQ.require(tensor);
     if (Unprotect.dimension1(tensor) == 2) {
       if (tensor.length() == 1)
         return tensor;
