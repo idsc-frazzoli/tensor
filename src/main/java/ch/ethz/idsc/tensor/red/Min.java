@@ -6,7 +6,7 @@ import java.util.function.UnaryOperator;
 
 /** Example use:
  * <pre>
- * vector.flatten(0).reduce(Min::of).get();
+ * vector.stream().reduce(Min::of).get();
  * </pre>
  * 
  * <p>inspired by

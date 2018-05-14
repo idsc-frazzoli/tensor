@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.sca.ArcTan;
@@ -50,8 +49,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
     List<Tensor> list = stream.collect(Collectors.toList());
     if (list.isEmpty())
       return Tensors.empty();
-    if (!VectorQ.ofLength(list.get(0), 2))
-      throw TensorRuntimeException.of(list.get(0));
+    VectorQ.requireLength(list.get(0), 2);
     final Tensor point0 = Collections.min(list, MINY_MINX);
     Collections.sort(list, new Comparator<Tensor>() {
       @Override

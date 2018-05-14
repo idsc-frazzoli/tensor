@@ -15,12 +15,12 @@ public class HankelTensorTest extends TestCase {
 
   public void testRank3a() {
     Tensor tensor = HankelTensor.of(Tensors.vector(1, 2, 3, 4), 3);
-    tensor.flatten(0).forEach(matrix -> assertTrue(SymmetricMatrixQ.of(matrix)));
+    tensor.stream().forEach(matrix -> assertTrue(SymmetricMatrixQ.of(matrix)));
   }
 
   public void testRank3b() {
     Tensor tensor = HankelTensor.of(Tensors.vector(0, 1, 2, 3, 4, 5, 6), 3);
-    tensor.flatten(0).forEach(matrix -> assertTrue(SymmetricMatrixQ.of(matrix)));
+    tensor.stream().forEach(matrix -> assertTrue(SymmetricMatrixQ.of(matrix)));
   }
 
   public void testFailVector() {

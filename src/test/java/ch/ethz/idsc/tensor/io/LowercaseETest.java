@@ -35,7 +35,7 @@ public class LowercaseETest extends TestCase {
     assertTrue(StringScalarQ.any(tensor));
     assertEquals(tensor.length(), 6);
     assertEquals(tensor.get(0).length(), 3);
-    MatrixQ.elseThrow(tensor.extract(0, 3));
+    MatrixQ.require(tensor.extract(0, 3));
     assertTrue(SquareMatrixQ.of(tensor.extract(0, 3)));
     assertEquals(Dimensions.of(tensor.extract(3, 6)), Arrays.asList(3, 2));
   }
@@ -52,7 +52,7 @@ public class LowercaseETest extends TestCase {
     assertFalse(StringScalarQ.any(tensor));
     assertEquals(tensor.length(), 6);
     assertEquals(tensor.get(0).length(), 3);
-    MatrixQ.elseThrow(tensor.extract(0, 3));
+    MatrixQ.require(tensor.extract(0, 3));
     assertTrue(SquareMatrixQ.of(tensor.extract(0, 3)));
     assertEquals(Dimensions.of(tensor.extract(3, 6)), Arrays.asList(3, 2));
   }

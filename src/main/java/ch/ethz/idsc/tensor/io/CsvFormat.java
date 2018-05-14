@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -59,11 +60,12 @@ public enum CsvFormat {
    * <p>In MATLAB the csv file can be imported using
    * A=load('filename.csv');
    * 
-   * @param tensor
+   * @param tensor that may also be a {@link Scalar}
    * @return stream of lines that make up the csv format
    * @see Export */
   public static Stream<String> of(Tensor tensor) {
-    return tensor.flatten(0).parallel().map(CsvFormat::row); //
+    // flatten(0) handles scalars as opposed to stream()
+    return tensor.flatten(0).parallel().map(CsvFormat::row);
   }
 
   /** Example: The stream of the following strings
@@ -117,6 +119,7 @@ public enum CsvFormat {
 
   // helper function
   private static String row(Tensor tensor) {
+    // flatten(0) handles scalars as opposed to stream()
     return tensor.flatten(0).map(Tensor::toString).collect(COLLECTOR);
   }
 

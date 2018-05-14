@@ -36,7 +36,7 @@ public enum Expectation {
       MeanInterface meanInterface = (MeanInterface) distribution;
       return meanInterface.mean();
     }
-    return of(scalar -> scalar, distribution);
+    return of(Function.identity(), distribution);
   }
 
   /** @param distribution

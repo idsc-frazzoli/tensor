@@ -69,9 +69,7 @@ public class BooleanScalarTest extends TestCase {
 
   public void testMapping() {
     Tensor values = RandomVariate.of(BinomialDistribution.of(10, RationalScalar.of(3, 7)), 200);
-    Tensor result = Tensor.of(values.flatten(0) //
-        .map(Scalar.class::cast) //
-        .map(s -> Scalars.lessThan(s, RealScalar.of(5))).map(BooleanScalar::of));
+    Tensor result = values.map(s -> BooleanScalar.of(Scalars.lessThan(s, RealScalar.of(5))));
     Map<Tensor, Long> map = Tally.of(result);
     assertTrue(10 < map.get(BooleanScalar.TRUE));
     assertTrue(10 < map.get(BooleanScalar.FALSE));
@@ -79,7 +77,7 @@ public class BooleanScalarTest extends TestCase {
 
   public void testNumber() {
     Tensor values = RandomVariate.of(BinomialDistribution.of(10, RationalScalar.of(3, 7)), 200);
-    Tensor result = Tensor.of(values.flatten(0) //
+    Tensor result = Tensor.of(values.stream() //
         .map(Scalar.class::cast) //
         .map(s -> Scalars.lessThan(s, RealScalar.of(5))).map(BooleanScalar::of));
     Tensor zeroOne = Tensors.vector(Primitives.toStreamNumber(result).collect(Collectors.toList()));
@@ -93,7 +91,7 @@ public class BooleanScalarTest extends TestCase {
 
   public void testAccumulate() {
     Tensor values = RandomVariate.of(BinomialDistribution.of(10, RationalScalar.of(3, 7)), 200);
-    Tensor result = Tensor.of(values.flatten(0) //
+    Tensor result = Tensor.of(values.stream() //
         .map(Scalar.class::cast) //
         .map(s -> Scalars.lessThan(s, RealScalar.of(5))).map(BooleanScalar::of));
     Tensor accum = Accumulate.of(result);

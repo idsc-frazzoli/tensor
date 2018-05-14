@@ -13,13 +13,12 @@ public enum Frobenius implements NormInterface {
   // ---
   @Override // from VectorNormInterface
   public Scalar ofVector(Tensor vector) {
-    VectorQ.elseThrow(vector);
-    return of(vector);
+    return of(VectorQ.require(vector));
   }
 
   @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
-    MatrixQ.elseThrow(matrix);
+    MatrixQ.require(matrix);
     return of(matrix);
   }
 

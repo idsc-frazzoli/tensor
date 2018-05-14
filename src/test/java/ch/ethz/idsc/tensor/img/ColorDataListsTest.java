@@ -13,40 +13,59 @@ import junit.framework.TestCase;
 
 public class ColorDataListsTest extends TestCase {
   public void testSimple() {
-    Tensor rgba = ColorDataLists._097.apply(RealScalar.of(2.3));
+    ColorDataIndexed colorDataIndexed = ColorDataLists._097.cyclic();
+    Tensor rgba = colorDataIndexed.apply(RealScalar.of(2.3));
     assertEquals(rgba, Tensors.fromString("{143, 176, 50, 255}"));
   }
 
   public void testColor() {
-    Color rgba = ColorDataLists._097.getColor(2);
+    ColorDataIndexed colorDataIndexed = ColorDataLists._097.cyclic();
+    Color rgba = colorDataIndexed.getColor(2);
     assertEquals(rgba, new Color(143, 176, 50, 255));
   }
 
   public void testQuantityTransparent() {
-    Tensor rgba = ColorDataLists._097.apply(Quantity.of(2, "s"));
+    ColorDataIndexed colorDataIndexed = ColorDataLists._103.cyclic();
+    Tensor rgba = colorDataIndexed.apply(Quantity.of(2, "s"));
     assertEquals(rgba, Array.zeros(4));
   }
 
   public void testInfinityTransparent() {
-    assertEquals(ColorDataLists._097.apply(DoubleScalar.INDETERMINATE), Array.zeros(4));
-    assertEquals(ColorDataLists._097.apply(DoubleScalar.NEGATIVE_INFINITY), Array.zeros(4));
-    assertEquals(ColorDataLists._097.apply(DoubleScalar.POSITIVE_INFINITY), Array.zeros(4));
+    ColorDataIndexed colorDataIndexed = ColorDataLists._104.cyclic();
+    assertEquals(colorDataIndexed.apply(DoubleScalar.INDETERMINATE), Array.zeros(4));
+    assertEquals(colorDataIndexed.apply(DoubleScalar.NEGATIVE_INFINITY), Array.zeros(4));
+    assertEquals(colorDataIndexed.apply(DoubleScalar.POSITIVE_INFINITY), Array.zeros(4));
   }
 
-  public void testFailNeg() {
-    try {
-      ColorDataLists._097.apply(RealScalar.of(-0.3));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
+  public void testDerive() {
+    ColorDataIndexed master = ColorDataLists._112.cyclic();
+    for (int alpha = 0; alpha < 256; ++alpha) {
+      ColorDataIndexed colorDataIndexed = master.deriveWithAlpha(alpha);
+      Color color = colorDataIndexed.getColor(3);
+      assertEquals(color.getAlpha(), alpha);
     }
   }
 
+  public void testFailNeg() {
+    ColorDataIndexed colorDataIndexed = ColorDataLists._058.cyclic();
+    colorDataIndexed.apply(RealScalar.of(-0.3));
+    // try {
+    //
+    // assertTrue(false);
+    // } catch (Exception exception) {
+    // // ---
+    // }
+  }
+
   public void testSize() {
-    assertEquals(ColorDataLists._097.size(), 16);
-    for (ColorDataIndexed cdi : ColorDataLists.values()) {
-      assertTrue(1 < cdi.size());
-      assertTrue(cdi.size() < 100);
+    ColorDataLists colorDataLists = ColorDataLists._097;
+    assertEquals(colorDataLists.size(), 16);
+  }
+
+  public void testSize2() {
+    for (ColorDataLists colorDataLists : ColorDataLists.values()) {
+      assertTrue(1 < colorDataLists.size());
+      assertTrue(colorDataLists.size() < 100);
     }
   }
 }

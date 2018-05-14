@@ -43,8 +43,9 @@ public enum ArrayQ {
 
   /** @param tensor
    * @throws Exception if given tensor does not have array structure */
-  public static void elseThrow(Tensor tensor) {
-    if (!of(tensor))
-      throw TensorRuntimeException.of(tensor);
+  public static Tensor require(Tensor tensor) {
+    if (of(tensor))
+      return tensor;
+    throw TensorRuntimeException.of(tensor);
   }
 }

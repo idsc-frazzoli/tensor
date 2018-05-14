@@ -26,8 +26,9 @@ public enum MatrixQ {
 
   /** @param tensor
    * @throws Exception if given tensor is not a matrix */
-  public static void elseThrow(Tensor tensor) {
-    if (!of(tensor))
-      throw TensorRuntimeException.of(tensor);
+  public static Tensor require(Tensor tensor) {
+    if (of(tensor))
+      return tensor;
+    throw TensorRuntimeException.of(tensor);
   }
 }

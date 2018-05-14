@@ -91,7 +91,7 @@ import ch.ethz.idsc.tensor.sca.SignInterface;
     int n = Unprotect.dimension1(tab) - 1;
     Tensor x = Array.zeros(n);
     for (int j = 0; j < n; ++j) {
-      int len = Math.toIntExact(tab.get(Tensor.ALL, j).flatten(0) //
+      int len = Math.toIntExact(tab.get(Tensor.ALL, j).stream() //
           .map(Scalar.class::cast) //
           .filter(Scalars::isZero) //
           .count());

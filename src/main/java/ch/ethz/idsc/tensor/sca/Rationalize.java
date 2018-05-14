@@ -39,7 +39,7 @@ public class Rationalize implements ScalarUnaryOperator {
   private final Scalar max;
 
   private Rationalize(Scalar max) {
-    IntegerQ.elseThrow(max);
+    IntegerQ.require(max);
     this.max = Sign.requirePositive(max);
   }
 

@@ -21,6 +21,8 @@ public class StringScalarTest extends TestCase {
 
   public void testEquals() {
     assertTrue(StringScalar.of("3.14").equals(StringScalar.of("3.14")));
+    assertFalse(StringScalar.of("3.14").equals(null));
+    assertFalse(StringScalar.of("3.14").equals(StringScalar.of("3.141")));
     assertFalse(StringScalar.of("3.14").equals(DoubleScalar.of(3.14)));
   }
 

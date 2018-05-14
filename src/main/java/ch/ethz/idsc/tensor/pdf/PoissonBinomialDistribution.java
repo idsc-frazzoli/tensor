@@ -23,7 +23,7 @@ public class PoissonBinomialDistribution implements Distribution, //
    * @param p_vector with scalar entries in the interval [0, 1]
    * @return */
   public static Distribution of(Tensor p_vector) {
-    VectorQ.elseThrow(p_vector);
+    VectorQ.require(p_vector);
     if (!p_vector.map(Clip.unit()).equals(p_vector))
       throw TensorRuntimeException.of(p_vector);
     return new PoissonBinomialDistribution(p_vector);

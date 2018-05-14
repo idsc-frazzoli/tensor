@@ -19,6 +19,12 @@ public class GetTest extends TestCase {
     assertEquals(tensor, Get.of(file.toPath()));
   }
 
+  public void testBinary() throws IOException { // this use is not as intended
+    File file = new File(getClass().getResource("/io/rgb7x11.bmp").getFile());
+    Tensor tensor = Get.of(file);
+    assertTrue(tensor instanceof StringScalar);
+  }
+
   public void testMissing() throws IOException {
     File file = new File("/io/doesnotexist");
     try {

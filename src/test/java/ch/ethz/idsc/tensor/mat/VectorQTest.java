@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
@@ -38,10 +39,37 @@ public class VectorQTest extends TestCase {
     assertFalse(VectorQ.of(LieAlgebras.so3()));
   }
 
-  public void testEnsure() {
-    VectorQ.elseThrow(Tensors.empty());
+  public void testRequire() {
+    Tensor tensor = VectorQ.requireLength(Tensors.vector(1, 2, 3), 3);
+    assertEquals(tensor, Tensors.vector(1, 2, 3));
+  }
+
+  public void testRequireFail() {
     try {
-      VectorQ.elseThrow(HilbertMatrix.of(3));
+      VectorQ.requireLength(Tensors.vector(1, 2, 3), 4);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      VectorQ.requireLength(Tensors.vector(1, 2, 3), -3);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      VectorQ.requireLength(RealScalar.ZERO, Scalar.LENGTH);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testEnsure() {
+    Tensor empty = VectorQ.require(Tensors.empty());
+    assertTrue(Tensors.isEmpty(empty));
+    try {
+      VectorQ.require(HilbertMatrix.of(3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

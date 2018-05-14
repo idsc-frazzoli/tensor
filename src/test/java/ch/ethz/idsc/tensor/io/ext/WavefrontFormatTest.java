@@ -30,7 +30,7 @@ public class WavefrontFormatTest extends TestCase {
     assertEquals(objects.size(), 2);
     {
       WavefrontObject wavefrontObject = objects.get(0);
-      List<Integer> list = wavefrontObject.faces().flatten(0) //
+      List<Integer> list = wavefrontObject.faces().stream() //
           .map(Tensor::length).distinct().collect(Collectors.toList());
       // contains quads and top/bottom polygon
       assertEquals(list, Arrays.asList(4, 32));
@@ -42,7 +42,7 @@ public class WavefrontFormatTest extends TestCase {
     }
     {
       WavefrontObject wavefrontObject = objects.get(1);
-      List<Integer> list = wavefrontObject.faces().flatten(0) //
+      List<Integer> list = wavefrontObject.faces().stream() //
           .map(Tensor::length).distinct().collect(Collectors.toList());
       assertEquals(list, Arrays.asList(4));
       assertTrue(MatrixQ.of(wavefront.normals()));

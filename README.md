@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.5.2`
+Library for tensor computations in Java, version `0.5.3`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -211,7 +211,11 @@ Indices for the `set` and `get` functions start from zero like in C/Java:
 
 Predefined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/35498514-f0a56830-04ce-11e8-904b-ec463464e30f.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/39910076-d5988992-54f5-11e8-8cd6-0d32804f8327.png)
+
+Predefined color lists
+
+![colordatalists](https://user-images.githubusercontent.com/4012178/39967682-543217ca-56c0-11e8-84cf-6f5648fc25b3.png)
 
 ## Integration
 
@@ -232,7 +236,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.5.2</version>
+        <version>0.5.3</version>
       </dependency>
     </dependencies>
 
