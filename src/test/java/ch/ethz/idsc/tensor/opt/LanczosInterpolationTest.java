@@ -9,6 +9,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.io.ResourceData;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -53,5 +56,20 @@ public class LanczosInterpolationTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void test1D() {
+    Interpolation interpolation = LanczosInterpolation.of(Tensors.vector(10, 20, 30, 40));
+    StaticHelper.checkMatch(interpolation);
+    StaticHelper.checkMatchExact(interpolation);
+    StaticHelper.getScalarFail(interpolation);
+  }
+
+  public void test2D() {
+    Distribution distribution = UniformDistribution.unit();
+    Interpolation interpolation = LanczosInterpolation.of(RandomVariate.of(distribution, 3, 5));
+    StaticHelper.checkMatch(interpolation);
+    StaticHelper.checkMatchExact(interpolation);
+    StaticHelper.getScalarFail(interpolation);
   }
 }

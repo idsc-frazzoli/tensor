@@ -39,19 +39,27 @@ public class LanczosInterpolation extends AbstractInterpolation {
   }
 
   @Override // from AbstractInterpolation
-  protected Tensor _get(Tensor index) {
+  public Tensor get(Tensor index) {
     if (index.length() == 0)
       return tensor.copy();
     Tensor sum = tensor;
-    for (int pos = 0; pos < index.length(); ++pos) {
+    for (Tensor _value : index) {
       Tensor _sum = sum;
-      Scalar value = index.Get(pos);
+      Scalar value = (Scalar) _value;
       int center = Floor.FUNCTION.apply(value).Get().number().intValue();
       sum = IntStream.range(center - lanczosKernel.semi + 1, center + lanczosKernel.semi) //
           .mapToObj(count -> flow(_sum, count, value)) //
           .reduce(Tensor::add).get();
     }
     return sum;
+  }
+
+  @Override // from Interpolation
+  public Tensor at(Scalar index) {
+    int center = Floor.FUNCTION.apply(index).Get().number().intValue();
+    return IntStream.range(center - lanczosKernel.semi + 1, center + lanczosKernel.semi) //
+        .mapToObj(count -> flow(tensor, count, index)) //
+        .reduce(Tensor::add).get();
   }
 
   private Tensor flow(Tensor tensor, int count, Scalar value) {

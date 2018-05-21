@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.Objects;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
@@ -20,7 +21,13 @@ class CubicInterpolation extends AbstractInterpolation {
   }
 
   @Override // from AbstractInterpolation
-  protected final Tensor _get(Tensor index) {
+  public final Tensor get(Tensor index) {
+    // LONGTERM implement
+    throw TensorRuntimeException.of(index);
+  }
+
+  @Override
+  public Tensor at(Scalar index) {
     // LONGTERM implement
     throw TensorRuntimeException.of(index);
   }

@@ -6,6 +6,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Floor;
 import junit.framework.TestCase;
 
@@ -56,5 +59,20 @@ public class NearestInterpolationTest extends TestCase {
         // ---
       }
     }
+  }
+
+  public void test1D() {
+    Interpolation interpolation = NearestInterpolation.of(Tensors.vector(10, 20, 30, 40));
+    StaticHelper.checkMatch(interpolation);
+    StaticHelper.checkMatchExact(interpolation);
+    StaticHelper.getScalarFail(interpolation);
+  }
+
+  public void test2D() {
+    Distribution distribution = UniformDistribution.unit();
+    Interpolation interpolation = NearestInterpolation.of(RandomVariate.of(distribution, 3, 5));
+    StaticHelper.checkMatch(interpolation);
+    StaticHelper.checkMatchExact(interpolation);
+    StaticHelper.getScalarFail(interpolation);
   }
 }

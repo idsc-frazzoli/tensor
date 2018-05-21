@@ -12,21 +12,25 @@ import ch.ethz.idsc.tensor.utl.Stopwatch;
  * INTERNALLY USES UNPROTECT */
 enum LinearInterpolationDemo {
   ;
-  private static final Distribution distribution = UniformDistribution.unit();
+  private static final Distribution DISTRIBUTION = UniformDistribution.unit();
 
   private static long time(Tensor tensor) {
     Interpolation interpolation = LinearInterpolation.of(tensor);
     Stopwatch stopwatch = Stopwatch.started();
     for (int c = 1; c < 20000; ++c) {
-      interpolation.Get(RandomVariate.of(distribution, 3));
+      interpolation.get(RandomVariate.of(DISTRIBUTION, 3));
     }
     stopwatch.stop();
     return stopwatch.display_nanoSeconds();
   }
 
   public static void main(String[] args) {
-    Tensor tensor = RandomVariate.of(distribution, 10, 10, 10);
+    Tensor tensor = RandomVariate.of(DISTRIBUTION, 10, 10, 10);
     {
+      System.out.println("unprot " + time(Unprotect.references(tensor)));
+      System.out.println("normal " + time(tensor));
+      System.out.println("unprot " + time(Unprotect.references(tensor)));
+      System.out.println("normal " + time(tensor));
       System.out.println("unprot " + time(Unprotect.references(tensor)));
       System.out.println("normal " + time(tensor));
       System.out.println("unprot " + time(Unprotect.references(tensor)));

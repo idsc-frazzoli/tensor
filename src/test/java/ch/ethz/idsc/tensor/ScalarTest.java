@@ -71,10 +71,13 @@ public class ScalarTest extends TestCase {
     assertFalse(Integer.valueOf(1233).equals(null));
   }
 
+  @SuppressWarnings("unused")
   public void testIteratorFail() {
     try {
-      for (Tensor self : RealScalar.ZERO)
-        System.out.println(self);
+      for (Tensor entry : RealScalar.ZERO) {
+        // ---
+      }
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
