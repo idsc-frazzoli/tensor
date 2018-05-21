@@ -37,7 +37,7 @@ public class LinearInterpolation extends AbstractInterpolation {
     this.tensor = Unprotect.references(tensor); // <- for fast block extraction
   }
 
-  @Override // from AbstractInterpolation
+  @Override // from Interpolation
   public Tensor get(Tensor index) {
     Tensor floor = Floor.of(index);
     Tensor above = Ceiling.of(index);

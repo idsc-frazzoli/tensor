@@ -8,11 +8,15 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.io.ResourceData;
+import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class LanczosInterpolationTest extends TestCase {
@@ -47,6 +51,20 @@ public class LanczosInterpolationTest extends TestCase {
     assertEquals(Dimensions.of(result), Arrays.asList(15));
     Scalar scalar = interpolation.Get(Tensors.vector(4.4, 7.2));
     assertTrue(Chop._14.close(scalar, RealScalar.of(94.24810834850828)));
+  }
+
+  public void testUseCase() {
+    Tensor tensor = Range.of(1, 11);
+    Interpolation interpolation = LanczosInterpolation.of(tensor);
+    Distribution distribution = DiscreteUniformDistribution.of(0, (tensor.length() - 1) * 3 + 1);
+    for (int count = 0; count < 30; ++count) {
+      Scalar index = RandomVariate.of(distribution).divide(RealScalar.of(3));
+      Scalar scalar = interpolation.At(index);
+      Scalar diff = Increment.ONE.apply(index).subtract(scalar);
+      Clip.function(0, 0.5).requireInside(diff);
+      assertEquals(scalar, interpolation.get(Tensors.of(index)));
+      assertEquals(scalar, interpolation.at(index));
+    }
   }
 
   public void testInvalidFail() {

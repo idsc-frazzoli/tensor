@@ -20,13 +20,13 @@ class CubicInterpolation extends AbstractInterpolation {
     this.tensor = Objects.requireNonNull(tensor);
   }
 
-  @Override // from AbstractInterpolation
+  @Override // from Interpolation
   public final Tensor get(Tensor index) {
     // LONGTERM implement
     throw TensorRuntimeException.of(index);
   }
 
-  @Override
+  @Override // from Interpolation
   public Tensor at(Scalar index) {
     // LONGTERM implement
     throw TensorRuntimeException.of(index);
