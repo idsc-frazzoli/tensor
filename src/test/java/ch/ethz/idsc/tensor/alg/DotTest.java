@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
@@ -32,5 +33,11 @@ public class DotTest extends TestCase {
     re.set(Increment.ONE, Tensor.ALL);
     assertFalse(in.equals(re));
     assertEquals(in, Array.zeros(2));
+  }
+
+  public void testIdentity() {
+    Tensor m = IdentityMatrix.of(7);
+    Tensor d = Dot.of(m, m, m, m);
+    assertEquals(m, d);
   }
 }

@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 public class JacobiMethodTest extends TestCase {
   private static void checkEquation(Tensor matrix, Eigensystem eigensys) {
     Tensor Vi = Inverse.of(eigensys.vectors());
-    Tensor res = Vi.dot(DiagonalMatrix.of(eigensys.values())).dot(eigensys.vectors());
+    Tensor res = Vi.dot(DiagonalMatrix.with(eigensys.values())).dot(eigensys.vectors());
     assertEquals(res.subtract(matrix).map(Chop._08), matrix.multiply(RealScalar.ZERO));
     // ---
     // testing determinant

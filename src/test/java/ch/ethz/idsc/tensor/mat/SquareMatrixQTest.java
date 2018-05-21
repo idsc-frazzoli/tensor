@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
+import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import junit.framework.TestCase;
@@ -32,5 +33,15 @@ public class SquareMatrixQTest extends TestCase {
     assertTrue(MatrixQ.of(tensor));
     assertFalse(SquareMatrixQ.of(tensor));
     assertTrue(SquareMatrixQ.of(Tensors.fromString("{{1}}")));
+  }
+
+  public void testRequire() {
+    SquareMatrixQ.require(IdentityMatrix.of(10));
+    try {
+      SquareMatrixQ.require(Range.of(3, 10));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
