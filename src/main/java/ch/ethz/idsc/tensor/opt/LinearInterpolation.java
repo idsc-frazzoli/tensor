@@ -3,7 +3,9 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.List;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
@@ -35,8 +37,8 @@ public class LinearInterpolation extends AbstractInterpolation {
     this.tensor = Unprotect.references(tensor); // <- for fast block extraction
   }
 
-  @Override // from AbstractInterpolation
-  protected final Tensor _get(Tensor index) {
+  @Override // from Interpolation
+  public Tensor get(Tensor index) {
     Tensor floor = Floor.of(index);
     Tensor above = Ceiling.of(index);
     Tensor width = above.subtract(floor).map(Increment.ONE);
@@ -49,5 +51,16 @@ public class LinearInterpolation extends AbstractInterpolation {
     for (Tensor weight : weights)
       block = block.length() == 1 ? block.get(0) : weight.dot(block);
     return block;
+  }
+
+  @Override // from Interpolation
+  public Tensor at(Scalar index) {
+    Scalar floor = Floor.FUNCTION.apply(index);
+    Scalar remain = index.subtract(floor);
+    int below = floor.number().intValue();
+    if (Scalars.isZero(remain))
+      return tensor.get(below);
+    return Tensors.of(RealScalar.ONE.subtract(remain), remain) //
+        .dot(tensor.extract(below, below + 2));
   }
 }

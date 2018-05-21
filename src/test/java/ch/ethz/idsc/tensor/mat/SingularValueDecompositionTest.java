@@ -34,7 +34,7 @@ public class SingularValueDecompositionTest extends TestCase {
     // System.out.println("w " + w.dimensions());
     final Tensor V = svd.getV();
     // System.out.println("V " + V.dimensions());
-    Tensor W = DiagonalMatrix.of(w);
+    Tensor W = DiagonalMatrix.with(w);
     // System.out.println("UtU");
     Tensor UtU = Chop._12.of(Transpose.of(U).dot(U).subtract(IdentityMatrix.of(N)));
     assertEquals(UtU, Array.zeros(N, N));
@@ -175,14 +175,14 @@ public class SingularValueDecompositionTest extends TestCase {
   }
 
   public void testJordan1() {
-    Tensor d = DiagonalMatrix.of(Tensors.vector(1e-10, 1, 1, 1, 1e-10));
+    Tensor d = DiagonalMatrix.with(Tensors.vector(1e-10, 1, 1, 1, 1e-10));
     IntStream.range(0, 4).forEach(j -> d.set(RealScalar.of(1e-10), j, j + 1));
     SingularValueDecomposition svd = specialOps(d);
     assertEquals(MatrixRank.of(svd), 5);
   }
 
   public void testJordan2() {
-    Tensor d = DiagonalMatrix.of(Tensors.vector(1, 1, 1, 1, 1));
+    Tensor d = DiagonalMatrix.with(Tensors.vector(1, 1, 1, 1, 1));
     IntStream.range(0, 4).forEach(j -> d.set(RealScalar.of(1e-10), j + 1, j));
     specialOps(d);
   }
@@ -200,7 +200,7 @@ public class SingularValueDecompositionTest extends TestCase {
 
   public void testEye() {
     assertEquals(MatrixRank.usingSvd(IdentityMatrix.of(10)), 10);
-    assertEquals(MatrixRank.usingSvd(DiagonalMatrix.of(Tensors.vector(1, 1, 1, 1, 0, 0))), 4);
+    assertEquals(MatrixRank.usingSvd(DiagonalMatrix.with(Tensors.vector(1, 1, 1, 1, 0, 0))), 4);
   }
 
   public void testFail() {

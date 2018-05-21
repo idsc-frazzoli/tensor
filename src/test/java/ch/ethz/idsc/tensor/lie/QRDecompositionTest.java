@@ -74,7 +74,7 @@ public class QRDecompositionTest extends TestCase {
   }
 
   public void testDiag() {
-    Tensor A = DiagonalMatrix.of(Tensors.vector(2, 3, 4));
+    Tensor A = DiagonalMatrix.with(Tensors.vector(2, 3, 4));
     specialOps(A);
   }
 

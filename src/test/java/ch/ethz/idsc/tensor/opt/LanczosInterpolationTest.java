@@ -8,8 +8,15 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.io.ResourceData;
+import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class LanczosInterpolationTest extends TestCase {
@@ -46,6 +53,20 @@ public class LanczosInterpolationTest extends TestCase {
     assertTrue(Chop._14.close(scalar, RealScalar.of(94.24810834850828)));
   }
 
+  public void testUseCase() {
+    Tensor tensor = Range.of(1, 11);
+    Interpolation interpolation = LanczosInterpolation.of(tensor);
+    Distribution distribution = DiscreteUniformDistribution.of(0, (tensor.length() - 1) * 3 + 1);
+    for (int count = 0; count < 30; ++count) {
+      Scalar index = RandomVariate.of(distribution).divide(RealScalar.of(3));
+      Scalar scalar = interpolation.At(index);
+      Scalar diff = Increment.ONE.apply(index).subtract(scalar);
+      Clip.function(0, 0.5).requireInside(diff);
+      assertEquals(scalar, interpolation.get(Tensors.of(index)));
+      assertEquals(scalar, interpolation.at(index));
+    }
+  }
+
   public void testInvalidFail() {
     Tensor vector = Tensors.vector(-1, 0, 3, 2, 0, -4, 2);
     try {
@@ -53,5 +74,20 @@ public class LanczosInterpolationTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void test1D() {
+    Interpolation interpolation = LanczosInterpolation.of(Tensors.vector(10, 20, 30, 40));
+    StaticHelper.checkMatch(interpolation);
+    StaticHelper.checkMatchExact(interpolation);
+    StaticHelper.getScalarFail(interpolation);
+  }
+
+  public void test2D() {
+    Distribution distribution = UniformDistribution.unit();
+    Interpolation interpolation = LanczosInterpolation.of(RandomVariate.of(distribution, 3, 5));
+    StaticHelper.checkMatch(interpolation);
+    StaticHelper.checkMatchExact(interpolation);
+    StaticHelper.getScalarFail(interpolation);
   }
 }

@@ -90,7 +90,7 @@ public class HistogramDistribution extends AbstractContinuousDistribution implem
     Scalar xlo = discrete.apply(Floor.toMultipleOf(width).apply(x));
     Scalar ofs = Clip.function(xlo, Increment.ONE.apply(xlo)).rescale(discrete.apply(x));
     CDF cdf = CDF.of(distribution);
-    return LinearInterpolation.of(Tensors.of(cdf.p_lessThan(xlo), cdf.p_lessEquals(xlo))).Get(Tensors.of(ofs));
+    return LinearInterpolation.of(Tensors.of(cdf.p_lessThan(xlo), cdf.p_lessEquals(xlo))).At(ofs);
   }
 
   @Override // from CDF

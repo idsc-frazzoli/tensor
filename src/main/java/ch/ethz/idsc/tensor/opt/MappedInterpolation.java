@@ -33,12 +33,17 @@ public class MappedInterpolation extends AbstractInterpolation {
     this.function = function;
   }
 
-  @Override // from AbstractInterpolation
-  protected final Tensor _get(Tensor index) {
+  @Override // from Interpolation
+  public final Tensor get(Tensor index) {
     return tensor.get(function.apply(index).stream() //
         .map(Scalar.class::cast) //
         .map(Scalar::number) //
         .map(Number::intValue) //
         .collect(Collectors.toList()));
+  }
+
+  @Override // from Interpolation
+  public final Tensor at(Scalar index) {
+    return tensor.get(function.apply(index).Get().number().intValue());
   }
 }

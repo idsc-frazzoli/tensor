@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.5.3`
+Library for tensor computations in Java, version `0.5.4`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -46,6 +46,7 @@ Autonomous Gokart
 * scalars are real-, or complex numbers, from finite fields, or quantities with physical units
 * values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
 * probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
+* matrix functions `LinearSolve`, `SingularValueDecomposition`, `QRDecomposition`, etc.
 * import from and export to `Mathematica`, `CSV`, and image files
 
 ## Gallery
@@ -215,7 +216,7 @@ Predefined color gradients
 
 Predefined color lists
 
-![colordatalists](https://user-images.githubusercontent.com/4012178/39967682-543217ca-56c0-11e8-84cf-6f5648fc25b3.png)
+![colordatalists](https://user-images.githubusercontent.com/4012178/40328517-f0034124-5d46-11e8-96b2-42724b1e7d1a.png)
 
 ## Integration
 
@@ -236,7 +237,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.5.3</version>
+        <version>0.5.4</version>
       </dependency>
     </dependencies>
 

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
@@ -46,11 +45,6 @@ public class TensorsTest extends TestCase {
     cpy.set(DoubleScalar.of(.3), 1, 2);
     assertFalse(eye.equals(cpy));
     cpy.set(s -> (Scalar) s.negate(), 2, 2);
-  }
-
-  public void testDiagonalMatrix() {
-    Tensor v = Tensors.vectorDouble(12, 3.2, .32);
-    DiagonalMatrix.of(v);
   }
 
   public void testNorm() {

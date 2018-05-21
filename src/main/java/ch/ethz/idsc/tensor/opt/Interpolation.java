@@ -3,9 +3,10 @@ package ch.ethz.idsc.tensor.opt;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** multi-dimensional interpolation
+ * 
+ * inspired by
  * <a href="https://reference.wolfram.com/language/ref/Interpolation.html">Interpolation</a> */
 public interface Interpolation {
   /** if index.length() is less than the rank r of the tensor object that is being interpolated,
@@ -13,13 +14,19 @@ public interface Interpolation {
    * 
    * @param index must not be {@link Scalar}
    * @return expression similar to Tensor::get(index)
-   * @throws TensorRuntimeException if index is outside dimensions of tensor, or index is a {@link Scalar} */
+   * @throws Exception if index is outside dimensions of tensor, or index is a {@link Scalar} */
   Tensor get(Tensor index);
 
-  /** when using Get(...), index.length() must equal the rank r of the tensor object that is being interpolated.
-   * 
-   * @param index must not be {@link Scalar}
-   * @return expression similar to Tensor::Get(index)
-   * @throws TensorRuntimeException if index is outside dimensions of tensor, or index is a {@link Scalar} */
+  /** @return {@link #get(Tensor)} cast as {@link Scalar} */
   Scalar Get(Tensor index);
+
+  /** optimized function for interpolation along the first dimension
+   * 
+   * @param index
+   * @return result that is identical to get(Tensors.of(index))
+   * @throws Exception if index is not in the valid range */
+  Tensor at(Scalar index);
+
+  /** @return {@link #at(Scalar)} cast as {@link Scalar} */
+  Scalar At(Scalar index);
 }
