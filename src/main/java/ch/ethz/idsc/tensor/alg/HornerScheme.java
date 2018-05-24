@@ -5,7 +5,9 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** https://en.wikipedia.org/wiki/Horner%27s_method */
+/** the horner scheme improves speed and stability for the numeric evaluation of large polynomials
+ * 
+ * https://en.wikipedia.org/wiki/Horner%27s_method */
 /* package */ class HornerScheme implements ScalarUnaryOperator {
   private final Tensor reversed;
 

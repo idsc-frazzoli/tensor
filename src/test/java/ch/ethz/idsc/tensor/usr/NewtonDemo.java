@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.alg.Series;
 import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
@@ -33,8 +34,8 @@ class NewtonDemo {
   private final ScalarUnaryOperator FUNCTION;
 
   public NewtonDemo(Tensor coeffs) {
-    COEFFS = Multinomial.horner(coeffs);
-    DERIVE = Multinomial.horner(Multinomial.derivative(coeffs));
+    COEFFS = Series.of(coeffs);
+    DERIVE = Series.of(Multinomial.derivative(coeffs));
     FUNCTION = z -> z.subtract(COEFFS.apply(z).divide(DERIVE.apply(z)));
   }
 

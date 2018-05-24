@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.alg.Series;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Exp;
@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
 public enum Erf implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final ScalarUnaryOperator SERIES = Multinomial.horner(Tensors.vector( //
+  private static final ScalarUnaryOperator SERIES = Series.of(Tensors.vector( //
       -1.26551223, //
       +1.00002368, // x
       +0.37409196, // x^2
