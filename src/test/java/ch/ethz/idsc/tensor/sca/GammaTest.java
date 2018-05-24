@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.alg.Multinomial;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Nest;
 import junit.framework.TestCase;
@@ -26,7 +25,7 @@ public class GammaTest extends TestCase {
       Scalar decrement = scalar.subtract(RealScalar.ONE);
       return recursive(decrement).multiply(decrement);
     }
-    return Multinomial.horner(Gamma.SERIES, scalar.add(Gamma.NEGATIVE_THREE));
+    return Gamma.SERIES.apply(scalar.add(Gamma.NEGATIVE_THREE));
   }
 
   public void testFactorial() {

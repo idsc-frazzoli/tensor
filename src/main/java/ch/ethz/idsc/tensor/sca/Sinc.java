@@ -20,14 +20,14 @@ public enum Sinc implements ScalarUnaryOperator {
   FUNCTION;
   // ---
   /* package */ static final Scalar THRESHOLD = DoubleScalar.of(0.05);
-  private static final Tensor SERIES = //
+  private static final ScalarUnaryOperator SERIES = Multinomial.horner( //
       Tensors.vector(1, 0, -6, 0, 120, 0, -5040, 0, 362880, 0, -39916800) //
-          .map(InvertUnlessZero.FUNCTION).map(N.DOUBLE);
+          .map(InvertUnlessZero.FUNCTION).map(N.DOUBLE));
 
   @Override
   public Scalar apply(Scalar scalar) {
     if (Scalars.lessThan(scalar.abs(), THRESHOLD))
-      return Multinomial.horner(SERIES, scalar);
+      return SERIES.apply(scalar);
     return Sin.FUNCTION.apply(scalar).divide(scalar);
   }
 

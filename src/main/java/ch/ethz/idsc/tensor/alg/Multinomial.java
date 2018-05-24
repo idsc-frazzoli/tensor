@@ -1,9 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** <p>ordering of coefficients is <em>reversed</em> compared to
  * MATLAB::polyval, MATLAB::polyfit, etc. ! */
@@ -18,13 +18,9 @@ public enum Multinomial {
    * </pre>
    * 
    * @param coeffs of polynomial
-   * @param scalar
-   * @return evaluation of polynomial at given scalar */
-  public static Scalar horner(Tensor coeffs, Scalar scalar) {
-    Scalar total = scalar.zero();
-    for (Tensor entry : Reverse.of(coeffs))
-      total = total.multiply(scalar).add(entry);
-    return total;
+   * @return evaluation of polynomial for scalar input */
+  public static ScalarUnaryOperator horner(Tensor coeffs) {
+    return new HornerScheme(coeffs);
   }
 
   /** Example:
@@ -34,6 +30,7 @@ public enum Multinomial {
    * 
    * @param coeffs
    * @return coefficients of polynomial that is the derivative of the polynomial defined by given coeffs */
+  // API not final
   public static Tensor derivative(Tensor coeffs) {
     int length = coeffs.length();
     return length == 0 //

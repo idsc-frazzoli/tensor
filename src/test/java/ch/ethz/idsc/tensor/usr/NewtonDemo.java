@@ -28,14 +28,14 @@ class NewtonDemo {
   private static final Tensor RE = Subdivide.of(-2, +2, RES - 1);
   private static final Tensor IM = Subdivide.of(-2, +2, RES - 1);
   // ---
-  private final Tensor COEFFS;
-  private final Tensor DERIVE;
+  private final ScalarUnaryOperator COEFFS;
+  private final ScalarUnaryOperator DERIVE;
   private final ScalarUnaryOperator FUNCTION;
 
   public NewtonDemo(Tensor coeffs) {
-    COEFFS = coeffs;
-    DERIVE = Multinomial.derivative(coeffs);
-    FUNCTION = z -> z.subtract(Multinomial.horner(COEFFS, z).divide(Multinomial.horner(DERIVE, z)));
+    COEFFS = Multinomial.horner(coeffs);
+    DERIVE = Multinomial.horner(Multinomial.derivative(coeffs));
+    FUNCTION = z -> z.subtract(COEFFS.apply(z).divide(DERIVE.apply(z)));
   }
 
   private Scalar function(int y, int x) {

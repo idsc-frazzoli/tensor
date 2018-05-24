@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
 public enum Erf implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Tensor COEFFS = Tensors.vector( //
+  private static final ScalarUnaryOperator SERIES = Multinomial.horner(Tensors.vector( //
       -1.26551223, //
       +1.00002368, // x
       +0.37409196, // x^2
@@ -32,14 +32,14 @@ public enum Erf implements ScalarUnaryOperator {
       +1.48851587, // x^7
       -0.82215223, // x^8
       +0.17087277 // x^9
-  );
+  ));
   private static final Scalar HALF = DoubleScalar.of(0.5);
 
   @Override
   public Scalar apply(Scalar scalar) {
     Scalar t = Abs.of(scalar).multiply(HALF).add(RealScalar.ONE).reciprocal();
     Scalar x2 = AbsSquared.FUNCTION.apply(scalar);
-    Scalar tau = Exp.FUNCTION.apply(Multinomial.horner(COEFFS, t).subtract(x2)).multiply(t);
+    Scalar tau = Exp.FUNCTION.apply(SERIES.apply(t).subtract(x2)).multiply(t);
     return Sign.isPositiveOrZero(scalar) //
         ? RealScalar.ONE.subtract(tau)
         : tau.subtract(RealScalar.ONE);
