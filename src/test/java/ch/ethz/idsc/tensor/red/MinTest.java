@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.GaussScalar;
@@ -10,7 +12,9 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.MapThread;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class MinTest extends TestCase {
@@ -34,10 +38,31 @@ public class MinTest extends TestCase {
   }
 
   public void testElementWise() {
-    Tensor matrix = Tensors.matrixInt(new int[][] { { -8, 3, -3 }, { 2, -2, 7 } });
-    Tensor capped = matrix.map(Min.function(RealScalar.ZERO));
+    Tensor tensor = Tensors.matrixInt(new int[][] { { -8, 3, -3 }, { 2, -2, 7 } });
+    Tensor capped = tensor.map(Min.function(RealScalar.ZERO));
     Tensor blub = Tensors.matrixInt(new int[][] { { -8, 0, -3 }, { 0, -2, 0 } });
     assertEquals(capped, blub);
+  }
+
+  public void testSet() throws ClassNotFoundException, IOException {
+    Tensor matrix = Tensors.matrixInt(new int[][] { { -8, 3, -3 }, { 2, -2, 7 } });
+    ScalarUnaryOperator _op = Min.function(RealScalar.ZERO);
+    ScalarUnaryOperator scalarUnaryOperator = Serialization.copy(_op);
+    matrix.set(scalarUnaryOperator, Tensor.ALL, 0);
+    Tensor blub = Tensors.matrixInt(new int[][] { { -8, 3, -3 }, { 0, -2, 7 } });
+    assertEquals(matrix, blub);
+  }
+
+  public void testGenericInteger() {
+    UnaryOperator<Integer> function = Min.function(100);
+    assertEquals(function.apply(50), Integer.valueOf(50));
+    assertEquals(function.apply(200), Integer.valueOf(100));
+  }
+
+  public void testGenericString() {
+    UnaryOperator<String> function = Min.function("math");
+    assertEquals(function.apply("library"), "library");
+    assertEquals(function.apply("tensor"), "math");
   }
 
   public void testFail() {
