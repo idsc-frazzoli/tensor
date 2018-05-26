@@ -5,37 +5,33 @@ import java.awt.Color;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.sca.Mod;
 
 /** reference implementation of a {@link ColorDataIndexed} with cyclic indexing */
-public class CyclicColorDataIndexed extends BaseColorDataIndexed {
+public class StrictColorDataIndexed extends BaseColorDataIndexed {
   /** @param tensor with dimensions N x 4 where each row encodes {R, G, B, A}
    * @return */
   public static ColorDataIndexed create(Tensor tensor) {
-    return new CyclicColorDataIndexed(tensor.copy());
+    return new StrictColorDataIndexed(tensor.copy());
   }
 
-  private final Mod mod;
-
+  /** matrix with dimensions N x 4 where each row encodes {R, G, B, A} */
   /** @param tensor with dimensions N x 4 where each row encodes {R, G, B, A} */
-  protected CyclicColorDataIndexed(Tensor tensor) {
+  protected StrictColorDataIndexed(Tensor tensor) {
     super(tensor);
-    mod = Mod.function(tensor.length());
   }
 
   @Override // from ColorDataIndexed
   public Color getColor(int index) {
-    index %= colors.length;
-    return colors[0 <= index ? index : index + colors.length];
+    return colors[index];
   }
 
   @Override // from ColorDataIndexed
   public ColorDataIndexed deriveWithAlpha(int alpha) {
-    return new CyclicColorDataIndexed(tableWithAlpha(alpha));
+    return new StrictColorDataIndexed(tableWithAlpha(alpha));
   }
 
   @Override // from BaseColorDataIndexed
   protected int toInt(Scalar scalar) {
-    return mod.apply(scalar).number().intValue();
+    return scalar.number().intValue();
   }
 }

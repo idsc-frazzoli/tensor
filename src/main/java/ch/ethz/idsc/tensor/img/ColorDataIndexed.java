@@ -13,6 +13,10 @@ public interface ColorDataIndexed extends ScalarTensorFunction {
    * @return color associated to given index */
   Color getColor(int index);
 
+  /** @param value in [0, 1]
+   * @return color associated to given value. for value == 0 the result is identical to getColor(0) */
+  Color rescaled(double value);
+
   /** @param alpha in the interval [0, 1, ..., 255]
    * @return new instance of ColorDataIndexed with identical RGB color values
    * but with transparency as given alpha
