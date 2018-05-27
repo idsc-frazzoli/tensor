@@ -32,25 +32,34 @@ public class MeanDeviationTest extends TestCase {
     clip.requireInside(value);
   }
 
-  public void testFail() {
+  public void testVectorFail() {
     try {
       MeanDeviation.ofVector(RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testEmptyFail() {
     try {
       MeanDeviation.ofVector(Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testMatrixFail() {
     try {
       MeanDeviation.ofVector(HilbertMatrix.of(3, 4));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testTensorFail() {
     try {
       MeanDeviation.ofVector(LieAlgebras.sl3());
       assertTrue(false);

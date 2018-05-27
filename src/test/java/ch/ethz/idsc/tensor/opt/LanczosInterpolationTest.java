@@ -71,6 +71,7 @@ public class LanczosInterpolationTest extends TestCase {
     Tensor vector = Tensors.vector(-1, 0, 3, 2, 0, -4, 2);
     try {
       LanczosInterpolation.of(vector, -1);
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
