@@ -1,10 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import junit.framework.TestCase;
 
 public class NormTest extends TestCase {
@@ -30,29 +33,37 @@ public class NormTest extends TestCase {
     assertEquals(Norm.INFINITY.ofMatrix(c), Scalars.fromString("11"));
   }
 
-  public void testCornerCases() {
-    final Tensor z = RealScalar.ZERO;
+  private static void _checkExactZero(Scalar norm) {
+    assertEquals(norm, RealScalar.ZERO);
+    assertTrue(ExactScalarQ.of(norm));
+  }
+
+  public void testZero() {
+    for (Norm norm : Norm.values()) {
+      _checkExactZero(norm.ofVector(Array.zeros(1)));
+      _checkExactZero(norm.ofVector(Array.zeros(5)));
+    }
+  }
+
+  public void testEmptyFail() {
     try {
       Norm._1.of(Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
-    {
-      Tensor v = Tensors.of(z);
-      assertEquals(Norm._1.of(v), z);
-      assertEquals(Norm._2.of(v), z);
-      assertEquals(Norm.INFINITY.of(v), z);
-    }
   }
 
-  public void testFail() {
+  public void testScalarFail() {
     try {
       Norm._1.of(RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testUnstructuredFail() {
     try {
       Norm._1.of(Tensors.fromString("{{1, 2}, {3}}"));
       assertTrue(false);

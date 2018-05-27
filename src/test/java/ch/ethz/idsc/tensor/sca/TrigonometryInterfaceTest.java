@@ -13,8 +13,8 @@ import junit.framework.TestCase;
 
 public class TrigonometryInterfaceTest extends TestCase {
   private static void _check(Scalar value, ScalarUnaryOperator suo, Function<Double, Double> f) {
-    Scalar s1 = UnitSystem.SI().apply(Quantity.of(value, "rad"));
-    Scalar result = suo.apply(s1);
+    Scalar scalar = UnitSystem.SI().apply(Quantity.of(value, "rad"));
+    Scalar result = suo.apply(scalar);
     Scalar actual = RealScalar.of(f.apply(value.number().doubleValue()));
     assertEquals(result, actual);
   }
@@ -30,9 +30,9 @@ public class TrigonometryInterfaceTest extends TestCase {
   }
 
   public void testQuantityDegree() {
-    Scalar a = UnitSystem.SI().apply(Quantity.of(180, "deg"));
-    assertTrue(Chop._13.close(Sin.of(a), RealScalar.ZERO));
-    assertTrue(Chop._13.close(Cos.of(a), RealScalar.ONE.negate()));
+    Scalar scalar = UnitSystem.SI().apply(Quantity.of(180, "deg"));
+    assertTrue(Chop._13.close(Sin.of(scalar), RealScalar.ZERO));
+    assertTrue(Chop._13.close(Cos.of(scalar), RealScalar.ONE.negate()));
   }
 
   public void testQuantityFail() {

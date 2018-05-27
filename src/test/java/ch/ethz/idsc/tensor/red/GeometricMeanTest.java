@@ -24,7 +24,7 @@ public class GeometricMeanTest extends TestCase {
     assertEquals(b, r);
   }
 
-  public void testScalar() {
+  public void testFailScalar() {
     try {
       GeometricMean.of(RealScalar.ONE);
       assertTrue(false);
@@ -33,7 +33,7 @@ public class GeometricMeanTest extends TestCase {
     }
   }
 
-  public void testEmpty() {
+  public void testFailEmpty() {
     try {
       GeometricMean.of(Tensors.empty());
       assertTrue(false);
@@ -42,7 +42,7 @@ public class GeometricMeanTest extends TestCase {
     }
   }
 
-  public void testMatrixFail() {
+  public void testFailMatrix() {
     Tensor mean = GeometricMean.of(HilbertMatrix.of(4));
     Tensor expected = Tensors.vector(0.4518010018049224, 0.3021375397356768, 0.2295748846661433, 0.18575057999133598);
     assertTrue(Chop._14.close(mean, expected));

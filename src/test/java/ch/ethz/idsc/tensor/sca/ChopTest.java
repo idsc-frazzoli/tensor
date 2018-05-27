@@ -54,15 +54,15 @@ public class ChopTest extends TestCase {
   }
 
   public void testNaN() {
-    Scalar s = Chop._05.apply(DoubleScalar.INDETERMINATE);
-    assertTrue(s instanceof DoubleScalar);
-    assertTrue(Double.isNaN(s.number().doubleValue()));
+    Scalar scalar = Chop._05.apply(DoubleScalar.INDETERMINATE);
+    assertTrue(scalar instanceof DoubleScalar);
+    assertTrue(Double.isNaN(scalar.number().doubleValue()));
   }
 
   public void testInf() {
-    Scalar s = Chop._05.apply(DoubleScalar.NEGATIVE_INFINITY);
-    assertTrue(s instanceof DoubleScalar);
-    assertTrue(Double.isInfinite(s.number().doubleValue()));
+    Scalar scalar = Chop._05.apply(DoubleScalar.NEGATIVE_INFINITY);
+    assertTrue(scalar instanceof DoubleScalar);
+    assertTrue(Double.isInfinite(scalar.number().doubleValue()));
   }
 
   public void testClose() {
@@ -75,9 +75,9 @@ public class ChopTest extends TestCase {
   }
 
   public void testDecimal() {
-    Scalar s1 = DecimalScalar.of("0.0000001");
-    assertTrue(Chop._05.allZero(s1));
-    assertFalse(Chop._10.allZero(s1));
+    Scalar scalar = DecimalScalar.of("0.0000001");
+    assertTrue(Chop._05.allZero(scalar));
+    assertFalse(Chop._10.allZero(scalar));
   }
 
   public void testCloseFail() {

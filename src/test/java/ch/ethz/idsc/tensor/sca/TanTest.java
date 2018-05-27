@@ -25,8 +25,9 @@ public class TanTest extends TestCase {
   }
 
   public void testTypeFail() {
+    Scalar scalar = StringScalar.of("some");
     try {
-      Tan.of(StringScalar.of("some"));
+      Tan.of(scalar);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

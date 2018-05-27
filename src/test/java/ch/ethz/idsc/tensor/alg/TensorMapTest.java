@@ -1,9 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.Arrays;
+
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.ResourceData;
+import ch.ethz.idsc.tensor.opt.TensorScalarFunction;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
@@ -45,5 +51,29 @@ public class TensorMapTest extends TestCase {
     assertEquals(matrix, Array.zeros(3, 1).map(Increment.ONE));
     assertEquals(matrix, blub);
     assertFalse(matrix == blub);
+  }
+
+  public void testImageTUO() {
+    TensorUnaryOperator tensorUnaryOperator = rgba -> {
+      if (Scalars.isZero(rgba.Get(0)))
+        return Tensors.vector(255, 248, 198, 255);
+      return rgba;
+    };
+    Tensor tensor = ResourceData.of("/io/rgba15x33.png");
+    assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
+    Tensor result = TensorMap.of(tensorUnaryOperator, tensor, 2);
+    assertEquals(Dimensions.of(result), Arrays.asList(33, 15, 4));
+  }
+
+  public void testImageTSF() {
+    TensorScalarFunction tensorScalarFunction = rgba -> {
+      if (Scalars.isZero(rgba.Get(0)))
+        return RealScalar.ONE;
+      return RealScalar.ZERO;
+    };
+    Tensor tensor = ResourceData.of("/io/rgba15x33.png");
+    assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
+    Tensor result = TensorMap.of(tensorScalarFunction, tensor, 2);
+    assertEquals(Dimensions.of(result), Arrays.asList(33, 15));
   }
 }

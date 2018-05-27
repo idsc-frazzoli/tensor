@@ -8,8 +8,6 @@ import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
-/** inspired by
- * <a href="https://reference.wolfram.com/language/ref/FoldList.html">FoldList</a> */
 public enum FoldList {
   ;
   /** <pre>
@@ -20,7 +18,6 @@ public enum FoldList {
    * @param tensor must not be a {@link Scalar}
    * @return see description above */
   public static Tensor of(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {
-    ScalarQ.thenThrow(tensor);
     Tensor result = Tensors.empty();
     if (0 < tensor.length()) {
       Tensor entry = tensor.get(0);
@@ -29,7 +26,8 @@ public enum FoldList {
         entry = binaryOperator.apply(entry, tensor.get(index));
         result.append(entry);
       }
-    }
+    } else
+      ScalarQ.thenThrow(tensor);
     return result;
   }
 }

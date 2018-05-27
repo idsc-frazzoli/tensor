@@ -83,17 +83,17 @@ public class FloorTest extends TestCase {
 
   public void testFailInf() {
     {
-      Scalar s = DoubleScalar.of(Double.POSITIVE_INFINITY);
+      Scalar s = DoubleScalar.POSITIVE_INFINITY;
       assertEquals(Floor.FUNCTION.apply(s), s);
     }
     {
-      Scalar s = DoubleScalar.of(Double.NEGATIVE_INFINITY);
+      Scalar s = DoubleScalar.NEGATIVE_INFINITY;
       assertEquals(Floor.FUNCTION.apply(s), s);
     }
   }
 
   public void testFailNaN() {
-    Scalar s = Floor.FUNCTION.apply(DoubleScalar.of(Double.NaN));
+    Scalar s = Floor.FUNCTION.apply(DoubleScalar.INDETERMINATE);
     assertTrue(Double.isNaN(s.number().doubleValue()));
   }
 

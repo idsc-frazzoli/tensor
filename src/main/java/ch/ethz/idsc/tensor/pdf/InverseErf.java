@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.alg.Series;
 import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
@@ -16,7 +16,7 @@ public enum InverseErf implements ScalarUnaryOperator {
   FUNCTION;
   // ---
   private static final Scalar ONE_NEGATE = RealScalar.ONE.negate();
-  private static final Tensor COEFFS = Tensors.vectorDouble( //
+  private static final ScalarUnaryOperator SERIES = Series.of(Tensors.vectorDouble( //
       0, 0.8842319013499945, //
       0, 0.5279697289942278, //
       0, -12.748788070175877, //
@@ -31,7 +31,7 @@ public enum InverseErf implements ScalarUnaryOperator {
       0, 574502.9894417486, //
       0, -216741.80070122686, //
       0, 36211.62603110378 //
-  );
+  ));
 
   @Override
   public Scalar apply(Scalar scalar) {
@@ -39,7 +39,7 @@ public enum InverseErf implements ScalarUnaryOperator {
       return DoubleScalar.NEGATIVE_INFINITY;
     if (scalar.equals(RealScalar.ONE))
       return DoubleScalar.POSITIVE_INFINITY;
-    return Multinomial.horner(COEFFS, Clip.absoluteOne().requireInside(scalar));
+    return SERIES.apply(Clip.absoluteOne().requireInside(scalar));
   }
 
   /** @param tensor

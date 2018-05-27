@@ -142,6 +142,7 @@ public class HypotTest extends TestCase {
       Hypot.BIFUNCTION.apply( //
           Quantity.of(1, "m"), //
           Quantity.of(0, "s"));
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

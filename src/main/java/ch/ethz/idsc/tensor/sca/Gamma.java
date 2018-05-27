@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Multinomial;
+import ch.ethz.idsc.tensor.alg.Series;
 
 /** Euler gamma function
  * <pre>
@@ -38,7 +38,7 @@ public enum Gamma implements ScalarUnaryOperator {
   public static final Scalar EULER = DoubleScalar.of(0.577215664901532860606512090082);
   static final Scalar NEGATIVE_THREE = RealScalar.of(-3);
   /** series around x == 3 */
-  static final Tensor SERIES = Tensors.vector(2, //
+  static final ScalarUnaryOperator SERIES = Series.of(Tensors.vector(2, //
       1.84556867019693427878697581983519513792, //
       1.24646499595134652897125503275406212275, //
       0.57499416892061222754655452970695120715, //
@@ -55,7 +55,7 @@ public enum Gamma implements ScalarUnaryOperator {
       1.14222764534215837758667044838E-7, //
       -1.63147521008274372795419896867E-8, // <- negative coefficient
       8.62349738997827269892882654395E-9 //
-  );
+  ));
   static final Scalar LO = DoubleScalar.of(2.5);
   static final Scalar HI = DoubleScalar.of(3.5);
   private static final Mod MOD = Mod.function(RealScalar.ONE, LO);
@@ -78,7 +78,7 @@ public enum Gamma implements ScalarUnaryOperator {
     Scalar hxi = Imag.FUNCTION.apply(scalar);
     Scalar hxr = MOD.apply(real);
     Scalar hx = ComplexScalar.of(hxr, hxi);
-    Scalar value = Multinomial.horner(SERIES, hx.add(NEGATIVE_THREE));
+    Scalar value = SERIES.apply(hx.add(NEGATIVE_THREE));
     while (Scalars.lessThan(Real.of(real.subtract(hx)), HALF_N) && NumberQ.of(value) && Scalars.nonZero(value)) {
       hx = hx.subtract(RealScalar.ONE);
       value = value.divide(hx);

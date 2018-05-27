@@ -16,8 +16,8 @@ import junit.framework.TestCase;
 
 public class ArgTest extends TestCase {
   public void testArg() {
-    Scalar s = ComplexScalar.of(RationalScalar.of(-2, 3), RationalScalar.of(-5, 100));
-    assertEquals(Arg.of(s).toString(), "-3.066732805879026");
+    Scalar scalar = ComplexScalar.of(RationalScalar.of(-2, 3), RationalScalar.of(-5, 100));
+    assertEquals(Arg.of(scalar).toString(), "-3.066732805879026");
     assertEquals(Arg.of(RealScalar.ZERO), RealScalar.ZERO);
     assertEquals(Arg.of(DoubleScalar.of(.2)), RealScalar.ZERO);
     assertEquals(Arg.of(DoubleScalar.of(-1)), DoubleScalar.of(Math.PI));
@@ -37,8 +37,9 @@ public class ArgTest extends TestCase {
   }
 
   public void testFail() {
+    Scalar scalar = GaussScalar.of(1, 7);
     try {
-      Arg.of(GaussScalar.of(1, 7));
+      Arg.of(scalar);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -21,6 +21,21 @@ public class ImportTest extends TestCase {
     assertEquals(ResourceData.of(string), table);
   }
 
+  public void testCsvEmpty() throws Exception {
+    String string = "/io/empty.csv"; // file has byte length 0
+    File file = new File(getClass().getResource(string).getFile());
+    assertTrue(Tensors.isEmpty(Import.of(file)));
+    assertTrue(Tensors.isEmpty(ResourceData.of(string)));
+  }
+
+  public void testCsvEmptyLine() throws Exception {
+    String string = "/io/emptyline.csv"; // file consist of a single line break character
+    File file = new File(getClass().getResource(string).getFile());
+    Tensor expected = Tensors.fromString("{{}}").unmodifiable();
+    assertEquals(Import.of(file), expected);
+    assertEquals(ResourceData.of(string), expected);
+  }
+
   public void testCsvFail() throws Exception {
     File file = new File("/io/doesnotexist.csv");
     try {
