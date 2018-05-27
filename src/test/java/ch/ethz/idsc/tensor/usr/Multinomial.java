@@ -1,12 +1,13 @@
 // code by jph
-package ch.ethz.idsc.tensor.alg;
+package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Range;
 
-/** <p>ordering of coefficients is <em>reversed</em> compared to
+/** ordering of coefficients is <em>reversed</em> compared to
  * MATLAB::polyval, MATLAB::polyfit, etc. ! */
-public enum Multinomial {
+enum Multinomial {
   ;
   /** Example:
    * <pre>

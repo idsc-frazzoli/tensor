@@ -136,6 +136,22 @@ public class RoundTest extends TestCase {
     assertEquals(Round.of(qs1), qs2);
   }
 
+  public void testNonFailInf() {
+    {
+      Scalar scalar = DoubleScalar.POSITIVE_INFINITY;
+      assertEquals(Round.of(scalar), scalar);
+    }
+    {
+      Scalar scalar = DoubleScalar.NEGATIVE_INFINITY;
+      assertEquals(Round.of(scalar), scalar);
+    }
+  }
+
+  public void testNonFailNaN() {
+    Scalar scalar = Round.of(DoubleScalar.INDETERMINATE);
+    assertTrue(Double.isNaN(scalar.number().doubleValue()));
+  }
+
   public void testTypeFail() {
     try {
       Round.of(StringScalar.of("some"));

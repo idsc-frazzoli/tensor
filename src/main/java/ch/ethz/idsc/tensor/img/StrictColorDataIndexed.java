@@ -14,6 +14,7 @@ public class StrictColorDataIndexed extends BaseColorDataIndexed {
     return new StrictColorDataIndexed(tensor.copy());
   }
 
+  // ---
   /** matrix with dimensions N x 4 where each row encodes {R, G, B, A} */
   /** @param tensor with dimensions N x 4 where each row encodes {R, G, B, A} */
   protected StrictColorDataIndexed(Tensor tensor) {

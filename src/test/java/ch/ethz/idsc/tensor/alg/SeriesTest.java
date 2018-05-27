@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -13,13 +14,15 @@ import junit.framework.TestCase;
 
 public class SeriesTest extends TestCase {
   public void testEmptyReal() {
-    Scalar actual = Series.of(Tensors.empty()).apply(RealScalar.of(2));
-    assertEquals(actual, RealScalar.ZERO);
+    Scalar scalar = Series.of(Tensors.empty()).apply(RealScalar.of(2));
+    assertEquals(scalar, RealScalar.ZERO);
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testEmptyGaussian() {
-    Scalar actual = Series.of(Tensors.empty()).apply(GaussScalar.of(4, 7));
-    assertEquals(actual, GaussScalar.of(0, 7));
+    Scalar scalar = Series.of(Tensors.empty()).apply(GaussScalar.of(4, 7));
+    assertEquals(scalar, GaussScalar.of(0, 7));
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testHorner1() {
@@ -64,25 +67,5 @@ public class SeriesTest extends TestCase {
     Scalar val = Quantity.of(2, "s");
     Scalar res = Series.of(Tensors.of(qs1, qs2)).apply(val);
     assertEquals(res.toString(), "2[m*s]");
-  }
-
-  public void testDerivative() {
-    Tensor coeffs = Tensors.vector(-3, 4, -5, 8, 1);
-    Tensor result = Multinomial.derivative(coeffs);
-    assertEquals(result, Tensors.vector(4, -5 * 2, 8 * 3, 1 * 4));
-  }
-
-  public void testDerivativeEmpty() {
-    assertEquals(Multinomial.derivative(Tensors.vector()), Tensors.vector());
-    assertEquals(Multinomial.derivative(Tensors.vector(3)), Tensors.empty());
-  }
-
-  public void testDerivativeScalarFail() {
-    try {
-      Multinomial.derivative(RealScalar.ONE);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
   }
 }

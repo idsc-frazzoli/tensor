@@ -49,12 +49,6 @@ public class ColorDataListsTest extends TestCase {
   public void testFailNeg() {
     ColorDataIndexed colorDataIndexed = ColorDataLists._058.cyclic();
     colorDataIndexed.apply(RealScalar.of(-0.3));
-    // try {
-    //
-    // assertTrue(false);
-    // } catch (Exception exception) {
-    // // ---
-    // }
   }
 
   public void testSize() {

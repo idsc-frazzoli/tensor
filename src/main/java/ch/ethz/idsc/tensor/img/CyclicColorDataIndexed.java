@@ -14,6 +14,7 @@ public class CyclicColorDataIndexed extends BaseColorDataIndexed {
   public static ColorDataIndexed create(Tensor tensor) {
     return new CyclicColorDataIndexed(tensor.copy());
   }
+  // ---
 
   private final Mod mod;
 

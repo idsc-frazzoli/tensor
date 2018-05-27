@@ -59,18 +59,20 @@ public class SqrtTest extends TestCase {
   }
 
   public void testTensor() {
-    Tensor r = Sqrt.of(Tensors.vector(1, 4, 9, 16));
-    assertEquals(r, Tensors.vector(1, 2, 3, 4));
+    Tensor vector = Sqrt.of(Tensors.vector(1, 4, 9, 16));
+    assertEquals(vector, Tensors.vector(1, 2, 3, 4));
   }
 
-  public void testInfty() {
-    Scalar res = Sqrt.of(DoubleScalar.POSITIVE_INFINITY);
-    assertEquals(res, DoubleScalar.POSITIVE_INFINITY);
+  public void testPositiveInfty() {
+    assertEquals( //
+        Sqrt.of(DoubleScalar.POSITIVE_INFINITY), //
+        DoubleScalar.POSITIVE_INFINITY);
   }
 
-  public void testInftyNeg() {
-    Scalar res = Sqrt.of(DoubleScalar.NEGATIVE_INFINITY);
-    assertEquals(res, ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
+  public void testNegativeInfty() {
+    assertEquals( //
+        Sqrt.of(DoubleScalar.NEGATIVE_INFINITY), //
+        ComplexScalar.of(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY));
   }
 
   public void testQuantity() {
@@ -79,9 +81,16 @@ public class SqrtTest extends TestCase {
     assertEquals(Sqrt.of(qs1), qs2);
   }
 
+  public void testQuantity2() {
+    Scalar qs1 = Quantity.of(9, "m*s^2");
+    Scalar qs2 = Quantity.of(3, "m^1/2*s");
+    assertEquals(Sqrt.of(qs1), qs2);
+  }
+
   public void testFail() {
+    Scalar scalar = StringScalar.of("string");
     try {
-      Sqrt.of(StringScalar.of("string"));
+      Sqrt.of(scalar);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

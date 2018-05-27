@@ -7,10 +7,13 @@ import java.math.MathContext;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.MeanInterface;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.VarianceInterface;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
+import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** Gaussian encodes the parameters of a NormalDistribution
@@ -22,21 +25,18 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * implementation for demonstration purpose */
 public class Gaussian extends AbstractScalar implements //
-    NInterface, Serializable {
+    MeanInterface, NInterface, VarianceInterface, Serializable {
   /** additive zero */
   private static final Scalar ZERO = of(RealScalar.ZERO, RealScalar.ZERO);
 
-  /** [if variance equals 0, then given mean is returned]
-   * 
-   * @param mean
+  /** @param mean
    * @param variance non-negative
    * @return */
   public static Scalar of(Scalar mean, Scalar variance) {
-    if (Scalars.lessThan(variance, variance.zero()))
-      throw TensorRuntimeException.of(mean, variance);
+    // [if variance equals 0, then given mean is returned]
     // if (Scalars.isZero(variance))
     // return mean;
-    return new Gaussian(mean, variance);
+    return new Gaussian(mean, Sign.requirePositiveOrZero(variance));
   }
 
   /** see description above
@@ -111,10 +111,12 @@ public class Gaussian extends AbstractScalar implements //
   }
 
   /***************************************************/
+  @Override // from MeanInterface
   public Scalar mean() {
     return mean;
   }
 
+  @Override // from VarianceInterface
   public Scalar variance() {
     return variance;
   }

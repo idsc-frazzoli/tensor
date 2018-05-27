@@ -80,28 +80,29 @@ public class CeilingTest extends TestCase {
 
   public void testNonFailInf() {
     {
-      Scalar s = DoubleScalar.of(Double.POSITIVE_INFINITY);
-      assertEquals(Ceiling.of(s), s);
+      Scalar scalar = DoubleScalar.POSITIVE_INFINITY;
+      assertEquals(Ceiling.of(scalar), scalar);
     }
     {
-      Scalar s = DoubleScalar.of(Double.NEGATIVE_INFINITY);
-      assertEquals(Ceiling.of(s), s);
+      Scalar scalar = DoubleScalar.NEGATIVE_INFINITY;
+      assertEquals(Ceiling.of(scalar), scalar);
     }
   }
 
   public void testNonFailNaN() {
-    Scalar s = Ceiling.of(DoubleScalar.of(Double.NaN));
-    assertTrue(Double.isNaN(s.number().doubleValue()));
+    Scalar scalar = Ceiling.of(DoubleScalar.INDETERMINATE);
+    assertTrue(Double.isNaN(scalar.number().doubleValue()));
   }
 
   public void testQuantity() {
-    Scalar s = Quantity.of(2.1, "K");
-    assertEquals(Ceiling.FUNCTION.apply(s), Quantity.of(3, "K"));
+    Scalar scalar = Quantity.of(2.1, "K");
+    assertEquals(Ceiling.FUNCTION.apply(scalar), Quantity.of(3, "K"));
   }
 
   public void testTypeFail() {
+    Scalar scalar = StringScalar.of("some");
     try {
-      Ceiling.of(StringScalar.of("some"));
+      Ceiling.of(scalar);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
