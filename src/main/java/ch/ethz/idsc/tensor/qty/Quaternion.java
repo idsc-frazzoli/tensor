@@ -10,8 +10,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** Important: not all algorithms are tested for {@link Quaternion} input.
  * The consistent handling of the non-commutativity of the multiplication
- * may require significant modifications of the existing API and revision
- * of the algorithms.
+ * may require significant modifications of the existing algorithms.
  * 
  * <p>Mathematica does not serve as a role model for quaternions. Their
  * corresponding functionality appears cumbersome and limited.

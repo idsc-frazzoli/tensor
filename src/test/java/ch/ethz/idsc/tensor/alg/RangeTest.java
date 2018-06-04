@@ -19,4 +19,9 @@ public class RangeTest extends TestCase {
     assertEquals(t, r);
     assertEquals(t.toString(), r.toString());
   }
+
+  public void testRangeEmpty() {
+    assertEquals(Range.of(6, 6), Tensors.empty());
+    assertEquals(Range.of(6, 5), Tensors.empty());
+  }
 }

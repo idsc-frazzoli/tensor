@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * <p>The scalars are required to be comparable. For instance, complex numbers
  * do not have a natural ordering, therefore the minimum is not well defined.
  * 
- * <p>API inspired by {@link IntSummaryStatistics} */
+ * <p>inspired by {@link IntSummaryStatistics} */
 public class ScalarSummaryStatistics implements Consumer<Scalar> {
   /** Example:
    * <pre>
@@ -53,9 +53,16 @@ public class ScalarSummaryStatistics implements Consumer<Scalar> {
   }
 
   public ScalarSummaryStatistics combine(ScalarSummaryStatistics other) {
-    sum = sum.add(other.sum);
-    min = Min.of(min, other.min);
-    max = Max.of(max, other.max);
+    if (0 == count) {
+      sum = other.sum;
+      min = other.min;
+      max = other.max;
+    } else //
+    if (0 < other.count) {
+      sum = sum.add(other.sum);
+      min = Min.of(min, other.min);
+      max = Max.of(max, other.max);
+    }
     count += other.count;
     return this;
   }
@@ -75,7 +82,8 @@ public class ScalarSummaryStatistics implements Consumer<Scalar> {
     return max;
   }
 
-  /** @return average of scalars in stream or null if stream is empty */
+  /** @return average of scalars in stream or null if stream is empty
+   * @throws Exception if scalar type does not support division by {@link RealScalar} */
   public Scalar getAverage() {
     return count > 0 ? getSum().divide(RealScalar.of(getCount())) : null;
   }

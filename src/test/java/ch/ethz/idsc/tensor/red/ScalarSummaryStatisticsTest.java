@@ -1,9 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.util.Arrays;
+import java.util.IntSummaryStatistics;
+
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
@@ -47,5 +52,43 @@ public class ScalarSummaryStatisticsTest extends TestCase {
     assertEquals(stats.getMax(), null);
     assertEquals(stats.getAverage(), null);
     assertEquals(stats.getCount(), 0);
+  }
+
+  public void testEmptyCombine() {
+    IntSummaryStatistics iss1 = new IntSummaryStatistics();
+    IntSummaryStatistics iss2 = new IntSummaryStatistics();
+    iss1.combine(iss2);
+    ScalarSummaryStatistics sss1 = new ScalarSummaryStatistics();
+    ScalarSummaryStatistics sss2 = new ScalarSummaryStatistics();
+    sss1.combine(sss2);
+  }
+
+  public void testSemiCombine() {
+    IntSummaryStatistics iss1 = new IntSummaryStatistics();
+    IntSummaryStatistics iss2 = Arrays.asList(3, 2).stream().mapToInt(i -> i).summaryStatistics();
+    iss1.combine(iss2);
+    ScalarSummaryStatistics sss1 = new ScalarSummaryStatistics();
+    ScalarSummaryStatistics sss2 = Tensors.vector(1, 4, 2, 8, 3, 10).stream() //
+        .parallel().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
+    sss1.combine(sss2);
+  }
+
+  public void testGaussian() {
+    Tensor vector = Tensors.of( //
+        GaussScalar.of(2, 7), //
+        GaussScalar.of(3, 7), //
+        GaussScalar.of(5, 7), //
+        GaussScalar.of(1, 7));
+    ScalarSummaryStatistics sss1 = //
+        vector.stream().parallel().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
+    Scalar sum = sss1.getSum();
+    assertEquals(sum, GaussScalar.of(4, 7));
+    assertEquals(sss1.getCount(), 4);
+    try {
+      sss1.getAverage();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
