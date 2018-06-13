@@ -37,7 +37,8 @@ public class QuantityMagnitude {
   /** creates instance for quantity conversion and magnitude extraction
    * that is backed by given unitSystem
    * 
-   * @param unitSystem */
+   * @param unitSystem
+   * @throws Exception if given {@link UnitSystem} is null */
   public QuantityMagnitude(UnitSystem unitSystem) {
     this.unitSystem = Objects.requireNonNull(unitSystem);
   }

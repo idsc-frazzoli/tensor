@@ -23,6 +23,9 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * 
  * <p>{@code Clip} also works for intervals defined by {@link Quantity}.
  * 
+ * <p>An instance of {@link Clip} is immutable.
+ * {@link Clip} does not implement {@link #hashCode()}, {@link #equals(Object)}, or {@link #toString()}.
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Clip.html">Clip</a> */
 public interface Clip extends ScalarUnaryOperator {

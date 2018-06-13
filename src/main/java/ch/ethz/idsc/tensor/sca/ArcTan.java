@@ -31,6 +31,9 @@ public enum ArcTan implements ScalarUnaryOperator {
    * consistent with Mathematica::ArcTan[x, y]
    * but opposite to java.lang.Math::atan2(y, x)
    * 
+   * ArcTan[x, y] == -ArcTan[x, -y]
+   * ArcTan[x, y] == ArcTan[x * lambda, y * lambda] for positive lambda
+   * 
    * ArcTan.of(0, 0) == 0 is not consistent with Mathematica.
    * Mathematica::ArcTan[0, 0] is undefined
    * 
