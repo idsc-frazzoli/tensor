@@ -19,15 +19,15 @@ public class IntegerQTest extends TestCase {
     assertFalse(IntegerQ.of(Tensors.vector(1)));
   }
 
-  public void testElseThrow() {
-    IntegerQ.require(RealScalar.of(2));
+  public void testRequire() {
+    Scalar scalar = IntegerQ.require(RealScalar.of(2));
+    assertEquals(scalar, RealScalar.of(2));
+  }
+
+  public void testRequireFail() {
     try {
       IntegerQ.require(RealScalar.of(.2));
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      IntegerQ.require(Tensors.vector(1, 2, 7));
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

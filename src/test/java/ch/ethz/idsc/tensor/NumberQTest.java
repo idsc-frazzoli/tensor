@@ -55,4 +55,18 @@ public class NumberQTest extends TestCase {
     assertTrue(NumberQ.all(Tensors.fromString("{1, 3}")));
     assertFalse(NumberQ.all(Tensors.fromString("{1, 3[m]}")));
   }
+
+  public void testRequire() {
+    Scalar scalar = NumberQ.require(RealScalar.of(123.456));
+    assertEquals(scalar, RealScalar.of(123.456));
+  }
+
+  public void testRequireFail() {
+    try {
+      NumberQ.require(Quantity.of(6, "apples"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
