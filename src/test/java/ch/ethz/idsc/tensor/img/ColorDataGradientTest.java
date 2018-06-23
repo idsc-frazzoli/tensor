@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class ColorDataGradientTest extends TestCase {
-  public void testSimple() {
+  public void testDimensions() {
     Tensor tensor = ResourceData.of("/colorscheme/hue.csv");
     assertEquals(Dimensions.of(tensor).get(1), Integer.valueOf(4));
     ColorDataGradient.of(tensor);

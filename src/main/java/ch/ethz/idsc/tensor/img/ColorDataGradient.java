@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
@@ -45,7 +44,7 @@ public class ColorDataGradient implements ScalarTensorFunction {
   public Tensor apply(Scalar scalar) {
     Scalar value = scalar.multiply(scale); // throws Exception for GaussScalar
     return MachineNumberQ.of(value) //
-        ? interpolation.get(Tensors.of(value))
+        ? interpolation.at(value)
         : StaticHelper.transparent();
   }
 }

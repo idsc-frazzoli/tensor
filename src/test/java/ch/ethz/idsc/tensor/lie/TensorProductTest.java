@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class TensorProductTest extends TestCase {
-  public void testSimple() {
+  public void testVectors() {
     Tensor tensor = TensorProduct.of(Tensors.vector(1, 2, 3), Tensors.vector(-1, 2));
     assertEquals(Dimensions.of(tensor), Arrays.asList(3, 2));
   }

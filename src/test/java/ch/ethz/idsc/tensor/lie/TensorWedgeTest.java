@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class TensorWedgeTest extends TestCase {
-  public void testSimple() {
+  public void testAntisymmetric() {
     Tensor matrix = RandomVariate.of(NormalDistribution.standard(), 4, 4);
     Tensor skewsy = TensorWedge.of(matrix);
     assertTrue(AntisymmetricMatrixQ.of(skewsy));

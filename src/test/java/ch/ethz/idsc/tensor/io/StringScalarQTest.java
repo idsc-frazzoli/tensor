@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class StringScalarQTest extends TestCase {
-  public void testSimple() {
+  public void testOf() {
     assertFalse(StringScalarQ.of(RealScalar.ZERO));
     assertFalse(StringScalarQ.of(Tensors.fromString("{hello}")));
     assertTrue(StringScalarQ.of(StringScalar.of("world")));

@@ -10,25 +10,28 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.opt.ConvexHull;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Decrement;
 import junit.framework.TestCase;
 
 public class CirclePointsTest extends TestCase {
-  public void testSimple() {
+  public void testNorm() {
     int n = 5;
     Tensor tensor = CirclePoints.of(n);
     assertEquals(Dimensions.of(tensor), Arrays.asList(n, 2));
-    Tensor nrm = Tensor.of(tensor.stream().map(Norm2Squared::ofVector));
-    assertTrue(Chop._14.close(nrm, Array.of(l -> RealScalar.ONE, n)));
+    assertTrue(Chop._14.close(Tensor.of(tensor.stream().map(Norm2Squared::ofVector)), Array.of(l -> RealScalar.ONE, n)));
+    assertTrue(Chop._14.allZero(Tensor.of(tensor.stream().map(Norm2Squared::ofVector).map(Decrement.ONE))));
   }
 
   public void testFirst() {
     int n = 5;
     Tensor tensor = CirclePoints.of(n);
     assertEquals(tensor.get(0), Tensors.vector(1, 0));
+    assertEquals(tensor.get(0), UnitVector.of(2, 0));
   }
 
   public void testConvexHull() {

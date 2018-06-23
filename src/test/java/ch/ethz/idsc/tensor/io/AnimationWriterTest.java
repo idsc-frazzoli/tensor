@@ -18,7 +18,7 @@ public class AnimationWriterTest extends TestCase {
     file.delete();
   }
 
-  public void testSimple() {
+  public void testFailExtension() {
     try {
       AnimationWriter.of(new File("asd.bin"), 100); // extension unknown
       assertTrue(false);

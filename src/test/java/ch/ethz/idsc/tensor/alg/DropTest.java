@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class DropTest extends TestCase {
-  public void testSimple() {
+  public void testHead() {
     assertEquals(Drop.head(Tensors.empty(), 0), Tensors.empty());
     assertEquals(Drop.head(Tensors.vector(9, 8, 3), 1), Tensors.vector(8, 3));
   }

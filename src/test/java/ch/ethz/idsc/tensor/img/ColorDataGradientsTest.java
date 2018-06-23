@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class ColorDataGradientsTest extends TestCase {
-  public void testSimple() {
+  public void testDimensions() {
     for (ScalarTensorFunction cdf : ColorDataGradients.values()) {
       assertEquals(Dimensions.of(cdf.apply(RealScalar.ZERO)), Arrays.asList(4));
       assertEquals(Dimensions.of(cdf.apply(RealScalar.ONE)), Arrays.asList(4));
