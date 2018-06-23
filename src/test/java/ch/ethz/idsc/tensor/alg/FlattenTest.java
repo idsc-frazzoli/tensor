@@ -11,17 +11,17 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class FlattenTest extends TestCase {
-  public void testSimple0a() {
+  public void testLevel0a() {
     Tensor m = HilbertMatrix.of(5, 4);
     assertEquals(Flatten.of(m, 0), m);
   }
 
-  public void testSimple0b() {
+  public void testLevel0b() {
     Tensor m = Tensors.fromString("{{0,1,{2,{3}}},{{4},5}}");
     assertEquals(Flatten.of(m, 0), m);
   }
 
-  public void testSimple1() {
+  public void testLevels() {
     Tensor ad = LieAlgebras.heisenberg3();
     assertEquals(Flatten.of(ad, 0), ad);
     assertEquals(Dimensions.of(Flatten.of(ad, 1)), Arrays.asList(9, 3));

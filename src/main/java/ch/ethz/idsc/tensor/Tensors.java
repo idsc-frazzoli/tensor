@@ -62,6 +62,12 @@ public enum Tensors {
 
   /** @param values
    * @return tensor of {@link DoubleScalar} with given values */
+  public static Tensor vectorFloat(float... values) {
+    return Tensor.of(IntStream.range(0, values.length).mapToDouble(i -> values[i]).mapToObj(DoubleScalar::of));
+  }
+
+  /** @param values
+   * @return tensor of {@link DoubleScalar} with given values */
   public static Tensor vectorDouble(double... values) {
     return Tensor.of(DoubleStream.of(values).mapToObj(DoubleScalar::of));
   }
@@ -97,6 +103,12 @@ public enum Tensors {
    * @return matrix with dimensions and {@link RationalScalar} entries as array data */
   public static Tensor matrixLong(long[][] data) {
     return Tensor.of(Stream.of(data).map(Tensors::vectorLong));
+  }
+
+  /** @param values
+   * @return tensor of {@link DoubleScalar} with given values */
+  public static Tensor matrixFloat(float[][] values) {
+    return Tensor.of(Stream.of(values).map(Tensors::vectorFloat));
   }
 
   /** @param data

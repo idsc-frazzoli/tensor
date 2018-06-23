@@ -12,7 +12,7 @@ public class AccumulateTest extends TestCase {
     assertEquals(d, Tensors.empty());
   }
 
-  public void testSimple() {
+  public void testVector() {
     Tensor c = Tensors.vector(2, 3, 1, 0);
     Tensor actual = Accumulate.of(c);
     Tensor expected = Tensors.vector(2, 5, 6, 6);
@@ -26,7 +26,7 @@ public class AccumulateTest extends TestCase {
     assertEquals(expected, actual);
   }
 
-  public void testSimple2() {
+  public void testMatrix() {
     Tensor c = Tensors.matrix(new Number[][] { { 1, 2 }, { 5, 5 }, { -3, -9 } });
     Tensor actual = Accumulate.of(c);
     Tensor expected = Tensors.matrix(new Number[][] { { 1, 2 }, { 6, 7 }, { 3, -2 } });

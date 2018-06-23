@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class OrderingTest extends TestCase {
-  public void testSimple() {
+  public void testVector() {
     Tensor vector = Tensors.vector(4, 2, 3, 0, 1);
     int[] array = Ordering.INCREASING.of(vector);
     Tensor ascending = Tensor.of( //

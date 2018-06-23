@@ -7,6 +7,7 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class TensorsTest extends TestCase {
@@ -143,6 +144,22 @@ public class TensorsTest extends TestCase {
     Tensor actual = Tensors.matrixLong(data);
     Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9},{0,0,0,0,0},{}}");
     assertEquals(expected, actual);
+  }
+
+  public void testVectorFloat() {
+    float[] fvalues = { 3.1f, 4.3f, -1.89f };
+    double[] dvalues = { 3.1, 4.3, -1.89 };
+    assertTrue(Chop._06.close( //
+        Tensors.vectorFloat(fvalues), //
+        Tensors.vectorDouble(dvalues)));
+  }
+
+  public void testMatrixFloat() {
+    float[][] values = { { 3.1f, 4.3f, -1.89f }, { -3.6f, 9.3f } };
+    Tensor tensor = Tensors.matrixFloat(values);
+    assertEquals(tensor.length(), 2);
+    assertEquals(tensor.get(0).length(), 3);
+    assertEquals(tensor.get(1).length(), 2);
   }
 
   public void testDoubleArrays() {

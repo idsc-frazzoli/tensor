@@ -11,7 +11,8 @@ public enum Drop {
    * 
    * @param tensor
    * @param n
-   * @return */
+   * @return
+   * @throws Exception if given tensor has less than n entries */
   public static Tensor head(Tensor tensor, int n) {
     return tensor.extract(n, tensor.length());
   }
@@ -20,7 +21,8 @@ public enum Drop {
    * 
    * @param tensor
    * @param n
-   * @return */
+   * @return
+   * @throws Exception if given tensor has less than n entries */
   public static Tensor tail(Tensor tensor, int n) {
     return tensor.extract(0, tensor.length() - n);
   }
