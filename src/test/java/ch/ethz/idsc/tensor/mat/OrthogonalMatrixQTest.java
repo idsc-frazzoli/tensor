@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class OrthogonalMatrixQTest extends TestCase {
-  public void testSimple() {
+  public void testExact() {
     Tensor matrix = Tensors.fromString("{{1, 1, 1, -1}, {-1, 1, 1, 1}}").multiply(RationalScalar.of(1, 2));
     assertTrue(OrthogonalMatrixQ.of(matrix));
   }

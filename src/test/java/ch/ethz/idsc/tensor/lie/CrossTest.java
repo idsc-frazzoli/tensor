@@ -2,7 +2,9 @@
 package ch.ethz.idsc.tensor.lie;
 
 import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
@@ -43,6 +45,23 @@ public class CrossTest extends TestCase {
       Tensor b = RandomVariate.of(distribution, 3);
       assertEquals(Cross.of(a, b), checkAB(a, b));
     }
+  }
+
+  public void testGauss() {
+    Tensor v1 = Tensors.of( //
+        GaussScalar.of(3, 7), //
+        GaussScalar.of(4, 7), //
+        GaussScalar.of(2, 7)); //
+    Tensor v2 = Tensors.of( //
+        GaussScalar.of(1, 7), //
+        GaussScalar.of(5, 7), //
+        GaussScalar.of(6, 7)); //
+    Tensor tensor = Cross.of(v1, v2);
+    Tensor v3 = Tensors.of( //
+        GaussScalar.of(0, 7), //
+        GaussScalar.of(5, 7), //
+        GaussScalar.of(4, 7)); //
+    assertEquals(tensor, v3);
   }
 
   public void testFailLength2() {

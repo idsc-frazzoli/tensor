@@ -12,12 +12,12 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class UnitaryMatrixQTest extends TestCase {
-  public void testSimple() {
+  public void testExample2d() {
     Tensor matrix = Tensors.fromString("{{1, I}, {I, 1}}").multiply(RealScalar.of(Math.sqrt(0.5)));
     assertTrue(UnitaryMatrixQ.of(matrix));
   }
 
-  public void testSimple2() {
+  public void testExample3d() {
     Tensor matrix = Tensors.fromString("{{0.7071067811865476, 0.7071067811865476, 0.}, {-0.7071067811865476* I, 0.7071067811865476 *I, 0.}, {0., 0., I}}");
     assertTrue(UnitaryMatrixQ.of(matrix));
   }

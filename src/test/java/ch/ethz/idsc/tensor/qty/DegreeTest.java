@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import junit.framework.TestCase;
 
 public class DegreeTest extends TestCase {
-  public void testSimple() {
+  public void testFullRotation() {
     assertEquals(Degree.of(360), DoubleScalar.of(Math.PI * 2));
   }
 

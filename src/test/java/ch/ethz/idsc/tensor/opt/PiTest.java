@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.sca.Sin;
 import junit.framework.TestCase;
 
 public class PiTest extends TestCase {
-  public void testSimple() {
+  public void testTrigonometry() {
     Scalar pi = Pi.in(100);
     Scalar sin_pi = Sin.of(pi);
     Scalar cos_pi = Cos.of(pi);

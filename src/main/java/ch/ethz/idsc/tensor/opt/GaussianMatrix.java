@@ -19,8 +19,9 @@ public enum GaussianMatrix {
 
   /** only approximately consistent with Mathematica
    * 
-   * @param r
-   * @return m x m matrix where m == 2 * r + 1 */
+   * @param r positive
+   * @return m x m matrix where m == 2 * r + 1
+   * @throws Exception if r is zero or negative */
   public static Tensor of(int r) {
     final Scalar sigma = RationalScalar.of(r, 2);
     final Scalar factor = AbsSquared.FUNCTION.apply(sigma).multiply(TWO).negate();

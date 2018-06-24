@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.red.Norm;
 import junit.framework.TestCase;
 
 public class FermatWeberProblemTest extends TestCase {
-  public void testSimple() {
+  public void testAxisX() {
     Tensor tensor = Tensors.of( //
         Tensors.vector(-1, 0), //
         Tensors.vector(0, 0), //

@@ -43,7 +43,7 @@ public class ConvexHullTest extends TestCase {
     assertEquals(hul, v);
   }
 
-  public void testSimple() {
+  public void testExample() {
     Tensor points = Tensors.matrix(new Number[][] { //
         { -1, 2 }, //
         { 1, -1 }, //

@@ -19,7 +19,7 @@ public class SingularValueDecompositionExtTest extends TestCase {
     SingularValueDecompositionTest.specialOps(svd);
   }
 
-  public void testSimple() throws Exception {
+  public void testResource() throws Exception {
     String string = getClass().getResource("/mat/svd0.mathematica").getPath();
     _check(Get.of(Paths.get(string)));
   }

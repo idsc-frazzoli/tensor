@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class QuantityTensorTest extends TestCase {
-  public void testSimple() {
+  public void testVector() {
     Tensor vector = Tensors.vector(1, 2, 3);
     Tensor nuvec = QuantityTensor.of(vector, Unit.of("m*kg^2"));
     assertEquals(nuvec, //
