@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import junit.framework.TestCase;
 
 public class UnitTest extends TestCase {
-  public void testSimple() {
+  public void testString() {
     String check = "m*s^3";
     Unit unit = Unit.of(check);
     assertEquals(unit.toString(), check);

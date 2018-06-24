@@ -63,7 +63,7 @@ public class SimpleUnitSystem implements UnitSystem {
       }
       return value;
     }
-    return scalar;
+    return Objects.requireNonNull(scalar);
   }
 
   @Override // from UnitSystem

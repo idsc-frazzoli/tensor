@@ -58,49 +58,6 @@ public class TensorTest extends TestCase {
     assertEquals(f.flatten(1).count(), 5);
   }
 
-  public void testPMul1() {
-    Tensor a = Tensors.of( //
-        Tensors.vectorLong(1, 2, 3), //
-        Tensors.vectorLong(3, -1, -1));
-    Tensor b = Tensors.vectorLong(3, 2, 2);
-    Tensor c = Tensors.of( //
-        Tensors.vectorLong(3, 4, 6), //
-        Tensors.vectorLong(9, -2, -2));
-    Tensor r = Tensor.of(a.flatten(0).map(row -> row.pmul(b)));
-    assertEquals(r, c);
-  }
-
-  public void testPMul2() {
-    Tensor a = Tensors.of( //
-        Tensors.vectorLong(new long[] { 1, 2, 3 }), //
-        Tensors.fromString("{3,-1,-1}"));
-    Tensor b = Tensors.vectorLong(3, 2);
-    Tensor c = Tensors.of( //
-        Tensors.vectorLong(3, 6, 9), //
-        Tensors.vectorLong(6, -2, -2));
-    assertEquals(b.pmul(a), c);
-  }
-
-  public void testPMul3() {
-    Tensor a = Tensors.of( //
-        Tensors.vectorLong(1, 2, 3), //
-        Tensors.vectorLong(3, -1, -1));
-    Tensor c = Tensors.of( //
-        Tensors.vectorLong(3, 4, 6), //
-        Tensors.vectorLong(-9, -2, -2));
-    Tensor r = Tensors.fromString("{{3, 8, 18}, {-27, 2, 2}}");
-    assertEquals(a.pmul(c), r);
-  }
-
-  public void testPMulFail() {
-    try {
-      Tensors.vector(1, 2, 3).pmul(Tensors.vector(1, 2, 3, 4));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void testAddFail() {
     try {
       Tensors.vector(1, 2, 3).add(Tensors.vector(1, 2, 3, 4));

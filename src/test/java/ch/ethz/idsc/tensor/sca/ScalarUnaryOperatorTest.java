@@ -108,7 +108,7 @@ public class ScalarUnaryOperatorTest extends TestCase {
     tensor.map(Increment.ONE);
   }
 
-  public void testSimple() {
+  public void testTrinity() {
     _checkOps(DoubleScalar.INDETERMINATE);
     _checkOps(DoubleScalar.POSITIVE_INFINITY);
     _checkOps(DoubleScalar.NEGATIVE_INFINITY);

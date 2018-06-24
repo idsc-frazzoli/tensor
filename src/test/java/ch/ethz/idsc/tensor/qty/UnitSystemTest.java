@@ -14,18 +14,15 @@ import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
 
 public class UnitSystemTest extends TestCase {
-  public void testSimple() {
-    UnitSystem unitSystem = UnitSystem.SI();
-    Scalar scalar = unitSystem.apply(Quantity.of(3, "Hz^-2*N*m^-1"));
+  public void testExact() {
+    Scalar scalar = UnitSystem.SI().apply(Quantity.of(3, "Hz^-2*N*m^-1"));
     assertEquals(scalar, Quantity.of(3, "kg"));
     assertTrue(ExactScalarQ.of(scalar));
-    assertTrue(48 <= unitSystem.map().size());
   }
 
   public void testScalar() {
-    UnitSystem unitSystem = UnitSystem.SI();
     Scalar scalar = RealScalar.ONE;
-    assertEquals(unitSystem.apply(scalar), scalar);
+    assertEquals(UnitSystem.SI().apply(scalar), scalar);
   }
 
   public void testVoltage() {
@@ -38,9 +35,13 @@ public class UnitSystemTest extends TestCase {
     assertEquals(normal, Quantity.of(201168, "m"));
   }
 
-  public void testNull() {
-    UnitSystem unitSystem = UnitSystem.SI();
-    unitSystem.apply(null);
+  public void testNullFail() {
+    try {
+      UnitSystem.SI().apply(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testMore() {

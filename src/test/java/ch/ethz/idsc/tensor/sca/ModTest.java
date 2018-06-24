@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ModTest extends TestCase {
-  public void testSimple() {
+  public void testOffset() {
     Mod mod = Mod.function(4, -2);
     assertEquals(mod.apply(RealScalar.ONE), RealScalar.ONE);
     assertEquals(mod.apply(RealScalar.ONE.negate()), RealScalar.ONE.negate());

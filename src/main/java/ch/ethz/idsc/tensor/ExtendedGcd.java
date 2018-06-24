@@ -2,9 +2,8 @@
 // adapted from the Internet
 package ch.ethz.idsc.tensor;
 
-import java.io.Serializable;
-
-/* package */ class ExtendedGcd implements Serializable {
+/** @see GaussScalar */
+/* package */ class ExtendedGcd {
   private final long a;
   private final long b;
   public final long x;
@@ -28,10 +27,5 @@ import java.io.Serializable;
 
   /* package */ boolean isConsistent() {
     return a * x + b * y == gcd;
-  }
-
-  @Override
-  public String toString() {
-    return "x=" + x + " y=" + y + " gcd=" + gcd + " " + isConsistent();
   }
 }

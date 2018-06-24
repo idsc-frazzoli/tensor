@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class UnprotectTest extends TestCase {
-  public void testSimple() {
+  public void testDimension1() {
     assertTrue(Unprotect.dimension1(Tensors.vector(1, 2, 3)) == Scalar.LENGTH);
     assertTrue(Unprotect.dimension1(HilbertMatrix.of(2, 4)) == 4);
     assertTrue(Unprotect.dimension1(Array.zeros(2, 3, 4)) == 3);

@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
-  public void testSimple() {
+  public void testRealFinite() {
     assertTrue(NumberQ.of(RealScalar.of(0.)));
     assertTrue(NumberQ.of(RealScalar.ZERO));
   }
