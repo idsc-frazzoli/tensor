@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.Clip;
 import junit.framework.TestCase;
 
 public class HistogramDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testPdf() {
     Distribution distribution = //
         HistogramDistribution.of(Tensors.vector(-3, -3, -2, -2, 10), RealScalar.of(2));
     PDF pdf = PDF.of(distribution);

@@ -29,7 +29,7 @@ public class RescaleTest extends TestCase {
     assertEquals(Rescale.of(Tensors.vector(2, 2, 2, 2)), Array.zeros(4));
   }
 
-  public void testSimple() {
+  public void testVector() {
     Tensor res = Rescale.of(Tensors.vector(-.7, .5, 1.2, 5.6, 1.8));
     Tensor sol = Tensors.vector(0., 0.190476, 0.301587, 1., 0.396825);
     assertEquals(res.subtract(sol).map(Chop._05), Array.zeros(5));

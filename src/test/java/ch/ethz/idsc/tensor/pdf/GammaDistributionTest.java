@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class GammaDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testPdf() {
     Distribution distribution = GammaDistribution.of(RealScalar.of(1.123), RealScalar.of(2.3));
     PDF pdf = PDF.of(distribution);
     {

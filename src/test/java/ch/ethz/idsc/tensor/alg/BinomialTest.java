@@ -12,10 +12,15 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class BinomialTest extends TestCase {
-  public void testSimple() {
+  public void testBasic() {
+    assertEquals(Binomial.of(10, Integer.MIN_VALUE), RealScalar.ZERO);
+    assertEquals(Binomial.of(10, -13), RealScalar.ZERO);
+    assertEquals(Binomial.of(10, -1), RealScalar.ZERO);
     assertEquals(Binomial.of(10, 0), RealScalar.ONE);
     assertEquals(Binomial.of(10, 3), RealScalar.of(120));
     assertEquals(Binomial.of(10, 10), RealScalar.ONE);
+    assertEquals(Binomial.of(10, 11), RealScalar.ZERO);
+    assertEquals(Binomial.of(10, Integer.MAX_VALUE), RealScalar.ZERO);
   }
 
   public void testSingleIn() {
@@ -59,12 +64,6 @@ public class BinomialTest extends TestCase {
   }
 
   public void testFailNK() {
-    try {
-      // ;
-      // assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
     try {
       Binomial.of(-3, 0);
       assertTrue(false);

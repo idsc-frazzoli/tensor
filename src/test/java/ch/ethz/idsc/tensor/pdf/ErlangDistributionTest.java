@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class ErlangDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testPdf() {
     Distribution distribution = ErlangDistribution.of(3, RealScalar.of(1.8));
     PDF pdf = PDF.of(distribution);
     Scalar p = pdf.at(RealScalar.of(3.2));

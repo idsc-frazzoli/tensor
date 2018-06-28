@@ -21,19 +21,19 @@ public class OrthogonalizeTest extends TestCase {
     assertTrue(OrthogonalMatrixQ.of(q));
   }
 
-  public void testSimple1() {
+  public void testMatrix1X3() {
     Tensor matrix = Tensors.fromString("{{1, 0, 1}}");
     assertFalse(OrthogonalMatrixQ.of(matrix));
     _check(matrix);
   }
 
-  public void testSimple2() {
+  public void testMatrix2X3() {
     Tensor matrix = Tensors.fromString("{{1, 0, 1}, {1, 1, 1}}");
     assertFalse(OrthogonalMatrixQ.of(matrix));
     _check(matrix);
   }
 
-  public void testSimple3() {
+  public void testMatrix2X3b() {
     Tensor v0 = Tensors.fromString("{1, 0, 1}");
     Tensor v1 = Tensors.fromString("{0, 1, 0}");
     Tensor matrix = Tensors.of(v0, v1);

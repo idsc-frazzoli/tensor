@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class GeometricDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testPdf() {
     PDF pdf = PDF.of(GeometricDistribution.of(RationalScalar.of(1, 3)));
     assertEquals(pdf.at(RealScalar.ZERO), RationalScalar.of(1, 3));
     assertEquals(pdf.at(RealScalar.of(1)), RationalScalar.of(2, 9));

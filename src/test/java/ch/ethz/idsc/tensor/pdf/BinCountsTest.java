@@ -12,12 +12,12 @@ import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
 
 public class BinCountsTest extends TestCase {
-  public void testSimple() {
+  public void testWidthTwo() {
     Tensor hist = BinCounts.of(Tensors.vector(6, 7, 1, 2, 3, 4, 2), RealScalar.of(2));
     assertEquals(hist, Tensors.fromString("{1, 3, 1, 2}"));
   }
 
-  public void testSimple2() {
+  public void testWidthHalf() {
     Tensor values = Tensors.vector(6, 7, 1, 2, 3, 4, 2);
     Tensor hist = BinCounts.of(values, RationalScalar.of(1, 2));
     assertEquals(hist, Tensors.fromString("{0, 0, 1, 0, 2, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1}"));
@@ -42,34 +42,43 @@ public class BinCountsTest extends TestCase {
 
   public void testNegative() {
     try {
-      assertEquals(BinCounts.of(Tensors.vector(-1e-10), RealScalar.ONE), Tensors.empty());
+      BinCounts.of(Tensors.vector(-1e-10), RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      assertEquals(BinCounts.of(Tensors.vector(-1e-10, -10), RealScalar.ONE), Tensors.empty());
+      BinCounts.of(Tensors.vector(-1e-10, -10), RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      assertEquals(BinCounts.of(Tensors.vector(1, 2, 3, 4, 0, -3, 12, 32), RealScalar.ONE), Tensors.empty());
+      BinCounts.of(Tensors.vector(1, 2, 3, 4, 0, -3, 12, 32), RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
   }
 
-  public void testFail() {
+  public void testFailDomain() {
     try {
-      BinCounts.of(Tensors.vector(-1e-10), RealScalar.of(0.0));
+      BinCounts.of(Tensors.vector(-1e-10), RealScalar.of(1.0));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailWidth() {
+    try {
+      BinCounts.of(Tensors.vector(1, 2), RealScalar.of(0.0)); // zero
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      BinCounts.of(Tensors.vector(-1e-10), RealScalar.of(-.2));
+      BinCounts.of(Tensors.vector(1, 2), RealScalar.of(-.2)); // negative
       assertTrue(false);
     } catch (Exception exception) {
       // ---

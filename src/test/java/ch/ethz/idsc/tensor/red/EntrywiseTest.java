@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import junit.framework.TestCase;
 
 public class EntrywiseTest extends TestCase {
-  public void testSimple() {
+  public void testMax() {
     Entrywise entrywise = Entrywise.with(Max::of);
     Tensor result = entrywise.of( //
         Tensors.vector(3, 2, 3), Tensors.vector(-2, 1, 4), Tensors.vector(-3, 4, 0));

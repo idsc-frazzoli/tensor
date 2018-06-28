@@ -7,12 +7,12 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class StandardNormalDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testZero() {
     Scalar x = StandardNormalDistribution.INSTANCE.at(RealScalar.ZERO);
     assertTrue(x.toString().startsWith("0.398942280"));
   }
 
-  public void testSimple1() {
+  public void testOneSymmetric() {
     Scalar x = StandardNormalDistribution.INSTANCE.at(RealScalar.ONE);
     Scalar xn = StandardNormalDistribution.INSTANCE.at(RealScalar.ONE.negate());
     assertTrue(x.toString().startsWith("0.241970724"));

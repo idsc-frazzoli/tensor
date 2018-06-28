@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ScalarSummaryStatisticsTest extends TestCase {
-  public void testSimple() {
+  public void testMembers() {
     ScalarSummaryStatistics scalarSummaryStatistics = Tensors.vector(1, 4, 2, 8, 3, 10) //
         .stream().parallel().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
     assertEquals(scalarSummaryStatistics.getSum(), RealScalar.of(28));

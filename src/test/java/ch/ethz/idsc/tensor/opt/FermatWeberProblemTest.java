@@ -34,7 +34,7 @@ public class FermatWeberProblemTest extends TestCase {
     assertEquals(fwp.getIterationCount(), 1);
   }
 
-  public void testSimple2() {
+  public void testPoles() {
     Tensor tensor = Tensors.of( //
         Tensors.vector(-1, 0), //
         Tensors.vector(0, 0), //

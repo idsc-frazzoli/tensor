@@ -30,7 +30,7 @@ public class FlattenTest extends TestCase {
     assertEquals(Dimensions.of(Flatten.of(ad)), Arrays.asList(27));
   }
 
-  public void testSimpleMinusOne() {
+  public void testAll() {
     assertEquals(Flatten.of(Tensors.fromString("{{0,1,{{2},3}},{4,5}}")), Range.of(0, 6));
   }
 

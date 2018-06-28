@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class StrictColorDataIndexedTest extends TestCase {
-  public void testSimple() {
+  public void testColors2() {
     Tensor tensor = Tensors.fromString("{{1,2,3,4},{5,6,7,8}}");
     ColorDataIndexed colorDataIndexed = StrictColorDataIndexed.create(tensor);
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.9)), tensor.get(1));
@@ -25,7 +25,7 @@ public class StrictColorDataIndexedTest extends TestCase {
     assertEquals(colorDataIndexed.rescaled(1), ref1);
   }
 
-  public void testSimple3() {
+  public void testColors3() {
     Tensor tensor = Tensors.fromString("{{1,2,3,4},{5,6,7,8},{9,10,11,12}}");
     ColorDataIndexed colorDataIndexed = StrictColorDataIndexed.create(tensor);
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.9)), tensor.get(1));

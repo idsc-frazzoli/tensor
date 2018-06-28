@@ -14,13 +14,13 @@ import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
 
 public class UpperTriangularizeTest extends TestCase {
-  public void testSimple0() {
+  public void testIncludingDiagonal() {
     Tensor matrix = Tensors.fromString("{{1,2,3},{4,5,6},{7,8,9},{9,5,2}}");
     Tensor actual = Tensors.fromString("{{1, 2, 3}, {0, 5, 6}, {0, 0, 9}, {0, 0, 0}}");
     assertEquals(UpperTriangularize.of(matrix), actual);
   }
 
-  public void testSimpleP1() {
+  public void testAboveDiagonal() {
     Tensor matrix = Tensors.fromString("{{1,2,3},{4,5,6},{7,8,9},{9,5,2}}");
     Tensor actual = Tensors.fromString("{{0, 2, 3}, {0, 0, 6}, {0, 0, 0}, {0, 0, 0}}");
     assertEquals(UpperTriangularize.of(matrix, 1), actual);

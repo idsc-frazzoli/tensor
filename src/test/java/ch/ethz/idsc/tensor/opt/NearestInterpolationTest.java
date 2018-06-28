@@ -4,12 +4,10 @@ package ch.ethz.idsc.tensor.opt;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
-import ch.ethz.idsc.tensor.sca.Floor;
 import junit.framework.TestCase;
 
 public class NearestInterpolationTest extends TestCase {
@@ -18,15 +16,9 @@ public class NearestInterpolationTest extends TestCase {
     assertEquals(interpolation.get(Tensors.empty()), Tensors.empty());
   }
 
-  public void testSimple() {
+  public void testStandard() {
     Interpolation interpolation = NearestInterpolation.of(Tensors.vector(10, 20, 30, 40));
     assertEquals(interpolation.get(Tensors.vector(2.8)), RealScalar.of(40));
-    assertEquals(interpolation.get(Tensors.vector(1.1)), RealScalar.of(20));
-  }
-
-  public void testFloor() {
-    Interpolation interpolation = MappedInterpolation.of(Tensors.vector(10, 20, 30, 40), Floor::of);
-    assertEquals(interpolation.get(Tensors.vector(2.8)), RealScalar.of(30));
     assertEquals(interpolation.get(Tensors.vector(1.1)), RealScalar.of(20));
   }
 
@@ -34,30 +26,20 @@ public class NearestInterpolationTest extends TestCase {
     Serialization.copy(NearestInterpolation.of(Tensors.vector(9, 1, 8, 3, 4)));
   }
 
-  public void testFail() {
+  public void testNested() {
+    Tensor index = Tensors.fromString("{2.3}");
+    Interpolation interpolation = MappedInterpolation.of(Tensors.vector(10, 20, 30, 40), s -> index);
+    interpolation.get(Tensors.vector(1));
+  }
+
+  public void testNestedFail() {
+    Tensor index = Tensors.fromString("{{2.3}}");
+    Interpolation interpolation = MappedInterpolation.of(Tensors.vector(10, 20, 30, 40), s -> index);
     try {
-      NearestInterpolation.of(ResourceData.of("/colorscheme_nocan/hue.csv"));
+      interpolation.get(Tensors.vector(1));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
-    }
-  }
-
-  public void testNested() {
-    {
-      Tensor index = Tensors.fromString("{2.3}");
-      Interpolation interpolation = MappedInterpolation.of(Tensors.vector(10, 20, 30, 40), s -> index);
-      interpolation.get(Tensors.vector(1));
-    }
-    {
-      Tensor index = Tensors.fromString("{{2.3}}");
-      Interpolation interpolation = MappedInterpolation.of(Tensors.vector(10, 20, 30, 40), s -> index);
-      try {
-        interpolation.get(Tensors.vector(1));
-        assertTrue(false);
-      } catch (Exception exception) {
-        // ---
-      }
     }
   }
 
@@ -74,5 +56,14 @@ public class NearestInterpolationTest extends TestCase {
     StaticHelper.checkMatch(interpolation);
     StaticHelper.checkMatchExact(interpolation);
     StaticHelper.getScalarFail(interpolation);
+  }
+
+  public void testFailNull() {
+    try {
+      NearestInterpolation.of(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

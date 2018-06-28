@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.red.Variance;
 import junit.framework.TestCase;
 
 public class HypergeometricDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testPdf() {
     PDF pdf = PDF.of(HypergeometricDistribution.of(10, 50, 100));
     Scalar sum = RealScalar.ZERO;
     for (int c = 0; c <= 10; ++c)
