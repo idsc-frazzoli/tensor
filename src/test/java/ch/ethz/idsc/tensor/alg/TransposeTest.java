@@ -173,11 +173,13 @@ public class TransposeTest extends TestCase {
     Transpose.of(LieAlgebras.so3(), 1, 2, 0);
     try {
       Transpose.of(LieAlgebras.so3(), 1, 0);
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
       Transpose.of(LieAlgebras.so3(), 3, 2, 1, 0);
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

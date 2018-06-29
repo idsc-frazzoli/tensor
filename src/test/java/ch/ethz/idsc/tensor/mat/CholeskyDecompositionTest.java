@@ -71,6 +71,7 @@ public class CholeskyDecompositionTest extends TestCase {
   public void testFail1() {
     try {
       checkDecomp(Tensors.fromString("{{4, 2}, {1, 4}}"));
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
@@ -79,6 +80,7 @@ public class CholeskyDecompositionTest extends TestCase {
   public void testFail2() {
     try {
       checkDecomp(Tensors.fromString("{{4, I}, {I, 4}}"));
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

@@ -226,24 +226,4 @@ public class HistogramDistributionTest extends TestCase {
       // ---
     }
   }
-  // private static final Scalar THREE = RealScalar.of(3);
-  //
-  // private Scalar contrib(Scalar a, Scalar mean) {
-  // Scalar diff = a.subtract(mean);
-  // return diff.multiply(diff).add(diff.multiply(width)).add(width.multiply(width).divide(THREE));
-  // }
-  //
-  // @Override // from VarianceInterface
-  // public Scalar variance() {
-  // Scalar m = mean();
-  // EmpiricalDistribution ed = (EmpiricalDistribution) distribution;
-  // Tensor pdf = ed.pdf_table();
-  // Scalar sum = RealScalar.ZERO;
-  // for (int index = 0; index < pdf.length(); ++index)
-  // sum = sum.add(pdf.Get(index).multiply(contrib(original.apply(RealScalar.of(index)), m)));
-  // Scalar cmp = Expectation.variance(distribution).add(RationalScalar.of(1, 12)).multiply(AbsSquared.of(width));
-  // if (!cmp.equals(sum))
-  // TensorRuntimeException.of(cmp, sum).printStackTrace();
-  // return cmp;
-  // }
 }

@@ -31,7 +31,7 @@ public class MappedInterpolation extends AbstractInterpolation {
 
   /* package */ MappedInterpolation(Tensor tensor, TensorUnaryOperator function) {
     this.tensor = Objects.requireNonNull(tensor);
-    this.function = function;
+    this.function = Objects.requireNonNull(function);
   }
 
   @Override // from Interpolation

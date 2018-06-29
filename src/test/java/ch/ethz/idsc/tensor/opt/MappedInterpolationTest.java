@@ -21,4 +21,13 @@ public class MappedInterpolationTest extends TestCase {
       // ---
     }
   }
+
+  public void testFailFunctionNull() {
+    try {
+      MappedInterpolation.of(Tensors.vector(3, 4, 5), null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

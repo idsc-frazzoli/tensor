@@ -30,14 +30,12 @@ public class ColorDataGradientsTest extends TestCase {
     assertTrue(Chop.NONE.allZero(ColorDataGradients.GRAYSCALE.apply(scalar)));
   }
 
-  public void testUnmodifiable() {
-    Tensor copy = ColorDataGradients.CLASSIC.apply(DoubleScalar.INDETERMINATE);
-    try {
-      ColorDataGradients.CLASSIC.apply(DoubleScalar.INDETERMINATE).set(Increment.ONE, 1);
-    } catch (Exception exception) {
-      // ---
-    }
-    assertEquals(copy, ColorDataGradients.CLASSIC.apply(DoubleScalar.INDETERMINATE));
+  public void testUnmodified() {
+    Scalar nan = DoubleScalar.INDETERMINATE;
+    Tensor copy = ColorDataGradients.CLASSIC.apply(nan);
+    ColorDataGradients.CLASSIC.apply(nan).set(Increment.ONE, 1);
+    assertEquals(copy, ColorDataGradients.CLASSIC.apply(nan));
+    assertTrue(Chop.NONE.allZero(ColorDataGradients.CLASSIC.apply(nan)));
   }
 
   public void testFail() {

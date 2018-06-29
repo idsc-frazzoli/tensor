@@ -39,8 +39,7 @@ public class Rationalize implements ScalarUnaryOperator {
   private final Scalar max;
 
   private Rationalize(Scalar max) {
-    IntegerQ.require(max);
-    this.max = Sign.requirePositive(max);
+    this.max = Sign.requirePositive(IntegerQ.require(max));
   }
 
   /* find rational approximation to given real number
