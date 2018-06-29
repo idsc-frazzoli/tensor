@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class BooleanScalarTest extends TestCase {
-  public void testSimple() {
+  public void testString() {
     Tensor logical = Tensors.of(BooleanScalar.of(true), BooleanScalar.of(false));
     assertEquals(logical.toString(), "{true, false}");
   }

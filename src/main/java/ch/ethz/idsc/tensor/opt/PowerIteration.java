@@ -13,6 +13,9 @@ import ch.ethz.idsc.tensor.sca.Chop;
  * https://en.wikipedia.org/wiki/Power_iteration */
 public enum PowerIteration {
   ;
+  /** max iterations are */
+  private static final int FACTOR = 15;
+
   /** @param m
    * @return Eigenvector to the largest eigenvalue (with high probability) */
   public static Tensor of(Tensor m) {
@@ -23,7 +26,7 @@ public enum PowerIteration {
    * @param x
    * @return Eigenvector to the largest eigenvalue if x is not already Eigenvector */
   public static Tensor of(Tensor m, Tensor x) {
-    final int max = m.length() * 15;
+    final int max = m.length() * FACTOR;
     for (int iteration = 0; iteration < max; ++iteration) {
       final Tensor prev = x;
       x = Normalize.of(m.dot(x));

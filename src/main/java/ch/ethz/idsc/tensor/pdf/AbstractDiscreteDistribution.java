@@ -24,10 +24,7 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
 
   @Override // from PDF
   public final Scalar at(Scalar x) {
-    if (!IntegerQ.of(x))
-      return RealScalar.ZERO;
-    int n = Scalars.intValueExact(x);
-    return p_equals(n);
+    return IntegerQ.of(x) ? p_equals(Scalars.intValueExact(x)) : RealScalar.ZERO;
   }
 
   @Override // from DiscreteDistribution

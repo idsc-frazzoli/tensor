@@ -13,29 +13,25 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class RamerDouglasPeuckerTest extends TestCase {
-  public void testSimple0() {
+  public void testEmpty() {
     Tensor mat = Tensors.empty();
     assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
   }
 
-  public void testSimple1() {
+  public void testPoints1() {
     Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 } });
     assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
   }
 
-  public void testSimple2() {
+  public void testPoints2() {
     Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 }, { 5, 2 } });
     assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
   }
 
-  public void testSimple3a() {
+  public void testPoints3() {
     Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 }, { 3, 2 }, { 5, 2 } });
     assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), //
         Tensors.matrixInt(new int[][] { { 1, 1 }, { 5, 2 } }));
-  }
-
-  public void testSimple3b() {
-    Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 }, { 3, 2 }, { 5, 2 } });
     assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(.1)), mat);
   }
 

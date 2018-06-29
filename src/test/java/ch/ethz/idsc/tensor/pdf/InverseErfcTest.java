@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 public class InverseErfcTest extends TestCase {
   public static final Chop CHOP_04 = Chop.below(1.4e-04);
 
-  public void testSimple() {
+  public void testInverseCDFAtMean() {
     InverseCDF icdf = (InverseCDF) NormalDistribution.of(2, 8);
     Scalar phi = icdf.quantile(RealScalar.of(0.5));
     assertEquals(phi, RealScalar.of(2));

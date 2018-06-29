@@ -13,7 +13,7 @@ public class UnitHelperTest extends TestCase {
     }
   }
 
-  public void testSimple() {
+  public void testLookup() {
     UnitHelper.MEMO.lookup("A*kg^-1*s^2");
     UnitHelper.MEMO.lookup("HaqiuytasdMAM");
     UnitHelper.MEMO.lookup("HaqiuytasdMAM*ASsdlfkjhKJG");

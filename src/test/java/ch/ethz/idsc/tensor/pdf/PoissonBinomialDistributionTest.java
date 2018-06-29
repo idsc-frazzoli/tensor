@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.red.Variance;
 import junit.framework.TestCase;
@@ -37,6 +38,12 @@ public class PoissonBinomialDistributionTest extends TestCase {
   public void testFail() {
     try {
       PoissonBinomialDistribution.of(RealScalar.ZERO);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      PoissonBinomialDistribution.of(IdentityMatrix.of(3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class ViewTensorTest extends TestCase {
-  public void testSimple() {
+  public void testBlock() {
     Tensor array = Array.zeros(5, 5);
     Tensor refs = Unprotect.references(array);
     refs.block(Arrays.asList(1, 2), Arrays.asList(2, 3)).set(Increment.ONE, Tensor.ALL, Tensor.ALL);

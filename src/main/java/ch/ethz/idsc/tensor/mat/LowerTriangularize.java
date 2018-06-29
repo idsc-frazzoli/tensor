@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
@@ -26,7 +25,7 @@ public enum LowerTriangularize {
    * @param k
    * @return */
   public static Tensor of(Tensor matrix, int k) {
-    return Tensors.matrix((i, j) -> j - i <= k ? matrix.get(i, j) : RealScalar.ZERO, //
+    return Tensors.matrix((i, j) -> j - i <= k ? matrix.Get(i, j) : matrix.Get(i, j).zero(), //
         matrix.length(), Unprotect.dimension1(matrix));
   }
 }

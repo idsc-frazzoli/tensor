@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import junit.framework.TestCase;
 
 public class SizeTest extends TestCase {
-  public void testSimple() {
+  public void testIndexOf() {
     Size size = Size.of(new int[] { 4, 2, 3 });
     // System.out.println(size.toString());
     assertEquals(size.indexOf(MultiIndex.of(0, 0, 0)), 0);

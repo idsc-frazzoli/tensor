@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class MapThreadTest extends TestCase {
-  public void testSimple() {
+  public void testEmptyPositive() {
     assertEquals(MapThread.of(l -> l.get(0), Collections.emptyList(), 1), Tensors.empty());
     assertEquals(MapThread.of(l -> l.get(0), Collections.emptyList(), 2), Tensors.empty());
     try {
@@ -22,7 +22,7 @@ public class MapThreadTest extends TestCase {
     }
   }
 
-  public void testSome() {
+  public void testEmptyZero() {
     Tensor result = MapThread.of(l -> ComplexScalar.I, Collections.emptyList(), 0);
     assertEquals(ComplexScalar.I, result);
   }

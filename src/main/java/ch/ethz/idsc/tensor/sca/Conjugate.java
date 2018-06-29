@@ -11,7 +11,9 @@ import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
  * in order for the operation to succeed.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Conjugate.html">Conjugate</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Conjugate.html">Conjugate</a>
+ * 
+ * @see ConjugateTranspose */
 public enum Conjugate implements ScalarUnaryOperator {
   FUNCTION;
   // ---
@@ -24,11 +26,8 @@ public enum Conjugate implements ScalarUnaryOperator {
     throw TensorRuntimeException.of(scalar);
   }
 
-  /** see also {@link ConjugateTranspose}
-   * 
-   * @param tensor
-   * @return tensor with all entries conjugated
-   * @see ConjugateTranspose */
+  /** @param tensor
+   * @return tensor with all entries conjugated */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(FUNCTION);

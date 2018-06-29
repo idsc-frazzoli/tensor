@@ -17,12 +17,12 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class PowerTest extends TestCase {
-  public void testSimple() {
+  public void testInteger() {
     assertEquals(Power.of(2, 4), RealScalar.of(16));
     assertEquals(Power.of(-4, 5), RealScalar.of(-1024));
   }
 
-  public void testZero() {
+  public void testExponentZero() {
     assertEquals(Power.of(+2, 0), RealScalar.ONE);
     assertEquals(Power.of(+1, 0), RealScalar.ONE);
     assertEquals(Power.of(+0, 0), RealScalar.ONE);
@@ -40,13 +40,13 @@ public class PowerTest extends TestCase {
     assertEquals(Power.of(14, .5), Sqrt.of(RealScalar.of(14)));
   }
 
-  public void testPowerZero() {
+  public void testZero() {
     assertEquals(Power.of(0, +0), RealScalar.ONE);
     assertEquals(Power.of(0, +1), RealScalar.ZERO);
     assertEquals(Power.of(0, +2), RealScalar.ZERO);
   }
 
-  public void testPowerZeroFail() {
+  public void testZeroFail() {
     try {
       Power.of(0, -2);
       assertTrue(false);
@@ -55,12 +55,12 @@ public class PowerTest extends TestCase {
     }
   }
 
-  public void testPowerZeroComplex() {
+  public void testZeroComplex() {
     assertEquals(Power.of(RealScalar.ZERO, Scalars.fromString("0.1+3*I")), RealScalar.ZERO);
     assertEquals(Power.of(RealScalar.ZERO, Scalars.fromString("0.1-3*I/2")), RealScalar.ZERO);
   }
 
-  public void testPowerZeroComplexFail() {
+  public void testZeroComplexFail() {
     try {
       Power.of(RealScalar.ZERO, ComplexScalar.I);
       assertTrue(false);

@@ -12,9 +12,9 @@ import ch.ethz.idsc.tensor.Tensors;
   public static Size of(int... dims) {
     return new Size(Arrays.copyOf(dims, dims.length));
   }
+  // ---
 
-  /***************************************************/
-  final int[] size;
+  private final int[] size;
   private final int[] prod;
 
   /** @param dims
@@ -29,7 +29,7 @@ import ch.ethz.idsc.tensor.Tensors;
   }
 
   public Size permute(int... sigma) {
-    return new Size(MultiIndex.static_permute(size, sigma));
+    return new Size(StaticHelper.static_permute(size, sigma));
   }
 
   public Size permute(Integer... sigma) {
@@ -41,6 +41,10 @@ import ch.ethz.idsc.tensor.Tensors;
     for (int index = 0; index < prod.length; ++index)
       pos += prod[index] * multiIndex.at(index);
     return pos;
+  }
+
+  public int size(int index) {
+    return size[index];
   }
 
   @Override

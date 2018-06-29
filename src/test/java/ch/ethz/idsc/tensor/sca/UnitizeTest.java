@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class UnitizeTest extends TestCase {
-  public void testSimple() {
+  public void testVector() {
     Tensor res = Unitize.of(Tensors.vector(0, 0, 1e-3, -3, Double.NaN, 0));
     assertEquals(res, Tensors.vector(0, 0, 1, 1, 1, 0));
   }

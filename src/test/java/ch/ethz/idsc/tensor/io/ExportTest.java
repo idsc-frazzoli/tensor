@@ -99,7 +99,7 @@ public class ExportTest extends TestCase {
 
   public void testFail() {
     try {
-      Export.of(new File("ajshgd.ueyghasfd"), Tensors.empty());
+      Export.of(new File("ethz.idsc"), Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 public class InverseErfTest extends TestCase {
   public static final Chop CHOP_04 = Chop.below(1e-04);
 
-  public void testSimple() {
+  public void testSymmetry() {
     Scalar v1 = InverseErf.FUNCTION.apply(RealScalar.of(.3));
     assertTrue(CHOP_04.close(v1, RealScalar.of(0.2724627147267544)));
     Scalar v2 = InverseErf.FUNCTION.apply(RealScalar.of(-.3));

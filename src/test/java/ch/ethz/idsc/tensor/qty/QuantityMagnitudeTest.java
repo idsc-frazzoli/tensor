@@ -10,12 +10,12 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class QuantityMagnitudeTest extends TestCase {
-  public void testSimple() {
+  public void testInUnit() {
     Scalar scalar = QuantityMagnitude.SI().in(Unit.of("K*m^2")).apply(Quantity.of(2, "K*km^2"));
     assertEquals(scalar, RealScalar.of(2_000_000));
   }
 
-  public void testSimpleString() {
+  public void testInString() {
     Scalar scalar = QuantityMagnitude.SI().in("K*m^2*s").apply(Quantity.of(2, "K*km^2*s"));
     assertEquals(scalar, RealScalar.of(2_000_000));
   }

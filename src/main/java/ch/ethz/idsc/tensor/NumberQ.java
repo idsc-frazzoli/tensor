@@ -26,12 +26,13 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * For instance, {@link ComplexScalar#number()} throws an exception.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/NumberQ.html">NumberQ</a> */
+ * <a href="https://reference.wolfram.com/language/ref/NumberQ.html">NumberQ</a>
+ * 
+ * @see ExactScalarQ
+ * @see IntegerQ */
 public enum NumberQ {
   ;
-  /** see description above
-   * 
-   * @param tensor
+  /** @param tensor
    * @return */
   public static boolean of(Tensor tensor) {
     if (tensor instanceof ComplexScalar) {
@@ -41,6 +42,15 @@ public enum NumberQ {
     if (tensor instanceof Quantity)
       return false;
     return MachineNumberQ.of(tensor) || ExactScalarQ.of(tensor);
+  }
+
+  /** @param scalar
+   * @return given scalar
+   * @throws Exception if given scalar does not satisfy {@link #of(Tensor)} */
+  public static Scalar require(Scalar scalar) {
+    if (of(scalar))
+      return scalar;
+    throw TensorRuntimeException.of(scalar);
   }
 
   /** @param tensor

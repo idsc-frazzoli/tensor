@@ -17,9 +17,10 @@ import ch.ethz.idsc.tensor.sca.Round;
  * {@link Floor#of(Tensor)}
  * {@link Ceiling#of(Tensor)} */
 public class MappedInterpolation extends AbstractInterpolation {
-  /** @param tensor
+  /** @param tensor non-null
    * @param function
-   * @return */
+   * @return
+   * @throws Exception if given tensor is null */
   public static Interpolation of(Tensor tensor, TensorUnaryOperator function) {
     return new MappedInterpolation(tensor, function);
   }
@@ -30,7 +31,7 @@ public class MappedInterpolation extends AbstractInterpolation {
 
   /* package */ MappedInterpolation(Tensor tensor, TensorUnaryOperator function) {
     this.tensor = Objects.requireNonNull(tensor);
-    this.function = function;
+    this.function = Objects.requireNonNull(function);
   }
 
   @Override // from Interpolation

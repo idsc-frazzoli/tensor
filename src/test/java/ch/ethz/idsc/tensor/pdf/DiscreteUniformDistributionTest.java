@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.sca.Clip;
 import junit.framework.TestCase;
 
 public class DiscreteUniformDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testPdf() {
     Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(11));
     PDF pdf = PDF.of(distribution);
     Scalar prob = pdf.at(RealScalar.of(4));

@@ -9,7 +9,7 @@ import java.math.RoundingMode;
 import junit.framework.TestCase;
 
 public class BigDecimalTest extends TestCase {
-  public void testSimple() {
+  public void testPrecision() {
     BigDecimal value = new BigDecimal(new BigInteger("12333"), new MathContext(100, RoundingMode.HALF_EVEN));
     value = new BigDecimal("12333", new MathContext(100, RoundingMode.HALF_EVEN));
     value.precision();

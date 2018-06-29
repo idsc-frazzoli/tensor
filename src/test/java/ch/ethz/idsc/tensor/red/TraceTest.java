@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -42,19 +43,25 @@ public class TraceTest extends TestCase {
     }
   }
 
-  public void testSimple() {
-    int n = 10;
-    Tensor eye = IdentityMatrix.of(n);
-    Tensor red = Trace.of(eye, 0, 1);
-    assertEquals(red, RealScalar.of(n));
+  public void testIdentityMatrix() {
+    for (int n = 3; n < 8; ++n)
+      assertEquals(Trace.of(IdentityMatrix.of(n), 0, 1), RealScalar.of(n));
+  }
+
+  public void testMatrix1X1() {
+    assertEquals(Trace.of(Tensors.fromString("{{3+2*I}}")), ComplexScalar.of(3, 2));
   }
 
   public void testEmpty() {
-    // mathematica gives 0 == Tr[{{}}]
-    Tensor empty = Tensors.fromString("{{}}");
     try {
-      Tensor result = Trace.of(empty);
-      System.out.println(result);
+      Trace.of(Tensors.empty()); // mathematica gives 0 == Tr[{}]
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Trace.of(Tensors.fromString("{{}}")); // mathematica gives 0 == Tr[{{}}]
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

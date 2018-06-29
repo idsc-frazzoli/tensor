@@ -5,7 +5,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Range;
 
-/** ordering of coefficients is <em>reversed</em> compared to
+/** FOR TESTING
+ * 
+ * ordering of coefficients is <em>reversed</em> compared to
  * MATLAB::polyval, MATLAB::polyfit, etc. ! */
 enum Multinomial {
   ;
@@ -16,7 +18,6 @@ enum Multinomial {
    * 
    * @param coeffs
    * @return coefficients of polynomial that is the derivative of the polynomial defined by given coeffs */
-  // API not final
   public static Tensor derivative(Tensor coeffs) {
     int length = coeffs.length();
     return length == 0 //

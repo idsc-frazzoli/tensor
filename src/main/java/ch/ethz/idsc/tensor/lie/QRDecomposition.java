@@ -6,12 +6,10 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** QRDecomposition is not consistent with Mathematica.
  * 
- * The tensor library factors a matrix m
+ * <p>The tensor library factors a matrix m
  * {q, r} = Tensor::QRDecomposition[m] such that q.r == m.
  * whereas in Mathematica:
  * {q, r} = Mathematica::QRDecomposition[m] and then ConjugateTranspose[q].r == m.
- * 
- * The tensor library API may change in the future.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/QRDecomposition.html">QRDecomposition</a> */

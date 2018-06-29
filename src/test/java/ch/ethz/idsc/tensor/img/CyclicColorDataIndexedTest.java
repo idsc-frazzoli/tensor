@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class CyclicColorDataIndexedTest extends TestCase {
-  public void testSimple() {
+  public void testCustom() {
     Tensor tensor = Tensors.fromString("{{1,2,3,4},{5,6,7,8}}");
     ColorDataIndexed colorDataIndexed = CyclicColorDataIndexed.create(tensor);
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.9 - 20)), tensor.get(1));

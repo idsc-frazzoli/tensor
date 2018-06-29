@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class UnitStepTest extends TestCase {
-  public void testSimple() {
+  public void testRealScalar() {
     assertEquals(UnitStep.of(RealScalar.of(-.3)), RealScalar.ZERO);
     assertEquals(UnitStep.of(RealScalar.of(0)), RealScalar.ONE);
     assertEquals(UnitStep.of(RealScalar.of(.134)), RealScalar.ONE);

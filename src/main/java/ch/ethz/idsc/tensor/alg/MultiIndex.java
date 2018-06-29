@@ -11,15 +11,8 @@ import ch.ethz.idsc.tensor.Tensors;
   static MultiIndex of(int... dims) {
     return new MultiIndex(Arrays.copyOf(dims, dims.length));
   }
+  // ---
 
-  static int[] static_permute(int[] size, int[] sigma) {
-    int[] dims = new int[size.length];
-    for (int index = 0; index < size.length; ++index)
-      dims[sigma[index]] = size[index];
-    return dims;
-  }
-
-  /***************************************************/
   /** the content of size[] is not changed after construction */
   private final int[] size;
 
@@ -40,7 +33,7 @@ import ch.ethz.idsc.tensor.Tensors;
    * @param sigma
    * @return */
   public MultiIndex permute(int... sigma) {
-    return new MultiIndex(static_permute(size, sigma));
+    return new MultiIndex(StaticHelper.static_permute(size, sigma));
   }
 
   @Override

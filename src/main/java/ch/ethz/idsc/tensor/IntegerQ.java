@@ -3,8 +3,17 @@ package ch.ethz.idsc.tensor;
 
 /** implementation consistent with Mathematica
  * 
+ * <p>Examples:
+ * <pre>
+ * IntegerQ.of(RationalScalar.of(7, 1)) == true
+ * IntegerQ.of(RationalScalar.of(7, 2)) == false
+ * IntegerQ.of(DoubleScalar.of(7)) == false
+ * </pre>
+ * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/IntegerQ.html">IntegerQ</a> */
+ * <a href="https://reference.wolfram.com/language/ref/IntegerQ.html">IntegerQ</a>
+ * 
+ * @see ExactScalarQ */
 public enum IntegerQ {
   ;
   /** @param tensor
@@ -13,11 +22,12 @@ public enum IntegerQ {
     return tensor instanceof RationalScalar && ((RationalScalar) tensor).isInteger();
   }
 
-  /** @param tensor
-   * @throws Exception if given tensor is not a vector */
-  public static Tensor require(Tensor tensor) {
-    if (of(tensor))
-      return tensor;
-    throw TensorRuntimeException.of(tensor);
+  /** @param scalar
+   * @return given scalar
+   * @throws Exception if given scalar is not an integer in exact precision */
+  public static Scalar require(Scalar scalar) {
+    if (of(scalar))
+      return scalar;
+    throw TensorRuntimeException.of(scalar);
   }
 }

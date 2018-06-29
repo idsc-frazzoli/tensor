@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.red.Tally;
 import junit.framework.TestCase;
 
 public class BinomialDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testPdf() {
     Distribution distribution = BinomialDistribution.of(10, RationalScalar.of(1, 7));
     PDF pdf = PDF.of(distribution);
     Scalar prob = RealScalar.ZERO;

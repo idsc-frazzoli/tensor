@@ -7,6 +7,10 @@ import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -98,6 +102,21 @@ public class ArcTanTest extends TestCase {
       Scalar res = ArcTan.of(qs1, qs0);
       assertTrue(res instanceof RealScalar);
       assertTrue(Chop._10.allZero(res));
+    }
+  }
+
+  public void testAntiSymmetry() {
+    Distribution distribution = NormalDistribution.standard();
+    Distribution scaling = UniformDistribution.of(0.1, 2);
+    for (int count = 0; count < 10; ++count) {
+      Scalar x = RandomVariate.of(distribution);
+      Scalar y = RandomVariate.of(distribution);
+      Scalar lambda = RandomVariate.of(scaling);
+      Scalar v1 = ArcTan.of(x, y);
+      Scalar v2 = ArcTan.of(x, y.negate());
+      Scalar v3 = ArcTan.of(x.multiply(lambda), y.multiply(lambda));
+      assertEquals(v1, v2.negate());
+      assertTrue(Chop._10.close(v1, v3));
     }
   }
 

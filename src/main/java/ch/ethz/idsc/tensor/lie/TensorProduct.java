@@ -8,8 +8,7 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
  * <a href="https://reference.wolfram.com/language/ref/TensorProduct.html">TensorProduct</a> */
 public enum TensorProduct {
   ;
-  /** the {@link TensorRank} of the result is the
-   * rank of {@code a} plus the rank of {@code b}
+  /** the {@link TensorRank} of the result is the rank of {@code a} plus the rank of {@code b}
    * 
    * @param a
    * @param b

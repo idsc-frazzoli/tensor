@@ -120,27 +120,18 @@ public class TransposeTest extends TestCase {
     assertEquals(copy[2], 6);
   }
 
-  public void testSimple1() {
+  public void testFirstDimensions() {
     Tensor randn = RandomVariate.of(NormalDistribution.standard(), 3, 4, 5);
     assertEquals(_checkBoth(randn, 0, 1, 2), randn);
     Tensor trans = _checkBoth(randn, 1, 0, 2);
     assertEquals(trans, Transpose.of(randn));
   }
 
-  public void testSimple2() {
+  public void testComparison() {
     Tensor randn = RandomVariate.of(NormalDistribution.standard(), 6, 5, 8);
-    long tic;
-    // ---
-    tic = System.nanoTime();
     Tensor array = Transpose.nonArray(randn, 1, 2, 0);
-    // System.out.println((System.nanoTime() - tic) * 1e-9);
-    // ---
-    tic = System.nanoTime();
     Tensor trans = Transpose.of(randn, 1, 2, 0);
-    // System.out.println((System.nanoTime() - tic) * 1e-9);
-    // ---
     assertEquals(trans, array);
-    tic = tic + 0;
   }
 
   public void testIncomplete() {
@@ -182,11 +173,13 @@ public class TransposeTest extends TestCase {
     Transpose.of(LieAlgebras.so3(), 1, 2, 0);
     try {
       Transpose.of(LieAlgebras.so3(), 1, 0);
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
       Transpose.of(LieAlgebras.so3(), 3, 2, 1, 0);
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }

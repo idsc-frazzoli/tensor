@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class CotTest extends TestCase {
-  public void testSimple() {
+  public void testReal() {
     Scalar scalar = RealScalar.of(1.23);
     Scalar res = Cot.FUNCTION.apply(scalar);
     assertTrue(Chop._12.close(res, RealScalar.of(0.3546331016766021)));

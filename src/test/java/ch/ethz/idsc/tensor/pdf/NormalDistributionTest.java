@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class NormalDistributionTest extends TestCase {
-  public void testSimple() {
+  public void testExpectationMean() {
     Scalar mean = RationalScalar.of(3, 5);
     Distribution distribution = NormalDistribution.of(mean, RationalScalar.of(4, 9));
     assertEquals(Expectation.mean(distribution), mean);

@@ -29,7 +29,7 @@ public class PoissonDistributionTest extends TestCase {
     assertTrue(pdf.at(RealScalar.of(3)).toString().startsWith("0.18044"));
   }
 
-  public void testSimple() {
+  public void testConvergence() {
     Distribution distribution = PoissonDistribution.of(RealScalar.of(2));
     PDF pdf = PDF.of(distribution);
     Tensor prob = values(pdf, 16);

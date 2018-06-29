@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import junit.framework.TestCase;
 
 public class GetTest extends TestCase {
-  public void testSimple() throws IOException {
+  public void testResource() throws IOException {
     File file = new File(getClass().getResource("/io/basic.mathematica").getFile());
     Tensor tensor = Get.of(file);
     assertTrue(Objects.nonNull(tensor));

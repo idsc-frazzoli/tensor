@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
-  public void testSimple() {
+  public void testRealFinite() {
     assertTrue(NumberQ.of(RealScalar.of(0.)));
     assertTrue(NumberQ.of(RealScalar.ZERO));
   }
@@ -54,5 +54,19 @@ public class NumberQTest extends TestCase {
   public void testAll() {
     assertTrue(NumberQ.all(Tensors.fromString("{1, 3}")));
     assertFalse(NumberQ.all(Tensors.fromString("{1, 3[m]}")));
+  }
+
+  public void testRequire() {
+    Scalar scalar = NumberQ.require(RealScalar.of(123.456));
+    assertEquals(scalar, RealScalar.of(123.456));
+  }
+
+  public void testRequireFail() {
+    try {
+      NumberQ.require(Quantity.of(6, "apples"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

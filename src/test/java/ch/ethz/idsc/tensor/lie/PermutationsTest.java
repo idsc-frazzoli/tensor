@@ -12,14 +12,14 @@ public class PermutationsTest extends TestCase {
     assertEquals(Permutations.of(Tensors.vector()), Tensors.fromString("{{}}")); // 0! == 1
   }
 
-  public void testSimple() {
+  public void testThree() {
     Tensor res = Permutations.of(Tensors.vector(1, 2, 3));
     assertEquals(res.get(0), Tensors.vector(1, 2, 3));
     assertEquals(res.get(1), Tensors.vector(1, 3, 2));
     assertEquals(res.length(), 6);
   }
 
-  public void testSimple32() {
+  public void testThree2() {
     Tensor res = Permutations.of(Tensors.vector(1, 2, 1));
     // System.out.println(res);
     assertEquals(res.get(0), Tensors.vector(1, 2, 1));
@@ -28,12 +28,12 @@ public class PermutationsTest extends TestCase {
     assertEquals(res.length(), 3);
   }
 
-  public void testSimple31() {
+  public void testThree1() {
     Tensor res = Permutations.of(Tensors.vector(1, 1, 1));
     assertEquals(res.length(), 1);
   }
 
-  public void testSimple42() {
+  public void testFour2() {
     Tensor res = Permutations.of(Tensors.vector(2, -1, 2, -1));
     assertEquals(res.get(0), Tensors.vector(2, -1, 2, -1));
     assertEquals(res.get(1), Tensors.vector(2, -1, -1, 2));

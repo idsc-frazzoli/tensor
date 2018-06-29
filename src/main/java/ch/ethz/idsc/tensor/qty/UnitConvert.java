@@ -18,7 +18,8 @@ public class UnitConvert {
 
   private final UnitSystem unitSystem;
 
-  /** @param unitSystem */
+  /** @param unitSystem
+   * @throws Exception if given {@link UnitSystem} is null */
   public UnitConvert(UnitSystem unitSystem) {
     this.unitSystem = Objects.requireNonNull(unitSystem);
   }

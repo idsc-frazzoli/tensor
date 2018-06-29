@@ -2,7 +2,6 @@
 // adapted by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,7 +27,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * The algorithm finds all vertices of the convex hull ordered along its boundary.
  * It uses a stack to detect and remove concavities in the boundary efficiently.
  * 
- * https://en.wikipedia.org/wiki/Graham_scan */
+ * <a href="https://en.wikipedia.org/wiki/Graham_scan">Graham scan</a> */
 /* package */ enum GrahamScan {
   ;
   private static final Comparator<Tensor> MINY_MINX = new Comparator<Tensor>() {
@@ -39,9 +38,9 @@ import ch.ethz.idsc.tensor.sca.Sign;
     }
   };
 
-  /** The Java API recommends to use ArrayDeque instead of Stack. However,
+  /* The Java API recommends to use ArrayDeque instead of Stack. However,
    * in the implementation of GrahamScan, we can't conveniently exchange Stack
-   * and ArrayDeque because {@link ArrayDeque#stream()} reverses the order.
+   * and ArrayDeque because ArrayDeque#stream() reverses the order.
    * GrahamScan is used in several applications. No performance issues were
    * reported so far. */
   static Tensor of(Stream<Tensor> stream, Chop chop) {

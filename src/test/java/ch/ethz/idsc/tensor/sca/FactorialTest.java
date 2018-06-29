@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class FactorialTest extends TestCase {
-  public void testSimple() {
+  public void testRealScalar() {
     assertEquals(Factorial.of(RealScalar.of(0)), RealScalar.of(1));
     assertEquals(Factorial.of(RealScalar.of(1)), RealScalar.of(1));
     assertEquals(Factorial.of(RealScalar.of(2)), RealScalar.of(2));

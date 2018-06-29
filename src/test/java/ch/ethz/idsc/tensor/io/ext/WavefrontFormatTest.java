@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.red.Max;
 import junit.framework.TestCase;
 
 public class WavefrontFormatTest extends TestCase {
-  public void testSimple() throws IOException {
+  public void testBlender0() throws IOException {
     String string = getClass().getResource("/io/ext/blender0.obj").getPath();
     Wavefront wavefront = WavefrontFormat.parse(Files.readAllLines(Paths.get(string)).stream());
     assertEquals(wavefront.objects().size(), 2);

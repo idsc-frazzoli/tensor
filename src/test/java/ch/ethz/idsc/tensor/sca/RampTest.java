@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class RampTest extends TestCase {
-  public void testSimple() {
+  public void testRealScalar() {
     assertEquals(Ramp.of(RealScalar.ZERO), RealScalar.ZERO);
     assertEquals(Ramp.FUNCTION.apply(RealScalar.of(-6)), RealScalar.ZERO);
     assertEquals(Ramp.of(RealScalar.of(26)), RealScalar.of(26));

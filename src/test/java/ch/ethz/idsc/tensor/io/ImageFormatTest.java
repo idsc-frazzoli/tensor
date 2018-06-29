@@ -30,14 +30,14 @@ public class ImageFormatTest extends TestCase {
     assertEquals(image.get(32, 0), Tensors.vector(126, 120, 94, 255));
   }
 
-  public void testSimpleGray() {
+  public void testGray() {
     Distribution distribution = DiscreteUniformDistribution.of(0, 256);
     Tensor image = RandomVariate.of(distribution, 100, 200);
     Tensor bimap = ImageFormat.from(ImageFormat.of(image));
     assertEquals(image, bimap);
   }
 
-  public void testSimpleColor() {
+  public void testColor() {
     Distribution distribution = DiscreteUniformDistribution.of(0, 256);
     Tensor image = RandomVariate.of(distribution, 100, 200, 4);
     Tensor bimap = ImageFormat.from(ImageFormat.of(image));

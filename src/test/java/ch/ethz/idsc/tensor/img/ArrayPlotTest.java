@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import junit.framework.TestCase;
 
 public class ArrayPlotTest extends TestCase {
-  public void testSimple() {
+  public void testSmall() {
     Tensor matrix = Tensors.fromString("{{0,.1}}");
     Tensor image = ArrayPlot.of(matrix, ColorDataGradients.CLASSIC);
     assertEquals(Dimensions.of(image), Arrays.asList(1, 2, 4));

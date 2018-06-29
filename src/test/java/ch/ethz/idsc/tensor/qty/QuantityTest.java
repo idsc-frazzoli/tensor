@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.io.StringScalar;
 import junit.framework.TestCase;
 
 public class QuantityTest extends TestCase {
-  public void testSimple() {
+  public void testFromString() {
     assertTrue(Scalars.fromString("-7[m*kg^-2]") instanceof Quantity);
     assertTrue(Scalars.fromString("3 [ m ]") instanceof Quantity);
     assertTrue(Scalars.fromString("3 [ m *rad ]  ") instanceof Quantity);
@@ -43,7 +43,7 @@ public class QuantityTest extends TestCase {
     assertTrue(Scalars.fromString("-7[m*kg^-2") instanceof StringScalar);
   }
 
-  public void testFromString() {
+  public void testFromStringComplex() {
     Quantity quantity = (Quantity) Scalars.fromString("(-7+3*I)[kg^-2*m*s]");
     Scalar scalar = quantity.value();
     assertEquals(scalar, ComplexScalar.of(-7, 3));

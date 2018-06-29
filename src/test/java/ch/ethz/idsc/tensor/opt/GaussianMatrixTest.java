@@ -23,7 +23,7 @@ public class GaussianMatrixTest extends TestCase {
     assertEquals(Reverse.of(matrix), matrix);
   }
 
-  public void testSimple() {
+  public void testSmall() {
     for (int index = 1; index < 5; ++index)
       _check(index);
   }
@@ -31,6 +31,12 @@ public class GaussianMatrixTest extends TestCase {
   public void testFail() {
     try {
       GaussianMatrix.of(0);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      GaussianMatrix.of(-1);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

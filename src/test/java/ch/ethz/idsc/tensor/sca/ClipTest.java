@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ClipTest extends TestCase {
-  public void testSimple() {
+  public void testApply() {
     Scalar min = RealScalar.of(-3);
     Scalar max = RealScalar.of(10);
     Clip clip = Clip.function(min, max);

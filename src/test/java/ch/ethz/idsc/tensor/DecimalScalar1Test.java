@@ -17,7 +17,7 @@ public class DecimalScalar1Test extends TestCase {
     assertEquals(RealScalar.ZERO, DecimalScalar.of(BigDecimal.ZERO));
   }
 
-  public void testSimple() {
+  public void testAddMultiply() {
     BigDecimal d = BigDecimal.ONE;
     Scalar sc1 = DecimalScalar.of(d);
     Scalar sc2 = sc1.add(sc1);

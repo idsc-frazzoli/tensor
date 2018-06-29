@@ -19,6 +19,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * Trace.of[{1,2,3}] == undefined
  * <li>Mathematica::Tr[{{}}] == 0 whereas
  * Tensor::Trace[{{}}, 0, 1] throws an exception.
+ * <li>Mathematica::Tr[{}] == 0 whereas
+ * Tensor::Trace[{}, 0, 1] throws an exception.
  * </ul>
  * 
  * <p>inspired by
@@ -61,7 +63,8 @@ public enum Trace {
   }
 
   /** @param matrix
-   * @return */
+   * @return
+   * @throws Exception if input is not a matrix */
   public static Scalar of(Tensor matrix) {
     return of(matrix, 0, 1).Get();
   }

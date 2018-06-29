@@ -29,7 +29,8 @@ import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
  * 
  * <p>Identical to Mathematica::Exact"Number"Q except for input of type {@link Quantity}.
  * 
- * see also {@link MachineNumberQ} */
+ * @see IntegerQ
+ * @see MachineNumberQ */
 public enum ExactScalarQ {
   ;
   /** @param tensor
@@ -38,8 +39,17 @@ public enum ExactScalarQ {
     return tensor instanceof ExactScalarQInterface && ((ExactScalarQInterface) tensor).isExactScalar();
   }
 
+  /** @param scalar
+   * @return given scalar
+   * @throws Exception if given scalar is not an integer in exact precision */
+  public static Scalar require(Scalar scalar) {
+    if (of(scalar))
+      return scalar;
+    throw TensorRuntimeException.of(scalar);
+  }
+
   /** @param tensor
-   * @return true if all scalar entries in given tensor satisfy the predicate {@link ExactScalarQ#of(Tensor)} */
+   * @return true if all scalar entries in given tensor satisfy the predicate {@link #of(Tensor)} */
   public static boolean all(Tensor tensor) {
     return tensor.flatten(-1).allMatch(ExactScalarQ::of);
   }

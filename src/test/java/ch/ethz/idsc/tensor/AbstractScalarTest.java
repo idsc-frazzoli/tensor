@@ -17,12 +17,12 @@ public class AbstractScalarTest extends TestCase {
     assertEquals(a, c);
   }
 
-  public void testSimple1() {
-    Tensor c = Tensors.fromString("{{1}, {4}, {4}}");
+  public void testSet() {
     Tensor a = Tensors.vector(1, 2, 3);
     Tensor b = Tensors.vector(4).unmodifiable();
     a.set(s -> b, Tensor.ALL);
     a.set(RealScalar.ONE, 0, 0);
+    Tensor c = Tensors.fromString("{{1}, {4}, {4}}");
     assertEquals(a, c);
   }
 
@@ -37,6 +37,7 @@ public class AbstractScalarTest extends TestCase {
 
   public void testGetFail() {
     RealScalar.ONE.get();
+    RealScalar.ONE.Get();
     try {
       RealScalar.ONE.Get(1);
       assertTrue(false);

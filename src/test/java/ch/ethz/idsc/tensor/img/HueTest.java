@@ -6,7 +6,7 @@ import java.awt.Color;
 import junit.framework.TestCase;
 
 public class HueTest extends TestCase {
-  public void testSimple() {
+  public void testMod() {
     assertEquals(Hue.of(0, 1, 1, 1), Hue.of(1, 1, 1, 1));
     assertEquals(Hue.of(0.2, 1, 1, 1), Hue.of(3.2, 1, 1, 1));
     assertEquals(Hue.of(0.2, 1, 1, 1), Hue.of(-3.8, 1, 1, 1));

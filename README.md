@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.5.5`
+Library for tensor computations in Java, version `0.5.6`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -98,7 +98,7 @@ Solving systems of linear equations
 Linear programming
 
     Tensor x = LinearProgramming.maxLessEquals( //
-        Tensors.vector(1, 1), // cost
+        Tensors.vector(1, 1), // rewards
         Tensors.fromString("{{4, -1}, {2, 1}, {-5, 2}}"), // matrix
         Tensors.vector(8, 7, 2)); // rhs
     System.out.println(x);
@@ -237,7 +237,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.5.5</version>
+        <version>0.5.6</version>
       </dependency>
     </dependencies>
 

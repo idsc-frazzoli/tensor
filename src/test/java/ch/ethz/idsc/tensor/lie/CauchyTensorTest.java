@@ -16,7 +16,7 @@ public class CauchyTensorTest extends TestCase {
     assertEquals(matrix, hilbert);
   }
 
-  public void testSimple() {
+  public void testHilbert() {
     for (int n = 1; n < 6; ++n)
       _check(n);
   }

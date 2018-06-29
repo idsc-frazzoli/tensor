@@ -16,7 +16,7 @@ public class TableBuilderTest extends TestCase {
     assertEquals(tableBuilder.toTable(), Tensors.empty());
   }
 
-  public void testSimple() throws IOException {
+  public void testAppendRow() throws IOException {
     TableBuilder tb = new TableBuilder();
     tb.appendRow(RealScalar.ONE, Tensors.vector(2, 3, 4), RealScalar.of(5));
     assertEquals(tb.getRowCount(), 1);
@@ -30,7 +30,6 @@ public class TableBuilderTest extends TestCase {
     assertEquals(tb.stream().count(), 5);
     Tensor matrix = tb.toTable();
     assertEquals(matrix, Tensors.fromString("{{1,2,3,4,5},{-2,6,0,7},{},{100},{1,2,3}}"));
-    // Export.of(new File("file.csv"), tb.toTable().map(CsvFormat.strict()));
   }
 
   public void testModify() {

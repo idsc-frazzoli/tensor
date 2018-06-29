@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class SoftplusTest extends TestCase {
-  public void testSimple() {
+  public void testZero() {
     Scalar s = Softplus.FUNCTION.apply(RealScalar.ZERO);
     assertEquals(s, RealScalar.of(0.6931471805599453));
   }

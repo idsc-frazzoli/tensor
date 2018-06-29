@@ -44,12 +44,20 @@ public class LinearInterpolationTest extends TestCase {
     assertEquals(interpolation.get(Tensors.empty()), ori);
   }
 
-  public void testSimple() {
+  public void testVectorGet() {
     Interpolation interpolation = LinearInterpolation.of(Tensors.vector(10, 20, 30, 40));
     assertEquals(interpolation.get(Tensors.vector(0)), RealScalar.of(10));
     assertEquals(interpolation.get(Tensors.vector(2)), RealScalar.of(30));
     assertEquals(interpolation.get(Tensors.vector(2.5)), RealScalar.of(35));
     assertEquals(interpolation.get(Tensors.vector(3)), RealScalar.of(40));
+  }
+
+  public void testVectorAt() {
+    Interpolation interpolation = LinearInterpolation.of(Tensors.vector(10, 20, 30, 40));
+    assertEquals(interpolation.At(RealScalar.of(0)), RealScalar.of(10));
+    assertEquals(interpolation.At(RealScalar.of(2)), RealScalar.of(30));
+    assertEquals(interpolation.At(RealScalar.of(2.5)), RealScalar.of(35));
+    assertEquals(interpolation.At(RealScalar.of(3)), RealScalar.of(40));
   }
 
   public void testMatrix1() {

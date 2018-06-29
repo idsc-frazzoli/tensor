@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.red.CopySign;
 import junit.framework.TestCase;
 
 public class CopySignTest extends TestCase {
-  public void testSimple() {
+  public void testNonZero() {
     assertEquals(Math.copySign(+2.0, +3.0), +2.0);
     assertEquals(Math.copySign(+2.0, -3.0), -2.0);
     assertEquals(Math.copySign(-2.0, +3.0), +2.0);

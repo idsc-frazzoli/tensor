@@ -11,12 +11,14 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
 public class DiagonalTest extends TestCase {
-  public void testSimple() {
+  public void testSpecial() {
     assertEquals(Diagonal.of(IdentityMatrix.of(5)), Tensors.vector(1, 1, 1, 1, 1));
     assertEquals(Diagonal.of(HilbertMatrix.of(4)), Tensors.vector(1, 3, 5, 7).map(Scalar::reciprocal));
   }
 
   public void testRectangular() {
+    assertEquals(Diagonal.of(HilbertMatrix.of(4, 5)), Tensors.vector(1, 3, 5, 7).map(Scalar::reciprocal));
+    assertEquals(Diagonal.of(HilbertMatrix.of(5, 4)), Tensors.vector(1, 3, 5, 7).map(Scalar::reciprocal));
     assertEquals(Diagonal.of(Array.zeros(5, 12)), Array.zeros(5));
   }
 

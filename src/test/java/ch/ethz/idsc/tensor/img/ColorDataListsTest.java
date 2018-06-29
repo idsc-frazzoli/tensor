@@ -5,29 +5,25 @@ import java.awt.Color;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
-import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ColorDataListsTest extends TestCase {
-  public void testSimple() {
+  public void testApply() {
     ColorDataIndexed colorDataIndexed = ColorDataLists._097.cyclic();
-    Tensor rgba = colorDataIndexed.apply(RealScalar.of(2.3));
-    assertEquals(rgba, Tensors.fromString("{143, 176, 50, 255}"));
+    assertEquals(colorDataIndexed.apply(RealScalar.of(2.3)), Tensors.fromString("{143, 176, 50, 255}"));
   }
 
-  public void testColor() {
+  public void testGetColor() {
     ColorDataIndexed colorDataIndexed = ColorDataLists._097.cyclic();
-    Color rgba = colorDataIndexed.getColor(2);
-    assertEquals(rgba, new Color(143, 176, 50, 255));
+    assertEquals(colorDataIndexed.getColor(2), new Color(143, 176, 50, 255));
   }
 
   public void testQuantityTransparent() {
     ColorDataIndexed colorDataIndexed = ColorDataLists._103.cyclic();
-    Tensor rgba = colorDataIndexed.apply(Quantity.of(2, "s"));
-    assertEquals(rgba, Array.zeros(4));
+    assertEquals(colorDataIndexed.apply(Quantity.of(2, "s")), Array.zeros(4));
   }
 
   public void testInfinityTransparent() {

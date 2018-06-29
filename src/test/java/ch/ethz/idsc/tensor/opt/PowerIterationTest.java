@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class PowerIterationTest extends TestCase {
-  public void testSimple() {
+  public void testSymmetric() {
     Tensor m = Tensors.fromString("{{2, 3, 0, 1}, {3, 1, 7, 5}, {0, 7, 10, 9}, {1, 5, 9, 13}}");
     Eigensystem eigsys = Eigensystem.ofSymmetric(m);
     Tensor v = eigsys.vectors().get(0).unmodifiable();
@@ -25,6 +25,15 @@ public class PowerIterationTest extends TestCase {
     Tensor x = PowerIteration.of(m);
     assertEquals(x.Get(0).abs(), RealScalar.ONE);
     assertEquals(x.Get(1).abs(), RealScalar.ZERO);
+  }
+
+  public void testScalar() {
+    Tensor m = Tensors.fromString("{{2}}");
+    Eigensystem eigsys = Eigensystem.ofSymmetric(m);
+    Tensor v = eigsys.vectors().get(0).unmodifiable();
+    assertEquals(v.Get(0).abs(), RealScalar.ONE);
+    Tensor x = PowerIteration.of(m);
+    assertEquals(x.Get(0).abs(), RealScalar.ONE);
   }
 
   public void testRotationFail() {

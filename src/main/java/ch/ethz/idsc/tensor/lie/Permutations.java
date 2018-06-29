@@ -33,7 +33,7 @@ public enum Permutations {
   }
 
   // helper class
-  static class Build {
+  private static class Build {
     static Tensor permutations(Tensor tensor) {
       Build builder = new Build();
       builder.recur(Tensors.empty(), tensor);
@@ -42,7 +42,7 @@ public enum Permutations {
 
     private final Tensor build = Tensors.empty();
 
-    void recur(Tensor ante, Tensor post) {
+    private void recur(Tensor ante, Tensor post) {
       int length = post.length();
       if (length == 0)
         build.append(ante);
