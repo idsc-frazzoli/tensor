@@ -59,4 +59,22 @@ public class TensorParserTest extends TestCase {
     Tensor tensor = Tensors.fromString("3e-2");
     assertTrue(StringScalarQ.any(tensor));
   }
+
+  public void testFailStringNull() {
+    try {
+      Tensors.fromString(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailFunctionNull() {
+    try {
+      new TensorParser(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

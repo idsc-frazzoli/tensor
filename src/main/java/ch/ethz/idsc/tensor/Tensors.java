@@ -121,14 +121,16 @@ public enum Tensors {
    * Tensors.fromString("{1+3/2*I,{3.7[m*s],9/4[kg^-1]}}");
    * 
    * @param string
-   * @return */
+   * @return
+   * @throws Exception if given string is null */
   public static Tensor fromString(String string) {
     return TensorParser.DEFAULT.parse(string);
   }
 
   /** @param string
    * @param function that parses a string to a scalar
-   * @return */
+   * @return
+   * @throws Exception if given string is null */
   public static Tensor fromString(String string, Function<String, Scalar> function) {
     return new TensorParser(function).parse(string);
   }

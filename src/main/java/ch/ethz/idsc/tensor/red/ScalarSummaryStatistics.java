@@ -85,7 +85,7 @@ public class ScalarSummaryStatistics implements Consumer<Scalar> {
   /** @return average of scalars in stream or null if stream is empty
    * @throws Exception if scalar type does not support division by {@link RealScalar} */
   public Scalar getAverage() {
-    return count > 0 ? getSum().divide(RealScalar.of(getCount())) : null;
+    return 0 < count ? getSum().divide(RealScalar.of(getCount())) : null;
   }
 
   /** @return number of scalars in stream */

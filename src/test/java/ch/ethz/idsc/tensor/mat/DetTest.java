@@ -191,7 +191,17 @@ public class DetTest extends TestCase {
     assertEquals(det, Scalars.fromString("1/365356847125734485878112256000000"));
   }
 
-  public void testFail() {
+  public void testFailMatrixQ() {
+    Tensor table = Tensors.fromString("{{1,2,3},{4,5}}");
+    try {
+      Det.of(table);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailRank3() {
     try {
       Det.of(LieAlgebras.sl3());
       assertTrue(false);
