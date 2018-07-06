@@ -39,13 +39,13 @@ public enum ResourceData {
   public static Tensor of(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
       Filename filename = new Filename(new File(string)); // to determine file extension
-      if (filename.hasExtension("csv"))
+      if (filename.has(Extension.CSV))
         return CsvFormat.parse(lines(inputStream));
-      if (filename.hasExtension("bmp") || //
-          filename.hasExtension("jpg") || //
-          filename.hasExtension("png"))
+      if (filename.has(Extension.BMP) || //
+          filename.has(Extension.JPG) || //
+          filename.has(Extension.PNG))
         return ImageFormat.from(ImageIO.read(inputStream));
-      if (filename.hasExtension("vector"))
+      if (filename.has(Extension.VECTOR))
         return Tensor.of(lines(inputStream).map(Scalars::fromString));
     } catch (Exception exception) {
       // ---

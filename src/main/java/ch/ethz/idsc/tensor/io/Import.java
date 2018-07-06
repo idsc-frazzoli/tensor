@@ -3,11 +3,14 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.zip.DataFormatException;
+import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
 
@@ -31,6 +34,7 @@ public enum Import {
    * <ul>
    * <li>bmp for {@link ImageFormat}
    * <li>csv for {@link CsvFormat}
+   * <li>csv.gz for compressed {@link CsvFormat}
    * <li>jpg for {@link ImageFormat}
    * <li>png for {@link ImageFormat}
    * </ul>
@@ -41,14 +45,19 @@ public enum Import {
    * @see Get */
   public static Tensor of(File file) throws IOException {
     Filename filename = new Filename(file);
-    if (filename.hasExtension("csv"))
+    if (filename.has(Extension.CSV))
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
       try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
         return CsvFormat.parse(bufferedReader.lines());
       }
-    if (filename.hasExtension("bmp") || //
-        filename.hasExtension("jpg") || //
-        filename.hasExtension("png"))
+    if (filename.has(Extension.CSV_GZ))
+      try (BufferedReader bufferedReader = new BufferedReader( //
+          new InputStreamReader(new GZIPInputStream(new FileInputStream(file))))) {
+        return CsvFormat.parse(bufferedReader.lines());
+      }
+    if (filename.has(Extension.BMP) || //
+        filename.has(Extension.JPG) || //
+        filename.has(Extension.PNG))
       return ImageFormat.from(ImageIO.read(file));
     throw new RuntimeException(file.toString());
   }

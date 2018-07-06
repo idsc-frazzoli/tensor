@@ -39,17 +39,19 @@ enum ColorDataListsDemo {
     image = PadLeft.with(RealScalar.of(255), image.length(), 16 + 2, 4).apply(image);
     int ceil = Ceiling.FUNCTION.apply(RationalScalar.of(image.length(), 3)).multiply(RealScalar.of(3)).number().intValue();
     image = PadRight.with(RealScalar.of(0), ceil, 19, 4).apply(image);
-    int size = 12 + 1;
-    Tensor large = ImageResize.nearest(image, size, size - 1);
+    int spa = 2;
+    int size = 12 + spa;
+    Tensor large = ImageResize.nearest(image, size, size - spa);
     // System.out.println(Dimensions.of(large));
-    for (int count = size - 1; count < large.length(); count += size)
-      large.set(s -> RealScalar.ZERO, count, Tensor.ALL, Tensor.ALL);
+    for (int count = size - spa; count < large.length(); count += size)
+      for (int i = 0; i < spa; ++i)
+        large.set(s -> RealScalar.ZERO, count + i, Tensor.ALL, Tensor.ALL);
     BufferedImage bufferedImage = ImageFormat.of(large);
     {
       Graphics2D graphics = bufferedImage.createGraphics();
       GraphicsUtil.setQualityHigh(graphics);
       graphics.setColor(Color.BLACK);
-      int y = -2;
+      int y = -1 - spa;
       for (ColorDataLists cdi : ColorDataLists.values()) {
         y += size;
         graphics.drawString(csv(cdi.name()), 0, y);

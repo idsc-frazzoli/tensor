@@ -2,15 +2,18 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.util.zip.GZIPOutputStream;
 
 import javax.imageio.ImageIO;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** supported file formats are: CSV, JPG, M, PNG, TENSOR
+/** supported file formats are: BMP, CSV, CSV.GZ, JPG, M, PNG
  * 
  * <p>Do not use Export when exchanging {@link Tensor}s with
  * Mathematica. For that purpose use {@link Put} and {@link Get}.
@@ -28,19 +31,24 @@ public enum Export {
    * @throws IOException */
   public static void of(File file, Tensor tensor) throws IOException {
     Filename filename = new Filename(file);
-    if (filename.hasExtension("bmp"))
+    if (filename.has(Extension.BMP))
       ImageIO.write(ImageFormat.bgr(tensor), "bmp", file);
     else //
-    if (filename.hasExtension("csv"))
+    if (filename.has(Extension.CSV))
       Files.write(file.toPath(), (Iterable<String>) CsvFormat.of(tensor)::iterator);
     else //
-    if (filename.hasExtension("jpg"))
+    if (filename.has(Extension.CSV_GZ))
+      try (PrintWriter printWriter = new PrintWriter(new GZIPOutputStream(new FileOutputStream(file)))) {
+        CsvFormat.of(tensor).forEach(printWriter::println);
+      }
+    else //
+    if (filename.has(Extension.JPG))
       ImageIO.write(ImageFormat.bgr(tensor), "jpg", file);
     else //
-    if (filename.hasExtension("m"))
+    if (filename.has(Extension.M))
       Files.write(file.toPath(), (Iterable<String>) MatlabExport.of(tensor)::iterator);
     else //
-    if (filename.hasExtension("png"))
+    if (filename.has(Extension.PNG))
       ImageIO.write(ImageFormat.of(tensor), "png", file);
     else //
       throw new RuntimeException(file.toString());

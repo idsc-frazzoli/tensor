@@ -27,6 +27,16 @@ public class ExportTest extends TestCase {
     file.delete();
   }
 
+  public void testCsvGz() throws IOException {
+    File file = UserHome.file("tensorLib_ExportTest.csv.gz");
+    assertFalse(file.isFile());
+    Tensor tensor = Tensors.fromString("{{0,2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
+    Export.of(file, tensor);
+    Tensor imported = Import.of(file);
+    file.delete();
+    assertEquals(tensor, imported);
+  }
+
   public void testPngColor() throws IOException {
     File file = UserHome.file("tensorLib_ExportTest.png");
     assertFalse(file.isFile());

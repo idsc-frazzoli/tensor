@@ -65,8 +65,8 @@ public class Entrywise implements BinaryOperator<Tensor> {
 
   /** Example:
    * <pre>
-   * Entrywise.with(Max::of).of({1, 2, 3}, {5, 0, 4}) == {5, 2, 4}
    * Entrywise.with(Min::of).of({1, 2, 3}, {5, 0, 4}) == {1, 0, 3}
+   * Entrywise.with(Max::of).of({1, 2, 3}, {5, 0, 4}) == {5, 2, 4}
    * </pre>
    * 
    * @param tensors with identical dimensions/structure
