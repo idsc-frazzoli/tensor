@@ -1,12 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
@@ -37,16 +34,16 @@ public enum ResourceData {
    * @param string
    * @return imported tensor, or null if resource could not be loaded */
   public static Tensor of(String string) {
-    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       Filename filename = new Filename(new File(string)); // to determine file extension
       if (filename.has(Extension.CSV))
-        return CsvFormat.parse(lines(inputStream));
+        return StaticHelper.csv(inputStream);
       if (filename.has(Extension.BMP) || //
           filename.has(Extension.JPG) || //
           filename.has(Extension.PNG))
         return ImageFormat.from(ImageIO.read(inputStream));
       if (filename.has(Extension.VECTOR))
-        return Tensor.of(lines(inputStream).map(Scalars::fromString));
+        return Tensor.of(StaticHelper.lines(inputStream).map(Scalars::fromString));
     } catch (Exception exception) {
       // ---
     }
@@ -69,7 +66,7 @@ public enum ResourceData {
   /** @param string
    * @return imported object, or null if resource could not be loaded */
   public static <T> T object(String string) {
-    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       int length = inputStream.available();
       byte[] bytes = new byte[length];
       inputStream.read(bytes);
@@ -78,10 +75,5 @@ public enum ResourceData {
       // ---
     }
     return null;
-  }
-
-  // helper function
-  private static Stream<String> lines(InputStream inputStream) {
-    return new BufferedReader(new InputStreamReader(inputStream)).lines();
   }
 }

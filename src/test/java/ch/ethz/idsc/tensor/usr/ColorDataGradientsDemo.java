@@ -28,7 +28,7 @@ enum ColorDataGradientsDemo {
   private static final Scalar TFF = RealScalar.of(255);
 
   public static void main(String[] args) throws IOException {
-    final int spa = 2;
+    final int spa = 0;
     final int hei = 15 + spa;
     final int sep = 142;
     Tensor arr = Array.of(list -> RealScalar.of(list.get(1)), hei - spa, 256);

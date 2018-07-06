@@ -212,11 +212,11 @@ Indices for the `set` and `get` functions start from zero like in C/Java:
 
 Predefined color gradients
 
-![colordatagradients](https://user-images.githubusercontent.com/4012178/42292636-3515e622-7fd4-11e8-9f22-ee3d2f4a372c.png)
+![colordatagradients](https://user-images.githubusercontent.com/4012178/42363743-fb28d35e-80f8-11e8-9b34-41652073304d.png)
 
 Predefined color lists
 
-![colordatalists](https://user-images.githubusercontent.com/4012178/42292693-9da832e4-7fd4-11e8-901c-84f8df4ffac6.png)
+![colordatalists](https://user-images.githubusercontent.com/4012178/42363765-095692fe-80f9-11e8-8376-3e1364937536.png)
 
 ## Integration
 

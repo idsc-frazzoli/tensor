@@ -39,7 +39,7 @@ enum ColorDataListsDemo {
     image = PadLeft.with(RealScalar.of(255), image.length(), 16 + 2, 4).apply(image);
     int ceil = Ceiling.FUNCTION.apply(RationalScalar.of(image.length(), 3)).multiply(RealScalar.of(3)).number().intValue();
     image = PadRight.with(RealScalar.of(0), ceil, 19, 4).apply(image);
-    int spa = 2;
+    int spa = 0;
     int size = 12 + spa;
     Tensor large = ImageResize.nearest(image, size, size - spa);
     // System.out.println(Dimensions.of(large));

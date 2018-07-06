@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.io.File;
 import java.io.IOException;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -11,7 +12,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.img.MeanFilter;
+import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
+import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.utl.UserHome;
@@ -35,6 +38,18 @@ public class ExportTest extends TestCase {
     Tensor imported = Import.of(file);
     file.delete();
     assertEquals(tensor, imported);
+  }
+
+  public void testCsvGzLarge() throws IOException {
+    File file = UserHome.file("tensorLib_ExportTest_Large.csv.gz");
+    assertFalse(file.isFile());
+    Distribution distribution = BinomialDistribution.of(10, RealScalar.of(.3));
+    Tensor tensor = RandomVariate.of(distribution, 60, 30);
+    Export.of(file, tensor);
+    Tensor imported = Import.of(file);
+    file.delete();
+    assertEquals(tensor, imported);
+    assertTrue(ExactScalarQ.all(imported));
   }
 
   public void testPngColor() throws IOException {

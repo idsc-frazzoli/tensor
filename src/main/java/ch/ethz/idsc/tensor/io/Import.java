@@ -1,12 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.zip.DataFormatException;
@@ -47,13 +45,12 @@ public enum Import {
     Filename filename = new Filename(file);
     if (filename.has(Extension.CSV))
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
-      try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-        return CsvFormat.parse(bufferedReader.lines());
+      try (InputStream inputStream = new FileInputStream(file)) {
+        return StaticHelper.csv(inputStream);
       }
     if (filename.has(Extension.CSV_GZ))
-      try (BufferedReader bufferedReader = new BufferedReader( //
-          new InputStreamReader(new GZIPInputStream(new FileInputStream(file))))) {
-        return CsvFormat.parse(bufferedReader.lines());
+      try (InputStream inputStream = new GZIPInputStream(new FileInputStream(file))) {
+        return StaticHelper.csv(inputStream);
       }
     if (filename.has(Extension.BMP) || //
         filename.has(Extension.JPG) || //
