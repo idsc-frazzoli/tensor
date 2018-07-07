@@ -123,11 +123,14 @@ public class ExportTest extends TestCase {
   }
 
   public void testFail() {
+    File file = new File("ethz.idsc");
+    assertFalse(file.exists());
     try {
-      Export.of(new File("ethz.idsc"), Tensors.empty());
+      Export.of(file, Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+    assertFalse(file.exists());
   }
 }

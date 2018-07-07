@@ -62,6 +62,7 @@ public class ResourceDataTest extends TestCase {
 
   public void testFailNull() {
     assertNull(ResourceData.of("/number/exists.fail"));
+    assertNull(ResourceData.of("/number/exists.fail.bmp"));
   }
 
   public void testObjectNull() {

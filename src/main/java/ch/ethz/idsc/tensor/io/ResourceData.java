@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
 
-import javax.imageio.ImageIO;
-
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** access to resource data in jar files, for instance,
@@ -35,15 +32,7 @@ public enum ResourceData {
    * @return imported tensor, or null if resource could not be loaded */
   public static Tensor of(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
-      Filename filename = new Filename(new File(string)); // to determine file extension
-      if (filename.has(Extension.CSV))
-        return StaticHelper.csv(inputStream);
-      if (filename.has(Extension.BMP) || //
-          filename.has(Extension.JPG) || //
-          filename.has(Extension.PNG))
-        return ImageFormat.from(ImageIO.read(inputStream));
-      if (filename.has(Extension.VECTOR))
-        return Tensor.of(StaticHelper.lines(inputStream).map(Scalars::fromString));
+      return StaticHelper.parse(new Filename(new File(string)).extension(), inputStream);
     } catch (Exception exception) {
       // ---
     }

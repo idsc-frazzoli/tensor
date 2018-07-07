@@ -10,8 +10,6 @@ import java.nio.file.Files;
 import java.util.zip.DataFormatException;
 import java.util.zip.GZIPInputStream;
 
-import javax.imageio.ImageIO;
-
 import ch.ethz.idsc.tensor.Tensor;
 
 /** supported file formats are: CSV, JPG, PNG, TENSOR
@@ -42,21 +40,15 @@ public enum Import {
    * @throws IOException
    * @see Get */
   public static Tensor of(File file) throws IOException {
-    Filename filename = new Filename(file);
-    if (filename.has(Extension.CSV))
-      // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
-      try (InputStream inputStream = new FileInputStream(file)) {
-        return StaticHelper.csv(inputStream);
-      }
-    if (filename.has(Extension.CSV_GZ))
-      try (InputStream inputStream = new GZIPInputStream(new FileInputStream(file))) {
-        return StaticHelper.csv(inputStream);
-      }
-    if (filename.has(Extension.BMP) || //
-        filename.has(Extension.JPG) || //
-        filename.has(Extension.PNG))
-      return ImageFormat.from(ImageIO.read(file));
-    throw new RuntimeException(file.toString());
+    try (FileInputStream fileInputStream = new FileInputStream(file)) {
+      Filename filename = new Filename(file);
+      Extension extension = filename.extension();
+      if (extension.equals(Extension.GZ))
+        try (InputStream inputStream = new GZIPInputStream(fileInputStream)) {
+          return StaticHelper.parse(filename.truncate().extension(), inputStream);
+        }
+      return StaticHelper.parse(extension, fileInputStream);
+    }
   }
 
   /** import function for Java objects that implement {@link Serializable}

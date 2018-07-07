@@ -1,16 +1,25 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-/** file extensions used by the tensor library */
+/** file extensions used by the tensor library
+ * 
+ * {@link StaticHelper#parse(Extension, java.io.InputStream)} */
 /* package */ enum Extension {
+  /** uncompressed loss-less image format, no alpha channel */
   BMP, //
+  /** table */
   CSV, //
-  CSV_GZ, //
+  /** animation format */
   GIF, //
+  /** compressed version of another format, for instance csv.gz */
+  GZ, //
+  /** compressed, lossy image format */
   JPG, //
+  /** MATLAB m file */
   M, //
+  /** compressed image format with alpha channel */
   PNG, //
+  /** tensor library specific: vector */
   VECTOR, //
   ;
-  final String suffix = "." + name().toLowerCase().replace('_', '.');
 }
