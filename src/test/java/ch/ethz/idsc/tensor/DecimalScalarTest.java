@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
-public class DecimalScalar2Test extends TestCase {
+public class DecimalScalarTest extends TestCase {
   static final String PI100 = "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068";
 
   public void testReciprocal() {

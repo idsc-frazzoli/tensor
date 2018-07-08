@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
 import junit.framework.TestCase;
 
-public class DecimalScalar1Test extends TestCase {
+public class DecimalScalarImplTest extends TestCase {
   public void testZero() {
     assertEquals(RealScalar.ZERO, DecimalScalar.of(BigDecimal.ZERO));
   }
