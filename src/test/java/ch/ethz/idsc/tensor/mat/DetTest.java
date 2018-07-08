@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Reverse;
+import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
@@ -150,31 +151,17 @@ public class DetTest extends TestCase {
 
   // https://ch.mathworks.com/help/matlab/ref/det.html
   public void testMatlabEx() {
-    Tensor m = Tensors.matrix(new Number[][] { //
-        { 24, -13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //
-        { -24, 46, -24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //
-        { 0, -33, 64, -33, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //
-        { 0, 0, -40, 78, -40, 0, 0, 0, 0, 0, 0, 0, 0 }, //
-        { 0, 0, 0, -45, 88, -45, 0, 0, 0, 0, 0, 0, 0 }, //
-        { 0, 0, 0, 0, -48, 94, -48, 0, 0, 0, 0, 0, 0 }, //
-        { 0, 0, 0, 0, 0, -49, 96, -49, 0, 0, 0, 0, 0 }, //
-        { 0, 0, 0, 0, 0, 0, -48, 94, -48, 0, 0, 0, 0 }, //
-        { 0, 0, 0, 0, 0, 0, 0, -45, 88, -45, 0, 0, 0 }, //
-        { 0, 0, 0, 0, 0, 0, 0, 0, -40, 78, -40, 0, 0 }, //
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, -33, 64, -33, 0 }, //
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -24, 46, -24 }, //
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -13, 24 }//
-    });
-    Scalar det = Det.of(m);
+    Tensor matrix = ResourceData.of("/mat/det0-matlab.csv");
+    Scalar det = Det.of(matrix);
     assertEquals(det, RealScalar.ZERO);
     // ---
     // Matlab gives num == 1.0597e+05 !
     // Mathematica gives num == 44934.8 !
-    Scalar num1 = Det.of(N.DOUBLE.of(m)); // indeed, our algo is no different:
+    Scalar num1 = Det.of(N.DOUBLE.of(matrix)); // indeed, our algo is no different:
     // System.out.println(num1);
     // num == 105968.67122221774
     num1.toString(); // to eliminate warning
-    Scalar num2 = Det.withoutAbs(N.DOUBLE.of(m)); // indeed, our algo is no different:
+    Scalar num2 = Det.withoutAbs(N.DOUBLE.of(matrix)); // indeed, our algo is no different:
     // System.out.println(num2);
     // num == 105968.67122221774
     num2.toString(); // to eliminate warning

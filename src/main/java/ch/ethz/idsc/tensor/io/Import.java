@@ -4,11 +4,9 @@ package ch.ethz.idsc.tensor.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.zip.DataFormatException;
-import java.util.zip.GZIPInputStream;
 
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -41,13 +39,7 @@ public enum Import {
    * @see Get */
   public static Tensor of(File file) throws IOException {
     try (FileInputStream fileInputStream = new FileInputStream(file)) {
-      Filename filename = new Filename(file);
-      Extension extension = filename.extension();
-      if (extension.equals(Extension.GZ))
-        try (InputStream inputStream = new GZIPInputStream(fileInputStream)) {
-          return StaticHelper.parse(filename.truncate().extension(), inputStream);
-        }
-      return StaticHelper.parse(extension, fileInputStream);
+      return StaticHelper.parse(new Filename(file), fileInputStream);
     }
   }
 

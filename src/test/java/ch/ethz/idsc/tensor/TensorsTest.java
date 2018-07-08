@@ -17,13 +17,6 @@ public class TensorsTest extends TestCase {
     assertEquals(Tensors.empty(), Tensors.of());
   }
 
-  public void testEquals() {
-    Tensor a = Tensors.empty();
-    assertFalse(a.equals(null));
-    assertFalse(a.equals(Integer.valueOf(123)));
-    assertFalse(a.equals(RealScalar.of(2)));
-  }
-
   public void testReduction() {
     Tensor a = Tensors.vectorDouble(2., 1.123, .3123);
     boolean value = a.flatten(-1).map(Scalar.class::cast) //
@@ -31,7 +24,7 @@ public class TensorsTest extends TestCase {
         .map(Number::doubleValue) //
         .map(d -> d > 0) //
         .reduce(Boolean::logicalAnd) //
-        .orElse(true);
+        .get();
     assertTrue(value);
   }
 
@@ -49,9 +42,11 @@ public class TensorsTest extends TestCase {
   }
 
   public void testNorm() {
-    Tensor a = Tensors.vectorLong(2, 3, 4, 5);
-    Scalar s = (Scalar) a.dot(a);
-    assertEquals(s, RationalScalar.of(4 + 9 + 16 + 25, 1));
+    Tensor vector = Tensors.vectorLong(2, 3, 4, 5);
+    assertTrue(ExactScalarQ.all(vector));
+    Scalar scalar = (Scalar) vector.dot(vector);
+    assertEquals(scalar, RationalScalar.of(4 + 9 + 16 + 25, 1));
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testNorm2() {
@@ -181,28 +176,6 @@ public class TensorsTest extends TestCase {
     Tensor actual = Tensors.matrix(data);
     Tensor expected = Tensors.fromString("{{0, 1}, {}, {2+3*I}}");
     assertEquals(expected, actual);
-  }
-
-  public void testIsEmpty() {
-    assertFalse(Tensors.isEmpty(RealScalar.ONE));
-    assertTrue(Tensors.isEmpty(Tensors.empty()));
-    assertTrue(Tensors.isEmpty(Tensors.vector()));
-    assertFalse(Tensors.isEmpty(Tensors.vector(1, 2, 3)));
-  }
-
-  public void testNonEmpty() {
-    assertTrue(Tensors.nonEmpty(RealScalar.ONE));
-    assertFalse(Tensors.nonEmpty(Tensors.empty()));
-    assertFalse(Tensors.nonEmpty(Tensors.vector()));
-    assertTrue(Tensors.nonEmpty(Tensors.vector(1, 2, 3)));
-  }
-
-  public void testIsUnmodifiable() {
-    Tensor canwrite = Tensors.vector(1, 2, 3);
-    Tensor readonly = canwrite.unmodifiable();
-    assertFalse(Tensors.isUnmodifiable(canwrite));
-    assertTrue(Tensors.isUnmodifiable(readonly));
-    assertFalse(Tensors.isUnmodifiable(readonly.copy()));
   }
 
   public void testNCopies() {

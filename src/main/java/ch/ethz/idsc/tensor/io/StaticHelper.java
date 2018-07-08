@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.stream.Stream;
+import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
 
@@ -16,11 +17,20 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /* package */ enum StaticHelper {
   ;
-  /** @param extension
+  /** @param filename
    * @param inputStream
-   * @return tensor parsed from given input stream
+   * @return
    * @throws IOException */
-  static Tensor parse(Extension extension, InputStream inputStream) throws IOException {
+  static Tensor parse(Filename filename, InputStream inputStream) throws IOException {
+    Extension extension = filename.extension();
+    if (extension.equals(Extension.GZ))
+      try (GZIPInputStream gzipInputStream = new GZIPInputStream(inputStream)) {
+        return parse(filename.truncate().extension(), gzipInputStream);
+      }
+    return parse(extension, inputStream);
+  }
+
+  private static Tensor parse(Extension extension, InputStream inputStream) throws IOException {
     switch (extension) {
     case CSV:
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
@@ -67,8 +77,6 @@ import ch.ethz.idsc.tensor.Tensor;
     }
   }
 
-  /** @param stream
-   * @param outputStream */
   private static void print(Stream<String> stream, OutputStream outputStream) {
     try (PrintWriter printWriter = new PrintWriter(outputStream)) {
       stream.sequential().forEach(printWriter::println);

@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -32,7 +31,7 @@ public enum ResourceData {
    * @return imported tensor, or null if resource could not be loaded */
   public static Tensor of(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
-      return StaticHelper.parse(new Filename(new File(string)).extension(), inputStream);
+      return StaticHelper.parse(new Filename(string), inputStream);
     } catch (Exception exception) {
       // ---
     }

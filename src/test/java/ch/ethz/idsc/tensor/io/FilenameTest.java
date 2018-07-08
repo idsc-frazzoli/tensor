@@ -28,10 +28,20 @@ public class FilenameTest extends TestCase {
     }
   }
 
-  public void testNoExt() {
+  public void testFailNoExt() {
     Filename filename = new Filename(new File("dir/mybmp"));
     try {
       filename.extension();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailTruncate() {
+    Filename filename = new Filename(new File("dir/mybmp"));
+    try {
+      filename.truncate();
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
@@ -61,10 +62,7 @@ public class LinearInterpolationTest extends TestCase {
   }
 
   public void testMatrix1() {
-    Tensor tensor = Tensors.matrix(new Number[][] { //
-        { 5, 5, 5 }, //
-        { 1, 10, 100 } //
-    });
+    Tensor tensor = Tensors.matrix(new Number[][] { { 5, 5, 5 }, { 1, 10, 100 } });
     Interpolation interpolation = LinearInterpolation.of(tensor);
     {
       Tensor res = interpolation.get(Tensors.vector(1, 3).multiply(RationalScalar.of(1, 2)));
@@ -78,16 +76,13 @@ public class LinearInterpolationTest extends TestCase {
   }
 
   public void testMatrix2() {
-    Tensor tensor = Tensors.matrix(new Number[][] { //
-        { 5, 5, 5 }, //
-        { 1, 10, 100 } //
-    });
+    Tensor tensor = Tensors.matrix(new Number[][] { { 5, 5, 5 }, { 1, 10, 100 } });
     Interpolation interpolation = LinearInterpolation.of(tensor);
-    assertEquals(interpolation.get(Tensors.vector(1)), Tensors.vector(1, 10, 100));
+    assertEquals(interpolation.get(UnitVector.of(1, 0)), Tensors.vector(1, 10, 100));
     assertEquals(interpolation.get(Tensors.vector(1, 2)), RealScalar.of(100));
     assertEquals(interpolation.get(Tensors.vector(0)), Tensors.vector(5, 5, 5));
-    assertEquals(interpolation.get(Tensors.vector(1, 0)), RealScalar.of(1));
-    assertEquals(interpolation.get(Tensors.vector(0, 0)), RealScalar.of(5));
+    assertEquals(interpolation.get(UnitVector.of(2, 0)), RealScalar.of(1));
+    assertEquals(interpolation.get(Array.zeros(2)), RealScalar.of(5));
   }
 
   public void testRank3() {
@@ -99,10 +94,7 @@ public class LinearInterpolationTest extends TestCase {
   }
 
   public void testQuantity() {
-    Scalar qs1 = Quantity.of(1, "m");
-    Scalar qs2 = Quantity.of(4, "m");
-    Scalar qs3 = Quantity.of(2, "m");
-    Tensor vector = Tensors.of(qs1, qs2, qs3);
+    Tensor vector = Tensors.of(Quantity.of(1, "m"), Quantity.of(4, "m"), Quantity.of(2, "m"));
     Interpolation interpolation = LinearInterpolation.of(vector);
     Scalar r = Quantity.of((1 + 4) * 0.5, "m");
     Scalar s = interpolation.Get(Tensors.vector(0.5));
@@ -110,26 +102,18 @@ public class LinearInterpolationTest extends TestCase {
   }
 
   public void testQuantity2() {
-    Tensor v1;
-    {
-      Scalar qs1 = Quantity.of(1, "m");
-      Scalar qs2 = Quantity.of(4, "m");
-      Scalar qs3 = Quantity.of(2, "m");
-      v1 = Tensors.of(qs1, qs2, qs3);
-    }
-    Tensor v2;
-    {
-      Scalar qs1 = Quantity.of(9, "s");
-      Scalar qs2 = Quantity.of(6, "s");
-      Scalar qs3 = Quantity.of(-3, "s");
-      v2 = Tensors.of(qs1, qs2, qs3);
-    }
+    Tensor v1 = Tensors.of(Quantity.of(1, "m"), Quantity.of(4, "m"), Quantity.of(2, "m"));
+    Tensor v2 = Tensors.of(Quantity.of(9, "s"), Quantity.of(6, "s"), Quantity.of(-3, "s"));
     Tensor matrix = Transpose.of(Tensors.of(v1, v2));
     Interpolation interpolation = LinearInterpolation.of(matrix);
     Scalar r1 = Quantity.of((1 + 4) * 0.5, "m");
     Scalar r2 = Quantity.of((9 + 6) * 0.5, "s");
-    Tensor vec = interpolation.get(Tensors.vector(0.5));
+    Tensor vec = interpolation.get(Tensors.of(RationalScalar.HALF));
     assertEquals(vec, Tensors.of(r1, r2));
+    assertTrue(ExactScalarQ.all(vec));
+    Tensor at = interpolation.at(RationalScalar.HALF);
+    assertEquals(at, Tensors.of(r1, r2));
+    assertTrue(ExactScalarQ.all(at));
   }
 
   public void testExact() {

@@ -23,44 +23,26 @@ import junit.framework.TestCase;
 public class SingularValueDecompositionTest extends TestCase {
   static SingularValueDecomposition specialOps(Tensor A) {
     SingularValueDecomposition svd = SingularValueDecomposition.of(A);
-    // System.out.println(svd.toInfoString());
     List<Integer> dims = Dimensions.of(A);
-    // System.out.println("A " + dims);
-    // final int M = dims.get(0);
     final int N = dims.get(1);
     final Tensor U = svd.getU();
     assertEquals(dims, Dimensions.of(U));
     final Tensor w = svd.values();
-    // System.out.println("w " + w.dimensions());
     final Tensor V = svd.getV();
-    // System.out.println("V " + V.dimensions());
     Tensor W = DiagonalMatrix.with(w);
-    // System.out.println("UtU");
     Tensor UtU = Chop._12.of(Transpose.of(U).dot(U).subtract(IdentityMatrix.of(N)));
     assertEquals(UtU, Array.zeros(N, N));
-    // System.out.println("VVt");
     Tensor VVt = Chop._12.of(V.dot(Transpose.of(V)).subtract(IdentityMatrix.of(N)));
     assertEquals(VVt, Array.zeros(N, N));
-    // System.out.println("VtV");
     Tensor VtV = Chop._12.of(Transpose.of(V).dot(V).subtract(IdentityMatrix.of(N)));
     assertEquals(VtV, Array.zeros(N, N));
-    // System.out.println("UWVt");
     Tensor UWVt = Chop._12.of(U.dot(W).dot(Transpose.of(V)).subtract(A));
     assertEquals(UWVt, Array.zeros(Dimensions.of(UWVt)));
-    // System.out.println("UW_AV");
     Tensor UW_AV = Chop._12.of(U.dot(W).subtract(A.dot(V)));
     assertEquals(UW_AV, Array.zeros(Dimensions.of(UW_AV)));
-    // System.out.println("AiA");
-    // Tensor AiA = svd.pseudoInverse().dot(A).map(Scalars::chop);
-    // System.out.println(AiA);
-    // assertEquals(AiA, TensorBuild.zeros(AiA.dimensions()));
-    // System.out.println(svd.toInfoString());
-    assertFalse(w.flatten(-1).map(Scalar.class::cast).anyMatch(Sign::isNegative));
-    // int rank = MatrixRank.of(svd);
+    assertFalse(w.stream().map(Scalar.class::cast).anyMatch(Sign::isNegative));
     if (MatrixRank.of(svd) < N) {
       Tensor nul = NullSpace.of(svd);
-      // System.out.println(nul);
-      // System.out.println(Dimensions.of(nul));
       Tensor res = A.dot(Transpose.of(nul));
       assertEquals(Chop._12.of(res), Array.zeros(Dimensions.of(res)));
     }

@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
@@ -20,35 +19,10 @@ public class TransposeTest extends TestCase {
     assertEquals(Transpose.of(scalar, new Integer[] {}), scalar);
   }
 
-  public void testScalarFail() {
-    Tensor v = DoubleScalar.NEGATIVE_INFINITY;
-    try {
-      Transpose.of(v);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Transpose.of(v, new Integer[] { 2 });
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void testVector() {
     Tensor v = Tensors.vector(2, 3, 4, 5);
     Tensor r = Transpose.of(v, 0);
     assertEquals(v, r);
-  }
-
-  public void testVectorFail() {
-    try {
-      Transpose.of(Tensors.vector(2, 3, 4, 5));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
   }
 
   private static Tensor _checkBoth(Tensor tensor, Integer... sigma) {
@@ -156,62 +130,5 @@ public class TransposeTest extends TestCase {
     Tensor result = Transpose.nonArray(tensor, 1, 0);
     Tensor correct = Tensors.fromString("{{0, 5}, {1, 6}, {{2, 3, 4}, 7}}");
     assertEquals(result, correct);
-  }
-
-  public void testEmpty2() {
-    Tensor empty2 = Tensors.fromString("{{},{}}");
-    assertEquals(Transpose.of(empty2), Tensors.empty());
-    try {
-      Transpose.of(Transpose.of(empty2));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testRankFail() {
-    Transpose.of(LieAlgebras.so3(), 1, 2, 0);
-    try {
-      Transpose.of(LieAlgebras.so3(), 1, 0);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Transpose.of(LieAlgebras.so3(), 3, 2, 1, 0);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testFail() {
-    try {
-      Transpose.nonArray(Array.zeros(2, 3), 1);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Transpose.nonArray(Array.zeros(2, 3), 2, 0);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Transpose.nonArray(Array.zeros(2, 3), 0, -1);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testFail2() {
-    try {
-      Transpose.of(Tensors.fromString("{{1,2},{3,4,5}}"));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
   }
 }

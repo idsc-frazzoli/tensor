@@ -11,9 +11,11 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.UnitVector;
+import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class InverseTest extends TestCase {
@@ -57,6 +59,23 @@ public class InverseTest extends TestCase {
     assertEquals(Inverse.of(A).dot(b), x);
   }
 
+  public void testDet0() {
+    Tensor matrix = ResourceData.of("/mat/det0-matlab.csv"); // det(matrix) == 0
+    assertNotNull(matrix);
+    try {
+      Inverse.of(matrix);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Inverse.of(N.DOUBLE.of(matrix));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailNonSquare() {
     try {
       Inverse.of(HilbertMatrix.of(3, 4));
@@ -90,45 +109,32 @@ public class InverseTest extends TestCase {
     Tensor ve2 = Tensors.of(qs2.multiply(qs3), qs4.multiply(qs4));
     Tensor mat = Tensors.of(ve1, ve2);
     Tensor eye = IdentityMatrix.of(2); // <- yey!
-    {
-      Tensor inv = LinearSolve.of(mat, eye);
-      Tensor res = mat.dot(inv);
-      assertTrue(Chop.NONE.close(eye, res));
-      // assertEquals(eye, res);
-      // assertEquals(res, eye);
-    }
-    {
-      Inverse.of(mat);
-    }
+    Tensor inv = LinearSolve.of(mat, eye);
+    Tensor res = mat.dot(inv);
+    assertTrue(Chop.NONE.close(eye, res));
+    Inverse.of(mat);
   }
 
   public void testQuantity2() {
-    Tensor mat = Tensors.fromString( //
+    Tensor matrix = Tensors.fromString( //
         "{{1[m^2], 2[m*rad], 3[kg*m]}, {4[m*rad], 2[rad^2], 2[kg*rad]}, {5[kg*m], 1[kg*rad], 7[kg^2]}}");
+    final Tensor eye = IdentityMatrix.of(3).unmodifiable();
     {
-      Tensor eye = IdentityMatrix.of(3);
-      Tensor inv = LinearSolve.of(mat, eye);
-      Tensor res = mat.dot(inv);
-      // assertEquals(eye, res);
-      // assertEquals(res, eye);
+      Tensor inv = LinearSolve.of(matrix, eye);
+      Tensor res = matrix.dot(inv);
       assertTrue(Chop.NONE.close(eye, res));
     }
     {
-      Tensor eye = IdentityMatrix.of(3);
-      Tensor inv = LinearSolve.withoutAbs(mat, eye);
-      Tensor res = mat.dot(inv);
+      Tensor inv = LinearSolve.withoutAbs(matrix, eye);
+      Tensor res = matrix.dot(inv);
       assertTrue(Chop.NONE.close(eye, res));
-      // assertEquals(eye, res);
-      // assertEquals(res, eye);
     }
     {
-      Tensor inv = Inverse.of(mat);
-      // assertEquals(mat.dot(inv), inv.dot(mat));
-      assertTrue(Chop.NONE.close(mat.dot(inv), inv.dot(mat)));
-      // assertEquals(mat.dot(inv), IdentityMatrix.of(3));
-      assertTrue(Chop.NONE.close(mat.dot(inv), IdentityMatrix.of(3)));
+      Tensor inv = Inverse.of(matrix);
+      assertTrue(Chop.NONE.close(matrix.dot(inv), inv.dot(matrix)));
+      assertTrue(Chop.NONE.close(matrix.dot(inv), IdentityMatrix.of(3)));
     }
-    assertFalse(HermitianMatrixQ.of(mat));
-    assertFalse(SymmetricMatrixQ.of(mat));
+    assertFalse(HermitianMatrixQ.of(matrix));
+    assertFalse(SymmetricMatrixQ.of(matrix));
   }
 }

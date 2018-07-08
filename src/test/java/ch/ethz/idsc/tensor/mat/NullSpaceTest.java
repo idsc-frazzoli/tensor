@@ -40,8 +40,6 @@ public class NullSpaceTest extends TestCase {
   public void testRowReduce() {
     Tensor m = Tensors.fromString("{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}}");
     Tensor r = NullSpace.of(m);
-    // System.out.println(r);
-    // assertEquals(r, Tensors.fromString("{{1, 0, -3, 2}, {0, 1, -2, 1}}"));
     for (Tensor v : r)
       assertEquals(m.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(r), Arrays.asList(2, 4));
