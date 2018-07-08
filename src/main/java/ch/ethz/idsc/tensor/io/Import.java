@@ -3,9 +3,12 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.util.Properties;
 import java.util.zip.DataFormatException;
 
 import ch.ethz.idsc.tensor.Tensor;
@@ -39,7 +42,7 @@ public enum Import {
    * @see Get */
   public static Tensor of(File file) throws IOException {
     try (FileInputStream fileInputStream = new FileInputStream(file)) {
-      return StaticHelper.parse(new Filename(file), fileInputStream);
+      return ImportHelper.of(new Filename(file), fileInputStream);
     }
   }
 
@@ -54,5 +57,15 @@ public enum Import {
   public static <T> T object(File file) //
       throws IOException, ClassNotFoundException, DataFormatException {
     return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
+  }
+
+  /** @param file
+   * @return
+   * @throws FileNotFoundException
+   * @throws IOException */
+  public static Properties properties(File file) throws FileNotFoundException, IOException {
+    try (InputStream inputStream = new FileInputStream(file)) {
+      return ImportHelper.properties(inputStream);
+    }
   }
 }

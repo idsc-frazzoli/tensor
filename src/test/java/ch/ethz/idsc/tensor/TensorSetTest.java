@@ -10,10 +10,20 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
 public class TensorSetTest extends TestCase {
+  public void testSet() {
+    Tensor eye = IdentityMatrix.of(5);
+    Tensor cpy = eye.copy();
+    assertEquals(eye, cpy);
+    cpy.set(DoubleScalar.of(.3), 1, 2);
+    assertFalse(eye.equals(cpy));
+    cpy.set(s -> (Scalar) s.negate(), 2, 2);
+  }
+
   public void testSetNotByRef() {
     Tensor a = Tensors.vector(1);
     Tensor row = Tensors.vector(1, 2, 3, 4);

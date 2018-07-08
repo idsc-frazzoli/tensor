@@ -27,38 +27,33 @@ public enum ResourceData {
   /** Example use:
    * Interpolation interpolation = LinearInterpolation.of(ResourceData.of("/colorscheme/classic.csv"));
    * 
-   * @param string
+   * @param string as path to resource
    * @return imported tensor, or null if resource could not be loaded */
   public static Tensor of(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
-      return StaticHelper.parse(new Filename(string), inputStream);
+      return ImportHelper.of(new Filename(string), inputStream);
     } catch (Exception exception) {
       // ---
     }
     return null;
   }
 
-  /** @param string
-   * @return imported properties, or null if resource could not be loaded */
-  public static Properties properties(String string) {
-    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
-      Properties properties = new Properties();
-      properties.load(inputStream);
-      return properties;
-    } catch (Exception exception) {
-      // ---
-    }
-    return null;
-  }
-
-  /** @param string
+  /** @param string as path to resource
    * @return imported object, or null if resource could not be loaded */
   public static <T> T object(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
-      int length = inputStream.available();
-      byte[] bytes = new byte[length];
-      inputStream.read(bytes);
-      return ObjectFormat.parse(bytes);
+      return ImportHelper.object(inputStream);
+    } catch (Exception exception) {
+      // ---
+    }
+    return null;
+  }
+
+  /** @param string as path to resource
+   * @return imported properties, or null if resource could not be loaded */
+  public static Properties properties(String string) {
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
+      return ImportHelper.properties(inputStream);
     } catch (Exception exception) {
       // ---
     }

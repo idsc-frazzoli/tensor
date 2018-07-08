@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.io;
 
 /** file extensions used by the tensor library
  * 
- * {@link StaticHelper#parse(Extension, java.io.InputStream)} */
+ * {@link ImportHelper#parse(Extension, java.io.InputStream)} */
 /* package */ enum Extension {
   /** uncompressed loss-less image format, no alpha channel */
   BMP, //

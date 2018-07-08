@@ -34,10 +34,10 @@ public enum Export {
     try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
       if (extension.equals(Extension.GZ))
         try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(fileOutputStream)) {
-          StaticHelper.write(filename.truncate().extension(), tensor, gzipOutputStream);
+          ExportHelper.of(filename.truncate().extension(), tensor, gzipOutputStream);
         }
       else
-        StaticHelper.write(extension, tensor, fileOutputStream);
+        ExportHelper.of(extension, tensor, fileOutputStream);
     }
   }
 

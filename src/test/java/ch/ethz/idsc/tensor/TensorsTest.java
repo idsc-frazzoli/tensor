@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -17,30 +16,6 @@ public class TensorsTest extends TestCase {
     assertEquals(Tensors.empty(), Tensors.of());
   }
 
-  public void testReduction() {
-    Tensor a = Tensors.vectorDouble(2., 1.123, .3123);
-    boolean value = a.flatten(-1).map(Scalar.class::cast) //
-        .map(Scalar::number) //
-        .map(Number::doubleValue) //
-        .map(d -> d > 0) //
-        .reduce(Boolean::logicalAnd) //
-        .get();
-    assertTrue(value);
-  }
-
-  public void testGet() {
-    assertTrue(IdentityMatrix.of(10).Get(3, 4) instanceof RealScalar);
-  }
-
-  public void testSet() {
-    Tensor eye = IdentityMatrix.of(5);
-    Tensor cpy = eye.copy();
-    assertEquals(eye, cpy);
-    cpy.set(DoubleScalar.of(.3), 1, 2);
-    assertFalse(eye.equals(cpy));
-    cpy.set(s -> (Scalar) s.negate(), 2, 2);
-  }
-
   public void testNorm() {
     Tensor vector = Tensors.vectorLong(2, 3, 4, 5);
     assertTrue(ExactScalarQ.all(vector));
@@ -50,35 +25,9 @@ public class TensorsTest extends TestCase {
   }
 
   public void testNorm2() {
-    Tensor a = Tensors.of( //
-        RationalScalar.of(2, 3), //
-        RationalScalar.of(4, 5));
+    Tensor a = Tensors.of(RationalScalar.of(2, 3), RationalScalar.of(4, 5));
     Scalar s = (Scalar) a.dot(a);
     assertEquals(s, RationalScalar.of(244, 225));
-  }
-
-  public void testNorm3() {
-    Tensor a = Tensors.vectorLong(2, -3, 4, -1);
-    double ods = a.flatten(0) //
-        .map(s -> (Scalar) s) //
-        .map(Scalar::abs) //
-        .map(Scalar::number) //
-        .map(Number::doubleValue) //
-        .reduce(Double::max) //
-        .orElse(0.);
-    assertEquals(ods, 4.0);
-  }
-
-  public void testNorm4() {
-    Tensor a = Tensors.vectorLong(2, -3, 4, -1);
-    double ods = a.flatten(0) //
-        .map(s -> (Scalar) s) //
-        .map(Scalar::abs) //
-        .map(Scalar::number) //
-        .map(Number::doubleValue) //
-        .reduce(Double::sum) //
-        .orElse(0.);
-    assertEquals(ods, 10.0);
   }
 
   public void testNorm5() {

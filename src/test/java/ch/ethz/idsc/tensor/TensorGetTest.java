@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
 public class TensorGetTest extends TestCase {
@@ -12,6 +13,10 @@ public class TensorGetTest extends TestCase {
     assertEquals(Tensors.empty().get(Arrays.asList()), Tensors.empty());
     assertEquals(Array.zeros(2, 3).get(), Array.zeros(2, 3));
     assertEquals(Array.zeros(2, 3).get(Arrays.asList()), Array.zeros(2, 3));
+  }
+
+  public void testGetScalar() {
+    assertTrue(IdentityMatrix.of(10).Get(3, 4) instanceof RealScalar);
   }
 
   public void testGet() {
