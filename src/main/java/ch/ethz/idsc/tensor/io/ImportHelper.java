@@ -49,7 +49,7 @@ import ch.ethz.idsc.tensor.Tensor;
 
   /** @param inputStream
    * @return lines in given inputStream as stream of strings */
-  private static Stream<String> lines(InputStream inputStream) {
+  static Stream<String> lines(InputStream inputStream) {
     return new BufferedReader(new InputStreamReader(inputStream)).lines();
   }
 

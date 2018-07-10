@@ -4,57 +4,52 @@ package ch.ethz.idsc.tensor.io.ext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.stream.Stream;
 
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
-class WavefrontImpl implements Wavefront, Serializable {
+/* package */ class WavefrontImpl implements Wavefront, Serializable {
   private final Tensor vertices = Tensors.empty();
   private final Tensor normals = Tensors.empty();
   private final List<WavefrontObject> objects = new ArrayList<>();
 
-  @Override
+  public WavefrontImpl(Stream<String> stream) {
+    stream.forEach(this::parse);
+  }
+
+  private void parse(String string) {
+    if (string.startsWith("v "))
+      vertices.append(StaticHelper.three(string.substring(2)));
+    else //
+    if (string.startsWith("vn "))
+      normals.append(StaticHelper.three(string.substring(3)));
+    else //
+    if (string.startsWith("f "))
+      ((WavefrontObjectImpl) object()).append_f(string.substring(2));
+    else //
+    if (string.startsWith("o "))
+      objects.add(new WavefrontObjectImpl(string.substring(2)));
+  }
+
+  @Override // from Wavefront
   public Tensor vertices() {
     return vertices.unmodifiable();
   }
 
-  @Override
+  @Override // from Wavefront
   public Tensor normals() {
     return normals.unmodifiable();
   }
 
-  @Override
+  @Override // from Wavefront
   public List<WavefrontObject> objects() {
     return objects;
   }
 
-  void append_v(String string) {
-    vertices.append(three(string));
-  }
-
-  void append_vn(String string) {
-    normals.append(three(string));
-  }
-
-  public void append_o(String string) {
-    objects.add(new WavefrontObjectImpl(string));
-  }
-
-  void append_f(String substring) {
-    ((WavefrontObjectImpl) object()).append_f(substring);
-  }
-
   private WavefrontObject object() {
+    if (objects.isEmpty())
+      throw new RuntimeException();
     return objects.get(objects.size() - 1);
-  }
-
-  private static Tensor three(String string) {
-    StringTokenizer stringTokenizer = new StringTokenizer(string);
-    return Tensors.of( //
-        Scalars.fromString(stringTokenizer.nextToken()), //
-        Scalars.fromString(stringTokenizer.nextToken()), //
-        Scalars.fromString(stringTokenizer.nextToken()));
   }
 }

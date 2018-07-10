@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
-class WavefrontObjectImpl implements WavefrontObject, Serializable {
+/* package */ class WavefrontObjectImpl implements WavefrontObject, Serializable {
   private final String string;
   private final Tensor faces = Tensors.empty();
   private final Tensor normals = Tensors.empty();

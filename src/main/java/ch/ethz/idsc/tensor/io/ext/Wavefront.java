@@ -12,6 +12,6 @@ public interface Wavefront {
   /** @return |N| x 3 matrix of normals */
   Tensor normals();
 
-  /** @return list of WavefrontObj */
+  /** @return list of {@link WavefrontObject}s */
   List<WavefrontObject> objects();
 }
