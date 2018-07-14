@@ -41,8 +41,8 @@ public enum Import {
    * @throws IOException
    * @see Get */
   public static Tensor of(File file) throws IOException {
-    try (FileInputStream fileInputStream = new FileInputStream(file)) {
-      return ImportHelper.of(new Filename(file), fileInputStream);
+    try (InputStream inputStream = new FileInputStream(file)) {
+      return ImportHelper.of(new Filename(file), inputStream);
     }
   }
 
@@ -60,7 +60,7 @@ public enum Import {
   }
 
   /** @param file
-   * @return
+   * @return instance of {@link Properties} with key-value pairs specified in given file
    * @throws FileNotFoundException
    * @throws IOException */
   public static Properties properties(File file) throws FileNotFoundException, IOException {

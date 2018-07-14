@@ -122,7 +122,19 @@ public class ExportTest extends TestCase {
     file.delete();
   }
 
-  public void testFail() {
+  public void testFailFile() {
+    File file = new File("folder/does/not/exist/ethz.m");
+    assertFalse(file.exists());
+    try {
+      Export.of(file, Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    assertFalse(file.exists());
+  }
+
+  public void testFailExtension() {
     File file = new File("ethz.idsc");
     assertFalse(file.exists());
     try {
