@@ -21,7 +21,7 @@ public enum LeastSquares {
    * 
    * @param m is matrix with rows >= cols
    * @param b
-   * @return with m.x ~ b */
+   * @return x with m.x ~ b */
   public static Tensor usingSvd(Tensor m, Tensor b) {
     return PseudoInverse.of(m).dot(b);
   }

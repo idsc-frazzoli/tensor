@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class ResourceDataTest extends TestCase {
     }
   }
 
-  public void testColorschemeClassic() throws IOException {
+  public void testColorschemeClassic() {
     Tensor tensor = ResourceData.of("/colorscheme/classic.csv");
     assertNotNull(tensor);
     assertEquals(Dimensions.of(tensor), Arrays.asList(256, 4));
@@ -32,7 +31,7 @@ public class ResourceDataTest extends TestCase {
     _checkColorscheme(interpolation);
   }
 
-  public void testHue() throws IOException {
+  public void testHue() {
     Tensor tensor = ResourceData.of("/colorscheme/hue.csv");
     assertNotNull(tensor);
     assertEquals(Dimensions.of(tensor), Arrays.asList(7, 4));
@@ -41,7 +40,7 @@ public class ResourceDataTest extends TestCase {
     _checkColorscheme(interpolation);
   }
 
-  public void testPrimes() throws IOException {
+  public void testPrimes() {
     Tensor primes = ResourceData.of("/number/primes.vector");
     assertNotNull(primes);
     List<Integer> dimensions = Dimensions.of(primes);
@@ -49,12 +48,18 @@ public class ResourceDataTest extends TestCase {
     assertEquals(primes.Get(5), Scalars.fromString("13"));
   }
 
-  public void testJpg() throws IOException {
+  public void testCsvGz() {
+    Tensor actual = ResourceData.of("/io/mathematica23.csv.gz");
+    Tensor expected = Tensors.fromString("{{123/875+I, 9.3}, {-9, 5/8123123123123123, 1010101}}");
+    assertEquals(expected, actual);
+  }
+
+  public void testJpg() {
     Tensor image = ResourceData.of("/io/rgb15x33.jpg");
     assertEquals(Dimensions.of(image), Arrays.asList(33, 15, 4));
   }
 
-  public void testBmp() throws IOException {
+  public void testBmp() {
     Tensor image = ResourceData.of("/io/rgb7x11.bmp");
     assertEquals(Dimensions.of(image), Arrays.asList(11, 7, 4));
     assertEquals(image.get(10, 4), Tensors.vector(0, 7, 95, 255));
@@ -62,6 +67,7 @@ public class ResourceDataTest extends TestCase {
 
   public void testFailNull() {
     assertNull(ResourceData.of("/number/exists.fail"));
+    assertNull(ResourceData.of("/number/exists.fail.bmp"));
   }
 
   public void testObjectNull() {

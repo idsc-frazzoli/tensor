@@ -32,7 +32,6 @@ public enum Det {
 
   // helper function
   private static Scalar of(Tensor matrix, Pivot pivot) {
-    MatrixQ.require(matrix);
     final int n = matrix.length();
     final int m = Unprotect.dimension1(matrix);
     if (m == 0)
@@ -43,6 +42,7 @@ public enum Det {
       } catch (Exception exception) {
         // matrix is singular
       }
+    MatrixQ.require(matrix);
     return RealScalar.ZERO;
   }
 }

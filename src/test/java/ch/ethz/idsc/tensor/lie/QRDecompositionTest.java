@@ -208,28 +208,4 @@ public class QRDecompositionTest extends TestCase {
     specialOps(matrix);
     specialOps(N.DOUBLE.of(matrix));
   }
-
-  public void testEmpty() {
-    try {
-      QRDecomposition.of(Tensors.empty());
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testFail() {
-    try {
-      QRDecomposition.of(Tensors.fromString("{{1,2},{3,4,5}}"));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      QRDecomposition.of(LieAlgebras.sl3());
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
 }

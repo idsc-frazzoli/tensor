@@ -1,19 +1,16 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.opt.Projection;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
-import ch.ethz.idsc.tensor.red.Frobenius;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
@@ -61,24 +58,6 @@ public class NormalizeTest extends TestCase {
     assertTrue(ExactScalarQ.all(result));
   }
 
-  public void testEmpty() {
-    try {
-      Normalize.of(Tensors.empty());
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testZeros() {
-    try {
-      Normalize.of(Array.zeros(10));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void testEps() {
     Tensor vector = Tensors.vector(0, Double.MIN_VALUE, 0);
     assertEquals(Normalize.of(vector, Norm._1), Tensors.vector(0, 1, 0));
@@ -98,47 +77,6 @@ public class NormalizeTest extends TestCase {
     Tensor n = Normalize.of(v, Norm._1);
     assertEquals(n, Tensors.fromString("{1/3, 1/3, 1/3}"));
     _checkNormalizeAllNorms(v);
-  }
-
-  public void testNormalizeInfinity() {
-    try {
-      Tensor vector = Tensors.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE);
-      Normalize.of(vector);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Tensor vector = Tensors.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE);
-      Normalize.unlessZero(vector);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Tensor vector = Tensors.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ONE, DoubleScalar.POSITIVE_INFINITY);
-      Normalize.of(vector);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testNormalizeNaN() {
-    try {
-      Tensor vector = Tensors.of(RealScalar.ONE, DoubleScalar.INDETERMINATE, RealScalar.ONE);
-      Normalize.of(vector);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Tensor vector = Tensors.of(RealScalar.ONE, DoubleScalar.INDETERMINATE, RealScalar.ONE);
-      Normalize.unlessZero(vector);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
   }
 
   public void testNormInf() {
@@ -176,47 +114,5 @@ public class NormalizeTest extends TestCase {
   public void testQuantityTensor() {
     Tensor vector = QuantityTensor.of(Tensors.vector(2, 3, 4), "m*s^-1");
     _checkNormalizeAllNorms(vector);
-  }
-
-  public void testFail1() {
-    try {
-      Normalize.of(Tensors.vector(0, 0, 0, 0), Norm._1);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testScalarFail() {
-    try {
-      Normalize.of(RealScalar.ONE);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testMatrixFail() {
-    try {
-      Normalize.of(Tensors.fromString("{{1,2},{3,4,5}}"));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Normalize.of(HilbertMatrix.of(3));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testMatrixFail2() {
-    try {
-      Normalize.unlessZero(Array.zeros(3, 3), Frobenius.NORM);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
   }
 }

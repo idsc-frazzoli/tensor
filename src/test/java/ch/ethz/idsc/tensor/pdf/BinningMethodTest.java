@@ -29,8 +29,8 @@ public class BinningMethodTest extends TestCase {
 
   public void testQuantity() {
     Tensor samples = QuantityTensor.of(Tensors.vector(1, 2, 3, 1, 2, 3, 7, 2, 9, 3, 3), "Apples");
-    for (BinningMethod bm : BinningMethod.values()) {
-      Scalar width = bm.apply(samples);
+    for (BinningMethod binningMethod : BinningMethod.values()) {
+      Scalar width = binningMethod.apply(samples);
       assertTrue(width instanceof Quantity);
       Scalar value = QuantityMagnitude.singleton("Apples").apply(width);
       assertTrue(Sign.isPositive(value));
@@ -38,9 +38,9 @@ public class BinningMethodTest extends TestCase {
   }
 
   public void testFail() {
-    for (BinningMethod bm : BinningMethod.values())
+    for (BinningMethod binningMethod : BinningMethod.values())
       try {
-        bm.apply(Tensors.empty());
+        binningMethod.apply(Tensors.empty());
         assertTrue(false);
       } catch (Exception exception) {
         // ---

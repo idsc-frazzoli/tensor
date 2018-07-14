@@ -2,15 +2,15 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
-
-import javax.imageio.ImageIO;
+import java.util.zip.GZIPOutputStream;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** supported file formats are: CSV, JPG, M, PNG, TENSOR
+/** supported file formats are: BMP, CSV, CSV.GZ, JPG, M, PNG
  * 
  * <p>Do not use Export when exchanging {@link Tensor}s with
  * Mathematica. For that purpose use {@link Put} and {@link Get}.
@@ -19,31 +19,26 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Export.html">Export</a> */
 public enum Export {
   ;
-  /** See the documentation of {@link CsvFormat}, {@link ImageFormat},
-   * {@link MatlabExport}
+  /** See the documentation of {@link CsvFormat}, {@link ImageFormat}, and {@link MatlabExport}
    * for information on how tensors are encoded in the respective format.
+   * 
+   * If the extension of the given file is not used in the tensor library, an exception
+   * is thrown, and the file will not be created.
    * 
    * @param file destination
    * @param tensor
    * @throws IOException */
   public static void of(File file, Tensor tensor) throws IOException {
     Filename filename = new Filename(file);
-    if (filename.hasExtension("bmp"))
-      ImageIO.write(ImageFormat.bgr(tensor), "bmp", file);
-    else //
-    if (filename.hasExtension("csv"))
-      Files.write(file.toPath(), (Iterable<String>) CsvFormat.of(tensor)::iterator);
-    else //
-    if (filename.hasExtension("jpg"))
-      ImageIO.write(ImageFormat.bgr(tensor), "jpg", file);
-    else //
-    if (filename.hasExtension("m"))
-      Files.write(file.toPath(), (Iterable<String>) MatlabExport.of(tensor)::iterator);
-    else //
-    if (filename.hasExtension("png"))
-      ImageIO.write(ImageFormat.of(tensor), "png", file);
-    else //
-      throw new RuntimeException(file.toString());
+    Extension extension = filename.extension();
+    try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+      if (extension.equals(Extension.GZ))
+        try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(fileOutputStream)) {
+          ExportHelper.of(filename.truncate().extension(), tensor, gzipOutputStream);
+        }
+      else
+        ExportHelper.of(extension, tensor, fileOutputStream);
+    }
   }
 
   /** export function for Java objects that implement {@link Serializable}.

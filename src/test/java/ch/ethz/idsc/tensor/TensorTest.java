@@ -109,58 +109,6 @@ public class TensorTest extends TestCase {
     assertEquals(expected, A.add(B));
   }
 
-  public void testDotEmpty() {
-    Tensor a = Tensors.empty().dot(Tensors.empty());
-    assertTrue(ScalarQ.of(a));
-    assertEquals(a, RealScalar.ZERO);
-    assertEquals(a, DoubleScalar.of(0));
-    assertEquals(RealScalar.ZERO, a);
-    assertEquals(DoubleScalar.of(0), a);
-  }
-
-  public void testDot2() {
-    Tensor tensor = Tensors.of(Tensors.empty());
-    Tensor sca = tensor.dot(Tensors.empty());
-    assertEquals(sca, Tensors.vectorDouble(0));
-  }
-
-  public void testDot3() {
-    Tensor tensor = Tensors.of(Tensors.empty(), Tensors.empty());
-    Tensor sca = tensor.dot(Tensors.empty());
-    assertEquals(sca, Tensors.vectorLong(0, 0));
-  }
-
-  public void testDot4() {
-    Tensor c = Tensors.vectorLong(1, 2, 6);
-    Tensor d = Tensors.vectorLong(3, 4, 5);
-    assertTrue(c.dot(d) instanceof RationalScalar);
-    assertEquals(c.dot(d), RationalScalar.of(3 + 8 + 30, 1));
-  }
-
-  public void testDot5() {
-    Tensor c = Tensors.vectorDouble(1, 2, 6.);
-    Tensor d = Tensors.vectorLong(3, 4, 5);
-    assertTrue(c.dot(d) instanceof DoubleScalar);
-    assertEquals(c.dot(d), RationalScalar.of(3 + 8 + 30, 1));
-  }
-
-  public void testDot6() {
-    Tensor a = Tensors.vectorLong(7, 2);
-    Tensor b = Tensors.vectorLong(3, 4);
-    Tensor c = Tensors.vectorLong(2, 2);
-    Tensor d = Tensors.of(a, b, c);
-    Tensor e = Tensors.vectorLong(-1, 1);
-    Tensor f = d.dot(e);
-    Tensor g = Tensors.vectorLong(-7 + 2, -3 + 4, -2 + 2);
-    assertEquals(f, g);
-  }
-
-  public void testDotIrregular() {
-    Tensor a = Tensors.vector(1, 2, 3);
-    Tensor b = Tensors.fromString("{{1,{2}},{2,{3}},{4,{5}}}");
-    assertEquals(a.dot(b), Tensors.fromString("{17, {23}}"));
-  }
-
   public void testExtractFail() {
     Tensors.vector(1, 2, 3, 4, 5, 6).extract(3, 6);
     Tensors.vector(1, 2, 3, 4, 5, 6).extract(6, 6);
@@ -189,59 +137,10 @@ public class TensorTest extends TestCase {
     }
   }
 
-  public void testHash() {
-    Tensor a = Tensors.vectorLong(7, 2);
-    Tensor b = Tensors.vectorLong(7, 2);
-    assertEquals(a, b);
-    assertEquals(a.hashCode(), b.hashCode());
-    assertTrue(a.hashCode() != 0);
-  }
-
-  public void testHashDifferent() {
-    Tensor a = Tensors.vectorLong(7, 2);
-    Tensor b = Tensors.vectorLong(722, 18275);
-    assertFalse(a.hashCode() == b.hashCode());
-  }
-
-  public void testHashCopy() {
-    Tensor a = Tensors.of(Tensors.vectorLong(2, -81, 7, 2, 8), Tensors.vector(32, 3.123));
-    Tensor b = a.copy();
-    assertEquals(a, b);
-    assertEquals(a.hashCode(), b.hashCode());
-  }
-
-  public void testHashScalar() {
-    Tensor c = DoubleScalar.of(3.14);
-    Tensor d = DoubleScalar.of(3.14);
-    assertEquals(c, d);
-    assertEquals(c.hashCode(), d.hashCode());
-  }
-
   public void testScalarStream() {
     List<Tensor> asd = Arrays.asList(RealScalar.ZERO, RealScalar.of(3));
     Tensor a = Tensor.of(asd.stream());
     assertEquals(a.length(), 2);
-  }
-
-  public void testEquals() {
-    Tensor a = DoubleScalar.of(1.23);
-    assertEquals(a, DoubleScalar.of(1.23));
-    assertTrue(!a.equals(DoubleScalar.of(-1.23)));
-    Tensor b = Tensors.vectorLong(3, 4, 5);
-    assertFalse(a.equals(b));
-    assertFalse(b.equals(a));
-    Tensor c = Tensors.vectorLong(3, 4, 5);
-    assertEquals(b, c);
-    Tensor d = Tensors.of(Tensors.vectorLong(1, 2), a);
-    Tensor e = Tensors.of(Tensors.vectorLong(1, 2), DoubleScalar.of(1.23));
-    assertEquals(d, e);
-    Tensor f = Tensors.of(Tensors.vectorLong(1, 2), DoubleScalar.of(-1.23));
-    assertFalse(d.equals(f));
-  }
-
-  public void testEquals2() {
-    assertFalse(Array.zeros(3, 2).equals(Array.zeros(2, 3)));
-    assertFalse(Array.zeros(3, 2).equals(Array.zeros(3, 3)));
   }
 
   public void testNegate() {
@@ -254,9 +153,5 @@ public class TensorTest extends TestCase {
     Tensor a = Tensors.of(DoubleScalar.of(1e-20), Tensors.of(DoubleScalar.of(3e-19)));
     Tensor b = a.map(Chop._12);
     assertEquals(b, Tensors.of(RealScalar.ZERO, Tensors.of(RealScalar.ZERO)));
-  }
-
-  public void testToString() {
-    assertEquals(Tensors.vector(2, 3, 4).toString(), "{2, 3, 4}");
   }
 }

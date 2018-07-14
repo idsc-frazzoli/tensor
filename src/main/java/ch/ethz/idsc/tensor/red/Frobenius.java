@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
-import ch.ethz.idsc.tensor.alg.VectorQ;
 
 /** implementation consistent with Mathematica
  * Norm[{3, 4}, "Frobenius"] == 5 */
@@ -13,13 +12,12 @@ public enum Frobenius implements NormInterface {
   // ---
   @Override // from VectorNormInterface
   public Scalar ofVector(Tensor vector) {
-    return of(VectorQ.require(vector));
+    return Norm._2.ofVector(vector);
   }
 
   @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
-    MatrixQ.require(matrix);
-    return of(matrix);
+    return of(MatrixQ.require(matrix));
   }
 
   /** @param tensor of arbitrary rank

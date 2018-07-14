@@ -1,15 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.util.Properties;
 import java.util.zip.DataFormatException;
-
-import javax.imageio.ImageIO;
 
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -31,6 +31,7 @@ public enum Import {
    * <ul>
    * <li>bmp for {@link ImageFormat}
    * <li>csv for {@link CsvFormat}
+   * <li>csv.gz for compressed {@link CsvFormat}
    * <li>jpg for {@link ImageFormat}
    * <li>png for {@link ImageFormat}
    * </ul>
@@ -40,17 +41,9 @@ public enum Import {
    * @throws IOException
    * @see Get */
   public static Tensor of(File file) throws IOException {
-    Filename filename = new Filename(file);
-    if (filename.hasExtension("csv"))
-      // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
-      try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-        return CsvFormat.parse(bufferedReader.lines());
-      }
-    if (filename.hasExtension("bmp") || //
-        filename.hasExtension("jpg") || //
-        filename.hasExtension("png"))
-      return ImageFormat.from(ImageIO.read(file));
-    throw new RuntimeException(file.toString());
+    try (InputStream inputStream = new FileInputStream(file)) {
+      return ImportHelper.of(new Filename(file), inputStream);
+    }
   }
 
   /** import function for Java objects that implement {@link Serializable}
@@ -64,5 +57,15 @@ public enum Import {
   public static <T> T object(File file) //
       throws IOException, ClassNotFoundException, DataFormatException {
     return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
+  }
+
+  /** @param file
+   * @return instance of {@link Properties} with key-value pairs specified in given file
+   * @throws FileNotFoundException
+   * @throws IOException */
+  public static Properties properties(File file) throws FileNotFoundException, IOException {
+    try (InputStream inputStream = new FileInputStream(file)) {
+      return ImportHelper.properties(inputStream);
+    }
   }
 }

@@ -9,8 +9,20 @@ public class ScalarParserTest extends TestCase {
   }
 
   public void testComplex() {
-    Scalar c = ScalarParser.of("3.14`30.123+2.12`99.322*I");
-    assertEquals(c, ComplexScalar.of(3.14, 2.12));
+    Scalar scalar = ScalarParser.of("3.14`30.123+2.12`99.322*I");
+    assertEquals(scalar, ComplexScalar.of(3.14, 2.12));
+  }
+
+  public void testDivisions() {
+    Scalar scalar = ScalarParser.of("40*3/4/5/6");
+    assertEquals(scalar, ComplexScalar.of(1, 0));
+    assertTrue(ExactScalarQ.of(scalar));
+  }
+
+  public void testMix() {
+    Scalar scalar = ScalarParser.of("80*3/4/2*5/6");
+    assertEquals(scalar, ComplexScalar.of(25, 0));
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testImagFormat() {

@@ -3,33 +3,35 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.Objects;
 
 /* package */ class Filename implements Serializable {
-  public final File file;
-  public final String title;
-  public final String extension;
+  private static final char DOT = '.';
+  // ---
+  /** name of file in upper case characters */
+  private final String string;
 
   public Filename(File file) {
-    this.file = file;
-    String string = file.getName();
-    int index = string.lastIndexOf('.');
-    if (0 <= index) {
-      title = string.substring(0, index);
-      extension = string.substring(index + 1);
-    } else {
-      title = string;
-      extension = "";
-    }
+    this(file.getName());
   }
 
-  public boolean hasExtension(String string) {
-    return extension.equalsIgnoreCase(string);
+  public Filename(String string) {
+    this.string = string.toUpperCase();
   }
 
-  /** @param string if null, produces file with title only, for instance to use as a directory
-   * @return */
-  public File withExtension(String string) {
-    return new File(file.getParentFile(), title + (Objects.isNull(string) ? "" : "." + string));
+  // strictly private
+  private Filename(String string, int until) {
+    this.string = string.substring(0, until);
+  }
+
+  /** @return
+   * @throws Exception if this filename does not contain the character `.` */
+  public Filename truncate() {
+    return new Filename(string, string.lastIndexOf(DOT));
+  }
+
+  /** @return ultimate extension of file derived from the characters after the last '.'
+   * @throws Exception if extension is not listed in {@link Extension} */
+  public Extension extension() {
+    return Extension.valueOf(string.substring(string.lastIndexOf(DOT) + 1));
   }
 }

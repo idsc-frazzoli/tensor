@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.io.StringScalar;
@@ -13,9 +14,10 @@ import ch.ethz.idsc.tensor.io.StringScalar;
   // ---
   private final Function<String, Scalar> function; // not Serializable
 
-  /** @param function that parses a string to a scalar */
+  /** @param function that parses a string to a scalar
+   * @throws Exception if given function is null */
   public TensorParser(Function<String, Scalar> function) {
-    this.function = function;
+    this.function = Objects.requireNonNull(function);
   }
 
   public Tensor parse(String string) {

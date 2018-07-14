@@ -46,6 +46,13 @@ public class ImportTest extends TestCase {
     }
   }
 
+  public void testCsvGz() throws Exception {
+    String string = "/io/mathematica23.csv.gz";
+    File file = new File(getClass().getResource(string).getFile());
+    Tensor table = Import.of(file);
+    assertEquals(table, Tensors.fromString("{{123/875+I, 9.3}, {-9, 5/8123123123123123, 1010101}}"));
+  }
+
   public void testCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
     File file = UserHome.file("tensorTest" + ImportTest.class.getSimpleName() + ".csv");
     assertFalse(file.exists());

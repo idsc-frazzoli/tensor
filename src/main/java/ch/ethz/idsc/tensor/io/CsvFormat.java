@@ -65,7 +65,7 @@ public enum CsvFormat {
    * @see Export */
   public static Stream<String> of(Tensor tensor) {
     // flatten(0) handles scalars as opposed to stream()
-    return tensor.flatten(0).parallel().map(CsvFormat::row);
+    return tensor.flatten(0).map(CsvFormat::row);
   }
 
   /** Example: The stream of the following strings

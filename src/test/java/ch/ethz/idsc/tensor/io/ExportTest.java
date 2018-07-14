@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.io.File;
 import java.io.IOException;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -11,7 +12,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.img.MeanFilter;
+import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
+import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.utl.UserHome;
@@ -25,6 +28,28 @@ public class ExportTest extends TestCase {
     Export.of(file, tensor);
     assertEquals(tensor, Import.of(file));
     file.delete();
+  }
+
+  public void testCsvGz() throws IOException {
+    File file = UserHome.file("tensorLib_ExportTest.csv.gz");
+    assertFalse(file.isFile());
+    Tensor tensor = Tensors.fromString("{{0,2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
+    Export.of(file, tensor);
+    Tensor imported = Import.of(file);
+    file.delete();
+    assertEquals(tensor, imported);
+  }
+
+  public void testCsvGzLarge() throws IOException {
+    File file = UserHome.file("tensorLib_ExportTest_Large.csv.gz");
+    assertFalse(file.isFile());
+    Distribution distribution = BinomialDistribution.of(10, RealScalar.of(.3));
+    Tensor tensor = RandomVariate.of(distribution, 60, 30);
+    Export.of(file, tensor);
+    Tensor imported = Import.of(file);
+    file.delete();
+    assertEquals(tensor, imported);
+    assertTrue(ExactScalarQ.all(imported));
   }
 
   public void testPngColor() throws IOException {
@@ -97,12 +122,27 @@ public class ExportTest extends TestCase {
     file.delete();
   }
 
-  public void testFail() {
+  public void testFailFile() {
+    File file = new File("folder/does/not/exist/ethz.m");
+    assertFalse(file.exists());
     try {
-      Export.of(new File("ethz.idsc"), Tensors.empty());
+      Export.of(file, Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+    assertFalse(file.exists());
+  }
+
+  public void testFailExtension() {
+    File file = new File("ethz.idsc");
+    assertFalse(file.exists());
+    try {
+      Export.of(file, Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    assertFalse(file.exists());
   }
 }

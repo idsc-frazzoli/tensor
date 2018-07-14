@@ -6,29 +6,45 @@ import java.io.File;
 import junit.framework.TestCase;
 
 public class FilenameTest extends TestCase {
+  public void testTruncate() {
+    Filename filename = new Filename(new File("dir/some.bmp.gz"));
+    assertEquals(filename.extension(), Extension.GZ);
+    Filename truncate = filename.truncate();
+    assertEquals(truncate.extension(), Extension.BMP);
+  }
+
   public void testExtension() {
-    Filename filename = new Filename(new File("dir/title.ext"));
-    assertEquals(filename.extension, "ext");
-    assertEquals(filename.title, "title");
-    assertTrue(filename.hasExtension("ext"));
+    Filename filename = new Filename(new File("dir/some.gif"));
+    assertEquals(filename.extension(), Extension.GIF);
   }
 
-  public void testNoExt() {
-    Filename filename = new Filename(new File("dir/title"));
-    assertEquals(filename.extension, "");
-    assertEquals(filename.title, "title");
-    assertTrue(filename.hasExtension(""));
+  public void testFailExtension() {
+    Filename filename = new Filename(new File("dir/title.ext"));
+    try {
+      filename.extension();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
-  public void testExt() {
-    Filename filename = new Filename(new File("dir/title.ext"));
-    File file = filename.withExtension("txt");
-    assertEquals(file.toString(), "dir/title.txt");
+  public void testFailNoExt() {
+    Filename filename = new Filename(new File("dir/mybmp"));
+    try {
+      filename.extension();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
-  public void testExtNull() {
-    Filename filename = new Filename(new File("dir/title.ext"));
-    File file = filename.withExtension(null);
-    assertEquals(file.toString(), "dir/title");
+  public void testFailTruncate() {
+    Filename filename = new Filename(new File("dir/mybmp"));
+    try {
+      filename.truncate();
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

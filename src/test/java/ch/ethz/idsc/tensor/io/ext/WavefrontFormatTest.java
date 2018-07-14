@@ -2,11 +2,11 @@
 package ch.ethz.idsc.tensor.io.ext;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.Scalar;
@@ -18,8 +18,9 @@ import junit.framework.TestCase;
 
 public class WavefrontFormatTest extends TestCase {
   public void testBlender0() throws IOException {
-    String string = getClass().getResource("/io/ext/blender0.obj").getPath();
-    Wavefront wavefront = WavefrontFormat.parse(Files.readAllLines(Paths.get(string)).stream());
+    InputStream inputStream = getClass().getResource("/io/ext/blender0.obj").openStream();
+    Stream<String> stream = StaticHelper.lines(inputStream);
+    Wavefront wavefront = WavefrontFormat.parse(stream);
     assertEquals(wavefront.objects().size(), 2);
     assertEquals(wavefront.objects().get(0).name(), "Cylinder");
     assertEquals(wavefront.objects().get(1).name(), "Cube");

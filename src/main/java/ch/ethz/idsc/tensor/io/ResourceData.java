@@ -1,16 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Properties;
-import java.util.stream.Stream;
 
-import javax.imageio.ImageIO;
-
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** access to resource data in jar files, for instance,
@@ -34,54 +27,36 @@ public enum ResourceData {
   /** Example use:
    * Interpolation interpolation = LinearInterpolation.of(ResourceData.of("/colorscheme/classic.csv"));
    * 
-   * @param string
+   * @param string as path to resource
    * @return imported tensor, or null if resource could not be loaded */
   public static Tensor of(String string) {
-    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
-      Filename filename = new Filename(new File(string)); // to determine file extension
-      if (filename.hasExtension("csv"))
-        return CsvFormat.parse(lines(inputStream));
-      if (filename.hasExtension("bmp") || //
-          filename.hasExtension("jpg") || //
-          filename.hasExtension("png"))
-        return ImageFormat.from(ImageIO.read(inputStream));
-      if (filename.hasExtension("vector"))
-        return Tensor.of(lines(inputStream).map(Scalars::fromString));
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
+      return ImportHelper.of(new Filename(string), inputStream);
     } catch (Exception exception) {
       // ---
     }
     return null;
   }
 
-  /** @param string
+  /** @param string as path to resource
+   * @return imported object, or null if resource could not be loaded */
+  public static <T> T object(String string) {
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
+      return ImportHelper.object(inputStream);
+    } catch (Exception exception) {
+      // ---
+    }
+    return null;
+  }
+
+  /** @param string as path to resource
    * @return imported properties, or null if resource could not be loaded */
   public static Properties properties(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
-      Properties properties = new Properties();
-      properties.load(inputStream);
-      return properties;
+      return ImportHelper.properties(inputStream);
     } catch (Exception exception) {
       // ---
     }
     return null;
-  }
-
-  /** @param string
-   * @return imported object, or null if resource could not be loaded */
-  public static <T> T object(String string) {
-    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
-      int length = inputStream.available();
-      byte[] bytes = new byte[length];
-      inputStream.read(bytes);
-      return ObjectFormat.parse(bytes);
-    } catch (Exception exception) {
-      // ---
-    }
-    return null;
-  }
-
-  // helper function
-  private static Stream<String> lines(InputStream inputStream) {
-    return new BufferedReader(new InputStreamReader(inputStream)).lines();
   }
 }
