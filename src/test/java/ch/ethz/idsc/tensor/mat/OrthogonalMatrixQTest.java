@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
-import ch.ethz.idsc.tensor.lie.Rodriguez;
+import ch.ethz.idsc.tensor.lie.Rodrigues;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -21,7 +21,7 @@ public class OrthogonalMatrixQTest extends TestCase {
   public void testRodriques() {
     Distribution dis = NormalDistribution.standard();
     for (int c = 0; c < 20; ++c) {
-      Tensor matrix = Rodriguez.exp(RandomVariate.of(dis, 3));
+      Tensor matrix = Rodrigues.exp(RandomVariate.of(dis, 3));
       assertTrue(OrthogonalMatrixQ.of(matrix));
     }
   }

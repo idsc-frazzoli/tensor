@@ -9,10 +9,10 @@ import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.AnimationWriter;
-import ch.ethz.idsc.tensor.lie.Rodriguez;
+import ch.ethz.idsc.tensor.lie.Rodrigues;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
-enum RodriquezDemo {
+enum RodriquesDemo {
   ;
   // ---
   private static final int RES = 128; // StaticHelper.GALLERY_RES;
@@ -21,7 +21,7 @@ enum RodriquezDemo {
   private static Scalar Z;
 
   private static Scalar function(int y, int x) {
-    Tensor mat = Rodriguez.exp(Tensors.of(RE.Get(x), IM.Get(y), Z));
+    Tensor mat = Rodrigues.exp(Tensors.of(RE.Get(x), IM.Get(y), Z));
     return mat.Get(0, 2);
   }
 
@@ -30,7 +30,7 @@ enum RodriquezDemo {
       for (Tensor _z : Subdivide.of(-4 * Math.PI, 4 * Math.PI, 40)) {
         System.out.println(_z);
         Z = _z.Get();
-        Tensor matrix = Parallelize.matrix(RodriquezDemo::function, RES, RES);
+        Tensor matrix = Parallelize.matrix(RodriquesDemo::function, RES, RES);
         ani.append(ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
       }
       ani.close();

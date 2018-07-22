@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Sin;
 
-/** for rotation matrices in 3D see {@link Rodriguez}
+/** for rotation matrices in 3D see {@link Rodrigues}
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/RotationMatrix.html">RotationMatrix</a> */
