@@ -52,7 +52,7 @@ public class RamerDouglasPeuckerTest extends TestCase {
       // ---
     }
     try {
-      RamerDouglasPeucker.of(LieAlgebras.sl3(), RealScalar.of(.1));
+      RamerDouglasPeucker.of(LieAlgebras.sl2(), RealScalar.of(.1));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -21,12 +21,12 @@ public class TensorProductTest extends TestCase {
   }
 
   public void testFour1() {
-    Tensor tensor = TensorProduct.of(Tensors.vector(1, 2), LieAlgebras.sl3());
+    Tensor tensor = TensorProduct.of(Tensors.vector(1, 2), LieAlgebras.sl2());
     assertEquals(Dimensions.of(tensor), Arrays.asList(2, 3, 3, 3));
   }
 
   public void testFour2() {
-    Tensor tensor = TensorProduct.of(LieAlgebras.sl3(), Tensors.vector(1, 2));
+    Tensor tensor = TensorProduct.of(LieAlgebras.sl2(), Tensors.vector(1, 2));
     assertEquals(Dimensions.of(tensor), Arrays.asList(3, 3, 3, 2));
   }
 }

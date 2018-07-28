@@ -32,6 +32,8 @@ public enum KroneckerDelta {
    * @return RealScalar.ONE if there are no two objects in the stream that are distinct,
    * otherwise RealScalar.ZERO */
   public static Scalar of(Stream<?> stream) {
-    return stream.distinct().count() <= 1 ? RealScalar.ONE : RealScalar.ZERO;
+    return stream.distinct().limit(2).count() <= 1 //
+        ? RealScalar.ONE
+        : RealScalar.ZERO;
   }
 }

@@ -190,7 +190,7 @@ public class DetTest extends TestCase {
 
   public void testFailRank3() {
     try {
-      Det.of(LieAlgebras.sl3());
+      Det.of(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -81,7 +81,7 @@ public class RodriguesFailTest extends TestCase {
       // ---
     }
     try {
-      Rodrigues.logMatrix(LieAlgebras.sl3());
+      Rodrigues.logMatrix(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

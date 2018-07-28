@@ -93,7 +93,7 @@ public class InverseTest extends TestCase {
 
   public void testFailRank3() {
     try {
-      Inverse.of(LieAlgebras.sl3());
+      Inverse.of(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

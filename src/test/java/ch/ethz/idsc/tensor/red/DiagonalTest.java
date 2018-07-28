@@ -23,6 +23,6 @@ public class DiagonalTest extends TestCase {
   }
 
   public void testLieAlgebra() {
-    assertTrue(MatrixQ.of(Diagonal.of(LieAlgebras.sl3())));
+    assertTrue(MatrixQ.of(Diagonal.of(LieAlgebras.sl2())));
   }
 }

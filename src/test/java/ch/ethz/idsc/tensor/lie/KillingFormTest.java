@@ -17,7 +17,7 @@ public class KillingFormTest extends TestCase {
   }
 
   public void testSl3() {
-    Tensor sl3 = LieAlgebras.sl3();
+    Tensor sl3 = LieAlgebras.sl2();
     assertEquals(JacobiIdentity.of(sl3), Array.zeros(3, 3, 3, 3));
     Tensor kil = KillingForm.of(sl3);
     // killing form is non-gegenerate
