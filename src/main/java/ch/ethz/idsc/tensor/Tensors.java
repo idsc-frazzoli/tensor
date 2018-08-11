@@ -26,7 +26,7 @@ public enum Tensors {
   /** @param tensors
    * @return concatenation of {@link Tensor}s or {@link Scalar}s listed in tensors */
   public static Tensor of(Tensor... tensors) {
-    return Tensor.of(Stream.of(tensors));
+    return Tensor.of(Stream.of(tensors).map(Tensor::copy));
   }
 
   /** @param numbers

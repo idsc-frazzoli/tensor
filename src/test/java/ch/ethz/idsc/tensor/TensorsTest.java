@@ -132,4 +132,11 @@ public class TensorsTest extends TestCase {
     ncopies.set(RealScalar.ZERO, 2);
     assertEquals(ncopies, Tensors.vector(3, 3, 0, 3, 3, 3));
   }
+
+  public void testRefs() {
+    Tensor a = Tensors.vector(1, 2, 3);
+    Tensor b = Tensors.of(a);
+    a.set(RealScalar.of(4), 0);
+    assertEquals(b.get(0), Tensors.vector(1, 2, 3));
+  }
 }

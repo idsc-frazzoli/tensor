@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -15,6 +16,20 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class MatrixLog2Test extends TestCase {
+  private static void _checkExpLog(Tensor matrix) {
+    Tensor exp = MatrixExp.of(matrix);
+    Tensor log = MatrixLog.of(exp);
+    Tensor elg = MatrixExp.of(log);
+    assertTrue(Chop._12.close(elg, exp));
+    // Chop._10.close(log, matrix); // not generally true!
+  }
+
+  private static void _checkLogExp(Tensor matrix) {
+    Tensor log = MatrixLog.of(matrix);
+    Tensor exp = MatrixExp.of(log);
+    assertTrue(Chop._12.close(exp, matrix));
+  }
+
   public void testIdentity() {
     Tensor mlog = MatrixLog.of(IdentityMatrix.of(2));
     assertEquals(mlog, Array.zeros(2, 2));
@@ -49,9 +64,32 @@ public class MatrixLog2Test extends TestCase {
       Tensor alg = RandomVariate.of(distribution, 2, 2);
       alg.set(alg.Get(0, 0).negate(), 1, 1);
       assertEquals(Trace.of(alg), RealScalar.ZERO);
-      Tensor exp = MatrixExp.of(alg);
-      Tensor log = MatrixLog.of(exp);
-      assertTrue(Chop._10.close(alg, log));
+      _checkExpLog(alg);
+      _checkLogExp(alg);
+    }
+  }
+
+  public void testComplex() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < 10; ++index) {
+      Tensor re = RandomVariate.of(distribution, 2, 2);
+      Tensor im = RandomVariate.of(distribution, 2, 2);
+      Tensor alg = re.add(im.multiply(ComplexScalar.I));
+      _checkExpLog(alg);
+      _checkLogExp(alg);
+    }
+  }
+
+  public void testComplexTraceZero() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < 10; ++index) {
+      Tensor re = RandomVariate.of(distribution, 2, 2);
+      Tensor im = RandomVariate.of(distribution, 2, 2);
+      Tensor alg = re.add(im.multiply(ComplexScalar.I));
+      alg.set(alg.Get(0, 0).negate(), 1, 1);
+      assertEquals(Trace.of(alg), RealScalar.ZERO);
+      _checkExpLog(alg);
+      _checkLogExp(alg);
     }
   }
 
