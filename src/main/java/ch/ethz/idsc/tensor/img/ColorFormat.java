@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.img;
 import java.awt.Color;
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -19,11 +19,8 @@ public enum ColorFormat {
   /** there are only [0, 1, ..., 255] possible values for red, green, blue, and alpha.
    * We preallocate instances of these scalars in a lookup table to save memory and
    * possibly enhance execution time. */
-  private static final Scalar[] LOOKUP = new Scalar[256];
-  static {
-    IntStream.range(0, 256).forEach(index -> LOOKUP[index] = RationalScalar.of(index, 1));
-  }
-  // ---
+  private static final Scalar[] LOOKUP = //
+      IntStream.range(0, 256).mapToObj(RealScalar::of).toArray(Scalar[]::new);
 
   /** @param color
    * @return vector with {@link Scalar} entries as {R, G, B, A} */
