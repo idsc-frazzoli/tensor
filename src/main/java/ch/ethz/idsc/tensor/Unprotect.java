@@ -56,7 +56,7 @@ public enum Unprotect {
    * 
    * @param tensors
    * @return concatenation of references to {@link Tensor}s or {@link Scalar}s listed in tensors */
-  public static Tensor of(Tensor... tensors) {
+  public static Tensor concatenation(Tensor... tensors) {
     return Tensor.of(Stream.of(tensors));
   }
 }

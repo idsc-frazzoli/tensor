@@ -28,11 +28,12 @@ import ch.ethz.idsc.tensor.Tensor;
     case M:
       lines(MatlabExport.of(tensor), outputStream);
       break;
+    case GIF:
     case PNG:
       ImageIO.write(ImageFormat.of(tensor), extension.name(), outputStream);
       break;
     default:
-      throw new RuntimeException();
+      throw new UnsupportedOperationException(extension.name());
     }
   }
 

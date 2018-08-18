@@ -46,7 +46,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
   /* package */ static String requireQuotesFree(String string) {
     int index = string.indexOf('\"');
     if (0 <= index)
-      throw new RuntimeException();
+      throw new RuntimeException(string);
     return string;
   }
 }

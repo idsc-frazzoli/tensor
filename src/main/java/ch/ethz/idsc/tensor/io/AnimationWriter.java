@@ -20,7 +20,7 @@ public interface AnimationWriter extends AutoCloseable {
     Extension extension = new Filename(file).extension();
     if (extension.equals(Extension.GIF))
       return new GifAnimationWriter(file, period);
-    throw new RuntimeException(file.toString());
+    throw new UnsupportedOperationException(file.toString());
   }
 
   /** @param bufferedImage to append to the image sequence of the animation

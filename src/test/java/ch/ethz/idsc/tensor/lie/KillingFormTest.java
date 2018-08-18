@@ -20,7 +20,7 @@ public class KillingFormTest extends TestCase {
     Tensor sl3 = LieAlgebras.sl2();
     assertEquals(JacobiIdentity.of(sl3), Array.zeros(3, 3, 3, 3));
     Tensor kil = KillingForm.of(sl3);
-    // killing form is non-gegenerate
+    // killing form is non-degenerate
     assertTrue(Scalars.nonZero(Det.of(kil)));
   }
 

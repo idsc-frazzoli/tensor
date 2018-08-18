@@ -10,7 +10,9 @@ package ch.ethz.idsc.tensor.io;
   BMP, //
   /** table */
   CSV, //
-  /** animation format */
+  /** image and animation format
+   * when exporting a tensor to an image, any alpha value != 255
+   * results in the pixel to be transparent */
   GIF, //
   /** compressed version of another format, for instance csv.gz */
   GZ, //
