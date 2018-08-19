@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.io.Serializable;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.Clip;
@@ -10,6 +11,9 @@ import ch.ethz.idsc.tensor.sca.Clip;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/TruncatedDistribution.html">TruncatedDistribution</a> */
 public class TruncatedDistribution implements Distribution, RandomVariateInterface, Serializable {
+  /** maximum number of attempts to produce a random variate before an exception is thrown */
+  private static final int MAXITER = 100;
+
   /** Careful: function does not check for plausibility of input
    * 
    * @param distribution
@@ -30,10 +34,9 @@ public class TruncatedDistribution implements Distribution, RandomVariateInterfa
 
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
-    while (true) {
-      Scalar scalar = RandomVariate.of(distribution);
-      if (clip.isInside(scalar))
-        return scalar;
-    }
+    return IntStream.range(0, MAXITER) //
+        .mapToObj(i -> RandomVariate.of(distribution)) //
+        .filter(clip::isInside) //
+        .findFirst().get();
   }
 }
