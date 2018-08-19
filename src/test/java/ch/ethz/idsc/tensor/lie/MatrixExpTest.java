@@ -46,7 +46,7 @@ public class MatrixExpTest extends TestCase {
   public void testRodriguez() {
     Tensor vector = RandomVariate.of(NormalDistribution.standard(), 3);
     Tensor wedge = LieAlgebras.so3().dot(vector);
-    assertTrue(Chop._13.close(MatrixExp.of(wedge), Rodriguez.exp(vector)));
+    assertTrue(Chop._13.close(MatrixExp.of(wedge), Rodrigues.exp(vector)));
   }
 
   public void testExp1() {

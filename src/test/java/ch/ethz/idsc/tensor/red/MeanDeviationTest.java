@@ -61,7 +61,7 @@ public class MeanDeviationTest extends TestCase {
 
   public void testTensorFail() {
     try {
-      MeanDeviation.ofVector(LieAlgebras.sl3());
+      MeanDeviation.ofVector(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

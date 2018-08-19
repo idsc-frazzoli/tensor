@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /** Notice:
  * 
@@ -49,5 +50,13 @@ public enum Unprotect {
       throw TensorRuntimeException.of(tensor);
     TensorImpl impl = (TensorImpl) tensor;
     return impl.list;
+  }
+
+  /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
+   * 
+   * @param tensors
+   * @return concatenation of references to {@link Tensor}s or {@link Scalar}s listed in tensors */
+  public static Tensor byref(Tensor... tensors) {
+    return Tensor.of(Stream.of(tensors));
   }
 }

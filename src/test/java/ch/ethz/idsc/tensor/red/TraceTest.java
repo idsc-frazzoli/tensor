@@ -81,7 +81,7 @@ public class TraceTest extends TestCase {
       // ---
     }
     try {
-      Trace.of(LieAlgebras.sl3());
+      Trace.of(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -24,9 +24,15 @@ public enum Tensors {
   }
 
   /** @param tensors
-   * @return concatenation of {@link Tensor}s or {@link Scalar}s listed in tensors */
+   * @return concatenation of copies of given {@link Tensor}s or {@link Scalar}s */
   public static Tensor of(Tensor... tensors) {
-    return Tensor.of(Stream.of(tensors));
+    return Tensor.of(Stream.of(tensors).map(Tensor::copy));
+  }
+
+  /** @param scalars
+   * @return vector of references to given {@link Scalar}s */
+  public static Tensor of(Scalar... scalars) {
+    return Tensor.of(Stream.of(scalars));
   }
 
   /** @param numbers
@@ -82,8 +88,8 @@ public enum Tensors {
   }
 
   /** @param data
-   * @return matrix with dimensions and {@link Tensor} entries as array data */
-  public static Tensor matrix(Tensor[][] data) {
+   * @return matrix with dimensions and {@link Scalar} entries as array data */
+  public static Tensor matrix(Scalar[][] data) {
     return Tensor.of(Stream.of(data).map(Tensors::of));
   }
 

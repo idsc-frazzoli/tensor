@@ -68,4 +68,23 @@ public class UnprotectTest extends TestCase {
       // ---
     }
   }
+
+  public void testByref1() {
+    Tensor a = Tensors.vector(1, 2, 3);
+    Tensor b = Unprotect.byref(a, a);
+    a.set(RealScalar.of(4), 0);
+    assertEquals(b.get(0), Tensors.vector(4, 2, 3));
+    assertEquals(b.get(1), Tensors.vector(4, 2, 3));
+  }
+
+  public void testByref2() {
+    Tensor a = Tensors.vector(1, 2, 3);
+    Tensor b = Unprotect.byref(a, a);
+    Tensor c = Unprotect.byref(b, b);
+    a.set(RealScalar.of(4), 0);
+    assertEquals(c.get(0, 0), Tensors.vector(4, 2, 3));
+    assertEquals(c.get(1, 0), Tensors.vector(4, 2, 3));
+    assertEquals(c.get(0, 1), Tensors.vector(4, 2, 3));
+    assertEquals(c.get(1, 1), Tensors.vector(4, 2, 3));
+  }
 }

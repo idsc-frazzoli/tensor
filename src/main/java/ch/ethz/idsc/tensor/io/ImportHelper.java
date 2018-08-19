@@ -43,7 +43,7 @@ import ch.ethz.idsc.tensor.Tensor;
     case VECTOR:
       return Tensor.of(lines(inputStream).map(Scalars::fromString));
     default:
-      throw new RuntimeException();
+      throw new UnsupportedOperationException(extension.name());
     }
   }
 

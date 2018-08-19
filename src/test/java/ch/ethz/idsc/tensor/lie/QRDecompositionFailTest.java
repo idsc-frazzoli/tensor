@@ -22,7 +22,7 @@ public class QRDecompositionFailTest extends TestCase {
       // ---
     }
     try {
-      QRDecomposition.of(LieAlgebras.sl3());
+      QRDecomposition.of(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

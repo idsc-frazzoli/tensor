@@ -48,8 +48,8 @@ public enum LieAlgebras {
     return SO3;
   }
 
-  /** @return ad tensor of 3-dimensional sl(3) */
-  public static Tensor sl3() {
+  /** @return ad tensor of 3-dimensional sl(2) */
+  public static Tensor sl2() {
     Tensor ad = Array.zeros(3, 3, 3);
     ad.set(P1, 1, 1, 0);
     ad.set(M1, 1, 0, 1);
@@ -57,6 +57,16 @@ public enum LieAlgebras {
     ad.set(P1, 2, 0, 2);
     ad.set(P2, 0, 2, 1);
     ad.set(M2, 0, 1, 2);
+    return ad;
+  }
+
+  /** @return ad tensor of 3-dimensional se(2) */
+  public static Tensor se2() {
+    Tensor ad = Array.zeros(3, 3, 3);
+    ad.set(P1, 1, 0, 2);
+    ad.set(M1, 1, 2, 0);
+    ad.set(M1, 0, 2, 1);
+    ad.set(P1, 0, 1, 2);
     return ad;
   }
 }

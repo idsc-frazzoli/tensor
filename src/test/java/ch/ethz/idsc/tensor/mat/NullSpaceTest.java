@@ -201,7 +201,7 @@ public class NullSpaceTest extends TestCase {
       // ---
     }
     try {
-      NullSpace.of(LieAlgebras.sl3());
+      NullSpace.of(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

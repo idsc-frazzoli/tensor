@@ -86,7 +86,7 @@ public class TensorSetTest extends TestCase {
   }
 
   public void testSet333() {
-    Tensor ad = LieAlgebras.sl3();
+    Tensor ad = LieAlgebras.sl2();
     Tensor mat = HilbertMatrix.of(3);
     ad.set(mat, Tensor.ALL, 2);
     assertEquals(Dimensions.of(ad), Arrays.asList(3, 3, 3));

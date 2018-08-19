@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -93,7 +94,7 @@ public class InverseTest extends TestCase {
 
   public void testFailRank3() {
     try {
-      Inverse.of(LieAlgebras.sl3());
+      Inverse.of(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -112,7 +113,11 @@ public class InverseTest extends TestCase {
     Tensor inv = LinearSolve.of(mat, eye);
     Tensor res = mat.dot(inv);
     assertTrue(Chop.NONE.close(eye, res));
-    Inverse.of(mat);
+    Tensor inverse = Inverse.of(mat);
+    Tensor expected = Tensors.fromString( //
+        "{{-4/5[m^-2], 3/10[m^-1*rad^-1]}, {3/10[m^-1*rad^-1], -1/20[rad^-2]}}");
+    assertEquals(inverse, expected);
+    assertTrue(ExactScalarQ.all(inverse));
   }
 
   public void testQuantity2() {

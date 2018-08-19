@@ -22,10 +22,11 @@ public class QuantityMagnitudeTest extends TestCase {
 
   public void testRad() {
     QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
-    Scalar scalar = Quantity.of(360, "deg");
-    Unit unit = Unit.of("rad");
-    Scalar result = quantityMagnitude.in(unit).apply(scalar);
-    assertTrue(Chop._12.close(result, RealScalar.of(Math.PI * 2)));
+    ScalarUnaryOperator scalarUnaryOperator = quantityMagnitude.in(Unit.of("rad"));
+    assertTrue(Chop._12.close(scalarUnaryOperator.apply(Quantity.of(360, "deg")), RealScalar.of(Math.PI * 2)));
+    Scalar scalar = scalarUnaryOperator.apply(RealScalar.of(2));
+    assertEquals(scalar, RealScalar.of(2));
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testSingleton() {

@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Sin;
 
-/** for rotation matrices in 3D see {@link Rodriguez}
+/** for rotation matrices in 3D see {@link Rodrigues}
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/RotationMatrix.html">RotationMatrix</a> */
@@ -20,8 +20,8 @@ public enum RotationMatrix {
   public static Tensor of(Scalar theta) {
     Scalar cos = Cos.FUNCTION.apply(theta);
     Scalar sin = Sin.FUNCTION.apply(theta);
-    return Tensors.of( //
-        Tensors.of(cos, sin.negate()), //
-        Tensors.of(sin, cos));
+    return Tensors.matrix(new Scalar[][] { //
+        { cos, sin.negate() }, //
+        { sin, cos } });
   }
 }

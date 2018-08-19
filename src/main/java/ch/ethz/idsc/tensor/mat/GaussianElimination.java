@@ -40,8 +40,7 @@ import ch.ethz.idsc.tensor.Unprotect;
   GaussianElimination(Tensor matrix, Tensor b, Pivot pivot) {
     lhs = matrix.copy();
     int n = lhs.length();
-    ind = new int[n];
-    IntStream.range(0, n).forEach(index -> ind[index] = index);
+    ind = IntStream.range(0, n).toArray();
     rhs = b.copy();
     for (int c0 = 0; c0 < n; ++c0) {
       swap(pivot.get(c0, c0, ind, lhs), c0);

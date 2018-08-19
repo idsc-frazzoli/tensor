@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.Sinc;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/** Rodriguez formula is a fast and robust method to
+/** Olinde Rodrigues' formula is a fast and robust method to
  * compute the exponential of a skew symmetric 3x3 matrix.
  * 
  * formula taken from Blanes/Casas
@@ -27,14 +27,14 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * p. 131
  * 
  * The formula for the logarithm is taken from a book by Chirikjian */
-public enum Rodriguez {
+public enum Rodrigues {
   ;
   private static final Tensor ID3 = IdentityMatrix.of(3);
   private static final Scalar HALF = RationalScalar.HALF;
   private static final Scalar TWO = RealScalar.of(2);
 
   /** @param vector of length() == 3
-   * @return MatrixExp[Cross[vector]]
+   * @return 3x3 rotation matrix identical to MatrixExp[Cross[vector]]
    * @throws Exception if input vector length != 3 */
   public static Tensor exp(Tensor vector) {
     Scalar beta = Norm._2.ofVector(vector);

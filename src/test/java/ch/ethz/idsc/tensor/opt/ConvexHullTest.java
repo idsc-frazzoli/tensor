@@ -110,7 +110,7 @@ public class ConvexHullTest extends TestCase {
       // ---
     }
     try {
-      ConvexHull.of(LieAlgebras.sl3());
+      ConvexHull.of(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

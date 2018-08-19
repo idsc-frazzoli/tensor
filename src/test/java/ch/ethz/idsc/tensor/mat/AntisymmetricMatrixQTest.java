@@ -21,6 +21,6 @@ public class AntisymmetricMatrixQTest extends TestCase {
 
   public void testNonMatrix() {
     assertFalse(AntisymmetricMatrixQ.of(RealScalar.ONE));
-    assertFalse(AntisymmetricMatrixQ.of(LieAlgebras.sl3()));
+    assertFalse(AntisymmetricMatrixQ.of(LieAlgebras.sl2()));
   }
 }

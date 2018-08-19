@@ -35,7 +35,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * <a href="https://reference.wolfram.com/language/ref/EmpiricalDistribution.html">EmpiricalDistribution</a> */
 public class EmpiricalDistribution extends EvaluatedDiscreteDistribution implements CDF {
   /** @param unscaledPDF vector of non-negative weights over the numbers
-   * [0, 1, 2, ... unscaledPDF.length() - 1]
+   * [0, 1, 2, ..., unscaledPDF.length() - 1]
    * @return */
   public static Distribution fromUnscaledPDF(Tensor unscaledPDF) {
     return new EmpiricalDistribution(unscaledPDF);

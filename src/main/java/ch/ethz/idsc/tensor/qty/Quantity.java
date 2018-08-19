@@ -74,7 +74,8 @@ public interface Quantity extends Scalar, //
    * @param value
    * @param string for instance "m*s^-2"
    * @return
-   * @throws Exception if value is instance of {@code Quantity} */
+   * @throws Exception if value is instance of {@code Quantity}
+   * @throws Exception if string does not represent unit */
   static Scalar of(Scalar value, String string) {
     if (value instanceof Quantity)
       throw TensorRuntimeException.of(value);
@@ -99,6 +100,7 @@ public interface Quantity extends Scalar, //
    * @param number
    * @param string for instance "kg^3*m*s^-2"
    * @return
+   * @throws Exception if string does not represent unit
    * @throws Exception if either parameter equals null */
   static Scalar of(Number number, String string) {
     return QuantityImpl.of(RealScalar.of(number), Unit.of(string));
