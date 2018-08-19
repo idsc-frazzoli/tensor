@@ -34,6 +34,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar r22 = Log.of(p.divide(TWO)).multiply(t).add(Log.of(s.divide(TWO)).multiply(q)).divide(TWO);
     Scalar r12 = Log.of(s).subtract(Log.of(p)).multiply(b);
     Scalar r21 = Log.of(s).subtract(Log.of(p)).multiply(c);
-    return Tensors.matrix(new Tensor[][] { { r11, r12 }, { r21, r22 } }).divide(A);
+    return Tensors.matrix(new Scalar[][] { { r11, r12 }, { r21, r22 } }).divide(A);
   }
 }

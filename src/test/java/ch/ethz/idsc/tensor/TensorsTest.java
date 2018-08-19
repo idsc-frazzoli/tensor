@@ -4,7 +4,11 @@ package ch.ethz.idsc.tensor;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.alg.VectorQ;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -138,5 +142,26 @@ public class TensorsTest extends TestCase {
     Tensor b = Tensors.of(a);
     a.set(RealScalar.of(4), 0);
     assertEquals(b.get(0), Tensors.vector(1, 2, 3));
+  }
+
+  public void testOfComparison() {
+    Tensor row = Tensors.vector(1, 2, 3);
+    Tensor tensor = Tensors.of(RealScalar.of(1), row);
+    tensor.set(RealScalar.of(4), 1, 1);
+    assertEquals(tensor, Tensors.fromString("{1, {1, 4, 3}}"));
+    assertEquals(row, Range.of(1, 4));
+    Tensor vector = Tensors.of(RealScalar.of(1), Quantity.of(2, "V"));
+    assertTrue(VectorQ.ofLength(vector, 2));
+  }
+
+  public void testOfTensors() {
+    Function<Tensor[], Tensor> ftensors = Tensors::of;
+    assertEquals(ftensors.apply(new Tensor[] {}), Tensors.empty());
+    assertEquals(ftensors.apply(new Scalar[] {}), Tensors.empty());
+  }
+
+  public void testOfScalars() {
+    Function<Scalar[], Tensor> fscalars = Tensors::of;
+    assertEquals(fscalars.apply(new Scalar[] {}), Tensors.empty());
   }
 }
