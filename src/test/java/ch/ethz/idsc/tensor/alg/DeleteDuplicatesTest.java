@@ -12,6 +12,13 @@ public class DeleteDuplicatesTest extends TestCase {
     assertEquals(unique, Tensors.vector(7, 3, 1, 2));
   }
 
+  public void testReferences() {
+    Tensor tensor = Tensors.fromString("{{1,2},{1,2}}");
+    Tensor unique = DeleteDuplicates.of(tensor);
+    unique.set(RealScalar.ZERO, 0, 0);
+    assertEquals(tensor, Tensors.fromString("{{1, 2}, {1, 2}}"));
+  }
+
   public void testScalar() {
     try {
       DeleteDuplicates.of(RealScalar.ONE);

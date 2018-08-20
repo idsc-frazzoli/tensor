@@ -40,6 +40,6 @@ public enum Flatten {
    * @param level
    * @return */
   public static Tensor of(Tensor tensor, int level) {
-    return Tensor.of(tensor.flatten(level));
+    return Tensor.of(tensor.flatten(level).map(Tensor::copy));
   }
 }
