@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.function.UnaryOperator;
 
 import ch.ethz.idsc.tensor.GaussScalar;
@@ -11,6 +13,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.Import;
 import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum ImageExportDemo {
@@ -37,9 +40,18 @@ enum ImageExportDemo {
     Export.of(UserHome.Pictures("image3.png"), image);
   }
 
+  public static void jpg2gif() throws IOException {
+    File file = UserHome.file("display.jpg");
+    if (file.isFile()) {
+      Tensor tensor = Import.of(file);
+      Export.of(UserHome.file("display.jpg.gif"), tensor);
+    }
+  }
+
   public static void main(String[] args) throws Exception {
     _im1();
     _im2();
     _im3();
+    jpg2gif();
   }
 }

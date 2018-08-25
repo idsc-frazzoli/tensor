@@ -37,6 +37,7 @@ import ch.ethz.idsc.tensor.Tensor;
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
       return CsvFormat.parse(lines(inputStream));
     case BMP:
+    case GIF:
     case JPG:
     case PNG:
       return ImageFormat.from(ImageIO.read(inputStream));

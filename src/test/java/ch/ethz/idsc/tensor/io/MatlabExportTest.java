@@ -12,6 +12,8 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class MatlabExportTest extends TestCase {
@@ -50,6 +52,24 @@ public class MatlabExportTest extends TestCase {
     assertTrue(list.contains("a=zeros([3, 3, 3]);"));
     assertTrue(list.size() < 12);
     // list.forEach(System.out::println);
+  }
+
+  public void testUnits() {
+    ScalarUnaryOperator scalarUnaryOperator = //
+        scalar -> scalar instanceof Quantity //
+            ? ((Quantity) scalar).value()
+            : scalar;
+    Tensor m = Tensors.fromString("{{1[m],2[s^-1],0[r]},{3,4[N],7[rad]}}");
+    Stream<String> stream = MatlabExport.of(m, sc -> scalarUnaryOperator.apply(sc).toString());
+    List<String> list = stream.collect(Collectors.toList());
+    assertTrue(list.contains("a=zeros([2, 3]);"));
+    // list.forEach(System.out::println);
+    assertTrue(list.contains("a(1)=1;"));
+    assertTrue(list.contains("a(2)=3;"));
+    assertTrue(list.contains("a(3)=2;"));
+    assertTrue(list.contains("a(4)=4;"));
+    assertTrue(list.contains("a(6)=7;"));
+    assertFalse(list.stream().anyMatch(s -> s.startsWith("a(5)=")));
   }
 
   public void testFail() {

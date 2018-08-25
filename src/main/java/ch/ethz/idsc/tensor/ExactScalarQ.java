@@ -53,4 +53,10 @@ public enum ExactScalarQ {
   public static boolean all(Tensor tensor) {
     return tensor.flatten(-1).allMatch(ExactScalarQ::of);
   }
+
+  /** @param tensor
+   * @return true if any scalar entry in given tensor satisfies the predicate {@link #of(Tensor)} */
+  public static boolean any(Tensor tensor) {
+    return tensor.flatten(-1).anyMatch(ExactScalarQ::of);
+  }
 }
