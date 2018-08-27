@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,7 +29,7 @@ public enum MathematicaFormat {
   private static final String EXPONENT_MATH = "*^";
 
   /** @param tensor
-   * @return strings parsed by Mathematica as tensor */
+   * @return strings parsed by Mathematica as given tensor */
   public static Stream<String> of(Tensor tensor) {
     String string = tensor.toString() //
         .replace(EXPONENT_JAVA, EXPONENT_MATH) //
@@ -41,13 +40,7 @@ public enum MathematicaFormat {
   /** @param stream of strings of Mathematica encoded tensor
    * @return tensor */
   public static Tensor parse(Stream<String> stream) {
-    return parse(stream, Tensors::fromString);
-  }
-
-  /** @param stream of strings of Mathematica encoded tensor
-   * @return tensor */
-  public static Tensor parse(Stream<String> stream, Function<String, Tensor> function) {
-    return function.apply(stream //
+    return Tensors.fromString(stream //
         .map(string -> string.replace(EXPONENT_MATH, EXPONENT_JAVA)) //
         .map(MathematicaFormat::join) //
         .collect(Collectors.joining("")));

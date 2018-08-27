@@ -43,15 +43,33 @@ public class LieAlgebrasTest extends TestCase {
     assertEquals(matrix, LieAlgebras.so3().get(2));
   }
 
-  public void testBracketFail() {
+  public void testBracketVectorFail() {
+    try {
+      LieAlgebras.bracketMatrix(Tensors.empty(), Tensors.empty());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
     try {
       LieAlgebras.bracketMatrix(Tensors.vector(1, 2), Tensors.vector(3, 4));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testBracketMatrixFail() {
     try {
       LieAlgebras.bracketMatrix(RotationMatrix.of(RealScalar.ONE), Tensors.vector(3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testBracketAdFail() {
+    try {
+      LieAlgebras.bracketMatrix(LieAlgebras.so3(), LieAlgebras.so3());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

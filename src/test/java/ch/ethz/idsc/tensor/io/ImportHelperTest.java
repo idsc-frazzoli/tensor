@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -26,10 +28,21 @@ public class ImportHelperTest extends TestCase {
     assertEquals(units.flatten(-1).reduce(Tensor::add).get().Get(), RealScalar.of(9));
   }
 
+  public void testExtensionMFail() {
+    InputStream inputStream = new ByteArrayInputStream(new byte[128]);
+    try {
+      ImportHelper.of(new Filename("some.m"), inputStream);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testSwitch() {
     Extension extension = null;
     try {
       extension = Extension.valueOf("asd");
+      assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
@@ -37,6 +50,7 @@ public class ImportHelperTest extends TestCase {
       switch (extension) {
       default:
       }
+      assertTrue(false);
     } catch (NullPointerException exception) {
       // ---
     }

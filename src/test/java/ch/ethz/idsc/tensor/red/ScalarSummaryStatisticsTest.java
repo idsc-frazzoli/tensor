@@ -65,7 +65,9 @@ public class ScalarSummaryStatisticsTest extends TestCase {
 
   public void testSemiCombine() {
     IntSummaryStatistics iss1 = new IntSummaryStatistics();
-    IntSummaryStatistics iss2 = Arrays.asList(3, 2).stream().mapToInt(i -> i).summaryStatistics();
+    IntSummaryStatistics iss2 = Arrays.asList(3, 2).stream() //
+        .mapToInt(Integer::intValue) //
+        .summaryStatistics();
     iss1.combine(iss2);
     ScalarSummaryStatistics sss1 = new ScalarSummaryStatistics();
     ScalarSummaryStatistics sss2 = Tensors.vector(1, 4, 2, 8, 3, 10).stream() //

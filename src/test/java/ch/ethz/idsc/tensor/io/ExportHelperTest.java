@@ -42,14 +42,9 @@ public class ExportHelperTest extends TestCase {
     // unfortunately there seems to be a problem with the java gif parser
   }
 
-  public void testFileExtensionFail() {
+  public void testFileExtensionFail() throws IOException {
     OutputStream outputStream = new ByteArrayOutputStream(512);
-    try {
-      ExportHelper.of(Extension.VECTOR, Tensors.empty(), outputStream);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+    ExportHelper.of(Extension.VECTOR, Tensors.empty(), outputStream);
   }
 
   public void testGzFail() {
