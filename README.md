@@ -16,7 +16,7 @@ Diverse projects rely on the tensor library:
 
 ![usecase_amodeus](https://user-images.githubusercontent.com/4012178/35968174-668b6e54-0cc3-11e8-9c1b-a3e011fa0600.png)
 
-Mobility on Demand
+Mobility-on-Demand
 
 <td>
 
