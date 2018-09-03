@@ -7,6 +7,7 @@ import java.util.List;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.ArrayQ;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
@@ -106,6 +107,29 @@ public class TensorSetTest extends TestCase {
     a.set(a, 0);
     a.set(a, 0);
     assertTrue(TensorRank.of(a) == 5);
+  }
+
+  public void testSetAllSelfVector() {
+    Tensor a = Range.of(10, 20);
+    a.set(a, Tensor.ALL);
+    assertEquals(a, Range.of(10, 20));
+  }
+
+  public void testSetAllSelfMatrix() {
+    Tensor a = HilbertMatrix.of(3, 5);
+    a.set(a, Tensor.ALL);
+    assertEquals(a, HilbertMatrix.of(3, 5));
+    a.set(a, Tensor.ALL, Tensor.ALL);
+    assertEquals(a, HilbertMatrix.of(3, 5));
+  }
+
+  public void testSetAllSelfUnstructured() {
+    Tensor a = Tensors.fromString("{{1,2},{3+I,4,5,6},{}}");
+    Tensor c = a.copy().unmodifiable();
+    a.set(a, Tensor.ALL);
+    assertEquals(a, c);
+    a.set(a, Tensor.ALL, Tensor.ALL);
+    assertEquals(a, c);
   }
 
   public void testSetFunctionAllLast() {
