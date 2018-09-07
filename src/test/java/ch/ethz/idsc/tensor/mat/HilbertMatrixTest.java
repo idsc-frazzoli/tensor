@@ -19,4 +19,19 @@ public class HilbertMatrixTest extends TestCase {
     Tensor ci = Tensors.fromString("{{16, -120, 240, -140}, {-120, 1200, -2700, 1680}, {240, -2700, 6480, -4200}, {-140, 1680, -4200, 2800}}");
     assertEquals(mi, ci);
   }
+
+  public void testFail() {
+    try {
+      HilbertMatrix.of(0, 4);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      HilbertMatrix.of(4, 0);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

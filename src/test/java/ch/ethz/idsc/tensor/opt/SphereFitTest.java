@@ -69,6 +69,12 @@ public class SphereFitTest extends TestCase {
       }
   }
 
+  public void testSingle() {
+    Tensor points = Tensors.of(Tensors.vector(1, 2, 3));
+    Optional<Tensor> optional = SphereFit.of(points);
+    assertFalse(optional.isPresent()); // because a single point is co-linear
+  }
+
   public void testFailEmpty() {
     try {
       SphereFit.of(Tensors.empty());

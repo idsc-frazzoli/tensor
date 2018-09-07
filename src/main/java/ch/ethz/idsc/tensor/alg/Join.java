@@ -30,7 +30,8 @@ public enum Join {
    * 
    * @param level
    * @param tensors
-   * @return joins tensors along dimension level */
+   * @return joins tensors along dimension level
+   * @throws Exception if any of the given tensors is a Scalar */
   public static Tensor of(int level, Tensor... tensors) {
     return of(level, Arrays.asList(tensors));
   }
@@ -41,7 +42,8 @@ public enum Join {
    * </pre>
    * 
    * @param tensors
-   * @return joins elements of all tensors along their first dimension */
+   * @return joins elements of all tensors along their first dimension
+   * @throws Exception if any of the given tensors is a Scalar */
   public static Tensor of(Tensor... tensors) {
     return of(0, Arrays.asList(tensors));
   }
@@ -57,6 +59,8 @@ public enum Join {
   private static Tensor flatten(List<Tensor> list) {
     if (list.stream().anyMatch(ScalarQ::of))
       throw TensorRuntimeException.of(list.toArray(new Tensor[list.size()]));
-    return Tensor.of(list.stream().flatMap(tensor -> tensor.stream()));
+    return Tensor.of(list.stream() //
+        .flatMap(tensor -> tensor.stream()) //
+        .map(Tensor::copy));
   }
 }
