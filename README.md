@@ -163,6 +163,25 @@ The example below makes use of these provided definitions
 
 The arithmetic for the scalar type `Quantity` was developed in collaboration with the project `SwissTrolley+`.
 
+### Geometry
+
+<table>
+<tr>
+<td>
+
+![convexhull](https://user-images.githubusercontent.com/4012178/45205349-2faa9080-b282-11e8-8730-c83bcf853952.png)
+
+Convex Hull
+
+<td>
+
+![spherefit](https://user-images.githubusercontent.com/4012178/45203934-0425a700-b27e-11e8-8a63-80f7c1e1e359.png)
+
+Sphere Fit
+
+</tr>
+</table>
+
 ### Miscellaneous
 
 Tensors of rank 3

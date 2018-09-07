@@ -45,6 +45,11 @@ public class ExactScalarQTest extends TestCase {
     assertTrue(ExactScalarQ.all(Tensors.vector(1, 2, 3)));
   }
 
+  public void testAny() {
+    assertTrue(ExactScalarQ.any(Tensors.vector(1., 1, 1.)));
+    assertFalse(ExactScalarQ.any(Tensors.vectorDouble(1, 2, 3)));
+  }
+
   public void testRequire() {
     Scalar scalar = ExactScalarQ.require(RationalScalar.of(3, 7));
     assertEquals(scalar, RationalScalar.of(3, 7));

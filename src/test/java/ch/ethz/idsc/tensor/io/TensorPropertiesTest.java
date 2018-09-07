@@ -146,6 +146,13 @@ public class TensorPropertiesTest extends TestCase {
     file.delete();
   }
 
+  public void testTryLoad() {
+    ParamContainer paramContainer = new ParamContainer();
+    TensorProperties tensorProperties = TensorProperties.wrap(paramContainer);
+    ParamContainer pc2 = tensorProperties.tryLoad(new File("fileDoesNotExist"));
+    assertTrue(paramContainer == pc2);
+  }
+
   public void testLoadFail() {
     TensorProperties tensorProperties = TensorProperties.wrap(new ParamContainer());
     try {
@@ -154,6 +161,21 @@ public class TensorPropertiesTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testTrySave() {
+    File file = UserHome.file("tensorLib_ParamContainer_test.properties");
+    assertFalse(file.exists());
+    TensorProperties tensorProperties = TensorProperties.wrap(new ParamContainer());
+    assertTrue(tensorProperties.trySave(file));
+    assertTrue(file.isFile());
+    file.delete();
+  }
+
+  public void testTrySaveFail() {
+    ParamContainer paramContainer = new ParamContainer();
+    TensorProperties tensorProperties = TensorProperties.wrap(paramContainer);
+    assertFalse(tensorProperties.trySave(new File("/home/cannot save here")));
   }
 
   public void testSetFail() {

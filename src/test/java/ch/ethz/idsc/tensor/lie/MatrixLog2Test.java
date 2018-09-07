@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.pdf.Distribution;
@@ -54,6 +55,15 @@ public class MatrixLog2Test extends TestCase {
     Tensor mlog = MatrixLog.of(matrix);
     Tensor mathematica = Tensors.fromString( //
         "{{1.3862943611198906188, 0.92419624074659374589}, {0, 0}}");
+    assertTrue(Chop._14.close(mlog, mathematica));
+    assertTrue(Chop._14.close(matrix, MatrixExp.of(mlog)));
+  }
+
+  public void testLower() {
+    Tensor matrix = Tensors.fromString("{{4,0},{2,1}}");
+    Tensor mlog = MatrixLog.of(matrix);
+    Tensor mathematica = Transpose.of(Tensors.fromString( //
+        "{{1.3862943611198906188, 0.92419624074659374589}, {0, 0}}"));
     assertTrue(Chop._14.close(mlog, mathematica));
     assertTrue(Chop._14.close(matrix, MatrixExp.of(mlog)));
   }

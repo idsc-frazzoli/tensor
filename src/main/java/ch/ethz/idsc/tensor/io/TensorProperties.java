@@ -107,13 +107,16 @@ public class TensorProperties {
     Files.write(file.toPath(), (Iterable<String>) strings()::iterator);
   }
 
-  /** @param file */
-  public void trySave(File file) {
+  /** @param file
+   * @return true if saving to given file was successful, false otherwise */
+  public boolean trySave(File file) {
     try {
       save(file);
+      return true;
     } catch (Exception exception) {
       // ---
     }
+    return false;
   }
 
   /* package */ List<String> strings() {
