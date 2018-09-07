@@ -15,4 +15,14 @@ public class JacobiIdentityTest extends TestCase {
     assertEquals(Dot.of(so3, eye.get(1), eye.get(0)), eye.get(2).negate());
     assertEquals(JacobiIdentity.of(so3), Array.zeros(3, 3, 3, 3));
   }
+
+  public void testSl3() {
+    Tensor ad = LieAlgebras.sl2();
+    assertEquals(JacobiIdentity.of(ad), Array.zeros(3, 3, 3, 3));
+  }
+
+  public void testSe3() {
+    Tensor ad = LieAlgebras.se2();
+    assertEquals(JacobiIdentity.of(ad), Array.zeros(3, 3, 3, 3));
+  }
 }

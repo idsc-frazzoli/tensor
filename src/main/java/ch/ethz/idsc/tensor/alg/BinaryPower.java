@@ -8,18 +8,34 @@ import java.math.BigInteger;
 import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.mat.MatrixPower;
 
-/** interface used by {@link MatrixPower} and {@link GaussScalar} */
+/** exponentiation with integer exponents
+ * 
+ * implementation uses exponentiation by squaring
+ * 
+ * interface used by {@link MatrixPower} and {@link GaussScalar} */
 public abstract class BinaryPower<T> implements Serializable {
+  /** @return value when exponent equals zero */
   public abstract T zeroth();
 
+  /** @param object to invert when the given exponent is negative
+   * @return */
   public abstract T invert(T object);
 
-  public abstract T multiply(T fac1, T object);
+  /** @param factor1
+   * @param factor2
+   * @return product factor1 * factor2 */
+  public abstract T multiply(T factor1, T factor2);
 
+  /** @param x
+   * @param exponent
+   * @return x to the power of the given exponent */
   public final T apply(T x, long exponent) {
     return apply(x, BigInteger.valueOf(exponent));
   }
 
+  /** @param x
+   * @param exponent
+   * @return x to the power of the given exponent */
   public final T apply(T x, BigInteger exponent) {
     T result = zeroth();
     if (exponent.signum() == 0)

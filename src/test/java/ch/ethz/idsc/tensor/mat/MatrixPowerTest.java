@@ -6,6 +6,7 @@ import java.util.BitSet;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -72,5 +73,35 @@ public class MatrixPowerTest extends TestCase {
     assertEquals(powerOf(2, 21), 2097152);
     assertEquals(powerOf(5, 6), 15625);
     assertEquals(powerOf(5, 0), 1);
+  }
+
+  public void testFailZero() {
+    Tensor matrix = Array.zeros(2, 3);
+    try {
+      MatrixPower.of(matrix, 0);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailOne() {
+    Tensor matrix = HilbertMatrix.of(3, 2);
+    try {
+      MatrixPower.of(matrix, 1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailAd() {
+    Tensor tensor = LieAlgebras.heisenberg3();
+    try {
+      MatrixPower.of(tensor, 1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

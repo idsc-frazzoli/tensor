@@ -18,11 +18,12 @@ package ch.ethz.idsc.tensor.io;
   GZ, //
   /** compressed, lossy image format */
   JPG, //
-  /** MATLAB m file */
+  /** MATLAB m file, export only */
   M, //
   /** compressed image format with alpha channel */
   PNG, //
-  /** tensor library specific: vector */
+  /** ".vector" is an extension specific to the tensor library
+   * @see VectorFormat */
   VECTOR, //
   ;
 }

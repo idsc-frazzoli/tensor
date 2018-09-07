@@ -8,6 +8,9 @@ import java.util.stream.Stream;
 
 /** suggested base class for implementations of {@link Scalar} */
 public abstract class AbstractScalar implements Scalar {
+  /* the return type of Scalar#copy is deliberately not Scalar
+   * to remind the application layer that invoking copy() on a
+   * Scalar is never necessary, because Scalars are immutable. */
   @Override // from Tensor
   public final Tensor copy() {
     return this; // instance of Scalar is immutable

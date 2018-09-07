@@ -17,6 +17,6 @@ public enum DeleteDuplicates {
    * @return
    * @throws Exception if tensor is a {@link Scalar} */
   public static Tensor of(Tensor tensor) {
-    return Tensor.of(tensor.stream().distinct());
+    return Tensor.of(tensor.stream().distinct().map(Tensor::copy));
   }
 }

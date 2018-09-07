@@ -27,6 +27,9 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * The user can provide a customized scalar-to-string mapping to facilitate the desired
  * import of these values.
  * 
+ * <p>Scalars of type {@link Quantity} also require a custom conversion to string.
+ * The tests contains an example.
+ * 
  * <p>Hint:
  * for the export of vectors and matrices, {@link Pretty} may also be a solution. */
 public enum MatlabExport {

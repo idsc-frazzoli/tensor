@@ -49,4 +49,18 @@ public class FlattenTest extends TestCase {
     Tensor res = Flatten.of(Tensors.vector(1, 2, 3), RealScalar.of(4), Tensors.fromString("{{5},6,{{7},8}}"));
     assertEquals(res, Range.of(1, 9));
   }
+
+  public void testReferences0() {
+    Tensor tensor = Tensors.fromString("{{1,2},{3,4}}");
+    Tensor flatten = Flatten.of(tensor, 0);
+    flatten.set(RealScalar.ZERO, 0, 0);
+    assertEquals(tensor, Tensors.fromString("{{1,2},{3,4}}"));
+  }
+
+  public void testReferences1() {
+    Tensor tensor = Tensors.fromString("{{{1,2},{3,4}}}");
+    Tensor flatten = Flatten.of(tensor, 1);
+    flatten.set(RealScalar.ZERO, 0, 0);
+    assertEquals(tensor, Tensors.fromString("{{{1,2},{3,4}}}"));
+  }
 }

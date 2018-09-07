@@ -1,12 +1,18 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class QuantityTensorTest extends TestCase {
+  public void testScalar() {
+    Tensor tensor = QuantityTensor.of(RealScalar.ONE, Unit.of("N"));
+    assertEquals(tensor, Quantity.of(1, "N"));
+  }
+
   public void testVector() {
     Tensor vector = Tensors.vector(1, 2, 3);
     Tensor nuvec = QuantityTensor.of(vector, Unit.of("m*kg^2"));

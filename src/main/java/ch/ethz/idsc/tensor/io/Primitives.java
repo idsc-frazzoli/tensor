@@ -69,6 +69,15 @@ public enum Primitives {
   }
 
   /** @param tensor
+   * @return 2-dimensional array of float's with first dimension equal to tensor.length() */
+  public static float[][] toFloatArray2D(Tensor tensor) {
+    float[][] array = new float[tensor.length()][];
+    for (int index = 0; index < tensor.length(); ++index)
+      array[index] = toFloatArray(tensor.get(index));
+    return array;
+  }
+
+  /** @param tensor
    * @return */
   public static FloatBuffer toFloatBuffer(Tensor tensor) {
     FloatBuffer floatBuffer = FloatBuffer.allocate(Numel.of(tensor));

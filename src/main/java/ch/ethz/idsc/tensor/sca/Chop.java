@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -76,9 +77,15 @@ public class Chop implements ScalarUnaryOperator {
     return scalar;
   }
 
-  /** @param lhs
+  /** Careful:
+   * if lhs and rhs are of exact precision, for instance instances of
+   * {@link RationalScalar}, the chop difference is non-zero
+   * unless the scalars are exactly equal. Then, the function returns
+   * false although numerically the values are sufficiently close.
+   * 
+   * @param lhs
    * @param rhs
-   * @return true, if difference between lhs and rhs is entry-wise below chop threshold
+   * @return true, if the chop difference between lhs and rhs is entry-wise zero
    * @throws Exception if difference of lhs and rhs cannot be computed,
    * for example due to different dimensions */
   public boolean close(Tensor lhs, Tensor rhs) {
@@ -88,7 +95,10 @@ public class Chop implements ScalarUnaryOperator {
   /** @param tensor
    * @return true, if all entries of Chop.of(tensor) equal to {@link Scalar#zero()} */
   public boolean allZero(Tensor tensor) {
-    return tensor.flatten(-1).map(Scalar.class::cast).map(this).allMatch(Scalars::isZero);
+    return tensor.flatten(-1) //
+        .map(Scalar.class::cast) //
+        .map(this) //
+        .allMatch(Scalars::isZero);
   }
 
   /** @param tensor

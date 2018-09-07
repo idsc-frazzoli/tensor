@@ -89,7 +89,7 @@ public class TransposeTest extends TestCase {
 
   public void testRep() {
     Integer[] input = new Integer[] { 3, 2, 6, 0 };
-    int[] copy = Stream.of(input).mapToInt(i -> i).toArray();
+    int[] copy = Stream.of(input).mapToInt(Integer::intValue).toArray();
     assertEquals(copy[0], 3);
     assertEquals(copy[2], 6);
   }

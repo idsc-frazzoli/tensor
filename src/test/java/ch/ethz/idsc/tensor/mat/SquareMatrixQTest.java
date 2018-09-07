@@ -37,8 +37,38 @@ public class SquareMatrixQTest extends TestCase {
 
   public void testRequire() {
     SquareMatrixQ.require(IdentityMatrix.of(10));
+  }
+
+  public void testRequireScalar() {
+    try {
+      SquareMatrixQ.require(RealScalar.of(3));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRequireVector() {
     try {
       SquareMatrixQ.require(Range.of(3, 10));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRequireMatrixNonSquare() {
+    try {
+      SquareMatrixQ.require(HilbertMatrix.of(3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRequireRank3() {
+    try {
+      SquareMatrixQ.require(LieAlgebras.heisenberg3());
       assertTrue(false);
     } catch (Exception exception) {
       // ---

@@ -12,7 +12,6 @@ import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
 
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** functionality used in {@link Import} and {@link ResourceData} */
@@ -37,11 +36,12 @@ import ch.ethz.idsc.tensor.Tensor;
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
       return CsvFormat.parse(lines(inputStream));
     case BMP:
+    case GIF:
     case JPG:
     case PNG:
       return ImageFormat.from(ImageIO.read(inputStream));
     case VECTOR:
-      return Tensor.of(lines(inputStream).map(Scalars::fromString));
+      return VectorFormat.parse(lines(inputStream));
     default:
       throw new UnsupportedOperationException(extension.name());
     }

@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 import ch.ethz.idsc.tensor.alg.Sort;
 
-/** used in tests
+/** IMPLEMENTATION TO BE USED ONLY IN TESTS
  * 
  * for canonic and reverse sorting...
  * 

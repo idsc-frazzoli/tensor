@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.5.8`
+Library for tensor computations in Java, version `0.5.9`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -16,7 +16,7 @@ Diverse projects rely on the tensor library:
 
 ![usecase_amodeus](https://user-images.githubusercontent.com/4012178/35968174-668b6e54-0cc3-11e8-9c1b-a3e011fa0600.png)
 
-Mobility on Demand
+Mobility-on-Demand
 
 <td>
 
@@ -163,6 +163,25 @@ The example below makes use of these provided definitions
 
 The arithmetic for the scalar type `Quantity` was developed in collaboration with the project `SwissTrolley+`.
 
+### Geometry
+
+<table>
+<tr>
+<td>
+
+![convexhull](https://user-images.githubusercontent.com/4012178/45205349-2faa9080-b282-11e8-8730-c83bcf853952.png)
+
+Convex Hull
+
+<td>
+
+![spherefit](https://user-images.githubusercontent.com/4012178/45203934-0425a700-b27e-11e8-8a63-80f7c1e1e359.png)
+
+Sphere Fit
+
+</tr>
+</table>
+
 ### Miscellaneous
 
 Tensors of rank 3
@@ -237,7 +256,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.5.8</version>
+        <version>0.5.9</version>
       </dependency>
     </dependencies>
 

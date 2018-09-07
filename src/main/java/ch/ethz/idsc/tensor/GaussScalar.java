@@ -126,7 +126,7 @@ public class GaussScalar extends AbstractScalar implements //
   public Scalar sqrt() {
     // implementation is slow, could use memo function
     for (long index = 0; index < prime; ++index)
-      if (equals(in(Math.multiplyExact(index, index), prime))) //
+      if (equals(in(Math.multiplyExact(index, index), prime)))
         return in(index, prime);
     throw TensorRuntimeException.of(this); // sqrt of this does not exist
   }

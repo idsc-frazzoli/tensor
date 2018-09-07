@@ -1,12 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class LogTest extends TestCase {
@@ -32,6 +35,13 @@ public class LogTest extends TestCase {
     Scalar rem = Scalars.fromString("1/10000000000");
     Scalar ratio = one.add(rem);
     assertEquals(Log.of(ratio).toString(), "" + Math.log1p(rem.number().doubleValue()));
+  }
+
+  public void testSerializable() throws ClassNotFoundException, IOException {
+    ScalarUnaryOperator scalarUnaryOperator = Log.base(RealScalar.of(2));
+    ScalarUnaryOperator copy = Serialization.copy(scalarUnaryOperator);
+    Scalar scalar = copy.apply(RealScalar.of(4));
+    assertEquals(scalar, RealScalar.of(2));
   }
 
   public void testFail() {

@@ -6,18 +6,32 @@ import java.math.BigInteger;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.BinaryPower;
 
-/** inspired by
+/** Implementation is consistent with Mathematica.
+ * 
+ * For non-square matrix input:
+ * <pre>
+ * MatrixPower[{{1, 2}}, 0] => Exception
+ * MatrixPower[{{1, 2}}, 1] => Exception
+ * </pre>
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixPower.html">MatrixPower</a> */
 public class MatrixPower extends BinaryPower<Tensor> {
-  /** @param m square matrix
+  /** @param matrix square
    * @param exponent
-   * @return m ^ exponent */
-  public static Tensor of(Tensor m, long exponent) {
-    return of(m, BigInteger.valueOf(exponent));
+   * @return matrix ^ exponent
+   * @throws Exception if matrix is not square */
+  public static Tensor of(Tensor matrix, long exponent) {
+    return of(matrix, BigInteger.valueOf(exponent));
   }
 
-  public static Tensor of(Tensor m, BigInteger exponent) {
-    return new MatrixPower(m.length()).apply(m, exponent);
+  /** @param matrix square
+   * @param exponent
+   * @return matrix ^ exponent
+   * @throws Exception if matrix is not square */
+  public static Tensor of(Tensor matrix, BigInteger exponent) {
+    return new MatrixPower(matrix.length()) //
+        .apply(SquareMatrixQ.require(matrix), exponent);
   }
 
   // ---
