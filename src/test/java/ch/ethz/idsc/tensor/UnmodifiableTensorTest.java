@@ -36,10 +36,10 @@ public class UnmodifiableTensorTest extends TestCase {
   }
 
   public void testUnmodifiable2() {
-    Tensor m = Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4 } }).unmodifiable();
-    Tensor mc = m.copy();
-    m.get(1).set(RealScalar.ZERO, 1);
-    assertEquals(m, mc);
+    Tensor matrix = Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4 } }).unmodifiable();
+    Tensor copy = matrix.copy();
+    matrix.get(1).set(RealScalar.ZERO, 1);
+    assertEquals(matrix, copy);
   }
 
   public void testHashUnmod() {
@@ -50,9 +50,9 @@ public class UnmodifiableTensorTest extends TestCase {
   }
 
   public void testUnmodifiableSet() {
-    Tensor id = IdentityMatrix.of(3).unmodifiable();
+    Tensor eye = IdentityMatrix.of(3).unmodifiable();
     try {
-      id.set(RealScalar.ZERO, 2, 2);
+      eye.set(RealScalar.ZERO, 2, 2);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -60,8 +60,8 @@ public class UnmodifiableTensorTest extends TestCase {
   }
 
   public void testUnmodifiableIterator() {
-    Tensor id = IdentityMatrix.of(3).unmodifiable();
-    Iterator<Tensor> iterator = id.iterator();
+    Tensor eye = IdentityMatrix.of(3).unmodifiable();
+    Iterator<Tensor> iterator = eye.iterator();
     iterator.next();
     try {
       iterator.remove();

@@ -33,9 +33,6 @@ public class Gaussian extends AbstractScalar implements //
    * @param variance non-negative
    * @return */
   public static Scalar of(Scalar mean, Scalar variance) {
-    // [if variance equals 0, then given mean is returned]
-    // if (Scalars.isZero(variance))
-    // return mean;
     return new Gaussian(mean, Sign.requirePositiveOrZero(variance));
   }
 

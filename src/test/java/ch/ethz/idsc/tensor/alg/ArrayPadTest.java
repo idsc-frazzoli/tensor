@@ -37,15 +37,15 @@ public class ArrayPadTest extends TestCase {
   }
 
   public void testFail() {
-    Tensor vec = Tensors.vector(2, 3, -3, 1);
+    Tensor vector = Tensors.vector(2, 3, -3, 1);
     try {
-      ArrayPad.of(vec, Arrays.asList(1), Arrays.asList(-2));
+      ArrayPad.of(vector, Arrays.asList(1), Arrays.asList(-2));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      ArrayPad.of(vec, Arrays.asList(-1), Arrays.asList(2));
+      ArrayPad.of(vector, Arrays.asList(-1), Arrays.asList(2));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

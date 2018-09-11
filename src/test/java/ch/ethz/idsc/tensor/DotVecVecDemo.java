@@ -15,9 +15,7 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 enum DotVecVecDemo {
   ;
   public static void main(String[] args) throws IOException {
-    Distribution distribution;
-    distribution = NormalDistribution.of(1, 4);
-    // distribution = PoissonDistribution.of(RealScalar.ONE);
+    Distribution distribution = NormalDistribution.of(1, 4);
     {
       int n = 100;
       Tensor a = RandomVariate.of(distribution, n, n);

@@ -34,13 +34,13 @@ public class TensorImplTest extends TestCase {
 
   public void testIteratorUnmod() {
     Tensor eye = IdentityMatrix.of(4).unmodifiable();
-    try {
-      for (Tensor unit : eye)
+    for (Tensor unit : eye)
+      try {
         unit.set(RealScalar.of(4), 2);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
+        assertTrue(false);
+      } catch (Exception exception) {
+        // ---
+      }
     assertEquals(eye.get(Tensor.ALL, 2), Tensors.vector(0, 0, 1, 0));
   }
 

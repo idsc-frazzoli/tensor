@@ -27,9 +27,9 @@ public class NestListTest extends TestCase {
   }
 
   public void testReferences() {
-    Tensor x = Tensors.vector(1, 2, 3);
-    Tensor list = NestList.of(f -> f, x, 0);
-    x.set(RealScalar.ZERO, 0);
+    Tensor vector = Tensors.vector(1, 2, 3);
+    Tensor list = NestList.of(f -> f, vector, 0);
+    vector.set(RealScalar.ZERO, 0);
     assertEquals(list, Tensors.fromString("{{1,2,3}}"));
   }
 }

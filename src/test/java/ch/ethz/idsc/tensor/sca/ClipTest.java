@@ -1,11 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -123,6 +126,18 @@ public class ClipTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testClipInfty() {
+    Clip clip = Clip.function(DoubleScalar.NEGATIVE_INFINITY, DoubleScalar.POSITIVE_INFINITY);
+    Tensor tensor = RandomVariate.of(NormalDistribution.standard(), 2, 3, 4);
+    assertEquals(tensor.map(clip), tensor);
+  }
+
+  public void testClipInftyQuantity() {
+    Clip clip = Clip.function(Quantity.of(Double.NEGATIVE_INFINITY, "V"), Quantity.of(Double.POSITIVE_INFINITY, "V"));
+    Tensor tensor = RandomVariate.of(NormalDistribution.standard(), 2, 3, 4).map(s -> Quantity.of(s, "V"));
+    assertEquals(tensor.map(clip), tensor);
   }
 
   public void testQuantityOutside() {

@@ -11,14 +11,29 @@ public class TensorRuntimeExceptionTest extends TestCase {
     assertEquals(exception.getMessage(), "{1, 2}; {9, 3}");
   }
 
+  public void testFullScalar() {
+    Exception exception = TensorRuntimeException.of(Tensors.vector(1, 2), RationalScalar.HALF, Tensors.empty());
+    assertEquals(exception.getMessage(), "{1, 2}; 1/2; {}");
+  }
+
   public void testShort() {
     Exception exception = TensorRuntimeException.of(Array.zeros(20, 10, 5), RealScalar.ONE);
     assertEquals(exception.getMessage(), "T[20, 10, 5]; 1");
   }
 
   public void testEmpty() {
-    Exception ex = TensorRuntimeException.of();
-    assertEquals(ex.getMessage(), "");
+    Exception exception = TensorRuntimeException.of();
+    assertEquals(exception.getMessage(), "");
+  }
+
+  public void testSerializable() throws Exception {
+    Exception exception = Serialization.copy(TensorRuntimeException.of(RealScalar.ONE));
+    assertEquals(exception.getMessage(), "1");
+  }
+
+  public void testMessage() {
+    Exception exception = TensorRuntimeException.of();
+    assertEquals(exception.getMessage(), "");
   }
 
   public void testNull() {
@@ -28,14 +43,5 @@ public class TensorRuntimeExceptionTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
-  }
-
-  public void testSerializable() throws Exception {
-    Serialization.of(TensorRuntimeException.of(RealScalar.ONE));
-  }
-
-  public void testMessage() {
-    Exception exception = TensorRuntimeException.of();
-    assertEquals(exception.getMessage(), "");
   }
 }
