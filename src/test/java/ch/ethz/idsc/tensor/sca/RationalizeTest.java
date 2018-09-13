@@ -96,14 +96,14 @@ public class RationalizeTest extends TestCase {
   }
 
   public void testRoundConsistency() {
-    Tensor s = Tensors.vectorDouble(-2.5, -2, -1.5, -1, -0.5, 0, 0.1, 0.5, 1, 1.5, 2, 2.5);
-    List<Long> round = s.stream() //
+    Tensor vector = Tensors.vectorDouble(-2.5, -2, -1.5, -1, -0.5, 0, 0.1, 0.5, 1, 1.5, 2, 2.5);
+    List<Long> round = vector.stream() //
         .map(RealScalar.class::cast) //
         .map(RealScalar::number) //
         .map(Number::doubleValue) //
         .map(Math::round) //
         .collect(Collectors.toList());
-    Tensor ratio = s.map(Rationalize.withDenominatorLessEquals(RealScalar.ONE));
+    Tensor ratio = vector.map(Rationalize.withDenominatorLessEquals(RealScalar.ONE));
     // System.out.println(Rationalize.of(RealScalar.of(-11.5), 1));
     assertEquals(ratio, Tensors.vector(round));
   }
@@ -118,10 +118,10 @@ public class RationalizeTest extends TestCase {
   }
 
   public void testDenominator() {
-    Random r = new Random();
+    Random random = new Random();
     Distribution distribution = UniformDistribution.of(-0.5, 0.5);
     for (Tensor scalar : RandomVariate.of(distribution, 100)) {
-      Scalar max = RealScalar.of(r.nextInt(10_000_000));
+      Scalar max = RealScalar.of(random.nextInt(10_000_000));
       denCheck((Scalar) scalar, max);
     }
   }

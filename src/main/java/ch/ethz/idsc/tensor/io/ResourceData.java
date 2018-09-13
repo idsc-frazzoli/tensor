@@ -1,8 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -54,6 +57,20 @@ public enum ResourceData {
   public static Properties properties(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       return ImportHelper.properties(inputStream);
+    } catch (Exception exception) {
+      // ---
+    }
+    return null;
+  }
+
+  /** Hint: function bypasses conversion of image to tensor. When the
+   * image is needed as a {@link Tensor}, rather use {@link #of(String)}
+   * 
+   * @param string as path to resource
+   * @return imported image, or null if resource could not be loaded */
+  public static BufferedImage bufferedImage(String string) {
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
+      return ImageIO.read(inputStream);
     } catch (Exception exception) {
       // ---
     }

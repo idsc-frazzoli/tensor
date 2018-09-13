@@ -53,4 +53,22 @@ public class MatrixQTest extends TestCase {
       // ---
     }
   }
+
+  public void testRequireNullThrow() {
+    try {
+      MatrixQ.require(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testOfNullThrow() {
+    try {
+      MatrixQ.of(null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

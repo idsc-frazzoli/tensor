@@ -68,8 +68,8 @@ public class FloorTest extends TestCase {
   }
 
   public void testQuantity() {
-    Scalar s = Quantity.of(210.9, "K");
-    assertEquals(Floor.FUNCTION.apply(s), Quantity.of(210, "K"));
+    Scalar scalar = Quantity.of(210.9, "K");
+    assertEquals(Floor.FUNCTION.apply(scalar), Quantity.of(210, "K"));
   }
 
   public void testMultiple() {
@@ -81,20 +81,19 @@ public class FloorTest extends TestCase {
     assertEquals(suo.apply(Quantity.of(-3.9, "K")), w.multiply(RealScalar.of(-2)));
   }
 
-  public void testFailInf() {
-    {
-      Scalar s = DoubleScalar.POSITIVE_INFINITY;
-      assertEquals(Floor.FUNCTION.apply(s), s);
-    }
-    {
-      Scalar s = DoubleScalar.NEGATIVE_INFINITY;
-      assertEquals(Floor.FUNCTION.apply(s), s);
-    }
+  public void testPositiveInfinity() {
+    Scalar scalar = DoubleScalar.POSITIVE_INFINITY;
+    assertEquals(Floor.FUNCTION.apply(scalar), scalar);
   }
 
-  public void testFailNaN() {
-    Scalar s = Floor.FUNCTION.apply(DoubleScalar.INDETERMINATE);
-    assertTrue(Double.isNaN(s.number().doubleValue()));
+  public void testNegativeInfinity() {
+    Scalar scalar = DoubleScalar.NEGATIVE_INFINITY;
+    assertEquals(Floor.FUNCTION.apply(scalar), scalar);
+  }
+
+  public void testNaN() {
+    Scalar scalar = Floor.FUNCTION.apply(DoubleScalar.INDETERMINATE);
+    assertTrue(Double.isNaN(scalar.number().doubleValue()));
   }
 
   public void testTypeFail() {

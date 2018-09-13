@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum ArgMin {
   ;
   /** -1 is the Java standard, see also {@link String#indexOf(int)} */
-  public static final int NOINDEX = -1;
+  public static final int EMPTY = -1;
 
   /** @param tensor
    * @param comparator
@@ -19,7 +19,7 @@ public enum ArgMin {
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> int of(Tensor tensor, Comparator<T> comparator) {
     if (tensor.length() == 0)
-      return NOINDEX;
+      return EMPTY;
     Tensor ref = tensor.get(0);
     int arg = 0;
     for (int index = 1; index < tensor.length(); ++index) {
@@ -32,12 +32,18 @@ public enum ArgMin {
     return arg;
   }
 
-  /** @param tensor
+  /** Examples:
+   * <pre>
+   * ArgMin.of({3, 4, 1, 2, 3}) == 2
+   * ArgMin.of({1, 4, 1, 2, 3}) == 0
+   * </pre>
+   * 
+   * @param tensor
    * @return index of minimum entry in tensor, or -1 if tensor is empty */
   @SuppressWarnings("unchecked")
   public static <T extends Comparable<T>> int of(Tensor tensor) {
     if (tensor.length() == 0)
-      return NOINDEX;
+      return EMPTY;
     T max = (T) tensor.get(0);
     int arg = 0;
     for (int index = 1; index < tensor.length(); ++index) {

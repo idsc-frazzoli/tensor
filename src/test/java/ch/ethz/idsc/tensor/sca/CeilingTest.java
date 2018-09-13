@@ -78,18 +78,17 @@ public class CeilingTest extends TestCase {
     assertEquals(suo.apply(Quantity.of(-3.9, "K")), w.multiply(RealScalar.of(-1)));
   }
 
-  public void testNonFailInf() {
-    {
-      Scalar scalar = DoubleScalar.POSITIVE_INFINITY;
-      assertEquals(Ceiling.of(scalar), scalar);
-    }
-    {
-      Scalar scalar = DoubleScalar.NEGATIVE_INFINITY;
-      assertEquals(Ceiling.of(scalar), scalar);
-    }
+  public void testPositiveInfinity() {
+    Scalar scalar = DoubleScalar.POSITIVE_INFINITY;
+    assertEquals(Ceiling.of(scalar), scalar);
   }
 
-  public void testNonFailNaN() {
+  public void testNegativeInfinity() {
+    Scalar scalar = DoubleScalar.NEGATIVE_INFINITY;
+    assertEquals(Ceiling.of(scalar), scalar);
+  }
+
+  public void testNaN() {
     Scalar scalar = Ceiling.of(DoubleScalar.INDETERMINATE);
     assertTrue(Double.isNaN(scalar.number().doubleValue()));
   }

@@ -19,8 +19,8 @@ public class LogTest extends TestCase {
   }
 
   public void testLog() {
-    Scalar s = DoubleScalar.of(-3);
-    assertTrue(Statics.PRECISION.close(Log.of(s), Scalars.fromString("1.0986122886681098+3.141592653589793*I")));
+    Scalar scalar = DoubleScalar.of(-3);
+    assertTrue(Statics.PRECISION.close(Log.of(scalar), Scalars.fromString("1.0986122886681098+3.141592653589793*I")));
     assertEquals(Log.of(RealScalar.ZERO), DoubleScalar.NEGATIVE_INFINITY);
   }
 
@@ -45,8 +45,9 @@ public class LogTest extends TestCase {
   }
 
   public void testFail() {
+    Scalar scalar = GaussScalar.of(6, 7);
     try {
-      Log.of(GaussScalar.of(6, 7));
+      Log.of(scalar);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

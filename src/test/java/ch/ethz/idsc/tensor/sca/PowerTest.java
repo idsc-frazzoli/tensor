@@ -31,8 +31,8 @@ public class PowerTest extends TestCase {
   }
 
   public void testNumberScalar() {
-    Scalar s = Power.of(2, RationalScalar.of(2, 3));
-    assertTrue(Chop._13.close(s, Scalars.fromString("1.5874010519681994`")));
+    Scalar scalar = Power.of(2, RationalScalar.of(2, 3));
+    assertTrue(Chop._13.close(scalar, Scalars.fromString("1.5874010519681994`")));
   }
 
   public void testSqrt() {
@@ -106,8 +106,9 @@ public class PowerTest extends TestCase {
   }
 
   public void testTypeFail() {
+    Scalar scalar = StringScalar.of("some");
     try {
-      Power.of(StringScalar.of("some"), 0);
+      Power.of(scalar, 0);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -120,9 +121,9 @@ public class PowerTest extends TestCase {
   }
 
   public void testGaussScalar() {
-    Scalar gauss = GaussScalar.of(6, 31);
+    Scalar scalar = GaussScalar.of(6, 31);
     try {
-      Power.of(gauss, 3.13);
+      Power.of(scalar, 3.13);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
