@@ -11,6 +11,7 @@ public class UnmodifiableTensorTest extends TestCase {
     assertTrue(Tensors.unmodifiableEmpty() == Tensors.unmodifiableEmpty());
     assertTrue(Tensors.unmodifiableEmpty() != Tensors.empty());
     assertTrue(Tensors.unmodifiableEmpty() != Tensors.empty().unmodifiable());
+    assertTrue(Tensors.unmodifiableEmpty() == Tensors.unmodifiableEmpty().unmodifiable());
   }
 
   public void testUnmodifiable() {
@@ -46,6 +47,7 @@ public class UnmodifiableTensorTest extends TestCase {
     Tensor copy = matrix.copy();
     matrix.get(1).set(RealScalar.ZERO, 1);
     assertEquals(matrix, copy);
+    assertTrue(matrix == matrix.unmodifiable());
   }
 
   public void testHashUnmod() {
@@ -53,6 +55,7 @@ public class UnmodifiableTensorTest extends TestCase {
     Tensor b = a.unmodifiable();
     assertEquals(a, b);
     assertEquals(a.hashCode(), b.hashCode());
+    assertTrue(b == b.unmodifiable());
   }
 
   public void testHashUnmodVector() {
@@ -60,6 +63,7 @@ public class UnmodifiableTensorTest extends TestCase {
     Tensor b = a.unmodifiable();
     assertEquals(a, b);
     assertEquals(a.hashCode(), b.hashCode());
+    assertTrue(b == b.unmodifiable());
   }
 
   public void testHashUnmodEmpty() {
