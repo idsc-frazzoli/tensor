@@ -95,9 +95,14 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       p = CopySign.of(Sqrt.FUNCTION.apply(s), f).negate();
       Scalar h = f.multiply(p).subtract(s);
       u.set(f.subtract(p), i, i);
-      for (int j = i + 1; j < cols; ++j)
-        StaticHelper.addScaled(i, rows, u, i, j, //
-            ((Scalar) u.extract(i, rows).get(Tensor.ALL, i).dot(u.extract(i, rows).get(Tensor.ALL, j))).divide(h));
+      for (int j = i + 1; j < cols; ++j) {
+        final int fj = j;
+        Scalar dot = u.stream() //
+            .skip(i) //
+            .map(row -> row.Get(i).multiply(row.Get(fj))) //
+            .reduce(Scalar::add).get();
+        StaticHelper.addScaled(i, rows, u, i, j, dot.divide(h));
+      }
       IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(scale), k, i));
     }
     w.set(scale.multiply(p), i);
@@ -118,8 +123,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
           u.set(f.subtract(p), i, ip1);
           IntStream.range(ip1, cols).forEach(k -> r.set(u.Get(i, k).divide(h), k));
         }
+        Tensor ui = u.get(i);
         for (int j = ip1; j < rows; ++j) {
-          Scalar s = (Scalar) u.get(j).extract(ip1, cols).dot(u.get(i).extract(ip1, cols));
+          Scalar s = (Scalar) u.get(j).extract(ip1, cols).dot(ui.extract(ip1, cols));
           for (int k = ip1; k < cols; ++k) {
             Scalar srv = s.multiply(r.Get(k));
             u.set(x -> x.add(srv), j, k);
@@ -135,10 +141,14 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     final int ip1 = i + 1;
     Scalar p = r.Get(ip1);
     if (Scalars.nonZero(p)) {
-      IntStream.range(ip1, cols).forEach(j -> v.set(u.Get(i, j).divide(u.Get(i, ip1)).divide(p), j, i));
-      for (int j = ip1; j < cols; ++j)
+      Tensor ui = u.get(i);
+      IntStream.range(ip1, cols).forEach(j -> v.set(ui.Get(j).divide(ui.Get(ip1)).divide(p), j, i));
+      Tensor uiEx = ui.extract(ip1, cols);
+      for (int j = ip1; j < cols; ++j) {
+        final int fj = j;
         StaticHelper.addScaled(ip1, cols, v, i, j, //
-            (Scalar) u.get(i).extract(ip1, cols).dot(v.extract(ip1, cols).get(Tensor.ALL, j)));
+            (Scalar) uiEx.dot(Tensor.of(v.stream().skip(ip1).map(row -> row.Get(fj)))));
+      }
     }
     IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, i, j));
     IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, j, i));
@@ -154,7 +164,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     else {
       Scalar gi = p;
       for (int j = ip1; j < cols; ++j) {
-        Scalar s = (Scalar) u.extract(ip1, rows).get(Tensor.ALL, i).dot(u.extract(ip1, rows).get(Tensor.ALL, j));
+        final int fj = j;
+        Scalar s = u.stream() //
+            .skip(ip1) // ip1 until rows
+            .map(row -> row.Get(i).multiply(row.Get(fj))) //
+            .reduce(Scalar::add).get();
         StaticHelper.addScaled(i, rows, u, i, j, s.divide(u.Get(i, i)).divide(gi));
       }
       IntStream.range(i, rows).forEach(j -> u.set(x -> x.divide(gi), j, i));
