@@ -17,7 +17,8 @@ import ch.ethz.idsc.tensor.Scalar;
  * <a href="https://reference.wolfram.com/language/ref/CDF.html">CDF</a> */
 public interface CDF {
   /** @param distribution
-   * @return cumulative distribution function */
+   * @return cumulative distribution function
+   * @throws Exception if distribution does not support the computation of the CDF */
   static CDF of(Distribution distribution) {
     if (distribution instanceof CDF)
       return (CDF) distribution;

@@ -7,6 +7,8 @@ import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -116,6 +118,26 @@ public class ArcTanTest extends TestCase {
       Scalar v3 = ArcTan.of(x.multiply(lambda), y.multiply(lambda));
       assertEquals(v1, v2.negate());
       assertTrue(Chop._10.close(v1, v3));
+    }
+  }
+
+  public void testVectorXY() {
+    assertEquals(ArcTan.ofVectorXY(Tensors.vector(-1, -2)), ArcTan.of(-1, -2));
+    assertEquals(ArcTan.ofVectorXY(Tensors.vector(-1, -2, 3)), ArcTan.of(-1, -2));
+  }
+
+  public void testVectorXYFail() {
+    try {
+      ArcTan.ofVectorXY(Tensors.vector(1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArcTan.ofVectorXY(LieAlgebras.se2());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
     }
   }
 

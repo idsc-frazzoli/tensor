@@ -7,6 +7,12 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
 public class UnmodifiableTensorTest extends TestCase {
+  public void testUnmodificableEmptyEquals() {
+    assertTrue(Tensors.unmodifiableEmpty() == Tensors.unmodifiableEmpty());
+    assertTrue(Tensors.unmodifiableEmpty() != Tensors.empty());
+    assertTrue(Tensors.unmodifiableEmpty() != Tensors.empty().unmodifiable());
+  }
+
   public void testUnmodifiable() {
     Tensor tensor = Tensors.vector(3, 4, 5, 6, -2);
     tensor.set(DoubleScalar.of(.3), 2);
@@ -45,6 +51,20 @@ public class UnmodifiableTensorTest extends TestCase {
   public void testHashUnmod() {
     Tensor a = Tensors.of(Tensors.vectorLong(2, -81, 7, 2, 8), Tensors.vector(32, 3.123));
     Tensor b = a.unmodifiable();
+    assertEquals(a, b);
+    assertEquals(a.hashCode(), b.hashCode());
+  }
+
+  public void testHashUnmodVector() {
+    Tensor a = Tensors.vector(2, -81, 7, 2, 8, 3.123);
+    Tensor b = a.unmodifiable();
+    assertEquals(a, b);
+    assertEquals(a.hashCode(), b.hashCode());
+  }
+
+  public void testHashUnmodEmpty() {
+    Tensor a = Tensors.vector();
+    Tensor b = Tensors.empty().unmodifiable();
     assertEquals(a, b);
     assertEquals(a.hashCode(), b.hashCode());
   }

@@ -41,8 +41,9 @@ public enum Primitives {
    * @return 2-dimensional array of double's with first dimension equal to tensor.length() */
   public static double[][] toDoubleArray2D(Tensor tensor) {
     double[][] array = new double[tensor.length()][];
-    for (int index = 0; index < tensor.length(); ++index)
-      array[index] = toDoubleArray(tensor.get(index));
+    int index = -1;
+    for (Tensor entry : tensor)
+      array[++index] = toDoubleArray(entry);
     return array;
   }
 
@@ -72,8 +73,9 @@ public enum Primitives {
    * @return 2-dimensional array of float's with first dimension equal to tensor.length() */
   public static float[][] toFloatArray2D(Tensor tensor) {
     float[][] array = new float[tensor.length()][];
-    for (int index = 0; index < tensor.length(); ++index)
-      array[index] = toFloatArray(tensor.get(index));
+    int index = -1;
+    for (Tensor entry : tensor)
+      array[++index] = toFloatArray(entry);
     return array;
   }
 
@@ -135,8 +137,9 @@ public enum Primitives {
    * @return 2-dimensional array of int's with first dimension equal to tensor.length() */
   public static int[][] toIntArray2D(Tensor tensor) {
     int[][] array = new int[tensor.length()][];
-    for (int index = 0; index < tensor.length(); ++index)
-      array[index] = toIntArray(tensor.get(index));
+    int index = -1;
+    for (Tensor entry : tensor)
+      array[++index] = toIntArray(entry);
     return array;
   }
 

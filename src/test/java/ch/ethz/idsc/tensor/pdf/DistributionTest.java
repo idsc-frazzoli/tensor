@@ -24,8 +24,6 @@ public class DistributionTest extends TestCase {
     @SuppressWarnings("unused")
     Scalar limmean = Sqrt.of(RealScalar.of(n)).multiply(mean.subtract(tmean)).divide(Sqrt.of(tvar));
     Scalar dvar = var.subtract(tvar).divide(tvar).abs();
-    // System.out.println( //
-    // distribution.getClass().getSimpleName() + "\t" + N.of(limmean) + "\t" + N.of(dvar));
     assertTrue(Scalars.lessThan(dmean, RealScalar.of(.2)));
     assertTrue(Scalars.lessThan(dvar, RealScalar.of(.22)));
   }
