@@ -15,56 +15,65 @@ import junit.framework.TestCase;
 public class RamerDouglasPeuckerTest extends TestCase {
   public void testEmpty() {
     Tensor mat = Tensors.empty();
-    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
+    assertEquals(RamerDouglasPeucker.of(RealScalar.of(1)).apply(mat), mat);
   }
 
   public void testPoints1() {
     Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 } });
-    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
+    assertEquals(RamerDouglasPeucker.of(RealScalar.of(1)).apply(mat), mat);
   }
 
   public void testPoints2() {
     Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 }, { 5, 2 } });
-    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), mat);
+    assertEquals(RamerDouglasPeucker.of(RealScalar.of(1)).apply(mat), mat);
   }
 
   public void testPoints3() {
     Tensor mat = Tensors.matrix(new Number[][] { { 1, 1 }, { 3, 2 }, { 5, 2 } });
-    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(1)), //
+    assertEquals(RamerDouglasPeucker.of(RealScalar.of(1)).apply(mat), //
         Tensors.matrixInt(new int[][] { { 1, 1 }, { 5, 2 } }));
-    assertEquals(RamerDouglasPeucker.of(mat, RealScalar.of(.1)), mat);
+    assertEquals(RamerDouglasPeucker.of(RealScalar.of(.1)).apply(mat), mat);
   }
 
   public void testRandom() {
     int n = 20;
     Tensor mat = Tensors.vector(i -> Tensors.vector(i, RandomVariate.of(NormalDistribution.standard()).number().doubleValue()), n);
-    Tensor res = RamerDouglasPeucker.of(mat, RealScalar.of(1));
+    Tensor res = RamerDouglasPeucker.of(RealScalar.of(1)).apply(mat);
     Tensor col = res.get(Tensor.ALL, 0);
     assertEquals(col, Sort.of(col));
     assertTrue(col.length() < n);
   }
 
+  public void testEpsilonFail() {
+    try {
+      RamerDouglasPeucker.of(RealScalar.of(-.1));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFail() {
     try {
-      RamerDouglasPeucker.of(Tensors.fromString("{{{1},2}}"), RealScalar.of(.1));
+      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Tensors.fromString("{{{1},2}}"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      RamerDouglasPeucker.of(LieAlgebras.sl2(), RealScalar.of(.1));
+      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(LieAlgebras.sl2());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      RamerDouglasPeucker.of(Array.zeros(3, 2, 4), RealScalar.of(.1));
+      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Array.zeros(3, 2, 4));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      RamerDouglasPeucker.of(IdentityMatrix.of(3), RealScalar.of(.1));
+      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(IdentityMatrix.of(3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

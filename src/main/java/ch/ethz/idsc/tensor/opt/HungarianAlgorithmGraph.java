@@ -44,11 +44,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
     int[] resvec = rowDim <= colDim ? xMatch : yMatch;
     for (int x = 0; x < rowDim; ++x) {
       int y = resvec[x];
-      if (colDim <= y)
-        result[x] = UNASSIGNED;
-      else //
-      if (x < rowDim)
-        result[x] = y;
+      result[x] = colDim <= y ? UNASSIGNED : y;
     }
     return result;
   }

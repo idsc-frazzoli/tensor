@@ -21,6 +21,10 @@ public class SchattenNormTest extends TestCase {
     assertTrue(Chop._13.close(norm1, norm2));
   }
 
+  public void testFrobeniusInstance() {
+    assertEquals(SchattenNorm.with(2), Frobenius.NORM);
+  }
+
   public void testFail() {
     NormInterface normInterface = SchattenNorm.with(1.2);
     Distribution distribution = UniformDistribution.unit();

@@ -81,6 +81,10 @@ public class ResourceDataTest extends TestCase {
     assertEquals(bufferedImage.getType(), BufferedImage.TYPE_3BYTE_BGR);
   }
 
+  public void testBufferedImageBmpNull() {
+    assertNull(ResourceData.bufferedImage("/doesnotexist.jpg"));
+  }
+
   public void testBmp() {
     Tensor image = ResourceData.of("/io/rgb7x11.bmp");
     assertEquals(Dimensions.of(image), Arrays.asList(11, 7, 4));

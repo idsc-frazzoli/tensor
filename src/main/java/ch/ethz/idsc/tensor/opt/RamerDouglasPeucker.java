@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** Quote from Wikipedia:
  * The algorithm is widely used in robotics to perform simplification and denoising
@@ -20,29 +21,37 @@ import ch.ethz.idsc.tensor.red.Norm;
  * 
  * The expected complexity of this algorithm is O(n log n).
  * However, the worst-case complexity is O(n^2). */
-public enum RamerDouglasPeucker {
-  ;
-  /** @param tensor
-   * @param epsilon
-   * @return */
-  public static Tensor of(Tensor tensor, Scalar epsilon) {
+public class RamerDouglasPeucker implements TensorUnaryOperator {
+  /** @param epsilon
+   * @return operator that takes as input tensors of dimensions N x 2 */
+  public static TensorUnaryOperator of(Scalar epsilon) {
+    return new RamerDouglasPeucker(epsilon);
+  }
+
+  // ---
+  private final Scalar epsilon;
+
+  private RamerDouglasPeucker(Scalar epsilon) {
+    this.epsilon = Sign.requirePositiveOrZero(epsilon);
+  }
+
+  @Override
+  public Tensor apply(Tensor tensor) {
     if (tensor.length() == 0)
       return Tensors.empty();
     MatrixQ.require(tensor);
     if (Unprotect.dimension1(tensor) == 2) {
       if (tensor.length() == 1)
         return tensor;
-      return recur(tensor, epsilon);
+      return recur(tensor);
     }
     throw TensorRuntimeException.of(tensor);
   }
 
   // helper function
-  private static Tensor recur(Tensor tensor, Scalar epsilon) {
+  private Tensor recur(Tensor tensor) {
     if (tensor.length() == 2)
       return tensor;
-    if (tensor.length() <= 1)
-      throw TensorRuntimeException.of(tensor);
     Tensor first = tensor.get(0);
     Tensor last = Last.of(tensor);
     Tensor diff = last.subtract(first);
@@ -62,8 +71,8 @@ public enum RamerDouglasPeucker {
       }
     }
     if (Scalars.lessThan(epsilon, dmax)) {
-      Tensor lo = recur(tensor.extract(0, split + 1), epsilon);
-      Tensor hi = recur(tensor.extract(split, tensor.length()), epsilon);
+      Tensor lo = recur(tensor.extract(0, split + 1));
+      Tensor hi = recur(tensor.extract(split, tensor.length()));
       return Join.of(lo.extract(0, lo.length() - 1), hi);
     }
     return Tensors.of(first, last);

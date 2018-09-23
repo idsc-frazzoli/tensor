@@ -163,21 +163,27 @@ The example below makes use of these provided definitions
 
 The arithmetic for the scalar type `Quantity` was developed in collaboration with the project `SwissTrolley+`.
 
-### Geometry
+### Computational geometry
 
 <table>
 <tr>
 <td>
 
-![convexhull](https://user-images.githubusercontent.com/4012178/45205349-2faa9080-b282-11e8-8730-c83bcf853952.png)
+![convexhullimage](https://user-images.githubusercontent.com/4012178/45925029-c8d9d800-bf0d-11e8-9ca3-1c7ee65ab812.png)
 
-Convex Hull
+Graham's scan
 
 <td>
 
-![spherefit](https://user-images.githubusercontent.com/4012178/45203934-0425a700-b27e-11e8-8a63-80f7c1e1e359.png)
+![spherefitimage](https://user-images.githubusercontent.com/4012178/45925049-24a46100-bf0e-11e8-84a7-ebd6d1d7b01a.png)
 
-Sphere Fit
+Sphere fit
+
+<td>
+
+![bipartitionimage](https://user-images.githubusercontent.com/4012178/45924997-2a4d7700-bf0d-11e8-8655-449d4b248d3a.png)
+
+Hungarian algorithm
 
 </tr>
 </table>
@@ -262,13 +268,8 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
 
 The source code is attached to every release.
 
-## Documentation
+---
 
-The source code is documented.
-The `javadoc` API is generated with
+The repository is developed at
 
-    .../tensor/mvn javadoc:javadoc
-
-The documentation is accessible through the file
-
-    .../tensor/target/site/apidocs/index.html
+![ethz300](https://user-images.githubusercontent.com/4012178/45925071-bf9d3b00-bf0e-11e8-9d92-e30650fd6bf6.png)

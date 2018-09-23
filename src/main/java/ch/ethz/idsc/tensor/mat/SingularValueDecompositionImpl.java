@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.red.CopySign;
 import ch.ethz.idsc.tensor.red.Hypot;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Norm1;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Increment;
@@ -87,10 +88,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   private void initU1(int i) {
     Scalar p = RealScalar.ZERO;
-    Scalar scale = Norm._1.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
+    Scalar scale = Norm1.ofVector(u.stream().skip(i).map(row -> row.Get(i)));
     if (Scalars.nonZero(scale)) {
       IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(scale), k, i));
-      Scalar s = Norm2Squared.ofVector(u.extract(i, rows).get(Tensor.ALL, i));
+      Scalar s = Norm2Squared.ofVector(u.stream().skip(i).map(row -> row.Get(i)));
       Scalar f = u.Get(i, i);
       p = CopySign.of(Sqrt.FUNCTION.apply(s), f).negate();
       Scalar h = f.multiply(p).subtract(s);
