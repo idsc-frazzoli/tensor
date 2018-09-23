@@ -6,10 +6,12 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Sort;
+import ch.ethz.idsc.tensor.lie.CirclePoints;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class RamerDouglasPeuckerTest extends TestCase {
@@ -42,6 +44,12 @@ public class RamerDouglasPeuckerTest extends TestCase {
     Tensor col = res.get(Tensor.ALL, 0);
     assertEquals(col, Sort.of(col));
     assertTrue(col.length() < n);
+  }
+
+  public void testQuantity() {
+    Tensor points = CirclePoints.of(100).map(value -> Quantity.of(value, "m"));
+    Tensor tensor = RamerDouglasPeucker.of(Quantity.of(.03, "m")).apply(points);
+    assertEquals(tensor.length(), 17);
   }
 
   public void testEpsilonFail() {

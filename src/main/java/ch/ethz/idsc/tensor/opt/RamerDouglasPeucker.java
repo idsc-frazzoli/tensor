@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -60,7 +59,7 @@ public class RamerDouglasPeucker implements TensorUnaryOperator {
       throw TensorRuntimeException.of(tensor);
     Tensor vector = diff.divide(norm);
     Tensor cross2 = Tensors.of(vector.Get(1).negate(), vector.Get(0));
-    Scalar dmax = RealScalar.ZERO;
+    Scalar dmax = epsilon.zero();
     int split = -1;
     for (int index = 1; index < tensor.length() - 1; ++index) {
       Tensor lever = tensor.get(index).subtract(first);

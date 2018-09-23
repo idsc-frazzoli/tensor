@@ -163,7 +163,7 @@ The example below makes use of these provided definitions
 
 The arithmetic for the scalar type `Quantity` was developed in collaboration with the project `SwissTrolley+`.
 
-### Computational geometry
+### Geometry
 
 <table>
 <tr>
@@ -184,6 +184,12 @@ Sphere fit
 ![bipartitionimage](https://user-images.githubusercontent.com/4012178/45924997-2a4d7700-bf0d-11e8-8655-449d4b248d3a.png)
 
 Hungarian algorithm
+
+<td>
+
+![fermatweberimage](https://user-images.githubusercontent.com/4012178/45925396-88318d00-bf14-11e8-8976-59a1278d7e45.png)
+
+Weiszfeld’s method
 
 </tr>
 </table>
@@ -269,7 +275,5 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
 The source code is attached to every release.
 
 ---
-
-The repository is developed at
 
 ![ethz300](https://user-images.githubusercontent.com/4012178/45925071-bf9d3b00-bf0e-11e8-9d92-e30650fd6bf6.png)
