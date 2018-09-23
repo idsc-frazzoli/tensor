@@ -8,6 +8,11 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class ArgMinTest extends TestCase {
+  public void testDocumentation() {
+    assertEquals(ArgMin.of(Tensors.vector(3, 4, 1, 2, 3)), 2);
+    assertEquals(ArgMin.of(Tensors.vector(1, 4, 1, 2, 3)), 0);
+  }
+
   public void testEmpty() {
     assertEquals(-1, ArgMin.of(Tensors.empty(), null));
     assertEquals(-1, ArgMax.of(Tensors.empty(), null));

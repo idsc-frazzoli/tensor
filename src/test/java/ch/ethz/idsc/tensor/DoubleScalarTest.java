@@ -84,10 +84,6 @@ public class DoubleScalarTest extends TestCase {
     assertEquals(d1.hashCode(), d2.hashCode());
     assertEquals(d1.negate().toString(), "-0.0");
     assertEquals(d2.negate().toString(), "0.0");
-    // System.out.println(RealScalar.ZERO.subtract(d1));
-    // System.out.println(RealScalar.ZERO.subtract(d2));
-    // System.out.println(d1.subtract(RealScalar.ZERO));
-    // System.out.println(d2.subtract(RealScalar.ZERO));
   }
 
   public void testNegZeroString() {

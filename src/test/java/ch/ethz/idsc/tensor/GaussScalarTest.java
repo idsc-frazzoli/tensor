@@ -97,7 +97,6 @@ public class GaussScalarTest extends TestCase {
         Scalar sqrt = Sqrt.of(s);
         ++count;
         assertEquals(sqrt.multiply(sqrt), s);
-        // System.out.println(s+" -> "+sqrt);
       } catch (Exception exception) {
         // ---
       }

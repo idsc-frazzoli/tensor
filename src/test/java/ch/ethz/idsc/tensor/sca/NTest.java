@@ -20,15 +20,15 @@ public class NTest extends TestCase {
   }
 
   public void testReal() {
-    Scalar c = RationalScalar.of(3, 5);
-    assertEquals(c.toString(), "3/5");
-    assertEquals(N.DOUBLE.of(c).toString(), "" + (3 / 5.0));
+    Scalar scalar = RationalScalar.of(3, 5);
+    assertEquals(scalar.toString(), "3/5");
+    assertEquals(N.DOUBLE.of(scalar).toString(), "" + (3 / 5.0));
   }
 
   public void testComplex() {
-    Scalar c = ComplexScalar.of(3, 5);
-    assertEquals(c.toString(), "3+5*I");
-    assertEquals(N.DOUBLE.of(c).toString(), "3.0+5.0*I");
+    Scalar scalar = ComplexScalar.of(3, 5);
+    assertEquals(scalar.toString(), "3+5*I");
+    assertEquals(N.DOUBLE.of(scalar).toString(), "3.0+5.0*I");
   }
 
   public void testDoubleId() {
@@ -44,9 +44,9 @@ public class NTest extends TestCase {
   }
 
   public void testComplexContext() {
-    Scalar s = ComplexScalar.of(3, 7).reciprocal();
-    assertTrue(ExactScalarQ.of(s));
-    Scalar d = N.DECIMAL128.of(s);
+    Scalar scalar = ComplexScalar.of(3, 7).reciprocal();
+    assertTrue(ExactScalarQ.of(scalar));
+    Scalar d = N.DECIMAL128.of(scalar);
     // mathematica gives ...... 0.05172413793103448275862068965517241...-0.12068965517241379310344827586206897 I
     assertEquals(d.toString(), "0.05172413793103448275862068965517241`34-0.1206896551724137931034482758620690`34*I");
   }

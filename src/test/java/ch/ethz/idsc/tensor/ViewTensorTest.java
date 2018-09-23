@@ -31,11 +31,24 @@ public class ViewTensorTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testUnmodifiableIterateFail() {
     try {
       Unprotect.references(Tensors.matrixInt(new int[][] { { 1, 2, 3 } }).unmodifiable().iterator().next());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testUnmodifiableLoopFail() {
+    for (Tensor tensor : Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4, 5 } }).unmodifiable())
+      try {
+        Unprotect.references(tensor);
+        assertTrue(false);
+      } catch (Exception exception) {
+        // ---
+      }
   }
 }

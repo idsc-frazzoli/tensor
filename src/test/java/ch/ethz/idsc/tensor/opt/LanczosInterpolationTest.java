@@ -86,16 +86,16 @@ public class LanczosInterpolationTest extends TestCase {
 
   public void test1D() {
     Interpolation interpolation = LanczosInterpolation.of(Tensors.vector(10, 20, 30, 40));
-    StaticHelper.checkMatch(interpolation);
-    StaticHelper.checkMatchExact(interpolation);
-    StaticHelper.getScalarFail(interpolation);
+    TestHelper.checkMatch(interpolation);
+    TestHelper.checkMatchExact(interpolation);
+    TestHelper.getScalarFail(interpolation);
   }
 
   public void test2D() {
     Distribution distribution = UniformDistribution.unit();
     Interpolation interpolation = LanczosInterpolation.of(RandomVariate.of(distribution, 3, 5));
-    StaticHelper.checkMatch(interpolation);
-    StaticHelper.checkMatchExact(interpolation);
-    StaticHelper.getScalarFail(interpolation);
+    TestHelper.checkMatch(interpolation);
+    TestHelper.checkMatchExact(interpolation);
+    TestHelper.getScalarFail(interpolation);
   }
 }

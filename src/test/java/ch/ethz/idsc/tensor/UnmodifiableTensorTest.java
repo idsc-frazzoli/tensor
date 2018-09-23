@@ -7,6 +7,13 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
 public class UnmodifiableTensorTest extends TestCase {
+  public void testUnmodificableEmptyEquals() {
+    assertTrue(Tensors.unmodifiableEmpty() == Tensors.unmodifiableEmpty());
+    assertTrue(Tensors.unmodifiableEmpty() != Tensors.empty());
+    assertTrue(Tensors.unmodifiableEmpty() != Tensors.empty().unmodifiable());
+    assertTrue(Tensors.unmodifiableEmpty() == Tensors.unmodifiableEmpty().unmodifiable());
+  }
+
   public void testUnmodifiable() {
     Tensor tensor = Tensors.vector(3, 4, 5, 6, -2);
     tensor.set(DoubleScalar.of(.3), 2);
@@ -36,10 +43,11 @@ public class UnmodifiableTensorTest extends TestCase {
   }
 
   public void testUnmodifiable2() {
-    Tensor m = Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4 } }).unmodifiable();
-    Tensor mc = m.copy();
-    m.get(1).set(RealScalar.ZERO, 1);
-    assertEquals(m, mc);
+    Tensor matrix = Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4 } }).unmodifiable();
+    Tensor copy = matrix.copy();
+    matrix.get(1).set(RealScalar.ZERO, 1);
+    assertEquals(matrix, copy);
+    assertTrue(matrix == matrix.unmodifiable());
   }
 
   public void testHashUnmod() {
@@ -47,12 +55,28 @@ public class UnmodifiableTensorTest extends TestCase {
     Tensor b = a.unmodifiable();
     assertEquals(a, b);
     assertEquals(a.hashCode(), b.hashCode());
+    assertTrue(b == b.unmodifiable());
+  }
+
+  public void testHashUnmodVector() {
+    Tensor a = Tensors.vector(2, -81, 7, 2, 8, 3.123);
+    Tensor b = a.unmodifiable();
+    assertEquals(a, b);
+    assertEquals(a.hashCode(), b.hashCode());
+    assertTrue(b == b.unmodifiable());
+  }
+
+  public void testHashUnmodEmpty() {
+    Tensor a = Tensors.vector();
+    Tensor b = Tensors.empty().unmodifiable();
+    assertEquals(a, b);
+    assertEquals(a.hashCode(), b.hashCode());
   }
 
   public void testUnmodifiableSet() {
-    Tensor id = IdentityMatrix.of(3).unmodifiable();
+    Tensor eye = IdentityMatrix.of(3).unmodifiable();
     try {
-      id.set(RealScalar.ZERO, 2, 2);
+      eye.set(RealScalar.ZERO, 2, 2);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -60,8 +84,8 @@ public class UnmodifiableTensorTest extends TestCase {
   }
 
   public void testUnmodifiableIterator() {
-    Tensor id = IdentityMatrix.of(3).unmodifiable();
-    Iterator<Tensor> iterator = id.iterator();
+    Tensor eye = IdentityMatrix.of(3).unmodifiable();
+    Iterator<Tensor> iterator = eye.iterator();
     iterator.next();
     try {
       iterator.remove();

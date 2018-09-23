@@ -58,7 +58,6 @@ public class MedianFilterTest extends TestCase {
     assertEquals(result, Tensors.fromString("{0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3}"));
     result = MedianFilter.of(vector, 1);
     assertEquals(result, Tensors.fromString("{0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3/2}"));
-    // System.out.println(result);
   }
 
   public void testScalarFail() {

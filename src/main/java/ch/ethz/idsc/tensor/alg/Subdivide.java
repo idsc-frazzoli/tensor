@@ -41,11 +41,14 @@ public enum Subdivide {
    * @param n > 0
    * @return tensor with n+1 entries obtained by subdividing the range
    * startInclusive to endInclusive into n equal parts.
+   * @throws Exception if n is negative or zero
    * @see Range */
   public static Tensor of(Tensor startInclusive, Tensor endInclusive, int n) {
-    return Tensor.of(IntStream.rangeClosed(0, n) //
-        .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
-            .add(endInclusive.multiply(RationalScalar.of(count, n)))));
+    if (0 < n)
+      return Tensor.of(IntStream.rangeClosed(0, n) //
+          .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
+              .add(endInclusive.multiply(RationalScalar.of(count, n)))));
+    throw new RuntimeException("n=" + n);
   }
 
   /** see description above

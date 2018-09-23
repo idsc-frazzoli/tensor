@@ -23,16 +23,15 @@ public class SortTest extends TestCase {
     assertEquals(Sort.of(m), Sort.of(m, Comparators.increasing()));
   }
 
-  static Comparator<Tensor> FIRSTENTRYCOMPARATOR = new Comparator<Tensor>() {
-    @Override
-    public int compare(Tensor o1, Tensor o2) {
-      return Scalars.compare(o1.Get(0), o2.Get(0));
-    }
-  };
-
   public void testSortRows() {
+    Comparator<Tensor> comparator = new Comparator<Tensor>() {
+      @Override
+      public int compare(Tensor o1, Tensor o2) {
+        return Scalars.compare(o1.Get(0), o2.Get(0));
+      }
+    };
     Tensor a = Tensors.fromString("{{4,1},{2,8},{9,0},{3,5}}");
-    Tensor s = Sort.of(a, FIRSTENTRYCOMPARATOR);
+    Tensor s = Sort.of(a, comparator);
     assertEquals(s, Tensors.fromString("{{2, 8}, {3, 5}, {4, 1}, {9, 0}}"));
   }
 

@@ -45,17 +45,17 @@ public class NearestInterpolationTest extends TestCase {
 
   public void test1D() {
     Interpolation interpolation = NearestInterpolation.of(Tensors.vector(10, 20, 30, 40));
-    StaticHelper.checkMatch(interpolation);
-    StaticHelper.checkMatchExact(interpolation);
-    StaticHelper.getScalarFail(interpolation);
+    TestHelper.checkMatch(interpolation);
+    TestHelper.checkMatchExact(interpolation);
+    TestHelper.getScalarFail(interpolation);
   }
 
   public void test2D() {
     Distribution distribution = UniformDistribution.unit();
     Interpolation interpolation = NearestInterpolation.of(RandomVariate.of(distribution, 3, 5));
-    StaticHelper.checkMatch(interpolation);
-    StaticHelper.checkMatchExact(interpolation);
-    StaticHelper.getScalarFail(interpolation);
+    TestHelper.checkMatch(interpolation);
+    TestHelper.checkMatchExact(interpolation);
+    TestHelper.getScalarFail(interpolation);
   }
 
   public void testFailNull() {

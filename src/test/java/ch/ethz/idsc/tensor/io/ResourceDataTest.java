@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,9 +55,34 @@ public class ResourceDataTest extends TestCase {
     assertEquals(expected, actual);
   }
 
+  public void testBufferedImagePng() {
+    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/rgba15x33.png");
+    assertEquals(bufferedImage.getWidth(), 15);
+    assertEquals(bufferedImage.getHeight(), 33);
+    assertEquals(bufferedImage.getType(), BufferedImage.TYPE_4BYTE_ABGR);
+  }
+
+  public void testBufferedImageJpg() {
+    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/rgb15x33.jpg");
+    assertEquals(bufferedImage.getWidth(), 15);
+    assertEquals(bufferedImage.getHeight(), 33);
+    assertEquals(bufferedImage.getType(), BufferedImage.TYPE_3BYTE_BGR);
+  }
+
   public void testJpg() {
     Tensor image = ResourceData.of("/io/rgb15x33.jpg");
     assertEquals(Dimensions.of(image), Arrays.asList(33, 15, 4));
+  }
+
+  public void testBufferedImageBmp() {
+    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/rgb7x11.bmp");
+    assertEquals(bufferedImage.getWidth(), 7);
+    assertEquals(bufferedImage.getHeight(), 11);
+    assertEquals(bufferedImage.getType(), BufferedImage.TYPE_3BYTE_BGR);
+  }
+
+  public void testBufferedImageBmpNull() {
+    assertNull(ResourceData.bufferedImage("/doesnotexist.jpg"));
   }
 
   public void testBmp() {

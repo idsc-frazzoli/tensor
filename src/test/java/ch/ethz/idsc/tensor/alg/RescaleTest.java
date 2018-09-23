@@ -12,15 +12,6 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class RescaleTest extends TestCase {
-  public void testScalar() {
-    try {
-      Rescale.of(RealScalar.ONE);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void testEmpty() {
     assertEquals(Rescale.of(Tensors.empty()), Tensors.empty());
   }
@@ -90,6 +81,15 @@ public class RescaleTest extends TestCase {
     Tensor rescal = Rescale.of(vector);
     assertEquals(rescal.Get(0).toString(), "0");
     assertEquals(rescal.Get(2).toString(), "0");
+  }
+
+  public void testScalarFail() {
+    try {
+      Rescale.of(RealScalar.ONE);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testQuantityFail() {

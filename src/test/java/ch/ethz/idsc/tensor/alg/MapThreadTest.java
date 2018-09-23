@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -28,9 +29,10 @@ public class MapThreadTest extends TestCase {
   }
 
   public void testFail() {
-    MapThread.of(l -> ComplexScalar.I, Arrays.asList(HilbertMatrix.of(2, 3), HilbertMatrix.of(3, 3)), 0);
+    List<Tensor> list = Arrays.asList(HilbertMatrix.of(2, 3), HilbertMatrix.of(3, 3));
+    MapThread.of(l -> ComplexScalar.I, list, 0);
     try {
-      MapThread.of(l -> ComplexScalar.I, Arrays.asList(HilbertMatrix.of(2, 3), HilbertMatrix.of(3, 3)), 1);
+      MapThread.of(l -> ComplexScalar.I, list, 1);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

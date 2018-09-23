@@ -88,6 +88,8 @@ public class TensorProperties {
     set(Import.properties(file));
   }
 
+  /** @param file properties
+   * @return object with fields updated from properties file if loading was successful */
   @SuppressWarnings("unchecked")
   public <T> T tryLoad(File file) {
     try {

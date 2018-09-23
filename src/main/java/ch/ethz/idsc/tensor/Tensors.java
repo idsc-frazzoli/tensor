@@ -161,4 +161,14 @@ public enum Tensors {
   public static boolean isUnmodifiable(Tensor tensor) {
     return tensor instanceof UnmodifiableTensor;
   }
+
+  /***************************************************/
+  private static final Tensor UNMODIFIABLE_EMPTY = empty().unmodifiable();
+
+  /** Remark: efficient for memory management
+   * 
+   * @return singleton instance of unmodifiable empty tensor */
+  public static Tensor unmodifiableEmpty() {
+    return UNMODIFIABLE_EMPTY;
+  }
 }

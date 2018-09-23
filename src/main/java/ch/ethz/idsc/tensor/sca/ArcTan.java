@@ -48,17 +48,17 @@ public enum ArcTan implements ScalarUnaryOperator {
     throw TensorRuntimeException.of(x, y);
   }
 
-  /** @param tensor
-   * @return tensor with all scalars replaced with their arc tan */
-  @SuppressWarnings("unchecked")
-  public static <T extends Tensor> T of(T tensor) {
-    return (T) tensor.map(FUNCTION);
-  }
-
   /** @param x
    * @param y
    * @return ArcTan.of(RealScalar.of(x), RealScalar.of(y)) */
   public static Scalar of(Number x, Number y) {
     return of(RealScalar.of(x), RealScalar.of(y));
+  }
+
+  /** @param tensor
+   * @return tensor with all scalars replaced with their arc tan */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(FUNCTION);
   }
 }

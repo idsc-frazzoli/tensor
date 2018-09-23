@@ -7,12 +7,6 @@ import java.util.List;
 
 /** utility class for {@link Transpose} */
 /* package */ class OuterProductInteger implements Iterator<List<Integer>>, Iterable<List<Integer>> {
-  private final Integer[] index;
-  private final int[] size;
-  private final int[] direction;
-  private int count = 0;
-  private final int total;
-
   public static OuterProductInteger forward(Integer... dimensions) {
     return forward(Arrays.asList(dimensions));
   }
@@ -24,6 +18,13 @@ import java.util.List;
   public static OuterProductInteger of(int[] size, boolean forward) {
     return new OuterProductInteger(Arrays.copyOf(size, size.length), forward);
   }
+
+  // ---
+  private final Integer[] index;
+  private final int[] size;
+  private final int[] direction;
+  private int count = 0;
+  private final int total;
 
   // constructor does not copy input size, therefore use only in package
   /* package */ OuterProductInteger(int[] size, boolean forward) {

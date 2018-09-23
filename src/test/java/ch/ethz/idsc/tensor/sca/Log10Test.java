@@ -29,13 +29,14 @@ public class Log10Test extends TestCase {
   }
 
   public void testBase() {
-    Scalar s = DoubleScalar.of(1412.123);
-    assertTrue(Chop._08.close(Log10.of(s), Log.base(RealScalar.of(10)).apply(s)));
+    Scalar scalar = DoubleScalar.of(1412.123);
+    assertTrue(Chop._08.close(Log10.of(scalar), Log.base(RealScalar.of(10)).apply(scalar)));
   }
 
   public void testFail() {
+    Scalar scalar = GaussScalar.of(6, 7);
     try {
-      Log10.of(GaussScalar.of(6, 7));
+      Log10.of(scalar);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

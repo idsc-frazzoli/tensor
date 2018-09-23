@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** p-Norm for vectors
+/** p-Norm for vectors as well as schatten norm
  * 
  * implementation consistent with Mathematica
  * 
@@ -42,14 +42,14 @@ public class VectorNorm implements VectorNormInterface, Serializable {
   private final ScalarUnaryOperator p_power;
   private final Scalar p_reciprocal;
 
-  private VectorNorm(Scalar p) {
+  VectorNorm(Scalar p) {
     if (Scalars.lessThan(p, RealScalar.ONE))
       throw TensorRuntimeException.of(p);
     p_power = Power.function(p);
     p_reciprocal = p.reciprocal();
   }
 
-  @Override
+  @Override // from VectorNormInterface
   public Scalar ofVector(Tensor vector) {
     return Power.of(vector.stream() //
         .map(Scalar.class::cast) //

@@ -50,4 +50,37 @@ public class SubdivideTest extends TestCase {
     Tensor t = Subdivide.of(2, 3, n);
     assertEquals(t.length(), n + 1);
   }
+
+  public void testZeroFail() {
+    try {
+      Subdivide.of(RealScalar.of(-2), RealScalar.of(2), 0);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNegativeFail() {
+    try {
+      Subdivide.of(RealScalar.of(-2), RealScalar.of(2), -10);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNullFail() {
+    try {
+      Subdivide.of(RealScalar.of(2), null, 1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Subdivide.of(null, RealScalar.of(2), 1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

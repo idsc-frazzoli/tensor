@@ -25,6 +25,7 @@ public class SignTest extends TestCase {
 
   public void testDoubleNegZero() {
     Scalar d1 = DoubleScalar.of(-0.0);
+    Sign.requirePositiveOrZero(d1);
     assertEquals(d1.toString(), "-0.0");
     Scalar s1 = Sign.of(d1);
     assertEquals(s1.toString(), "0");

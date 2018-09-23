@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import junit.framework.TestCase;
 
-enum StaticHelper {
+/* package */ enum TestHelper {
   ;
   static void checkMatch(Interpolation interpolation) {
     Distribution distribution = UniformDistribution.of(0, 2);

@@ -49,8 +49,6 @@ public class DecimalScalarImplTest extends TestCase {
     Scalar sc2 = sc1.add(sc1);
     DecimalScalar sc3 = (DecimalScalar) sc2.add(sc1);
     Scalar s13 = sc3.reciprocal();
-    // System.out.println(sc3.precision());
-    // System.out.println(s13);
     Scalar r13 = RationalScalar.of(1, 3);
     Scalar d13 = DoubleScalar.of(1. / 3);
     assertEquals(r13, s13);
@@ -69,11 +67,8 @@ public class DecimalScalarImplTest extends TestCase {
     Scalar d23 = DoubleScalar.of(Math.nextUp(2. / 3));
     assertEquals(Chop._12.of(r23.subtract(s23)), RealScalar.ZERO);
     assertEquals(Chop._12.of(s23.subtract(r23)), RealScalar.ZERO);
-    // assertEquals(s23, r23);
     assertEquals(Chop._12.of(d23.subtract(s23)), RealScalar.ZERO);
     assertEquals(Chop._12.of(s23.subtract(d23)), RealScalar.ZERO);
-    // assertEquals(d23, s23);
-    // assertEquals(s23, d23);
   }
 
   public void testDivide2() {
