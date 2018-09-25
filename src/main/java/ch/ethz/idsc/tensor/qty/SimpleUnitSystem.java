@@ -58,7 +58,7 @@ public class SimpleUnitSystem implements UnitSystem {
       for (Entry<String, Scalar> entry : quantity.unit().map().entrySet()) {
         Scalar lookup = map.get(entry.getKey());
         value = value.multiply(Objects.isNull(lookup) //
-            ? Quantity.of(RealScalar.ONE, format(entry)) //
+            ? QuantityImpl.of(RealScalar.ONE, Unit.of(format(entry))) //
             : Power.of(lookup, entry.getValue()));
       }
       return value;

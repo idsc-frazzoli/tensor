@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.io.CsvFormat;
 import ch.ethz.idsc.tensor.io.ObjectFormat;
+import ch.ethz.idsc.tensor.io.StringScalar;
 import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
@@ -61,9 +62,10 @@ public interface Quantity extends Scalar, //
    * @param value
    * @param unit for instance Unit.of("m*s^-1")
    * @return
-   * @throws Exception if value is instance of {@code Quantity} */
+   * @throws Exception if value is instance of {@code Quantity} or {@link StringScalar} */
   static Scalar of(Scalar value, Unit unit) {
-    if (value instanceof Quantity)
+    if (value instanceof Quantity || //
+        value instanceof StringScalar)
       throw TensorRuntimeException.of(value);
     return QuantityImpl.of(value, unit);
   }
@@ -77,9 +79,7 @@ public interface Quantity extends Scalar, //
    * @throws Exception if value is instance of {@code Quantity}
    * @throws Exception if string does not represent unit */
   static Scalar of(Scalar value, String string) {
-    if (value instanceof Quantity)
-      throw TensorRuntimeException.of(value);
-    return QuantityImpl.of(value, Unit.of(string));
+    return of(value, Unit.of(string));
   }
 
   /** creates quantity with number encoded as {@link RealScalar}

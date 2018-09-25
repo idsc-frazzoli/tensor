@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DecimalScalar;
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -15,7 +14,6 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.io.CsvFormat;
-import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.io.StringScalar;
 import junit.framework.TestCase;
 
@@ -37,10 +35,18 @@ public class QuantityTest extends TestCase {
     assertEquals(scalar, Quantity.of(RealScalar.of(3), unit));
   }
 
-  public void testFromStringFail() {
-    assertTrue(Scalars.fromString("-7[m][kg]") instanceof StringScalar);
-    assertTrue(Scalars.fromString("-7[m]a") instanceof StringScalar);
-    assertTrue(Scalars.fromString("-7[m*kg^-2") instanceof StringScalar);
+  private static void _check(String string) {
+    Scalar scalar = Scalars.fromString(string);
+    assertEquals(scalar.getClass(), StringScalar.class);
+    assertEquals(scalar.toString(), string);
+  }
+
+  public void testStringScalar() {
+    _check("-7[m][kg]");
+    _check("-7[m]a");
+    _check("-7[m*kg^-2");
+    _check("1abc[m]");
+    _check("1abc[]");
   }
 
   public void testFromStringComplex() {
@@ -113,47 +119,6 @@ public class QuantityTest extends TestCase {
     assertEquals(Quantity.of(3.14, ""), RealScalar.of(3.14));
   }
 
-  public void testSerializable() throws Exception {
-    Quantity quantity = (Quantity) Scalars.fromString("-7+3*I[kg^-2*m*s]");
-    Quantity copy = Serialization.copy(quantity);
-    assertEquals(quantity, copy);
-  }
-
-  public void testExactIntFail() {
-    try {
-      Scalar scalar = Quantity.of(10, "m");
-      Scalars.intValueExact(scalar);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testEquals() {
-    assertFalse(Quantity.of(10, "m").equals("s"));
-    assertFalse(Quantity.of(10, "m").equals(Quantity.of(2, "m")));
-    assertFalse(Quantity.of(10, "m").equals(Quantity.of(10, "kg")));
-  }
-
-  public void testEqualsZero() {
-    assertFalse(Quantity.of(0, "m").equals(RealScalar.ZERO));
-  }
-
-  public void testHashCode() {
-    assertEquals( //
-        Quantity.of(10.2, "m^-1*kg").hashCode(), //
-        Quantity.of(10.2, "kg*m^-1").hashCode());
-  }
-
-  public void testEmpty() {
-    Scalar q1 = Quantity.of(3, "m*s");
-    Scalar q2 = Quantity.of(7, "s*m");
-    Scalar s3 = q1.divide(q2);
-    // System.out.println(s3);
-    assertTrue(s3 instanceof RationalScalar);
-    assertTrue(q1.under(q2) instanceof RationalScalar);
-  }
-
   public void testImport() throws Exception {
     String path = getClass().getResource("/io/qty/quantity0.csv").getPath();
     Tensor tensor = CsvFormat.parse( //
@@ -164,6 +129,16 @@ public class QuantityTest extends TestCase {
     assertTrue(tensor.Get(0, 1) instanceof Quantity);
     assertTrue(tensor.Get(1, 0) instanceof Quantity);
     assertTrue(tensor.Get(1, 1) instanceof RealScalar);
+  }
+
+  public void testStringScalarFail() {
+    Unit unit = Unit.of("a");
+    try {
+      Quantity.of(StringScalar.of("123"), unit);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testNullFail1() {
