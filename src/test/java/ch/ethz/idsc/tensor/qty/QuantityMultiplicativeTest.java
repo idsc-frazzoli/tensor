@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -82,8 +83,11 @@ public class QuantityMultiplicativeTest extends TestCase {
   public void testDivision3() {
     Scalar s1 = ComplexScalar.of(1, 2);
     Scalar s2 = Quantity.of(3, "m");
-    Scalar sds = s1.divide(s2);
-    // System.out.println(sds);
-    assertEquals(sds, s2.under(s1));
+    assertEquals(s1.divide(s2), s2.under(s1));
+    assertEquals(s2.divide(s1), s1.under(s2));
+    assertTrue(ExactScalarQ.of(s1.divide(s2)));
+    assertTrue(ExactScalarQ.of(s2.divide(s1)));
+    assertTrue(ExactScalarQ.of(s1.under(s2)));
+    assertTrue(ExactScalarQ.of(s2.under(s1)));
   }
 }

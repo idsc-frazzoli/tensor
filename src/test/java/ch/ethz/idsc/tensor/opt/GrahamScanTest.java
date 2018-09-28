@@ -65,7 +65,6 @@ public class GrahamScanTest extends TestCase {
     double variance = 1e-15;
     Distribution distribution = NormalDistribution.of(2.0, variance);
     RandomVariate.of(distribution, 5 - 1, 2).stream().forEach(tensor::append);
-    // System.out.println(Dimensions.of(tensor));
     Tensor hull = ConvexHull.of(tensor);
     assertTrue(2 <= hull.length());
     assertTrue(hull.length() <= 3);
@@ -73,7 +72,6 @@ public class GrahamScanTest extends TestCase {
     hull = ConvexHull.of(tensor);
     assertTrue(2 <= hull.length());
     assertTrue(hull.length() <= 3);
-    // System.out.println(Dimensions.of(hull));
   }
 
   public void testClusterOnly() {
@@ -81,11 +79,9 @@ public class GrahamScanTest extends TestCase {
     Distribution distribution = NormalDistribution.of(0.0, variance);
     Tensor tensor = RandomVariate.of(distribution, 5, 2);
     Tensor hull = ConvexHull.of(tensor);
-    // System.out.println(hull);
     assertEquals(Dimensions.of(hull), Arrays.asList(2, 2));
     tensor = RandomVariate.of(distribution, 200, 2);
     hull = ConvexHull.of(tensor);
-    // System.out.println(hull);
     assertEquals(Dimensions.of(hull), Arrays.asList(2, 2));
   }
 }

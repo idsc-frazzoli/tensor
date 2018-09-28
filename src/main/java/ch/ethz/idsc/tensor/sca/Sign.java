@@ -85,7 +85,8 @@ public enum Sign implements ScalarUnaryOperator {
   /** Remark: Functionality inspired by {@link Objects#requireNonNull(Object)}
    * 
    * @param scalar
-   * @return */
+   * @return scalar
+   * @throws Exception if given scalar is not positive, i.e. has negative or zero sign */
   public static Scalar requirePositive(Scalar scalar) {
     if (isNegativeOrZero(scalar))
       throw TensorRuntimeException.of(scalar);
@@ -95,7 +96,8 @@ public enum Sign implements ScalarUnaryOperator {
   /** Remark: Functionality inspired by {@link Objects#requireNonNull(Object)}
    * 
    * @param scalar
-   * @return */
+   * @return scalar
+   * @throws Exception if given scalar is negative, i.e. has negative sign */
   public static Scalar requirePositiveOrZero(Scalar scalar) {
     if (isNegative(scalar))
       throw TensorRuntimeException.of(scalar);

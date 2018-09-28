@@ -102,7 +102,6 @@ public class TensorPropertiesTest extends TestCase {
     for (Field field : fields)
       if (!Modifier.isStatic(field.getModifiers()))
         try {
-          // System.out.println(field.getName());
           Class<?> cls = field.getType();
           final String string = properties.getProperty(field.getName());
           if (Objects.nonNull(string)) {

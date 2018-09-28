@@ -158,12 +158,10 @@ public class DetTest extends TestCase {
     // Matlab gives num == 1.0597e+05 !
     // Mathematica gives num == 44934.8 !
     Scalar num1 = Det.of(N.DOUBLE.of(matrix)); // indeed, our algo is no different:
-    // System.out.println(num1);
-    // num == 105968.67122221774
+    // num1 == 105968.67122221774
     num1.toString(); // to eliminate warning
     Scalar num2 = Det.withoutAbs(N.DOUBLE.of(matrix)); // indeed, our algo is no different:
-    // System.out.println(num2);
-    // num == 105968.67122221774
+    // num2 == 105968.67122221774
     num2.toString(); // to eliminate warning
   }
 

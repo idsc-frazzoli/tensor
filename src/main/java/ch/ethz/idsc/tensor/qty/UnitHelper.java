@@ -38,6 +38,9 @@ import ch.ethz.idsc.tensor.Scalars;
     return unit;
   }
 
+  /** @param key atomic unit expression, for instance "kg"
+   * @return given key
+   * @throws Exception if given key is not an atomic unit expression */
   /* package */ static String requireValid(String key) {
     if (!PATTERN.matcher(key).matches())
       throw new IllegalArgumentException(key);

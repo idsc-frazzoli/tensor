@@ -23,9 +23,10 @@ public enum ImageResize {
   /** function uses nearest neighbor interpolation
    * 
    * @param tensor
-   * @param fx scaling along x axis
-   * @param fy scaling along y axis
-   * @return */
+   * @param fx positive scaling along x axis
+   * @param fy positive scaling along y axis
+   * @return
+   * @throws Exception if either fx or fy is zero or negative */
   public static Tensor nearest(Tensor tensor, int fx, int fy) {
     if (fx <= 0 || fy <= 0)
       throw new RuntimeException(fx + " " + fy);
