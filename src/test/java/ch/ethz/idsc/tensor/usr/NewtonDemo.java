@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Series;
 import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
@@ -28,20 +27,16 @@ class NewtonDemo {
   private static final Tensor RE = Subdivide.of(-2, +2, RES - 1);
   private static final Tensor IM = Subdivide.of(-2, +2, RES - 1);
   // ---
-  private final ScalarUnaryOperator COEFFS;
-  private final ScalarUnaryOperator DERIVE;
-  private final ScalarUnaryOperator FUNCTION;
+  private final ScalarUnaryOperator scalarUnaryOperator;
 
   public NewtonDemo(Tensor coeffs) {
-    COEFFS = Series.of(coeffs);
-    DERIVE = Series.of(Multinomial.derivative(coeffs));
-    FUNCTION = z -> z.subtract(COEFFS.apply(z).divide(DERIVE.apply(z)));
+    scalarUnaryOperator = NewtonScalarMethod.polynomial(coeffs);
   }
 
   private Scalar function(int y, int x) {
     Scalar seed = ComplexScalar.of(RE.Get(x), IM.Get(y));
     try {
-      return Arg.of(Nest.of(FUNCTION, N.DOUBLE.apply(seed), DEPTH));
+      return Arg.of(Nest.of(scalarUnaryOperator, N.DOUBLE.apply(seed), DEPTH));
     } catch (Exception exception) {
       System.out.println("fail=" + seed);
     }

@@ -40,12 +40,16 @@ public enum Roots {
       return Tensors.empty();
     case 1: // a + b*x == 0
       return linear(coeffs);
-    case 2: // a + b*x + c*x^2 == 0
-      return quadratic(coeffs);
     }
     if (Scalars.isZero(coeffs.Get(0))) {
       Tensor roots = of(coeffs.extract(1, coeffs.length()));
       return roots.append(roots.Get(0).zero());
+    }
+    switch (degree) {
+    case 2: // a + b*x + c*x^2 == 0
+      return quadratic(coeffs);
+    case 3: // a + b*x + c*x^2 + d*x^3 == 0
+      return RootsCubic.of(coeffs);
     }
     throw TensorRuntimeException.of(coeffs);
   }
