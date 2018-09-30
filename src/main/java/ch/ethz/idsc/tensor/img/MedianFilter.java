@@ -24,7 +24,7 @@ public enum MedianFilter {
    * @throws Exception if given radius is negative */
   public static Tensor of(Tensor tensor, int radius) {
     if (radius < 0)
-      throw new IllegalArgumentException("" + radius);
+      throw new IllegalArgumentException("radius=" + radius);
     return BlockExtract.convolve(tensor, radius, MedianFilter::flatten);
   }
 

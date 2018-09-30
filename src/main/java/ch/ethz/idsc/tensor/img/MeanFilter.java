@@ -34,7 +34,7 @@ public enum MeanFilter {
   public static Tensor of(Tensor tensor, int radius) {
     ScalarQ.thenThrow(tensor);
     if (radius < 0)
-      throw new IllegalArgumentException("" + radius);
+      throw new IllegalArgumentException("radius=" + radius);
     int rank = TensorRank.of(tensor);
     UnaryOperator<Tensor> unaryOperator = value -> TensorExtract.convolve(value, radius, Mean::of);
     for (int level = 0; level < rank; ++level)

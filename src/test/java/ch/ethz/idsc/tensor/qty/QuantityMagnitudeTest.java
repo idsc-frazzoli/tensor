@@ -79,6 +79,15 @@ public class QuantityMagnitudeTest extends TestCase {
     }
   }
 
+  public void testFailInNull() {
+    try {
+      QuantityMagnitude.SI().in((Unit) null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailNull() {
     try {
       new QuantityMagnitude(null);

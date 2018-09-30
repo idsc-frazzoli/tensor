@@ -14,8 +14,7 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum RodriquesDemo {
   ;
-  // ---
-  private static final int RES = 128; // StaticHelper.GALLERY_RES;
+  private static final int RES = StaticHelper.GALLERY_RES;
   private static final Tensor RE = Subdivide.of(-4, +4, RES - 1);
   private static final Tensor IM = Subdivide.of(-4, +4, RES - 1);
   private static Scalar Z;

@@ -21,7 +21,7 @@ import java.math.MathContext;
     if (signum == 0)
       return BigDecimal.ZERO;
     if (signum < 0)
-      throw new RuntimeException("Sqrt[" + square + "]");
+      throw new IllegalArgumentException("Sqrt[" + square + "]");
     BigDecimal xn0 = BigDecimal.ZERO;
     BigDecimal xn1 = BigDecimal.ONE;
     while (xn0.compareTo(xn1) != 0) {

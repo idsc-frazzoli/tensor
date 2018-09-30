@@ -30,7 +30,7 @@ public enum MapThread {
     if (0 < level) {
       long unique = list.stream().map(Tensor::length).distinct().count();
       if (1 < unique)
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("" + unique);
       int length = 0 == unique //
           ? 0
           : list.get(0).length();

@@ -18,7 +18,6 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 /** inspired by Mathematica's documentation of Beta */
 enum BetaDemo {
   ;
-  // ---
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 2;
   private static final Tensor RE = Subdivide.of(-2, +2, RES - 1);

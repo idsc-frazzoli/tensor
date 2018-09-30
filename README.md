@@ -187,7 +187,7 @@ Hungarian algorithm
 
 <td>
 
-![spatialmedianimage](https://user-images.githubusercontent.com/4012178/46220947-fc709400-c34b-11e8-95ec-2085e5483b72.png)
+![spatialmedianimage](https://user-images.githubusercontent.com/4012178/46254643-7874f400-c492-11e8-97dc-673f9ecf2dcd.png)
 
 Weiszfeld’s method
 

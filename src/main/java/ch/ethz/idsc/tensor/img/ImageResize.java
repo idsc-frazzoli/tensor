@@ -29,7 +29,7 @@ public enum ImageResize {
    * @throws Exception if either fx or fy is zero or negative */
   public static Tensor nearest(Tensor tensor, int fx, int fy) {
     if (fx <= 0 || fy <= 0)
-      throw new RuntimeException(fx + " " + fy);
+      throw new IllegalArgumentException("fx=" + fx + " fy=" + fy);
     int dim0 = tensor.length();
     int dim1 = Unprotect.dimension1(tensor);
     // precomputation of indices

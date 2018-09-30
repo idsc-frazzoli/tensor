@@ -31,7 +31,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
    * generate random variates, but is not available to PDF, or CDF. */
   public static Distribution of(int n, Scalar p) {
     if (n < 0)
-      throw new RuntimeException("n=" + n);
+      throw new IllegalArgumentException("n=" + n);
     Clip.unit().requireInside(p);
     // ---
     boolean revert = Scalars.lessThan(RationalScalar.HALF, p);

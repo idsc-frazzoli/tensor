@@ -72,6 +72,15 @@ public class UnitConvertTest extends TestCase {
     }
   }
 
+  public void testFailInNull() {
+    try {
+      UnitConvert.SI().to((Unit) null);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailNull() {
     try {
       new UnitConvert(null);

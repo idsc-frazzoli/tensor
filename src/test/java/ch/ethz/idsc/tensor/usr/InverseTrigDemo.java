@@ -26,7 +26,7 @@ class InverseTrigDemo {
   private static final Tensor RE = Subdivide.of(-2.0, +2.0, RES - 1);
   private static final Tensor IM = Subdivide.of(-2.0, +2.0, RES - 1);
   // ---
-  final ScalarUnaryOperator scalarUnaryOperator;
+  private final ScalarUnaryOperator scalarUnaryOperator;
 
   InverseTrigDemo(ScalarUnaryOperator scalarUnaryOperator) {
     this.scalarUnaryOperator = scalarUnaryOperator;

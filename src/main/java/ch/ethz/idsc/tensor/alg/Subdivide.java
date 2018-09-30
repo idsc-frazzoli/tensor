@@ -48,7 +48,7 @@ public enum Subdivide {
       return Tensor.of(IntStream.rangeClosed(0, n) //
           .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
               .add(endInclusive.multiply(RationalScalar.of(count, n)))));
-    throw new RuntimeException("n=" + n);
+    throw new IllegalArgumentException("n=" + n);
   }
 
   /** see description above

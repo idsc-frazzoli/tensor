@@ -18,8 +18,7 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MandelbrotDemo {
   ;
-  // ---
-  private static final int RES = 256;
+  private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 20;
   private static final Tensor RE = Subdivide.of(-1.4, -1.0, RES - 1);
   private static final Tensor IM = Subdivide.of(+0.0, +0.4, RES - 1);
@@ -41,7 +40,7 @@ enum MandelbrotDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = Parallelize.matrix(MandelbrotDemo::function, RES, RES);
-    Export.of(UserHome.Pictures(MandelbulbDemo.class.getSimpleName() + ".png"), //
+    Export.of(UserHome.Pictures(MandelbrotDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.RAINBOW));
   }
 }

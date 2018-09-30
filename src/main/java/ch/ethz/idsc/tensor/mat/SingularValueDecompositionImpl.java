@@ -41,7 +41,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     rows = A.length();
     cols = Unprotect.dimension1(A);
     if (rows < cols)
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("rows=" + rows + " cols=" + cols);
     u = A.copy();
     w = Array.zeros(cols);
     r = Array.zeros(cols);

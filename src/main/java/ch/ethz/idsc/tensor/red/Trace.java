@@ -33,11 +33,11 @@ public enum Trace {
    * @return stream of slices of tensor along dimensions d0 and d1 */
   public static Stream<Tensor> stream(Tensor tensor, int d0, int d1) {
     if (d0 == d1)
-      throw new RuntimeException(d0 + "==" + d1);
+      throw new IllegalArgumentException(d0 + "==" + d1);
     List<Integer> dimensions = Dimensions.of(tensor);
     final int length = dimensions.get(d0);
     if (length != dimensions.get(d1))
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException(length + "!=" + dimensions.get(d1));
     List<Integer> index = IntStream.range(0, dimensions.size()) //
         .map(i -> Tensor.ALL) //
         .boxed().collect(Collectors.toList());
