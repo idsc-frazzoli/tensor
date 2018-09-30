@@ -29,6 +29,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
   /** @param xk
    * @return */
   Scalar of(Scalar xk) {
-    return Scalars.isZero(Imag.FUNCTION.apply(xk)) ? apply(xk) : ComplexScalar.unit(Arg.of(xk)).negate();
+    return Scalars.isZero(Imag.FUNCTION.apply(xk)) //
+        ? apply(xk)
+        : ComplexScalar.unit(Arg.of(xk)).negate();
   }
 }

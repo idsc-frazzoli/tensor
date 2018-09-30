@@ -37,7 +37,8 @@ public enum NumberQ {
   public static boolean of(Tensor tensor) {
     if (tensor instanceof ComplexScalar) {
       ComplexScalar complexScalar = (ComplexScalar) tensor;
-      return of(complexScalar.real()) && of(complexScalar.imag());
+      return of(complexScalar.real()) //
+          && of(complexScalar.imag());
     }
     if (tensor instanceof Quantity)
       return false;

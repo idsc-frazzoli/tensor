@@ -100,6 +100,8 @@ public class Binomial {
   /** @param k
    * @return n choose k */
   public Scalar over(int k) {
-    return 0 <= k ? row.Get(Math.min(k, n - k)) : RealScalar.ZERO;
+    return 0 <= k //
+        ? row.Get(Math.min(k, n - k))
+        : RealScalar.ZERO;
   }
 }

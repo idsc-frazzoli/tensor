@@ -51,7 +51,9 @@ public enum Dimensions {
 
   /* package */ static Optional<Integer> arrayRank(Tensor tensor) {
     List<Set<Integer>> complete = complete(tensor);
-    return check(complete) ? Optional.of(list(complete).size()) : Optional.empty();
+    return check(complete) //
+        ? Optional.of(list(complete).size())
+        : Optional.empty();
   }
 
   /***************************************************/

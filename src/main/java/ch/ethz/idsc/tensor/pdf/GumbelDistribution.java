@@ -44,7 +44,9 @@ public class GumbelDistribution extends AbstractContinuousDistribution implement
 
   /* package for testing */ Scalar randomVariate(double reference) {
     // avoid result -Infinity when reference is close to 1.0
-    double uniform = reference == NEXTDOWNONE ? reference : Math.nextUp(reference);
+    double uniform = reference == NEXTDOWNONE //
+        ? reference
+        : Math.nextUp(reference);
     return alpha.add(beta.multiply(Log.FUNCTION.apply(Log.FUNCTION.apply(DoubleScalar.of(uniform)).negate())));
   }
 

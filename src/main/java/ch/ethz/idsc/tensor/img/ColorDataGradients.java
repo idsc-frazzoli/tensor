@@ -75,7 +75,9 @@ public enum ColorDataGradients implements ScalarTensorFunction {
   private ColorDataGradients() {
     Tensor tensor = ResourceData.of("/colorscheme/" + name().toLowerCase() + ".csv");
     boolean success = Objects.nonNull(tensor);
-    scalarTensorFunction = success ? ColorDataGradient.of(tensor) : StaticHelper.FALLBACK;
+    scalarTensorFunction = success //
+        ? ColorDataGradient.of(tensor)
+        : StaticHelper.FALLBACK;
     if (!success)
       System.err.println("fail to load " + name());
   }

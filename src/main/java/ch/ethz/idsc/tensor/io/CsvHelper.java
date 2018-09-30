@@ -21,7 +21,9 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
     if (scalar instanceof StringScalar)
       return wrap(scalar);
     if (scalar instanceof RationalScalar)
-      return IntegerQ.of(scalar) ? scalar : N.DOUBLE.apply(scalar);
+      return IntegerQ.of(scalar) //
+          ? scalar
+          : N.DOUBLE.apply(scalar);
     if (scalar instanceof DecimalScalar)
       return N.DOUBLE.apply(scalar);
     if (scalar instanceof ComplexScalar)

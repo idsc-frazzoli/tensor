@@ -31,7 +31,9 @@ public enum MapThread {
       long unique = list.stream().map(Tensor::length).distinct().count();
       if (1 < unique)
         throw new IllegalArgumentException();
-      int length = 0 == unique ? 0 : list.get(0).length();
+      int length = 0 == unique //
+          ? 0
+          : list.get(0).length();
       return Tensor.of(IntStream.range(0, length) //
           .mapToObj(index -> of(function, extract(index, list), level - 1)));
     }

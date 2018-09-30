@@ -48,7 +48,9 @@ import ch.ethz.idsc.tensor.Scalars;
     Entry<Scalar, Scalar> ceiling = cdf.ceilingEntry(x);
     if (cdf_finished || Objects.nonNull(ceiling)) {
       Entry<Scalar, Scalar> entry = function.apply(x);
-      return Objects.isNull(entry) ? RealScalar.ZERO : entry.getValue();
+      return Objects.isNull(entry) //
+          ? RealScalar.ZERO
+          : entry.getValue();
     }
     // <- ceiling == null, now integrate until finished or ceiling of x exists
     Entry<Scalar, Scalar> last = cdf.lastEntry();

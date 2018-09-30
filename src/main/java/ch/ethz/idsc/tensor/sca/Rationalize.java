@@ -97,7 +97,9 @@ public class Rationalize implements ScalarUnaryOperator {
     Scalar err1 = sol1.subtract(scalar).abs();
     if (err0.equals(err1))
       return Max.of(sol0, sol1); // ties rounding to positive infinity
-    return Scalars.lessThan(err0, err1) ? sol0 : sol1; // choose the one with less error
+    return Scalars.lessThan(err0, err1) // choose the one with less error
+        ? sol0
+        : sol1;
   }
 
   // helper function

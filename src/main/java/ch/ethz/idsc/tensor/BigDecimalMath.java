@@ -67,7 +67,9 @@ import java.math.MathContext;
     while (xn0.compareTo(xn1) != 0) {
       xn0 = xn1;
       add = add.multiply(x2).divide(BigDecimal.valueOf(++index * ++index), mathContext);
-      xn1 = ++count % 2 == 0 ? xn1.add(add, mathContext) : xn1.subtract(add, mathContext);
+      xn1 = ++count % 2 == 0 //
+          ? xn1.add(add, mathContext)
+          : xn1.subtract(add, mathContext);
     }
     return xn1;
   }
@@ -106,7 +108,9 @@ import java.math.MathContext;
     while (xn0.compareTo(xn1) != 0) {
       xn0 = xn1;
       add = add.multiply(x2).divide(BigDecimal.valueOf(++index * ++index), mathContext);
-      xn1 = ++count % 2 == 0 ? xn1.add(add, mathContext) : xn1.subtract(add, mathContext);
+      xn1 = ++count % 2 == 0 //
+          ? xn1.add(add, mathContext)
+          : xn1.subtract(add, mathContext);
     }
     return xn1;
   }

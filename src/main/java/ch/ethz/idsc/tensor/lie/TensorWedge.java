@@ -31,7 +31,9 @@ public enum TensorWedge {
     for (Tensor permutation : Permutations.of(Range.of(0, rank))) {
       IntStream.range(0, rank).forEach(index -> sigma[index] = permutation.Get(index).number().intValue());
       Tensor transpose = Transpose.of(tensor, sigma);
-      sum = Signature.of(permutation).equals(RealScalar.ONE) ? sum.add(transpose) : sum.subtract(transpose);
+      sum = Signature.of(permutation).equals(RealScalar.ONE) //
+          ? sum.add(transpose)
+          : sum.subtract(transpose);
     }
     return sum.divide(Factorial.of(rank));
   }

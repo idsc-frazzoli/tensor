@@ -1,9 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.qty.Boole;
 import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** Examples:
@@ -25,7 +25,7 @@ public enum UnitStep implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return Sign.isNegative(scalar) ? RealScalar.ZERO : RealScalar.ONE;
+    return Boole.of(Sign.isPositiveOrZero(scalar));
   }
 
   /** @param tensor

@@ -85,8 +85,9 @@ public class ExponentialDistribution extends AbstractContinuousDistribution impl
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return Sign.isNegativeOrZero(x) ? RealScalar.ZERO : //
-        RealScalar.ONE.subtract(Exp.FUNCTION.apply(x.multiply(lambda_negate)));
+    return Sign.isNegativeOrZero(x) //
+        ? RealScalar.ZERO
+        : RealScalar.ONE.subtract(Exp.FUNCTION.apply(x.multiply(lambda_negate)));
   }
 
   @Override // from CDF

@@ -3,8 +3,8 @@ package ch.ethz.idsc.tensor.red;
 
 import java.util.stream.Stream;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.qty.Boole;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** not completely consistent with Mathematica since
@@ -32,8 +32,6 @@ public enum KroneckerDelta {
    * @return RealScalar.ONE if there are no two objects in the stream that are distinct,
    * otherwise RealScalar.ZERO */
   public static Scalar of(Stream<?> stream) {
-    return stream.distinct().limit(2).count() <= 1 //
-        ? RealScalar.ONE
-        : RealScalar.ZERO;
+    return Boole.of(stream.distinct().limit(2).count() <= 1);
   }
 }

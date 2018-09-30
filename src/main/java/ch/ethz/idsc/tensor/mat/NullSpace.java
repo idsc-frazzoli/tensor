@@ -46,7 +46,9 @@ public enum NullSpace {
    * @param matrix
    * @return vectors that span the nullspace */
   public static Tensor of(Tensor matrix) {
-    return ExactScalarQ.all(matrix) ? usingRowReduce(matrix) : usingSvd(matrix);
+    return ExactScalarQ.all(matrix) //
+        ? usingRowReduce(matrix)
+        : usingSvd(matrix);
   }
 
   /** @param matrix with exact precision entries
