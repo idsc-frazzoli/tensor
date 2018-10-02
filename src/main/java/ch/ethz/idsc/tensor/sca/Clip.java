@@ -55,7 +55,9 @@ public interface Clip extends ScalarUnaryOperator {
     Scalar width = max.subtract(min);
     if (Sign.isNegative(width))
       throw TensorRuntimeException.of(min, max);
-    return min.equals(max) ? new ClipPoint(min, width) : new ClipInterval(min, max, width);
+    return min.equals(max) //
+        ? new ClipPoint(min, width)
+        : new ClipInterval(min, max, width);
   }
 
   /** @param tensor

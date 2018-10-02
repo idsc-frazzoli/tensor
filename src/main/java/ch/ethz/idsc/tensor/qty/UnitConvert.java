@@ -33,7 +33,7 @@ public class UnitConvert {
    * @param unit
    * @return operator that maps a quantity to the quantity of given unit */
   public ScalarUnaryOperator to(Unit unit) {
-    Scalar base = unitSystem.apply(Quantity.of(RealScalar.ONE, unit));
+    Scalar base = unitSystem.apply(QuantityImpl.of(RealScalar.ONE, unit));
     return scalar -> Quantity.of(unitSystem.apply(scalar).divide(base), unit);
   }
 }

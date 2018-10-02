@@ -76,7 +76,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
   private static String exponentString(Scalar exponent) {
     String string = exponent.toString();
-    return string.equals("1") ? "" : Unit.POWER_DELIMITER + string;
+    return string.equals("1") //
+        ? ""
+        : Unit.POWER_DELIMITER + string;
   }
 
   @Override // from Object

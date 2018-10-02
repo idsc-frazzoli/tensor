@@ -22,6 +22,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   }
 
   static Tensor parse(byte[] bytes) {
-    throw new RuntimeException();
+    throw new UnsupportedOperationException();
   }
 }

@@ -16,7 +16,7 @@ public enum Nest {
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(UnaryOperator<T> unaryOperator, T x, int n) {
     if (n < 0)
-      throw new RuntimeException("" + n);
+      throw new IllegalArgumentException("n=" + n);
     if (n == 0)
       return (T) x.copy(); // <- specific to Tensor interface
     for (int index = 0; index < n; ++index)

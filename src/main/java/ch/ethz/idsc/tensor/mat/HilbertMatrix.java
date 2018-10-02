@@ -16,7 +16,7 @@ public enum HilbertMatrix {
   public static Tensor of(int n, int m) {
     if (0 < n && 0 < m)
       return Tensors.matrix((i, j) -> RationalScalar.of(1, i + j + 1), n, m);
-    throw new RuntimeException(String.format("HilbertMatrix[%d,%d]", n, m));
+    throw new IllegalArgumentException(String.format("HilbertMatrix[%d,%d]", n, m));
   }
 
   /** @param n rows greater than zero

@@ -71,7 +71,9 @@ public enum Normalize {
    * @throws Exception if vector contains Infinity, or NaN */
   public static Tensor unlessZero(Tensor vector, VectorNormInterface vectorNormInterface) {
     Scalar norm = vectorNormInterface.ofVector(vector); // throws exception if input is not a vector
-    return Scalars.isZero(norm) ? vector.copy() : normalize(vector, vectorNormInterface, norm);
+    return Scalars.isZero(norm) //
+        ? vector.copy()
+        : normalize(vector, vectorNormInterface, norm);
   }
 
   // helper function

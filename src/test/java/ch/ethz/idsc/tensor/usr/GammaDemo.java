@@ -18,7 +18,6 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 /** inspired by Mathematica's documentation of Gamma */
 enum GammaDemo {
   ;
-  // ---
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 2;
   private static final Tensor RE = Subdivide.of(-1.25, -0.6, RES - 1);

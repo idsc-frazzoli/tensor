@@ -20,7 +20,9 @@ import ch.ethz.idsc.tensor.Tensor;
 
   @Override // from ScalarTensorFunction
   public final Tensor apply(Scalar scalar) {
-    return NumberQ.of(scalar) ? tensor.get(toInt(scalar)) : StaticHelper.transparent();
+    return NumberQ.of(scalar) //
+        ? tensor.get(toInt(scalar))
+        : StaticHelper.transparent();
   }
 
   @Override // from ColorDataIndexed

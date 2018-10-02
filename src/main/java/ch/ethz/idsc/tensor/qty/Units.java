@@ -15,8 +15,7 @@ public enum Units {
       Quantity quantity = (Quantity) scalar;
       return quantity.unit();
     }
-    if (Objects.isNull(scalar))
-      throw new IllegalArgumentException(); // scalar == null
+    Objects.requireNonNull(scalar);
     return Unit.ONE;
   }
 

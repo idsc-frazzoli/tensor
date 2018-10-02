@@ -31,11 +31,13 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
    * generate random variates, but is not available to PDF, or CDF. */
   public static Distribution of(int n, Scalar p) {
     if (n < 0)
-      throw new RuntimeException("n=" + n);
+      throw new IllegalArgumentException("n=" + n);
     Clip.unit().requireInside(p);
     // ---
     boolean revert = Scalars.lessThan(RationalScalar.HALF, p);
-    Scalar q = revert ? RealScalar.ONE.subtract(p) : p;
+    Scalar q = revert //
+        ? RealScalar.ONE.subtract(p)
+        : p;
     Tensor table = Tensors.empty();
     Scalar last = Power.of(RealScalar.ONE.subtract(q), n);
     table.append(last);
@@ -48,9 +50,9 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
     }
     table = revert ? Reverse.of(table) : table;
     Scalar sum = Total.of(table).Get();
-    return Chop._12.close(sum, RealScalar.ONE) ? //
-        new BinomialDistribution(n, p, table) : //
-        new BinomialRandomVariate(n, p);
+    return Chop._12.close(sum, RealScalar.ONE) //
+        ? new BinomialDistribution(n, p, table) //
+        : new BinomialRandomVariate(n, p);
   }
 
   /** @param n non-negative integer

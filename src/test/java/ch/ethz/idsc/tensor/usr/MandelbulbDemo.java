@@ -17,7 +17,6 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MandelbulbDemo {
   ;
-  // ---
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 40;
   private static final int EXPONENT = 8;

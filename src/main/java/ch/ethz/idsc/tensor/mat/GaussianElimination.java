@@ -106,7 +106,9 @@ import ch.ethz.idsc.tensor.Unprotect;
         .mapToObj(c0 -> lhs.Get(ind[c0], c0)) //
         .reduce(Scalar::multiply) //
         .get();
-    return transpositions % 2 == 0 ? scalar : scalar.negate();
+    return transpositions % 2 == 0 //
+        ? scalar
+        : scalar.negate();
   }
 
   /** @return x with m.dot(x) == b */

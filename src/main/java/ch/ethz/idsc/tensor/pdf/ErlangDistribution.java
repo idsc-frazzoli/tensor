@@ -20,7 +20,7 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
    * @return */
   public static Distribution of(int k, Scalar lambda) {
     if (k <= 0)
-      throw new RuntimeException("k=" + k);
+      throw new IllegalArgumentException("k=" + k);
     return new ErlangDistribution(k, lambda);
   }
 

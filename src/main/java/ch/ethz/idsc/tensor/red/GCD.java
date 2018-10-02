@@ -18,6 +18,8 @@ public enum GCD {
   }
 
   private static Scalar _of(Scalar a, Scalar b) {
-    return Scalars.isZero(b) ? a : _of(b, Mod.function(b).apply(a));
+    return Scalars.isZero(b) //
+        ? a
+        : _of(b, Mod.function(b).apply(a));
   }
 }

@@ -28,7 +28,7 @@ public enum IdentityMatrix {
   public static Tensor of(int n) {
     if (0 < n)
       return Tensors.matrix(KroneckerDelta::of, n, n);
-    throw new RuntimeException("n=" + n);
+    throw new IllegalArgumentException("n=" + n);
   }
 
   /** @param n
@@ -38,6 +38,6 @@ public enum IdentityMatrix {
   public static Tensor of(int n, Scalar one) {
     if (0 < n)
       return Tensors.matrix((i, j) -> i.equals(j) ? one : one.zero(), n, n);
-    throw new RuntimeException("n=" + n);
+    throw new IllegalArgumentException("n=" + n);
   }
 }

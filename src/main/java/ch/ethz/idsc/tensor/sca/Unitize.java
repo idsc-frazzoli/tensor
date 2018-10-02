@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.qty.Boole;
 
 /** maps a non-zero scalar to {@link RealScalar#ONE}, and a zero scalar to {@link RealScalar#ZERO}
  * 
@@ -15,7 +16,7 @@ public enum Unitize implements ScalarUnaryOperator {
   // ---
   @Override
   public Scalar apply(Scalar scalar) {
-    return Scalars.isZero(scalar) ? RealScalar.ZERO : RealScalar.ONE;
+    return Boole.of(Scalars.nonZero(scalar));
   }
 
   /** @param tensor

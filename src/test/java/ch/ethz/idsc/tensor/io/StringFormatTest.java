@@ -30,7 +30,7 @@ public class StringFormatTest extends TestCase {
 
   // public void testComma() {
   // Tensor scalar = StringFormat.parse("3.12,");
-  // // System.out.println(scalar);
+  // System.out.println(scalar);
   // assertTrue(scalar instanceof StringScalar);
   // }
   // public void testEmptyPost() {

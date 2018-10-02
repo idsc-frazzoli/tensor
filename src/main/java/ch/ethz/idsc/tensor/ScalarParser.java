@@ -59,7 +59,9 @@ import java.util.regex.Pattern;
       for (int index = 0; index < plusMinus.size(); ++index) {
         int curr = plusMinus.get(index);
         char c = chars[curr];
-        int next = index + 1 < plusMinus.size() ? plusMinus.get(index + 1) : string.length();
+        int next = index + 1 < plusMinus.size() //
+            ? plusMinus.get(index + 1)
+            : string.length();
         if (c == ADD)
           sum = sum.add(of(string.substring(curr + 1, next)));
         else //

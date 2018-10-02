@@ -38,7 +38,9 @@ import java.util.List;
     this.total = total;
     direction = new int[size.length];
     for (int c0 = 0; c0 < size.length; ++c0)
-      direction[c0] = forward ? size.length - c0 - 1 : c0;
+      direction[c0] = forward //
+          ? size.length - c0 - 1
+          : c0;
   }
 
   @Override

@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.io.StringScalarQ;
+import ch.ethz.idsc.tensor.io.StringScalar;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** reference implementation of {@link UnitSystem} with emphasis on simplicity */
@@ -58,7 +58,7 @@ public class SimpleUnitSystem implements UnitSystem {
       for (Entry<String, Scalar> entry : quantity.unit().map().entrySet()) {
         Scalar lookup = map.get(entry.getKey());
         value = value.multiply(Objects.isNull(lookup) //
-            ? Quantity.of(RealScalar.ONE, format(entry)) //
+            ? QuantityImpl.of(RealScalar.ONE, Unit.of(format(entry))) //
             : Power.of(lookup, entry.getValue()));
       }
       return value;
@@ -73,13 +73,8 @@ public class SimpleUnitSystem implements UnitSystem {
 
   // helper function
   private static Scalar requireNumeric(Scalar scalar) {
-    if (StringScalarQ.of(scalar))
+    if (scalar instanceof StringScalar)
       throw TensorRuntimeException.of(scalar);
-    if (scalar instanceof Quantity) {
-      Quantity quantity = (Quantity) scalar;
-      if (StringScalarQ.of(quantity.value()))
-        throw TensorRuntimeException.of(scalar);
-    }
     return scalar;
   }
 

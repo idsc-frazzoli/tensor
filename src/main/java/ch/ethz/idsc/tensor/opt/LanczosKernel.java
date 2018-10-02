@@ -25,7 +25,9 @@ import ch.ethz.idsc.tensor.sca.Sinc;
 
   @Override
   public Scalar apply(Scalar scalar) {
-    return clip.isInside(scalar) ? inside(scalar) : RealScalar.ZERO;
+    return clip.isInside(scalar) //
+        ? inside(scalar)
+        : RealScalar.ZERO;
   }
 
   /** @param scalar inside clip

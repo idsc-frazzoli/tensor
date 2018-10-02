@@ -94,7 +94,6 @@ public class NullSpaceTest extends TestCase {
         { 1, 2, 1 } //
     });
     Tensor nul = NullSpace.of(A);
-    // System.out.println(nul);
     for (Tensor v : nul)
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(1, 3));

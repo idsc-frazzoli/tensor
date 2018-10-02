@@ -85,7 +85,9 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    return clip.isInside(x) ? width.reciprocal() : RealScalar.ZERO;
+    return clip.isInside(x) //
+        ? width.reciprocal()
+        : RealScalar.ZERO;
   }
 
   @Override // from CDF

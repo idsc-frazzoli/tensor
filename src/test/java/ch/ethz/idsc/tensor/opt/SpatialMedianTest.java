@@ -69,7 +69,6 @@ public class SpatialMedianTest extends TestCase {
     Tensor tensor = RandomVariate.of(UniformDistribution.unit(), 20, 2).map(value -> Quantity.of(value, "m"));
     SpatialMedian fermatWeberProblem = SpatialMedian.with(Quantity.of(1e-10, "m"));
     Tensor weiszfeld = fermatWeberProblem.uniform(tensor).get();
-    // System.out.println(weiszfeld);
     Clip clip = Clip.function(Quantity.of(0, "m"), Quantity.of(1, "m"));
     clip.requireInside(weiszfeld.Get(0));
     clip.requireInside(weiszfeld.Get(1));

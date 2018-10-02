@@ -139,19 +139,14 @@ public class CholeskyDecompositionTest extends TestCase {
       Tensor inv = LinearSolve.of(mat, eye);
       Tensor res = mat.dot(inv);
       assertTrue(Chop.NONE.close(eye, res));
-      // assertEquals(eye, res);
-      // assertEquals(res, eye);
     }
     {
       Tensor inv = Inverse.of(mat);
-      // assertEquals(mat.dot(inv), inv.dot(mat));
       assertTrue(Chop.NONE.close(mat.dot(inv), inv.dot(mat)));
-      // assertEquals(mat.dot(inv), IdentityMatrix.of(3));
       assertTrue(Chop.NONE.close(mat.dot(inv), IdentityMatrix.of(3)));
     }
     {
       CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
-      // System.out.println(Det.of(mat));
       assertEquals(Det.of(mat), cd.det()); // 100[kg^2,m^2,rad^2]
       Tensor lower = rows_pmul_v(cd.getL(), Sqrt.of(cd.diagonal()));
       Tensor upper = Sqrt.of(cd.diagonal()).pmul(ConjugateTranspose.of(cd.getL()));

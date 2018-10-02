@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.6.0`
+Library for tensor computations in Java, version `0.6.1`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -187,7 +187,7 @@ Hungarian algorithm
 
 <td>
 
-![fermatweberimage](https://user-images.githubusercontent.com/4012178/45925396-88318d00-bf14-11e8-8976-59a1278d7e45.png)
+![spatialmedianimage](https://user-images.githubusercontent.com/4012178/46254643-7874f400-c492-11e8-97dc-673f9ecf2dcd.png)
 
 Weiszfeld’s method
 
@@ -268,7 +268,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.6.0</version>
+        <version>0.6.1</version>
       </dependency>
     </dependencies>
 

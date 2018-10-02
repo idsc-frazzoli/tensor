@@ -58,7 +58,9 @@ import ch.ethz.idsc.tensor.sca.Sign;
         V = Tensor.of(IntStream.of(order).mapToObj(V::get)).unmodifiable();
         return;
       }
-      Scalar tresh = (i < 4) ? sum.multiply(factor) : RealScalar.ZERO;
+      Scalar tresh = i < 4 //
+          ? sum.multiply(factor)
+          : RealScalar.ZERO;
       for (int ip = 0; ip < n - 1; ++ip) {
         for (int iq = ip + 1; iq < n; ++iq) {
           Scalar g = HUNDRED.multiply(A.Get(ip, iq).abs());

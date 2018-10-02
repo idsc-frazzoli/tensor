@@ -98,15 +98,10 @@ public class GammaTest extends TestCase {
 
   public void testNest2() {
     Scalar seed = Scalars.fromString("-1.0486274509803923-0.028431372549019604*I");
-    // seed = Nest.of(Gamma.FUNCTION, seed, 3);
     seed = Gamma.of(seed);
-    // System.out.println(seed);
     seed = Gamma.of(seed);
-    // System.out.println(seed);
     seed = Gamma.of(seed);
-    // System.out.println(seed);
     assertFalse(NumberQ.of(seed));
-    // assertTrue(Chop._50.allZero(seed));
   }
 
   public void testFail() {

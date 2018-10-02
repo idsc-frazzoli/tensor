@@ -16,7 +16,6 @@ import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum WeierstrassDemo {
   ;
-  // ---
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 10;
   private static final Tensor RE = Subdivide.of(0.25, 1, RES - 1);

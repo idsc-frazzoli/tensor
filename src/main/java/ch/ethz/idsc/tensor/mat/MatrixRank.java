@@ -20,7 +20,9 @@ public enum MatrixRank {
    * @param matrix with exact and/or numeric precision entries
    * @return rank of matrix */
   public static int of(Tensor matrix) {
-    return ExactScalarQ.all(matrix) ? usingRowReduce(matrix) : usingSvd(matrix);
+    return ExactScalarQ.all(matrix) //
+        ? usingRowReduce(matrix)
+        : usingSvd(matrix);
   }
 
   /** @param matrix with exact precision entries

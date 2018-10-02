@@ -17,6 +17,8 @@ package ch.ethz.idsc.tensor.io;
   static Boolean orNull(String string) {
     if (string.equals(FALSE))
       return false;
-    return string.equals(TRUE) ? true : null;
+    return string.equals(TRUE) //
+        ? true
+        : null;
   }
 }

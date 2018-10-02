@@ -22,7 +22,7 @@ public enum Hue {
    * @param alpha in [0, 1] */
   public static Color of(double hue, double sat, double val, double alpha) {
     if (!Double.isFinite(hue))
-      throw new RuntimeException("h=" + hue);
+      throw new IllegalArgumentException("hue=" + hue);
     // ---
     final double r;
     final double g;

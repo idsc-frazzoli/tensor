@@ -49,7 +49,9 @@ public class LinearInterpolation extends AbstractInterpolation {
         above.subtract(index), //
         index.subtract(floor)));
     for (Tensor weight : weights)
-      block = block.length() == 1 ? block.get(0) : weight.dot(block);
+      block = block.length() == 1 //
+          ? block.get(0)
+          : weight.dot(block);
     return block;
   }
 

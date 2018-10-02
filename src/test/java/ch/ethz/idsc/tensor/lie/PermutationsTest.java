@@ -21,7 +21,6 @@ public class PermutationsTest extends TestCase {
 
   public void testThree2() {
     Tensor res = Permutations.of(Tensors.vector(1, 2, 1));
-    // System.out.println(res);
     assertEquals(res.get(0), Tensors.vector(1, 2, 1));
     assertEquals(res.get(1), Tensors.vector(1, 1, 2));
     assertEquals(res.get(2), Tensors.vector(2, 1, 1));

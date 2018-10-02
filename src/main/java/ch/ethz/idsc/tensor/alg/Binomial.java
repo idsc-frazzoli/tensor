@@ -32,7 +32,7 @@ public class Binomial {
    * @return binomial function that computes n choose k */
   public static Binomial of(int n) {
     if (n < 0)
-      throw new RuntimeException(String.format("Binomial[%d]", n));
+      throw new IllegalArgumentException(String.format("Binomial[%d]", n));
     return binomial(n);
   }
 
@@ -59,7 +59,7 @@ public class Binomial {
       if (0 <= n)
         return RealScalar.ZERO;
       // LONGTERM this case is defined in Mathematica
-      throw new RuntimeException(String.format("Binomial[%d,%d]", n, m));
+      throw new IllegalArgumentException(String.format("Binomial[%d,%d]", n, m));
     }
     return binomial(n).over(m);
   }
@@ -100,6 +100,8 @@ public class Binomial {
   /** @param k
    * @return n choose k */
   public Scalar over(int k) {
-    return 0 <= k ? row.Get(Math.min(k, n - k)) : RealScalar.ZERO;
+    return 0 <= k //
+        ? row.Get(Math.min(k, n - k))
+        : RealScalar.ZERO;
   }
 }

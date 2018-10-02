@@ -49,7 +49,6 @@ public class CirclePointsTest extends TestCase {
   public void testSmall() {
     assertEquals(CirclePoints.of(0), Tensors.empty());
     assertEquals(CirclePoints.of(1), Tensors.fromString("{{1, 0}}"));
-    // System.out.println(CirclePoints.of(2));
     assertEquals(Chop._14.of(CirclePoints.of(2)), Tensors.fromString("{{1, 0}, {-1, 0}}"));
   }
 }

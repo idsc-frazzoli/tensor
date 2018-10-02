@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.qty.Unit;
    * 
    * @param string
    * @return */
-  static Scalar of(final String string) {
+  static Scalar of(String string) {
     final int index = string.indexOf(Quantity.UNIT_OPENING_BRACKET);
     if (0 < index) {
       final int last = string.indexOf(Quantity.UNIT_CLOSING_BRACKET);
