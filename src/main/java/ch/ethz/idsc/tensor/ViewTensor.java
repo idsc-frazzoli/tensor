@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.opt.LinearInterpolation;
  * Since this access exposes the content of this ViewTensor for modification from the outside
  * the functionality is used only in very special and controlled applications.
  * 
- * A ViewTensor is created using {@link Unprotect#referencesNonScalar(Tensor)}.
+ * A ViewTensor is created using {@link Unprotect#references(Tensor)}.
  * Within the tensor library, ViewTensor is used to speed up the computations in
  * {@link LinearInterpolation}, and {@link ListCorrelate}. */
 /* package */ class ViewTensor extends TensorImpl {

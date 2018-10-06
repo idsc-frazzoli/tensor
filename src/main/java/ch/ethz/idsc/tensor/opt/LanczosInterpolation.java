@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -16,15 +17,18 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * 
  * https://en.wikipedia.org/wiki/Lanczos_resampling */
 public class LanczosInterpolation extends AbstractInterpolation {
-  /** @param tensor
+  /** @param tensor non-null
    * @param semi positive, typically greater than 1
-   * @return */
+   * @return
+   * @throws Exception if given tensor is null
+   * @throws Exception if semi is not positive */
   public static Interpolation of(Tensor tensor, int semi) {
     return new LanczosInterpolation(tensor, new LanczosKernel(semi));
   }
 
-  /** @param tensor
-   * @return Lanczos interpolation operator with {@code semi == 3} */
+  /** @param tensor non-null
+   * @return Lanczos interpolation operator with {@code semi == 3}
+   * @throws Exception if given tensor is null */
   public static Interpolation of(Tensor tensor) {
     return new LanczosInterpolation(tensor, LanczosKernel._3);
   }
@@ -34,7 +38,7 @@ public class LanczosInterpolation extends AbstractInterpolation {
   private final LanczosKernel lanczosKernel;
 
   private LanczosInterpolation(Tensor tensor, LanczosKernel lanczosKernel) {
-    this.tensor = tensor;
+    this.tensor = Objects.requireNonNull(tensor);
     this.lanczosKernel = lanczosKernel;
   }
 
@@ -62,6 +66,6 @@ public class LanczosInterpolation extends AbstractInterpolation {
 
   private Tensor flow(Tensor tensor, int count, Scalar value) {
     return tensor.get(Math.min(Math.max(0, count), tensor.length() - 1)) //
-        .multiply(lanczosKernel.inside(value.subtract(RealScalar.of(count))));
+        .multiply(lanczosKernel.apply(value.subtract(RealScalar.of(count))));
   }
 }

@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 /** reference implementation of the interface Tensor */
 /* package */ class TensorImpl implements Tensor, Serializable {
-  /** list is accessed by UnmodifiableTensor, Parallelize, Unprotect */
+  /** list is accessed by UnmodifiableTensor, Parallelize, Unprotect, ViewTensor */
   /* package */ final List<Tensor> list;
 
   /* package */ TensorImpl(List<Tensor> list) {

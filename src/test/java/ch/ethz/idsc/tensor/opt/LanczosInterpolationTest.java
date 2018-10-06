@@ -74,16 +74,6 @@ public class LanczosInterpolationTest extends TestCase {
     }
   }
 
-  public void testInvalidFail() {
-    Tensor vector = Tensors.vector(-1, 0, 3, 2, 0, -4, 2);
-    try {
-      LanczosInterpolation.of(vector, -1);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void test1D() {
     Interpolation interpolation = LanczosInterpolation.of(Tensors.vector(10, 20, 30, 40));
     TestHelper.checkMatch(interpolation);
@@ -97,5 +87,30 @@ public class LanczosInterpolationTest extends TestCase {
     TestHelper.checkMatch(interpolation);
     TestHelper.checkMatchExact(interpolation);
     TestHelper.getScalarFail(interpolation);
+  }
+
+  public void testFailNull() {
+    try {
+      LanczosInterpolation.of(null, 3);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailSemi() {
+    Tensor vector = Tensors.vector(-1, 0, 3, 2, 0, -4, 2);
+    try {
+      LanczosInterpolation.of(vector, 0);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      LanczosInterpolation.of(vector, -1);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
