@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 public class ColorDataIndexedTest extends TestCase {
   public void testLumaPalette() {
-    assertEquals(ColorDataLists._250.size(), 13);
+    assertEquals(ColorDataLists._250.cyclic().length(), 13);
     assertEquals(ColorDataLists._250.cyclic().getColor(0), new Color(241, 0, 0, 255));
   }
 
