@@ -6,14 +6,14 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
-import ch.ethz.idsc.tensor.red.Frobenius;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.red.Norm;
 import junit.framework.TestCase;
 
 public class NormalizeFailTest extends TestCase {
   public void testEmpty() {
     try {
-      Normalize.of(Tensors.empty());
+      Normalize.with(Norm._2::ofVector).apply(Tensors.empty());
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -22,7 +22,7 @@ public class NormalizeFailTest extends TestCase {
 
   public void testZeros() {
     try {
-      Normalize.of(Array.zeros(10));
+      Normalize.with(Norm._2::ofVector).apply(Array.zeros(10));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -30,8 +30,9 @@ public class NormalizeFailTest extends TestCase {
   }
 
   public void testFail1() {
+    TensorUnaryOperator normalize = Normalize.with(Norm._1::ofVector);
     try {
-      Normalize.of(Tensors.vector(0, 0, 0, 0), Norm._1);
+      normalize.apply(Tensors.vector(0, 0, 0, 0));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -41,13 +42,13 @@ public class NormalizeFailTest extends TestCase {
   public void testNormalizePositiveInfinity() {
     Tensor vector = Tensors.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE);
     try {
-      Normalize.of(vector);
+      Normalize.with(Norm._2::ofVector).apply(vector);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      Normalize.unlessZero(vector);
+      NormalizeUnlessZero.with(Norm._2::ofVector).apply(vector);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -57,7 +58,7 @@ public class NormalizeFailTest extends TestCase {
   public void testNormalizeNegativeInfinity() {
     Tensor vector = Tensors.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ONE, DoubleScalar.POSITIVE_INFINITY);
     try {
-      Normalize.of(vector);
+      Normalize.with(Norm._2::ofVector).apply(vector);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -67,13 +68,7 @@ public class NormalizeFailTest extends TestCase {
   public void testNormalizeNaN() {
     Tensor vector = Tensors.of(RealScalar.ONE, DoubleScalar.INDETERMINATE, RealScalar.ONE);
     try {
-      Normalize.of(vector);
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Normalize.unlessZero(vector);
+      Normalize.with(Norm._2::ofVector).apply(vector);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -82,7 +77,7 @@ public class NormalizeFailTest extends TestCase {
 
   public void testScalarFail() {
     try {
-      Normalize.of(RealScalar.ONE);
+      Normalize.with(Norm._2::ofVector).apply(RealScalar.ONE);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -91,22 +86,13 @@ public class NormalizeFailTest extends TestCase {
 
   public void testMatrixFail() {
     try {
-      Normalize.of(Tensors.fromString("{{1,2},{3,4,5}}"));
+      Normalize.with(Norm._2::ofVector).apply(Tensors.fromString("{{1,2},{3,4,5}}"));
       assertTrue(false);
     } catch (Exception exception) {
       // ---
     }
     try {
-      Normalize.of(HilbertMatrix.of(3));
-      assertTrue(false);
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testMatrixFail2() {
-    try {
-      Normalize.unlessZero(Array.zeros(3, 3), Frobenius.NORM);
+      Normalize.with(Norm._2::ofVector).apply(HilbertMatrix.of(3));
       assertTrue(false);
     } catch (Exception exception) {
       // ---

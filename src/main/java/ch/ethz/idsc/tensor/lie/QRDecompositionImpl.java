@@ -13,6 +13,7 @@ import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
@@ -24,6 +25,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
  * householder with even number of reflections
  * reproduces example on wikipedia */
 /* package */ class QRDecompositionImpl implements QRDecomposition, Serializable {
+  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2::ofVector);
   private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final int n;
@@ -67,7 +69,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     if (ExactScalarQ.all(x))
       m = TensorProduct.of(x, Conjugate.of(x).multiply(TWO).divide(Norm2Squared.ofVector(x)));
     else {
-      Tensor v = Normalize.of(x);
+      Tensor v = NORMALIZE.apply(x);
       m = TensorProduct.of(v, Conjugate.of(v).multiply(TWO));
     }
     Tensor r = eye.subtract(m);

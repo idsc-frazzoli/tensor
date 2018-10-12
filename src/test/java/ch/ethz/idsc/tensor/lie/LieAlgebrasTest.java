@@ -59,8 +59,16 @@ public class LieAlgebrasTest extends TestCase {
   }
 
   public void testBracketMatrixFail() {
+    Tensor x = RotationMatrix.of(RealScalar.ONE);
+    Tensor y = Tensors.vector(3, 4);
     try {
-      LieAlgebras.bracketMatrix(RotationMatrix.of(RealScalar.ONE), Tensors.vector(3, 4));
+      LieAlgebras.bracketMatrix(x, y);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      LieAlgebras.bracketMatrix(y, x);
       assertTrue(false);
     } catch (Exception exception) {
       // ---
@@ -70,6 +78,23 @@ public class LieAlgebrasTest extends TestCase {
   public void testBracketAdFail() {
     try {
       LieAlgebras.bracketMatrix(LieAlgebras.so3(), LieAlgebras.so3());
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testBracketAdVectorFail() {
+    Tensor x = LieAlgebras.so3();
+    Tensor y = Tensors.vector(1, 2, 3);
+    try {
+      LieAlgebras.bracketMatrix(x, y);
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      LieAlgebras.bracketMatrix(y, x);
       assertTrue(false);
     } catch (Exception exception) {
       // ---

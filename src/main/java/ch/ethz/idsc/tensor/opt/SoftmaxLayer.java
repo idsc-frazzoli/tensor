@@ -10,10 +10,12 @@ import ch.ethz.idsc.tensor.sca.Exp;
  * <a href="https://reference.wolfram.com/language/ref/SoftmaxLayer.html">SoftmaxLayer</a> */
 public enum SoftmaxLayer {
   ;
+  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._1::ofVector);
+
   /** @param vector
    * @return
    * @throws Exception if vector is empty */
   public static Tensor of(Tensor vector) {
-    return Normalize.of(Exp.of(vector), Norm._1);
+    return NORMALIZE.apply(Exp.of(vector));
   }
 }

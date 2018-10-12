@@ -23,7 +23,7 @@ enum NormalizeDemo {
     Scalar max = RealScalar.ONE;
     for (int c = 0; c < 10000; ++c) {
       Tensor vector = RandomVariate.of(distribution, 1000);
-      Tensor result = Normalize.of(vector, norm);
+      Tensor result = Normalize.with(norm::ofVector).apply(vector);
       Scalar value = norm.ofVector(result);
       min = Min.of(min, value);
       max = Max.of(max, value);

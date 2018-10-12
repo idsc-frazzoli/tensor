@@ -30,7 +30,7 @@ public class VectorNormTest extends TestCase {
 
   public void testNormalize() {
     VectorNormInterface vni = VectorNorm.with(2.6);
-    Tensor nrm = Normalize.of(Tensors.vector(1, 2, 3), vni);
+    Tensor nrm = Normalize.with(vni::ofVector).apply(Tensors.vector(1, 2, 3));
     assertTrue(Chop._15.close(vni.ofVector(nrm), RealScalar.ONE));
   }
 
@@ -38,7 +38,7 @@ public class VectorNormTest extends TestCase {
     Distribution distribution = NormalDistribution.standard();
     VectorNormInterface vni = VectorNorm.with(3.4);
     Tensor vector = RandomVariate.of(distribution, 1000);
-    Tensor result = Normalize.of(vector, vni);
+    Tensor result = Normalize.with(vni::ofVector).apply(vector);
     Scalar norm = vni.ofVector(result);
     assertTrue(Chop._15.close(norm, RealScalar.ONE));
   }

@@ -17,6 +17,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
+import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
@@ -152,8 +153,8 @@ public class NullSpaceTest extends TestCase {
         { -0.2, -0.8, 1.0 } });
     Tensor nullspace = NullSpace.of(matrix);
     assertEquals(Dimensions.of(nullspace), Arrays.asList(1, 3));
-    assertTrue(Chop._14.close(nullspace.get(0), Normalize.of(Tensors.vector(1, 1, 1))) //
-        || Chop._14.close(nullspace.get(0), Normalize.of(Tensors.vector(-1, -1, -1))));
+    assertTrue(Chop._14.close(nullspace.get(0), Normalize.with(Norm._2::ofVector).apply(Tensors.vector(1, 1, 1))) //
+        || Chop._14.close(nullspace.get(0), Normalize.with(Norm._2::ofVector).apply(Tensors.vector(-1, -1, -1))));
   }
 
   public void testQuantity() {

@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Normalize;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.sca.ArcCos;
 import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Conjugate;
@@ -17,6 +18,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
  * <a href="https://reference.wolfram.com/language/ref/VectorAngle.html">VectorAngle</a> */
 public enum VectorAngle {
   ;
+  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2::ofVector);
+
   /** @param u
    * @param v
    * @return angle between the vectors u and v, or empty if either norm of u or v is zero */
@@ -27,7 +30,7 @@ public enum VectorAngle {
       return Optional.empty();
     Scalar ratio = ExactScalarQ.all(u) || ExactScalarQ.all(v) //
         ? u.dot(Conjugate.of(v)).divide(nu).divide(nv).Get()
-        : Normalize.of(u).dot(Normalize.of(Conjugate.of(v))).Get();
+        : NORMALIZE.apply(u).dot(NORMALIZE.apply(Conjugate.of(v))).Get();
     if (ratio instanceof RealScalar)
       // due to numerical inaccuracy, for instance, ratio == 1.0000000000000002 may occur
       ratio = Clip.absoluteOne().apply(ratio); // clip to [-1, 1]
