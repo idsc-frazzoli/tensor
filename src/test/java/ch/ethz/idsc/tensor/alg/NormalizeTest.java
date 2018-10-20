@@ -7,11 +7,13 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.opt.Projection;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import junit.framework.TestCase;
@@ -107,5 +109,21 @@ public class NormalizeTest extends TestCase {
   public void testQuantityTensor() {
     Tensor vector = QuantityTensor.of(Tensors.vector(2, 3, 4), "m*s^-1");
     _checkNormalizeAllNorms(vector);
+  }
+
+  public void testNormalizeTotal() {
+    TensorUnaryOperator tensorUnaryOperator = Normalize.with(v -> Total.of(v).Get());
+    Tensor tensor = tensorUnaryOperator.apply(Tensors.vector(-1, 3, 2));
+    assertEquals(tensor, Tensors.fromString("{-1/4, 3/4, 1/2}"));
+  }
+
+  public void testNormalizeTotalFail() {
+    TensorUnaryOperator tensorUnaryOperator = Normalize.with(v -> Total.of(v).Get());
+    try {
+      tensorUnaryOperator.apply(Tensors.vector(-1, 3, -2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
