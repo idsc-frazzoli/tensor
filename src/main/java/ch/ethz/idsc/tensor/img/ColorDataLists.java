@@ -32,15 +32,16 @@ public enum ColorDataLists {
   _251, //
   ;
   private final Tensor tensor = ResourceData.of(StaticHelper.colorlist(name()));
-  private final ColorDataIndexed colorDataIndexed = new CyclicColorDataIndexed(tensor);
+  private final ColorDataIndexed cyclic = new CyclicColorDataIndexed(tensor);
+  private final ColorDataIndexed strict = new StrictColorDataIndexed(tensor);
 
   /** @return */
   public ColorDataIndexed cyclic() {
-    return colorDataIndexed;
+    return cyclic;
   }
 
-  /** @return number of unique colors before cycling */
-  public int size() {
-    return tensor.length();
+  /** @return */
+  public ColorDataIndexed strict() {
+    return strict;
   }
 }

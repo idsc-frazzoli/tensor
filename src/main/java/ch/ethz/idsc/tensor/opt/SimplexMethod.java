@@ -17,6 +17,7 @@ import ch.ethz.idsc.tensor.alg.Partition;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.qty.Boole;
 import ch.ethz.idsc.tensor.red.ArgMax;
 import ch.ethz.idsc.tensor.red.ArgMin;
 import ch.ethz.idsc.tensor.sca.Sign;
@@ -32,7 +33,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
       // Tensor D = DiagonalMatrix.of(b.map(UnitStep.function));
       // IdentityMatrix.of(m)
       Tensor tab = Join.of(1, A, IdentityMatrix.of(m), Partition.of(b, 1));
-      Tensor row = Tensors.vector(i -> n <= i && i < n + m ? RealScalar.ONE : RealScalar.ZERO, n + m + 1);
+      Tensor row = Tensors.vector(i -> Boole.of(n <= i && i < n + m), n + m + 1);
       for (int index = 0; index < m; ++index) // make all entries in bottom row zero
         row = row.subtract(tab.get(index));
       row.set(RealScalar.ZERO, n + m); // set bottom corner to 0

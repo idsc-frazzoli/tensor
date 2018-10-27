@@ -7,7 +7,7 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** function f that maps a {@link Tensor} to a {@link Scalar}
+/** serializable function that maps a {@link Tensor} to a {@link Scalar}
  * 
  * Examples:
  * 1) an implicit function that defines a region as {x | f(x) < 0}

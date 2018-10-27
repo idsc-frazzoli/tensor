@@ -27,6 +27,12 @@ public class RotationMatrixTest extends TestCase {
     assertTrue(OrthogonalMatrixQ.of(matrix));
   }
 
+  public void testNumber() {
+    Tensor matrix = RotationMatrix.of(.2);
+    assertFalse(Chop._12.close(matrix, IdentityMatrix.of(2)));
+    assertTrue(Chop._12.close(matrix.dot(RotationMatrix.of(-.2)), IdentityMatrix.of(2)));
+  }
+
   public void testFail() {
     try {
       RotationMatrix.of(GaussScalar.of(2, 7));

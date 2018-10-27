@@ -20,15 +20,11 @@ public class CyclicColorDataIndexedTest extends TestCase {
     assertEquals(colorDataIndexed.getColor(2), ref0);
     assertEquals(colorDataIndexed.getColor(-2), ref0);
     assertEquals(colorDataIndexed.getColor(-12), ref0);
-    assertEquals(colorDataIndexed.rescaled(0), ref0);
-    assertEquals(colorDataIndexed.rescaled(0.4), ref0);
-    assertEquals(colorDataIndexed.rescaled(0.6), ref0);
     final Color ref1 = new Color(5, 6, 7, 8);
     assertEquals(colorDataIndexed.getColor(1), ref1);
     assertEquals(colorDataIndexed.getColor(3), ref1);
     assertEquals(colorDataIndexed.getColor(-1), ref1);
     assertEquals(colorDataIndexed.getColor(-11), ref1);
-    assertEquals(colorDataIndexed.rescaled(1), ref1);
   }
 
   public void testDerive() {
@@ -37,12 +33,8 @@ public class CyclicColorDataIndexedTest extends TestCase {
     colorDataIndexed = colorDataIndexed.deriveWithAlpha(255);
     final Color ref0 = new Color(1, 2, 3, 255);
     assertEquals(colorDataIndexed.getColor(0), ref0);
-    assertEquals(colorDataIndexed.rescaled(0), ref0);
-    assertEquals(colorDataIndexed.rescaled(0.4), ref0);
-    assertEquals(colorDataIndexed.rescaled(0.6), ref0);
     final Color ref1 = new Color(5, 6, 7, 255);
     assertEquals(colorDataIndexed.getColor(1), ref1);
-    assertEquals(colorDataIndexed.rescaled(1), ref1);
   }
 
   public void testFail() {

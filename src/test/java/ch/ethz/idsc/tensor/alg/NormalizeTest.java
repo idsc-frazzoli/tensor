@@ -7,11 +7,13 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.opt.Projection;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import junit.framework.TestCase;
@@ -19,9 +21,9 @@ import junit.framework.TestCase;
 public class NormalizeTest extends TestCase {
   // function requires that vector != 0
   private static void _checkNormalize(Tensor vector, Norm norm) {
-    Scalar value = norm.of(Normalize.of(vector, norm));
+    Scalar value = norm.of(Normalize.with(norm).apply(vector));
     assertTrue(Chop._13.close(value, RealScalar.ONE));
-    assertTrue(Chop._13.close(norm.of(Normalize.unlessZero(vector, norm)), RealScalar.ONE));
+    assertTrue(Chop._13.close(norm.of(NormalizeUnlessZero.with(norm).apply(vector)), RealScalar.ONE));
   }
 
   private static void _checkNormalizeAllNorms(Tensor vector) {
@@ -32,7 +34,7 @@ public class NormalizeTest extends TestCase {
 
   public void testVector1() {
     Tensor vector = Tensors.vector(3, 3, 3, 3);
-    Tensor n = Normalize.of(vector);
+    Tensor n = Normalize.with(Norm._2::ofVector).apply(vector);
     assertEquals(n.toString(), "{1/2, 1/2, 1/2, 1/2}");
     _checkNormalizeAllNorms(vector);
     _checkNormalizeAllNorms(Tensors.vector(3, 2, 1));
@@ -46,23 +48,23 @@ public class NormalizeTest extends TestCase {
 
   public void testNorm1Documentation() {
     Tensor vector = Tensors.vector(2, -3, 1);
-    Tensor result = Normalize.of(vector, Norm._1);
+    Tensor result = Normalize.with(Norm._1::ofVector).apply(vector);
     assertEquals(result, Tensors.fromString("{1/3, -1/2, 1/6}"));
     assertTrue(ExactScalarQ.all(result));
   }
 
   public void testNormInfinityDocumentation() {
     Tensor vector = Tensors.vector(2, -3, 1);
-    Tensor result = Normalize.of(vector, Norm.INFINITY);
+    Tensor result = Normalize.with(Norm.INFINITY::ofVector).apply(vector);
     assertEquals(result, Tensors.fromString("{2/3, -1, 1/3}"));
     assertTrue(ExactScalarQ.all(result));
   }
 
   public void testEps() {
     Tensor vector = Tensors.vector(0, Double.MIN_VALUE, 0);
-    assertEquals(Normalize.of(vector, Norm._1), Tensors.vector(0, 1, 0));
-    assertEquals(Normalize.of(vector, Norm._2), Tensors.vector(0, 1, 0));
-    assertEquals(Normalize.of(vector, Norm.INFINITY), Tensors.vector(0, 1, 0));
+    assertEquals(Normalize.with(Norm._1::ofVector).apply(vector), Tensors.vector(0, 1, 0));
+    assertEquals(Normalize.with(Norm._2::ofVector).apply(vector), Tensors.vector(0, 1, 0));
+    assertEquals(Normalize.with(Norm.INFINITY::ofVector).apply(vector), Tensors.vector(0, 1, 0));
   }
 
   public void testEps2() {
@@ -74,37 +76,30 @@ public class NormalizeTest extends TestCase {
 
   public void testNorm1() {
     Tensor v = Tensors.vector(1, 1, 1);
-    Tensor n = Normalize.of(v, Norm._1);
+    Tensor n = Normalize.with(Norm._1::ofVector).apply(v);
     assertEquals(n, Tensors.fromString("{1/3, 1/3, 1/3}"));
     _checkNormalizeAllNorms(v);
   }
 
   public void testNormInf() {
     Tensor d = Tensors.vector(1, 1, 1).multiply(RealScalar.of(2));
-    Tensor n = Normalize.of(d, Norm.INFINITY);
+    Tensor n = Normalize.with(Norm.INFINITY::ofVector).apply(d);
     assertEquals(n, Tensors.vector(1, 1, 1));
     assertTrue(ExactScalarQ.all(n));
     _checkNormalizeAllNorms(d);
     _checkNormalizeAllNorms(n);
   }
 
-  public void testOk1() {
-    Tensor v = Tensors.vector(0, 0, 0, 0);
-    assertEquals(v, Normalize.unlessZero(v));
-    for (Norm n : Norm.values())
-      assertEquals(v, Normalize.unlessZero(v, n));
-  }
-
   public void testComplex() {
     Tensor vector = Tensors.fromString("{1+I,2*I,-3-9.2*I}");
-    Tensor s = Normalize.of(vector);
+    Tensor s = Normalize.with(Norm._2::ofVector).apply(vector);
     assertTrue(Chop._13.close(s.dot(Conjugate.of(s)), RealScalar.ONE));
     assertTrue(Chop._13.close(Conjugate.of(s).dot(s), RealScalar.ONE));
   }
 
   public void testComplex2() {
     Tensor vector = Tensors.fromString("{3*I,4}");
-    Tensor s = Normalize.of(vector);
+    Tensor s = Normalize.with(Norm._2::ofVector).apply(vector);
     assertEquals(Projection.on(vector).apply(s), s);
     assertEquals(Projection.on(s).apply(vector), vector);
     assertTrue(Chop._13.close(s.dot(Conjugate.of(s)), RealScalar.ONE));
@@ -114,5 +109,21 @@ public class NormalizeTest extends TestCase {
   public void testQuantityTensor() {
     Tensor vector = QuantityTensor.of(Tensors.vector(2, 3, 4), "m*s^-1");
     _checkNormalizeAllNorms(vector);
+  }
+
+  public void testNormalizeTotal() {
+    TensorUnaryOperator tensorUnaryOperator = Normalize.with(v -> Total.of(v).Get());
+    Tensor tensor = tensorUnaryOperator.apply(Tensors.vector(-1, 3, 2));
+    assertEquals(tensor, Tensors.fromString("{-1/4, 3/4, 1/2}"));
+  }
+
+  public void testNormalizeTotalFail() {
+    TensorUnaryOperator tensorUnaryOperator = Normalize.with(v -> Total.of(v).Get());
+    try {
+      tensorUnaryOperator.apply(Tensors.vector(-1, 3, -2));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

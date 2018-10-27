@@ -10,12 +10,12 @@ import ch.ethz.idsc.tensor.Tensor;
 /* package */ abstract class BaseColorDataIndexed implements ColorDataIndexed {
   private final Tensor tensor;
   protected final Color[] colors;
-  private final int resolution;
 
   protected BaseColorDataIndexed(Tensor tensor) {
     this.tensor = tensor;
-    colors = tensor.stream().map(ColorFormat::toColor).toArray(Color[]::new);
-    resolution = colors.length - 1;
+    colors = tensor.stream() //
+        .map(ColorFormat::toColor) //
+        .toArray(Color[]::new);
   }
 
   @Override // from ScalarTensorFunction
@@ -26,8 +26,8 @@ import ch.ethz.idsc.tensor.Tensor;
   }
 
   @Override // from ColorDataIndexed
-  public final Color rescaled(double value) {
-    return getColor((int) (value * resolution));
+  public final int length() {
+    return colors.length;
   }
 
   /** @param scalar

@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.alg.MatrixQ;
 
 /** class provides ad-tensors of several low-dimensional Lie-algebras */
 public enum LieAlgebras {
@@ -32,9 +33,7 @@ public enum LieAlgebras {
    * @return Lie-bracket [x, y] == x.y - y.x
    * @throws Exception if x or y are not square matrices */
   public static Tensor bracketMatrix(Tensor x, Tensor y) {
-    Tensor z = x.dot(y).subtract(y.dot(x));
-    z.Get(0, 0); // asserts that z is a matrix
-    return z;
+    return MatrixQ.require(x).dot(y).subtract(MatrixQ.require(y).dot(x));
   }
 
   /** @return ad tensor of 3-dimensional Heisenberg Lie-algebra */

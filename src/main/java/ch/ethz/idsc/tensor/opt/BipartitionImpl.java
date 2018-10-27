@@ -22,23 +22,23 @@ import java.util.stream.Stream;
     this.notNodes = stream.collect(Collectors.toSet());
   }
 
-  @Override
+  @Override // from Bipartition
   public void add(int index) {
     nodes.add(index);
     notNodes.remove(index);
   }
 
-  @Override
+  @Override // from Bipartition
   public Stream<Integer> nodesStream() {
     return nodes.stream();
   }
 
-  @Override
+  @Override // from Bipartition
   public Set<Integer> notNodes() {
     return Collections.unmodifiableSet(notNodes);
   }
 
-  @Override
+  @Override // from Bipartition
   public void clear() {
     notNodes.addAll(nodes);
     nodes.clear();

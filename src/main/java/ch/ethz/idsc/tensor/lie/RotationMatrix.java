@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -23,5 +24,11 @@ public enum RotationMatrix {
     return Tensors.matrix(new Scalar[][] { //
         { cos, sin.negate() }, //
         { sin, cos } });
+  }
+
+  /** @param angle
+   * @return 2x2 orthogonal matrix that encodes the rotation by given angle */
+  public static Tensor of(Number angle) {
+    return of(RealScalar.of(angle));
   }
 }

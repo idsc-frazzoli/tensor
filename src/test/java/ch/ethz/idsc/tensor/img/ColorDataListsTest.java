@@ -49,13 +49,13 @@ public class ColorDataListsTest extends TestCase {
 
   public void testSize() {
     ColorDataLists colorDataLists = ColorDataLists._097;
-    assertEquals(colorDataLists.size(), 16);
+    assertEquals(colorDataLists.cyclic().length(), 16);
   }
 
   public void testSize2() {
     for (ColorDataLists colorDataLists : ColorDataLists.values()) {
-      assertTrue(1 < colorDataLists.size());
-      assertTrue(colorDataLists.size() < 100);
+      assertTrue(1 < colorDataLists.cyclic().length());
+      assertTrue(colorDataLists.cyclic().length() < 100);
     }
   }
 }

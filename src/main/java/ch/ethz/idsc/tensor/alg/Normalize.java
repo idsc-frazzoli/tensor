@@ -1,23 +1,16 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.opt.TensorScalarFunction;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.red.Norm;
-import ch.ethz.idsc.tensor.red.VectorNormInterface;
 
-/** Example:
- * <pre>
- * Normalize.of({2, -3, 1}, Norm._1) == {1/3, -1/2, 1/6}
- * Normalize.of({2, -3, 1}, Norm.INFINITY) == {2/3, -1, 1/3}
- * </pre>
- * 
- * <p>Normalize also works for tensors with entries of type Quantity.
+/** Normalize also works for tensors with entries of type Quantity.
  * The computation is consistent with Mathematica:
  * Normalize[{Quantity[3, "Meters"], Quantity[4, "Meters"]}] == {3/5, 4/5}
  * 
@@ -36,58 +29,56 @@ import ch.ethz.idsc.tensor.red.VectorNormInterface;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Normalize.html">Normalize</a> */
-public enum Normalize {
-  ;
-  /** @param vector
-   * @return normalized form of vector with respect to 2-norm
-   * @throws Exception if input is not a vector
-   * @throws Exception if vector contains Infinity, or NaN */
-  public static Tensor of(Tensor vector) {
-    return of(vector, Norm._2);
+public class Normalize implements TensorUnaryOperator {
+  /** Examples:
+   * <pre>
+   * Normalize.with(Norm._1).apply({2, -3, 1}) == {1/3, -1/2, 1/6}
+   * Normalize.with(Norm.INFINITY).apply({2, -3, 1}) == {2/3, -1, 1/3}
+   * </pre>
+   * 
+   * @param norm
+   * @return operator that normalizes a vector using the given norm */
+  public static TensorUnaryOperator with(Norm norm) {
+    return new Normalize(norm::ofVector);
+  }
+
+  /** Examples:
+   * <pre>
+   * Normalize.with(v -> Total.of(v).Get())
+   * </pre>
+   * 
+   * @param tensorScalarFunction
+   * @return operator that normalizes a vector using the given tensorScalarFunction */
+  public static TensorUnaryOperator with(TensorScalarFunction tensorScalarFunction) {
+    return new Normalize(tensorScalarFunction);
+  }
+
+  // ---
+  final TensorScalarFunction tensorScalarFunction;
+
+  /* package */ Normalize(TensorScalarFunction tensorScalarFunction) {
+    this.tensorScalarFunction = tensorScalarFunction;
+  }
+
+  @Override
+  public Tensor apply(Tensor vector) { /* non-final */
+    return normalize(vector, tensorScalarFunction.apply(vector));
   }
 
   /** @param vector
-   * @return normalized vector with respect to 2-norm, or copy of vector if norm evaluates to 0
-   * @throws Exception if input is not a vector
-   * @throws Exception if vector contains Infinity, or NaN */
-  public static Tensor unlessZero(Tensor vector) {
-    return unlessZero(vector, Norm._2);
-  }
-
-  /** @param vector
-   * @param function
-   * @return result = vector*scale with positive scale such that
-   * VectorNorm(result) == 1 (or numerically close to 1)
-   * @throws Exception if input is not a vector
-   * @throws Exception if vector contains Infinity, or NaN */
-  public static Tensor of(Tensor vector, VectorNormInterface vectorNormInterface) {
-    return normalize(vector, vectorNormInterface, vectorNormInterface.ofVector(vector));
-  }
-
-  /** @param vector
-   * @param function
-   * @return copy of vector if function(vector) == 0, else same as {@link #of(Tensor, Function)}
-   * @throws Exception if input is not a vector
-   * @throws Exception if vector contains Infinity, or NaN */
-  public static Tensor unlessZero(Tensor vector, VectorNormInterface vectorNormInterface) {
-    Scalar norm = vectorNormInterface.ofVector(vector); // throws exception if input is not a vector
-    return Scalars.isZero(norm) //
-        ? vector.copy()
-        : normalize(vector, vectorNormInterface, norm);
-  }
-
-  // helper function
-  private static Tensor normalize(Tensor vector, VectorNormInterface vectorNormInterface, Scalar norm) {
-    vector = vector.divide(norm); // eliminate common Unit if present
-    norm = vectorNormInterface.ofVector(vector); // for verification
-    Scalar error_next = norm.subtract(RealScalar.ONE).abs(); // error
+   * @param scalar equals to tensorScalarFunction.apply(vector)
+   * @return */
+  /* package */ final Tensor normalize(Tensor vector, Scalar scalar) {
+    vector = vector.divide(scalar); // eliminate common Unit if present
+    scalar = tensorScalarFunction.apply(vector); // for verification
+    Scalar error_next = scalar.subtract(RealScalar.ONE).abs(); // error
     Scalar error_prev = DoubleScalar.POSITIVE_INFINITY;
     if (Scalars.nonZero(error_next))
       while (Scalars.lessThan(error_next, error_prev)) { // iteration
-        vector = vector.divide(norm);
-        norm = vectorNormInterface.ofVector(vector);
+        vector = vector.divide(scalar);
+        scalar = tensorScalarFunction.apply(vector);
         error_prev = error_next;
-        error_next = norm.subtract(RealScalar.ONE).abs();
+        error_next = scalar.subtract(RealScalar.ONE).abs();
       }
     return vector;
   }

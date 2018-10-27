@@ -33,7 +33,7 @@ enum ColorDataListsDemo {
   public static void main(String[] args) throws IOException {
     Tensor image = Tensors.empty();
     for (ColorDataLists cdi : ColorDataLists.values()) {
-      Tensor vector = Tensors.vector(i -> i < cdi.size() ? RealScalar.of(i) : DoubleScalar.INDETERMINATE, 16);
+      Tensor vector = Tensors.vector(i -> i < cdi.cyclic().length() ? RealScalar.of(i) : DoubleScalar.INDETERMINATE, 16);
       image.append(vector.map(cdi.cyclic()));
     }
     image = PadLeft.with(RealScalar.of(255), image.length(), 16 + 2, 4).apply(image);
