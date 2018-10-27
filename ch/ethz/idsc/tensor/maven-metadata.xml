@@ -3,10 +3,10 @@
   <groupId>ch.ethz.idsc</groupId>
   <artifactId>tensor</artifactId>
   <versioning>
-    <release>0.6.1</release>
+    <release>0.6.2</release>
     <versions>
-      <version>0.6.1</version>
+      <version>0.6.2</version>
     </versions>
-    <lastUpdated>20181002173210</lastUpdated>
+    <lastUpdated>20181027065947</lastUpdated>
   </versioning>
 </metadata>
