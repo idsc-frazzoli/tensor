@@ -20,6 +20,13 @@ public enum Ordering {
       .boxed().sorted((i, j) -> Scalars.compare(tensor.Get(j), tensor.Get(i)))), //
   ;
   // ---
+  private static interface OrderingInterface {
+    /** @param tensor
+     * @return stream of indices so that tensor[i0], tensor[i1], ... is ascending */
+    Stream<Integer> stream(Tensor tensor);
+  }
+
+  // ---
   private final OrderingInterface orderingInterface;
 
   private Ordering(OrderingInterface orderingInterface) {
@@ -31,10 +38,4 @@ public enum Ordering {
   public int[] of(Tensor vector) {
     return orderingInterface.stream(vector).mapToInt(Integer::intValue).toArray();
   }
-}
-
-/* private */ interface OrderingInterface {
-  /** @param tensor
-   * @return stream of indices so that tensor[i0], tensor[i1], ... is ascending */
-  Stream<Integer> stream(Tensor tensor);
 }

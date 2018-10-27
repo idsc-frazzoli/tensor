@@ -21,9 +21,9 @@ import junit.framework.TestCase;
 public class NormalizeTest extends TestCase {
   // function requires that vector != 0
   private static void _checkNormalize(Tensor vector, Norm norm) {
-    Scalar value = norm.of(Normalize.with(norm::ofVector).apply(vector));
+    Scalar value = norm.of(Normalize.with(norm).apply(vector));
     assertTrue(Chop._13.close(value, RealScalar.ONE));
-    assertTrue(Chop._13.close(norm.of(NormalizeUnlessZero.with(norm::ofVector).apply(vector)), RealScalar.ONE));
+    assertTrue(Chop._13.close(norm.of(NormalizeUnlessZero.with(norm).apply(vector)), RealScalar.ONE));
   }
 
   private static void _checkNormalizeAllNorms(Tensor vector) {

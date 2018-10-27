@@ -3,7 +3,9 @@ package ch.ethz.idsc.tensor.io;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
@@ -71,6 +73,20 @@ public enum ResourceData {
   public static BufferedImage bufferedImage(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       return ImageIO.read(inputStream);
+    } catch (Exception exception) {
+      // ---
+    }
+    return null;
+  }
+
+  /** Remark: the function returns a list instead of a stream, because a stream
+   * of strings would leave the file open until the stream is processed.
+   * 
+   * @param string
+   * @return list of lines in resource or null if resource could not be loaded */
+  public static List<String> lines(String string) {
+    try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
+      return ImportHelper.lines(inputStream).collect(Collectors.toList());
     } catch (Exception exception) {
       // ---
     }

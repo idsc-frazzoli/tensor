@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.Exp;
  * <a href="https://reference.wolfram.com/language/ref/SoftmaxLayer.html">SoftmaxLayer</a> */
 public enum SoftmaxLayer {
   ;
-  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._1::ofVector);
+  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._1);
 
   /** @param vector
    * @return

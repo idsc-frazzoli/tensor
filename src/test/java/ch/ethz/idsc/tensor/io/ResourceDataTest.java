@@ -111,4 +111,9 @@ public class ResourceDataTest extends TestCase {
   public void testCorruptContent() {
     assertNull(ResourceData.of("/io/corrupt.png"));
   }
+
+  public void testLines() {
+    List<String> lines = ResourceData.lines("/io/basic.mathematica");
+    assertEquals(lines.size(), 7);
+  }
 }

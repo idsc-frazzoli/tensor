@@ -16,7 +16,7 @@ public enum PowerIteration {
   ;
   /** max iterations are */
   private static final int FACTOR = 15;
-  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2::ofVector);
+  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2);
 
   /** @param m
    * @return Eigenvector to the largest eigenvalue (with high probability) */

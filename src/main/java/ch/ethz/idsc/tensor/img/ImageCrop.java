@@ -39,6 +39,7 @@ public class ImageCrop implements TensorUnaryOperator {
 
   @Override
   public Tensor apply(Tensor image) {
+    // LONGTERM not as efficient as could be
     int dim0 = image.length();
     int dim1 = Unprotect.dimension1(image);
     Tensor boole = TensorMap.of(entry -> Boole.of(function.apply(entry)), image, 2);

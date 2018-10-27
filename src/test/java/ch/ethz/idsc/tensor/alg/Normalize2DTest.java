@@ -18,7 +18,7 @@ public class Normalize2DTest extends TestCase {
 
   public void testUp() {
     double eps = Math.nextUp(0.0);
-    assertEquals(unlessZero(RealScalar.of(eps), RealScalar.ZERO), Normalize.with(Norm._2::ofVector).apply(Tensors.vector(1, 0)));
+    assertEquals(unlessZero(RealScalar.of(eps), RealScalar.ZERO), Normalize.with(Norm._2).apply(Tensors.vector(1, 0)));
     assertEquals(unlessZero(RealScalar.ZERO, RealScalar.of(eps)), Normalize.with(Norm._2::ofVector).apply(Tensors.vector(0, 1)));
     assertEquals(unlessZero(RealScalar.of(eps), RealScalar.of(eps)), Normalize.with(Norm._2::ofVector).apply(Tensors.vector(1, 1)));
   }
@@ -44,7 +44,7 @@ public class Normalize2DTest extends TestCase {
   public void testFail() {
     Tensor vector = Tensors.vectorDouble(0.0, 0.0);
     NormalizeUnlessZero.with(Norm._2::ofVector).apply(vector);
-    TensorUnaryOperator tensorUnaryOperator = Normalize.with(Norm._2::ofVector);
+    TensorUnaryOperator tensorUnaryOperator = Normalize.with(Norm._2);
     try {
       tensorUnaryOperator.apply(vector);
       assertTrue(false);

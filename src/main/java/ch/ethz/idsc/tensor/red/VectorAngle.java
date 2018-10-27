@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
  * <a href="https://reference.wolfram.com/language/ref/VectorAngle.html">VectorAngle</a> */
 public enum VectorAngle {
   ;
-  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2::ofVector);
+  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2);
 
   /** @param u
    * @param v

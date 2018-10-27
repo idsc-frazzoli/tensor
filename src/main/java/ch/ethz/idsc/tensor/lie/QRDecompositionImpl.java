@@ -25,7 +25,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
  * householder with even number of reflections
  * reproduces example on wikipedia */
 /* package */ class QRDecompositionImpl implements QRDecomposition, Serializable {
-  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2::ofVector);
+  private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2);
   private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final int n;

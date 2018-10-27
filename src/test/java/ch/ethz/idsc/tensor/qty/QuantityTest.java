@@ -103,6 +103,15 @@ public class QuantityTest extends TestCase {
     }
   }
 
+  public void testNestEmptyFail() {
+    try {
+      Quantity.of(Quantity.of(2, "s"), "");
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testValue() {
     Quantity quantity = (Quantity) Scalars.fromString("-7+3*I[kg^-2*m*s]");
     Scalar scalar = quantity.value();
