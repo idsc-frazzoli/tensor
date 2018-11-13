@@ -13,27 +13,27 @@ public class DeBoorTest extends TestCase {
   public void testDegree0() {
     Tensor d = Tensors.vector(-1).unmodifiable();
     Tensor t = Tensors.empty().unmodifiable();
-    assertEquals(DeBoor.of(0, d, t, RealScalar.of(9)), RealScalar.of(-1));
-    assertEquals(DeBoor.of(0, d, t, RealScalar.of(9.25)), RealScalar.of(-1));
-    assertEquals(DeBoor.of(0, d, t, RealScalar.of(16)), RealScalar.of(-1));
+    assertEquals(new DeBoor(0, d, t).apply(RealScalar.of(9)), RealScalar.of(-1));
+    assertEquals(new DeBoor(0, d, t).apply(RealScalar.of(9.25)), RealScalar.of(-1));
+    assertEquals(new DeBoor(0, d, t).apply(RealScalar.of(16)), RealScalar.of(-1));
   }
 
   public void testLinearUnit() {
     Tensor d = Tensors.vector(-1, 3).unmodifiable();
     Tensor t = Tensors.vector(9, 10).unmodifiable();
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(9)), RealScalar.of(-1));
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(9.25)), RealScalar.of(0));
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(10)), RealScalar.of(3));
+    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(9)), RealScalar.of(-1));
+    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(9.25)), RealScalar.of(0));
+    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(10)), RealScalar.of(3));
   }
 
   public void testLinearDouble() {
     Tensor d = Tensors.vector(-1, 3).unmodifiable();
     Tensor t = Tensors.vector(9, 11).unmodifiable();
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(9)), RealScalar.of(-1));
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(9.5)), RealScalar.of(0));
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(10)), RealScalar.of(1));
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(10.5)), RealScalar.of(2));
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(11)), RealScalar.of(3));
+    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(9)), RealScalar.of(-1));
+    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(9.5)), RealScalar.of(0));
+    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(10)), RealScalar.of(1));
+    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(10.5)), RealScalar.of(2));
+    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(11)), RealScalar.of(3));
   }
 
   public void testQuadratic() {

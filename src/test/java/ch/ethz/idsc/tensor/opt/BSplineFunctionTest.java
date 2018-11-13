@@ -108,6 +108,15 @@ public class BSplineFunctionTest extends TestCase {
     copy.apply(RealScalar.of(.3));
   }
 
+  public void testNegativeFail() {
+    try {
+      BSplineFunction.of(-1, Tensors.vector(1, 2, 3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testOutside() {
     BSplineFunction bSplineFunction = BSplineFunction.of(3, Tensors.vector(2, 1, 0, -1, -2));
     bSplineFunction.apply(RealScalar.of(4));
