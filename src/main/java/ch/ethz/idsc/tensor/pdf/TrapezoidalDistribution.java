@@ -28,8 +28,6 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
    * @return
    * @throws Exception unless a <= b < c <= d */
   public static Distribution of(Scalar a, Scalar b, Scalar c, Scalar d) {
-    if (Scalars.lessEquals(d, a))
-      throw TensorRuntimeException.of(a, d);
     if (Scalars.lessEquals(c, b))
       throw TensorRuntimeException.of(b, c);
     return new TrapezoidalDistribution(a, b, c, d);
@@ -63,7 +61,7 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
       Scalar term2 = x.subtract(a).multiply(x.subtract(a));
       return alpha.multiply(term1).multiply(term2);
     }
-    if (Scalars.lessThan(x, c)) {
+    if (Scalars.lessEquals(x, c)) {
       Scalar term2 = x.add(x).subtract(a).subtract(b);
       return alpha.multiply(term2);
     }
@@ -80,7 +78,7 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
     return p_lessThan(x);
   }
 
-  @Override
+  @Override // from PDF
   public Scalar at(Scalar x) {
     if (clip.isInside(x)) { // support is [a, d]
       Scalar two_alpha = alpha.add(alpha);
@@ -97,17 +95,17 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
     return RealScalar.ZERO;
   }
 
-  @Override
+  @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     return quantile(RealScalar.of(random.nextDouble()));
   }
 
-  @Override
+  @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
     Scalar yB = p_lessThan(b);
     Scalar yC = p_lessThan(c);
-    if (Scalars.lessEquals(p, yB)) { // y<=yB
-      Scalar term1 = Power.of(alpha_inv.multiply(b.subtract(a)).multiply(p), RationalScalar.HALF);
+    if (Scalars.lessEquals(p, yB)) { // y <= yB
+      Scalar term1 = Sqrt.FUNCTION.apply(alpha_inv.multiply(b.subtract(a)).multiply(p));
       return term1.add(a);
     }
     // yB < y <= yC
@@ -115,13 +113,13 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
       Scalar term1 = p.multiply(alpha_inv).add(a).add(b);
       return term1.multiply(RationalScalar.HALF);
     }
-    // y>yC
+    // yC < y
     Scalar term1 = RealScalar.ONE.subtract(p).multiply(alpha_inv).multiply(d.subtract(c));
     Scalar term2 = Sqrt.FUNCTION.apply(term1);
     return d.subtract(term2);
   }
 
-  @Override
+  @Override // from MeanInterface
   public Scalar mean() {
     Scalar term1 = alpha.multiply(_1_3);
     Scalar term2 = Power.of(d, 3).subtract(Power.of(c, 3)).divide(d.subtract(c));

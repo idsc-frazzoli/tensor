@@ -144,6 +144,14 @@ public class TrapezoidalDistributionTest extends TestCase {
   }
 
   public void testFail() {
+    TrapezoidalDistribution.of(Quantity.of(1, "m"), Quantity.of(2, "m"), Quantity.of(3, "m"), Quantity.of(3, "m"));
+    TrapezoidalDistribution.of(Quantity.of(2, "m"), Quantity.of(2, "m"), Quantity.of(3, "m"), Quantity.of(3, "m"));
+    try {
+      TrapezoidalDistribution.of(Quantity.of(1, "m"), Quantity.of(1, "m"), Quantity.of(1, "m"), Quantity.of(1, "m"));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
     try {
       TrapezoidalDistribution.of(Quantity.of(1, "m"), Quantity.of(2, "m"), Quantity.of(3, "m"), Quantity.of(1, "m"));
       assertTrue(false);
