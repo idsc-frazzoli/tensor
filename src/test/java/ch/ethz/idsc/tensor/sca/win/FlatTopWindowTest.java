@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca.win;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -32,5 +33,10 @@ public class FlatTopWindowTest extends TestCase {
     ScalarUnaryOperator windowFunction = FlatTopWindow.FUNCTION;
     Scalar scalar = windowFunction.apply(RationalScalar.of(1, 10));
     assertTrue(Chop._10.close(scalar, Scalars.fromString("0.60687214957621189799")));
+  }
+
+  public void testOutside() {
+    Scalar scalar = FlatTopWindow.FUNCTION.apply(RealScalar.of(-0.52));
+    assertEquals(scalar, RealScalar.ZERO);
   }
 }

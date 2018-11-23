@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca.win;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
@@ -17,6 +18,6 @@ public enum BlackmanWindow implements ScalarUnaryOperator {
   public Scalar apply(Scalar x) {
     return StaticHelper.SEMI.isInside(x) //
         ? StaticHelper.deg2(A0, RationalScalar.HALF, A2, x)
-        : x.zero();
+        : RealScalar.ZERO;
   }
 }

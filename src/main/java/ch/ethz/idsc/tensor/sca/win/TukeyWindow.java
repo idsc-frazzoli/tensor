@@ -19,11 +19,10 @@ public enum TukeyWindow implements ScalarUnaryOperator {
   @Override
   public Scalar apply(Scalar x) {
     x = x.abs();
-    if (Scalars.lessEquals(x, RationalScalar.HALF)) {
-      if (Scalars.lessEquals(x, _1_6))
-        return RealScalar.ONE;
+    if (Scalars.lessEquals(x, _1_6))
+      return RealScalar.ONE;
+    if (Scalars.lessEquals(x, RationalScalar.HALF))
       return RationalScalar.HALF.add(RationalScalar.HALF.multiply(Cos.FUNCTION.apply(x.subtract(_1_6).multiply(_3_PI))));
-    }
-    return x.zero();
+    return RealScalar.ZERO;
   }
 }

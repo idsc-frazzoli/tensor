@@ -23,7 +23,7 @@ public class BSplineFunction implements ScalarTensorFunction {
    * of this BSplineFunction instance.
    * 
    * @param degree of polynomial basis function, non-negative integer
-   * @param tensor of control points of length at least two */
+   * @param tensor of control points of length at least 2 */
   public static BSplineFunction of(int degree, Tensor tensor) {
     if (degree < 0)
       throw new IllegalArgumentException("" + degree);
@@ -39,11 +39,11 @@ public class BSplineFunction implements ScalarTensorFunction {
   private final int ofs;
   private final Scalar shift;
 
-  private BSplineFunction(int degree, Tensor tensor) {
+  private BSplineFunction(int degree, Tensor control) {
     p = degree;
-    this.tensor = tensor;
+    this.tensor = control;
     index = Range.of(-p + 1, p + 1);
-    last = tensor.length() - 1;
+    last = control.length() - 1;
     clip = Clip.function(0, last);
     ofs = p / 2;
     shift = degree % 2 == 0 //
@@ -55,11 +55,11 @@ public class BSplineFunction implements ScalarTensorFunction {
     clip.requireInside(scalar);
     scalar = scalar.add(shift);
     Scalar lo = Floor.FUNCTION.apply(scalar);
+    Tensor knots = index.map(s -> s.add(lo)).map(clip);
     int k = lo.number().intValue();
-    Tensor ctr = Tensor.of(IntStream.range(k - ofs, k + p + 1 - ofs) //
+    Tensor control = Tensor.of(IntStream.range(k - ofs, k + p + 1 - ofs) //
         .map(i -> Math.min(Math.max(0, i), last)).mapToObj(tensor::get));
-    Tensor t = index.map(s -> s.add(lo)).map(clip);
-    return new DeBoor(p, ctr, t);
+    return new DeBoor(p, knots, control);
   }
 
   @Override

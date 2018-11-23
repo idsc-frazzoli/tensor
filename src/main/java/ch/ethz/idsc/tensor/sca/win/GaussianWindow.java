@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca.win;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.red.Times;
 import ch.ethz.idsc.tensor.sca.Exp;
@@ -18,6 +19,6 @@ public enum GaussianWindow implements ScalarUnaryOperator {
   public Scalar apply(Scalar x) {
     return StaticHelper.SEMI.isInside(x) //
         ? Exp.FUNCTION.apply(Times.of(_50_9, x, x))
-        : x.zero();
+        : RealScalar.ZERO;
   }
 }

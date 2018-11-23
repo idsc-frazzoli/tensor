@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca.win;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensors;
@@ -24,6 +25,6 @@ public enum ParzenWindow implements ScalarUnaryOperator {
       return Scalars.lessEquals(x, _1_4) //
           ? S1.apply(x)
           : S2.apply(x);
-    return x.zero();
+    return RealScalar.ZERO;
   }
 }

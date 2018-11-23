@@ -34,6 +34,6 @@ public enum HannWindow implements ScalarUnaryOperator {
       }
       return StaticHelper.deg1(RationalScalar.HALF, RationalScalar.HALF, x);
     }
-    return x.zero();
+    return RealScalar.ZERO;
   }
 }

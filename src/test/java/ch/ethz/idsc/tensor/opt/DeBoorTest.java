@@ -11,38 +11,38 @@ import junit.framework.TestCase;
 
 public class DeBoorTest extends TestCase {
   public void testDegree0() {
-    Tensor d = Tensors.vector(-1).unmodifiable();
     Tensor t = Tensors.empty().unmodifiable();
-    assertEquals(new DeBoor(0, d, t).apply(RealScalar.of(9)), RealScalar.of(-1));
-    assertEquals(new DeBoor(0, d, t).apply(RealScalar.of(9.25)), RealScalar.of(-1));
-    assertEquals(new DeBoor(0, d, t).apply(RealScalar.of(16)), RealScalar.of(-1));
+    Tensor d = Tensors.vector(-1).unmodifiable();
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(9)), RealScalar.of(-1));
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(9.25)), RealScalar.of(-1));
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(16)), RealScalar.of(-1));
   }
 
   public void testLinearUnit() {
-    Tensor d = Tensors.vector(-1, 3).unmodifiable();
     Tensor t = Tensors.vector(9, 10).unmodifiable();
-    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(9)), RealScalar.of(-1));
-    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(9.25)), RealScalar.of(0));
-    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(10)), RealScalar.of(3));
+    Tensor d = Tensors.vector(-1, 3).unmodifiable();
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(9)), RealScalar.of(-1));
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(9.25)), RealScalar.of(0));
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(10)), RealScalar.of(3));
   }
 
   public void testLinearDouble() {
-    Tensor d = Tensors.vector(-1, 3).unmodifiable();
     Tensor t = Tensors.vector(9, 11).unmodifiable();
-    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(9)), RealScalar.of(-1));
-    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(9.5)), RealScalar.of(0));
-    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(10)), RealScalar.of(1));
-    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(10.5)), RealScalar.of(2));
-    assertEquals(new DeBoor(1, d, t).apply(RealScalar.of(11)), RealScalar.of(3));
+    Tensor d = Tensors.vector(-1, 3).unmodifiable();
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(9)), RealScalar.of(-1));
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(9.5)), RealScalar.of(0));
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(10)), RealScalar.of(1));
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(10.5)), RealScalar.of(2));
+    assertEquals(DeBoor.of(t, d).apply(RealScalar.of(11)), RealScalar.of(3));
   }
 
   public void testQuadratic() {
-    Tensor d = Tensors.vector(-1, 3, 2).unmodifiable();
     Tensor t = Tensors.vector(9, 10, 11, 12).unmodifiable();
+    Tensor d = Tensors.vector(-1, 3, 2).unmodifiable();
     Tensor points = Tensors.empty();
     for (Tensor _x : Subdivide.of(10, 11, 5)) {
       Scalar x = _x.Get();
-      Tensor r = DeBoor.of(2, d, t, x);
+      Tensor r = DeBoor.of(t, d).apply(x);
       points.append(Tensors.of(x, r));
     }
     Tensor result = Tensors.fromString( //
@@ -50,13 +50,28 @@ public class DeBoorTest extends TestCase {
     assertEquals(result, points);
   }
 
+  public void testQuadratic2() {
+    Tensor t = Tensors.vector(9, 10, 11, Double.POSITIVE_INFINITY).unmodifiable();
+    Tensor d = Tensors.vector(-1, 3, 2).unmodifiable();
+    Tensor points = Tensors.empty();
+    for (Tensor _x : Subdivide.of(10, 11, 5)) {
+      Scalar x = _x.Get();
+      Tensor r = DeBoor.of(t, d).apply(x);
+      points.append(Tensors.of(x, r));
+    }
+    System.out.println(points);
+    // Tensor result = Tensors.fromString( //
+    // "{{10, 1}, {51/5, 17/10}, {52/5, 11/5}, {53/5, 5/2}, {54/5, 13/5}, {11, 5/2}}");
+    // assertEquals(result, points);
+  }
+
   public void testCubic() {
-    Tensor d = Tensors.vector(-1, 3, 2, 7).unmodifiable();
     Tensor t = Tensors.vector(9, 10, 11, 12, 13, 14).unmodifiable();
+    Tensor d = Tensors.vector(-1, 3, 2, 7).unmodifiable();
     Tensor points = Tensors.empty();
     for (Tensor _x : Subdivide.of(11, 12, 5)) {
       Scalar x = _x.Get();
-      Tensor r = DeBoor.of(3, d, t, x);
+      Tensor r = DeBoor.of(t, d).apply(x);
       points.append(Tensors.of(x, r));
     }
     Tensor result = Tensors.fromString( //
@@ -65,12 +80,12 @@ public class DeBoorTest extends TestCase {
   }
 
   public void testCubicLimit() {
-    Tensor d = Tensors.vector(3, 3, 2, 7).unmodifiable();
     Tensor t = Tensors.vector(11, 11, 11, 12, 13, 14).unmodifiable();
+    Tensor d = Tensors.vector(3, 3, 2, 7).unmodifiable();
     Tensor points = Tensors.empty();
     for (Tensor _x : Subdivide.of(11, 12, 10)) {
       Scalar x = _x.Get();
-      Tensor r = DeBoor.of(3, d, t, x);
+      Tensor r = DeBoor.of(t, d).apply(x);
       points.append(Tensors.of(x, r));
     }
     Tensor result = Tensors.fromString( //
@@ -79,84 +94,94 @@ public class DeBoorTest extends TestCase {
   }
 
   public void testWikiStyleConstant0() {
-    Tensor d = Tensors.vector(90).unmodifiable();
     Tensor t = Tensors.vector().unmodifiable();
-    assertEquals(DeBoor.of(0, d, t, RealScalar.of(0)), RealScalar.of(90));
-    assertEquals(DeBoor.of(0, d, t, RationalScalar.of(1, 2)), RealScalar.of(90));
-    assertEquals(DeBoor.of(0, d, t, RealScalar.of(1)), RealScalar.of(90));
+    Tensor d = Tensors.vector(90).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(90));
+    assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RealScalar.of(90));
+    assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(90));
   }
 
   public void testWikiStyleLinear0() {
-    Tensor d = Tensors.vector(90, 100).unmodifiable();
     Tensor t = Tensors.vector(0, 1).unmodifiable();
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(0)), RealScalar.of(90));
-    assertEquals(DeBoor.of(1, d, t, RationalScalar.of(1, 2)), RealScalar.of(95));
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(1)), RealScalar.of(100));
+    Tensor d = Tensors.vector(90, 100).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(90));
+    assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RealScalar.of(95));
+    assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(100));
   }
 
   public void testWikiStyleLinear1() {
-    Tensor d = Tensors.vector(100, 120).unmodifiable();
     Tensor t = Tensors.vector(1, 2).unmodifiable();
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(1)), RealScalar.of(100));
-    assertEquals(DeBoor.of(1, d, t, RationalScalar.of(3, 2)), RealScalar.of(110));
-    assertEquals(DeBoor.of(1, d, t, RealScalar.of(2)), RealScalar.of(120));
+    Tensor d = Tensors.vector(100, 120).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(100));
+    assertEquals(deBoor.apply(RationalScalar.of(3, 2)), RealScalar.of(110));
+    assertEquals(deBoor.apply(RealScalar.of(2)), RealScalar.of(120));
   }
 
   /** example from Wikipedia */
   public void testWikiQuadratic0() {
-    Tensor d = Tensors.vector(0, 0, 1).unmodifiable();
     Tensor t = Tensors.vector(0, 0, 1, 2).unmodifiable();
-    assertEquals(DeBoor.of(2, d, t, RealScalar.of(0)), RealScalar.of(0));
-    assertEquals(DeBoor.of(2, d, t, RationalScalar.of(1, 2)), RationalScalar.of(1, 8));
-    assertEquals(DeBoor.of(2, d, t, RealScalar.of(1)), RationalScalar.of(1, 2));
+    Tensor d = Tensors.vector(0, 0, 1).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(0));
+    assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RationalScalar.of(1, 8));
+    assertEquals(deBoor.apply(RealScalar.of(1)), RationalScalar.of(1, 2));
   }
 
   public void testWikiQuadratic1() {
-    Tensor d = Tensors.vector(0, 1, 0).unmodifiable();
     Tensor t = Tensors.vector(0, 1, 2, 3).unmodifiable();
-    assertEquals(DeBoor.of(2, d, t, RealScalar.of(1)), RationalScalar.of(1, 2));
-    assertEquals(DeBoor.of(2, d, t, RationalScalar.of(3, 2)), RationalScalar.of(3, 4));
-    assertEquals(DeBoor.of(2, d, t, RealScalar.of(2)), RationalScalar.of(1, 2));
+    Tensor d = Tensors.vector(0, 1, 0).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(1)), RationalScalar.of(1, 2));
+    assertEquals(deBoor.apply(RationalScalar.of(3, 2)), RationalScalar.of(3, 4));
+    assertEquals(deBoor.apply(RealScalar.of(2)), RationalScalar.of(1, 2));
   }
 
   public void testWikiQuadratic2() {
-    Tensor d = Tensors.vector(1, 0, 0).unmodifiable();
     Tensor t = Tensors.vector(1, 2, 3, 3).unmodifiable();
-    assertEquals(DeBoor.of(2, d, t, RealScalar.of(2)), RationalScalar.of(1, 2));
-    assertEquals(DeBoor.of(2, d, t, RationalScalar.of(5, 2)), RationalScalar.of(1, 8));
-    assertEquals(DeBoor.of(2, d, t, RealScalar.of(3)), RationalScalar.of(0, 2));
+    Tensor d = Tensors.vector(1, 0, 0).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(2)), RationalScalar.of(1, 2));
+    assertEquals(deBoor.apply(RationalScalar.of(5, 2)), RationalScalar.of(1, 8));
+    assertEquals(deBoor.apply(RealScalar.of(3)), RationalScalar.of(0, 2));
   }
 
   /** example from Wikipedia */
   public void testWikiCubic0() {
-    Tensor d = Tensors.vector(0, 0, 0, 6).unmodifiable();
     Tensor t = Tensors.vector(-2, -2, -2, -1, 0, 1).unmodifiable();
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(-2)), RealScalar.of(0));
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(-1.5)), RationalScalar.of(1, 8));
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(-1)), RealScalar.of(1));
+    Tensor d = Tensors.vector(0, 0, 0, 6).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(-2)), RealScalar.of(0));
+    assertEquals(deBoor.apply(RealScalar.of(-1.5)), RationalScalar.of(1, 8));
+    assertEquals(deBoor.apply(RealScalar.of(-1)), RealScalar.of(1));
   }
 
   public void testWikiCubic1() {
-    Tensor d = Tensors.vector(0, 0, 6, 0).unmodifiable();
     Tensor t = Tensors.vector(-2, -2, -1, 0, 1, 2).unmodifiable();
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(-1)), RealScalar.of(1));
-    assertEquals(DeBoor.of(3, d, t, RationalScalar.of(-1, 2)), RationalScalar.of(23, 8));
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(0)), RealScalar.of(4));
+    Tensor d = Tensors.vector(0, 0, 6, 0).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(-1)), RealScalar.of(1));
+    assertEquals(deBoor.apply(RationalScalar.of(-1, 2)), RationalScalar.of(23, 8));
+    assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(4));
   }
 
   public void testWikiCubic2() {
-    Tensor d = Tensors.vector(0, 6, 0, 0).unmodifiable();
     Tensor t = Tensors.vector(-2, -1, 0, 1, 2, 2).unmodifiable();
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(0)), RealScalar.of(4));
-    assertEquals(DeBoor.of(3, d, t, RationalScalar.of(1, 2)), RationalScalar.of(23, 8));
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(1)), RealScalar.of(1));
+    Tensor d = Tensors.vector(0, 6, 0, 0).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(4));
+    assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RationalScalar.of(23, 8));
+    assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(1));
   }
 
   public void testWikiCubic3() {
-    Tensor d = Tensors.vector(6, 0, 0, 0).unmodifiable();
     Tensor t = Tensors.vector(-1, 0, 1, 2, 2, 2).unmodifiable();
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(1)), RealScalar.of(1));
-    assertEquals(DeBoor.of(3, d, t, RationalScalar.of(3, 2)), RationalScalar.of(1, 8));
-    assertEquals(DeBoor.of(3, d, t, RealScalar.of(2)), RealScalar.of(0));
+    Tensor d = Tensors.vector(6, 0, 0, 0).unmodifiable();
+    DeBoor deBoor = DeBoor.of(t, d);
+    assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(1));
+    assertEquals(deBoor.apply(RationalScalar.of(3, 2)), RationalScalar.of(1, 8));
+    assertEquals(deBoor.apply(RealScalar.of(2)), RealScalar.of(0));
   }
 }

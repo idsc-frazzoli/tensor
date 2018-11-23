@@ -19,6 +19,6 @@ public enum BartlettWindow implements ScalarUnaryOperator {
     x = x.abs();
     return Scalars.lessEquals(x, RationalScalar.HALF) //
         ? RealScalar.ONE.subtract(x.add(x))
-        : x.zero();
+        : RealScalar.ZERO;
   }
 }

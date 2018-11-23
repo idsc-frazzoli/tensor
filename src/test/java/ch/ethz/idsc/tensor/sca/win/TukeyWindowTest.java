@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.sca.win;
 
 import java.util.Map;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -27,6 +28,12 @@ public class TukeyWindowTest extends TestCase {
     assertEquals(scalarUnaryOperator.apply(RealScalar.of(0.12)), RealScalar.ONE);
     Scalar scalar = scalarUnaryOperator.apply(RealScalar.of(0.22));
     assertTrue(Chop._12.close(scalar, RealScalar.of(0.9381533400219317))); // mathematica
+  }
+
+  public void testOutside() {
+    Scalar scalar = TukeyWindow.FUNCTION.apply(RealScalar.of(-0.52));
+    assertEquals(scalar, RealScalar.ZERO);
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testQuantityFail() {

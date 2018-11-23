@@ -24,4 +24,9 @@ public class BartlettWindowTest extends TestCase {
     Scalar scalar = BartlettWindow.FUNCTION.apply(RealScalar.of(.499999999));
     assertTrue(Chop._07.allZero(scalar));
   }
+
+  public void testOutside() {
+    Scalar scalar = BartlettWindow.FUNCTION.apply(RealScalar.of(-0.52));
+    assertEquals(scalar, RealScalar.ZERO);
+  }
 }

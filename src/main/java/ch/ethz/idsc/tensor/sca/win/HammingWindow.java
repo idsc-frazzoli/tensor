@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca.win;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
@@ -17,6 +18,6 @@ public enum HammingWindow implements ScalarUnaryOperator {
   public Scalar apply(Scalar x) {
     return StaticHelper.SEMI.isInside(x) //
         ? StaticHelper.deg1(A0, A1, x)
-        : x.zero();
+        : RealScalar.ZERO;
   }
 }

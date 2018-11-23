@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca.win;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -26,5 +27,10 @@ public class BlackmanNuttallWindowTest extends TestCase {
     ScalarUnaryOperator windowFunction = BlackmanNuttallWindow.FUNCTION;
     Scalar scalar = windowFunction.apply(RationalScalar.of(1, 3));
     assertTrue(Chop._10.close(scalar, Scalars.fromString("122669/2000000")));
+  }
+
+  public void testOutside() {
+    Scalar scalar = BlackmanNuttallWindow.FUNCTION.apply(RealScalar.of(-0.52));
+    assertEquals(scalar, RealScalar.ZERO);
   }
 }

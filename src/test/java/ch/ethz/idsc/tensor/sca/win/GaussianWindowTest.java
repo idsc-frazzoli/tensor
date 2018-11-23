@@ -12,4 +12,9 @@ public class GaussianWindowTest extends TestCase {
     Scalar exact = RealScalar.of(0.80073740291680804078);
     assertTrue(Chop._10.close(apply, exact));
   }
+
+  public void testOutside() {
+    Scalar scalar = GaussianWindow.FUNCTION.apply(RealScalar.of(-0.52));
+    assertEquals(scalar, RealScalar.ZERO);
+  }
 }

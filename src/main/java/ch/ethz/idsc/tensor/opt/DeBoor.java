@@ -6,34 +6,40 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.alg.VectorQ;
 
-/** Implementation is deliberately not optimized
- * 
- * @param x
+/** @param x
  * @return control point evaluated at x */
 // EXPERIMENTAL
 public class DeBoor implements ScalarTensorFunction {
-  static Tensor of(int p, Tensor c, Tensor t, Scalar x) {
-    return new DeBoor(p, c, t).apply(x);
+  /** @param knots position, vector of length p * 2
+   * @param control points, tensor of length p + 1
+   * @return */
+  public static DeBoor of(Tensor knots, Tensor control) {
+    int p = knots.length() >> 1;
+    if (control.length() != p + 1)
+      throw TensorRuntimeException.of(knots, control);
+    return new DeBoor(p, VectorQ.require(knots), control);
   }
 
   // ---
   private final int p;
-  private final Tensor c;
   private final Tensor t;
+  private final Tensor control;
 
-  /** @param p degree, non-negative integer
-   * @param c control points, tensor of length p + 1
-   * @param t knot position, vector of length p * 2 */
-  public DeBoor(int p, Tensor c, Tensor t) {
+  /** @param p degree
+   * @param knots position, vector of length p * 2
+   * @param control points, tensor of length p + 1 */
+  /* package */ DeBoor(int p, Tensor knots, Tensor control) {
     this.p = p;
-    this.c = c;
-    this.t = t;
+    this.t = knots;
+    this.control = control;
   }
 
   @Override
   public Tensor apply(Scalar x) {
-    Tensor d = c.copy(); // d is modified over the course of the algorithm
+    Tensor d = control.copy(); // d is modified over the course of the algorithm
     for (int r = 1; r < p + 1; ++r)
       for (int j = p; j >= r; --j) {
         Scalar num = x.subtract(t.Get(j - 1));
@@ -50,7 +56,7 @@ public class DeBoor implements ScalarTensorFunction {
   }
 
   public Tensor control() {
-    return c.unmodifiable();
+    return control.unmodifiable();
   }
 
   public Tensor knots() {
