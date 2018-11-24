@@ -47,6 +47,8 @@ Autonomous Gokart
 * values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
 * probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
 * matrix functions `LinearSolve`, `SingularValueDecomposition`, `QRDecomposition`, etc.
+* parametric functions `LinearInterpolation`, `BSplineFunction`, etc.
+* window functions: Gaussian, Hamming, Hann, Blackman, etc.
 * import from and export to `Mathematica`, `CSV`, and image files
 
 ## Gallery

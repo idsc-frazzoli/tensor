@@ -19,7 +19,7 @@ public enum BartlettWindow implements ScalarUnaryOperator {
   @Override
   public Scalar apply(Scalar x) {
     x = x.abs();
-    return Scalars.lessEquals(x, RationalScalar.HALF) //
+    return Scalars.lessThan(x, RationalScalar.HALF) //
         ? RealScalar.ONE.subtract(x.add(x))
         : RealScalar.ZERO;
   }

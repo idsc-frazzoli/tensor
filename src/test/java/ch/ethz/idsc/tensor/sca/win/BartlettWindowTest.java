@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -23,6 +24,12 @@ public class BartlettWindowTest extends TestCase {
   public void testContinuous() {
     Scalar scalar = BartlettWindow.FUNCTION.apply(RealScalar.of(.499999999));
     assertTrue(Chop._07.allZero(scalar));
+  }
+
+  public void testSemiExact() {
+    Scalar scalar = BartlettWindow.FUNCTION.apply(RealScalar.of(0.5));
+    assertTrue(Scalars.isZero(scalar));
+    assertTrue(ExactScalarQ.of(scalar));
   }
 
   public void testOutside() {

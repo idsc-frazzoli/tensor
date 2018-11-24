@@ -2,7 +2,6 @@
 // adapted from https://en.wikipedia.org/wiki/De_Boor%27s_algorithm
 package ch.ethz.idsc.tensor.opt;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -10,13 +9,13 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.VectorQ;
 
-/** @param x
- * @return control point evaluated at x */
-// EXPERIMENTAL
+/** DeBoor denotes the function that is defined
+ * by control points over a sequence of knots. */
 public class DeBoor implements ScalarTensorFunction {
-  /** @param knots position, vector of length p * 2
-   * @param control points, tensor of length p + 1
-   * @return */
+  /** @param knots vector of length degree * 2
+   * @param control points of length degree + 1
+   * @return
+   * @throws Exception if given knots is not a vector */
   public static DeBoor of(Tensor knots, Tensor control) {
     int p = knots.length() >> 1;
     if (control.length() != p + 1)
@@ -25,39 +24,37 @@ public class DeBoor implements ScalarTensorFunction {
   }
 
   // ---
-  private final int p;
-  private final Tensor t;
+  private final int degree;
+  private final Tensor knots;
   private final Tensor control;
 
-  /** @param p degree
-   * @param knots position, vector of length p * 2
-   * @param control points, tensor of length p + 1 */
-  /* package */ DeBoor(int p, Tensor knots, Tensor control) {
-    this.p = p;
-    this.t = knots;
+  /** @param degree
+   * @param knots vector of length degree * 2
+   * @param control points of length degree + 1 */
+  /* package */ DeBoor(int degree, Tensor knots, Tensor control) {
+    this.degree = degree;
+    this.knots = knots;
     this.control = control;
   }
 
   @Override
   public Tensor apply(Scalar x) {
     Tensor d = control.copy(); // d is modified over the course of the algorithm
-    for (int r = 1; r < p + 1; ++r)
-      for (int j = p; j >= r; --j) {
-        Scalar num = x.subtract(t.Get(j - 1));
-        Scalar den = t.Get(j + p - r).subtract(t.Get(j - 1));
-        // if (Scalars.isZero(den))
-        // System.out.println("here:" + x);
+    for (int r = 1; r < degree + 1; ++r)
+      for (int j = degree; j >= r; --j) {
+        Scalar num = x.subtract(knots.Get(j - 1));
+        Scalar den = knots.Get(j + degree - r).subtract(knots.Get(j - 1));
         Scalar alpha = Scalars.isZero(den) //
-            ? DoubleScalar.ZERO // ZERO vs. Nan?
+            ? RealScalar.ZERO
             : num.divide(den);
         Tensor a0 = d.get(j - 1).multiply(RealScalar.ONE.subtract(alpha));
         d.set(dj -> dj.multiply(alpha).add(a0), j);
       }
-    return d.get(p);
+    return d.get(degree);
   }
 
   public int degree() {
-    return p;
+    return degree;
   }
 
   public Tensor control() {
@@ -65,6 +62,6 @@ public class DeBoor implements ScalarTensorFunction {
   }
 
   public Tensor knots() {
-    return t.unmodifiable();
+    return knots.unmodifiable();
   }
 }

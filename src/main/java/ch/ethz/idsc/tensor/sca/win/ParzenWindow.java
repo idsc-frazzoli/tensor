@@ -23,7 +23,7 @@ public enum ParzenWindow implements ScalarUnaryOperator {
   @Override
   public Scalar apply(Scalar x) {
     x = x.abs();
-    if (Scalars.lessEquals(x, RationalScalar.HALF))
+    if (Scalars.lessThan(x, RationalScalar.HALF))
       return Scalars.lessEquals(x, _1_4) //
           ? S1.apply(x)
           : S2.apply(x);
