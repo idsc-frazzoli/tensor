@@ -11,56 +11,80 @@ import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Floor;
 
-/** Mathematica::BSplineFunction throws an exception if number
- * of control points is insufficient for the specified degree.
+/** The implementation of BSplineFunction in the tensor library
+ * is different from Mathematica.
  * 
- * cubic basis functions over unit interval [0, 1]
- * {(1 - t)^3, 4 - 6 t^2 + 3 t^3, 1 + 3 t + 3 t^2 - 3 t^3, t^3}/6 */
-// EXPERIMENTAL
+ * tensor::BSplineFunction is parameterized over the interval
+ * [0, control.length()-1]
+ * 
+ * tensor::BSplineFunction can be instantiated for all degrees
+ * regardless of the length of the control points.
+ * 
+ * Mathematica::BSplineFunction throws an exception if number
+ * of control points is insufficient for the specified degree. */
 public class BSplineFunction implements ScalarTensorFunction {
-  /** the control point are stored by reference, i.e.
-   * modifications to given tensor alter the behavior
-   * of this BSplineFunction instance.
+  /** the control point are stored by reference, i.e. modifications to
+   * given tensor alter the behavior of this BSplineFunction instance.
    * 
    * @param degree of polynomial basis function, non-negative integer
-   * @param tensor */
-  public static BSplineFunction of(int degree, Tensor tensor) {
-    return new BSplineFunction(degree, tensor);
+   * @param control points with at least one element
+   * @return */
+  public static BSplineFunction of(int degree, Tensor control) {
+    if (degree < 0)
+      throw new IllegalArgumentException("" + degree);
+    return new BSplineFunction(degree, control);
   }
 
   // ---
-  private final int p;
-  private final Tensor tensor;
-  final Tensor index;
-  private final int last;
-  private final Clip clip;
-  private final int ofs;
+  private final int degree;
+  private final Tensor control;
+  /** half == degree / 2 */
+  private final int half;
+  /** shift is 0 for odd degree and 1/2 for even degree */
   private final Scalar shift;
+  /** index of last control point */
+  private final int last;
+  /** domain of this function */
+  private final Clip domain;
+  /** clip for knots */
+  private final Clip clip;
 
-  private BSplineFunction(int degree, Tensor tensor) {
-    p = degree;
-    this.tensor = tensor;
-    index = Range.of(-p + 1, p + 1);
-    last = tensor.length() - 1;
-    clip = Clip.function(0, last);
-    ofs = p / 2;
+  private BSplineFunction(int degree, Tensor control) {
+    this.degree = degree;
+    this.control = control;
+    half = degree / 2;
     shift = degree % 2 == 0 //
         ? RationalScalar.HALF
         : RealScalar.ZERO;
+    last = control.length() - 1;
+    domain = Clip.function(0, last);
+    clip = Clip.function( //
+        domain.min().add(shift), //
+        domain.max().add(shift));
   }
 
+  /** @param scalar inside interval [0, control.length() - 1]
+   * @return
+   * @throws Exception if given scalar is outside required interval */
   @Override
   public Tensor apply(Scalar scalar) {
-    clip.requireInside(scalar);
-    scalar = scalar.add(shift);
-    Scalar lo = Floor.FUNCTION.apply(scalar);
-    int k = lo.number().intValue();
-    Tensor ctr = Tensor.of(IntStream.range(k - ofs, k + p + 1 - ofs) //
-        .map(i -> Math.min(Math.max(0, i), last)).mapToObj(tensor::get));
-    Tensor t = index.map(s -> s.add(lo)).map(clip);
-    // System.out.println(scalar);
-    // System.out.println(t);
-    // System.out.println(ctr);
-    return DeBoor.of(p, ctr, t, scalar);
+    scalar = domain.requireInside(scalar).add(shift);
+    return deBoor(Floor.FUNCTION.apply(scalar).number().intValue()).apply(scalar);
+  }
+
+  /** @param k in the interval [0, control.length() - 1]
+   * @return */
+  public DeBoor deBoor(int k) {
+    int hi = degree + 1 + k;
+    return new DeBoor(degree, //
+        Range.of(-degree + 1 + k, hi).map(clip), // knots
+        Tensor.of(IntStream.range(k - half, hi - half) // control
+            .map(this::bound) //
+            .mapToObj(control::get)));
+  }
+
+  // helper function
+  private int bound(int index) {
+    return Math.min(Math.max(0, index), last);
   }
 }

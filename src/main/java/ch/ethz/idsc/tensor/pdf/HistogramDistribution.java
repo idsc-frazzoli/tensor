@@ -72,7 +72,7 @@ public class HistogramDistribution extends AbstractContinuousDistribution implem
     original = scalar -> scalar.multiply(width).add(min);
     distribution = EmpiricalDistribution.fromUnscaledPDF(BinCounts.of(samples.map(discrete)));
     this.width = width;
-    width_half = width.divide(RationalScalar.of(2, 1));
+    width_half = width.multiply(RationalScalar.HALF);
   }
 
   @Override // from PDF

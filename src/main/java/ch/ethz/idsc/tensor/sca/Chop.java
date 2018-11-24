@@ -20,6 +20,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Chop.html">Chop</a> */
 public class Chop implements ScalarUnaryOperator {
+  public static final Chop _03 = below(1e-03);
   public static final Chop _04 = below(1e-04);
   public static final Chop _05 = below(1e-05);
   public static final Chop _06 = below(1e-06);

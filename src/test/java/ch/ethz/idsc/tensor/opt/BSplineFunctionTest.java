@@ -1,87 +1,96 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.alg.Subdivide;
+import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.lie.CirclePoints;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
+import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Clip;
 import junit.framework.TestCase;
 
+// cubic basis functions over unit interval [0, 1]
+// {(1 - t)^3, 4 - 6 t^2 + 3 t^3, 1 + 3 t + 3 t^2 - 3 t^3, t^3}/6
 public class BSplineFunctionTest extends TestCase {
   public void testConstant() {
-    ScalarTensorFunction stf = BSplineFunction.of(0, Tensors.vector(2, 1, 5, 0, -2));
-    assertEquals(stf.apply(RealScalar.of(0)), RealScalar.of(2));
-    assertEquals(stf.apply(RealScalar.of(0.3333)), RealScalar.of(2));
-    assertEquals(stf.apply(RealScalar.of(0.5)), RealScalar.of(1));
-    assertEquals(stf.apply(RealScalar.of(1.25)), RealScalar.of(1));
-    assertEquals(stf.apply(RealScalar.of(1.49)), RealScalar.of(1));
-    assertEquals(stf.apply(RealScalar.of(1.75)), RealScalar.of(5));
-    assertEquals(stf.apply(RealScalar.of(2)), RealScalar.of(5));
-    assertEquals(stf.apply(RealScalar.of(2.50)), RealScalar.of(0));
-    assertEquals(stf.apply(RealScalar.of(3)), RealScalar.of(0));
-    assertEquals(stf.apply(RealScalar.of(3.5)), RealScalar.of(-2));
-    assertEquals(stf.apply(RealScalar.of(4)), RealScalar.of(-2));
+    BSplineFunction bSplineFunction = BSplineFunction.of(0, Tensors.vector(2, 1, 5, 0, -2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(0)), RealScalar.of(2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(0.3333)), RealScalar.of(2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(0.5)), RealScalar.of(1));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1.25)), RealScalar.of(1));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1.49)), RealScalar.of(1));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1.75)), RealScalar.of(5));
+    assertEquals(bSplineFunction.apply(RealScalar.of(2)), RealScalar.of(5));
+    assertEquals(bSplineFunction.apply(RealScalar.of(2.50)), RealScalar.of(0));
+    assertEquals(bSplineFunction.apply(RealScalar.of(3)), RealScalar.of(0));
+    assertEquals(bSplineFunction.apply(RealScalar.of(3.5)), RealScalar.of(-2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(4)), RealScalar.of(-2));
   }
 
   public void testLinear() {
-    ScalarTensorFunction stf = BSplineFunction.of(1, Tensors.vector(2, 1, 5, 0, -2));
-    assertEquals(stf.apply(RealScalar.of(0)), RealScalar.of(2));
-    assertEquals(stf.apply(RationalScalar.of(1, 2)), RationalScalar.of(3, 2));
-    assertEquals(stf.apply(RealScalar.of(1)), RealScalar.of(1));
-    assertEquals(stf.apply(RealScalar.of(1.25)), RealScalar.of(2));
-    assertEquals(stf.apply(RealScalar.of(1.50)), RealScalar.of(3));
-    assertEquals(stf.apply(RealScalar.of(1.75)), RealScalar.of(4));
-    assertEquals(stf.apply(RealScalar.of(2)), RealScalar.of(5));
-    assertEquals(stf.apply(RealScalar.of(2.50)), RealScalar.of(2.5));
-    assertEquals(stf.apply(RealScalar.of(3)), RealScalar.of(0));
-    assertEquals(stf.apply(RealScalar.of(3.5)), RealScalar.of(-1));
-    assertEquals(stf.apply(RealScalar.of(4)), RealScalar.of(-2));
+    BSplineFunction bSplineFunction = BSplineFunction.of(1, Tensors.vector(2, 1, 5, 0, -2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(0)), RealScalar.of(2));
+    assertEquals(bSplineFunction.apply(RationalScalar.of(1, 2)), RationalScalar.of(3, 2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1)), RealScalar.of(1));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1.25)), RealScalar.of(2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1.50)), RealScalar.of(3));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1.75)), RealScalar.of(4));
+    assertEquals(bSplineFunction.apply(RealScalar.of(2)), RealScalar.of(5));
+    assertEquals(bSplineFunction.apply(RealScalar.of(2.50)), RealScalar.of(2.5));
+    assertEquals(bSplineFunction.apply(RealScalar.of(3)), RealScalar.of(0));
+    assertEquals(bSplineFunction.apply(RealScalar.of(3.5)), RealScalar.of(-1));
+    assertEquals(bSplineFunction.apply(RealScalar.of(4)), RealScalar.of(-2));
   }
 
   public void testLinearCurve() {
-    Tensor c = Tensors.fromString("{{2,3}, {1,0}, {5,7}, {0,0},{-2,3}}");
-    assertTrue(MatrixQ.of(c));
-    BSplineFunction bSplineFunction = BSplineFunction.of(1, c);
+    Tensor control = Tensors.fromString("{{2,3}, {1,0}, {5,7}, {0,0}, {-2,3}}");
+    assertTrue(MatrixQ.of(control));
+    BSplineFunction bSplineFunction = BSplineFunction.of(1, control);
     assertEquals(bSplineFunction.apply(RealScalar.of(1.5)), Tensors.vector(3, 3.5));
     assertEquals(bSplineFunction.apply(RealScalar.of(4)), Tensors.vector(-2, 3));
   }
 
-  @SuppressWarnings("unused")
   public void testQuadratic() {
     BSplineFunction bSplineFunction = BSplineFunction.of(2, Tensors.vector(2, 1, 5, 0, -2));
-    Tensor r = bSplineFunction.apply(RealScalar.of(0));
-    // System.out.println(r);
-    // assertEquals(r, RealScalar.of(2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(0)), RealScalar.of(2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1)), RationalScalar.of(5, 3));
+    assertEquals(bSplineFunction.apply(RealScalar.of(2)), RationalScalar.of(31, 8));
+    assertEquals(bSplineFunction.apply(RealScalar.of(4)), RealScalar.of(-2));
   }
 
-  @SuppressWarnings("unused")
   public void testQuadraticSymmetry() {
     BSplineFunction bSplineFunction = BSplineFunction.of(2, Tensors.vector(0, 1, 2, 3));
     Tensor r1 = bSplineFunction.apply(RealScalar.of(0.5));
     Tensor r2 = bSplineFunction.apply(RealScalar.of(1.5));
     Tensor r3 = bSplineFunction.apply(RealScalar.of(2.5)); // does not evaluate correctly
-    // System.out.println(r1);
-    // System.out.println(r2);
-    // System.out.println(r3);
-    // assertEquals(r, RealScalar.of(2));
+    assertTrue(Chop._12.close(r1, RealScalar.of(1 / 3.0)));
+    assertEquals(r2, RealScalar.of(1.5));
+    assertTrue(Chop._12.close(r3, RealScalar.of(8 / 3.0)));
   }
 
   public void testCubic() {
     BSplineFunction bSplineFunction = BSplineFunction.of(3, Tensors.vector(2, 1, 5, 0, -2));
-    Tensor r = bSplineFunction.apply(RealScalar.of(0));
-    assertEquals(r, RealScalar.of(2));
+    assertEquals(bSplineFunction.apply(RealScalar.of(0)), RealScalar.of(2));
+    assertEquals(bSplineFunction.apply(RationalScalar.HALF), RationalScalar.of(173, 96));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1)), RationalScalar.of(23, 12));
+    assertEquals(bSplineFunction.apply(RealScalar.of(4)), RealScalar.of(-2));
   }
 
   public void testCubicLinear() {
     BSplineFunction bSplineFunction = BSplineFunction.of(3, Tensors.vector(2, 1, 0, -1, -2));
     assertEquals(bSplineFunction.apply(RealScalar.of(0)), RealScalar.of(2));
-    // assertEquals(bSplineFunction.apply(RealScalar.of(1)), RealScalar.of(1));
+    assertEquals(bSplineFunction.apply(RealScalar.of(1)), RationalScalar.of(13, 12));
     assertEquals(bSplineFunction.apply(RealScalar.of(2)), RealScalar.of(0));
     assertTrue(Chop._12.close(bSplineFunction.apply(RealScalar.of(3.999999999999)), RealScalar.of(-2)));
     assertEquals(bSplineFunction.apply(RealScalar.of(4)), RealScalar.of(-2));
@@ -94,21 +103,80 @@ public class BSplineFunctionTest extends TestCase {
   }
 
   public void testSymmetric() {
-    Tensor c = Tensors.vector(1, 5, 3, -1, 0);
-    BSplineFunction bs3f = BSplineFunction.of(3, c);
-    BSplineFunction bs3r = BSplineFunction.of(3, Reverse.of(c));
-    Tensor res1f = Subdivide.of(0, 4, 10).map(bs3f);
-    Tensor res1r = Subdivide.of(4, 0, 10).map(bs3r);
-    assertEquals(res1f, res1r);
+    Tensor control = Tensors.vector(1, 5, 3, -1, 0);
+    int n = control.length() - 1;
+    for (int degree = 0; degree <= 5; ++degree) {
+      BSplineFunction bsf = BSplineFunction.of(degree, control);
+      BSplineFunction bsr = BSplineFunction.of(degree, Reverse.of(control));
+      Tensor res1f = Subdivide.of(0, n, 10).map(bsf);
+      Tensor res1r = Subdivide.of(n, 0, 10).map(bsr);
+      assertEquals(res1f, res1r);
+    }
+  }
+
+  public void testQuantity() {
+    Tensor control = Tensors.fromString("{2[m],7[m],3[m]}");
+    Clip clip = Clip.function(2, 7);
+    int n = control.length() - 1;
+    for (int degree = 0; degree <= 5; ++degree) {
+      BSplineFunction bSplineFunction = BSplineFunction.of(degree, control);
+      Tensor tensor = Subdivide.of(0, n, 10).map(bSplineFunction);
+      VectorQ.require(tensor);
+      Tensor nounit = tensor.map(QuantityMagnitude.SI().in("m"));
+      assertTrue(ExactScalarQ.all(nounit));
+      nounit.map(clip::requireInside);
+    }
+  }
+
+  public void testSingleton() {
+    for (int degree = 0; degree < 4; ++degree) {
+      BSplineFunction bSplineFunction = BSplineFunction.of(degree, Tensors.vector(99));
+      assertEquals(bSplineFunction.apply(RealScalar.ZERO), RealScalar.of(99));
+      assertEquals(bSplineFunction.apply(RealScalar.of(0.0)), RealScalar.of(99));
+    }
+  }
+
+  public void testIndex() {
+    for (int degree = 0; degree <= 5; ++degree)
+      for (int length = 2; length <= 6; ++length) {
+        BSplineFunction bSplineFunction = BSplineFunction.of(degree, IdentityMatrix.of(length));
+        for (Tensor _x : Subdivide.of(0, length - 1, 13)) {
+          Tensor tensor = bSplineFunction.apply(_x.Get());
+          assertTrue(tensor.stream().map(Scalar.class::cast).allMatch(Clip.unit()::isInside));
+          assertEquals(Total.of(tensor), RealScalar.ONE);
+          assertTrue(ExactScalarQ.all(tensor));
+        }
+      }
   }
 
   public void testSerializable() throws Exception {
     BSplineFunction bSplineFunction = BSplineFunction.of(3, Tensors.vector(2, 1, 0, -1, -2));
+    Tensor value0 = bSplineFunction.apply(RealScalar.of(2.3));
     BSplineFunction copy = Serialization.copy(bSplineFunction);
-    copy.apply(RealScalar.of(.3));
+    Tensor value1 = copy.apply(RealScalar.of(2.3));
+    assertEquals(value0, value1);
   }
 
-  public void testOutside() {
+  public void testEmptyFail() {
+    for (int degree = -2; degree <= 4; ++degree)
+      try {
+        BSplineFunction.of(degree, Tensors.empty());
+        assertTrue(false);
+      } catch (Exception exception) {
+        // ---
+      }
+  }
+
+  public void testNegativeFail() {
+    try {
+      BSplineFunction.of(-1, Tensors.vector(1, 2, 3, 4));
+      assertTrue(false);
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testOutsideFail() {
     BSplineFunction bSplineFunction = BSplineFunction.of(3, Tensors.vector(2, 1, 0, -1, -2));
     bSplineFunction.apply(RealScalar.of(4));
     try {

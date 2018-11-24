@@ -75,7 +75,7 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return clip.min().add(width.divide(RationalScalar.of(2, 1)));
+    return clip.min().add(width.multiply(RationalScalar.HALF));
   }
 
   @Override // from VarianceInterface

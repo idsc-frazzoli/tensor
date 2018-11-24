@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.6.2`
+Library for tensor computations in Java, version `0.6.3`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -47,6 +47,8 @@ Autonomous Gokart
 * values are encoded as exact integer fractions, in double precision, and as `java.math.BigDecimal`
 * probability distributions for random variate generation: Binomial-, Poisson-, Exponential-distribution etc.
 * matrix functions `LinearSolve`, `SingularValueDecomposition`, `QRDecomposition`, etc.
+* parametric functions `LinearInterpolation`, `BSplineFunction`, etc.
+* window functions: Gaussian, Hamming, Hann, Blackman, etc.
 * import from and export to `Mathematica`, `CSV`, and image files
 
 ## Gallery
@@ -268,7 +270,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
       <dependency>
         <groupId>ch.ethz.idsc</groupId>
         <artifactId>tensor</artifactId>
-        <version>0.6.2</version>
+        <version>0.6.3</version>
       </dependency>
     </dependencies>
 
