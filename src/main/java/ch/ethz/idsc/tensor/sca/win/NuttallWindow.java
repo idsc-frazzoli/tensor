@@ -6,7 +6,9 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** NuttallWindow[1/2]=-2.42861286636753E-17
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/NuttallWindow.html">NuttallWindow</a> */
 public enum NuttallWindow implements ScalarUnaryOperator {
   FUNCTION;

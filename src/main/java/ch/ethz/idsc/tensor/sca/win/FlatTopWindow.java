@@ -8,6 +8,8 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** the flat-top window function also evaluates to negative values
  * 
+ * FlatTopWindow[1/2]=-4.210539999999997E-4
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/FlatTopWindow.html">FlatTopWindow</a> */
 public enum FlatTopWindow implements ScalarUnaryOperator {

@@ -9,7 +9,9 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Series;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** ParzenWindow[1/2]=0
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ParzenWindow.html">ParzenWindow</a> */
 public enum ParzenWindow implements ScalarUnaryOperator {
   FUNCTION;

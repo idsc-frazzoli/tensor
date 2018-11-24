@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -15,6 +16,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.HermitianMatrixQ;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -86,6 +88,19 @@ public class MatrixExpTest extends TestCase {
     assertEquals(result.toString(), actual.toString());
   }
 
+  public void testChallenge() {
+    // Cleve Moler and Charles van Loan p.8
+    Tensor mat = Tensors.matrixInt(new int[][] { { -49, 24 }, { -64, 31 } });
+    Tensor A = Tensors.matrixInt(new int[][] { { 1, 3 }, { 2, 4 } });
+    Tensor diag = Inverse.of(A).dot(mat).dot(A);
+    assertTrue(Scalars.isZero(diag.Get(0, 1)));
+    assertTrue(Scalars.isZero(diag.Get(1, 0)));
+    Tensor result = MatrixExp.of(mat);
+    Tensor diaexp = MatrixExp.of(diag);
+    Tensor altexp = A.dot(diaexp).dot(Inverse.of(A));
+    assertTrue(Chop._08.close(altexp, result));
+  }
+
   public void testQuantity1() {
     // Mathematica can't do this :-)
     Scalar qs1 = Quantity.of(3, "m");
@@ -93,7 +108,6 @@ public class MatrixExpTest extends TestCase {
     Tensor ve2 = Tensors.vector(0, 0);
     Tensor mat = Tensors.of(ve1, ve2);
     Tensor sol = MatrixExp.of(mat);
-    // assertEquals(sol, mat.add(IdentityMatrix.of(2)));
     assertTrue(Chop.NONE.close(sol, mat.add(IdentityMatrix.of(2))));
   }
 

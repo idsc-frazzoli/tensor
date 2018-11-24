@@ -9,6 +9,8 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** triangular function max(0, 1 - 2*|x|)
  * 
+ * BartlettWindow[1/2]=0
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/BartlettWindow.html">BartlettWindow</a> */
 public enum BartlettWindow implements ScalarUnaryOperator {

@@ -6,7 +6,9 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** HammingWindow[1/2]=0.08695652173913038
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HammingWindow.html">HammingWindow</a> */
 public enum HammingWindow implements ScalarUnaryOperator {
   FUNCTION;

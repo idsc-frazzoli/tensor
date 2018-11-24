@@ -8,7 +8,9 @@ import ch.ethz.idsc.tensor.red.Times;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** GaussianWindow[1/2]=0.24935220877729616
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/GaussianWindow.html">GaussianWindow</a> */
 public enum GaussianWindow implements ScalarUnaryOperator {
   FUNCTION;

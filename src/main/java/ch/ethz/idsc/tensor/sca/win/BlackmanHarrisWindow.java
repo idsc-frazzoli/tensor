@@ -6,7 +6,9 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** BlackmanHarrisWindow[1/2]=6.0000000000001025E-5
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/BlackmanHarrisWindow.html">BlackmanHarrisWindow</a> */
 public enum BlackmanHarrisWindow implements ScalarUnaryOperator {
   FUNCTION;

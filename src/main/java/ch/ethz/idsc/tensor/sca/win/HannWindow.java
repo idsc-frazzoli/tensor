@@ -8,7 +8,9 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** HannWindow[1/2]=0
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HannWindow.html">HannWindow</a> */
 public enum HannWindow implements ScalarUnaryOperator {
   FUNCTION;
@@ -21,7 +23,7 @@ public enum HannWindow implements ScalarUnaryOperator {
   @Override
   public Scalar apply(Scalar x) {
     x = x.abs();
-    if (Scalars.lessEquals(x, RationalScalar.HALF)) {
+    if (Scalars.lessThan(x, RationalScalar.HALF)) {
       if (ExactScalarQ.of(x)) {
         if (x.equals(RealScalar.ZERO))
           return RealScalar.ONE;

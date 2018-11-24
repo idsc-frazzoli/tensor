@@ -8,7 +8,9 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** TukeyWindow[1/2]=0
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/TukeyWindow.html">TukeyWindow</a> */
 public enum TukeyWindow implements ScalarUnaryOperator {
   FUNCTION;
@@ -21,7 +23,7 @@ public enum TukeyWindow implements ScalarUnaryOperator {
     x = x.abs();
     if (Scalars.lessEquals(x, _1_6))
       return RealScalar.ONE;
-    if (Scalars.lessEquals(x, RationalScalar.HALF))
+    if (Scalars.lessThan(x, RationalScalar.HALF))
       return RationalScalar.HALF.add(RationalScalar.HALF.multiply(Cos.FUNCTION.apply(x.subtract(_1_6).multiply(_3_PI))));
     return RealScalar.ZERO;
   }
