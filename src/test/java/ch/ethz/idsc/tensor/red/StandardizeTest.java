@@ -32,13 +32,13 @@ public class StandardizeTest extends TestCase {
   public void testLengthShort() {
     try {
       Standardize.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Standardize.of(Tensors.vector(2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -47,7 +47,7 @@ public class StandardizeTest extends TestCase {
   public void testScalarFail() {
     try {
       Standardize.of(RealScalar.of(84.312));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -56,7 +56,7 @@ public class StandardizeTest extends TestCase {
   public void testMatrixFail() {
     try {
       Standardize.of(HilbertMatrix.of(5));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -73,7 +73,7 @@ public class QuantityMagnitudeTest extends TestCase {
     ScalarUnaryOperator suo = quantityMagnitude.in("m");
     try {
       suo.apply(quantity);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -82,7 +82,7 @@ public class QuantityMagnitudeTest extends TestCase {
   public void testFailInNull() {
     try {
       QuantityMagnitude.SI().in((Unit) null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -91,7 +91,7 @@ public class QuantityMagnitudeTest extends TestCase {
   public void testFailNull() {
     try {
       new QuantityMagnitude(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

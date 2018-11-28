@@ -14,7 +14,7 @@ public class NormalizeFailTest extends TestCase {
   public void testEmpty() {
     try {
       Normalize.with(Norm._2::ofVector).apply(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -23,7 +23,7 @@ public class NormalizeFailTest extends TestCase {
   public void testZeros() {
     try {
       Normalize.with(Norm._2::ofVector).apply(Array.zeros(10));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -33,7 +33,7 @@ public class NormalizeFailTest extends TestCase {
     TensorUnaryOperator normalize = Normalize.with(Norm._1::ofVector);
     try {
       normalize.apply(Tensors.vector(0, 0, 0, 0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -43,13 +43,13 @@ public class NormalizeFailTest extends TestCase {
     Tensor vector = Tensors.of(DoubleScalar.POSITIVE_INFINITY, RealScalar.ONE);
     try {
       Normalize.with(Norm._2::ofVector).apply(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       NormalizeUnlessZero.with(Norm._2::ofVector).apply(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -59,7 +59,7 @@ public class NormalizeFailTest extends TestCase {
     Tensor vector = Tensors.of(DoubleScalar.NEGATIVE_INFINITY, RealScalar.ONE, DoubleScalar.POSITIVE_INFINITY);
     try {
       Normalize.with(Norm._2::ofVector).apply(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -69,7 +69,7 @@ public class NormalizeFailTest extends TestCase {
     Tensor vector = Tensors.of(RealScalar.ONE, DoubleScalar.INDETERMINATE, RealScalar.ONE);
     try {
       Normalize.with(Norm._2::ofVector).apply(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -78,7 +78,7 @@ public class NormalizeFailTest extends TestCase {
   public void testScalarFail() {
     try {
       Normalize.with(Norm._2::ofVector).apply(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -87,13 +87,13 @@ public class NormalizeFailTest extends TestCase {
   public void testMatrixFail() {
     try {
       Normalize.with(Norm._2::ofVector).apply(Tensors.fromString("{{1,2},{3,4,5}}"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Normalize.with(Norm._2::ofVector).apply(HilbertMatrix.of(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

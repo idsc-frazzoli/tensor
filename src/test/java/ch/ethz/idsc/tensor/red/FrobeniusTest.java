@@ -49,13 +49,13 @@ public class FrobeniusTest extends TestCase {
   public void testVectorFail() {
     try {
       Frobenius.NORM.ofVector(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Frobenius.NORM.ofVector(HilbertMatrix.of(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -64,13 +64,13 @@ public class FrobeniusTest extends TestCase {
   public void testMatrixFail() {
     try {
       Frobenius.NORM.ofMatrix(ComplexScalar.of(2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Frobenius.NORM.ofMatrix(Tensors.vector(1, 2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

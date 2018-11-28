@@ -21,19 +21,19 @@ public class UnmodifiableTensorTest extends TestCase {
     assertEquals(tensor, unmodi);
     try {
       unmodi.set(DoubleScalar.of(.3), 2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       unmodi.append(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       unmodi.set(t -> t.append(RealScalar.ZERO));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -77,7 +77,7 @@ public class UnmodifiableTensorTest extends TestCase {
     Tensor eye = IdentityMatrix.of(3).unmodifiable();
     try {
       eye.set(RealScalar.ZERO, 2, 2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -89,7 +89,7 @@ public class UnmodifiableTensorTest extends TestCase {
     iterator.next();
     try {
       iterator.remove();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

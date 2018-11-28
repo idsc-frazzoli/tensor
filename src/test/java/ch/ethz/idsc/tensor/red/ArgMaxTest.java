@@ -55,7 +55,7 @@ public class ArgMaxTest extends TestCase {
   public void testScalar() {
     try {
       ArgMax.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -64,7 +64,7 @@ public class ArgMaxTest extends TestCase {
   public void testFailMatrix() {
     try {
       ArgMax.of(HilbertMatrix.of(6));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

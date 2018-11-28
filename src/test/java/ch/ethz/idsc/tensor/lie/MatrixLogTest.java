@@ -13,7 +13,7 @@ public class MatrixLogTest extends TestCase {
     Tensor matrix = RandomVariate.of(distribution, 4, 5);
     try {
       MatrixLog.of(matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

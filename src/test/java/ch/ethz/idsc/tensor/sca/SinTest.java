@@ -28,7 +28,7 @@ public class SinTest extends TestCase {
   public void testTypeFail() {
     try {
       Sin.of(StringScalar.of("some"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

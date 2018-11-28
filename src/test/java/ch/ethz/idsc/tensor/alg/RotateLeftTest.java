@@ -19,7 +19,7 @@ public class RotateLeftTest extends TestCase {
   public void testFailNull() {
     try {
       RotateLeft.of(null, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -21,7 +21,7 @@ public class AnimationWriterTest extends TestCase {
   public void testFailExtension() {
     try {
       AnimationWriter.of(new File("asd.bin"), 100); // extension unknown
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

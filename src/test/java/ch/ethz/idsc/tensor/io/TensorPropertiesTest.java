@@ -156,7 +156,7 @@ public class TensorPropertiesTest extends TestCase {
     TensorProperties tensorProperties = TensorProperties.wrap(new ParamContainer());
     try {
       tensorProperties.load(new File("fileDoesNotExist"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -181,7 +181,7 @@ public class TensorPropertiesTest extends TestCase {
     TensorProperties tensorProperties = TensorProperties.wrap(new ParamContainer());
     try {
       tensorProperties.set(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -190,7 +190,7 @@ public class TensorPropertiesTest extends TestCase {
   public void testWrapFail() {
     try {
       TensorProperties.wrap(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

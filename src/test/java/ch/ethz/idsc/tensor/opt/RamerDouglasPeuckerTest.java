@@ -55,7 +55,7 @@ public class RamerDouglasPeuckerTest extends TestCase {
   public void testEpsilonFail() {
     try {
       RamerDouglasPeucker.of(RealScalar.of(-.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -64,25 +64,25 @@ public class RamerDouglasPeuckerTest extends TestCase {
   public void testFail() {
     try {
       RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Tensors.fromString("{{{1},2}}"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       RamerDouglasPeucker.of(RealScalar.of(.1)).apply(LieAlgebras.sl2());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Array.zeros(3, 2, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       RamerDouglasPeucker.of(RealScalar.of(.1)).apply(IdentityMatrix.of(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

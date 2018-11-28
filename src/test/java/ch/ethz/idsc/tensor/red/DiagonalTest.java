@@ -37,7 +37,7 @@ public class DiagonalTest extends TestCase {
   public void testFailScalar() {
     try {
       Diagonal.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       //
     }

@@ -102,7 +102,7 @@ public class TransposedImageFormatTest extends TestCase {
     Tensor array = ListConvolve.of(kernel, tensor);
     try {
       TransposedImageFormat.of(array);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

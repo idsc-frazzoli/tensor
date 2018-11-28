@@ -39,7 +39,7 @@ public class PowerIterationTest extends TestCase {
   public void testRotationFail() {
     try {
       PowerIteration.of(RotationMatrix.of(DoubleScalar.of(.3)));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -48,7 +48,7 @@ public class PowerIterationTest extends TestCase {
   public void testZeroFail() {
     try {
       PowerIteration.of(Array.zeros(3, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

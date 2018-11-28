@@ -49,7 +49,7 @@ public class StrictColorDataIndexedTest extends TestCase {
     Tensor tensor = Tensors.fromString("{{1,2,3},{5,6,7}}");
     try {
       StrictColorDataIndexed.create(tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -60,7 +60,7 @@ public class StrictColorDataIndexedTest extends TestCase {
     ColorDataIndexed colorDataIndexed = StrictColorDataIndexed.create(tensor);
     try {
       colorDataIndexed.getColor(-1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

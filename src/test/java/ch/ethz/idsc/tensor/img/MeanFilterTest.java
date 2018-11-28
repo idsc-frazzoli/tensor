@@ -51,7 +51,7 @@ public class MeanFilterTest extends TestCase {
   public void testScalarFail() {
     try {
       MeanFilter.of(RealScalar.of(3), 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -62,7 +62,7 @@ public class MeanFilterTest extends TestCase {
     matrix.flatten(-1).forEach(RationalScalar.class::cast); // test if parsing went ok
     try {
       MeanFilter.of(matrix, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -71,7 +71,7 @@ public class MeanFilterTest extends TestCase {
   public void testRadiusFail() {
     try {
       MeanFilter.of(Tensors.vector(1, 2, 3, 4), -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

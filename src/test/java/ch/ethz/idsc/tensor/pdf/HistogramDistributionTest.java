@@ -49,7 +49,7 @@ public class HistogramDistributionTest extends TestCase {
     HistogramDistribution.of(Tensors.vector(3, 4));
     try {
       HistogramDistribution.of(Tensors.vector(3, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -206,7 +206,7 @@ public class HistogramDistributionTest extends TestCase {
   public void testFailEmpty() {
     try {
       HistogramDistribution.of(Tensors.empty(), RealScalar.of(2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -215,13 +215,13 @@ public class HistogramDistributionTest extends TestCase {
   public void testFailWidth() {
     try {
       HistogramDistribution.of(Tensors.vector(1, 2, 3), RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       HistogramDistribution.of(Tensors.vector(1, 2, 3), RealScalar.of(-2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

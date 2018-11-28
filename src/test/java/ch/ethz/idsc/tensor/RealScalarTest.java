@@ -95,7 +95,7 @@ public class RealScalarTest extends TestCase {
     Number number = new AtomicInteger(123);
     try {
       RealScalar.of(number);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -104,7 +104,7 @@ public class RealScalarTest extends TestCase {
   public void testNullFail() {
     try {
       RealScalar.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

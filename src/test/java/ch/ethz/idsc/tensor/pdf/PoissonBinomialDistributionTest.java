@@ -38,13 +38,13 @@ public class PoissonBinomialDistributionTest extends TestCase {
   public void testFail() {
     try {
       PoissonBinomialDistribution.of(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       PoissonBinomialDistribution.of(IdentityMatrix.of(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -53,13 +53,13 @@ public class PoissonBinomialDistributionTest extends TestCase {
   public void testFailInvalid() {
     try {
       PoissonBinomialDistribution.of(Tensors.vector(1, 1, 1, 1, 2, 0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       PoissonBinomialDistribution.of(Tensors.vector(1, 1, 1, 1, -1, 1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

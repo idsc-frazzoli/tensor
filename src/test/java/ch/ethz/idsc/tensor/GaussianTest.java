@@ -81,7 +81,7 @@ public class GaussianTest extends TestCase {
   public void testFail() {
     try {
       Gaussian.of(2, -3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -68,7 +68,7 @@ public class Norm2Test extends TestCase {
     Tensor matrix = Tensors.fromString("{{}}");
     try {
       Norm._2.of(matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -77,7 +77,7 @@ public class Norm2Test extends TestCase {
   public void testEmpty() {
     try {
       Norm._2.ofVector(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

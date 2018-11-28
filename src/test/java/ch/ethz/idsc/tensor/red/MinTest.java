@@ -70,13 +70,13 @@ public class MinTest extends TestCase {
     Scalar gauss = GaussScalar.of(1, 3);
     try {
       Min.of(string, gauss);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Min.of(gauss, string);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

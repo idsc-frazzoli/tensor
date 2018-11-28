@@ -77,7 +77,7 @@ public class ComplexQuantityTest extends TestCase {
     Scalar q = Quantity.of(1, "V");
     try {
       c.add(q);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -86,13 +86,13 @@ public class ComplexQuantityTest extends TestCase {
   public void testQuantityFail() {
     try {
       ComplexScalar.of(Quantity.of(3, "m"), RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ComplexScalar.of(RealScalar.ONE, Quantity.of(3, "m"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

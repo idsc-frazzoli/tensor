@@ -40,13 +40,13 @@ public class ArrayPadTest extends TestCase {
     Tensor vector = Tensors.vector(2, 3, -3, 1);
     try {
       ArrayPad.of(vector, Arrays.asList(1), Arrays.asList(-2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ArrayPad.of(vector, Arrays.asList(-1), Arrays.asList(2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

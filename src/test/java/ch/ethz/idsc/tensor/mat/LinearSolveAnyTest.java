@@ -65,7 +65,7 @@ public class LinearSolveAnyTest extends TestCase {
     Tensor b = Tensors.fromString("{1, -2, 1}");
     try {
       LinearSolve.any(m, b);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

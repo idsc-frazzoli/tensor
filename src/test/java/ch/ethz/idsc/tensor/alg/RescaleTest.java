@@ -86,7 +86,7 @@ public class RescaleTest extends TestCase {
   public void testScalarFail() {
     try {
       Rescale.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -96,7 +96,7 @@ public class RescaleTest extends TestCase {
     Tensor vector = Tensors.of(Quantity.of(1, "s"), Quantity.of(2, "m"));
     try {
       Rescale.of(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -106,7 +106,7 @@ public class RescaleTest extends TestCase {
     Tensor vector = Tensors.fromString("{2+I,1+2*I}");
     try {
       Rescale.of(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -8,7 +8,7 @@ public class MatFileFormatTest extends TestCase {
   public void testGet() {
     try {
       MatFileFormat.parse(new byte[] { 1, 2, 3 });
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -17,7 +17,7 @@ public class MatFileFormatTest extends TestCase {
   public void testPut() {
     try {
       MatFileFormat.of(Tensors.vector(2, 3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

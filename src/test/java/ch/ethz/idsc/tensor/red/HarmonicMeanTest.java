@@ -19,7 +19,7 @@ public class HarmonicMeanTest extends TestCase {
   public void testEmpty() {
     try {
       HarmonicMean.ofVector(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -28,7 +28,7 @@ public class HarmonicMeanTest extends TestCase {
   public void testZero() {
     try {
       HarmonicMean.ofVector(Tensors.vector(3, 0, 2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -37,7 +37,7 @@ public class HarmonicMeanTest extends TestCase {
   public void testScalarFail() {
     try {
       HarmonicMean.ofVector(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -46,7 +46,7 @@ public class HarmonicMeanTest extends TestCase {
   public void testMatrixFail() {
     try {
       HarmonicMean.ofVector(HilbertMatrix.of(4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

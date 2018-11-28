@@ -30,7 +30,7 @@ public class RampTest extends TestCase {
     Scalar scalar = Gaussian.of(2, 3);
     try {
       Ramp.FUNCTION.apply(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

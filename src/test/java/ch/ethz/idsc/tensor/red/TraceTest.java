@@ -55,13 +55,13 @@ public class TraceTest extends TestCase {
   public void testEmpty() {
     try {
       Trace.of(Tensors.empty()); // mathematica gives 0 == Tr[{}]
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Trace.of(Tensors.fromString("{{}}")); // mathematica gives 0 == Tr[{{}}]
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -70,19 +70,19 @@ public class TraceTest extends TestCase {
   public void testDimensionsFail() {
     try {
       Trace.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Trace.of(Tensors.vector(1, 2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Trace.of(LieAlgebras.sl2());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -91,7 +91,7 @@ public class TraceTest extends TestCase {
   public void testParamFail() {
     try {
       Trace.of(HilbertMatrix.of(3, 3), 0, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -100,7 +100,7 @@ public class TraceTest extends TestCase {
   public void testFormatFail() {
     try {
       Trace.of(HilbertMatrix.of(3, 4), 0, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -42,13 +42,13 @@ public class QuantityCompareTest extends TestCase {
     assertFalse(q1.equals(q2));
     try {
       Scalars.compare(q1, q2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Scalars.compare(RealScalar.ZERO, q2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -86,7 +86,7 @@ public class QuantityCompareTest extends TestCase {
   public void testCompareFail() {
     try {
       _checkCompareTo(Quantity.of(2, "m"), Quantity.of(2, "kg"), Integer.compare(2, 2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -95,7 +95,7 @@ public class QuantityCompareTest extends TestCase {
   public void testCompareFail2() {
     try {
       DoubleScalar.of(3.14).compareTo(Quantity.of(0, "m*s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

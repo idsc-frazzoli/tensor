@@ -68,7 +68,7 @@ public class QuantityAdditiveTest extends TestCase {
     try {
       Quantity.of(2, "m").add( //
           Quantity.of(2, "kg"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -76,7 +76,7 @@ public class QuantityAdditiveTest extends TestCase {
       _checkPlusSymmetry( //
           Quantity.of(ComplexScalar.of(1, 2), "m"), //
           Quantity.of(2, "kg"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

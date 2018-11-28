@@ -108,7 +108,7 @@ public class MatrixLog2Test extends TestCase {
     Tensor matrix = RandomVariate.of(distribution, 2, 3);
     try {
       MatrixLog.of(matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

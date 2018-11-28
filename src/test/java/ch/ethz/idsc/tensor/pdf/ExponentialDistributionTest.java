@@ -72,13 +72,13 @@ public class ExponentialDistributionTest extends TestCase {
   public void testFailL() {
     try {
       ExponentialDistribution.of(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ExponentialDistribution.of(RealScalar.of(-.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -145,7 +145,7 @@ public class ExponentialDistributionTest extends TestCase {
     InverseCDF inverseCDF = InverseCDF.of(ExponentialDistribution.of(Quantity.of(3, "")));
     try {
       inverseCDF.quantile(RealScalar.of(1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

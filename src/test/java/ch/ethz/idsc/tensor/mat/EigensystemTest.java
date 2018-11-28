@@ -28,7 +28,7 @@ public class EigensystemTest extends TestCase {
     assertTrue(SymmetricMatrixQ.of(matrix));
     try {
       Eigensystem.ofSymmetric(matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -37,7 +37,7 @@ public class EigensystemTest extends TestCase {
   public void testNonSymmetricFail() {
     try {
       Eigensystem.ofSymmetric(Tensors.fromString("{{1,2},{3,4}}"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

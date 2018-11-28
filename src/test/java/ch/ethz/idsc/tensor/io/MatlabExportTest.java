@@ -76,7 +76,7 @@ public class MatlabExportTest extends TestCase {
     Tensor tensor = Tensors.fromString("{{1,2},{3,4,5}}");
     try {
       MatlabExport.of(tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

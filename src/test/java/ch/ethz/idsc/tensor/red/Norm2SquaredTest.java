@@ -31,7 +31,7 @@ public class Norm2SquaredTest extends TestCase {
   public void testEmpty() {
     try {
       Norm2Squared.ofVector(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

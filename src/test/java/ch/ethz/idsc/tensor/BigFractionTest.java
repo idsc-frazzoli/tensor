@@ -24,7 +24,7 @@ public class BigFractionTest extends TestCase {
   public void testDenZero() {
     try {
       BigFraction.of(3, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

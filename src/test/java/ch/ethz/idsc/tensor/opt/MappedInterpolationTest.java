@@ -16,7 +16,7 @@ public class MappedInterpolationTest extends TestCase {
   public void testFailNull() {
     try {
       MappedInterpolation.of(null, Floor::of);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -25,7 +25,7 @@ public class MappedInterpolationTest extends TestCase {
   public void testFailFunctionNull() {
     try {
       MappedInterpolation.of(Tensors.vector(3, 4, 5), null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

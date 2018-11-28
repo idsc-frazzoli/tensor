@@ -23,7 +23,7 @@ public class ArcTanhTest extends TestCase {
     Scalar scalar = Gaussian.of(2, 3);
     try {
       ArcTanh.FUNCTION.apply(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

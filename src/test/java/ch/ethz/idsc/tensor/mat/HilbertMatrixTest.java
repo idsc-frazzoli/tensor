@@ -23,13 +23,13 @@ public class HilbertMatrixTest extends TestCase {
   public void testFail() {
     try {
       HilbertMatrix.of(0, 4);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       HilbertMatrix.of(4, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

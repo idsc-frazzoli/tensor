@@ -21,7 +21,7 @@ public class MultinomialTest extends TestCase {
   public void testDerivativeScalarFail() {
     try {
       Multinomial.derivative(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

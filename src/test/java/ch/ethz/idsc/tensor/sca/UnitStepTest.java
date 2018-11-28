@@ -25,7 +25,7 @@ public class UnitStepTest extends TestCase {
     Scalar scalar = GaussScalar.of(2, 7);
     try {
       UnitStep.FUNCTION.apply(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

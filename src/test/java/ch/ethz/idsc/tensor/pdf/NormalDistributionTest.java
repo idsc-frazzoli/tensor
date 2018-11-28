@@ -70,7 +70,7 @@ public class NormalDistributionTest extends TestCase {
   public void testQuantityFail() {
     try {
       NormalDistribution.of(Quantity.of(3, "m"), Quantity.of(2, "km"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -80,7 +80,7 @@ public class NormalDistributionTest extends TestCase {
     NormalDistribution.of(5, 1);
     try {
       NormalDistribution.of(5, -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

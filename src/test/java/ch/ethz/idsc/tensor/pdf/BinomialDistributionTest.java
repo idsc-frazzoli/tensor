@@ -201,13 +201,13 @@ public class BinomialDistributionTest extends TestCase {
   public void testFailN() {
     try {
       BinomialDistribution.of(-1, RationalScalar.of(1, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       BinomialDistribution.of(RealScalar.of(0.3), RationalScalar.of(1, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -217,14 +217,14 @@ public class BinomialDistributionTest extends TestCase {
     BinomialDistribution.of(3, RealScalar.ZERO);
     try {
       BinomialDistribution.of(10, RationalScalar.of(-1, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     BinomialDistribution.of(3, RealScalar.ONE);
     try {
       BinomialDistribution.of(10, RationalScalar.of(4, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

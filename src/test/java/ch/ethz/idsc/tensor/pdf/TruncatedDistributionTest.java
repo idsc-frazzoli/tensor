@@ -33,7 +33,7 @@ public class TruncatedDistributionTest extends TestCase {
     Distribution distribution = TruncatedDistribution.of(NormalDistribution.of(-100, .2), clip);
     try {
       RandomVariate.of(distribution);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

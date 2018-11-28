@@ -32,7 +32,7 @@ public class SchattenNormTest extends TestCase {
     normInterface.ofMatrix(matrix);
     try {
       normInterface.ofMatrix(LieAlgebras.so3());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

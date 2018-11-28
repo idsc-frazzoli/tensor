@@ -44,7 +44,7 @@ public class AccumulateTest extends TestCase {
   public void testScalarFail() {
     try {
       Accumulate.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -53,7 +53,7 @@ public class AccumulateTest extends TestCase {
   public void testScalarProdFail() {
     try {
       Accumulate.prod(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -62,7 +62,7 @@ public class AccumulateTest extends TestCase {
   public void testNullFail() {
     try {
       Accumulate.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -71,7 +71,7 @@ public class AccumulateTest extends TestCase {
   public void testNullProdFail() {
     try {
       Accumulate.prod(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

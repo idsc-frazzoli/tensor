@@ -16,7 +16,7 @@ public class AbsSquaredTest extends TestCase {
   public void testFail() {
     try {
       AbsSquared.FUNCTION.apply(StringScalar.of("idsc"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

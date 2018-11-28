@@ -61,7 +61,7 @@ public class ListCorrelateTest extends TestCase {
     Tensor tensor = Tensors.vector(4, 5);
     try {
       ListCorrelate.of(kernel, tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -72,7 +72,7 @@ public class ListCorrelateTest extends TestCase {
     Tensor tensor = Tensors.fromString("{{1,2}}");
     try {
       ListCorrelate.of(kernel, tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -83,7 +83,7 @@ public class ListCorrelateTest extends TestCase {
     Tensor tensor = Tensors.fromString("{{1,2,3}}");
     try {
       ListCorrelate.of(kernel, tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -94,7 +94,7 @@ public class ListCorrelateTest extends TestCase {
     Tensor tensor = RealScalar.ONE;
     try {
       ListCorrelate.of(kernel, tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -107,7 +107,7 @@ public class ListCorrelateTest extends TestCase {
         { 0, 1, -1, 3, 3 } });
     try {
       ListCorrelate.of(kernel, matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

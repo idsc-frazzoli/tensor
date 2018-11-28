@@ -51,7 +51,7 @@ public class TallyTest extends TestCase {
   public void testFail() {
     try {
       Tally.of(RealScalar.of(3.1234));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -31,7 +31,7 @@ public class ArrayQTest extends TestCase {
   public void testNullFail() {
     try {
       ArrayQ.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

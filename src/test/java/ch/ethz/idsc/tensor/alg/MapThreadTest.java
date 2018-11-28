@@ -17,7 +17,7 @@ public class MapThreadTest extends TestCase {
     assertEquals(MapThread.of(l -> l.get(0), Collections.emptyList(), 2), Tensors.empty());
     try {
       MapThread.of(l -> l.get(0), Collections.emptyList(), 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -33,7 +33,7 @@ public class MapThreadTest extends TestCase {
     MapThread.of(l -> ComplexScalar.I, list, 0);
     try {
       MapThread.of(l -> ComplexScalar.I, list, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

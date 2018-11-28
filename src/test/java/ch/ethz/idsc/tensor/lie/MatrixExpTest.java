@@ -129,13 +129,13 @@ public class MatrixExpTest extends TestCase {
   public void testFail() {
     try {
       MatrixExp.of(Array.zeros(4, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       MatrixExp.of(Array.zeros(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -144,7 +144,7 @@ public class MatrixExpTest extends TestCase {
   public void testEmptyFail() {
     try {
       MatrixExp.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

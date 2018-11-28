@@ -70,13 +70,13 @@ public class MaxTest extends TestCase {
     Scalar gauss = GaussScalar.of(1, 3);
     try {
       Max.of(string, gauss);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Max.of(gauss, string);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

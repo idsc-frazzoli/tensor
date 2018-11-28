@@ -28,7 +28,7 @@ public class UnitsTest extends TestCase {
   public void testNullFail() {
     try {
       Units.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

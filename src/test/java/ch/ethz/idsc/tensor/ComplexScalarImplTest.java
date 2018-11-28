@@ -45,7 +45,7 @@ public class ComplexScalarImplTest extends TestCase {
     Scalar c2 = ComplexScalar.of(-2, 9);
     try {
       ComplexScalar.of(c1, c2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

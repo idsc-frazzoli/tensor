@@ -46,13 +46,13 @@ public class LieAlgebrasTest extends TestCase {
   public void testBracketVectorFail() {
     try {
       LieAlgebras.bracketMatrix(Tensors.empty(), Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       LieAlgebras.bracketMatrix(Tensors.vector(1, 2), Tensors.vector(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -63,13 +63,13 @@ public class LieAlgebrasTest extends TestCase {
     Tensor y = Tensors.vector(3, 4);
     try {
       LieAlgebras.bracketMatrix(x, y);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       LieAlgebras.bracketMatrix(y, x);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -78,7 +78,7 @@ public class LieAlgebrasTest extends TestCase {
   public void testBracketAdFail() {
     try {
       LieAlgebras.bracketMatrix(LieAlgebras.so3(), LieAlgebras.so3());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -89,13 +89,13 @@ public class LieAlgebrasTest extends TestCase {
     Tensor y = Tensors.vector(1, 2, 3);
     try {
       LieAlgebras.bracketMatrix(x, y);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       LieAlgebras.bracketMatrix(y, x);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

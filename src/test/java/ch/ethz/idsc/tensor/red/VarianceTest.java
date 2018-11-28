@@ -41,7 +41,7 @@ public class VarianceTest extends TestCase {
   public void testFailScalar() {
     try {
       Variance.ofVector(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -50,13 +50,13 @@ public class VarianceTest extends TestCase {
   public void testFailLength() {
     try {
       Variance.ofVector(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Variance.ofVector(Tensors.vector(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -65,7 +65,7 @@ public class VarianceTest extends TestCase {
   public void testFailMatrix() {
     try {
       Variance.ofVector(HilbertMatrix.of(5));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

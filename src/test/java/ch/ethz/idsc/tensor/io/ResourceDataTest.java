@@ -17,7 +17,7 @@ public class ResourceDataTest extends TestCase {
   private static void _checkColorscheme(Interpolation interpolation) {
     try {
       interpolation.get(Tensors.vector(256));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

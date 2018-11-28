@@ -38,7 +38,7 @@ public class CoshTest extends TestCase {
   public void testFail() {
     try {
       Cosh.of(GaussScalar.of(6, 7));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

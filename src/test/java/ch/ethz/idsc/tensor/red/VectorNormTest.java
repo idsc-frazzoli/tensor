@@ -64,7 +64,7 @@ public class VectorNormTest extends TestCase {
   public void testNormPFail() {
     try {
       VectorNorm.with(0.99).ofVector(Tensors.vector(1, 2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -74,7 +74,7 @@ public class VectorNormTest extends TestCase {
     VectorNormInterface vni = VectorNorm.with(2.6);
     try {
       vni.ofVector(IdentityMatrix.of(2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -84,7 +84,7 @@ public class VectorNormTest extends TestCase {
     VectorNormInterface vni = VectorNorm.with(2.6);
     try {
       vni.ofVector(RealScalar.of(12));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

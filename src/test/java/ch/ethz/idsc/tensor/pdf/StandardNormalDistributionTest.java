@@ -38,13 +38,13 @@ public class StandardNormalDistributionTest extends TestCase {
     InverseCDF inverseCDF = InverseCDF.of(distribution);
     try {
       inverseCDF.quantile(RealScalar.of(1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       inverseCDF.quantile(RealScalar.of(-0.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -126,13 +126,13 @@ public class QuaternionTest extends TestCase {
     Scalar quantity = Quantity.of(1, "m");
     try {
       quaternion.add(quantity);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       quantity.add(quaternion);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -181,7 +181,7 @@ public class QuaternionTest extends TestCase {
     Scalar quaternion = Quaternion.of(1, 3, -2, 2);
     try {
       quaternion.number();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

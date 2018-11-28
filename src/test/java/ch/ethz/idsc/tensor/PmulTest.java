@@ -50,7 +50,7 @@ public class PmulTest extends TestCase {
   public void testFail() {
     try {
       Tensors.vector(1, 2, 3).pmul(Tensors.vector(1, 2, 3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -30,7 +30,7 @@ public class ParzenWindowTest extends TestCase {
   public void testQuantityFail() {
     try {
       ParzenWindow.FUNCTION.apply(Quantity.of(2, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

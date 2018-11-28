@@ -78,7 +78,7 @@ public class ExpectationTest extends TestCase {
   public void testFail() {
     try {
       Expectation.of(s -> s, NormalDistribution.standard());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -88,7 +88,7 @@ public class ExpectationTest extends TestCase {
     Distribution distribution = GompertzMakehamDistribution.of(RealScalar.of(1), RealScalar.of(2));
     try {
       Expectation.mean(distribution);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

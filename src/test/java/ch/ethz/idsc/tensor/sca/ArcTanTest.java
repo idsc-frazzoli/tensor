@@ -122,19 +122,19 @@ public class ArcTanTest extends TestCase {
   public void testQuantityFail() {
     try {
       ArcTan.of(Quantity.of(12, "m"), Quantity.of(4, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ArcTan.of(Quantity.of(12, "m"), RealScalar.of(4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ArcTan.of(RealScalar.of(12), Quantity.of(4, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -143,7 +143,7 @@ public class ArcTanTest extends TestCase {
   public void testFail() {
     try {
       ArcTan.of(RealScalar.of(5), GaussScalar.of(1, 7));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

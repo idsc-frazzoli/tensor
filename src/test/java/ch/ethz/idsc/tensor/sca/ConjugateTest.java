@@ -27,7 +27,7 @@ public class ConjugateTest extends TestCase {
   public void testFail() {
     try {
       Conjugate.of(StringScalar.of("asd"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

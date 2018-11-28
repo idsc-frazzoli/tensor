@@ -26,13 +26,13 @@ public class HankelTensorTest extends TestCase {
   public void testFailVector() {
     try {
       HankelTensor.of(RealScalar.ONE, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       HankelTensor.of(Tensors.fromString("{{1,2}}"), 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -41,7 +41,7 @@ public class HankelTensorTest extends TestCase {
   public void testFailRank() {
     try {
       HankelTensor.of(Tensors.vector(1, 2, 3, 4, 5, 6), 2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

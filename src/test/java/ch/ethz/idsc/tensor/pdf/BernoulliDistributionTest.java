@@ -57,13 +57,13 @@ public class BernoulliDistributionTest extends TestCase {
   public void testFailP() {
     try {
       BernoulliDistribution.of(RationalScalar.of(-1, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       BernoulliDistribution.of(RationalScalar.of(4, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

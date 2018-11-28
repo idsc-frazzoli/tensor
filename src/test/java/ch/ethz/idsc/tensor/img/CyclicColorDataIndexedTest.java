@@ -41,7 +41,7 @@ public class CyclicColorDataIndexedTest extends TestCase {
     Tensor tensor = Tensors.fromString("{{1,2,3},{5,6,7}}");
     try {
       CyclicColorDataIndexed.create(tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

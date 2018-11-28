@@ -30,7 +30,7 @@ public class Norm1Test extends TestCase {
   public void testFail() {
     try {
       Norm._1.ofVector(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

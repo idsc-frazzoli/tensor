@@ -56,7 +56,7 @@ public class SortTest extends TestCase {
         Quantity.of(-3, "m"), Quantity.of(0, "s"), RealScalar.ZERO);
     try {
       Sort.of(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -65,7 +65,7 @@ public class SortTest extends TestCase {
   public void testFail() {
     try {
       Sort.of(RealScalar.of(3.12));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

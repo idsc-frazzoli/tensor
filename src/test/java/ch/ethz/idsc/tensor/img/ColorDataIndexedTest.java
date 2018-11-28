@@ -16,7 +16,7 @@ public class ColorDataIndexedTest extends TestCase {
     ColorDataIndexed colorDataIndexed = ColorDataLists._058.cyclic();
     try {
       colorDataIndexed.apply(ComplexScalar.of(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -25,13 +25,13 @@ public class ColorDataIndexedTest extends TestCase {
   public void testDeriveFail() {
     try {
       ColorDataLists._250.cyclic().deriveWithAlpha(256);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ColorDataLists._250.cyclic().deriveWithAlpha(-1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

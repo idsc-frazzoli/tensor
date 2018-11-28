@@ -32,13 +32,13 @@ public class QuantileTest extends TestCase {
     Tensor vector = Tensors.vector(0, 2, 1, 4, 3);
     try {
       Quantile.ofSorted(vector, RealScalar.of(1.01));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Quantile.ofSorted(vector, RealScalar.of(-0.01));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -54,7 +54,7 @@ public class QuantileTest extends TestCase {
     Scalar qs4 = Quantity.of(2, "s");
     try {
       Sort.of(Tensors.of(qs1, qs4)); // comparison fails
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -75,7 +75,7 @@ public class QuantileTest extends TestCase {
     Tensor weight = Tensors.of(RealScalar.ONE, ComplexScalar.of(1, 2));
     try {
       Quantile.of(tensor, weight);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -86,7 +86,7 @@ public class QuantileTest extends TestCase {
     Tensor weight = Tensors.of(Quantity.of(0.2, "m"));
     try {
       Quantile.of(tensor, weight);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

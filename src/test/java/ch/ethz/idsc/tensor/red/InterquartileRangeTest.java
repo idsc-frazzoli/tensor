@@ -51,13 +51,13 @@ public class InterquartileRangeTest extends TestCase {
   public void testFail() {
     try {
       InterquartileRange.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       InterquartileRange.of(HilbertMatrix.of(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -28,7 +28,7 @@ public class RealTest extends TestCase {
     Scalar scalar = StringScalar.of("string");
     try {
       Real.of(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

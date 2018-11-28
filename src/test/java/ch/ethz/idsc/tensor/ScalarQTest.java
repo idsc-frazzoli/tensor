@@ -20,7 +20,7 @@ public class ScalarQTest extends TestCase {
     ScalarQ.thenThrow(Tensors.vector(1, 2, 3));
     try {
       ScalarQ.thenThrow(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

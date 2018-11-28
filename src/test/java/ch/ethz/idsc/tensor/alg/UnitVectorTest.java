@@ -12,31 +12,31 @@ public class UnitVectorTest extends TestCase {
   public void testFail() {
     try {
       UnitVector.of(0, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       UnitVector.of(-1, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       UnitVector.of(3, -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       UnitVector.of(3, 4);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       UnitVector.of(10, 10);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

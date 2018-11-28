@@ -15,7 +15,7 @@ public class IdentityMatrixTest extends TestCase {
   public void testFailZero() {
     try {
       IdentityMatrix.of(0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -24,7 +24,7 @@ public class IdentityMatrixTest extends TestCase {
   public void testFailNegative() {
     try {
       IdentityMatrix.of(-3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -33,7 +33,7 @@ public class IdentityMatrixTest extends TestCase {
   public void testFailOneZero() {
     try {
       IdentityMatrix.of(0, Quantity.of(1, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -42,7 +42,7 @@ public class IdentityMatrixTest extends TestCase {
   public void testFailOneNegative() {
     try {
       IdentityMatrix.of(-3, Quantity.of(1, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

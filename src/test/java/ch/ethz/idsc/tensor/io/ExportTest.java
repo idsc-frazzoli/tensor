@@ -127,7 +127,7 @@ public class ExportTest extends TestCase {
     assertFalse(file.exists());
     try {
       Export.of(file, Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -139,7 +139,7 @@ public class ExportTest extends TestCase {
     assertFalse(file.exists());
     try {
       Export.of(file, Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

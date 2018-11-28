@@ -29,13 +29,13 @@ public class CauchyTensorTest extends TestCase {
   public void testFail() {
     try {
       CauchyTensor.of(RealScalar.ONE, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       CauchyTensor.of(Tensors.fromString("{{1,2}}"), 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

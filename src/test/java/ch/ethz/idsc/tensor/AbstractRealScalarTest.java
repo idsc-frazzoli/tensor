@@ -25,13 +25,13 @@ public class AbstractRealScalarTest extends TestCase {
   public void testPowerFail() {
     try {
       Power.of(0, GaussScalar.of(2, 7));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Power.of(1, GaussScalar.of(2, 7));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

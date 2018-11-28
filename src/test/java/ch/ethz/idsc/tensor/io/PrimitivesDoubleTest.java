@@ -58,7 +58,7 @@ public class PrimitivesDoubleTest extends TestCase {
   public void testToDoubleArray2Dscalar() {
     try {
       Primitives.toDoubleArray2D(RealScalar.of(123.456));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

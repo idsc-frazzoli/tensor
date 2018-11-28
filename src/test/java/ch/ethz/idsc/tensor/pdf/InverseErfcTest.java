@@ -34,7 +34,7 @@ public class InverseErfcTest extends TestCase {
     InverseCDF icdf = (InverseCDF) NormalDistribution.of(2, 8);
     try {
       icdf.quantile(RealScalar.of(1.5));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

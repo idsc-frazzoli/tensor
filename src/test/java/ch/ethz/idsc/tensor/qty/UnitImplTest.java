@@ -24,7 +24,7 @@ public class UnitImplTest extends TestCase {
     Unit unit = Unit.of("kg^2*m^-1");
     try {
       unit.map().clear();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

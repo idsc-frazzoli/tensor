@@ -38,7 +38,7 @@ public class TableBuilderTest extends TestCase {
     Tensor t1 = tb.toTable();
     try {
       t1.set(RealScalar.of(99), 0, 2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -49,7 +49,7 @@ public class TableBuilderTest extends TestCase {
     TableBuilder tableBuilder = new TableBuilder();
     try {
       tableBuilder.appendRow((Tensor[]) null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

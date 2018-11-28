@@ -25,13 +25,13 @@ public class ProjectionTest extends TestCase {
   public void testZero() {
     try {
       Projection.on(Tensors.vector(0, 0, 0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Projection.on(Tensors.vector(0.0, 0, 0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

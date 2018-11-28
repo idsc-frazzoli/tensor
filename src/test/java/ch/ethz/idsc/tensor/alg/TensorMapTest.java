@@ -22,7 +22,7 @@ public class TensorMapTest extends TestCase {
         s.set(RealScalar.ONE, 0);
         return s;
       }, matrix, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

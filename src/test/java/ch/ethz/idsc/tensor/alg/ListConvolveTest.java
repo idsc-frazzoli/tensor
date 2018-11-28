@@ -67,7 +67,7 @@ public class ListConvolveTest extends TestCase {
         { 0, 1, -1, 3, 3 } });
     try {
       ListConvolve.of(kernel, matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -99,7 +99,7 @@ public class FloorTest extends TestCase {
   public void testTypeFail() {
     try {
       Floor.of(StringScalar.of("some"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

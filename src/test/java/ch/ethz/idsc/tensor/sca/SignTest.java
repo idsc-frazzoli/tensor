@@ -77,13 +77,13 @@ public class SignTest extends TestCase {
     Sign.requirePositiveOrZero(Quantity.of(2, "m*s^-2"));
     try {
       Sign.requirePositiveOrZero(RealScalar.ONE.negate());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Sign.requirePositiveOrZero(DoubleScalar.INDETERMINATE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -94,19 +94,19 @@ public class SignTest extends TestCase {
     Sign.requirePositive(Quantity.of(2, "m*s^-2"));
     try {
       Sign.requirePositive(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Sign.requirePositive(RealScalar.ONE.negate());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Sign.requirePositive(DoubleScalar.INDETERMINATE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -115,19 +115,19 @@ public class SignTest extends TestCase {
   private static void _checkFail(Scalar value) {
     try {
       Sign.of(value);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Sign.isPositive(value);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Sign.isNegative(value);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

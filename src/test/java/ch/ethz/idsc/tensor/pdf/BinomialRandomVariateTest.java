@@ -51,7 +51,7 @@ public class BinomialRandomVariateTest extends TestCase {
   public void testPDFFail() {
     try {
       PDF.of(BinomialDistribution.of(1200, DoubleScalar.of(.5)));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -60,7 +60,7 @@ public class BinomialRandomVariateTest extends TestCase {
   public void testCDFFail() {
     try {
       CDF.of(BinomialDistribution.of(1200, DoubleScalar.of(.5)));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

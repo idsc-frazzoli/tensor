@@ -19,7 +19,7 @@ public class QuantityImplTest extends TestCase {
     try {
       Scalar scalar = Quantity.of(10, "m");
       Scalars.intValueExact(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

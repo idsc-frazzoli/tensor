@@ -63,7 +63,7 @@ public class MedianFilterTest extends TestCase {
   public void testScalarFail() {
     try {
       MedianFilter.of(RealScalar.of(3), 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -72,7 +72,7 @@ public class MedianFilterTest extends TestCase {
   public void testRadiusFail() {
     try {
       MedianFilter.of(Tensors.vector(1, 2, 3, 4), -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

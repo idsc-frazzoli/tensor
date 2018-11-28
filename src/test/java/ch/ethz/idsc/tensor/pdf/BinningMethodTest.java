@@ -41,7 +41,7 @@ public class BinningMethodTest extends TestCase {
     for (BinningMethod binningMethod : BinningMethod.values())
       try {
         binningMethod.apply(Tensors.empty());
-        assertTrue(false);
+        fail();
       } catch (Exception exception) {
         // ---
       }

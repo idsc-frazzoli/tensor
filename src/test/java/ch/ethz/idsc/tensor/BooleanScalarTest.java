@@ -38,7 +38,7 @@ public class BooleanScalarTest extends TestCase {
     assertEquals(BooleanScalar.TRUE.reciprocal(), BooleanScalar.TRUE);
     try {
       BooleanScalar.FALSE.reciprocal();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

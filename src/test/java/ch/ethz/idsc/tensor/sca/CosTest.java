@@ -26,7 +26,7 @@ public class CosTest extends TestCase {
   public void testTypeFail() {
     try {
       Cos.of(StringScalar.of("some"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

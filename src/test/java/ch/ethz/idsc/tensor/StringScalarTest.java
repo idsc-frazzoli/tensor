@@ -34,31 +34,31 @@ public class StringScalarTest extends TestCase {
   public void testFailOp() {
     try {
       StringScalar.of("asd").reciprocal();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       StringScalar.of("asd").negate();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       StringScalar.of("asd").number();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       StringScalar.of("asd").multiply(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       StringScalar.of("asd").add(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -67,7 +67,7 @@ public class StringScalarTest extends TestCase {
   public void testMultiplyFail() {
     try {
       ComplexScalar.I.multiply(StringScalar.of("asd"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -76,7 +76,7 @@ public class StringScalarTest extends TestCase {
   public void testFail() {
     try {
       StringScalar.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

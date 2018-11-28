@@ -48,7 +48,7 @@ public class LogTest extends TestCase {
     Scalar scalar = GaussScalar.of(6, 7);
     try {
       Log.of(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

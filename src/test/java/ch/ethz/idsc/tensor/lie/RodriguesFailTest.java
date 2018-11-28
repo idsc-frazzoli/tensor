@@ -18,7 +18,7 @@ public class RodriguesFailTest extends TestCase {
     Tensor eyestr = Tensors.matrix((i, j) -> i.equals(j) ? one : one.zero(), 3, 4);
     try {
       Rodrigues.logMatrix(eyestr);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -30,7 +30,7 @@ public class RodriguesFailTest extends TestCase {
     assertTrue(OrthogonalMatrixQ.of(orthog));
     try {
       Rodrigues.logMatrix(orthog);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -39,19 +39,19 @@ public class RodriguesFailTest extends TestCase {
   public void testFail() {
     try {
       Rodrigues.exp(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Rodrigues.exp(Tensors.vector(0, 0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Rodrigues.exp(Tensors.vector(0, 0, 0, 0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -61,7 +61,7 @@ public class RodriguesFailTest extends TestCase {
     Tensor matrix = RandomVariate.of(NormalDistribution.standard(), 3, 3);
     try {
       Rodrigues.log(matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -70,19 +70,19 @@ public class RodriguesFailTest extends TestCase {
   public void testLogFail() {
     try {
       Rodrigues.logMatrix(Array.zeros(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Rodrigues.logMatrix(Array.zeros(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Rodrigues.logMatrix(LieAlgebras.sl2());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

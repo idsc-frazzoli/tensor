@@ -51,7 +51,7 @@ public class ImageCropTest extends TestCase {
     TensorUnaryOperator tensorUnaryOperator = ImageCrop.color(RealScalar.ONE);
     try {
       tensorUnaryOperator.apply(Tensors.vector(1, 2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -198,7 +198,7 @@ public class DeBoorTest extends TestCase {
   public void testKnotsScalarFail() {
     try {
       DeBoor.of(RealScalar.ONE, Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -207,7 +207,7 @@ public class DeBoorTest extends TestCase {
   public void testKnotsMatrixFail() {
     try {
       DeBoor.of(HilbertMatrix.of(2), Tensors.vector(1, 2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -218,7 +218,7 @@ public class DeBoorTest extends TestCase {
       if (length != 2)
         try {
           DeBoor.of(Tensors.vector(1, 2), Range.of(0, length));
-          assertTrue(false);
+          fail();
         } catch (Exception exception) {
           // ---
         }

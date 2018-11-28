@@ -29,7 +29,7 @@ public class SoftmaxLayerTest extends TestCase {
   public void testEmptyFail() {
     try {
       SoftmaxLayer.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -38,7 +38,7 @@ public class SoftmaxLayerTest extends TestCase {
   public void testScalarFail() {
     try {
       SoftmaxLayer.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

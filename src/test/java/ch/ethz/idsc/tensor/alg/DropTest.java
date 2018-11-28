@@ -22,13 +22,13 @@ public class DropTest extends TestCase {
     Drop.head(Tensors.vector(1, 2), 2);
     try {
       Drop.head(Tensors.vector(1, 2), 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Drop.head(Tensors.vector(1, 2), -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -40,13 +40,13 @@ public class DropTest extends TestCase {
     Drop.tail(Tensors.vector(1, 2), 2);
     try {
       Drop.tail(Tensors.vector(1, 2), 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Drop.tail(Tensors.vector(1, 2), -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -48,20 +48,20 @@ public class ColorDataGradientsTest extends TestCase {
       } else {
         try {
           cdf.apply(RealScalar.of(-0.1));
-          assertTrue(false);
+          fail();
         } catch (Exception exception) {
           // ---
         }
         try {
           cdf.apply(RealScalar.of(1.1));
-          assertTrue(false);
+          fail();
         } catch (Exception exception) {
           // ---
         }
       }
       try {
         cdf.apply(ComplexScalar.of(0.5, 0.5));
-        assertTrue(false);
+        fail();
       } catch (Exception exception) {
         // ---
       }

@@ -22,7 +22,7 @@ public class DeleteDuplicatesTest extends TestCase {
   public void testScalar() {
     try {
       DeleteDuplicates.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

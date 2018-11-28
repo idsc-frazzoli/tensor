@@ -72,14 +72,14 @@ public class TensorSetTest extends TestCase {
     Tensor c = a.copy();
     try {
       a.set(Tensors.vector(5, 6, 7, 8, 9), Tensor.ALL);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     assertEquals(a, c);
     try {
       a.set(Tensors.vector(5, 6, 7), Tensor.ALL);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -157,7 +157,7 @@ public class TensorSetTest extends TestCase {
     Tensor vector = Tensors.vector(2, 3, 4);
     try {
       vector.set(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -167,7 +167,7 @@ public class TensorSetTest extends TestCase {
     Tensor vector = Tensors.vector(2, 3, 4);
     try {
       vector.set(t -> RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

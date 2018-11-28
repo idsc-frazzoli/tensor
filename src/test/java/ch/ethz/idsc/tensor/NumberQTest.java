@@ -64,7 +64,7 @@ public class NumberQTest extends TestCase {
   public void testRequireFail() {
     try {
       NumberQ.require(Quantity.of(6, "apples"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

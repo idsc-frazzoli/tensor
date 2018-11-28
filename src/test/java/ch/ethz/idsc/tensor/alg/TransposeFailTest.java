@@ -12,13 +12,13 @@ public class TransposeFailTest extends TestCase {
     Tensor v = DoubleScalar.NEGATIVE_INFINITY;
     try {
       Transpose.of(v);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Transpose.of(v, new Integer[] { 2 });
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -27,7 +27,7 @@ public class TransposeFailTest extends TestCase {
   public void testVectorFail() {
     try {
       Transpose.of(Tensors.vector(2, 3, 4, 5));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -38,7 +38,7 @@ public class TransposeFailTest extends TestCase {
     assertEquals(Transpose.of(empty2), Tensors.empty());
     try {
       Transpose.of(Transpose.of(empty2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -48,13 +48,13 @@ public class TransposeFailTest extends TestCase {
     Transpose.of(LieAlgebras.so3(), 1, 2, 0);
     try {
       Transpose.of(LieAlgebras.so3(), 1, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Transpose.of(LieAlgebras.so3(), 3, 2, 1, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -63,19 +63,19 @@ public class TransposeFailTest extends TestCase {
   public void testFail() {
     try {
       Transpose.nonArray(Array.zeros(2, 3), 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Transpose.nonArray(Array.zeros(2, 3), 2, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Transpose.nonArray(Array.zeros(2, 3), 0, -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -84,7 +84,7 @@ public class TransposeFailTest extends TestCase {
   public void testFail2() {
     try {
       Transpose.of(Tensors.fromString("{{1,2},{3,4,5}}"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

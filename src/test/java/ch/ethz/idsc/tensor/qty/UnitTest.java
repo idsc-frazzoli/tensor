@@ -45,7 +45,7 @@ public class UnitTest extends TestCase {
     Scalar q = Quantity.of(3, "m");
     try {
       kg1.multiply(q);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -55,25 +55,25 @@ public class UnitTest extends TestCase {
     Unit.of("*"); // gives unit ONE, not necessarily an error
     try {
       Unit.of(" m >");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Unit.of("| m ");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Unit.of("^");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Unit.of(" ");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -82,7 +82,7 @@ public class UnitTest extends TestCase {
   public void testNullFail() {
     try {
       Unit.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

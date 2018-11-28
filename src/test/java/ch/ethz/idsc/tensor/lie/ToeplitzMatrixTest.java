@@ -25,7 +25,7 @@ public class ToeplitzMatrixTest extends TestCase {
   public void testFailEven() {
     try {
       ToeplitzMatrix.of(Tensors.vector(1, 2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -34,7 +34,7 @@ public class ToeplitzMatrixTest extends TestCase {
   public void testFailEmpty() {
     try {
       ToeplitzMatrix.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

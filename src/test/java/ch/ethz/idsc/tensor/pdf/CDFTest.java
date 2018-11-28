@@ -9,7 +9,7 @@ public class CDFTest extends TestCase {
     Distribution distribution = ErlangDistribution.of(3, RealScalar.of(.3));
     try {
       CDF.of(distribution);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -18,7 +18,7 @@ public class CDFTest extends TestCase {
   public void testNullFail() {
     try {
       CDF.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

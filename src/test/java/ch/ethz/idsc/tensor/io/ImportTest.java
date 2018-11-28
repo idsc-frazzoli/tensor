@@ -40,7 +40,7 @@ public class ImportTest extends TestCase {
     File file = new File("/io/doesnotexist.csv");
     try {
       Import.of(file);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -126,7 +126,7 @@ public class ImportTest extends TestCase {
     File file = new File(getClass().getResource("/io/extension.unknown").getFile());
     try {
       Import.of(file);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

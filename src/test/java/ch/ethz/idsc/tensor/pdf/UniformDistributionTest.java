@@ -82,13 +82,13 @@ public class UniformDistributionTest extends TestCase {
     InverseCDF inverseCDF = InverseCDF.of(distribution);
     try {
       inverseCDF.quantile(RealScalar.of(-0.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       inverseCDF.quantile(RealScalar.of(1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -97,7 +97,7 @@ public class UniformDistributionTest extends TestCase {
   public void testQuantityFail() {
     try {
       UniformDistribution.of(Quantity.of(3, "m"), Quantity.of(5, "km"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -106,13 +106,13 @@ public class UniformDistributionTest extends TestCase {
   public void testFail() {
     try {
       UniformDistribution.of(RealScalar.ONE, RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       UniformDistribution.of(RealScalar.ONE, RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

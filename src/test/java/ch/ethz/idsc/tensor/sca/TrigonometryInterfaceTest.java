@@ -39,7 +39,7 @@ public class TrigonometryInterfaceTest extends TestCase {
     Scalar scalar = Quantity.of(1.2, "m");
     try {
       Sin.of(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

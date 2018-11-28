@@ -8,7 +8,8 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Inverse {
   ;
   /** @param matrix with square dimensions
-   * @return inverse of given matrix */
+   * @return inverse of given matrix
+   * @throws Exception if given matrix is not invertible */
   public static Tensor of(Tensor matrix) {
     return LinearSolve.of(matrix, IdentityMatrix.of(matrix.length()));
   }
@@ -16,7 +17,8 @@ public enum Inverse {
   /** function doesn't invoke Scalar::abs but pivots at the first non-zero column entry
    * 
    * @param matrix with square dimensions
-   * @return */
+   * @return inverse of given matrix
+   * @throws Exception if given matrix is not invertible */
   public static Tensor withoutAbs(Tensor matrix) {
     return LinearSolve.withoutAbs(matrix, IdentityMatrix.of(matrix.length()));
   }

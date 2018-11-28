@@ -28,7 +28,7 @@ public class TanhTest extends TestCase {
     Scalar scalar = GaussScalar.of(3, 11);
     try {
       Tanh.of(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

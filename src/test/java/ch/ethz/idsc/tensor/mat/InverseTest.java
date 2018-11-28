@@ -65,13 +65,29 @@ public class InverseTest extends TestCase {
     assertNotNull(matrix);
     try {
       Inverse.of(matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Inverse.of(N.DOUBLE.of(matrix));
-      assertTrue(false);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testZeroFail() {
+    Tensor matrix = DiagonalMatrix.of(1, 2, 0, 3);
+    try {
+      Inverse.of(matrix);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Inverse.withoutAbs(matrix);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -80,13 +96,13 @@ public class InverseTest extends TestCase {
   public void testFailNonSquare() {
     try {
       Inverse.of(HilbertMatrix.of(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Inverse.of(HilbertMatrix.of(4, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -95,7 +111,7 @@ public class InverseTest extends TestCase {
   public void testFailRank3() {
     try {
       Inverse.of(LieAlgebras.sl2());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

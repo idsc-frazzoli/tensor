@@ -50,7 +50,7 @@ public class PermutationsTest extends TestCase {
   public void testFail() {
     try {
       Permutations.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

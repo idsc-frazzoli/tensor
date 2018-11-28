@@ -98,7 +98,7 @@ public class LinearSolveTest extends TestCase {
       Tensor m = Tensors.matrix(new Number[][] { {} });
       Tensor b = Tensors.vector(new Number[] {});
       LinearSolve.of(m, b);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

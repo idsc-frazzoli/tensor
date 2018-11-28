@@ -49,7 +49,7 @@ public class PowerTest extends TestCase {
   public void testZeroFail() {
     try {
       Power.of(0, -2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -63,13 +63,13 @@ public class PowerTest extends TestCase {
   public void testZeroComplexFail() {
     try {
       Power.of(RealScalar.ZERO, ComplexScalar.I);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Power.of(RealScalar.ZERO, Scalars.fromString("-0.1+3*I"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -109,7 +109,7 @@ public class PowerTest extends TestCase {
     Scalar scalar = StringScalar.of("some");
     try {
       Power.of(scalar, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -124,7 +124,7 @@ public class PowerTest extends TestCase {
     Scalar scalar = GaussScalar.of(6, 31);
     try {
       Power.of(scalar, 3.13);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -149,7 +149,7 @@ public class PowerTest extends TestCase {
     Scalar qs2 = Quantity.of(4, "cd");
     try {
       Power.of(qs1, qs2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
