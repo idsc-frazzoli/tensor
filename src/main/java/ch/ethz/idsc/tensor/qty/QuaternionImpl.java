@@ -186,8 +186,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public boolean equals(Object object) {
     if (object instanceof Quaternion) {
       Quaternion quaternion = (Quaternion) object;
-      return re.equals(quaternion.re()) && im.equals(quaternion.im()) && //
-          jm.equals(quaternion.jm()) && km.equals(quaternion.km());
+      return re.equals(quaternion.re()) && im.equals(quaternion.im()) //
+          && jm.equals(quaternion.jm()) && km.equals(quaternion.km());
     }
     return false;
   }
