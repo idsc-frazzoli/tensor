@@ -78,13 +78,13 @@ public class UpperTriangularizeTest extends TestCase {
   public void testFail() {
     try {
       UpperTriangularize.of(RealScalar.ONE, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       UpperTriangularize.of(LieAlgebras.heisenberg3(), 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

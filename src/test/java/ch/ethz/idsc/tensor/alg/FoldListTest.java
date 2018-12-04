@@ -22,7 +22,7 @@ public class FoldListTest extends TestCase {
   public void testFail() {
     try {
       FoldList.of(Tensor::add, RealScalar.of(31));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

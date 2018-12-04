@@ -36,7 +36,7 @@ public class ReverseTest extends TestCase {
   public void testFail() {
     try {
       Reverse.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

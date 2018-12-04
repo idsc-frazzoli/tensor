@@ -11,7 +11,7 @@ public class TensorImplTest extends TestCase {
     Tensor eye = IdentityMatrix.of(4).unmodifiable();
     try {
       eye.flatten(0).forEach(e -> e.set(RealScalar.of(4), 2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -37,7 +37,7 @@ public class TensorImplTest extends TestCase {
     for (Tensor unit : eye)
       try {
         unit.set(RealScalar.of(4), 2);
-        assertTrue(false);
+        fail();
       } catch (Exception exception) {
         // ---
       }
@@ -57,7 +57,7 @@ public class TensorImplTest extends TestCase {
     for (Tensor unit : eye)
       try {
         unit.append(RealScalar.ZERO);
-        assertTrue(false);
+        fail();
       } catch (Exception exception) {
         // ---
       }

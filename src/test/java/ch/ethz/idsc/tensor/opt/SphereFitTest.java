@@ -78,7 +78,7 @@ public class SphereFitTest extends TestCase {
   public void testFailEmpty() {
     try {
       SphereFit.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -87,7 +87,7 @@ public class SphereFitTest extends TestCase {
   public void testFailScalar() {
     try {
       SphereFit.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -96,7 +96,7 @@ public class SphereFitTest extends TestCase {
   public void testFailRank3() {
     try {
       SphereFit.of(LieAlgebras.so3());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

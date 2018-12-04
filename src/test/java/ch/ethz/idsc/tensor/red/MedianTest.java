@@ -35,7 +35,7 @@ public class MedianTest extends TestCase {
   public void testEmpty() {
     try {
       Median.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

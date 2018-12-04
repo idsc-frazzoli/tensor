@@ -59,7 +59,7 @@ public class TotalTest extends TestCase {
   public void testTotalScalarFail() {
     try {
       Total.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -68,7 +68,7 @@ public class TotalTest extends TestCase {
   public void testTotalProdFail() {
     try {
       Total.prod(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

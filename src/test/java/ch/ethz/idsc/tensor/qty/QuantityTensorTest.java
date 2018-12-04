@@ -31,13 +31,13 @@ public class QuantityTensorTest extends TestCase {
     Scalar q = Quantity.of(1, "s");
     try {
       QuantityTensor.of(q, Unit.of("m*kg^2"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       QuantityTensor.of(Tensors.of(q, q), Unit.of("m*kg^2"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

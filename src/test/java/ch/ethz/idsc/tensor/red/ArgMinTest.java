@@ -36,7 +36,7 @@ public class ArgMinTest extends TestCase {
   public void testScalar() {
     try {
       ArgMin.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -45,7 +45,7 @@ public class ArgMinTest extends TestCase {
   public void testFailMatrix() {
     try {
       ArgMin.of(HilbertMatrix.of(6));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

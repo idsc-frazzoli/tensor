@@ -23,13 +23,13 @@ public class LowerTriangularizeTest extends TestCase {
   public void testFail() {
     try {
       LowerTriangularize.of(RealScalar.ONE, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       LowerTriangularize.of(LieAlgebras.heisenberg3(), 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

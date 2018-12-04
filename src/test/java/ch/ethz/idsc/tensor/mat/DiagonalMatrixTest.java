@@ -38,7 +38,7 @@ public class DiagonalMatrixTest extends TestCase {
     try {
       Tensor tensor = RealScalar.of(-2);
       DiagonalMatrix.with(tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -58,7 +58,7 @@ public class DiagonalMatrixTest extends TestCase {
     assertEquals(matrix.toString(), "{{1}}");
     try {
       DiagonalMatrix.with(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -67,7 +67,7 @@ public class DiagonalMatrixTest extends TestCase {
   public void testFailNonVector() {
     try {
       DiagonalMatrix.with(Tensors.fromString("{1,2,{3}}"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -76,7 +76,7 @@ public class DiagonalMatrixTest extends TestCase {
   public void testFailEmpty() {
     try {
       DiagonalMatrix.with(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -85,7 +85,7 @@ public class DiagonalMatrixTest extends TestCase {
   public void testFailScalarEmpty() {
     try {
       DiagonalMatrix.of(new Scalar[] {});
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -94,7 +94,7 @@ public class DiagonalMatrixTest extends TestCase {
   public void testFailNumberEmpty() {
     try {
       DiagonalMatrix.of(new Number[] {});
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -35,7 +35,7 @@ public class MeanDeviationTest extends TestCase {
   public void testVectorFail() {
     try {
       MeanDeviation.ofVector(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -44,7 +44,7 @@ public class MeanDeviationTest extends TestCase {
   public void testEmptyFail() {
     try {
       MeanDeviation.ofVector(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -53,7 +53,7 @@ public class MeanDeviationTest extends TestCase {
   public void testMatrixFail() {
     try {
       MeanDeviation.ofVector(HilbertMatrix.of(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -62,7 +62,7 @@ public class MeanDeviationTest extends TestCase {
   public void testTensorFail() {
     try {
       MeanDeviation.ofVector(LieAlgebras.sl2());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

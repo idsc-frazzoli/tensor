@@ -106,13 +106,13 @@ public class EmpiricalDistributionTest extends TestCase {
     InverseCDF inv = InverseCDF.of(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 3, 1)));
     try {
       inv.quantile(RealScalar.of(-0.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       inv.quantile(RealScalar.of(1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -123,7 +123,7 @@ public class EmpiricalDistributionTest extends TestCase {
       AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
       EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
       distribution.quantile(RealScalar.of(Math.nextDown(0.0)));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -132,19 +132,19 @@ public class EmpiricalDistributionTest extends TestCase {
   public void testFail() {
     try {
       EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, -9, 1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       EmpiricalDistribution.fromUnscaledPDF(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -153,13 +153,13 @@ public class EmpiricalDistributionTest extends TestCase {
   public void testFail2() {
     try {
       EmpiricalDistribution.fromUnscaledPDF(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       EmpiricalDistribution.fromUnscaledPDF(HilbertMatrix.of(10));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

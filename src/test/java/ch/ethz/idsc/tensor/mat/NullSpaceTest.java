@@ -190,19 +190,19 @@ public class NullSpaceTest extends TestCase {
   public void testFail() {
     try {
       NullSpace.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       NullSpace.of(Tensors.vector(1, 2, 3, 1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       NullSpace.of(LieAlgebras.sl2());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -7,7 +7,7 @@ public class UnitHelperTest extends TestCase {
   private static void _confirmFail(String string) {
     try {
       UnitHelper.MEMO.lookup(string);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -18,7 +18,7 @@ public class ImagTest extends TestCase {
   public void testFail() {
     try {
       Imag.of(StringScalar.of("string"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -46,7 +46,7 @@ public class ScalarTest extends TestCase {
     Scalar b = DoubleScalar.of(5);
     try {
       a.dot(b);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -77,7 +77,7 @@ public class ScalarTest extends TestCase {
       for (Tensor entry : RealScalar.ZERO) {
         // ---
       }
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

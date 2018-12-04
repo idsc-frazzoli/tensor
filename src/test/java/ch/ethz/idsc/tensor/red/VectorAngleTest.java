@@ -59,7 +59,7 @@ public class VectorAngleTest extends TestCase {
   public void testFail() {
     try {
       VectorAngle.of(HilbertMatrix.of(3), HilbertMatrix.of(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

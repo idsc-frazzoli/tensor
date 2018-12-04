@@ -107,14 +107,14 @@ public class DoubleScalarTest extends TestCase {
     try {
       DoubleScalar nan = (DoubleScalar) DoubleScalar.INDETERMINATE;
       nan.isNonNegative();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       DoubleScalar nan = (DoubleScalar) DoubleScalar.INDETERMINATE;
       nan.signInt();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -125,13 +125,13 @@ public class DoubleScalarTest extends TestCase {
     Scalar b = GaussScalar.of(3, 5);
     try {
       Max.of(a, b);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Max.of(b, a);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

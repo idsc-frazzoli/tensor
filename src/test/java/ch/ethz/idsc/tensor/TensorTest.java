@@ -61,7 +61,7 @@ public class TensorTest extends TestCase {
   public void testAddFail() {
     try {
       Tensors.vector(1, 2, 3).add(Tensors.vector(1, 2, 3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -114,13 +114,13 @@ public class TensorTest extends TestCase {
     Tensors.vector(1, 2, 3, 4, 5, 6).extract(6, 6);
     try {
       Tensors.vector(1, 2, 3, 4, 5, 6).extract(3, 7);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Tensors.vector(1, 2, 3, 4, 5, 6).extract(7, 6);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -131,7 +131,7 @@ public class TensorTest extends TestCase {
     assertEquals(a.block(Arrays.asList(2), Arrays.asList(2)), Tensors.vector(3, 4));
     try {
       a.block(Arrays.asList(1), Arrays.asList(2, 1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

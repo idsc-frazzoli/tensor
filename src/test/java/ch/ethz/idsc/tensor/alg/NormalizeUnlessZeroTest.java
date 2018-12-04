@@ -24,7 +24,7 @@ public class NormalizeUnlessZeroTest extends TestCase {
     Tensor vector = Tensors.of(RealScalar.ONE, DoubleScalar.INDETERMINATE, RealScalar.ONE);
     try {
       NormalizeUnlessZero.with(Norm._2::ofVector).apply(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -34,7 +34,7 @@ public class NormalizeUnlessZeroTest extends TestCase {
     TensorUnaryOperator normalize = NormalizeUnlessZero.with(Frobenius.NORM::ofVector);
     try {
       normalize.apply(Array.zeros(3, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

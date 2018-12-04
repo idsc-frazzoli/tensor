@@ -60,7 +60,7 @@ public class PrimitivesFloatTest extends TestCase {
   public void testToFloatArray2Dscalar() {
     try {
       Primitives.toFloatArray2D(RealScalar.of(123.456));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -63,7 +63,7 @@ public class TensorParserTest extends TestCase {
   public void testFailStringNull() {
     try {
       Tensors.fromString(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -72,7 +72,7 @@ public class TensorParserTest extends TestCase {
   public void testFailFunctionNull() {
     try {
       new TensorParser(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -155,7 +155,7 @@ public class RoundTest extends TestCase {
   public void testTypeFail() {
     try {
       Round.of(StringScalar.of("some"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

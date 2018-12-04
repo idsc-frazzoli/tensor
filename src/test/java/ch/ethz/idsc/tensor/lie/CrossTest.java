@@ -69,13 +69,13 @@ public class CrossTest extends TestCase {
     Tensor v2 = UnitVector.of(2, 1);
     try {
       Cross.of(v1, v2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Cross.of(v2, v1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -86,13 +86,13 @@ public class CrossTest extends TestCase {
     Tensor v2 = UnitVector.of(3, 1);
     try {
       Cross.of(v1, v2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Cross.of(v2, v1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -39,7 +39,7 @@ public class TensorRuntimeExceptionTest extends TestCase {
   public void testNull() {
     try {
       TensorRuntimeException.of(Tensors.vector(2), null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

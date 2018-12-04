@@ -11,7 +11,7 @@ public class RootsFailTest extends TestCase {
   public void testScalarFail() {
     try {
       Roots.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -20,7 +20,7 @@ public class RootsFailTest extends TestCase {
   public void testEmptyFail() {
     try {
       Roots.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -30,7 +30,7 @@ public class RootsFailTest extends TestCase {
     Tensor coeffs = Tensors.vector(0);
     try {
       Roots.of(coeffs);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -39,7 +39,7 @@ public class RootsFailTest extends TestCase {
   public void testConstantZeroFail() {
     try {
       Roots.of(Tensors.vector(0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -49,7 +49,7 @@ public class RootsFailTest extends TestCase {
     for (int length = 0; length < 10; ++length)
       try {
         Roots.of(Array.zeros(length));
-        assertTrue(false);
+        fail();
       } catch (Exception exception) {
         // ---
       }
@@ -58,7 +58,7 @@ public class RootsFailTest extends TestCase {
   public void testMatrixFail() {
     try {
       Roots.of(HilbertMatrix.of(2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -67,7 +67,7 @@ public class RootsFailTest extends TestCase {
   public void testNotImplemented() {
     try {
       Roots.of(Tensors.vector(1, 2, 3, 4, 5, 6));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

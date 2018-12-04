@@ -78,7 +78,7 @@ public class DiscreteCDFTest extends TestCase {
   public void testFailPoisson() {
     try {
       PoissonDistribution.of(RealScalar.of(800));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

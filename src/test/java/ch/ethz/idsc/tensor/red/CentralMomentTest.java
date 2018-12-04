@@ -37,7 +37,7 @@ public class CentralMomentTest extends TestCase {
   public void testFailEmpty() {
     try {
       CentralMoment.of(Tensors.empty(), 2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -46,7 +46,7 @@ public class CentralMomentTest extends TestCase {
   public void testFailmatrix() {
     try {
       CentralMoment.of(HilbertMatrix.of(2, 3), RealScalar.of(2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

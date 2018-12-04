@@ -25,13 +25,13 @@ public class InverseErfTest extends TestCase {
   public void testFail() {
     try {
       InverseErf.FUNCTION.apply(RealScalar.of(+1.3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       InverseErf.FUNCTION.apply(RealScalar.of(-1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

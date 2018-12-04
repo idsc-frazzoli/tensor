@@ -90,7 +90,7 @@ public class EntrywiseTest extends TestCase {
     Entrywise entrywise = Entrywise.with(Max::of);
     try {
       entrywise.of();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -100,7 +100,7 @@ public class EntrywiseTest extends TestCase {
     Entrywise entrywise = Entrywise.max();
     try {
       entrywise.apply(Tensors.vector(3, 2, 3), Tensors.vector(-2, 1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -110,13 +110,13 @@ public class EntrywiseTest extends TestCase {
     Entrywise entrywise = Entrywise.max();
     try {
       entrywise.apply(Tensors.vector(3, 2, 3), RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       entrywise.apply(RealScalar.ONE, Tensors.vector(3, 2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -125,7 +125,7 @@ public class EntrywiseTest extends TestCase {
   public void testNullFail() {
     try {
       Entrywise.with(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

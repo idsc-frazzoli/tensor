@@ -45,13 +45,13 @@ public class GammaDistributionTest extends TestCase {
   public void testFail() {
     try {
       GammaDistribution.of(RealScalar.of(-1.0), RealScalar.of(2.3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       GammaDistribution.of(RealScalar.of(0.1), RealScalar.of(-2.3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

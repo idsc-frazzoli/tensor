@@ -54,7 +54,7 @@ public class ErfTest extends TestCase {
     Scalar scalar = ComplexScalar.of(1.2, 3.4);
     try {
       Erf.FUNCTION.apply(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

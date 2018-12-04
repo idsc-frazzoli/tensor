@@ -26,13 +26,13 @@ public class HueTest extends TestCase {
   public void testFail() {
     try {
       Hue.of(0, 0, 1.01, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Hue.of(Double.POSITIVE_INFINITY, 1, 1, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

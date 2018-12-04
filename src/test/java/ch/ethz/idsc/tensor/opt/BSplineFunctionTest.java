@@ -161,7 +161,7 @@ public class BSplineFunctionTest extends TestCase {
     for (int degree = -2; degree <= 4; ++degree)
       try {
         BSplineFunction.of(degree, Tensors.empty());
-        assertTrue(false);
+        fail();
       } catch (Exception exception) {
         // ---
       }
@@ -170,7 +170,7 @@ public class BSplineFunctionTest extends TestCase {
   public void testNegativeFail() {
     try {
       BSplineFunction.of(-1, Tensors.vector(1, 2, 3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -181,19 +181,19 @@ public class BSplineFunctionTest extends TestCase {
     bSplineFunction.apply(RealScalar.of(4));
     try {
       bSplineFunction.apply(RealScalar.of(-0.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       bSplineFunction.apply(RealScalar.of(5.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       bSplineFunction.apply(RealScalar.of(4.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

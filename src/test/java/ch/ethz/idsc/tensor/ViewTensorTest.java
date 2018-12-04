@@ -27,7 +27,7 @@ public class ViewTensorTest extends TestCase {
   public void testUnmodifiableFail() {
     try {
       Unprotect.references(Tensors.vector(1, 2, 3).unmodifiable());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -36,7 +36,7 @@ public class ViewTensorTest extends TestCase {
   public void testUnmodifiableIterateFail() {
     try {
       Unprotect.references(Tensors.matrixInt(new int[][] { { 1, 2, 3 } }).unmodifiable().iterator().next());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -46,7 +46,7 @@ public class ViewTensorTest extends TestCase {
     for (Tensor tensor : Tensors.matrixInt(new int[][] { { 1, 2 }, { 3, 4, 5 } }).unmodifiable())
       try {
         Unprotect.references(tensor);
-        assertTrue(false);
+        fail();
       } catch (Exception exception) {
         // ---
       }

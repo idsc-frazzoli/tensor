@@ -40,13 +40,13 @@ public class AbstractScalarTest extends TestCase {
     RealScalar.ONE.Get();
     try {
       RealScalar.ONE.Get(1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       RealScalar.ONE.get(Arrays.asList(1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -55,13 +55,13 @@ public class AbstractScalarTest extends TestCase {
   public void testSetFail() {
     try {
       RealScalar.ONE.set(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       RealScalar.ONE.set(s -> RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -70,7 +70,7 @@ public class AbstractScalarTest extends TestCase {
   public void testAppendFail() {
     try {
       RealScalar.ONE.append(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -79,7 +79,7 @@ public class AbstractScalarTest extends TestCase {
   public void testExtractFail() {
     try {
       RealScalar.ONE.extract(1, 2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -88,7 +88,7 @@ public class AbstractScalarTest extends TestCase {
   public void testBlockFail() {
     try {
       RealScalar.ONE.block(Arrays.asList(1), Arrays.asList(1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -36,7 +36,7 @@ public class RotationMatrixTest extends TestCase {
   public void testFail() {
     try {
       RotationMatrix.of(GaussScalar.of(2, 7));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

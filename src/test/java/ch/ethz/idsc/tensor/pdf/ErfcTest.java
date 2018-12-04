@@ -25,7 +25,7 @@ public class ErfcTest extends TestCase {
   public void testFail() {
     try {
       ErfcRestricted.FUNCTION.apply(GaussScalar.of(6, 7));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -35,7 +35,7 @@ public class ErfcTest extends TestCase {
     Scalar scalar = ComplexScalar.of(1.2, 3.4);
     try {
       Erfc.FUNCTION.apply(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

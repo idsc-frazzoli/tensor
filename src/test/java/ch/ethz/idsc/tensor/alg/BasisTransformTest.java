@@ -42,7 +42,7 @@ public class BasisTransformTest extends TestCase {
     int n = 3;
     try {
       BasisTransform.ofForm(Array.zeros(n, n, n), Array.zeros(n));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -51,7 +51,7 @@ public class BasisTransformTest extends TestCase {
   public void testMatrixFail() {
     try {
       BasisTransform.ofMatrix(IdentityMatrix.of(3), DiagonalMatrix.of(1, 1, 0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

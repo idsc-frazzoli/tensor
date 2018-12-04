@@ -32,13 +32,13 @@ public class JoinTest extends TestCase {
     // in Mathematica Join of two or more scalars is not defined!
     try {
       Join.of(RealScalar.of(2), RealScalar.of(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Join.of(RealScalar.of(2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -47,7 +47,7 @@ public class JoinTest extends TestCase {
   public void testFailVectorScalar() {
     try {
       Join.of(Tensors.vector(0, 1, 2), RealScalar.of(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       assertEquals(exception.getMessage(), "{0, 1, 2}; 3");
     }

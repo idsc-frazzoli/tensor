@@ -49,7 +49,7 @@ public class ErlangDistributionTest extends TestCase {
   public void testFail() {
     try {
       ErlangDistribution.of(0, RealScalar.of(1.8));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

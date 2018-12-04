@@ -69,7 +69,7 @@ public class PrimitivesIntTest extends TestCase {
   public void testToIntArray2Dscalar() {
     try {
       Primitives.toIntArray2D(RealScalar.of(123.456));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

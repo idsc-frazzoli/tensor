@@ -66,7 +66,7 @@ public class UnitConvertTest extends TestCase {
     Scalar force = mass.multiply(a);
     try {
       UnitConvert.SI().to(Unit.of("m")).apply(force);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -75,7 +75,7 @@ public class UnitConvertTest extends TestCase {
   public void testFailInNull() {
     try {
       UnitConvert.SI().to((Unit) null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -84,7 +84,7 @@ public class UnitConvertTest extends TestCase {
   public void testFailNull() {
     try {
       new UnitConvert(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

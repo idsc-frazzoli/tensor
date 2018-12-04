@@ -21,7 +21,7 @@ public class SimpleUnitSystemTest extends TestCase {
     properties.setProperty("cent123", "1/100[FRA]");
     try {
       SimpleUnitSystem.from(properties);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -32,7 +32,7 @@ public class SimpleUnitSystemTest extends TestCase {
     properties.setProperty(" cent", "1/100[FRA]");
     try {
       SimpleUnitSystem.from(properties);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -43,7 +43,7 @@ public class SimpleUnitSystemTest extends TestCase {
     properties.setProperty("cent", "1/100a[FRA]");
     try {
       SimpleUnitSystem.from(properties);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -54,7 +54,7 @@ public class SimpleUnitSystemTest extends TestCase {
     properties.setProperty("cent", "b/100a");
     try {
       SimpleUnitSystem.from(properties);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

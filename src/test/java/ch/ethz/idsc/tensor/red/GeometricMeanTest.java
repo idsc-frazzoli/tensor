@@ -27,7 +27,7 @@ public class GeometricMeanTest extends TestCase {
   public void testFailScalar() {
     try {
       GeometricMean.of(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -36,7 +36,7 @@ public class GeometricMeanTest extends TestCase {
   public void testFailEmpty() {
     try {
       GeometricMean.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -58,7 +58,7 @@ public class ExactScalarQTest extends TestCase {
   public void testRequireFail() {
     try {
       ExactScalarQ.require(DoubleScalar.of(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -35,13 +35,13 @@ import junit.framework.TestCase;
   static void getScalarFail(Interpolation interpolation) {
     try {
       interpolation.get(RealScalar.of(1.4));
-      TestCase.assertTrue(false);
+      TestCase.fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       interpolation.get(RealScalar.ONE);
-      TestCase.assertTrue(false);
+      TestCase.fail();
     } catch (Exception exception) {
       // ---
     }

@@ -69,7 +69,7 @@ public class SincTest extends TestCase {
   public void testTypeFail() {
     try {
       Sinc.of(StringScalar.of("some"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

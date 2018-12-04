@@ -25,7 +25,7 @@ public class DetTest extends TestCase {
     // System.out.println("here!");
     try {
       Det.of(m);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -180,7 +180,7 @@ public class DetTest extends TestCase {
     Tensor table = Tensors.fromString("{{1,2,3},{4,5}}");
     try {
       Det.of(table);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -189,7 +189,7 @@ public class DetTest extends TestCase {
   public void testFailRank3() {
     try {
       Det.of(LieAlgebras.sl2());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -35,7 +35,7 @@ public class SerializationTest extends TestCase {
     NonSerializable nonSerializable = new NonSerializable();
     try {
       Serialization.of(nonSerializable);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -44,7 +44,7 @@ public class SerializationTest extends TestCase {
   public void testParseFail() {
     try {
       Serialization.parse(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -55,7 +55,7 @@ public class SerializationTest extends TestCase {
     new Random().nextBytes(bytes);
     try {
       Serialization.parse(bytes);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

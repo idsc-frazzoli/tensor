@@ -79,7 +79,7 @@ public class GumbelDistributionTest extends TestCase {
   public void testFail() {
     try {
       GumbelDistribution.of(RealScalar.of(3), RealScalar.of(0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

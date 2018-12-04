@@ -79,7 +79,7 @@ public class MatrixPowerTest extends TestCase {
     Tensor matrix = Array.zeros(2, 3);
     try {
       MatrixPower.of(matrix, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -89,7 +89,7 @@ public class MatrixPowerTest extends TestCase {
     Tensor matrix = HilbertMatrix.of(3, 2);
     try {
       MatrixPower.of(matrix, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -99,7 +99,7 @@ public class MatrixPowerTest extends TestCase {
     Tensor tensor = LieAlgebras.heisenberg3();
     try {
       MatrixPower.of(tensor, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

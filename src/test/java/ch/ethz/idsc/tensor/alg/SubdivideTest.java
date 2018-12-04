@@ -54,7 +54,7 @@ public class SubdivideTest extends TestCase {
   public void testZeroFail() {
     try {
       Subdivide.of(RealScalar.of(-2), RealScalar.of(2), 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -63,7 +63,7 @@ public class SubdivideTest extends TestCase {
   public void testNegativeFail() {
     try {
       Subdivide.of(RealScalar.of(-2), RealScalar.of(2), -10);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -72,13 +72,13 @@ public class SubdivideTest extends TestCase {
   public void testNullFail() {
     try {
       Subdivide.of(RealScalar.of(2), null, 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Subdivide.of(null, RealScalar.of(2), 1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

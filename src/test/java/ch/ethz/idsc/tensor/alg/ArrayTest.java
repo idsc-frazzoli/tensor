@@ -75,7 +75,7 @@ public class ArrayTest extends TestCase {
   public void testInvalid() {
     try {
       Array.zeros(-1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -84,7 +84,7 @@ public class ArrayTest extends TestCase {
   public void testInvalid2() {
     try {
       Array.of(l -> Tensors.vector(l.get(0), l.get(1), l.get(2)), 3, -2, 4);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -105,25 +105,25 @@ public class ConvexHullTest extends TestCase {
     Distribution distribution = UniformDistribution.unit();
     try {
       ConvexHull.of(RandomVariate.of(distribution, 5, 2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ConvexHull.of(LieAlgebras.sl2());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ConvexHull.of(Tensors.fromString("{{{1},2}}"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ConvexHull.of(Tensors.fromString("{{2,3},{{1},2}}"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -133,14 +133,14 @@ public class ConvexHullTest extends TestCase {
     Tensor bad1 = Tensors.fromString("{{1,2},{3,4,5}}");
     try {
       ConvexHull.of(bad1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     Tensor bad2 = Tensors.fromString("{{1,2,3},{3,4}}");
     try {
       ConvexHull.of(bad2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

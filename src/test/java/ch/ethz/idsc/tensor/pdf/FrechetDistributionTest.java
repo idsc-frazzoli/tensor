@@ -99,7 +99,7 @@ public class FrechetDistributionTest extends TestCase {
     InverseCDF inverseCDF = InverseCDF.of(FrechetDistribution.of(1.5, 1.3));
     try {
       inverseCDF.quantile(RealScalar.of(1.0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -109,7 +109,7 @@ public class FrechetDistributionTest extends TestCase {
     InverseCDF inverseCDF = InverseCDF.of(FrechetDistribution.of(1.5, 1.3));
     try {
       inverseCDF.quantile(RealScalar.of(1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -118,19 +118,19 @@ public class FrechetDistributionTest extends TestCase {
   public void testFail() {
     try {
       FrechetDistribution.of(RealScalar.of(3), RealScalar.of(0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       FrechetDistribution.of(RealScalar.of(0), RealScalar.of(2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       FrechetDistribution.of(Quantity.of(2.3, "s"), Quantity.of(1.5, "m^-1"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

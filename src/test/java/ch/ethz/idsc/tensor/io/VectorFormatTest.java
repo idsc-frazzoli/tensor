@@ -28,7 +28,7 @@ public class VectorFormatTest extends TestCase {
     Tensor tensor = RealScalar.ONE;
     try {
       ExportHelper.of(Extension.VECTOR, tensor, outputStream);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -39,7 +39,7 @@ public class VectorFormatTest extends TestCase {
     Tensor tensor = IdentityMatrix.of(3);
     try {
       ExportHelper.of(Extension.VECTOR, tensor, outputStream);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

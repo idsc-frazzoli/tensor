@@ -91,7 +91,7 @@ public class SqrtTest extends TestCase {
     Scalar scalar = StringScalar.of("string");
     try {
       Sqrt.of(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -164,13 +164,13 @@ public class ModTest extends TestCase {
   public void testFail() {
     try {
       Mod.function(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Mod.function(RealScalar.ZERO, RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

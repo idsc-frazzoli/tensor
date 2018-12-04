@@ -41,7 +41,7 @@ public class ClipTest extends TestCase {
     Clip.function(5, 5);
     try {
       Clip.function(2, -3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -66,13 +66,13 @@ public class ClipTest extends TestCase {
     assertFalse(clip.isInside(Quantity.of(3, "m")));
     try {
       clip.isInside(Quantity.of(0, "V"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       clip.isInside(Quantity.of(3, "V"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -81,7 +81,7 @@ public class ClipTest extends TestCase {
   public void testInsideFail() {
     try {
       Clip.unit().isInside(Quantity.of(0.5, "m"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -122,7 +122,7 @@ public class ClipTest extends TestCase {
     assertEquals(clip.requireInside(RealScalar.of(3.9)), RealScalar.of(3.9));
     try {
       clip.requireInside(RealScalar.of(2.9));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -149,7 +149,7 @@ public class ClipTest extends TestCase {
     assertTrue(clip.isOutside(Quantity.of(3, "m")));
     try {
       clip.isOutside(Quantity.of(3, "V"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -158,13 +158,13 @@ public class ClipTest extends TestCase {
   public void testQuantityFail() {
     try {
       Clip.unit().apply(Quantity.of(-5, "m"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Clip.absoluteOne().apply(Quantity.of(-5, "m"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -47,19 +47,19 @@ public class VectorQTest extends TestCase {
   public void testRequireFail() {
     try {
       VectorQ.requireLength(Tensors.vector(1, 2, 3), 4);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       VectorQ.requireLength(Tensors.vector(1, 2, 3), -3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       VectorQ.requireLength(RealScalar.ZERO, Scalar.LENGTH);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -70,7 +70,7 @@ public class VectorQTest extends TestCase {
     assertTrue(Tensors.isEmpty(empty));
     try {
       VectorQ.require(HilbertMatrix.of(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -79,7 +79,7 @@ public class VectorQTest extends TestCase {
   public void testFail() {
     try {
       VectorQ.ofLength(Tensors.empty(), Scalar.LENGTH);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -51,7 +51,7 @@ public class ExportHelperTest extends TestCase {
     OutputStream outputStream = new ByteArrayOutputStream(512);
     try {
       ExportHelper.of(Extension.GZ, Tensors.empty(), outputStream);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

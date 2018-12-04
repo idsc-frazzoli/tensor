@@ -13,7 +13,7 @@ public class QuantityParserTest extends TestCase {
   public void testBug() {
     try {
       QuantityParser.of("1[m2]");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -38,7 +38,7 @@ public class SinhTest extends TestCase {
   public void testFail() {
     try {
       Sinh.of(GaussScalar.of(6, 7));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -36,7 +36,7 @@ public class ColorDataGradientTest extends TestCase {
     Scalar scalar = GaussScalar.of(123, 251);
     try {
       ColorDataGradients.ALPINE.apply(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

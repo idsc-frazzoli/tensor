@@ -42,7 +42,7 @@ public class ChopTest extends TestCase {
   public void testFail() {
     try {
       Chop.below(-1e-9);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -93,7 +93,7 @@ public class ChopTest extends TestCase {
   public void testCloseFail() {
     try {
       Chop._05.close(Tensors.vector(1), Tensors.vector(1, 1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

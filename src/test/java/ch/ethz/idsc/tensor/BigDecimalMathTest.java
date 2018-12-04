@@ -54,7 +54,7 @@ public class BigDecimalMathTest extends TestCase {
   public void testSqrtNegative() {
     try {
       BigDecimalMath.sqrt(new BigDecimal("-2340"), MathContext.DECIMAL64);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -22,25 +22,25 @@ public class HypergeometricDistributionTest extends TestCase {
     // 0 < N && N <= m_n && 0 <= n && n <= m_n
     try {
       HypergeometricDistribution.of(0, 50, 100); // violates 0 < N
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       HypergeometricDistribution.of(5, -1, 100); // violates 0 <= n
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       HypergeometricDistribution.of(11, 10, 10); // violates N <= m_n
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       HypergeometricDistribution.of(10, 11, 10); // violates n <= m_n
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

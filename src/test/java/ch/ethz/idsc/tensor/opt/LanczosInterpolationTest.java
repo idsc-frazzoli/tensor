@@ -92,7 +92,7 @@ public class LanczosInterpolationTest extends TestCase {
   public void testFailNull() {
     try {
       LanczosInterpolation.of(null, 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -102,13 +102,13 @@ public class LanczosInterpolationTest extends TestCase {
     Tensor vector = Tensors.vector(-1, 0, 3, 2, 0, -4, 2);
     try {
       LanczosInterpolation.of(vector, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       LanczosInterpolation.of(vector, -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

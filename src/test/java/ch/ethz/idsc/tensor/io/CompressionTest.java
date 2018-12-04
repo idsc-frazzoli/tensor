@@ -40,7 +40,7 @@ public class CompressionTest extends TestCase {
   public void testInflateEmpty2() {
     try {
       Compression.inflate(new byte[0]);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -55,7 +55,7 @@ public class CompressionTest extends TestCase {
       comp[comp.length - 4] = (byte) (comp[comp.length - 4] - 23);
       comp[comp.length - 3] = (byte) (comp[comp.length - 3] - 23);
       Compression.inflate(comp);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -66,7 +66,7 @@ public class CompressionTest extends TestCase {
     try {
       byte[] comp = Compression.deflate(bytes);
       Compression.inflate(comp, 0, comp.length - 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

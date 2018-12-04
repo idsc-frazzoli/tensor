@@ -70,7 +70,7 @@ public class PadLeftTest extends TestCase {
     TensorUnaryOperator tuo = PadLeft.zeros(2, 2, 6);
     try {
       tuo.apply(Tensors.fromString("{{1},{2},{4,5}}"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -80,7 +80,7 @@ public class PadLeftTest extends TestCase {
     TensorUnaryOperator tuo = PadLeft.zeros(-2);
     try {
       tuo.apply(Tensors.vector(1, 2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

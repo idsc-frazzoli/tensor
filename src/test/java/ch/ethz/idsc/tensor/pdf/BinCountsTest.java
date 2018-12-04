@@ -43,19 +43,19 @@ public class BinCountsTest extends TestCase {
   public void testNegative() {
     try {
       BinCounts.of(Tensors.vector(-1e-10), RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       BinCounts.of(Tensors.vector(-1e-10, -10), RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       BinCounts.of(Tensors.vector(1, 2, 3, 4, 0, -3, 12, 32), RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -64,7 +64,7 @@ public class BinCountsTest extends TestCase {
   public void testFailDomain() {
     try {
       BinCounts.of(Tensors.vector(-1e-10), RealScalar.of(1.0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -73,13 +73,13 @@ public class BinCountsTest extends TestCase {
   public void testFailWidth() {
     try {
       BinCounts.of(Tensors.vector(1, 2), RealScalar.of(0.0)); // zero
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       BinCounts.of(Tensors.vector(1, 2), RealScalar.of(-.2)); // negative
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

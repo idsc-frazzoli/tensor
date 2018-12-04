@@ -73,19 +73,19 @@ public class GompertzMakehamDistributionTest extends TestCase {
   public void testFail() {
     try {
       GompertzMakehamDistribution.of(RealScalar.of(0), RealScalar.of(.2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       GompertzMakehamDistribution.of(RealScalar.of(3), RealScalar.of(0));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       GompertzMakehamDistribution.of(RealScalar.of(1e-300), RealScalar.of(1e-300));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -32,7 +32,7 @@ public class ImportHelperTest extends TestCase {
     InputStream inputStream = new ByteArrayInputStream(new byte[128]);
     try {
       ImportHelper.of(new Filename("some.m"), inputStream);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -42,7 +42,7 @@ public class ImportHelperTest extends TestCase {
     Extension extension = null;
     try {
       extension = Extension.valueOf("asd");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -50,7 +50,7 @@ public class ImportHelperTest extends TestCase {
       switch (extension) {
       default:
       }
-      assertTrue(false);
+      fail();
     } catch (NullPointerException exception) {
       // ---
     }

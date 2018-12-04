@@ -68,13 +68,13 @@ public class DiscreteUniformDistributionTest extends TestCase {
     InverseCDF inverseCDF = InverseCDF.of(distribution);
     try {
       inverseCDF.quantile(RealScalar.of(-.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       inverseCDF.quantile(RealScalar.of(1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -83,19 +83,19 @@ public class DiscreteUniformDistributionTest extends TestCase {
   public void testFailsOrder() {
     try {
       DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       DiscreteUniformDistribution.of(3, 2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       DiscreteUniformDistribution.of(3, 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -104,7 +104,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
   public void testFailsInt() {
     try {
       DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(4.5));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

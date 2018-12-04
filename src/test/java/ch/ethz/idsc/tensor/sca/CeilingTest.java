@@ -102,7 +102,7 @@ public class CeilingTest extends TestCase {
     Scalar scalar = StringScalar.of("some");
     try {
       Ceiling.of(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

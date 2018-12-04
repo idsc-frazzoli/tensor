@@ -22,7 +22,7 @@ public class TensorContractTest extends TestCase {
   public void testFail() {
     try {
       TensorContract.of(LieAlgebras.so3(), 0, 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -32,7 +32,7 @@ public class TensorContractTest extends TestCase {
     Tensor array = Array.of(Tensors::vector, 2, 3, 2, 4);
     try {
       TensorContract.of(array, 0, 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

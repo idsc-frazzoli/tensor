@@ -8,13 +8,13 @@ public class ComplexScalarTest extends TestCase {
   public void testConstructFail() {
     try {
       ComplexScalar.of(RealScalar.ONE, ComplexScalar.I);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ComplexScalar.of(ComplexScalar.I, RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -23,19 +23,19 @@ public class ComplexScalarTest extends TestCase {
   public void testNullFail() {
     try {
       ComplexScalar.of(RealScalar.ONE, null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ComplexScalar.of(null, RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ComplexScalar.of(null, RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -44,19 +44,19 @@ public class ComplexScalarTest extends TestCase {
   public void testPolarFail() {
     try {
       ComplexScalar.fromPolar(RealScalar.ONE, ComplexScalar.I);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ComplexScalar.fromPolar(ComplexScalar.I, RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ComplexScalar.fromPolar(ComplexScalar.I, ComplexScalar.I);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -65,7 +65,7 @@ public class ComplexScalarTest extends TestCase {
   public void testPolarQuantityFail() {
     try {
       ComplexScalar.fromPolar(RealScalar.ONE, Quantity.of(1.3, "m"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -79,7 +79,7 @@ public class ComplexScalarTest extends TestCase {
   public void testPolarNumberFail() {
     try {
       ComplexScalar.fromPolar(-1, 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -88,13 +88,13 @@ public class ComplexScalarTest extends TestCase {
   public void testUnitFail() {
     try {
       ComplexScalar.unit(ComplexScalar.of(-1, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ComplexScalar.unit(Quantity.of(3, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

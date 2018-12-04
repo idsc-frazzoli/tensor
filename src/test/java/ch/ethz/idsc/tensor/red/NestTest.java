@@ -47,7 +47,7 @@ public class NestTest extends TestCase {
   public void testFail() {
     try {
       Nest.of(Cos.FUNCTION, RealScalar.of(.3), -1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

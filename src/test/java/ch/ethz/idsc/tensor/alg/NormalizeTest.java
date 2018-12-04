@@ -121,7 +121,7 @@ public class NormalizeTest extends TestCase {
     TensorUnaryOperator tensorUnaryOperator = Normalize.with(v -> Total.of(v).Get());
     try {
       tensorUnaryOperator.apply(Tensors.vector(-1, 3, -2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

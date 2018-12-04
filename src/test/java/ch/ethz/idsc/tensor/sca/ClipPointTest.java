@@ -50,7 +50,7 @@ public class ClipPointTest extends TestCase {
     assertEquals(clip.rescale(Quantity.of(4, "m*s^-1")), RealScalar.ZERO);
     try {
       clip.requireInside(Quantity.of(3, "m*s^-1"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -62,7 +62,7 @@ public class ClipPointTest extends TestCase {
     assertEquals(clip.requireInside(value), value);
     try {
       clip.rescale(Quantity.of(2, "kg"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

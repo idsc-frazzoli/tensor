@@ -120,7 +120,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor b = Tensors.vector(2, -10);
     try {
       LinearProgramming.minLessEquals(c, m, b);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -133,7 +133,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor b = Tensors.vector(-1, -2);
     try {
       LinearProgramming.minLessEquals(c, m, b);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -173,7 +173,7 @@ public class LinearProgrammingTest extends TestCase {
     Tensor b = Tensors.vector(-10000, -30000);
     try {
       LinearProgramming.minLessEquals(c, m, b);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // MATLAB
       // A=[[-2, -7.5, -3];[-20, -5, -10]];

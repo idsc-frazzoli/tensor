@@ -129,7 +129,7 @@ public class RationalizeTest extends TestCase {
   public void testFailPositive() {
     try {
       Rationalize.withDenominatorLessEquals(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -138,7 +138,7 @@ public class RationalizeTest extends TestCase {
   public void testFailIntegerQ() {
     try {
       Rationalize.withDenominatorLessEquals(RealScalar.of(1.23));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

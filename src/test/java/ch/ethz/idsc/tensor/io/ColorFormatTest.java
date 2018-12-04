@@ -35,7 +35,7 @@ public class ColorFormatTest extends TestCase {
     ColorFormat.toColor(Tensors.vector(0, 0, 0, 255.9));
     try {
       ColorFormat.toColor(Tensors.vector(0, 0, 0, 256));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -44,13 +44,13 @@ public class ColorFormatTest extends TestCase {
   public void testFailLength() {
     try {
       ColorFormat.toColor(Array.zeros(3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       ColorFormat.toColor(Array.zeros(5));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

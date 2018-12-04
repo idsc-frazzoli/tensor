@@ -43,13 +43,13 @@ public class GeometricDistributionTest extends TestCase {
   public void testFailP() {
     try {
       GeometricDistribution.of(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       GeometricDistribution.of(RealScalar.of(1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -111,13 +111,13 @@ public class GeometricDistributionTest extends TestCase {
     InverseCDF inverseCDF = InverseCDF.of(distribution);
     try {
       inverseCDF.quantile(RealScalar.of(-.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       inverseCDF.quantile(RealScalar.of(1.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -136,7 +136,7 @@ public class GeometricDistributionTest extends TestCase {
   public void testQuantity() {
     try {
       GeometricDistribution.of(Quantity.of(2, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -144,13 +144,13 @@ public class GeometricDistributionTest extends TestCase {
     GeometricDistribution distribution = (GeometricDistribution) GeometricDistribution.of(p);
     try {
       PDF.of(distribution).at(Quantity.of(-2, "s")); // for now this returns 0
-      // assertTrue(false);
+      // fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       CDF.of(distribution).p_lessEquals(Quantity.of(-2, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

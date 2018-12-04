@@ -88,7 +88,7 @@ public class ScalarSummaryStatisticsTest extends TestCase {
     assertEquals(sss1.getCount(), 4);
     try {
       sss1.getAverage();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -48,7 +48,7 @@ public class MatrixQTest extends TestCase {
   public void testElseThrow() {
     try {
       MatrixQ.require(Tensors.vector(1, 2, 3));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -57,7 +57,7 @@ public class MatrixQTest extends TestCase {
   public void testRequireNullThrow() {
     try {
       MatrixQ.require(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -66,7 +66,7 @@ public class MatrixQTest extends TestCase {
   public void testOfNullThrow() {
     try {
       MatrixQ.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

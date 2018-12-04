@@ -38,7 +38,7 @@ public class NylanderPowerTest extends TestCase {
   public void testFail() {
     try {
       NylanderPower.of(Tensors.vector(1, 2, 3, 4), 3);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

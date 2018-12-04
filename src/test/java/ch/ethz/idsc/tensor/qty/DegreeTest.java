@@ -28,7 +28,7 @@ public class DegreeTest extends TestCase {
   public void testStringScalarFail() {
     try {
       Degree.of(StringScalar.of("abc"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

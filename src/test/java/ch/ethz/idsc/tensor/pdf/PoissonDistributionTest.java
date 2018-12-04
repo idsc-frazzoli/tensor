@@ -95,7 +95,7 @@ public class PoissonDistributionTest extends TestCase {
   public void testQuantityFail() {
     try {
       PoissonDistribution.of(Quantity.of(3, "m"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -104,13 +104,13 @@ public class PoissonDistributionTest extends TestCase {
   public void testFailLambda() {
     try {
       PoissonDistribution.of(RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       PoissonDistribution.of(RealScalar.of(-0.1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

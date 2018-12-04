@@ -16,13 +16,13 @@ public class BigIntegerMathTest extends TestCase {
   public void testBigIntegerFail() {
     try {
       BigIntegerMath.sqrt(new BigInteger("21065681101554527729739161805139578083"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       BigIntegerMath.sqrt(new BigInteger("-16"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

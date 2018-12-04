@@ -100,7 +100,7 @@ public class HypotTest extends TestCase {
       assertFalse(Scalars.isZero(s3));
       @SuppressWarnings("unused")
       Scalar s4 = ArcTan.FUNCTION.apply(s2);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -109,7 +109,7 @@ public class HypotTest extends TestCase {
   public void testDoubleNaNFail() {
     try {
       ArcTan.FUNCTION.apply(ComplexScalar.of(Double.NaN, Double.NaN));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -118,7 +118,7 @@ public class HypotTest extends TestCase {
   public void testFailScalar() {
     try {
       Hypot.ofVector(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -142,7 +142,7 @@ public class HypotTest extends TestCase {
       Hypot.BIFUNCTION.apply( //
           Quantity.of(1, "m"), //
           Quantity.of(0, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

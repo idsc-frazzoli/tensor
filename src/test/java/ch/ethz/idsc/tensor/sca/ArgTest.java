@@ -40,7 +40,7 @@ public class ArgTest extends TestCase {
     Scalar scalar = GaussScalar.of(1, 7);
     try {
       Arg.of(scalar);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -30,13 +30,13 @@ public class ParallelizeTest extends TestCase {
   public void testDotFail() {
     try {
       Parallelize.dot(RealScalar.ONE, RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Parallelize.dot(Tensors.vector(1, 2, 3), HilbertMatrix.of(4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

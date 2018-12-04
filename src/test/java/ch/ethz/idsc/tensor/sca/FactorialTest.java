@@ -40,13 +40,13 @@ public class FactorialTest extends TestCase {
   public void testFail() {
     try {
       Factorial.of(RealScalar.of(-1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Factorial.of(RealScalar.of(1.2));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

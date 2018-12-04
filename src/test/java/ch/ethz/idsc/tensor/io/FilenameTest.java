@@ -22,7 +22,7 @@ public class FilenameTest extends TestCase {
     Filename filename = new Filename(new File("dir/title.ext"));
     try {
       filename.extension();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -32,7 +32,7 @@ public class FilenameTest extends TestCase {
     Filename filename = new Filename(new File("dir/mybmp"));
     try {
       filename.extension();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -42,7 +42,7 @@ public class FilenameTest extends TestCase {
     Filename filename = new Filename(new File("dir/mybmp"));
     try {
       filename.truncate();
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -175,7 +175,7 @@ public class QRDecompositionTest extends TestCase {
     specialOps(matrix);
     try {
       QRDecomposition.preserveOrientation(matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

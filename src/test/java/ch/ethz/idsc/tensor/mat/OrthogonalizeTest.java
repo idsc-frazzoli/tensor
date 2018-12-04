@@ -76,7 +76,7 @@ public class OrthogonalizeTest extends TestCase {
   public void testFailVector() {
     try {
       Orthogonalize.of(Tensors.vector(1, 2, 3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -86,7 +86,7 @@ public class OrthogonalizeTest extends TestCase {
     try {
       Tensor matrix = Transpose.of(Tensors.fromString("{{1, 0, 1}, {1, 1, 1}}"));
       Orthogonalize.of(matrix);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

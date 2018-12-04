@@ -37,7 +37,7 @@ public class NearestInterpolationTest extends TestCase {
     Interpolation interpolation = MappedInterpolation.of(Tensors.vector(10, 20, 30, 40), s -> index);
     try {
       interpolation.get(Tensors.vector(1));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -61,7 +61,7 @@ public class NearestInterpolationTest extends TestCase {
   public void testFailNull() {
     try {
       NearestInterpolation.of(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -137,7 +137,7 @@ public class ScalarsTest extends TestCase {
   public void testIntValueExactFail() {
     try {
       Scalars.intValueExact(RealScalar.of(Long.MAX_VALUE));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

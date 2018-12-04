@@ -13,7 +13,7 @@ public class LastTest extends TestCase {
   public void testFailEmpty() {
     try {
       Last.of(Tensors.empty());
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -22,7 +22,7 @@ public class LastTest extends TestCase {
   public void testFailScalar() {
     try {
       Last.of(RealScalar.of(99));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -63,31 +63,31 @@ public class QuantityTest extends TestCase {
   public void testParseFail() {
     try {
       Quantity.of(3.14, "^2");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Quantity.of(3.14, "m^2a");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Quantity.of(3.14, "m^");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Quantity.of(3.14, "m[^2");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Quantity.of(3.14, "m]^2");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -97,7 +97,7 @@ public class QuantityTest extends TestCase {
     Scalar q1 = Quantity.of(3.14, "m");
     try {
       Quantity.of(q1, "s");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -106,7 +106,7 @@ public class QuantityTest extends TestCase {
   public void testNestEmptyFail() {
     try {
       Quantity.of(Quantity.of(2, "s"), "");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -144,7 +144,7 @@ public class QuantityTest extends TestCase {
     Unit unit = Unit.of("a");
     try {
       Quantity.of(StringScalar.of("123"), unit);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -153,7 +153,7 @@ public class QuantityTest extends TestCase {
   public void testNullFail1() {
     try {
       Quantity.of((Number) null, Unit.of("s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -162,13 +162,13 @@ public class QuantityTest extends TestCase {
   public void testNullFail2() {
     try {
       Quantity.of((Number) null, "s");
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Quantity.of(123, (String) null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -176,7 +176,7 @@ public class QuantityTest extends TestCase {
   // public void testNullFail() {
   // try {
   // Quantity.of(RealScalar.ZERO, (Unit) null);
-  // assertTrue(false);
+  // fail();
   // } catch (Exception exception) {
   // // ---
   // }

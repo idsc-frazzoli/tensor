@@ -168,19 +168,19 @@ public class DecimalScalarImplTest extends TestCase {
   public void testNullFail() {
     try {
       DecimalScalar.of((BigDecimal) null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       DecimalScalar.of((String) null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       DecimalScalar.of((String) null, 10);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -19,7 +19,7 @@ public class UnprotectTest extends TestCase {
     assertEquals(unstruct.length(), 2);
     try {
       Unprotect.dimension1(unstruct);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -28,7 +28,7 @@ public class UnprotectTest extends TestCase {
   public void testFail2() {
     try {
       Unprotect.dimension1(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -45,7 +45,7 @@ public class UnprotectTest extends TestCase {
     Tensor tensor = Tensors.vector(3, 2, 0, 1.234).unmodifiable();
     try {
       Unprotect.list(tensor);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -54,7 +54,7 @@ public class UnprotectTest extends TestCase {
   public void testReferencesScalar() {
     try {
       Unprotect.references(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -63,7 +63,7 @@ public class UnprotectTest extends TestCase {
   public void testReferencesNull() {
     try {
       Unprotect.references(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

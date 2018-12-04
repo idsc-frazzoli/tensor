@@ -47,7 +47,7 @@ public class Normalize2DTest extends TestCase {
     TensorUnaryOperator tensorUnaryOperator = Normalize.with(Norm._2);
     try {
       tensorUnaryOperator.apply(vector);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -56,13 +56,13 @@ public class Normalize2DTest extends TestCase {
   public void testNumberQFail1() {
     try {
       unlessZero(DoubleScalar.POSITIVE_INFINITY, RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       unlessZero(DoubleScalar.INDETERMINATE, RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -71,13 +71,13 @@ public class Normalize2DTest extends TestCase {
   public void testNumberQFail2() {
     try {
       unlessZero(RealScalar.ZERO, DoubleScalar.POSITIVE_INFINITY);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       unlessZero(RealScalar.ZERO, DoubleScalar.INDETERMINATE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

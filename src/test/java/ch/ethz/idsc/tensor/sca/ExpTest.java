@@ -45,7 +45,7 @@ public class ExpTest extends TestCase {
   public void testFail() {
     try {
       Exp.of(GaussScalar.of(6, 7));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

@@ -16,6 +16,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * a trapezoid which begins rising at a until b, has a plateau from b to c, and
  * then falls after c to point d.
  * 
+ * A special case is a triangular distribution where b == c. In that case,
+ * the plateau has width zero.
+ * 
  * <p>inspired by
  * <a href="https://en.wikipedia.org/wiki/Trapezoidal_distribution">TrapezoidalDistribution</a> */
 public class TrapezoidalDistribution extends AbstractContinuousDistribution implements InverseCDF, MeanInterface {
@@ -26,9 +29,9 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
    * @param c
    * @param d
    * @return
-   * @throws Exception unless a <= b < c <= d */
+   * @throws Exception unless a <= b <= c <= d and a < d */
   public static Distribution of(Scalar a, Scalar b, Scalar c, Scalar d) {
-    if (Scalars.lessEquals(c, b))
+    if (Scalars.lessThan(c, b) || Scalars.lessEquals(d, a))
       throw TensorRuntimeException.of(b, c);
     return new TrapezoidalDistribution(a, b, c, d);
   }

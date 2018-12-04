@@ -29,7 +29,7 @@ public class NormInfinityTest extends TestCase {
   public void testFail() {
     try {
       Norm.INFINITY.ofVector(RealScalar.ONE);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

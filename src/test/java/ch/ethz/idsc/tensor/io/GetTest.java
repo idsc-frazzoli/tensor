@@ -29,7 +29,7 @@ public class GetTest extends TestCase {
     File file = new File("/io/doesnotexist");
     try {
       Get.of(file);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

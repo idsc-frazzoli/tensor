@@ -61,7 +61,7 @@ public class CsvHelperTest extends TestCase {
   public void testComplexFail() {
     try {
       CsvHelper.FUNCTION.apply(ComplexScalar.of(3, 4));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -70,7 +70,7 @@ public class CsvHelperTest extends TestCase {
   public void testQuantityFail() {
     try {
       CsvHelper.FUNCTION.apply(Quantity.of(3, "s"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -80,7 +80,7 @@ public class CsvHelperTest extends TestCase {
     CsvHelper.requireQuotesFree("");
     try {
       CsvHelper.wrap(StringScalar.of("\""));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -89,19 +89,19 @@ public class CsvHelperTest extends TestCase {
   public void testFail() {
     try {
       CsvHelper.wrap(StringScalar.of("\"here\"\""));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       CsvHelper.wrap(StringScalar.of("here\""));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       CsvHelper.wrap(StringScalar.of("\"here"));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

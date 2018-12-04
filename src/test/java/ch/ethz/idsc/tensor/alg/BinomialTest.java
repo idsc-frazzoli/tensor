@@ -66,7 +66,7 @@ public class BinomialTest extends TestCase {
   public void testFailNK() {
     try {
       Binomial.of(-3, 0);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -75,13 +75,13 @@ public class BinomialTest extends TestCase {
   public void testFailN() {
     try {
       Binomial.of(RealScalar.of(10.21));
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Binomial.of(-1);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -97,13 +97,13 @@ public class BinomialTest extends TestCase {
   public void testLargeFail() {
     try {
       Binomial.of(RealScalar.of(123412341234324L), RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
     try {
       Binomial.of(RealScalar.of(-123412341234324L), RealScalar.ZERO);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }

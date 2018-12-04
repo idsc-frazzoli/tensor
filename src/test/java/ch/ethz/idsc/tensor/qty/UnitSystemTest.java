@@ -38,7 +38,7 @@ public class UnitSystemTest extends TestCase {
   public void testNullFail() {
     try {
       UnitSystem.SI().apply(null);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
@@ -74,7 +74,7 @@ public class UnitSystemTest extends TestCase {
     Tensor cart = Tensors.of(Quantity.of(2, "Apples"), Quantity.of(3, "Chocolates"), Quantity.of(3, "Oranges"));
     try {
       Total.of(cart);
-      assertTrue(false);
+      fail();
     } catch (Exception exception) {
       // ---
     }
