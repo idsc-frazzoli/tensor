@@ -143,7 +143,7 @@ public class TrapezoidalDistributionTest extends TestCase {
     assertTrue(apply instanceof RealScalar);
   }
 
-  public void testFail() {
+  public void testExactFail() {
     TrapezoidalDistribution.of(Quantity.of(1, "m"), Quantity.of(2, "m"), Quantity.of(3, "m"), Quantity.of(3, "m"));
     TrapezoidalDistribution.of(Quantity.of(2, "m"), Quantity.of(2, "m"), Quantity.of(3, "m"), Quantity.of(3, "m"));
     try {
@@ -160,6 +160,38 @@ public class TrapezoidalDistributionTest extends TestCase {
     }
     try {
       TrapezoidalDistribution.of(Quantity.of(1, "m"), Quantity.of(2, "m"), Quantity.of(2, "m"), Quantity.of(5, "m"));
+      // fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNumericFail() {
+    TrapezoidalDistribution.of(Quantity.of(1., "m"), Quantity.of(2., "m"), Quantity.of(3., "m"), Quantity.of(3., "m"));
+    TrapezoidalDistribution.of(Quantity.of(2., "m"), Quantity.of(2., "m"), Quantity.of(3., "m"), Quantity.of(3., "m"));
+    try {
+      TrapezoidalDistribution.of(Quantity.of(1., "m"), Quantity.of(1., "m"), Quantity.of(1., "m"), Quantity.of(1., "m"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      TrapezoidalDistribution.of(Quantity.of(1., "m"), Quantity.of(2., "m"), Quantity.of(3., "m"), Quantity.of(1., "m"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      TrapezoidalDistribution.of(Quantity.of(1., "m"), Quantity.of(2., "m"), Quantity.of(2., "m"), Quantity.of(5., "m"));
+      // fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testCenterFail() {
+    try {
+      TrapezoidalDistribution.of(Quantity.of(1., "m"), Quantity.of(3., "m"), Quantity.of(2., "m"), Quantity.of(9., "m"));
       fail();
     } catch (Exception exception) {
       // ---
