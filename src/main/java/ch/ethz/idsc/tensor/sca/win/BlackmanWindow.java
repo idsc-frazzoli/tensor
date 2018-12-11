@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.sca.win;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** BlackmanWindow[1/2]=-1.3877787807814457E-17
@@ -21,5 +22,12 @@ public enum BlackmanWindow implements ScalarUnaryOperator {
     return StaticHelper.SEMI.isInside(x) //
         ? StaticHelper.deg2(A0, RationalScalar.HALF, A2, x)
         : RealScalar.ZERO;
+  }
+
+  /** @param tensor
+   * @return tensor with all scalars replaced with their function value */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(FUNCTION);
   }
 }

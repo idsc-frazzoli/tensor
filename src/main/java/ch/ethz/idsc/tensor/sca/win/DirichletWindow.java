@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca.win;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.qty.Boole;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
@@ -15,5 +16,12 @@ public enum DirichletWindow implements ScalarUnaryOperator {
   @Override
   public Scalar apply(Scalar x) {
     return Boole.of(StaticHelper.SEMI.isInside(x));
+  }
+
+  /** @param tensor
+   * @return tensor with all scalars replaced with their function value */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(FUNCTION);
   }
 }

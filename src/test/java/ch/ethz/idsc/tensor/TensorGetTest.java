@@ -4,7 +4,10 @@ package ch.ethz.idsc.tensor;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.alg.Array;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import junit.framework.TestCase;
 
 public class TensorGetTest extends TestCase {
@@ -38,6 +41,14 @@ public class TensorGetTest extends TestCase {
     assertEquals(a, Array.zeros(3, 4));
   }
 
+  public void testGetAll() {
+    Tensor matrix = RandomVariate.of(UniformDistribution.unit(), 2, 3, 4);
+    assertEquals(matrix.get(), matrix);
+    assertEquals(matrix.get(Tensor.ALL), matrix);
+    assertEquals(matrix.get(Tensor.ALL, Tensor.ALL), matrix);
+    assertEquals(matrix.get(Tensor.ALL, Tensor.ALL, Tensor.ALL), matrix);
+  }
+
   public void testGetAll1() {
     Tensor a = Array.zeros(3).unmodifiable();
     a.get().set(RealScalar.ONE, 1);
@@ -66,5 +77,15 @@ public class TensorGetTest extends TestCase {
     a.get(Tensor.ALL).set(Tensors.vector(1, 2, 3), Tensor.ALL);
     a.get(Tensor.ALL, 2).set(RealScalar.ONE, 1);
     a.get(2, Tensor.ALL).set(Tensors.vector(1, 2, 3, 4), Tensor.ALL);
+  }
+
+  public void testGetAllFail() {
+    Tensor matrix = LieAlgebras.so3();
+    try {
+      matrix.Get(Tensor.ALL);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

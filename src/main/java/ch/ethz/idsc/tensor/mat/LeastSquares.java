@@ -10,14 +10,15 @@ public enum LeastSquares {
   ;
   /** @param m is matrix with rows >= cols, and maximum rank
    * @param b
-   * @return x with m.x ~ b */
+   * @return x with m.x ~ b
+   * @throws Exception if m does not have full rank */
   public static Tensor of(Tensor m, Tensor b) {
     Tensor mt = ConjugateTranspose.of(m);
     return LinearSolve.of(mt.dot(m), mt.dot(b));
   }
 
-  /** for numerical stability
-   * function usingSvd(...) is preferred over of(...)
+  /** when m does not have full rank, and for numerical stability
+   * the function usingSvd(...) is preferred over the function of(...)
    * 
    * @param m is matrix with rows >= cols
    * @param b
