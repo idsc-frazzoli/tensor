@@ -87,7 +87,7 @@ public class UnitSystemTest extends TestCase {
   public void testKnots() {
     UnitSystem unitSystem = UnitSystem.SI();
     Scalar r1 = unitSystem.apply(Quantity.of(1, "knots"));
-    Unit unit = Units.of(r1);
+    Unit unit = QuantityUnit.of(r1);
     assertEquals(unit, Unit.of("m*s^-1"));
     assertTrue(ExactScalarQ.of(r1));
     Scalar r2 = UnitConvert.SI().to(Unit.of("km*h^-1")).apply(r1);

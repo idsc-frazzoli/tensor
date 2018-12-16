@@ -31,7 +31,7 @@ public class QuantityMagnitudeTest extends TestCase {
 
   public void testSingleton() {
     Scalar scalar = Quantity.of(3, "m^2*s");
-    ScalarUnaryOperator suo = QuantityMagnitude.singleton(Unit.of("s*m^2"));
+    ScalarUnaryOperator suo = QuantityMagnitude.singleton("s*m^2");
     assertEquals(suo.apply(scalar), RealScalar.of(3));
   }
 

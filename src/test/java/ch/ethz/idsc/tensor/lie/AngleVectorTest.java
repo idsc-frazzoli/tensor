@@ -20,7 +20,7 @@ public class AngleVectorTest extends TestCase {
       Tensor vector = AngleVector.of(angle);
       assertTrue(Chop._14.close(Norm._2.ofVector(vector), RealScalar.ONE));
       Scalar check = ArcTan.of(vector.Get(0), vector.Get(1));
-      assertTrue(Chop._13.close(angle, check));
+      assertTrue(Chop._11.close(angle, check));
     }
   }
 

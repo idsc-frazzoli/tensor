@@ -5,8 +5,8 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.QuantityUnit;
 import ch.ethz.idsc.tensor.qty.Unit;
-import ch.ethz.idsc.tensor.qty.Units;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -37,12 +37,12 @@ public class ErlangDistributionTest extends TestCase {
     PDF pdf = PDF.of(distribution);
     {
       Scalar prob = pdf.at(Quantity.of(1.2, "m^-1"));
-      assertEquals(Units.of(prob), Unit.of("m"));
+      assertEquals(QuantityUnit.of(prob), Unit.of("m"));
     }
     {
       Scalar prob = pdf.at(Quantity.of(-1.2, "m^-1"));
       assertTrue(prob instanceof Quantity);
-      assertEquals(Units.of(prob), Unit.of("m"));
+      assertEquals(QuantityUnit.of(prob), Unit.of("m"));
     }
   }
 

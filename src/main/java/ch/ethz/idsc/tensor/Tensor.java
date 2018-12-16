@@ -146,7 +146,8 @@ public interface Tensor extends Iterable<Tensor> {
    * An exception is thrown when append is invoked on a {@link Scalar}.
    * 
    * @param tensor to be appended to this
-   * @return this */
+   * @return this
+   * @throws Exception if given tensor is null */
   Tensor append(Tensor tensor);
 
   /** function is <em>not</em> Mathematica compliant:
