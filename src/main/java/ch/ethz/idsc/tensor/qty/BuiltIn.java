@@ -10,4 +10,6 @@ import ch.ethz.idsc.tensor.io.ResourceData;
   final UnitSystem unitSystem = SimpleUnitSystem.from(ResourceData.properties("/unit/si.properties"));
   final UnitConvert unitConvert = new UnitConvert(unitSystem);
   final QuantityMagnitude quantityMagnitude = new QuantityMagnitude(unitSystem);
+  final CompatibleUnitQ compatibleUnitQ = CompatibleUnitQ.in(unitSystem);
+  final KnownUnitQ knownUnitQ = KnownUnitQ.in(unitSystem);
 }

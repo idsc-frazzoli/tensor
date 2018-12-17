@@ -7,11 +7,11 @@ import java.util.Set;
  * <a href="https://reference.wolfram.com/language/ref/KnownUnitQ.html">KnownUnitQ</a> */
 public class KnownUnitQ {
   public static KnownUnitQ SI() {
-    return in(UnitSystem.SI());
+    return BuiltIn.SI.knownUnitQ;
   }
 
   public static KnownUnitQ in(UnitSystem unitSystem) {
-    return new KnownUnitQ(StaticHelper.all(unitSystem));
+    return new KnownUnitQ(unitSystem.units());
   }
 
   // ---

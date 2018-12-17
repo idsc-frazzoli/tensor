@@ -98,4 +98,13 @@ public class ChopTest extends TestCase {
       // ---
     }
   }
+
+  public void testRequireClose() {
+    try {
+      Chop._06.requireClose(RealScalar.of(2), RealScalar.of(2.1));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class StaticHelperTest extends TestCase {
   public void testAll() {
-    Set<String> set = StaticHelper.all(UnitSystem.SI());
+    Set<String> set = StaticHelper.all(UnitSystem.SI().map());
     assertTrue(set.contains("cd"));
     assertTrue(set.contains("m"));
     assertTrue(set.contains("kg"));

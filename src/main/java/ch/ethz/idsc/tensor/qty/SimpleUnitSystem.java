@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -45,9 +46,11 @@ public class SimpleUnitSystem implements UnitSystem {
 
   // ---
   private final Map<String, Scalar> map;
+  private final Set<String> set;
 
   private SimpleUnitSystem(Map<String, Scalar> map) {
     this.map = map;
+    set = Collections.unmodifiableSet(StaticHelper.all(map));
   }
 
   @Override
@@ -81,5 +84,10 @@ public class SimpleUnitSystem implements UnitSystem {
   // helper function
   private static String format(Entry<String, Scalar> entry) {
     return entry.getKey() + Unit.POWER_DELIMITER + entry.getValue();
+  }
+
+  @Override
+  public Set<String> units() {
+    return set;
   }
 }

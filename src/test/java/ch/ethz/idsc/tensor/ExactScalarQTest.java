@@ -63,4 +63,14 @@ public class ExactScalarQTest extends TestCase {
       // ---
     }
   }
+
+  public void testRequireAll() {
+    ExactScalarQ.requireAll(Tensors.fromString("{{9/8,3/2[s]},1/2+3/4*I}"));
+    try {
+      ExactScalarQ.requireAll(Tensors.vector(1, 2, 3, .7));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

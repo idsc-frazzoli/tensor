@@ -10,13 +10,17 @@ import ch.ethz.idsc.tensor.Scalar;
  * <a href="https://reference.wolfram.com/language/ref/CompatibleUnitQ.html">CompatibleUnitQ</a> */
 public class CompatibleUnitQ {
   public static CompatibleUnitQ SI() {
-    return new CompatibleUnitQ(UnitSystem.SI());
+    return BuiltIn.SI.compatibleUnitQ;
+  }
+
+  public static CompatibleUnitQ in(UnitSystem unitSystem) {
+    return new CompatibleUnitQ(unitSystem);
   }
 
   // ---
   private final UnitSystem unitSystem;
 
-  public CompatibleUnitQ(UnitSystem unitSystem) {
+  private CompatibleUnitQ(UnitSystem unitSystem) {
     this.unitSystem = unitSystem;
   }
 

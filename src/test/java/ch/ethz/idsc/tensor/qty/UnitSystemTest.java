@@ -96,4 +96,15 @@ public class UnitSystemTest extends TestCase {
     assertTrue(ExactScalarQ.of(r3));
     assertEquals(r2, r3);
   }
+
+  public void testUnits() {
+    UnitSystem unitSystem = UnitSystem.SI();
+    assertTrue(67 <= unitSystem.units().size());
+    assertTrue(unitSystem.units().contains("K"));
+    assertTrue(unitSystem.units().contains("A"));
+    assertTrue(unitSystem.units().contains("V"));
+    assertTrue(unitSystem.units().contains("psi"));
+    assertFalse(unitSystem.units().contains("CHF"));
+    assertFalse(unitSystem.units().contains("USD"));
+  }
 }
