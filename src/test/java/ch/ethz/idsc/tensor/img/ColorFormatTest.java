@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.io;
+package ch.ethz.idsc.tensor.img;
 
 import java.awt.Color;
 import java.util.Random;
@@ -7,7 +7,6 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.img.ColorFormat;
 import junit.framework.TestCase;
 
 public class ColorFormatTest extends TestCase {
