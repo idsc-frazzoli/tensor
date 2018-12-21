@@ -24,9 +24,16 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
     return "/colorlist/" + name.toLowerCase() + ".csv";
   }
 
+  /** @param tensor
+   * @param alpha
+   * @return */
+  static Tensor withAlpha(Tensor tensor, int alpha) {
+    return Tensor.of(tensor.stream().map(withAlpha(alpha)));
+  }
+
   /** @param alpha
    * @return operator that maps a vector of the form rgba to rgb,alpha */
-  static TensorUnaryOperator withAlpha(int alpha) {
+  private static TensorUnaryOperator withAlpha(int alpha) {
     Scalar scalar = RealScalar.of(alpha);
     return rgba -> rgba.extract(0, 3).append(scalar);
   }

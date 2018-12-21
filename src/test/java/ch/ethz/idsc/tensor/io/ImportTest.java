@@ -9,6 +9,7 @@ import java.util.zip.DataFormatException;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.utl.UserHome;
 import junit.framework.TestCase;
 
@@ -120,6 +121,21 @@ public class ImportTest extends TestCase {
     File file = new File(getClass().getResource("/io/string.object").getFile());
     String string = Import.object(file);
     assertEquals(string, "tensorlib.importtest");
+  }
+
+  public void testSerialization1() throws ClassNotFoundException, IOException, DataFormatException {
+    Tensor tensor = Import.object(new File("src/test/resources/io/bin", "tensor.object"));
+    VectorQ.requireLength(tensor, 3);
+  }
+
+  public void testSerialization2() throws ClassNotFoundException, IOException, DataFormatException {
+    Tensor tensor = Import.object(new File("src/test/resources/io/bin", "unmodifiable.object"));
+    assertTrue(Tensors.isUnmodifiable(tensor));
+  }
+
+  public void testSerialization3() throws ClassNotFoundException, IOException, DataFormatException {
+    Tensor tensor = Import.object(new File("src/test/resources/io/bin", "viewtensor.object"));
+    VectorQ.requireLength(tensor, 3);
   }
 
   public void testUnknownFail() {

@@ -35,6 +35,6 @@ import ch.ethz.idsc.tensor.Tensor;
   protected abstract int toInt(Scalar scalar);
 
   protected final Tensor tableWithAlpha(int alpha) {
-    return Tensor.of(tensor.stream().map(StaticHelper.withAlpha(alpha)));
+    return StaticHelper.withAlpha(tensor, alpha);
   }
 }

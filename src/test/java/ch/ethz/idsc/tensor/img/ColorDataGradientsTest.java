@@ -38,6 +38,15 @@ public class ColorDataGradientsTest extends TestCase {
     assertTrue(Chop.NONE.allZero(ColorDataGradients.CLASSIC.apply(nan)));
   }
 
+  public void testDeriveWithAlpha() {
+    ColorDataGradient cdg1 = ColorDataGradients.CLASSIC.deriveWithAlpha(255);
+    ColorDataGradient cdg2 = ColorDataGradients.CLASSIC.deriveWithAlpha(128);
+    Tensor rgba1 = cdg1.apply(RealScalar.of(.5));
+    Tensor rgba2 = cdg2.apply(RealScalar.of(.5));
+    assertEquals(rgba1.get(3), RealScalar.of(255));
+    assertEquals(rgba2.get(3), RealScalar.of(128));
+  }
+
   public void testFail() {
     for (ScalarTensorFunction cdf : ColorDataGradients.values()) {
       ColorDataGradients cdg = (ColorDataGradients) cdf;

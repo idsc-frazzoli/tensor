@@ -32,12 +32,22 @@ public class ColorDataGradient implements ScalarTensorFunction {
   }
 
   // ---
+  private final Tensor tensor;
   private final Interpolation interpolation;
   private final Scalar scale;
 
   private ColorDataGradient(Tensor tensor) {
+    this.tensor = tensor;
     interpolation = LinearInterpolation.of(N.DOUBLE.of(tensor));
     scale = DoubleScalar.of(tensor.length() - 1);
+  }
+
+  /** @param alpha in the interval [0, 1, ..., 255]
+   * @return new instance of ColorDataIndexed with identical RGB color values
+   * but with transparency as given alpha
+   * @throws Exception if alpha is not in the valid range */
+  public ColorDataGradient deriveWithAlpha(int alpha) {
+    return new ColorDataGradient(StaticHelper.withAlpha(tensor, alpha));
   }
 
   @Override
