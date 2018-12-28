@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.zip.DataFormatException;
 
@@ -50,13 +51,13 @@ public enum Import {
    * and were stored with {@link Export#object(File, Serializable)}.
    * 
    * @param file
-   * @return object prior to serialization
-   * @throws IOException
+   * @return object prior to serialization, non-null
+   * @throws IOException if file does not exist
    * @throws ClassNotFoundException
    * @throws DataFormatException */
   public static <T> T object(File file) //
       throws IOException, ClassNotFoundException, DataFormatException {
-    return ObjectFormat.parse(Files.readAllBytes(file.toPath()));
+    return Objects.requireNonNull(ObjectFormat.parse(Files.readAllBytes(file.toPath())));
   }
 
   /** @param file

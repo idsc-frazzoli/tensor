@@ -145,4 +145,39 @@ public class ExportTest extends TestCase {
     }
     assertFalse(file.exists());
   }
+
+  public void testBmpNull() throws IOException {
+    File file = UserHome.file("tensorLib_ExportNullTest.bmp");
+    assertFalse(file.exists());
+    try {
+      Export.of(file, null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    assertFalse(file.exists());
+  }
+
+  public void testBmpGzNull() throws IOException {
+    File file = UserHome.file("tensorLib_ExportNullTest.bmp.gz");
+    assertFalse(file.exists());
+    try {
+      Export.of(file, null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    assertFalse(file.exists());
+  }
+
+  public void testObjectNullFail() {
+    File file = new File("tensorTestObjectNullFail.file");
+    assertFalse(file.exists());
+    try {
+      Export.object(file, null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

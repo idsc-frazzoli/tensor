@@ -20,10 +20,11 @@ public class ObjectFormatTest extends TestCase {
   }
 
   public void testNull() throws Exception {
-    Tensor inp = null;
-    byte[] bytes = ObjectFormat.of(inp);
-    Tensor ten = ObjectFormat.parse(bytes);
-    assertEquals(inp, ten);
+    final Object put = null;
+    byte[] bytes = ObjectFormat.of(put);
+    Object get = ObjectFormat.parse(bytes);
+    assertEquals(put, get);
+    assertNull(get);
   }
 
   public void testExportImportObject() throws IOException, ClassNotFoundException, DataFormatException {

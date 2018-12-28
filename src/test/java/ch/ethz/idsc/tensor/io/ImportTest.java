@@ -148,6 +148,17 @@ public class ImportTest extends TestCase {
     }
   }
 
+  public void testUnknownObjectFail() {
+    File file = new File("doesnotexist.fileext");
+    try {
+      Import.object(file);
+      fail();
+    } catch (Exception exception) {
+      // ---
+      assertTrue(exception instanceof IOException);
+    }
+  }
+
   public void testTensor() throws Exception {
     File file = UserHome.file("asdfghjk.tensortest");
     assertFalse(file.exists());

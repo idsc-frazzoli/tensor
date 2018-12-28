@@ -20,7 +20,7 @@ import java.util.zip.DataFormatException;
  * <code>ObjectFormat.parse(Files.readAllBytes(path));</code> */
 public enum ObjectFormat {
   ;
-  /** @param object
+  /** @param object may be null
    * @return deflated serialization of object as byte array
    * @throws IOException */
   public static byte[] of(Object object) throws IOException {
@@ -28,7 +28,7 @@ public enum ObjectFormat {
   }
 
   /** @param bytes containing the deflated serialization of object
-   * @return object prior to serialization
+   * @return object prior to serialization, may be null
    * @throws ClassNotFoundException
    * @throws DataFormatException
    * @throws IOException */
