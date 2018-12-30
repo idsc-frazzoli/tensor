@@ -124,17 +124,17 @@ public class ImportTest extends TestCase {
   }
 
   public void testSerialization1() throws ClassNotFoundException, IOException, DataFormatException {
-    Tensor tensor = Import.object(new File("src/test/resources/io/bin", "tensor.object"));
+    Tensor tensor = Import.object(new File("src/test/resources/io/object", "tensor.object"));
     VectorQ.requireLength(tensor, 3);
   }
 
   public void testSerialization2() throws ClassNotFoundException, IOException, DataFormatException {
-    Tensor tensor = Import.object(new File("src/test/resources/io/bin", "unmodifiable.object"));
+    Tensor tensor = Import.object(new File("src/test/resources/io/object", "unmodifiable.object"));
     assertTrue(Tensors.isUnmodifiable(tensor));
   }
 
   public void testSerialization3() throws ClassNotFoundException, IOException, DataFormatException {
-    Tensor tensor = Import.object(new File("src/test/resources/io/bin", "viewtensor.object"));
+    Tensor tensor = Import.object(new File("src/test/resources/io/object", "viewtensor.object"));
     VectorQ.requireLength(tensor, 3);
   }
 

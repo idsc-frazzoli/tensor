@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -150,5 +151,15 @@ public enum Primitives {
     toStreamNumber(tensor).mapToInt(Number::intValue).forEach(intBuffer::put);
     intBuffer.flip();
     return intBuffer;
+  }
+
+  /***************************************************/
+  /** @param tensor
+   * @return array of byte values of all scalars in tensor */
+  public static byte[] toByteArray(Tensor tensor) {
+    byte[] array = new byte[Numel.of(tensor)];
+    ByteBuffer byteBuffer = ByteBuffer.wrap(array);
+    toStreamNumber(tensor).forEach(number -> byteBuffer.put(number.byteValue()));
+    return array;
   }
 }
