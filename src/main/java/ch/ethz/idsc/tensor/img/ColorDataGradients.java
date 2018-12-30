@@ -82,10 +82,10 @@ public enum ColorDataGradients implements ScalarTensorFunction {
       System.err.println("fail to load " + name());
   }
 
-  public ColorDataGradient deriveWithAlpha(int alpha) {
+  public ColorDataGradient deriveWithAlpha(Scalar alpha) {
     if (scalarTensorFunction instanceof ColorDataGradient) {
       ColorDataGradient colorDataGradient = (ColorDataGradient) scalarTensorFunction;
-      return colorDataGradient.deriveWithAlpha(alpha);
+      return colorDataGradient.deriveWithFactor(alpha);
     }
     throw new RuntimeException();
   }

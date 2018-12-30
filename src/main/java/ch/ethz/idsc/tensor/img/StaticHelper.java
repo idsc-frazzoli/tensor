@@ -37,4 +37,18 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
     Scalar scalar = RealScalar.of(alpha);
     return rgba -> rgba.extract(0, 3).append(scalar);
   }
+
+  static Tensor withFactor(Tensor tensor, Scalar factor) {
+    return Tensor.of(tensor.stream().map(withFactor(factor)));
+  }
+
+  /** @param factor
+   * @return operator that maps a vector of the form rgba to rgb,alpha*factor */
+  private static TensorUnaryOperator withFactor(Scalar factor) {
+    return rgba -> {
+      Tensor copy = rgba.copy();
+      copy.set(alpha -> alpha.multiply(factor), 3);
+      return copy;
+    };
+  }
 }

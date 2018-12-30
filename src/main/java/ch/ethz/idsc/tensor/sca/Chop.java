@@ -60,7 +60,7 @@ public class Chop implements ScalarUnaryOperator {
 
   private Chop(double threshold) {
     if (threshold < 0)
-      throw new IllegalArgumentException("" + threshold);
+      throw new IllegalArgumentException(Double.toString(threshold));
     this.threshold = threshold;
   }
 

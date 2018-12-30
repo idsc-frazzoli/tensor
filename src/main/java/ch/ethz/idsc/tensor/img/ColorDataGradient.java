@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.N;
 
 /** ColorDataGradient maps a {@link Scalar} from the interval [0, 1] to a 4-vector
@@ -42,12 +43,12 @@ public class ColorDataGradient implements ScalarTensorFunction {
     scale = DoubleScalar.of(tensor.length() - 1);
   }
 
-  /** @param alpha in the interval [0, 1, ..., 255]
+  /** @param factor in the interval [0, 1]
    * @return new instance of ColorDataIndexed with identical RGB color values
    * but with transparency as given alpha
    * @throws Exception if alpha is not in the valid range */
-  public ColorDataGradient deriveWithAlpha(int alpha) {
-    return new ColorDataGradient(StaticHelper.withAlpha(tensor, alpha));
+  public ColorDataGradient deriveWithFactor(Scalar factor) {
+    return new ColorDataGradient(StaticHelper.withFactor(tensor, Clip.unit().requireInside(factor)));
   }
 
   @Override

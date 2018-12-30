@@ -32,7 +32,7 @@ public class Binomial {
    * @return binomial function that computes n choose k */
   public static Binomial of(int n) {
     if (n < 0)
-      throw new IllegalArgumentException(String.format("Binomial[%d]", n));
+      throw new IllegalArgumentException(Integer.toString(n));
     return binomial(n);
   }
 

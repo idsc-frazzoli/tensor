@@ -44,7 +44,7 @@ public class ChopTest extends TestCase {
       Chop.below(-1e-9);
       fail();
     } catch (Exception exception) {
-      // ---
+      assertEquals(exception.getMessage(), "-1.0E-9");
     }
   }
 

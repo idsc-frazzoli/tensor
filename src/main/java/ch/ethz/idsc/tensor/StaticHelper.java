@@ -13,8 +13,10 @@ import ch.ethz.idsc.tensor.sca.Sign;
 
 /* package */ enum StaticHelper {
   ;
+  static final String OPENING_BRACKET_STRING = Character.toString(Tensor.OPENING_BRACKET);
+  static final String CLOSING_BRACKET_STRING = Character.toString(Tensor.CLOSING_BRACKET);
   static final Collector<CharSequence, ?, String> EMBRACE = //
-      Collectors.joining(", ", "" + Tensor.OPENING_BRACKET, "" + Tensor.CLOSING_BRACKET);
+      Collectors.joining(", ", OPENING_BRACKET_STRING, CLOSING_BRACKET_STRING);
   // ---
   /** code from java.lang.Double */
   private static final String Digits = "(\\p{Digit}+)";

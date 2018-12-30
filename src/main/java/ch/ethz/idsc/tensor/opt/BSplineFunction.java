@@ -37,7 +37,7 @@ public class BSplineFunction implements ScalarTensorFunction {
    * @return */
   public static BSplineFunction of(int degree, Tensor control) {
     if (degree < 0)
-      throw new IllegalArgumentException("" + degree);
+      throw new IllegalArgumentException(Integer.toString(degree));
     return new BSplineFunction(degree, control);
   }
 

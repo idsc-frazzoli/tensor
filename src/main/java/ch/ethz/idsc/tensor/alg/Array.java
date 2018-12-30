@@ -87,7 +87,7 @@ public enum Array {
 
   private static int requirePositiveOrZero(int length) {
     if (length < 0)
-      throw new IllegalArgumentException("" + length);
+      throw new IllegalArgumentException(Integer.toString(length));
     return length;
   }
 }

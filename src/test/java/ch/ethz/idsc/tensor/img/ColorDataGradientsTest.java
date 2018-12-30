@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -39,12 +40,13 @@ public class ColorDataGradientsTest extends TestCase {
   }
 
   public void testDeriveWithAlpha() {
-    ColorDataGradient cdg1 = ColorDataGradients.CLASSIC.deriveWithAlpha(255);
-    ColorDataGradient cdg2 = ColorDataGradients.CLASSIC.deriveWithAlpha(128);
+    ColorDataGradient cdg1 = ColorDataGradients.CLASSIC.deriveWithAlpha(RealScalar.ONE);
+    ColorDataGradient cdg2 = ColorDataGradients.CLASSIC.deriveWithAlpha(RationalScalar.HALF);
     Tensor rgba1 = cdg1.apply(RealScalar.of(.5));
     Tensor rgba2 = cdg2.apply(RealScalar.of(.5));
+    System.out.println(rgba1);
     assertEquals(rgba1.get(3), RealScalar.of(255));
-    assertEquals(rgba2.get(3), RealScalar.of(128));
+    assertEquals(rgba2.get(3), RealScalar.of(127.5));
   }
 
   public void testFail() {
