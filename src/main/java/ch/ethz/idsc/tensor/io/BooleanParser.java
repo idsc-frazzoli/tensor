@@ -13,7 +13,8 @@ package ch.ethz.idsc.tensor.io;
   /** stricter function than {@link Boolean#parseBoolean(String)}
    * 
    * @param string
-   * @return null if string does not equal "true" or "false" */
+   * @return null if string does not equal "true" or "false"
+   * @throws Exception if parameter is null */
   static Boolean orNull(String string) {
     if (string.equals(FALSE))
       return false;

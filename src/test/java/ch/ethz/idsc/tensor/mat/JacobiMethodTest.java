@@ -23,14 +23,15 @@ public class JacobiMethodTest extends TestCase {
     // testing determinant
     Scalar det = Det.of(matrix);
     Tensor prd = Total.prod(eigensys.values());
-    assertTrue(Chop._12.close(det, prd));
+    Chop._12.requireClose(det, prd);
     Tensor norm = Tensor.of(eigensys.vectors().stream().map(Norm._2::ofVector));
-    assertTrue(Chop._12.close(norm, Tensors.vector(i -> RealScalar.ONE, norm.length())));
+    Chop._12.requireClose(norm, Tensors.vector(i -> RealScalar.ONE, norm.length()));
     // testing orthogonality
     final Tensor Vt = Transpose.of(eigensys.vectors());
     final int n = eigensys.values().length();
-    assertTrue(Chop._12.close(Vt.dot(eigensys.vectors()), IdentityMatrix.of(n)));
-    assertTrue(Chop._12.close(eigensys.vectors().dot(Vt), IdentityMatrix.of(n)));
+    Tensor id = IdentityMatrix.of(n);
+    Chop._12.requireClose(Vt.dot(eigensys.vectors()), id);
+    Chop._12.requireClose(eigensys.vectors().dot(Vt), id);
     assertTrue(OrthogonalMatrixQ.of(eigensys.vectors()));
     assertTrue(OrthogonalMatrixQ.of(Vt));
     // assert that values are sorted from max to min
@@ -43,8 +44,8 @@ public class JacobiMethodTest extends TestCase {
     Tensor expEigvl = Tensors.fromString("{ 23.853842147040694,  3.3039323944179757, 2.8422254585413294, -4}");
     Tensor expEigvc = Transpose.of(Tensors.fromString(
         "{{0.08008068980475883, -0.5948978891329353, 0.6877622539503787, -0.4082482904638631}, {0.35340348774478036, -0.45368409809391813, 0.05108862221538444, 0.8164965809277261}, {0.6267262856848018, -0.3124703070549013, -0.5855850095196097, -0.408248290463863}, {0.6898602907849903, 0.5853456652704466, 0.4259850130546227, -6.117111473932377E-17}}"));
-    assertEquals(Chop._12.of(expEigvl.subtract(eigsys.values())), Array.zeros(4));
-    assertEquals(Chop._12.of(expEigvc.subtract(eigsys.vectors())), Array.zeros(4, 4));
+    Chop._12.requireClose(expEigvl.subtract(eigsys.values()), Array.zeros(4));
+    Chop._12.requireClose(expEigvc.subtract(eigsys.vectors()), Array.zeros(4, 4));
     checkEquation(tensor, eigsys);
   }
 
