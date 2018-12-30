@@ -23,14 +23,14 @@ public class CsvHelperTest extends TestCase {
   }
 
   public void testString1() {
-    Scalar s = StringScalar.of("here!");
-    assertEquals(CsvHelper.FUNCTION.apply(s).toString(), "\"here!\"");
+    Scalar scalar = StringScalar.of("here!");
+    assertEquals(CsvHelper.FUNCTION.apply(scalar).toString(), "\"here!\"");
   }
 
   public void testString2() {
     String string = "\"here!\"";
-    Scalar s = StringScalar.of(string);
-    assertEquals(CsvHelper.FUNCTION.apply(s).toString(), string);
+    Scalar scalar = StringScalar.of(string);
+    assertEquals(CsvHelper.FUNCTION.apply(scalar).toString(), string);
   }
 
   public void testDecimal() {

@@ -7,7 +7,6 @@ import java.util.function.Function;
 import ch.ethz.idsc.tensor.io.StringScalar;
 
 /* package */ class TensorParser {
-  private static final String OPENING_BRACKET_STRING = "" + Tensor.OPENING_BRACKET;
   private static final char COMMA = ',';
   // ---
   public static final TensorParser DEFAULT = new TensorParser(Scalars::fromString);
@@ -22,7 +21,7 @@ import ch.ethz.idsc.tensor.io.StringScalar;
 
   public Tensor parse(String string) {
     // could implement using stack?
-    if (string.startsWith(OPENING_BRACKET_STRING)) { // first character is "{"
+    if (string.startsWith(StaticHelper.OPENING_BRACKET_STRING)) { // first character is "{"
       Tensor tensor = Tensors.empty();
       int level = 0; // track nesting with "{" and "}"
       int beg = -1;

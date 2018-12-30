@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.util.Objects;
 import java.util.zip.GZIPOutputStream;
 
 import ch.ethz.idsc.tensor.Tensor;
@@ -26,11 +27,12 @@ public enum Export {
    * is thrown, and the file will not be created.
    * 
    * @param file destination
-   * @param tensor
+   * @param tensor non-null
    * @throws IOException */
   public static void of(File file, Tensor tensor) throws IOException {
     Filename filename = new Filename(file);
     Extension extension = filename.extension();
+    Objects.requireNonNull(tensor);
     try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
       if (extension.equals(Extension.GZ))
         try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(fileOutputStream)) {
@@ -45,9 +47,9 @@ public enum Export {
    * To retrieve the object, use {@link Import#object(File)}.
    * 
    * @param file
-   * @param object implements {@link Serializable}
+   * @param object non-null that implements {@link Serializable}
    * @throws IOException */
   public static void object(File file, Object object) throws IOException {
-    Files.write(file.toPath(), ObjectFormat.of(object));
+    Files.write(file.toPath(), ObjectFormat.of(Objects.requireNonNull(object)));
   }
 }

@@ -43,13 +43,4 @@ public class ArcCosTest extends TestCase {
     // x86_64 : 0.9537320301188659+2.846288828208396*I
     assertTrue(Chop._12.close(r, Scalars.fromString("0.9537320301188659+2.846288828208396*I")));
   }
-
-  public void testArcCosh() {
-    Scalar s = ComplexScalar.of(5, -7);
-    Scalar r = ArcCosh.of(s);
-    // 2.84629 - 0.953732 I
-    Scalar a = Scalars.fromString("2.8462888282083862-0.9537320301189031*I");
-    assertEquals(a, r);
-    assertEquals(a, ArcCosh.of(s));
-  }
 }

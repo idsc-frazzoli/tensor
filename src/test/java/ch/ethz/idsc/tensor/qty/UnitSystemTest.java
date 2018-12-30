@@ -87,7 +87,7 @@ public class UnitSystemTest extends TestCase {
   public void testKnots() {
     UnitSystem unitSystem = UnitSystem.SI();
     Scalar r1 = unitSystem.apply(Quantity.of(1, "knots"));
-    Unit unit = Units.of(r1);
+    Unit unit = QuantityUnit.of(r1);
     assertEquals(unit, Unit.of("m*s^-1"));
     assertTrue(ExactScalarQ.of(r1));
     Scalar r2 = UnitConvert.SI().to(Unit.of("km*h^-1")).apply(r1);
@@ -95,5 +95,16 @@ public class UnitSystemTest extends TestCase {
     Scalar r3 = Quantity.of(RationalScalar.of(463, 250), "km*h^-1");
     assertTrue(ExactScalarQ.of(r3));
     assertEquals(r2, r3);
+  }
+
+  public void testUnits() {
+    UnitSystem unitSystem = UnitSystem.SI();
+    assertTrue(67 <= unitSystem.units().size());
+    assertTrue(unitSystem.units().contains("K"));
+    assertTrue(unitSystem.units().contains("A"));
+    assertTrue(unitSystem.units().contains("V"));
+    assertTrue(unitSystem.units().contains("psi"));
+    assertFalse(unitSystem.units().contains("CHF"));
+    assertFalse(unitSystem.units().contains("USD"));
   }
 }

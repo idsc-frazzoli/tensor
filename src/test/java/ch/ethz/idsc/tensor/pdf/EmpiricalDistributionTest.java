@@ -102,6 +102,11 @@ public class EmpiricalDistributionTest extends TestCase {
     assertEquals(distribution.quantile(RealScalar.of(1)), RealScalar.of(4));
   }
 
+  public void testToString() {
+    Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 9, 1));
+    assertEquals(distribution.toString(), "EmpiricalDistribution[{0, 9/10, 1/10}]");
+  }
+
   public void testFailInverseCDF() {
     InverseCDF inv = InverseCDF.of(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 3, 1)));
     try {

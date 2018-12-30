@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** default threshold in Mathematica is 1e-10:
  * Chop[1.000*^-10] != 0
@@ -59,7 +60,7 @@ public class Chop implements ScalarUnaryOperator {
 
   private Chop(double threshold) {
     if (threshold < 0)
-      throw new IllegalArgumentException("" + threshold);
+      throw new IllegalArgumentException(Double.toString(threshold));
     this.threshold = threshold;
   }
 
@@ -91,6 +92,15 @@ public class Chop implements ScalarUnaryOperator {
    * for example due to different dimensions */
   public boolean close(Tensor lhs, Tensor rhs) {
     return allZero(lhs.subtract(rhs));
+  }
+
+  /** @param lhs
+   * @param rhs
+   * @throws Exception if close(lhs, rhs) evaluates to false
+   * @see #close(Tensor, Tensor) */
+  public void requireClose(Tensor lhs, Tensor rhs) {
+    if (!close(lhs, rhs))
+      throw TensorRuntimeException.of(lhs, rhs);
   }
 
   /** @param tensor

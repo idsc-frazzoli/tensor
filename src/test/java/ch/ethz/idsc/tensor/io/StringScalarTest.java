@@ -1,7 +1,11 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.io;
 
-import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class StringScalarTest extends TestCase {

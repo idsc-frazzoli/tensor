@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Series;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
@@ -28,5 +29,12 @@ public enum ParzenWindow implements ScalarUnaryOperator {
           ? S1.apply(x)
           : S2.apply(x);
     return RealScalar.ZERO;
+  }
+
+  /** @param tensor
+   * @return tensor with all scalars replaced with their function value */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(FUNCTION);
   }
 }

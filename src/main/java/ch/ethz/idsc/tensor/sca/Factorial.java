@@ -31,7 +31,7 @@ public enum Factorial implements ScalarUnaryOperator {
    * @return */
   public static Scalar of(int index) {
     if (index < 0)
-      throw new IllegalArgumentException("" + index);
+      throw new IllegalArgumentException(Integer.toString(index));
     if (MEMO.length() <= index)
       synchronized (FUNCTION) {
         while (MEMO.length() <= index)

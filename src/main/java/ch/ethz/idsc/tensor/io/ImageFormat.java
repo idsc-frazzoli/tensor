@@ -17,6 +17,11 @@ import ch.ethz.idsc.tensor.img.ColorFormat;
 
 /** ImageFormat uses the data alignment of {@link BufferedImage}.
  * 
+ * <p>Careful: A tensor is converted to an image with underlying
+ * byte array that is faithful to the original tensor entries.
+ * However, the query getRGB and subsequent conversion to Color
+ * is not bijective!
+ * 
  * <p>The {@link Dimensions} of tensors that represent native images are
  * For grayscale:
  * <code>height x width</code>
@@ -88,7 +93,8 @@ public enum ImageFormat {
         bufferedImage.getHeight(), bufferedImage.getWidth());
   }
 
-  // helper function
+  // helper function, alternative:
+  // https://stackoverflow.com/questions/37362753/creating-grayscale-bitmap-from-array-of-0-255-gray-values-in-java
   static BufferedImage toTYPE_BYTE_GRAY(Tensor tensor, int width, int height) {
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
     WritableRaster writableRaster = bufferedImage.getRaster();

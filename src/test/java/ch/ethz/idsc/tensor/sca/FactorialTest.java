@@ -42,7 +42,7 @@ public class FactorialTest extends TestCase {
       Factorial.of(RealScalar.of(-1));
       fail();
     } catch (Exception exception) {
-      // ---
+      assertEquals(exception.getMessage(), "-1");
     }
     try {
       Factorial.of(RealScalar.of(1.2));

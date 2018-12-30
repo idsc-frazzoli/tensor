@@ -44,7 +44,7 @@ public class ChopTest extends TestCase {
       Chop.below(-1e-9);
       fail();
     } catch (Exception exception) {
-      // ---
+      assertEquals(exception.getMessage(), "-1.0E-9");
     }
   }
 
@@ -93,6 +93,15 @@ public class ChopTest extends TestCase {
   public void testCloseFail() {
     try {
       Chop._05.close(Tensors.vector(1), Tensors.vector(1, 1));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRequireClose() {
+    try {
+      Chop._06.requireClose(RealScalar.of(2), RealScalar.of(2.1));
       fail();
     } catch (Exception exception) {
       // ---

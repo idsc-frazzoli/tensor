@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Clip;
-import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** Characteristics of a trapezoidal distribution: the graph of the PDF resembles
@@ -124,9 +123,8 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
 
   @Override // from MeanInterface
   public Scalar mean() {
-    Scalar term1 = alpha.multiply(_1_3);
-    Scalar term2 = Power.of(d, 3).subtract(Power.of(c, 3)).divide(d.subtract(c));
-    Scalar term3 = Power.of(b, 3).subtract(Power.of(a, 3)).divide(b.subtract(a));
-    return term1.multiply(term2.subtract(term3));
+    Scalar cd = c.multiply(c).add(c.multiply(d)).add(d.multiply(d));
+    Scalar ab = a.multiply(a).add(a.multiply(b)).add(b.multiply(b));
+    return alpha.multiply(cd.subtract(ab)).multiply(_1_3);
   }
 }

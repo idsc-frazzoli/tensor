@@ -21,7 +21,13 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * regardless of the length of the control points.
  * 
  * Mathematica::BSplineFunction throws an exception if number
- * of control points is insufficient for the specified degree. */
+ * of control points is insufficient for the specified degree.
+ * 
+ * <p>Quote from Wikipedia:
+ * The term "B-spline" was coined by Isaac Jacob Schoenberg and is short for basis spline.
+ * A spline is a piecewise polynomial function of a given degree in a variable x.
+ * The values of x where the pieces of polynomial meet are known as knots, denoted
+ * ..., t0, t1, t2, ... and sorted into non-decreasing order. */
 public class BSplineFunction implements ScalarTensorFunction {
   /** the control point are stored by reference, i.e. modifications to
    * given tensor alter the behavior of this BSplineFunction instance.
@@ -31,7 +37,7 @@ public class BSplineFunction implements ScalarTensorFunction {
    * @return */
   public static BSplineFunction of(int degree, Tensor control) {
     if (degree < 0)
-      throw new IllegalArgumentException("" + degree);
+      throw new IllegalArgumentException(Integer.toString(degree));
     return new BSplineFunction(degree, control);
   }
 

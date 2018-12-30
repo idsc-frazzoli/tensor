@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.qty;
 
 import java.util.Map;
+import java.util.Set;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
@@ -28,4 +29,7 @@ public interface UnitSystem extends ScalarUnaryOperator {
 
   /** @return unmodifiable view on map that defines the unit system */
   Map<String, Scalar> map();
+
+  /** @return unmodifiable view on the set of all units */
+  Set<String> units();
 }

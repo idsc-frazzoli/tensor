@@ -21,14 +21,14 @@ public class MatrixLog2Test extends TestCase {
     Tensor exp = MatrixExp.of(matrix);
     Tensor log = MatrixLog.of(exp);
     Tensor elg = MatrixExp.of(log);
-    assertTrue(Chop._12.close(elg, exp));
+    Chop._11.requireClose(elg, exp);
     // Chop._10.close(log, matrix); // not generally true!
   }
 
   private static void _checkLogExp(Tensor matrix) {
     Tensor log = MatrixLog.of(matrix);
     Tensor exp = MatrixExp.of(log);
-    assertTrue(Chop._12.close(exp, matrix));
+    Chop._12.requireClose(exp, matrix);
   }
 
   public void testIdentity() {
@@ -46,8 +46,8 @@ public class MatrixLog2Test extends TestCase {
     Tensor mlog = MatrixLog.of(matrix);
     Tensor mathematica = Tensors.fromString( //
         "{{1.5040773967762740734, 0.81093021621632876396},{-0.40546510810816438198, 0.28768207245178092744}}");
-    assertTrue(Chop._14.close(mlog, mathematica));
-    assertTrue(Chop._14.close(matrix, MatrixExp.of(mlog)));
+    Chop._12.requireClose(mlog, mathematica);
+    Chop._12.requireClose(matrix, MatrixExp.of(mlog));
   }
 
   public void testUpper() {
@@ -55,8 +55,8 @@ public class MatrixLog2Test extends TestCase {
     Tensor mlog = MatrixLog.of(matrix);
     Tensor mathematica = Tensors.fromString( //
         "{{1.3862943611198906188, 0.92419624074659374589}, {0, 0}}");
-    assertTrue(Chop._14.close(mlog, mathematica));
-    assertTrue(Chop._14.close(matrix, MatrixExp.of(mlog)));
+    Chop._12.requireClose(mlog, mathematica);
+    Chop._12.requireClose(matrix, MatrixExp.of(mlog));
   }
 
   public void testLower() {
@@ -64,8 +64,8 @@ public class MatrixLog2Test extends TestCase {
     Tensor mlog = MatrixLog.of(matrix);
     Tensor mathematica = Transpose.of(Tensors.fromString( //
         "{{1.3862943611198906188, 0.92419624074659374589}, {0, 0}}"));
-    assertTrue(Chop._14.close(mlog, mathematica));
-    assertTrue(Chop._14.close(matrix, MatrixExp.of(mlog)));
+    Chop._12.requireClose(mlog, mathematica);
+    Chop._12.requireClose(matrix, MatrixExp.of(mlog));
   }
 
   public void testTraceZero() {

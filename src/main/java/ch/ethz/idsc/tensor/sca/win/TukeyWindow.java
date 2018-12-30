@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
@@ -26,5 +27,12 @@ public enum TukeyWindow implements ScalarUnaryOperator {
     if (Scalars.lessThan(x, RationalScalar.HALF))
       return RationalScalar.HALF.add(RationalScalar.HALF.multiply(Cos.FUNCTION.apply(x.subtract(_1_6).multiply(_3_PI))));
     return RealScalar.ZERO;
+  }
+
+  /** @param tensor
+   * @return tensor with all scalars replaced with their function value */
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(T tensor) {
+    return (T) tensor.map(FUNCTION);
   }
 }

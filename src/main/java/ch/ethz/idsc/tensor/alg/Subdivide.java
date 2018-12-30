@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.sca.Clip;
 
 /** Subdivide is consistent with Mathematica.
  * 
@@ -59,5 +60,18 @@ public enum Subdivide {
    * @return tensor with n+1 entries obtained by subdividing the range */
   public static Tensor of(Number startInclusive, Number endInclusive, int n) {
     return of(RealScalar.of(startInclusive), RealScalar.of(endInclusive), n);
+  }
+
+  /** Example:
+   * <pre>
+   * Clip clip = Clip.function(Quantity.of(+20, "m"), Quantity.of(+40, "m"));
+   * Subdivide.of(clip, 4) == Tensors.fromString("{20[m], 25[m], 30[m], 35[m], 40[m]}"));
+   * </pre>
+   * 
+   * @param clip
+   * @param n
+   * @return Subdivide.of(clip.min(), clip.max(), n) */
+  public static Tensor of(Clip clip, int n) {
+    return of(clip.min(), clip.max(), n);
   }
 }

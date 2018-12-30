@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import junit.framework.TestCase;
 
 public class UnitsTest extends TestCase {
@@ -21,13 +20,9 @@ public class UnitsTest extends TestCase {
     assertTrue(Units.isOne(Unit.ONE));
   }
 
-  public void testScalar() {
-    assertEquals(Units.of(RealScalar.ONE), Unit.ONE);
-  }
-
-  public void testNullFail() {
+  public void testFail() {
     try {
-      Units.of(null);
+      Units.isOne(null);
       fail();
     } catch (Exception exception) {
       // ---

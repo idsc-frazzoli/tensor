@@ -9,10 +9,10 @@ import junit.framework.TestCase;
 public class UnitConvertTest extends TestCase {
   public void testKm() {
     UnitConvert unitConvert = UnitConvert.SI();
-    Scalar q = Quantity.of(2, "km^2");
-    Unit unit = Unit.of("cm^2");
+    Scalar q = Quantity.of(2, "K*km^2");
+    Unit unit = Unit.of("K*cm^2");
     Scalar scalar = unitConvert.to(unit).apply(q);
-    assertEquals(scalar, Quantity.of(20000000000L, "cm^2"));
+    assertEquals(scalar, Quantity.of(20000000000L, "K*cm^2"));
     assertTrue(ExactScalarQ.of(scalar));
   }
 
