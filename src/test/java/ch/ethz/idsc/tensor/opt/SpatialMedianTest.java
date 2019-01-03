@@ -66,11 +66,19 @@ public class SpatialMedianTest extends TestCase {
   }
 
   public void testQuantity() {
-    Tensor tensor = RandomVariate.of(UniformDistribution.unit(), 20, 2).map(value -> Quantity.of(value, "m"));
-    SpatialMedian fermatWeberProblem = SpatialMedian.with(Quantity.of(1e-10, "m"));
-    Tensor weiszfeld = fermatWeberProblem.uniform(tensor).get();
-    Clip clip = Clip.function(Quantity.of(0, "m"), Quantity.of(1, "m"));
-    clip.requireInside(weiszfeld.Get(0));
-    clip.requireInside(weiszfeld.Get(1));
+    int present = 0;
+    for (int count = 0; count < 10; ++count) {
+      Tensor tensor = RandomVariate.of(UniformDistribution.unit(), 20, 2).map(value -> Quantity.of(value, "m"));
+      SpatialMedian fermatWeberProblem = SpatialMedian.with(Quantity.of(1e-10, "m"));
+      Optional<Tensor> optional = fermatWeberProblem.uniform(tensor);
+      if (optional.isPresent()) {
+        ++present;
+        Tensor weiszfeld = optional.get();
+        Clip clip = Clip.function(Quantity.of(0, "m"), Quantity.of(1, "m"));
+        clip.requireInside(weiszfeld.Get(0));
+        clip.requireInside(weiszfeld.Get(1));
+      }
+    }
+    assertTrue(5 < present);
   }
 }

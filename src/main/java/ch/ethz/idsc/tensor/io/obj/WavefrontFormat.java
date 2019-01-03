@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.io.ext;
+package ch.ethz.idsc.tensor.io.obj;
 
 import java.util.stream.Stream;
 

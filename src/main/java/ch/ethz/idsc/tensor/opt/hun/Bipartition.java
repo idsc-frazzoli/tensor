@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.opt;
+package ch.ethz.idsc.tensor.opt.hun;
 
 import java.util.Set;
 import java.util.stream.Stream;

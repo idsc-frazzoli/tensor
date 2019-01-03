@@ -1,5 +1,5 @@
 // code by Samuel J. Stauber and jph
-package ch.ethz.idsc.tensor.opt;
+package ch.ethz.idsc.tensor.opt.hun;
 
 import java.util.ArrayList;
 import java.util.Collections;
