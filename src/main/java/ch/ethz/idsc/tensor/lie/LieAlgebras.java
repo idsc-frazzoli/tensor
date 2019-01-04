@@ -37,7 +37,7 @@ public enum LieAlgebras {
   }
 
   /** @return ad tensor of 3-dimensional Heisenberg Lie-algebra */
-  public static Tensor heisenberg3() {
+  public static Tensor he1() {
     Tensor ad = Array.zeros(3, 3, 3);
     ad.set(P1, 2, 1, 0);
     ad.set(M1, 2, 0, 1);

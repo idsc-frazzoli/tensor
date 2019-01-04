@@ -22,7 +22,7 @@ public class FlattenTest extends TestCase {
   }
 
   public void testLevels() {
-    Tensor ad = LieAlgebras.heisenberg3();
+    Tensor ad = LieAlgebras.he1();
     assertEquals(Flatten.of(ad, 0), ad);
     assertEquals(Dimensions.of(Flatten.of(ad, 1)), Arrays.asList(9, 3));
     assertEquals(Dimensions.of(Flatten.of(ad, 2)), Arrays.asList(27));
@@ -40,7 +40,7 @@ public class FlattenTest extends TestCase {
   }
 
   public void testExcess() {
-    Tensor ad = LieAlgebras.heisenberg3();
+    Tensor ad = LieAlgebras.he1();
     Tensor tensor = Flatten.of(ad, 10);
     assertEquals(tensor.length(), Numel.of(ad));
   }

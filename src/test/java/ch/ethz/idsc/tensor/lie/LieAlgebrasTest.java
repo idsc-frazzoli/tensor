@@ -13,11 +13,11 @@ import junit.framework.TestCase;
 
 public class LieAlgebrasTest extends TestCase {
   public void testHeisenberg() {
-    Tensor he3 = LieAlgebras.heisenberg3();
+    Tensor ad = LieAlgebras.he1();
     Tensor eye = IdentityMatrix.of(3);
-    assertEquals(Dot.of(he3, eye.get(0), eye.get(1)), eye.get(2));
-    assertEquals(Dot.of(he3, eye.get(1), eye.get(0)), eye.get(2).negate());
-    assertEquals(JacobiIdentity.of(he3), Array.zeros(3, 3, 3, 3));
+    assertEquals(Dot.of(ad, eye.get(0), eye.get(1)), eye.get(2));
+    assertEquals(Dot.of(ad, eye.get(1), eye.get(0)), eye.get(2).negate());
+    assertEquals(JacobiIdentity.of(ad), Array.zeros(3, 3, 3, 3));
   }
 
   public void testSe2Matrix() {
@@ -30,12 +30,12 @@ public class LieAlgebrasTest extends TestCase {
   }
 
   public void testSe2() {
-    Tensor se2 = LieAlgebras.se2().unmodifiable();
-    assertEquals(JacobiIdentity.of(se2), Array.zeros(3, 3, 3, 3));
-    assertEquals(se2.dot(UnitVector.of(3, 0)).dot(UnitVector.of(3, 1)), Array.zeros(3));
-    assertEquals(se2.dot(UnitVector.of(3, 0)).dot(UnitVector.of(3, 2)), UnitVector.of(3, 1).negate());
-    assertEquals(se2.dot(UnitVector.of(3, 1)).dot(UnitVector.of(3, 2)), UnitVector.of(3, 0).negate());
-    assertEquals(KillingForm.of(se2), DiagonalMatrix.of(0, 0, 2));
+    Tensor ad = LieAlgebras.se2().unmodifiable();
+    assertEquals(JacobiIdentity.of(ad), Array.zeros(3, 3, 3, 3));
+    assertEquals(ad.dot(UnitVector.of(3, 0)).dot(UnitVector.of(3, 1)), Array.zeros(3));
+    assertEquals(ad.dot(UnitVector.of(3, 0)).dot(UnitVector.of(3, 2)), UnitVector.of(3, 1).negate());
+    assertEquals(ad.dot(UnitVector.of(3, 1)).dot(UnitVector.of(3, 2)), UnitVector.of(3, 0).negate());
+    assertEquals(KillingForm.of(ad), DiagonalMatrix.of(0, 0, 2));
   }
 
   public void testBracket() {
