@@ -63,7 +63,7 @@ public class GaussianTest extends TestCase {
     Gaussian gaussian = (Gaussian) Gaussian.of(-200, 10);
     Distribution distribution = gaussian.distribution();
     Scalar mean = Mean.of(RandomVariate.of(distribution, 20)).Get();
-    assertTrue(Chop.below(3).close(mean, RealScalar.of(-200)));
+    Chop.below(3).requireClose(mean, RealScalar.of(-200));
   }
 
   public void testDistWithQuantity() {
@@ -74,8 +74,8 @@ public class GaussianTest extends TestCase {
     Scalar rand = RandomVariate.of(distribution); // produces quantity with [m]
     assertTrue(rand instanceof Quantity);
     assertEquals(Expectation.mean(distribution), Quantity.of(3, "m"));
-    assertTrue(Chop._12.close( // exact would be nice
-        Expectation.variance(distribution), Quantity.of(2, "m^2")));
+    Chop._12.requireClose( // exact would be nice
+        Expectation.variance(distribution), Quantity.of(2, "m^2"));
   }
 
   public void testFail() {

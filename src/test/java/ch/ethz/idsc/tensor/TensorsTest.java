@@ -97,9 +97,9 @@ public class TensorsTest extends TestCase {
   public void testVectorFloat() {
     float[] fvalues = { 3.1f, 4.3f, -1.89f };
     double[] dvalues = { 3.1, 4.3, -1.89 };
-    assertTrue(Chop._06.close( //
+    Chop._06.requireClose( //
         Tensors.vectorFloat(fvalues), //
-        Tensors.vectorDouble(dvalues)));
+        Tensors.vectorDouble(dvalues));
   }
 
   public void testMatrixFloat() {
@@ -138,10 +138,11 @@ public class TensorsTest extends TestCase {
   }
 
   public void testOfReferences() {
-    Tensor a = Tensors.vector(1, 2, 3);
-    Tensor b = Tensors.of(a);
-    a.set(RealScalar.of(4), 0);
-    assertEquals(b.get(0), Tensors.vector(1, 2, 3));
+    Tensor vector = Tensors.vector(1, 2, 3);
+    Tensor matrix = Tensors.of(vector);
+    vector.set(RealScalar.of(4), 0);
+    assertEquals(vector, Tensors.vector(4, 2, 3));
+    assertEquals(matrix.get(0), Tensors.vector(1, 2, 3));
   }
 
   public void testOfComparison() {

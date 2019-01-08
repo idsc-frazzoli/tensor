@@ -32,7 +32,7 @@ public class PowerTest extends TestCase {
 
   public void testNumberScalar() {
     Scalar scalar = Power.of(2, RationalScalar.of(2, 3));
-    assertTrue(Chop._13.close(scalar, Scalars.fromString("1.5874010519681994`")));
+    Chop._13.requireClose(scalar, Scalars.fromString("1.5874010519681994`"));
   }
 
   public void testSqrt() {

@@ -28,7 +28,7 @@ public class MatrixLog2Test extends TestCase {
   private static void _checkLogExp(Tensor matrix) {
     Tensor log = MatrixLog.of(matrix);
     Tensor exp = MatrixExp.of(log);
-    Chop._12.requireClose(exp, matrix);
+    Chop._11.requireClose(exp, matrix);
   }
 
   public void testIdentity() {

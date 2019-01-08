@@ -76,7 +76,7 @@ public class RootsTest extends TestCase {
       Tensor coeffs = RandomVariate.of(distribution, 3);
       Tensor roots = Roots.of(coeffs);
       Tensor check = roots.map(Series.of(coeffs));
-      assertTrue(Chop._12.allZero(check));
+      assertTrue(Chop._11.allZero(check));
     }
   }
 

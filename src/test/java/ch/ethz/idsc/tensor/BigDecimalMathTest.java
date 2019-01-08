@@ -78,7 +78,7 @@ public class BigDecimalMathTest extends TestCase {
     Scalar s0 = Sin.of(RealScalar.of(2));
     BigDecimal bd1 = BigDecimalMath.sin(BigDecimal.valueOf(2), MathContext.DECIMAL128);
     Scalar s1 = DecimalScalar.of(bd1);
-    assertTrue(Chop._13.close(s0, s1));
+    Chop._13.requireClose(s0, s1);
   }
 
   public void testSinh() {
@@ -87,20 +87,20 @@ public class BigDecimalMathTest extends TestCase {
     Scalar s0 = Sinh.of(RealScalar.of(2));
     BigDecimal bd1 = BigDecimalMath.sinh(BigDecimal.valueOf(2), MathContext.DECIMAL128);
     Scalar s1 = DecimalScalar.of(bd1);
-    assertTrue(Chop._13.close(s0, s1));
+    Chop._13.requireClose(s0, s1);
   }
 
   public void testCos() {
     Scalar s0 = Cos.of(RealScalar.of(2));
     BigDecimal bd1 = BigDecimalMath.cos(BigDecimal.valueOf(2), MathContext.DECIMAL128);
     Scalar s1 = DecimalScalar.of(bd1);
-    assertTrue(Chop._13.close(s0, s1));
+    Chop._13.requireClose(s0, s1);
   }
 
   public void testCosh() {
     Scalar s0 = Cosh.of(RealScalar.of(2));
     BigDecimal bd1 = BigDecimalMath.cosh(BigDecimal.valueOf(2), MathContext.DECIMAL128);
     Scalar s1 = DecimalScalar.of(bd1);
-    assertTrue(Chop._13.close(s0, s1));
+    Chop._13.requireClose(s0, s1);
   }
 }

@@ -118,13 +118,13 @@ public class RationalScalarTest extends TestCase {
   public void testPowerFractional() {
     Scalar lhs = Power.of(RationalScalar.of(-2, 3), 1.3);
     Scalar rhs = Scalars.fromString(" -  0.3469764892956748` - 0.47757216669512637` *I ");
-    assertTrue(Chop._13.close(lhs, rhs));
+    Chop._13.requireClose(lhs, rhs);
   }
 
   public void testSerializable() throws Exception {
-    Scalar a = RationalScalar.of(3, 5);
-    assertEquals(a, Serialization.parse(Serialization.of(a)));
-    assertEquals(a, Serialization.copy(a));
+    Scalar scalar = RationalScalar.of(3, 5);
+    assertEquals(scalar, Serialization.parse(Serialization.of(scalar)));
+    assertEquals(scalar, Serialization.copy(scalar));
   }
 
   public void testSort() {
