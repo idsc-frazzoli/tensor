@@ -13,12 +13,12 @@ import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.AnimationWriter;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.lie.CirclePoints;
 import ch.ethz.idsc.tensor.red.Nest;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** inspired by Mathematica's documentation of Gamma */
 class NewtonDemo {
@@ -44,7 +44,7 @@ class NewtonDemo {
   }
 
   static void _animation() throws Exception {
-    try (AnimationWriter animationWriter = AnimationWriter.of(UserHome.Pictures("newtondemo.gif"), 100)) {
+    try (AnimationWriter animationWriter = AnimationWriter.of(HomeDirectory.Pictures("newtondemo.gif"), 100)) {
       for (Tensor s : CirclePoints.of(20)) {
         Scalar z = ComplexScalar.of(s.Get(0), s.Get(0));
         NewtonDemo newtonDemo = new NewtonDemo(Tensors.of(RealScalar.ONE, RealScalar.of(5), RealScalar.ZERO, z));
@@ -60,6 +60,6 @@ class NewtonDemo {
     NewtonDemo newtonDemo = new NewtonDemo(Tensors.vector(1, 5, 0, 1));
     Tensor matrix = Parallelize.matrix(newtonDemo::function, RES, RES);
     Tensor image = ArrayPlot.of(matrix, ColorDataGradients.PARULA);
-    Export.of(UserHome.Pictures(NewtonDemo.class.getSimpleName() + ".png"), image);
+    Export.of(HomeDirectory.Pictures(NewtonDemo.class.getSimpleName() + ".png"), image);
   }
 }

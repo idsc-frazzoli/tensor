@@ -11,9 +11,9 @@ import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.lie.NylanderPower;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MandelbulbDemo {
   ;
@@ -40,7 +40,7 @@ enum MandelbulbDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = Parallelize.matrix(MandelbulbDemo::function, RES, RES);
-    Export.of(UserHome.Pictures(MandelbulbDemo.class.getSimpleName() + ".png"), //
+    Export.of(HomeDirectory.Pictures(MandelbulbDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.CLASSIC));
   }
 }

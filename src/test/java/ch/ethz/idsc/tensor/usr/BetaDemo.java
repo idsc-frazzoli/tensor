@@ -10,10 +10,10 @@ import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.red.Nest;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Beta;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** inspired by Mathematica's documentation of Beta */
 enum BetaDemo {
@@ -35,7 +35,7 @@ enum BetaDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = Parallelize.matrix(BetaDemo::function, RES, RES);
-    Export.of(UserHome.Pictures(BetaDemo.class.getSimpleName() + ".png"), //
+    Export.of(HomeDirectory.Pictures(BetaDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.HUE));
   }
 }

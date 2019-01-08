@@ -5,12 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import ch.ethz.idsc.tensor.utl.UserHome;
 import junit.framework.TestCase;
 
 public class AnimatedGifWriterTest extends TestCase {
   public void testColor() throws IOException {
-    File file = UserHome.file("tensorLib_AnimatedGifWriterTest1.gif");
+    File file = HomeDirectory.file("tensorLib_AnimatedGifWriterTest1.gif");
     assertFalse(file.exists());
     try (AnimatedGifWriter animatedGifWriter = AnimatedGifWriter.of(file, 100)) {
       animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
@@ -25,7 +24,7 @@ public class AnimatedGifWriterTest extends TestCase {
   }
 
   public void testGray() throws IOException {
-    File file = UserHome.file("tensorLib_AnimatedGifWriterTest2.gif");
+    File file = HomeDirectory.file("tensorLib_AnimatedGifWriterTest2.gif");
     assertFalse(file.exists());
     try (AnimatedGifWriter animatedGifWriter = AnimatedGifWriter.of(file, 100)) {
       animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
@@ -35,7 +34,7 @@ public class AnimatedGifWriterTest extends TestCase {
   }
 
   public void testEmpty() throws IOException {
-    File file = UserHome.file("tensorLib_AnimatedGifWriterTest3.gif");
+    File file = HomeDirectory.file("tensorLib_AnimatedGifWriterTest3.gif");
     assertFalse(file.exists());
     try (AnimatedGifWriter animatedGifWriter = AnimatedGifWriter.of(file, 100)) {
       // ---

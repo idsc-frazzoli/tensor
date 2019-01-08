@@ -17,10 +17,10 @@ import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.ImageFormat;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 import ch.ethz.idsc.tensor.utl.GraphicsUtil;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** export of available {@link ColorDataGradients} to a single image */
 enum ColorDataGradientsDemo {
@@ -56,7 +56,7 @@ enum ColorDataGradientsDemo {
     Tensor top = image.extract(0, half);
     Tensor bot = image.extract(half, image.length());
     Tensor res = Join.of(1, top, bot);
-    File file = UserHome.Pictures(ColorDataGradients.class.getSimpleName() + ".png");
+    File file = HomeDirectory.Pictures(ColorDataGradients.class.getSimpleName() + ".png");
     Export.of(file, res);
   }
 }

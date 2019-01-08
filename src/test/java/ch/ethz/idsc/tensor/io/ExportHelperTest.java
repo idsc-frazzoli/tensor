@@ -13,7 +13,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Frobenius;
-import ch.ethz.idsc.tensor.utl.UserHome;
 import junit.framework.TestCase;
 
 public class ExportHelperTest extends TestCase {
@@ -21,7 +20,7 @@ public class ExportHelperTest extends TestCase {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream(128);
     Tensor image = Tensors.fromString("{{{255,2,3,255},{0,0,0,0},{91,120,230,255},{0,0,0,0}}}");
     ExportHelper.of(Extension.GIF, image, outputStream);
-    Export.of(UserHome.file("some.gif"), image);
+    Export.of(HomeDirectory.file("some.gif"), image);
     byte[] array = outputStream.toByteArray(); // 54 bytes used
     BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(array));
     Tensor tensor = ImageFormat.from(bufferedImage);

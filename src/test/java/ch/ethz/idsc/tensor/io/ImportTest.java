@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.VectorQ;
-import ch.ethz.idsc.tensor.utl.UserHome;
 import junit.framework.TestCase;
 
 public class ImportTest extends TestCase {
@@ -55,7 +54,7 @@ public class ImportTest extends TestCase {
   }
 
   public void testCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
-    File file = UserHome.file("tensorTest" + ImportTest.class.getSimpleName() + ".csv");
+    File file = HomeDirectory.file("tensorTest" + ImportTest.class.getSimpleName() + ".csv");
     assertFalse(file.exists());
     Export.of(file, Tensors.fromString("{{1, 2}, {3, 4}}"));
     assertTrue(file.exists());
@@ -67,7 +66,7 @@ public class ImportTest extends TestCase {
 
   public void testImageClose() throws Exception {
     Tensor tensor = Tensors.fromString("{{1, 2}, {3, 4}}");
-    File file = UserHome.file("tensorTest" + ImportTest.class.getSimpleName() + ".png");
+    File file = HomeDirectory.file("tensorTest" + ImportTest.class.getSimpleName() + ".png");
     Export.of(file, tensor);
     assertTrue(file.exists());
     Tensor image = Import.of(file);
@@ -77,7 +76,7 @@ public class ImportTest extends TestCase {
   }
 
   public void testFolderCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
-    File dir = UserHome.file("tensorTest" + System.currentTimeMillis());
+    File dir = HomeDirectory.file("tensorTest" + System.currentTimeMillis());
     assertFalse(dir.exists());
     dir.mkdir();
     assertTrue(dir.isDirectory());
@@ -101,7 +100,7 @@ public class ImportTest extends TestCase {
   public void testPngClose() throws Exception {
     Tensor tensor = ResourceData.of("/io/rgba15x33.png");
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
-    File file = UserHome.file("tensorTest" + ImportTest.class.getSimpleName() + ".png");
+    File file = HomeDirectory.file("tensorTest" + ImportTest.class.getSimpleName() + ".png");
     Export.of(file, tensor);
     assertTrue(file.exists());
     Import.of(file);
@@ -160,7 +159,7 @@ public class ImportTest extends TestCase {
   }
 
   public void testTensor() throws Exception {
-    File file = UserHome.file("asdfghjk.tensortest");
+    File file = HomeDirectory.file("asdfghjk.tensortest");
     assertFalse(file.exists());
     Export.object(file, Tensors.vector(1, 2, 3, 4));
     Tensor vector = Import.object(file);

@@ -4,13 +4,13 @@ package ch.ethz.idsc.tensor;
 import java.io.IOException;
 
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Put;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.utl.Stopwatch;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum DotMatVecDemo {
   ;
@@ -52,7 +52,7 @@ enum DotMatVecDemo {
       }
       timing.append(Tensors.vector(s_ser.display_nanoSeconds() / trials, s_par.display_nanoSeconds() / trials));
     }
-    Put.of(UserHome.file("timing_matvec.txt"), Transpose.of(timing));
+    Put.of(HomeDirectory.file("timing_matvec.txt"), Transpose.of(timing));
     timeSingle();
   }
 }

@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.sca.ArcCosh;
 import ch.ethz.idsc.tensor.sca.ArcSinh;
@@ -17,7 +18,6 @@ import ch.ethz.idsc.tensor.sca.ArcTanh;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 /** inspired by Mathematica's documentation of DensityPlot */
 class InverseTrigDemo {
@@ -50,7 +50,7 @@ class InverseTrigDemo {
       InverseTrigDemo itd = new InverseTrigDemo(ArcCosh.FUNCTION);
       collection.append(Parallelize.matrix(itd::function, RES, RES));
     }
-    Export.of(UserHome.Pictures(InverseTrigDemo.class.getSimpleName() + ".png"), //
+    Export.of(HomeDirectory.Pictures(InverseTrigDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(Mean.of(collection), ColorDataGradients.THERMOMETER));
   }
 }

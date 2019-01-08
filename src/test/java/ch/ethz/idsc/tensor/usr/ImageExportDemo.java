@@ -13,19 +13,19 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Import;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum ImageExportDemo {
   ;
   public static void _im1() throws Exception {
     int n = 251;
-    Export.of(UserHome.Pictures("image.png"), Tensors.matrix((i, j) -> GaussScalar.of(i * j, n), n, n));
+    Export.of(HomeDirectory.Pictures("image.png"), Tensors.matrix((i, j) -> GaussScalar.of(i * j, n), n, n));
   }
 
   public static void _im2() throws Exception {
     int n = 251;
-    Export.of(UserHome.Pictures("image2.png"), Tensors.matrix((i, j) -> //
+    Export.of(HomeDirectory.Pictures("image2.png"), Tensors.matrix((i, j) -> //
     Tensors.of(RealScalar.of(i), RealScalar.of(j), GaussScalar.of(i + 2 * j, n), GaussScalar.of(i * j, n)), n, n));
   }
 
@@ -37,14 +37,14 @@ enum ImageExportDemo {
     UnaryOperator<Scalar> asd = s -> RealScalar.of(s.number());
     matrix.map(asd);
     Tensor image = ArrayPlot.of(matrix.map(asd), ColorDataGradients.AURORA);
-    Export.of(UserHome.Pictures("image3.png"), image);
+    Export.of(HomeDirectory.Pictures("image3.png"), image);
   }
 
   public static void jpg2gif() throws IOException {
-    File file = UserHome.file("display.jpg");
+    File file = HomeDirectory.file("display.jpg");
     if (file.isFile()) {
       Tensor tensor = Import.of(file);
-      Export.of(UserHome.file("display.jpg.gif"), tensor);
+      Export.of(HomeDirectory.file("display.jpg.gif"), tensor);
     }
   }
 

@@ -7,13 +7,13 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
-import ch.ethz.idsc.tensor.utl.UserHome;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 
 enum GaussianMatrixDemo {
   ;
   public static void main(String[] args) throws IOException {
     Tensor tensor = GaussianMatrix.of(255);
-    Export.of(UserHome.Pictures(GaussianMatrix.class.getSimpleName() + ".png"), //
+    Export.of(HomeDirectory.Pictures(GaussianMatrix.class.getSimpleName() + ".png"), //
         ArrayPlot.of(tensor, ColorDataGradients.PARULA));
   }
 }
