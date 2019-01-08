@@ -28,7 +28,7 @@ public class LowerTriangularizeTest extends TestCase {
       // ---
     }
     try {
-      LowerTriangularize.of(LieAlgebras.heisenberg3(), 0);
+      LowerTriangularize.of(LieAlgebras.he1(), 0);
       fail();
     } catch (Exception exception) {
       // ---

@@ -54,7 +54,7 @@ public class Normalize implements TensorUnaryOperator {
   }
 
   // ---
-  final TensorScalarFunction tensorScalarFunction;
+  /* package */ final TensorScalarFunction tensorScalarFunction;
 
   /* package */ Normalize(TensorScalarFunction tensorScalarFunction) {
     this.tensorScalarFunction = tensorScalarFunction;

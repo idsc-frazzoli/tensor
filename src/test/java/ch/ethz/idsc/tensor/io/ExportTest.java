@@ -17,12 +17,11 @@ import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Abs;
-import ch.ethz.idsc.tensor.utl.UserHome;
 import junit.framework.TestCase;
 
 public class ExportTest extends TestCase {
   public void testCsv() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.csv");
+    File file = HomeDirectory.file("tensorLib_ExportTest.csv");
     assertFalse(file.isFile());
     Tensor tensor = Tensors.fromString("{{2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
     Export.of(file, tensor);
@@ -31,7 +30,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testCsvGz() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.csv.gz");
+    File file = HomeDirectory.file("tensorLib_ExportTest.csv.gz");
     assertFalse(file.isFile());
     Tensor tensor = Tensors.fromString("{{0,2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
     Export.of(file, tensor);
@@ -41,7 +40,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testCsvGzLarge() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest_Large.csv.gz");
+    File file = HomeDirectory.file("tensorLib_ExportTest_Large.csv.gz");
     assertFalse(file.isFile());
     Distribution distribution = BinomialDistribution.of(10, RealScalar.of(.3));
     Tensor tensor = RandomVariate.of(distribution, 60, 30);
@@ -53,7 +52,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testPngColor() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.png");
+    File file = HomeDirectory.file("tensorLib_ExportTest.png");
     assertFalse(file.isFile());
     Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11, 4);
     Export.of(file, image);
@@ -62,7 +61,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testPngGray() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.png");
+    File file = HomeDirectory.file("tensorLib_ExportTest.png");
     assertFalse(file.isFile());
     Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11);
     Export.of(file, image);
@@ -71,7 +70,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testJpgColor() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.jpg");
+    File file = HomeDirectory.file("tensorLib_ExportTest.jpg");
     assertFalse(file.isFile());
     Tensor image = MeanFilter.of(RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11, 4), 2);
     image.set(Array.of(f -> RealScalar.of(255), 7, 11), Tensor.ALL, Tensor.ALL, 3);
@@ -84,7 +83,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testJpgGray() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.jpg");
+    File file = HomeDirectory.file("tensorLib_ExportTest.jpg");
     assertFalse(file.isFile());
     Tensor image = MeanFilter.of(RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11), 4);
     Export.of(file, image);
@@ -96,7 +95,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testBmpColor() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.bmp");
+    File file = HomeDirectory.file("tensorLib_ExportTest.bmp");
     assertFalse(file.isFile());
     Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11, 4);
     image.set(Array.of(f -> RealScalar.of(255), 7, 11), Tensor.ALL, Tensor.ALL, 3);
@@ -106,7 +105,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testBmpGray() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.bmp");
+    File file = HomeDirectory.file("tensorLib_ExportTest.bmp");
     assertFalse(file.isFile());
     Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11);
     Export.of(file, image);
@@ -115,7 +114,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testMatlabM() throws IOException {
-    File file = UserHome.file("tensorLib_ExportTest.m");
+    File file = HomeDirectory.file("tensorLib_ExportTest.m");
     assertFalse(file.isFile());
     Tensor tensor = Tensors.fromString("{{2,3.123+3*I,34.1231},{556,3/456,-323/2}}");
     Export.of(file, tensor);
@@ -147,7 +146,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testBmpNull() throws IOException {
-    File file = UserHome.file("tensorLib_ExportNullTest.bmp");
+    File file = HomeDirectory.file("tensorLib_ExportNullTest.bmp");
     assertFalse(file.exists());
     try {
       Export.of(file, null);
@@ -159,7 +158,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testBmpGzNull() throws IOException {
-    File file = UserHome.file("tensorLib_ExportNullTest.bmp.gz");
+    File file = HomeDirectory.file("tensorLib_ExportNullTest.bmp.gz");
     assertFalse(file.exists());
     try {
       Export.of(file, null);

@@ -83,7 +83,7 @@ public class UpperTriangularizeTest extends TestCase {
       // ---
     }
     try {
-      UpperTriangularize.of(LieAlgebras.heisenberg3(), 0);
+      UpperTriangularize.of(LieAlgebras.he1(), 0);
       fail();
     } catch (Exception exception) {
       // ---

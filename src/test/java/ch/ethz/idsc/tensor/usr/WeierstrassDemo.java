@@ -10,9 +10,9 @@ import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Power;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum WeierstrassDemo {
   ;
@@ -33,7 +33,7 @@ enum WeierstrassDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = Parallelize.matrix(WeierstrassDemo::function, RES, RES);
-    Export.of(UserHome.Pictures(WeierstrassDemo.class.getSimpleName() + ".png"), //
+    Export.of(HomeDirectory.Pictures(WeierstrassDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.ALPINE));
   }
 }

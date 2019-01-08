@@ -68,7 +68,7 @@ public class SquareMatrixQTest extends TestCase {
 
   public void testRequireRank3() {
     try {
-      SquareMatrixQ.require(LieAlgebras.heisenberg3());
+      SquareMatrixQ.require(LieAlgebras.he1());
       fail();
     } catch (Exception exception) {
       // ---

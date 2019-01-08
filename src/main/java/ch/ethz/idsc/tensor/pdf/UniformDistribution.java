@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.Clip;
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
 public class UniformDistribution extends AbstractContinuousDistribution implements //
     InverseCDF, MeanInterface, VarianceInterface {
-  private static final Distribution UNIT = new UniformDistribution(RealScalar.ZERO, RealScalar.ONE) {
+  private static final Distribution UNIT = new UniformDistribution(Clip.unit()) {
     @Override // from RandomVariateInterface
     public Scalar randomVariate(Random random) {
       return DoubleScalar.of(random.nextDouble());
@@ -35,7 +35,13 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
   public static Distribution of(Scalar min, Scalar max) {
     if (Scalars.lessEquals(max, min))
       throw TensorRuntimeException.of(min, max);
-    return new UniformDistribution(min, max);
+    return of(Clip.function(min, max));
+  }
+
+  /** @param clip
+   * @return uniform distribution over the half-open interval [clip.min(), clip.max()) */
+  public static Distribution of(Clip clip) {
+    return new UniformDistribution(clip);
   }
 
   /** @param min < max
@@ -54,8 +60,8 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
   private final Clip clip;
   private final Scalar width;
 
-  private UniformDistribution(Scalar min, Scalar max) {
-    clip = Clip.function(min, max);
+  private UniformDistribution(Clip clip) {
+    this.clip = clip;
     width = clip.width();
   }
 

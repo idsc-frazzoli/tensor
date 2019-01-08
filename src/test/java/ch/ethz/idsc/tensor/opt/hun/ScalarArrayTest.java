@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.opt;
+package ch.ethz.idsc.tensor.opt.hun;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;

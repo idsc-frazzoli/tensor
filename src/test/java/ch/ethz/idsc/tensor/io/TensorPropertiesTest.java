@@ -16,7 +16,6 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
-import ch.ethz.idsc.tensor.utl.UserHome;
 import junit.framework.TestCase;
 
 public class TensorPropertiesTest extends TestCase {
@@ -134,7 +133,7 @@ public class TensorPropertiesTest extends TestCase {
   }
 
   public void testManifest() throws IOException {
-    File file = UserHome.file("TensorProperties_testfile.properties");
+    File file = HomeDirectory.file("TensorProperties_testfile.properties");
     assertFalse(file.exists());
     TensorProperties tensorProperties = TensorProperties.wrap(ParamContainer.INSTANCE);
     tensorProperties.save(file);
@@ -163,7 +162,7 @@ public class TensorPropertiesTest extends TestCase {
   }
 
   public void testTrySave() {
-    File file = UserHome.file("tensorLib_ParamContainer_test.properties");
+    File file = HomeDirectory.file("tensorLib_ParamContainer_test.properties");
     assertFalse(file.exists());
     TensorProperties tensorProperties = TensorProperties.wrap(new ParamContainer());
     assertTrue(tensorProperties.trySave(file));

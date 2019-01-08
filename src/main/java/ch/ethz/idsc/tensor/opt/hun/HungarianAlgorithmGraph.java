@@ -1,6 +1,6 @@
 // code by Samuel J. Stauber
 // adapted by jph
-package ch.ethz.idsc.tensor.opt;
+package ch.ethz.idsc.tensor.opt.hun;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;

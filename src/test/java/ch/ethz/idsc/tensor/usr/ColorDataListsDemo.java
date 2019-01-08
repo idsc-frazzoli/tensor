@@ -17,10 +17,10 @@ import ch.ethz.idsc.tensor.alg.PadRight;
 import ch.ethz.idsc.tensor.img.ColorDataLists;
 import ch.ethz.idsc.tensor.img.ImageResize;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.ImageFormat;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.utl.GraphicsUtil;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum ColorDataListsDemo {
   ;
@@ -60,6 +60,6 @@ enum ColorDataListsDemo {
     large = ImageFormat.from(bufferedImage);
     int split = large.length() / 3;
     large = Join.of(1, large.extract(0, split), large.extract(split, 2 * split), large.extract(2 * split, 3 * split));
-    Export.of(UserHome.Pictures(ColorDataLists.class.getSimpleName() + ".png"), large);
+    Export.of(HomeDirectory.Pictures(ColorDataLists.class.getSimpleName() + ".png"), large);
   }
 }

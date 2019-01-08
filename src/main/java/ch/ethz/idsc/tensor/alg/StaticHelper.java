@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-enum StaticHelper {
+/* package */ enum StaticHelper {
   ;
   /** @param tensor
    * @param operator

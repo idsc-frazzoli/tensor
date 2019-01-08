@@ -12,9 +12,9 @@ import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.Arg;
-import ch.ethz.idsc.tensor.utl.UserHome;
 
 enum MandelbrotDemo {
   ;
@@ -40,7 +40,7 @@ enum MandelbrotDemo {
 
   public static void main(String[] args) throws Exception {
     Tensor matrix = Parallelize.matrix(MandelbrotDemo::function, RES, RES);
-    Export.of(UserHome.Pictures(MandelbrotDemo.class.getSimpleName() + ".png"), //
+    Export.of(HomeDirectory.Pictures(MandelbrotDemo.class.getSimpleName() + ".png"), //
         ArrayPlot.of(matrix, ColorDataGradients.RAINBOW));
   }
 }

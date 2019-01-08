@@ -96,7 +96,7 @@ public class MatrixPowerTest extends TestCase {
   }
 
   public void testFailAd() {
-    Tensor tensor = LieAlgebras.heisenberg3();
+    Tensor tensor = LieAlgebras.he1();
     try {
       MatrixPower.of(tensor, 1);
       fail();

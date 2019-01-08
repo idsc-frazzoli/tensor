@@ -8,7 +8,7 @@ import java.util.Set;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-enum StaticHelper {
+/* package */ enum StaticHelper {
   ;
   /** @param map
    * @return */

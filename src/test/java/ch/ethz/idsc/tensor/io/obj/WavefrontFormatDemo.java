@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.io.ext;
+package ch.ethz.idsc.tensor.io.obj;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
-import ch.ethz.idsc.tensor.utl.UserHome;
+import ch.ethz.idsc.tensor.io.HomeDirectory;
 
 enum WavefrontFormatDemo {
   ;
@@ -28,7 +28,7 @@ enum WavefrontFormatDemo {
   }
 
   public static void main(String[] args) throws IOException {
-    File dir = UserHome.file("Projects/gym-duckietown/gym_duckietown/meshes");
+    File dir = HomeDirectory.file("Projects/gym-duckietown/gym_duckietown/meshes");
     for (File file : dir.listFiles())
       if (file.getName().endsWith(".obj"))
         try {

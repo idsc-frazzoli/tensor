@@ -21,7 +21,7 @@ public class TanTest extends TestCase {
   public void testComplex() {
     Scalar c = Tan.of(ComplexScalar.of(2, 3.));
     Scalar s = Scalars.fromString("-0.0037640256415042484 + 1.0032386273536098*I"); // Mathematica
-    assertTrue(Chop._15.close(s, c));
+    Chop._15.requireClose(s, c);
   }
 
   public void testTypeFail() {
