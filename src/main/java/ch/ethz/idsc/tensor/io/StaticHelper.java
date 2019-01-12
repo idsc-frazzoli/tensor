@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -23,6 +24,7 @@ import ch.ethz.idsc.tensor.Tensors;
       return type.equals(Tensor.class) //
           || type.equals(Scalar.class) //
           || type.equals(String.class) //
+          || type.equals(File.class) //
           || type.equals(Boolean.class);
     }
     return false;
@@ -38,6 +40,8 @@ import ch.ethz.idsc.tensor.Tensors;
       return Scalars.fromString(string);
     if (cls.equals(String.class))
       return string;
+    if (cls.equals(File.class))
+      return new File(string);
     if (cls.equals(Boolean.class))
       return BooleanParser.orNull(string);
     return null;

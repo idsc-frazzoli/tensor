@@ -7,4 +7,18 @@ public class UserNameTest extends TestCase {
   public void testUsername() {
     assertFalse(UserName.get().isEmpty());
   }
+
+  public void testIs() {
+    assertFalse(UserName.is(""));
+    assertFalse(UserName.is("&E T H!"));
+  }
+
+  public void testNullFail() {
+    try {
+      assertFalse(UserName.is(null));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
