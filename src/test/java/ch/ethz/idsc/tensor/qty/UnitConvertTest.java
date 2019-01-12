@@ -52,6 +52,21 @@ public class UnitConvertTest extends TestCase {
     assertTrue(ExactScalarQ.of(result));
   }
 
+  public void testNauticalMiles2() {
+    Scalar scalar = Quantity.of(2, "nmi");
+    Scalar result = UnitConvert.SI().to("km").apply(scalar);
+    assertEquals(result, Scalars.fromString("3.704[km]"));
+    assertTrue(ExactScalarQ.of(scalar));
+    assertTrue(ExactScalarQ.of(result));
+  }
+
+  public void testLightYear() {
+    Scalar scalar = Quantity.of(1, "ly");
+    Scalar result = UnitConvert.SI().to("au").apply(scalar);
+    assertTrue(ExactScalarQ.of(result));
+    assertEquals(QuantityUnit.of(result), Unit.of("au"));
+  }
+
   public void testKiloMega() {
     assertEquals(UnitSystem.SI().apply(Quantity.of(1e-3, "kHz")), Quantity.of(1, "s^-1"));
     assertEquals(UnitSystem.SI().apply(Quantity.of(1e-6, "MHz")), Quantity.of(1, "s^-1"));

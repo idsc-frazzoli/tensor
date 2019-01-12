@@ -1,12 +1,11 @@
 // code by gjoel and jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.function.Function;
-
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.opt.TensorScalarFunction;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.InterquartileRange;
 import ch.ethz.idsc.tensor.red.Max;
@@ -21,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * <a href="https://en.wikipedia.org/wiki/Histogram">Histogram</a>
  * 
  * <p>The bin size computation works on samples of type {@link Quantity}. */
-public enum BinningMethod implements Function<Tensor, Scalar> {
+public enum BinningMethod implements TensorScalarFunction {
   /** Scott's normal reference rule:
    * chooses width based on {@link StandardDeviation}
    * Outliers have more influence on result than with Freedman-Diaconis.
@@ -60,9 +59,12 @@ public enum BinningMethod implements Function<Tensor, Scalar> {
     }
   };
   // ---
-  // helper function
-  private static Scalar cuberoot(int length) {
-    return Power.of(length, RationalScalar.of(1, 3));
+  private static final Scalar THIRD = RationalScalar.of(1, 3);
+
+  /** @param number
+   * @return number ^ (1/3) */
+  private static Scalar cuberoot(int number) {
+    return Power.of(number, THIRD);
   }
 
   private static Scalar division(Tensor tensor, Scalar k) {
