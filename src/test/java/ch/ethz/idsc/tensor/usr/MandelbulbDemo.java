@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.lie.NylanderPower;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
 
-enum MandelbulbDemo {
+/* package */ enum MandelbulbDemo {
   ;
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 40;

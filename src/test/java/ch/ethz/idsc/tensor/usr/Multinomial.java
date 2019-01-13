@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.alg.Range;
  * 
  * ordering of coefficients is <em>reversed</em> compared to
  * MATLAB::polyval, MATLAB::polyfit, etc. ! */
-enum Multinomial {
+/* package */ enum Multinomial {
   ;
   /** Example:
    * <pre>

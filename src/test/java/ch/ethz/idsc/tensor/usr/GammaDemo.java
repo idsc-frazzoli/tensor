@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Gamma;
 
 /** inspired by Mathematica's documentation of Gamma */
-enum GammaDemo {
+/* package */ enum GammaDemo {
   ;
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 2;

@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.utl;
+package ch.ethz.idsc.tensor.usr;
 
 import java.util.Objects;
 

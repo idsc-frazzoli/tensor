@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.pdf.PDF;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Round;
 
-enum PDFDemo {
+/* package */ enum PDFDemo {
   ;
   public static void main(String[] args) {
     { // random variate from a distribution

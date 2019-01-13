@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Pretty;
 import ch.ethz.idsc.tensor.io.StringScalar;
 
-enum MatlabExportDemo {
+/* package */ enum MatlabExportDemo {
   ;
   static void vector1() throws IOException {
     Tensor tensor = Tensors.vectorDouble(3.2, -3, .234, 3, 3e-20, 0);

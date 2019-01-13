@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** inspired by Mathematica's documentation of Gamma */
-class NewtonDemo {
+/* package */ class NewtonDemo {
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 2;
   private static final Tensor RE = Subdivide.of(-2, +2, RES - 1);

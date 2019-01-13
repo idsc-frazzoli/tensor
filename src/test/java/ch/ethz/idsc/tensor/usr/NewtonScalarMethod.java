@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.alg.Series;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** https://en.wikipedia.org/wiki/Newton%27s_method */
-class NewtonScalarMethod implements ScalarUnaryOperator {
+/* package */ class NewtonScalarMethod implements ScalarUnaryOperator {
   public static ScalarUnaryOperator polynomial(Tensor coeffs) {
     return new NewtonScalarMethod(Series.of(coeffs), Series.of(Multinomial.derivative(coeffs)));
   }

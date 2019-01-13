@@ -9,9 +9,8 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.red.Variance;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
 
-enum PoissonBinomialDemo {
+/* package */ enum PoissonBinomialDemo {
   ;
   public static void main(String[] args) {
     Tensor p_vector = RandomVariate.of(UniformDistribution.unit(), 1000);

@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.alg;
+package ch.ethz.idsc.tensor.usr;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 
-class FoldDigest implements TensorUnaryOperator {
+/* package */ class FoldDigest implements TensorUnaryOperator {
   private final BinaryOperator<Tensor> binaryOperator;
   private Tensor next;
 
@@ -26,7 +26,7 @@ class FoldDigest implements TensorUnaryOperator {
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/FoldList.html">FoldList</a> */
-enum FoldListTry {
+/* package */ enum FoldListTry {
   ;
   /** <pre>
    * FoldList[f, {a, b, c, ...}] gives {a, f[a, b], f[f[a, b], c], ...}

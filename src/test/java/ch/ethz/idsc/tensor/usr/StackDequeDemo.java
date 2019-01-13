@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.opt;
+package ch.ethz.idsc.tensor.usr;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -8,7 +8,7 @@ import java.util.Stack;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
-enum ConvexHullDemo {
+/* package */ enum StackDequeDemo {
   ;
   public static void main(String[] args) {
     {

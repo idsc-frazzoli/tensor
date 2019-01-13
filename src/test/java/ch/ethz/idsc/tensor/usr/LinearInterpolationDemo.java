@@ -1,16 +1,17 @@
 // code by jph
-package ch.ethz.idsc.tensor.opt;
+package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.opt.Interpolation;
+import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
 
 /** DEMO IS OBSOLETE SINCE LinearInterpolation
  * INTERNALLY USES UNPROTECT */
-enum LinearInterpolationDemo {
+/* package */ enum LinearInterpolationDemo {
   ;
   private static final Distribution DISTRIBUTION = UniformDistribution.unit();
 

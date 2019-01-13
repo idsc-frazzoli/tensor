@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.red;
+package ch.ethz.idsc.tensor.usr;
 
 import java.io.IOException;
 
@@ -12,9 +12,9 @@ import ch.ethz.idsc.tensor.io.Put;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
+import ch.ethz.idsc.tensor.red.Total;
 
-enum TotalDemo {
+/* package */ enum TotalDemo {
   ;
   public static void main(String[] args) throws IOException {
     Distribution distribution;

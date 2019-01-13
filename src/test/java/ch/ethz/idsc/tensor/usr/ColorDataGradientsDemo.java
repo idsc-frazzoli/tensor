@@ -20,10 +20,9 @@ import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.ImageFormat;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
-import ch.ethz.idsc.tensor.utl.GraphicsUtil;
 
 /** export of available {@link ColorDataGradients} to a single image */
-enum ColorDataGradientsDemo {
+/* package */ enum ColorDataGradientsDemo {
   ;
   private static final Scalar TFF = RealScalar.of(255);
 
@@ -31,11 +30,11 @@ enum ColorDataGradientsDemo {
     final int spa = 0;
     final int hei = 15 + spa;
     final int sep = 142;
-    Tensor arr = Array.of(list -> RealScalar.of(list.get(1)), hei - spa, 256);
+    Tensor array = Array.of(list -> RealScalar.of(list.get(1)), hei - spa, 256);
     Tensor image = Tensors.empty();
     Tensor white = Array.of(l -> TFF, hei - spa, sep, 4);
     for (ScalarTensorFunction cdf : ColorDataGradients.values()) {
-      image.append(Join.of(1, ArrayPlot.of(arr, cdf), white));
+      image.append(Join.of(1, ArrayPlot.of(array, cdf), white));
       image.append(Array.zeros(spa, 256 + sep, 4));
     }
     image = Flatten.of(image, 1);

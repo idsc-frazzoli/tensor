@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Beta;
 
 /** inspired by Mathematica's documentation of Beta */
-enum BetaDemo {
+/* package */ enum BetaDemo {
   ;
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 2;

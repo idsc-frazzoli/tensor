@@ -1,13 +1,13 @@
 // code by jph
-package ch.ethz.idsc.tensor.alg;
+package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.Accumulate;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
 
-enum FoldListDemo {
+/* package */ enum FoldListDemo {
   ;
   public static void main(String[] args) {
     Distribution distribution = UniformDistribution.unit();

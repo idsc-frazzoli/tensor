@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.io.Export;
 
 /** export to binary files in test resources */
-enum SerializableDemo {
+/* package */ enum SerializableDemo {
   ;
   public static void main(String[] args) throws IOException {
     Tensor tensor = Tensors.of(RealScalar.ONE, ComplexScalar.of(2, 3), RealScalar.of(3.15));

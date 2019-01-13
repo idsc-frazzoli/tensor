@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.Unit;
 import ch.ethz.idsc.tensor.qty.UnitConvert;
 
-enum QuantityDemo {
+/* package */ enum QuantityDemo {
   ;
   private static void _cholesky() {
     Tensor matrix = Tensors.fromString( //

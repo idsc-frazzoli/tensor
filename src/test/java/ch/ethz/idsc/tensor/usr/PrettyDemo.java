@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Pretty;
 
-enum PrettyDemo {
+/* package */ enum PrettyDemo {
   ;
   public static void main(String[] args) {
     {

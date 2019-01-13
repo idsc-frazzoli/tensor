@@ -1,8 +1,12 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.usr;
 
 import java.io.IOException;
 
+import ch.ethz.idsc.tensor.Parallelize;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Put;
@@ -10,9 +14,8 @@ import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
 
-enum DotMatMatDemo {
+/* package */ enum DotMatMatDemo {
   ;
   public static void main(String[] args) throws IOException {
     Distribution distribution = NormalDistribution.of(1, 4);

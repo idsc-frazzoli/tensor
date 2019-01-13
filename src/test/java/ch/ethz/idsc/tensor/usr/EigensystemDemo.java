@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.mat;
+package ch.ethz.idsc.tensor.usr;
 
 import java.io.IOException;
 
@@ -9,12 +9,13 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Put;
+import ch.ethz.idsc.tensor.mat.Eigensystem;
+import ch.ethz.idsc.tensor.mat.Inverse;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
 
-enum EigensystemDemo {
+/* package */ enum EigensystemDemo {
   ;
   public static void main(String[] args) throws IOException {
     Distribution distribution;

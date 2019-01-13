@@ -1,8 +1,12 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.usr;
 
 import java.io.IOException;
 
+import ch.ethz.idsc.tensor.Parallelize;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Put;
@@ -10,19 +14,9 @@ import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
 
-enum DotMatVecDemo {
+/* package */ enum DotVecVecDemo {
   ;
-  private static void timeSingle() {
-    Tensor a = Tensors.matrixDouble(new double[][] { { 1.0 } });
-    Tensor b = Tensors.vector(1.0);
-    Stopwatch s_ser = Stopwatch.started();
-    a.dot(b);
-    s_ser.stop();
-    System.out.println(s_ser.display_seconds());
-  }
-
   public static void main(String[] args) throws IOException {
     Distribution distribution = NormalDistribution.of(1, 4);
     {
@@ -33,13 +27,13 @@ enum DotMatVecDemo {
       Parallelize.dot(a, b);
     }
     Tensor timing = Tensors.empty();
-    for (int dim = 0; dim < 100; ++dim) {
+    for (int dim = 0; dim < 200; ++dim) {
       System.out.println(dim);
       Stopwatch s_ser = Stopwatch.stopped();
       Stopwatch s_par = Stopwatch.stopped();
-      final int trials = 100;
+      final int trials = 200;
       for (int count = 0; count < trials; ++count) {
-        Tensor a = RandomVariate.of(distribution, dim, dim);
+        Tensor a = RandomVariate.of(distribution, dim);
         Tensor b = RandomVariate.of(distribution, dim);
         s_ser.start();
         Tensor cs = a.dot(b);
@@ -52,7 +46,6 @@ enum DotMatVecDemo {
       }
       timing.append(Tensors.vector(s_ser.display_nanoSeconds() / trials, s_par.display_nanoSeconds() / trials));
     }
-    Put.of(HomeDirectory.file("timing_matvec.txt"), Transpose.of(timing));
-    timeSingle();
+    Put.of(HomeDirectory.file("timing_vecvec.txt"), Transpose.of(timing));
   }
 }

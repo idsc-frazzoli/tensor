@@ -20,9 +20,8 @@ import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.ImageFormat;
 import ch.ethz.idsc.tensor.sca.Ceiling;
-import ch.ethz.idsc.tensor.utl.GraphicsUtil;
 
-enum ColorDataListsDemo {
+/* package */ enum ColorDataListsDemo {
   ;
   static String csv(String name) {
     if (name.charAt(0) == '_')

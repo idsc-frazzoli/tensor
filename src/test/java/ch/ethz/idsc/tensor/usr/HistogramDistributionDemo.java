@@ -1,10 +1,19 @@
 // code by jph
-package ch.ethz.idsc.tensor.pdf;
+package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.pdf.BinningMethod;
+import ch.ethz.idsc.tensor.pdf.CDF;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.Expectation;
+import ch.ethz.idsc.tensor.pdf.HistogramDistribution;
+import ch.ethz.idsc.tensor.pdf.InverseCDF;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.PDF;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Round;
 

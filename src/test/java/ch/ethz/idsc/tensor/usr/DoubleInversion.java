@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.usr;
 
 // class is not treated as test by maven
 // extending from TestCase allows access to assert functions
-enum DoubleInversion {
+/* package */ enum DoubleInversion {
   ;
   private static void assertTrue(boolean status) {
     if (!status)

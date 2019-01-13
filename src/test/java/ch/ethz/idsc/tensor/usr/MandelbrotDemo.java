@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.Arg;
 
-enum MandelbrotDemo {
+/* package */ enum MandelbrotDemo {
   ;
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 20;
