@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Put;
+import ch.ethz.idsc.tensor.io.Timing;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -29,8 +30,8 @@ import ch.ethz.idsc.tensor.sca.Chop;
     Tensor timing = Tensors.empty();
     for (int dim = 0; dim < 200; ++dim) {
       System.out.println(dim);
-      Stopwatch s_ser = Stopwatch.stopped();
-      Stopwatch s_par = Stopwatch.stopped();
+      Timing s_ser = Timing.stopped();
+      Timing s_par = Timing.stopped();
       final int trials = 200;
       for (int count = 0; count < trials; ++count) {
         Tensor a = RandomVariate.of(distribution, dim);
@@ -44,7 +45,7 @@ import ch.ethz.idsc.tensor.sca.Chop;
         if (!Chop._12.close(cs, cp))
           throw TensorRuntimeException.of(cs);
       }
-      timing.append(Tensors.vector(s_ser.display_nanoSeconds() / trials, s_par.display_nanoSeconds() / trials));
+      timing.append(Tensors.vector(s_ser.nanoSeconds() / trials, s_par.nanoSeconds() / trials));
     }
     Put.of(HomeDirectory.file("timing_vecvec.txt"), Transpose.of(timing));
   }

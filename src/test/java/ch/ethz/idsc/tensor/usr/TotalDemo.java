@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Put;
+import ch.ethz.idsc.tensor.io.Timing;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -28,19 +29,19 @@ import ch.ethz.idsc.tensor.red.Total;
       a.dot(b);
       Parallelize.dot(a, b);
     }
-    Tensor timing = Tensors.empty();
+    Tensor timings = Tensors.empty();
     for (int dim = 0; dim < 100; ++dim) {
       System.out.println(dim);
-      Stopwatch stopwatch = Stopwatch.stopped();
+      Timing timing = Timing.stopped();
       final int trials = 50;
       for (int count = 0; count < trials; ++count) {
         Tensor a = RandomVariate.of(distribution, dim, dim);
-        stopwatch.start();
+        timing.start();
         Total.of(a);
-        stopwatch.stop();
+        timing.stop();
       }
-      timing.append(Tensors.vector(stopwatch.display_nanoSeconds() / trials));
+      timings.append(Tensors.vector(timing.nanoSeconds() / trials));
     }
-    Put.of(HomeDirectory.file("timing_total_ser.txt"), Transpose.of(timing));
+    Put.of(HomeDirectory.file("timing_total_ser.txt"), Transpose.of(timings));
   }
 }

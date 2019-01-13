@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.io.Timing;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.HistogramDistribution;
 import ch.ethz.idsc.tensor.pdf.PoissonBinomialDistribution;
@@ -17,9 +18,9 @@ import ch.ethz.idsc.tensor.red.Variance;
     Distribution distribution = PoissonBinomialDistribution.of(p_vector);
     Tensor samples;
     {
-      Stopwatch stopwatch = Stopwatch.started();
+      Timing timing = Timing.started();
       samples = RandomVariate.of(distribution, 1000);
-      double seconds = stopwatch.display_seconds();
+      double seconds = timing.seconds();
       System.out.println("sec  pbin = " + seconds);
     }
     Distribution histogram = HistogramDistribution.of(samples);
@@ -28,9 +29,9 @@ import ch.ethz.idsc.tensor.red.Variance;
     System.out.println("var  hist = " + Variance.of(histogram));
     System.out.println("var  pbin = " + Variance.of(distribution));
     {
-      Stopwatch stopwatch = Stopwatch.started();
+      Timing timing = Timing.started();
       RandomVariate.of(histogram, 1000);
-      double seconds = stopwatch.display_seconds();
+      double seconds = timing.seconds();
       System.out.println("sec  hist = " + seconds);
     }
   }
