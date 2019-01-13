@@ -11,31 +11,31 @@ import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 
-enum AnimationWriterDemo {
+/* package */ enum AnimationWriterDemo {
   ;
   public static void main(String[] args2) {
-    try (AnimationWriter aw = AnimationWriter.of(HomeDirectory.Pictures("grayscale.gif"), 100)) {
-      for (int c = 1; c <= 16; ++c) {
-        Distribution distribution = DiscreteUniformDistribution.of(0, c * 16);
-        aw.append(RandomVariate.of(distribution, 128, 128));
+    try (AnimationWriter animationWriter = AnimationWriter.of(HomeDirectory.Pictures("grayscale.gif"), 100)) {
+      for (int count = 1; count <= 16; ++count) {
+        Distribution distribution = DiscreteUniformDistribution.of(0, count * 16);
+        animationWriter.append(RandomVariate.of(distribution, 128, 128));
       }
     } catch (Exception exception) {
       exception.printStackTrace();
     }
-    try (AnimationWriter aw = AnimationWriter.of(HomeDirectory.Pictures("colornoise.gif"), 100)) {
-      for (int c = 1; c <= 16; ++c) {
-        Distribution distribution = DiscreteUniformDistribution.of(0, c * 16);
+    try (AnimationWriter animationWriter = AnimationWriter.of(HomeDirectory.Pictures("colornoise.gif"), 100)) {
+      for (int count = 1; count <= 16; ++count) {
+        Distribution distribution = DiscreteUniformDistribution.of(0, count * 16);
         Tensor image = RandomVariate.of(distribution, 128, 128, 4);
         image.set(s -> RealScalar.of(255), Tensor.ALL, Tensor.ALL, 3);
-        aw.append(image);
+        animationWriter.append(image);
       }
     } catch (Exception exception) {
       exception.printStackTrace();
     }
-    try (AnimationWriter aw = AnimationWriter.of(HomeDirectory.Pictures("palettenoise.gif"), 100)) {
+    try (AnimationWriter animationWriter = AnimationWriter.of(HomeDirectory.Pictures("palettenoise.gif"), 100)) {
       Distribution distribution = DiscreteUniformDistribution.of(0, 256);
-      for (int c = 1; c <= 16; ++c)
-        aw.append(ArrayPlot.of(RandomVariate.of(distribution, 128, 128), ColorDataGradients.ALPINE));
+      for (int count = 1; count <= 16; ++count)
+        animationWriter.append(ArrayPlot.of(RandomVariate.of(distribution, 128, 128), ColorDataGradients.ALPINE));
     } catch (Exception exception) {
       exception.printStackTrace();
     }

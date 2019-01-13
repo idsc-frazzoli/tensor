@@ -28,4 +28,10 @@ public class PiTest extends TestCase {
     double value = pi.multiply(RealScalar.of(2.0)).number().doubleValue();
     assertEquals(value, 2 * Math.PI);
   }
+
+  public void testDoublePrecision() {
+    assertEquals(Pi.VALUE.number().doubleValue(), Math.PI);
+    assertEquals(Pi.HALF.number().doubleValue(), Math.PI * 0.5);
+    assertEquals(Pi.TWO.number().doubleValue(), Math.PI / 0.5);
+  }
 }

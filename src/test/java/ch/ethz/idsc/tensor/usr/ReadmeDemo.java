@@ -23,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-enum ReadmeDemo {
+/* package */ enum ReadmeDemo {
   ;
   static void demoInverse() {
     Tensor matrix = Tensors.matrixInt(new int[][] { { 2, -3, 2 }, { 4, 9, -3 }, { -1, 3, 2 } });

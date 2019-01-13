@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
-public class Tutorial {
+/* package */ class Tutorial {
   public static void demoA() {
     Scalar a = RealScalar.of(2); // exact number 2 == 2/1
     Scalar b = RationalScalar.of(5, 3); // exact fraction 5/3

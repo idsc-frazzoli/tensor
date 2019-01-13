@@ -1,7 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.Comparators;
+import java.util.Collections;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
@@ -24,13 +25,13 @@ public class ArgMinTest extends TestCase {
   }
 
   public void testMinComparatorIncr() {
-    assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Comparators.increasing()));
-    assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8), Comparators.increasing()));
+    assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100)));
+    assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8)));
   }
 
   public void testMinComparatorDecr() {
-    assertEquals(4, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Comparators.decreasing()));
-    assertEquals(3, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8), Comparators.decreasing()));
+    assertEquals(4, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Collections.reverseOrder()));
+    assertEquals(3, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8), Collections.reverseOrder()));
   }
 
   public void testScalar() {

@@ -31,6 +31,7 @@ public enum HomeDirectory {
     return create(directory, strings);
   }
 
+  // helper function
   private static File create(File file, String... strings) {
     for (int index = 0; index < strings.length; ++index)
       file = new File(file, strings[index]);

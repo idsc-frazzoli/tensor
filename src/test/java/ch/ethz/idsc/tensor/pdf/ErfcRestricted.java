@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * RESTRICTED TO A BOUNDED INTERVAL AROUND ZERO
  * 
  * the purpose is only for comparison */
-public enum ErfcRestricted implements ScalarUnaryOperator {
+/* package */ enum ErfcRestricted implements ScalarUnaryOperator {
   FUNCTION;
   // ---
   private static final ScalarUnaryOperator SERIES = Series.of(Tensors.vector( //

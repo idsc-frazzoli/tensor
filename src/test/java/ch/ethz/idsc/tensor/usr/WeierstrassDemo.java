@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Power;
 
-enum WeierstrassDemo {
+/* package */ enum WeierstrassDemo {
   ;
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final int DEPTH = 10;

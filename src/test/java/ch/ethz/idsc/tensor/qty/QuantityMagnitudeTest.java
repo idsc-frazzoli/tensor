@@ -61,18 +61,26 @@ public class QuantityMagnitudeTest extends TestCase {
   public void testConversionN() {
     Scalar scalar = Quantity.of(RationalScalar.of(8896443230521L, 2000000000000L).reciprocal(), "lbf");
     QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
-    ScalarUnaryOperator suo = quantityMagnitude.in("N");
-    Scalar result = suo.apply(scalar);
+    ScalarUnaryOperator scalarUnaryOperator = quantityMagnitude.in("N");
+    Scalar result = scalarUnaryOperator.apply(scalar);
     assertEquals(result, RealScalar.ONE);
     assertTrue(ExactScalarQ.of(result));
+  }
+
+  public void testConversionMoWk() {
+    Scalar scalar = Quantity.of(1, "mo");
+    QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
+    ScalarUnaryOperator scalarUnaryOperator = quantityMagnitude.in("wk");
+    Scalar result = scalarUnaryOperator.apply(scalar);
+    assertEquals(result, RationalScalar.of(365, 84));
   }
 
   public void testFailConversion() {
     QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
     Scalar quantity = Quantity.of(360, "kg");
-    ScalarUnaryOperator suo = quantityMagnitude.in("m");
+    ScalarUnaryOperator scalarUnaryOperator = quantityMagnitude.in("m");
     try {
-      suo.apply(quantity);
+      scalarUnaryOperator.apply(quantity);
       fail();
     } catch (Exception exception) {
       // ---

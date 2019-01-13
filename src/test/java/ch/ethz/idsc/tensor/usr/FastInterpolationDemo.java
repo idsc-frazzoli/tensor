@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.opt;
+package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -7,13 +7,14 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.Timing;
+import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Increment;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
 
-enum FastInterpolationDemo {
+/* package */ enum FastInterpolationDemo {
   ;
   private static final Distribution DISTRIBUTION = UniformDistribution.unit();
 
@@ -33,17 +34,17 @@ enum FastInterpolationDemo {
     for (int count = 0; count < 10; ++count) {
       {
         Scalar a = DoubleScalar.of(4.123);
-        Stopwatch stopwatch = Stopwatch.started();
+        Timing timing = Timing.started();
         for (int index = 0; index < 50000; ++index)
           linearInterpolation.at(a);
-        System.out.println("at  " + stopwatch.display_nanoSeconds());
+        System.out.println("at  " + timing.nanoSeconds());
       }
       {
         Tensor b = Tensors.vector(4.123);
-        Stopwatch stopwatch = Stopwatch.started();
+        Timing timing = Timing.started();
         for (int index = 0; index < 50000; ++index)
           linearInterpolation.get(b);
-        System.out.println("get " + stopwatch.display_nanoSeconds());
+        System.out.println("get " + timing.nanoSeconds());
       }
       {
         Scalar a = DoubleScalar.of(4.123);
@@ -60,17 +61,17 @@ enum FastInterpolationDemo {
     for (int count = 0; count < 10; ++count) {
       {
         Scalar a = RationalScalar.of(20, 7);
-        Stopwatch stopwatch = Stopwatch.started();
+        Timing timing = Timing.started();
         for (int index = 0; index < 50000; ++index)
           linearInterpolation.at(a);
-        System.out.println("at  " + stopwatch.display_nanoSeconds());
+        System.out.println("at  " + timing.nanoSeconds());
       }
       {
         Tensor b = Tensors.vector(4.123);
-        Stopwatch stopwatch = Stopwatch.started();
+        Timing timing = Timing.started();
         for (int index = 0; index < 50000; ++index)
           linearInterpolation.get(b);
-        System.out.println("get " + stopwatch.display_nanoSeconds());
+        System.out.println("get " + timing.nanoSeconds());
       }
     }
   }

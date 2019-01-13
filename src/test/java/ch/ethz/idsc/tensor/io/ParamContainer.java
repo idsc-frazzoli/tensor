@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-class ParamContainer {
+/* package */ class ParamContainer {
   public static final ParamContainer INSTANCE = TensorProperties.wrap(new ParamContainer()) //
       .set(ResourceData.properties("/io/ParamContainer.properties"));
   // ---

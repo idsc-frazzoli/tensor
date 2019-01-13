@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Import;
 
-enum ImageExportDemo {
+/* package */ enum ImageExportDemo {
   ;
   public static void _im1() throws Exception {
     int n = 251;

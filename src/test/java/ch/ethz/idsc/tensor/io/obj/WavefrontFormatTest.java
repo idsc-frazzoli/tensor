@@ -1,8 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.io.obj;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,9 +19,15 @@ import ch.ethz.idsc.tensor.red.Max;
 import junit.framework.TestCase;
 
 public class WavefrontFormatTest extends TestCase {
+  /** @param inputStream
+   * @return lines in given inputStream as stream of strings */
+  static Stream<String> lines(InputStream inputStream) {
+    return new BufferedReader(new InputStreamReader(inputStream)).lines();
+  }
+
   public void testBlender0() throws IOException {
     InputStream inputStream = getClass().getResource("/io/ext/blender0.obj").openStream();
-    Stream<String> stream = StaticHelper.lines(inputStream);
+    Stream<String> stream = lines(inputStream);
     Wavefront wavefront = WavefrontFormat.parse(stream);
     assertEquals(wavefront.objects().size(), 2);
     assertEquals(wavefront.objects().get(0).name(), "Cylinder");

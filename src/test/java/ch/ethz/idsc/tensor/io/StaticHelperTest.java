@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
@@ -20,6 +21,11 @@ public class StaticHelperTest extends TestCase {
     Object object = StaticHelper.parse(Scalar.class, " 3/4+8*I[m*s^-2]");
     Scalar scalar = Quantity.of(ComplexScalar.of(RationalScalar.of(3, 4), RealScalar.of(8)), "m*s^-2");
     assertEquals(object, scalar);
+  }
+
+  public void testParseFile() {
+    Object object = StaticHelper.parse(File.class, "/home/datahaki/file.txt");
+    assertEquals(object, new File("/home/datahaki/file.txt"));
   }
 
   public void testParseBoolean() {

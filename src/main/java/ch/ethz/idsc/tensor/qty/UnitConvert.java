@@ -36,4 +36,16 @@ public class UnitConvert {
     Scalar base = unitSystem.apply(QuantityImpl.of(RealScalar.ONE, unit));
     return scalar -> Quantity.of(unitSystem.apply(scalar).divide(base), unit);
   }
+
+  /** Example:
+   * <code>
+   * UnitConvert.SI().to("N").apply(Quantity.of(981, "cm*kg*s^-2"))
+   * == Quantity.fromString("981/100[N]")
+   * </code>
+   * 
+   * @param string
+   * @return operator that maps a quantity to the quantity of given unit */
+  public ScalarUnaryOperator to(String string) {
+    return to(Unit.of(string));
+  }
 }

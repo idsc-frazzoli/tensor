@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.io.AnimationWriter;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.lie.Rodrigues;
 
-enum RodriquesDemo {
+/* package */ enum RodriquesDemo {
   ;
   private static final int RES = StaticHelper.GALLERY_RES;
   private static final Tensor RE = Subdivide.of(-4, +4, RES - 1);

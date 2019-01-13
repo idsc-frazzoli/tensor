@@ -65,8 +65,7 @@ public class TensorImplTest extends TestCase {
 
   public void testIteratorRemove() {
     Tensor tensor = IdentityMatrix.of(4);
-    Iterator<Tensor> iterator = tensor.iterator();
-    while (iterator.hasNext()) {
+    for (Iterator<Tensor> iterator = tensor.iterator(); iterator.hasNext();) {
       iterator.next();
       iterator.remove();
     }

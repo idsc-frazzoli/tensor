@@ -1,27 +1,29 @@
 // code by jph
-package ch.ethz.idsc.tensor.opt;
+package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.io.Timing;
+import ch.ethz.idsc.tensor.opt.Interpolation;
+import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
-import ch.ethz.idsc.tensor.utl.Stopwatch;
 
 /** DEMO IS OBSOLETE SINCE LinearInterpolation
  * INTERNALLY USES UNPROTECT */
-enum LinearInterpolationDemo {
+/* package */ enum LinearInterpolationDemo {
   ;
   private static final Distribution DISTRIBUTION = UniformDistribution.unit();
 
   private static long time(Tensor tensor) {
     Interpolation interpolation = LinearInterpolation.of(tensor);
-    Stopwatch stopwatch = Stopwatch.started();
-    for (int c = 1; c < 20000; ++c) {
+    Timing timing = Timing.started();
+    for (int count = 1; count < 20000; ++count) {
       interpolation.get(RandomVariate.of(DISTRIBUTION, 3));
     }
-    stopwatch.stop();
-    return stopwatch.display_nanoSeconds();
+    timing.stop();
+    return timing.nanoSeconds();
   }
 
   public static void main(String[] args) {
