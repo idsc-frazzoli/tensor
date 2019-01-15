@@ -5,16 +5,13 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 
 /* package */ enum StaticHelper {
   ;
-  /* package */ static final ColorDataGradient FALLBACK = ColorDataGradient.of(Array.zeros(2, 4));
-  // ---
   private static final Tensor TRANSPARENT = Tensors.vectorDouble(0, 0, 0, 0).unmodifiable();
 
-  /* package */ static Tensor transparent() {
+  static Tensor transparent() {
     return TRANSPARENT.copy();
   }
 
@@ -24,7 +21,8 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
     return "/colorlist/" + name.toLowerCase() + ".csv";
   }
 
-  /** @param tensor
+  /***************************************************/
+  /** @param tensor of dimension n x 4
    * @param alpha
    * @return */
   static Tensor withAlpha(Tensor tensor, int alpha) {
@@ -38,6 +36,10 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
     return rgba -> rgba.extract(0, 3).append(scalar);
   }
 
+  /***************************************************/
+  /** @param tensor of dimension n x 4
+   * @param factor
+   * @return */
   static Tensor withFactor(Tensor tensor, Scalar factor) {
     return Tensor.of(tensor.stream().map(withFactor(factor)));
   }

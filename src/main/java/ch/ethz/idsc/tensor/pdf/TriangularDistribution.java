@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.Scalar;
 
-/** The Triangular distribution is a special case of a trapezoidal distribution.
+/** The triangular distribution is a special case of a {@link TrapezoidalDistribution}
  * 
  * <p>inspired by
  * <a href="https://en.wikipedia.org/wiki/Triangular_distribution">Triangular_distribution</a> */

@@ -1,15 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.opt.Interpolation;
-import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
-import ch.ethz.idsc.tensor.sca.Clip;
-import ch.ethz.idsc.tensor.sca.N;
 
 /** ColorDataGradient maps a {@link Scalar} from the interval [0, 1] to a 4-vector
  * {r, g, b, a} with rgba entries using linear interpolation on a given table of rgba values.
@@ -23,39 +16,10 @@ import ch.ethz.idsc.tensor.sca.N;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a> */
-public class ColorDataGradient implements ScalarTensorFunction {
-  /** colors are generated using {@link LinearInterpolation} of given tensor
-   * 
-   * @param tensor n x 4 where each row contains {r, g, b, a} with values ranging in [0, 256)
-   * @return */
-  public static ColorDataGradient of(Tensor tensor) {
-    return new ColorDataGradient(tensor);
-  }
-
-  // ---
-  private final Tensor tensor;
-  private final Interpolation interpolation;
-  private final Scalar scale;
-
-  private ColorDataGradient(Tensor tensor) {
-    this.tensor = tensor;
-    interpolation = LinearInterpolation.of(N.DOUBLE.of(tensor));
-    scale = DoubleScalar.of(tensor.length() - 1);
-  }
-
+public interface ColorDataGradient extends ScalarTensorFunction {
   /** @param factor in the interval [0, 1]
    * @return new instance of ColorDataIndexed with identical RGB color values
    * but with transparency as given alpha
    * @throws Exception if alpha is not in the valid range */
-  public ColorDataGradient deriveWithFactor(Scalar factor) {
-    return new ColorDataGradient(StaticHelper.withFactor(tensor, Clip.unit().requireInside(factor)));
-  }
-
-  @Override
-  public Tensor apply(Scalar scalar) {
-    Scalar value = scalar.multiply(scale); // throws Exception for GaussScalar
-    return MachineNumberQ.of(value) //
-        ? interpolation.at(value)
-        : StaticHelper.transparent();
-  }
+  ColorDataGradient deriveWithFactor(Scalar factor);
 }

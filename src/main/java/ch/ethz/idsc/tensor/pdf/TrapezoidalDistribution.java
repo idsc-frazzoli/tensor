@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * a trapezoid which begins rising at a until b, has a plateau from b to c, and
  * then falls after c to point d.
  * 
- * A special case is a triangular distribution where b == c. In that case,
+ * <p>A special case is a triangular distribution where b == c. In that case,
  * the plateau has width zero.
  * 
  * <p>inspired by
