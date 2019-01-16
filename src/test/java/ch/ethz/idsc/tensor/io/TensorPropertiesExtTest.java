@@ -141,7 +141,7 @@ public class TensorPropertiesExtTest extends TestCase {
     assertFalse(file.exists());
     TensorProperties tensorProperties = TensorProperties.wrap(ParamContainerExt.INSTANCE);
     tensorProperties.save(file);
-    assertTrue(file.exists());
+    assertTrue(file.isFile());
     ParamContainerExt paramContainerExt = new ParamContainerExt();
     TensorProperties.wrap(paramContainerExt).load(file);
     file.delete();

@@ -7,16 +7,28 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** default threshold in Mathematica is 1e-10:
+/** Chop is consistent with Mathematica::Chop
+ * 
+ * <p>Symbolic expressions are not chopped:
+ * <pre>
+ * Chop[1/1000000000000000 ] != 0, but
+ * Chop[1/1000000000000000.] == 0
+ * </pre>
+ * 
+ * <p>The numeric value of a Quantity is treated as
+ * <pre>
+ * Chop[Quantity[1.*^-12, "Meters"]] == Quantity[0, "Meters"]
+ * Chop[Quantity[1 *^-12, "Meters"]] == Quantity[1*^-12, "Meters"]
+ * </pre>
+ *
+ * <p>The default threshold for Chop in Mathematica is 1e-10:
+ * <pre>
  * Chop[1.000*^-10] != 0
  * Chop[0.999*^-10] == 0
+ * </pre>
  * 
- * symbolic expressions are not chopped:
- * Chop[1/1000000000000000] != 0, but
- * Chop[1/1000000000000000.] == 0
- * 
- * unlike in Mathematica, the tensor library does not predefine a default threshold
- * for each use of chop, the application has to specify the threshold
+ * <p>The tensor library does not predefine a default threshold.
+ * The application has to specify the threshold for each use of Chop.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Chop.html">Chop</a> */

@@ -23,7 +23,8 @@ public enum QuantityTensor {
    * 
    * @param tensor
    * @param unit
-   * @return */
+   * @return tensor with all scalars of given tensor equipped with given unit
+   * @throws Exception if any entry of given tensor is an instance of {@link Quantity} */
   public static Tensor of(Tensor tensor, String unit) {
     return of(tensor, Unit.of(unit));
   }
