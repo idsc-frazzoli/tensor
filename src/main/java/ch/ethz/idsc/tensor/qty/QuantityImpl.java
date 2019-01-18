@@ -247,7 +247,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public boolean equals(Object object) {
     if (object instanceof Quantity) {
       Quantity quantity = (Quantity) object;
-      return value.equals(quantity.value()) && unit.equals(quantity.unit()); // 2[kg] == 2[kg]
+      return value.equals(quantity.value()) //
+          && unit.equals(quantity.unit()); // 2[kg] == 2[kg]
     }
     return false;
   }

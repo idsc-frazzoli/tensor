@@ -147,7 +147,8 @@ public class GaussScalar extends AbstractScalar implements //
   public boolean equals(Object object) {
     if (object instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) object;
-      return value == gaussScalar.value && prime == gaussScalar.prime;
+      return value == gaussScalar.value //
+          && prime == gaussScalar.prime;
     }
     return false;
   }

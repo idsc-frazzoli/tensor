@@ -170,7 +170,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
             denominator().pow(-expInt), //
             numerator().pow(-expInt));
       } catch (Exception exception) {
-        return Scalars.binaryPower(RealScalar.ONE).apply(this, exp.numerator());
+        return ScalarBinaryPower.REAL_SCALAR.apply(this, exp.numerator());
       }
     }
     return super.power(exponent);
@@ -240,7 +240,8 @@ public final class RationalScalar extends AbstractRealScalar implements //
       RationalScalar rationalScalar = (RationalScalar) object;
       return bigFraction._equals(rationalScalar.bigFraction);
     }
-    return Objects.nonNull(object) && object.equals(this);
+    return Objects.nonNull(object) //
+        && object.equals(this);
   }
 
   @Override // from AbstractScalar

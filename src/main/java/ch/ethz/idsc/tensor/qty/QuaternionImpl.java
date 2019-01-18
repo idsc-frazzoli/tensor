@@ -132,8 +132,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from ExactScalarQInterface
   public boolean isExactScalar() {
-    return ExactScalarQ.of(re) && ExactScalarQ.of(im) //
-        && ExactScalarQ.of(jm) && ExactScalarQ.of(km);
+    return ExactScalarQ.of(re) //
+        && ExactScalarQ.of(im) //
+        && ExactScalarQ.of(jm) //
+        && ExactScalarQ.of(km);
   }
 
   @Override // from NInterface
@@ -186,8 +188,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public boolean equals(Object object) {
     if (object instanceof Quaternion) {
       Quaternion quaternion = (Quaternion) object;
-      return re.equals(quaternion.re()) && im.equals(quaternion.im()) //
-          && jm.equals(quaternion.jm()) && km.equals(quaternion.km());
+      return re.equals(quaternion.re()) //
+          && im.equals(quaternion.im()) //
+          && jm.equals(quaternion.jm()) //
+          && km.equals(quaternion.km());
     }
     return false;
   }

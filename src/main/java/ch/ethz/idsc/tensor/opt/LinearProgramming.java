@@ -79,7 +79,8 @@ public enum LinearProgramming {
    * @param b
    * @return true if x >= 0 and m.x <= b */
   public static boolean isFeasible(Tensor m, Tensor x, Tensor b) {
-    return isNonNegative(x) && isNonNegative(b.subtract(m.dot(x)));
+    return isNonNegative(x) //
+        && isNonNegative(b.subtract(m.dot(x)));
   }
 
   /** @param vector

@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.alg.BinaryPower;
 import ch.ethz.idsc.tensor.io.StringScalar;
@@ -75,25 +76,11 @@ public enum Scalars {
   /***************************************************/
   /** utility to compute the power of a scalar type to an integer exponent
    * 
-   * @param one
-   * @return */
+   * @param one non-null
+   * @return
+   * @throws Exception if given parameter one is null */
   public static BinaryPower<Scalar> binaryPower(Scalar one) {
-    return new BinaryPower<Scalar>() {
-      @Override
-      public Scalar zeroth() {
-        return one;
-      }
-
-      @Override
-      public Scalar invert(Scalar scalar) {
-        return scalar.reciprocal();
-      }
-
-      @Override
-      public Scalar multiply(Scalar s1, Scalar s2) {
-        return s1.multiply(s2);
-      }
-    };
+    return new ScalarBinaryPower(Objects.requireNonNull(one));
   }
 
   /***************************************************/

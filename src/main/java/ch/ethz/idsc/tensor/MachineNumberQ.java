@@ -26,7 +26,8 @@ public enum MachineNumberQ {
    * @return true, if tensor is instance of {@link MachineNumberQInterface} which evaluates to true,
    * otherwise false */
   public static boolean of(Tensor tensor) {
-    return tensor instanceof MachineNumberQInterface && ((MachineNumberQInterface) tensor).isMachineNumber();
+    return tensor instanceof MachineNumberQInterface //
+        && ((MachineNumberQInterface) tensor).isMachineNumber();
   }
 
   /** @param tensor

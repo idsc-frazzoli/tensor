@@ -76,8 +76,8 @@ public class HypotTest extends TestCase {
     Scalar c2 = ComplexScalar.of(2, 4);
     Scalar pair = Hypot.BIFUNCTION.apply(c1, c2);
     assertEquals(Sqrt.of(RealScalar.of(46)), pair);
-    Scalar func = Hypot.ofVector(Tensors.of(c1, c2));
-    assertEquals(func, pair);
+    Scalar value = Hypot.ofVector(Tensors.of(c1, c2));
+    assertEquals(value, pair);
     Scalar norm = Norm._2.ofVector(Tensors.of(c1, c2));
     assertEquals(norm, pair);
   }

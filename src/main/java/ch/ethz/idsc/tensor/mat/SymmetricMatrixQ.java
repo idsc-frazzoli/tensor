@@ -12,6 +12,7 @@ public enum SymmetricMatrixQ {
   /** @param tensor
    * @return true if tensor is a symmetric matrix */
   public static boolean of(Tensor tensor) {
-    return MatrixQ.of(tensor) && tensor.equals(Transpose.of(tensor));
+    return MatrixQ.of(tensor) //
+        && tensor.equals(Transpose.of(tensor));
   }
 }

@@ -19,7 +19,8 @@ public enum IntegerQ {
   /** @param tensor
    * @return true, if tensor is instance of {@link RationalScalar} with denominator == 1 */
   public static boolean of(Tensor tensor) {
-    return tensor instanceof RationalScalar && ((RationalScalar) tensor).isInteger();
+    return tensor instanceof RationalScalar //
+        && ((RationalScalar) tensor).isInteger();
   }
 
   /** @param scalar
