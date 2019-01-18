@@ -35,12 +35,6 @@ public enum Tensors {
     return Tensor.of(Stream.of(scalars));
   }
 
-  /** @param objects
-   * @return concatenation of copies of given tensors, scalars, or numbers */
-  public static Tensor of(Object... objects) {
-    return Tensor.of(Stream.of(objects).map(StaticHelper::fromObject));
-  }
-
   /** @param numbers
    * @return vector of numbers as {@link RealScalar}s */
   public static Tensor vector(Number... numbers) {

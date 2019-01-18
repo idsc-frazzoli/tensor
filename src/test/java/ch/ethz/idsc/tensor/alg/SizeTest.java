@@ -13,6 +13,6 @@ public class SizeTest extends TestCase {
   public void testString() {
     Size size = Size.of(new int[] { 4, 2, 3 });
     String string = size.toString();
-    assertTrue(string instanceof String);
+    assertFalse(string.isEmpty());
   }
 }

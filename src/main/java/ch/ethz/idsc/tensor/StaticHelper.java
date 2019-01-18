@@ -81,12 +81,4 @@ import ch.ethz.idsc.tensor.sca.Sign;
     }
     return ArcTan.FUNCTION.apply(y.divide(x));
   }
-
-  static Tensor fromObject(Object object) {
-    if (object instanceof Tensor)
-      return ((Tensor) object).copy();
-    if (object instanceof Number)
-      return RealScalar.of((Number) object);
-    throw new RuntimeException();
-  }
 }

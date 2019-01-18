@@ -22,9 +22,9 @@ public class BasisTransformTest extends TestCase {
   public void testForm() {
     int rows = 6;
     int cols = 8;
-    Random r = new Random();
+    Random random = new Random();
     Tensor m = IdentityMatrix.of(rows);
-    Tensor v = Tensors.matrix((i, j) -> RealScalar.of(r.nextInt(10)), rows, cols);
+    Tensor v = Tensors.matrix((i, j) -> RealScalar.of(random.nextInt(10)), rows, cols);
     Tensor t = BasisTransform.ofForm(m, v);
     Tensor d = t.subtract(Transpose.of(t));
     assertEquals(d, Array.zeros(cols, cols));

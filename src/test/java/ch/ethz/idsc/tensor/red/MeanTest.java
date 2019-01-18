@@ -20,8 +20,8 @@ public class MeanTest extends TestCase {
   }
 
   public void testLimitTheorem() {
-    Random rnd = new Random();
-    Tensor tensor = Array.of(l -> RealScalar.of(100 + 100 * rnd.nextGaussian()), 10000);
+    Random random = new Random();
+    Tensor tensor = Array.of(l -> RealScalar.of(100 + 100 * random.nextGaussian()), 10000);
     Scalar mean1 = Mean.of(tensor).Get();
     Scalar mean2 = Total.of(tensor.multiply(RealScalar.of(tensor.length()).reciprocal())).Get();
     // possibly use error relative to magnitude
