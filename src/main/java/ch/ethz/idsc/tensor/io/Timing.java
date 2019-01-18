@@ -72,15 +72,6 @@ public class Timing {
     return nanoSeconds() * 1e-9;
   }
 
-  /** reset display to 0:00:00
-   * @throws Exception if timing is not in stopped state */
-  public void resetToZero() {
-    if (!isStopped())
-      throw new IllegalStateException();
-    frozen = 0;
-    // stopped implies: tic == null
-  }
-
   /** @return true if timing is not started */
   // function is private because state of timing can be tracked in the application layer
   private boolean isStopped() {

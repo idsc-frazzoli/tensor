@@ -14,7 +14,7 @@ public class AnimationWriterTest extends TestCase {
       animationWriter.append(Array.zeros(3, 4));
       animationWriter.append(Array.zeros(3, 4));
     }
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testFailExtension() {

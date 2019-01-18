@@ -20,7 +20,7 @@ public class AnimatedGifWriterTest extends TestCase {
       animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
       animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
     }
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testGray() throws IOException {
@@ -30,7 +30,7 @@ public class AnimatedGifWriterTest extends TestCase {
       animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
       animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
     }
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testEmpty() throws IOException {
@@ -40,6 +40,6 @@ public class AnimatedGifWriterTest extends TestCase {
       // ---
     }
     assertTrue(file.isFile());
-    file.delete();
+    assertTrue(file.delete());
   }
 }

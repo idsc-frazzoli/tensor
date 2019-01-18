@@ -144,7 +144,7 @@ public class TensorPropertiesExtTest extends TestCase {
     assertTrue(file.isFile());
     ParamContainerExt paramContainerExt = new ParamContainerExt();
     TensorProperties.wrap(paramContainerExt).load(file);
-    file.delete();
+    assertTrue(file.delete());
     assertEquals(paramContainerExt.shape, Tensors.fromString("{-9, 2, 3  [m*s^-3], 8, 4}"));
     assertEquals(paramContainerExt.maxTor, Tensors.fromString("10[m*s]"));
     assertEquals(paramContainerExt.onlyInExt, Tensors.fromString("{9, 7}"));
@@ -161,6 +161,6 @@ public class TensorPropertiesExtTest extends TestCase {
     TensorProperties tensorProperties = TensorProperties.wrap(new ParamContainerExt());
     assertTrue(tensorProperties.trySave(file));
     assertTrue(file.isFile());
-    file.delete();
+    assertTrue(file.delete());
   }
 }

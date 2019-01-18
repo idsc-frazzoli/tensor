@@ -99,7 +99,7 @@ public class CeilingTest extends TestCase {
   }
 
   public void testTypeFail() {
-    Scalar scalar = StringScalar.of("some");
+    Scalar scalar = StringScalar.of("string");
     try {
       Ceiling.of(scalar);
       fail();

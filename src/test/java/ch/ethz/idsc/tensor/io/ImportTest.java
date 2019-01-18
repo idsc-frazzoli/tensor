@@ -63,8 +63,7 @@ public class ImportTest extends TestCase {
     assertTrue(file.isFile());
     assertTrue(8 <= file.length());
     Import.of(file);
-    boolean deleted = file.delete();
-    assertTrue(deleted);
+    assertTrue(file.delete());
   }
 
   public void testImageClose() throws Exception {
@@ -74,8 +73,7 @@ public class ImportTest extends TestCase {
     assertTrue(file.isFile());
     Tensor image = Import.of(file);
     assertEquals(tensor, image);
-    file.delete();
-    assertFalse(file.exists());
+    assertTrue(file.delete());
   }
 
   public void testFolderCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
@@ -107,8 +105,7 @@ public class ImportTest extends TestCase {
     Export.of(file, tensor);
     assertTrue(file.isFile());
     Import.of(file);
-    file.delete();
-    assertFalse(file.exists());
+    assertTrue(file.delete());
   }
 
   public void testJpg() throws Exception {
@@ -167,6 +164,6 @@ public class ImportTest extends TestCase {
     Export.object(file, Tensors.vector(1, 2, 3, 4));
     Tensor vector = Import.object(file);
     assertEquals(vector, Tensors.vector(1, 2, 3, 4));
-    file.delete();
+    assertTrue(file.delete());
   }
 }

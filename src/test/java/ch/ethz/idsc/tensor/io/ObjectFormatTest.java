@@ -33,6 +33,6 @@ public class ObjectFormatTest extends TestCase {
     Export.object(file, tensor);
     assertTrue(file.isFile());
     assertEquals(Import.object(file), tensor);
-    file.delete();
+    assertTrue(file.delete());
   }
 }

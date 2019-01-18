@@ -16,8 +16,9 @@ public class ImagTest extends TestCase {
   }
 
   public void testFail() {
+    Scalar scalar = StringScalar.of("string");
     try {
-      Imag.of(StringScalar.of("string"));
+      Imag.of(scalar);
       fail();
     } catch (Exception exception) {
       // ---
