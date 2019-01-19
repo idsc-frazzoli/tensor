@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
@@ -145,14 +146,46 @@ public class QuaternionTest extends TestCase {
     assertEquals(n1.toString(), "Q:1'{3, -2, 2}");
   }
 
-  public void testHashcode() {
-    Tensor tensor = Tensors.of( //
-        Quaternion.of(1, 3, -2, 2), //
-        Quaternion.of(3, 1, -2, 2), //
-        Quaternion.of(3, 2, -2, 1), //
-        Quaternion.of(1, 3, 2, -2));
-    long count = tensor.stream().mapToInt(Tensor::hashCode).distinct().count();
-    assertEquals(count, tensor.length());
+  public void testExpLog() {
+    Quaternion quaternion = Quaternion.of(.1, .3, .2, -.3);
+    Quaternion exp = quaternion.exp();
+    Quaternion log = exp.log();
+    Chop._14.requireClose(quaternion, log);
+  }
+
+  public void testExpLogRandom() {
+    Distribution distribution = NormalDistribution.of(0, 0.3);
+    for (int count = 0; count < 30; ++count) {
+      Quaternion quaternion = Quaternion.of(RandomVariate.of(distribution), RandomVariate.of(distribution, 3));
+      Quaternion exp = quaternion.exp();
+      Quaternion log = exp.log();
+      Chop._12.requireClose(quaternion, log);
+    }
+  }
+
+  public void testLogExpRandom() {
+    Distribution distribution = NormalDistribution.of(0, 2.3);
+    for (int count = 0; count < 30; ++count) {
+      Quaternion quaternion = Quaternion.of(RandomVariate.of(distribution), RandomVariate.of(distribution, 3));
+      Quaternion log = quaternion.log();
+      Quaternion exp = log.exp();
+      Chop._12.requireClose(quaternion, exp);
+    }
+  }
+
+  public void testMatrixFail() {
+    try {
+      Quaternion.of(RealScalar.ONE, HilbertMatrix.of(3, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Quaternion.of(RealScalar.ONE, RealScalar.of(4));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testNullFail() {

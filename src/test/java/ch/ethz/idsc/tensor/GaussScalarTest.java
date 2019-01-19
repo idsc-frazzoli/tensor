@@ -159,4 +159,9 @@ public class GaussScalarTest extends TestCase {
   public void testEqualsMisc() {
     assertFalse(GaussScalar.of(3, 7).equals("hello"));
   }
+
+  public void testToString() {
+    String string = GaussScalar.of(3, 7).toString();
+    assertEquals(string, "G:3'7");
+  }
 }

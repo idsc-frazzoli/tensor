@@ -170,7 +170,7 @@ public final class RationalScalar extends AbstractRealScalar implements //
             denominator().pow(-expInt), //
             numerator().pow(-expInt));
       } catch (Exception exception) {
-        return ScalarBinaryPower.REAL_SCALAR.apply(this, exp.numerator());
+        return ScalarBinaryPower.REAL.apply(this, exp.numerator());
       }
     }
     return super.power(exponent);

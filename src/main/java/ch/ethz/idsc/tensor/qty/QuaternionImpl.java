@@ -1,4 +1,5 @@
 // code by jph
+// https://en.wikipedia.org/wiki/Quaternion
 package ch.ethz.idsc.tensor.qty;
 
 import java.io.Serializable;
@@ -14,12 +15,17 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.Cross;
 import ch.ethz.idsc.tensor.red.Norm;
+import ch.ethz.idsc.tensor.sca.ArcCos;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
+import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
+import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
+import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class QuaternionImpl extends AbstractScalar implements Quaternion, //
@@ -105,10 +111,28 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return new QuaternionImpl(w, xyz.negate());
   }
 
+  @Override // from ExpInterface
+  public Quaternion exp() {
+    Scalar vn = Norm._2.ofVector(xyz);
+    return new QuaternionImpl( //
+        Cos.FUNCTION.apply(vn), //
+        xyz.multiply(Sin.FUNCTION.apply(vn).divide(vn))) //
+            .multiply(Exp.FUNCTION.apply(w));
+  }
+
   @Override // from ExactScalarQInterface
   public boolean isExactScalar() {
     return ExactScalarQ.of(w) //
         && ExactScalarQ.all(xyz);
+  }
+
+  @Override // from LogInterface
+  public Quaternion log() {
+    Scalar abs = abs();
+    Scalar vn = Norm._2.ofVector(xyz);
+    return new QuaternionImpl( //
+        Log.FUNCTION.apply(abs), //
+        xyz.multiply(ArcCos.FUNCTION.apply(w.divide(abs))).divide(vn));
   }
 
   @Override // from NInterface
@@ -157,6 +181,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from AbstractScalar
   public String toString() {
-    return String.format("Q:%s'%s", w, xyz);
+    return "Q:" + w + "'" + xyz;
   }
 }

@@ -63,6 +63,16 @@ public class QuaternionImplTest extends TestCase {
     }
   }
 
+  public void testHashcode() {
+    Tensor tensor = Tensors.of( //
+        Quaternion.of(1, 3, -2, 2), //
+        Quaternion.of(3, 1, -2, 2), //
+        Quaternion.of(3, 2, -2, 1), //
+        Quaternion.of(1, 3, 2, -2));
+    long count = tensor.stream().mapToInt(Tensor::hashCode).distinct().count();
+    assertEquals(count, tensor.length());
+  }
+
   public void testSerializable() throws ClassNotFoundException, IOException {
     Scalar q1 = Quaternion.of(1, 3, -2, 2);
     Scalar q2 = Serialization.copy(q1);

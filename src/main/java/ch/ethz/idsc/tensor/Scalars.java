@@ -79,8 +79,8 @@ public enum Scalars {
    * @param one non-null
    * @return
    * @throws Exception if given parameter one is null */
-  public static BinaryPower<Scalar> binaryPower(Scalar one) {
-    return new ScalarBinaryPower(Objects.requireNonNull(one));
+  public static <T extends Scalar> BinaryPower<T> binaryPower(T one) {
+    return new ScalarBinaryPower<>(Objects.requireNonNull(one));
   }
 
   /***************************************************/
