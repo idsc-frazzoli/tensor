@@ -6,6 +6,8 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -14,7 +16,6 @@ public class ArrayQTest extends TestCase {
     assertTrue(ArrayQ.of(RealScalar.ONE));
     assertTrue(ArrayQ.of(ComplexScalar.fromPolar(3.7, 9.8)));
     assertTrue(ArrayQ.of(Quantity.of(4, "m")));
-    assertTrue(ArrayQ.ofRank(RealScalar.ONE, 0));
   }
 
   public void testIsArray() {
@@ -26,6 +27,25 @@ public class ArrayQTest extends TestCase {
     Tensor b = Tensors.vectorLong(3, 2);
     Tensor c = Tensors.of(a, b);
     assertFalse(ArrayQ.of(c));
+  }
+
+  public void testOfRank() {
+    for (int rank = 0; rank < 5; ++rank) {
+      assertEquals(rank == 0, ArrayQ.ofRank(RealScalar.ONE, rank));
+      assertEquals(rank == 1, ArrayQ.ofRank(Tensors.vector(1, 2, 3), rank));
+      assertEquals(rank == 2, ArrayQ.ofRank(HilbertMatrix.of(2, 3), rank));
+      assertEquals(rank == 3, ArrayQ.ofRank(LieAlgebras.he1(), rank));
+    }
+  }
+
+  public void testRequire() {
+    Tensor tensor = Tensors.fromString("{{1, 2}, 3}");
+    try {
+      ArrayQ.require(tensor);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testNullFail() {

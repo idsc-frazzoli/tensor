@@ -1,10 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
-import ch.ethz.idsc.tensor.ComplexScalar;
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.VectorQ;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
@@ -17,38 +20,57 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Quaternion.html">Quaternion</a> */
-// EXPERIMENTAL
-public interface Quaternion extends Scalar, //
-    ConjugateInterface, SqrtInterface {
-  /** @param re
-   * @param im
-   * @param jm
-   * @param km
-   * @return */
-  static Scalar of(Number re, Number im, Number jm, Number km) {
-    return of(RealScalar.of(re), RealScalar.of(im), RealScalar.of(jm), RealScalar.of(km));
+public interface Quaternion extends Scalar, ConjugateInterface, SqrtInterface {
+  static final Quaternion ZERO = of(0, 0, 0, 0);
+  static final Quaternion ONE = of(1, 0, 0, 0);
+
+  /** @param w
+   * @param xyz vector of length 3
+   * @return
+   * @throws Exception if given xyz is not a vector of length 3 */
+  static Quaternion of(Scalar w, Tensor xyz) {
+    return new QuaternionImpl(Objects.requireNonNull(w), VectorQ.requireLength(xyz, 3).copy());
   }
 
-  /** @param re
-   * @param im
-   * @param jm
-   * @param km
+  /** @param w
+   * @param x
+   * @param y
+   * @param z
    * @return */
-  static Scalar of(Scalar re, Scalar im, Scalar jm, Scalar km) {
-    if (Scalars.isZero(jm) && Scalars.isZero(km))
-      return ComplexScalar.of(re, im);
-    return new QuaternionImpl(re, im, jm, km);
+  static Quaternion of(Scalar w, Scalar x, Scalar y, Scalar z) {
+    return new QuaternionImpl(Objects.requireNonNull(w), Tensors.of(x, y, z));
   }
+
+  /** @param w
+   * @param x
+   * @param y
+   * @param z
+   * @return */
+  static Quaternion of(Number w, Number x, Number y, Number z) {
+    return new QuaternionImpl(RealScalar.of(w), Tensors.vector(x, y, z));
+  }
+
+  @Override // from Scalar
+  Quaternion multiply(Scalar scalar);
+
+  @Override // from Scalar
+  Quaternion negate();
+
+  @Override // from Scalar
+  Quaternion divide(Scalar scalar);
+
+  @Override // from Scalar
+  Quaternion reciprocal();
+
+  @Override // from ConjugateInterface
+  Quaternion conjugate();
+
+  @Override // from SqrtInterface
+  Quaternion sqrt();
 
   /** @return real part */
-  Scalar re();
+  Scalar w();
 
-  /** @return coefficient of I */
-  Scalar im();
-
-  /** @return coefficient of J */
-  Scalar jm();
-
-  /** @return coefficient of K */
-  Scalar km();
+  /** @return unmodifiable vector of length 3 with coefficients {x, y, z} */
+  Tensor xyz();
 }
