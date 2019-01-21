@@ -18,4 +18,13 @@ public class HomeDirectoryTest extends TestCase {
   public void testPictures() {
     assertTrue(HomeDirectory.Pictures().isDirectory());
   }
+
+  public void testNullFail() {
+    try {
+      HomeDirectory.file("Doc", null, "some.txt");
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

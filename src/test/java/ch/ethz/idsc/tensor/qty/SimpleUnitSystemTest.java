@@ -61,7 +61,7 @@ public class SimpleUnitSystemTest extends TestCase {
   }
 
   public void testDerive() {
-    UnitSystem der = SimpleUnitSystem.from(UnitSystem.SI().map());
-    assertEquals(der.map(), UnitSystem.SI().map());
+    UnitSystem unitSystem = SimpleUnitSystem.from(UnitSystem.SI().map());
+    assertEquals(unitSystem.map(), UnitSystem.SI().map());
   }
 }

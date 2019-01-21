@@ -20,4 +20,13 @@ public class KnownUnitQTest extends TestCase {
       // ---
     }
   }
+
+  public void testNullFail() {
+    try {
+      KnownUnitQ.in(null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
