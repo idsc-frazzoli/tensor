@@ -161,6 +161,32 @@ public class ModTest extends TestCase {
     assertEquals(res, qs3);
   }
 
+  public void testQuantityIncompatible() {
+    Scalar qs1 = Quantity.of(5, "m");
+    Scalar qs2 = Quantity.of(3, "s");
+    try {
+      Mod.function(qs2).apply(qs1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNullFail() {
+    try {
+      Mod.function(RealScalar.ONE, null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Mod.function(null, RealScalar.ONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFail() {
     try {
       Mod.function(RealScalar.ZERO);
