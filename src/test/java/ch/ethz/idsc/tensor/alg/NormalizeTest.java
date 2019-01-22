@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.opt.Projection;
+import ch.ethz.idsc.tensor.opt.TensorScalarFunction;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
@@ -121,6 +122,16 @@ public class NormalizeTest extends TestCase {
     TensorUnaryOperator tensorUnaryOperator = Normalize.with(v -> Total.of(v).Get());
     try {
       tensorUnaryOperator.apply(Tensors.vector(-1, 3, -2));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNormalizeNullFail() {
+    TensorScalarFunction tensorScalarFunction = null;
+    try {
+      Normalize.with(tensorScalarFunction);
       fail();
     } catch (Exception exception) {
       // ---

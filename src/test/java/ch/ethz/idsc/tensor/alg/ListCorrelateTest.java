@@ -112,4 +112,13 @@ public class ListCorrelateTest extends TestCase {
       // ---
     }
   }
+
+  public void testNullFail() {
+    try {
+      ListCorrelate.with(null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

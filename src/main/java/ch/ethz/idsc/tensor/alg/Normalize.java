@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -50,7 +52,7 @@ public class Normalize implements TensorUnaryOperator {
    * @param tensorScalarFunction
    * @return operator that normalizes a vector using the given tensorScalarFunction */
   public static TensorUnaryOperator with(TensorScalarFunction tensorScalarFunction) {
-    return new Normalize(tensorScalarFunction);
+    return new Normalize(Objects.requireNonNull(tensorScalarFunction));
   }
 
   // ---

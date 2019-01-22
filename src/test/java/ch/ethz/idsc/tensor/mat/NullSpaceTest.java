@@ -153,7 +153,7 @@ public class NullSpaceTest extends TestCase {
         { -0.2, -0.8, 1.0 } });
     Tensor nullspace = NullSpace.of(matrix);
     assertEquals(Dimensions.of(nullspace), Arrays.asList(1, 3));
-    assertTrue(Chop._14.close(nullspace.get(0), Normalize.with(Norm._2::ofVector).apply(Tensors.vector(1, 1, 1))) //
+    assertTrue(Chop._14.close(nullspace.get(0), Normalize.with(Norm._2).apply(Tensors.vector(1, 1, 1))) //
         || Chop._14.close(nullspace.get(0), Normalize.with(Norm._2::ofVector).apply(Tensors.vector(-1, -1, -1))));
   }
 

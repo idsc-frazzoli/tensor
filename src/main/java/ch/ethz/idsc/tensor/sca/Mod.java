@@ -28,7 +28,7 @@ public class Mod implements ScalarUnaryOperator {
   }
 
   /** @param n
-   * @param d
+   * @param d offset
    * @return remainder on division by n with offset d */
   public static Mod function(Scalar n, Scalar d) {
     if (Scalars.isZero(n))
@@ -37,7 +37,7 @@ public class Mod implements ScalarUnaryOperator {
   }
 
   /** @param n
-   * @param d
+   * @param d offset
    * @return remainder on division by n with offset d */
   public static Mod function(Number n, Number d) {
     return function(RealScalar.of(n), RealScalar.of(d));

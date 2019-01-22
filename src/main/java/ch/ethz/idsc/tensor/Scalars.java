@@ -73,6 +73,16 @@ public enum Scalars {
     return !scalar.equals(scalar.zero());
   }
 
+  /** bi-predicate that tests if m divides n, i.e. "m|n"
+   * 
+   * @param m in exact precision
+   * @param n in exact precision
+   * @return true if m divides n, else false
+   * @see Divisible */
+  public static boolean divides(Scalar m, Scalar n) {
+    return Divisible.of(n, m);
+  }
+
   /***************************************************/
   /** utility to compute the power of a scalar type to an integer exponent
    * 
@@ -128,9 +138,9 @@ public enum Scalars {
    * @throws Exception if exact conversion is not possible
    * @see IntegerQ */
   public static BigInteger bigIntegerValueExact(Scalar scalar) {
-    if (!IntegerQ.of(scalar))
-      throw TensorRuntimeException.of(scalar);
     RationalScalar rationalScalar = (RationalScalar) scalar;
-    return rationalScalar.numerator();
+    if (rationalScalar.isInteger())
+      return rationalScalar.numerator();
+    throw TensorRuntimeException.of(scalar);
   }
 }

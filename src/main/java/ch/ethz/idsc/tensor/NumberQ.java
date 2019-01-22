@@ -42,7 +42,8 @@ public enum NumberQ {
     }
     if (tensor instanceof Quantity)
       return false;
-    return MachineNumberQ.of(tensor) || ExactScalarQ.of(tensor);
+    return MachineNumberQ.of(tensor) //
+        || ExactScalarQ.of(tensor);
   }
 
   /** @param scalar
