@@ -1,6 +1,9 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.red;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.sca.Mod;
 
 /** implementation is consistent with Mathematica::Divisible
