@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Scalar;
     super(value, value, width);
   }
 
-  @Override
+  @Override // from Clip
   public Scalar rescale(Scalar scalar) {
     apply(scalar);
     return RealScalar.ZERO;
