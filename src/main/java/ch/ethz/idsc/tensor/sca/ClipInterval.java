@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -38,40 +40,55 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
     return (T) tensor.map(this);
   }
 
-  @Override
+  @Override // from Clip
   public final boolean isInside(Scalar scalar) {
     return apply(scalar).equals(scalar);
   }
 
-  @Override
+  @Override // from Clip
   public final boolean isOutside(Scalar scalar) {
     return !isInside(scalar);
   }
 
-  @Override
+  @Override // from Clip
   public final Scalar requireInside(Scalar scalar) {
     if (isOutside(scalar))
       throw TensorRuntimeException.of(min, max, scalar);
     return scalar;
   }
 
-  @Override
+  @Override // from Clip
   public Scalar rescale(Scalar scalar) {
     return apply(scalar).subtract(min).divide(width);
   }
 
-  @Override
+  @Override // from Clip
   public final Scalar min() {
     return min;
   }
 
-  @Override
+  @Override // from Clip
   public final Scalar max() {
     return max;
   }
 
-  @Override
+  @Override // from Clip
   public final Scalar width() {
     return width;
+  }
+
+  @Override // from Object
+  public final int hashCode() {
+    return Objects.hash(min, max);
+  }
+
+  @Override // from Object
+  public final boolean equals(Object object) {
+    if (object instanceof Clip) {
+      Clip clip = (Clip) object;
+      return min.equals(clip.min()) //
+          && max.equals(clip.max());
+    }
+    return false;
   }
 }

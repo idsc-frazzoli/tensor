@@ -31,8 +31,8 @@ public class ObjectFormatTest extends TestCase {
     File file = HomeDirectory.file("test" + ObjectFormatTest.class.getSimpleName() + ".random");
     assertFalse(file.exists());
     Export.object(file, tensor);
-    assertTrue(file.exists());
+    assertTrue(file.isFile());
     assertEquals(Import.object(file), tensor);
-    file.delete();
+    assertTrue(file.delete());
   }
 }

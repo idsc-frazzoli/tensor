@@ -14,7 +14,8 @@ public enum SquareMatrixQ {
   /** @param tensor
    * @return true if tensor is a square matrix, otherwise false */
   public static boolean of(Tensor tensor) {
-    return MatrixQ.of(tensor) && tensor.length() == tensor.stream().findFirst().get().length();
+    return MatrixQ.of(tensor) //
+        && tensor.length() == tensor.stream().findFirst().get().length();
   }
 
   /** @param tensor

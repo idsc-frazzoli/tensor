@@ -41,12 +41,14 @@ public enum Dimensions {
 
   /* package */ static boolean isArrayWithRank(Tensor tensor, int rank) {
     List<Set<Integer>> complete = complete(tensor);
-    return list(complete).size() == rank && check(complete);
+    return list(complete).size() == rank //
+        && check(complete);
   }
 
   /* package */ static boolean isArrayWithDimensions(Tensor tensor, List<Integer> dims) {
     List<Set<Integer>> complete = complete(tensor);
-    return list(complete).equals(dims) && check(complete);
+    return list(complete).equals(dims) //
+        && check(complete);
   }
 
   /* package */ static Optional<Integer> arrayRank(Tensor tensor) {

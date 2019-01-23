@@ -1,31 +1,31 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca.win;
 
-import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-enum WindowFunction implements TensorUnaryOperator {
-  Bartlett(BartlettWindow::of), //
-  BlackmanHarris(BlackmanHarrisWindow::of), //
-  BlackmanNuttall(BlackmanNuttallWindow::of), //
-  Blackman(BlackmanWindow::of), //
-  Dirichlet(DirichletWindow::of), //
-  FlatTop(FlatTopWindow::of), //
-  Gaussian(GaussianWindow::of), //
-  Hamming(HammingWindow::of), //
-  Hann(HannWindow::of), //
-  Nuttall(NuttallWindow::of), //
-  Parzen(ParzenWindow::of), //
-  Tukey(TukeyWindow::of), //
+/* package */ enum WindowFunction implements ScalarUnaryOperator {
+  Bartlett(BartlettWindow.FUNCTION), //
+  BlackmanHarris(BlackmanHarrisWindow.FUNCTION), //
+  BlackmanNuttall(BlackmanNuttallWindow.FUNCTION), //
+  Blackman(BlackmanWindow.FUNCTION), //
+  Dirichlet(DirichletWindow.FUNCTION), //
+  FlatTop(FlatTopWindow.FUNCTION), //
+  Gaussian(GaussianWindow.FUNCTION), //
+  Hamming(HammingWindow.FUNCTION), //
+  Hann(HannWindow.FUNCTION), //
+  Nuttall(NuttallWindow.FUNCTION), //
+  Parzen(ParzenWindow.FUNCTION), //
+  Tukey(TukeyWindow.FUNCTION), //
   ;
-  private final TensorUnaryOperator tensorUnaryOperator;
+  private final ScalarUnaryOperator scalarUnaryOperator;
 
-  private WindowFunction(TensorUnaryOperator tuo) {
-    this.tensorUnaryOperator = tuo;
+  private WindowFunction(ScalarUnaryOperator scalarUnaryOperator) {
+    this.scalarUnaryOperator = scalarUnaryOperator;
   }
 
   @Override
-  public Tensor apply(Tensor tensor) {
-    return tensorUnaryOperator.apply(tensor);
+  public Scalar apply(Scalar tensor) {
+    return scalarUnaryOperator.apply(tensor);
   }
 }

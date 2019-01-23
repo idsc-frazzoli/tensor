@@ -12,6 +12,10 @@ import junit.framework.TestCase;
  * result in a stack overflow error when provided to the
  * scalar unary operators */
 public class ScalarUnaryOperatorTest extends TestCase {
+  public void testFunctionalInterface() {
+    assertNotNull(ScalarUnaryOperator.class.getAnnotation(FunctionalInterface.class));
+  }
+
   static void _checkOps(Scalar tensor) {
     try {
       Abs.of(tensor);

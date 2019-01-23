@@ -28,13 +28,13 @@ public class GaussScalar extends AbstractScalar implements //
   /** @param value
    * @param prime
    * @return value in finite field with prime number of elements */
-  public static Scalar of(long value, long prime) {
+  public static GaussScalar of(long value, long prime) {
     assertIsProbablePrime(prime);
     return in(value, prime);
   }
 
   // helper function
-  private static Scalar in(long value, long prime) {
+  private static GaussScalar in(long value, long prime) {
     return new GaussScalar(((value % prime) + prime) % prime, prime);
   }
 
@@ -49,22 +49,22 @@ public class GaussScalar extends AbstractScalar implements //
 
   /***************************************************/
   @Override // from Scalar
-  public Scalar abs() {
+  public GaussScalar abs() {
     return this;
   }
 
   @Override // from Scalar
-  public Scalar reciprocal() {
+  public GaussScalar reciprocal() {
     return in(new ExtendedGcd(value, prime).x, prime);
   }
 
   @Override // from Scalar
-  public Scalar negate() {
+  public GaussScalar negate() {
     return in(-value, prime);
   }
 
   @Override // from Scalar
-  public Scalar multiply(Scalar scalar) {
+  public GaussScalar multiply(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
       return in(Math.multiplyExact(value, gaussScalar.value), prime);
@@ -84,7 +84,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   /***************************************************/
   @Override // from AbstractScalar
-  protected Scalar plus(Scalar scalar) {
+  protected GaussScalar plus(Scalar scalar) {
     if (scalar instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) scalar;
       if (prime != gaussScalar.prime)
@@ -112,7 +112,7 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from PowerInterface
-  public Scalar power(Scalar exponent) {
+  public GaussScalar power(Scalar exponent) {
     if (Scalars.isZero(exponent))
       return in(1, prime);
     if (IntegerQ.of(exponent)) {
@@ -123,7 +123,7 @@ public class GaussScalar extends AbstractScalar implements //
   }
 
   @Override // from SqrtInterface
-  public Scalar sqrt() {
+  public GaussScalar sqrt() {
     // implementation is slow, could use memo function
     for (long index = 0; index < prime; ++index)
       if (equals(in(Math.multiplyExact(index, index), prime)))
@@ -147,13 +147,14 @@ public class GaussScalar extends AbstractScalar implements //
   public boolean equals(Object object) {
     if (object instanceof GaussScalar) {
       GaussScalar gaussScalar = (GaussScalar) object;
-      return value == gaussScalar.value && prime == gaussScalar.prime;
+      return value == gaussScalar.value //
+          && prime == gaussScalar.prime;
     }
     return false;
   }
 
   @Override // from AbstractScalar
   public String toString() {
-    return String.format("G:%d'%d", value, prime);
+    return "G:" + value + "'" + prime;
   }
 }

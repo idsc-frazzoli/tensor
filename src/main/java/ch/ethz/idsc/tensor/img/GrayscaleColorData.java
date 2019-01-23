@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.N;
     }
   }
 
-  @Override
+  @Override // from ScalarTensorFunction
   public Tensor apply(Scalar scalar) {
     double value = scalar.number().doubleValue();
     return Double.isFinite(value) //

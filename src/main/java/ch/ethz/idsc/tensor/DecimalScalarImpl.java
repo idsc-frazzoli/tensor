@@ -240,7 +240,8 @@ import ch.ethz.idsc.tensor.sca.N;
       RealScalar realScalar = (RealScalar) object;
       return number().doubleValue() == realScalar.number().doubleValue();
     }
-    return Objects.nonNull(object) && object.equals(this);
+    return Objects.nonNull(object) //
+        && object.equals(this);
   }
 
   @Override // from AbstractScalar

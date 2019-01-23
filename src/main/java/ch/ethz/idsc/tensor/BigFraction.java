@@ -101,7 +101,8 @@ import java.util.Objects;
   /** @param bigFraction non-null
    * @return */
   boolean _equals(BigFraction bigFraction) {
-    return num.equals(bigFraction.num) && den.equals(bigFraction.den); // sufficient since in normal form
+    return num.equals(bigFraction.num) //
+        && den.equals(bigFraction.den); // sufficient since in normal form
   }
 
   /***************************************************/

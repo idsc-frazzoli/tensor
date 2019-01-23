@@ -179,60 +179,60 @@ public class BSplineFunctionTest extends TestCase {
   }
 
   public void testBasisWeights1a() {
-    BSplineFunction func = BSplineFunction.of(1, UnitVector.of(3, 1));
-    Tensor limitMask = Range.of(1, 2).map(func);
+    BSplineFunction bSplineFunction = BSplineFunction.of(1, UnitVector.of(3, 1));
+    Tensor limitMask = Range.of(1, 2).map(bSplineFunction);
     assertTrue(ExactScalarQ.all(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1}"));
   }
 
   public void testBasisWeights2() {
-    BSplineFunction func = BSplineFunction.of(2, UnitVector.of(5, 2));
-    Tensor limitMask = Range.of(1, 4).map(func);
+    BSplineFunction bSplineFunction = BSplineFunction.of(2, UnitVector.of(5, 2));
+    Tensor limitMask = Range.of(1, 4).map(bSplineFunction);
     assertTrue(ExactScalarQ.all(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/8, 3/4, 1/8}"));
   }
 
   public void testBasisWeights3a() {
-    BSplineFunction func = BSplineFunction.of(3, UnitVector.of(7, 3));
-    Tensor limitMask = Range.of(2, 5).map(func);
+    BSplineFunction bSplineFunction = BSplineFunction.of(3, UnitVector.of(7, 3));
+    Tensor limitMask = Range.of(2, 5).map(bSplineFunction);
     assertTrue(ExactScalarQ.all(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/6, 2/3, 1/6}"));
   }
 
   public void testBasisWeights3b() {
-    BSplineFunction func = BSplineFunction.of(3, UnitVector.of(5, 2));
-    Tensor limitMask = Range.of(1, 4).map(func);
+    BSplineFunction bSplineFunction = BSplineFunction.of(3, UnitVector.of(5, 2));
+    Tensor limitMask = Range.of(1, 4).map(bSplineFunction);
     assertTrue(ExactScalarQ.all(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/6, 2/3, 1/6}"));
   }
 
   public void testBasisWeights4() {
-    BSplineFunction func = BSplineFunction.of(4, UnitVector.of(9, 4));
-    Tensor limitMask = Range.of(2, 7).map(func);
+    BSplineFunction bSplineFunction = BSplineFunction.of(4, UnitVector.of(9, 4));
+    Tensor limitMask = Range.of(2, 7).map(bSplineFunction);
     assertEquals(Total.of(limitMask), RealScalar.ONE);
     assertTrue(ExactScalarQ.all(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/384, 19/96, 115/192, 19/96, 1/384}"));
   }
 
   public void testBasisWeights5a() {
-    BSplineFunction func = BSplineFunction.of(5, UnitVector.of(11, 5));
-    Tensor limitMask = Range.of(3, 8).map(func);
+    BSplineFunction bSplineFunction = BSplineFunction.of(5, UnitVector.of(11, 5));
+    Tensor limitMask = Range.of(3, 8).map(bSplineFunction);
     assertEquals(Total.of(limitMask), RealScalar.ONE);
     assertTrue(ExactScalarQ.all(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/120, 13/60, 11/20, 13/60, 1/120}"));
   }
 
   public void testBasisWeights5b() {
-    BSplineFunction func = BSplineFunction.of(5, UnitVector.of(9, 4));
-    Tensor limitMask = Range.of(2, 7).map(func);
+    BSplineFunction bSplineFunction = BSplineFunction.of(5, UnitVector.of(9, 4));
+    Tensor limitMask = Range.of(2, 7).map(bSplineFunction);
     assertEquals(Total.of(limitMask), RealScalar.ONE);
     assertTrue(ExactScalarQ.all(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/120, 13/60, 11/20, 13/60, 1/120}"));
   }
 
   public void testBasisWeights5c() {
-    BSplineFunction func = BSplineFunction.of(5, UnitVector.of(7, 3));
-    Tensor limitMask = Range.of(1, 6).map(func);
+    BSplineFunction bSplineFunction = BSplineFunction.of(5, UnitVector.of(7, 3));
+    Tensor limitMask = Range.of(1, 6).map(bSplineFunction);
     assertEquals(Total.of(limitMask), RealScalar.ONE);
     assertTrue(ExactScalarQ.all(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/120, 13/60, 11/20, 13/60, 1/120}"));

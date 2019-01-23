@@ -25,13 +25,13 @@ public class RoundTest extends TestCase {
   }
 
   public void testLarge1() {
-    BigInteger bi = BigDecimal.valueOf(-999.5).setScale(0, RoundingMode.HALF_UP).toBigIntegerExact();
-    assertEquals(bi.toString(), "-1000");
+    BigInteger bigInteger = BigDecimal.valueOf(-999.5).setScale(0, RoundingMode.HALF_UP).toBigIntegerExact();
+    assertEquals(bigInteger.toString(), "-1000");
   }
 
   public void testLarge2() {
-    BigInteger bi = BigDecimal.valueOf(1e30).setScale(0, RoundingMode.HALF_UP).toBigIntegerExact();
-    assertEquals(bi.toString(), "1000000000000000000000000000000");
+    BigInteger bigInteger = BigDecimal.valueOf(1e30).setScale(0, RoundingMode.HALF_UP).toBigIntegerExact();
+    assertEquals(bigInteger.toString(), "1000000000000000000000000000000");
   }
 
   public void testRational1() {

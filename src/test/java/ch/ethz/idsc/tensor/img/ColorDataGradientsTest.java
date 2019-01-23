@@ -40,8 +40,8 @@ public class ColorDataGradientsTest extends TestCase {
   }
 
   public void testDeriveWithAlpha() {
-    ColorDataGradient cdg1 = ColorDataGradients.CLASSIC.deriveWithAlpha(RealScalar.ONE);
-    ColorDataGradient cdg2 = ColorDataGradients.CLASSIC.deriveWithAlpha(RationalScalar.HALF);
+    ColorDataGradient cdg1 = ColorDataGradients.CLASSIC.deriveWithFactor(RealScalar.ONE);
+    ColorDataGradient cdg2 = ColorDataGradients.CLASSIC.deriveWithFactor(RationalScalar.HALF);
     Tensor rgba1 = cdg1.apply(RealScalar.of(.5));
     Tensor rgba2 = cdg2.apply(RealScalar.of(.5));
     System.out.println(rgba1);

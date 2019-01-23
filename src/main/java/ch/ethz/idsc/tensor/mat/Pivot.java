@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Tensor;
 
+@FunctionalInterface
 /* package */ interface Pivot {
   /** @param c0 row
    * @param j fixed column

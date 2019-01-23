@@ -39,10 +39,10 @@ public class BSplineInterpolation extends AbstractInterpolation {
   }
 
   // ---
-  private final BSplineFunction bSplineFunction;
+  private final ScalarTensorFunction scalarTensorFunction;
 
   private BSplineInterpolation(int degree, Tensor control) {
-    bSplineFunction = BSplineFunction.of(degree, solve(degree, control));
+    scalarTensorFunction = BSplineFunction.of(degree, solve(degree, control));
   }
 
   @Override // from Interpolation
@@ -57,6 +57,6 @@ public class BSplineInterpolation extends AbstractInterpolation {
 
   @Override // from Interpolation
   public Tensor at(Scalar index) {
-    return bSplineFunction.apply(index);
+    return scalarTensorFunction.apply(index);
   }
 }

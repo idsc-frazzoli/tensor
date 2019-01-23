@@ -17,9 +17,10 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class LinearSolveTest extends TestCase {
+  final Random random = new Random();
+
   public void testSolveCR() {
     int n = 5;
-    Random random = new Random();
     Tensor A = Tensors.matrix((i, j) -> //
     ComplexScalar.of( //
         RealScalar.of(random.nextInt(15)), //
@@ -33,7 +34,6 @@ public class LinearSolveTest extends TestCase {
 
   public void testSolveRC() {
     int n = 10;
-    Random random = new Random();
     Tensor A = Tensors.matrix((i, j) -> //
     RationalScalar.of(random.nextInt(100), random.nextInt(100) + 1), n, n);
     Tensor b = Tensors.matrix((i, j) -> ComplexScalar.of(//
@@ -47,7 +47,6 @@ public class LinearSolveTest extends TestCase {
 
   public void testSolveDC() {
     int n = 15;
-    Random random = new Random();
     Tensor A = Tensors.matrix((i, j) -> DoubleScalar.of(4 * random.nextGaussian() - 2), n, n);
     Tensor b = Tensors.matrix((i, j) -> ComplexScalar.of( //
         RealScalar.of(random.nextDouble()), //
@@ -84,7 +83,6 @@ public class LinearSolveTest extends TestCase {
 
   public void testIdentity() {
     int n = 5;
-    Random random = new Random();
     Tensor A = Tensors.matrix((i, j) -> //
     RationalScalar.of(random.nextInt(100) - 50, random.nextInt(100) + 1), n, n);
     Tensor b = IdentityMatrix.of(n);

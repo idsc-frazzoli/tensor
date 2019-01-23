@@ -40,7 +40,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /** @param scalar
    * @return true if operation is carried out in {@link ComplexScalarImpl} */
   private static boolean isLocal(Scalar scalar) {
-    return scalar instanceof ComplexEmbedding && !(scalar instanceof Quantity);
+    return scalar instanceof ComplexEmbedding //
+        && !(scalar instanceof Quantity);
   }
 
   // ---
@@ -170,12 +171,14 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from ExactNumberInterface
   public boolean isExactScalar() {
-    return ExactScalarQ.of(re) && ExactScalarQ.of(im);
+    return ExactScalarQ.of(re) //
+        && ExactScalarQ.of(im);
   }
 
   @Override // MachineNumberQInterface
   public boolean isMachineNumber() {
-    return MachineNumberQ.of(re) && MachineNumberQ.of(im);
+    return MachineNumberQ.of(re) //
+        && MachineNumberQ.of(im);
   }
 
   @Override // from NInterface
@@ -193,7 +196,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public Scalar power(Scalar exponent) {
     if (IntegerQ.of(exponent)) {
       RationalScalar rationalScalar = (RationalScalar) exponent;
-      return Scalars.binaryPower(RealScalar.ONE).apply(this, rationalScalar.numerator());
+      return ScalarBinaryPower.REAL.apply(this, rationalScalar.numerator());
     }
     return Exp.FUNCTION.apply(exponent.multiply(Log.FUNCTION.apply(this)));
   }
@@ -251,7 +254,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public boolean equals(Object object) {
     if (object instanceof ComplexEmbedding) {
       ComplexEmbedding z = (ComplexEmbedding) object;
-      return re.equals(z.real()) && im.equals(z.imag());
+      return re.equals(z.real()) //
+          && im.equals(z.imag());
     }
     return false;
   }

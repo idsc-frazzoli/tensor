@@ -25,6 +25,8 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class MatrixExpTest extends TestCase {
+  final Random random = new Random();
+
   public void testZeros() {
     Tensor zeros = Array.zeros(7, 7);
     Tensor eye = MatrixExp.of(zeros);
@@ -33,10 +35,9 @@ public class MatrixExpTest extends TestCase {
   }
 
   public void testExp() {
-    Random ra = new Random();
-    double val = ra.nextGaussian();
-    double va2 = ra.nextGaussian();
-    double va3 = ra.nextGaussian();
+    double val = random.nextGaussian();
+    double va2 = random.nextGaussian();
+    double va3 = random.nextGaussian();
     double[][] mat = new double[][] { { 0, val, va2 }, { -val, 0, va3 }, { -va2, -va3, 0 } };
     Tensor bu = Tensors.matrixDouble(mat);
     Tensor o = MatrixExp.of(bu);
@@ -59,7 +60,6 @@ public class MatrixExpTest extends TestCase {
 
   public void testExp2() {
     int n = 10;
-    Random random = new Random();
     Tensor A = Tensors.matrix((i, j) -> DoubleScalar.of(random.nextGaussian()), n, n);
     Tensor S = A.subtract(Transpose.of(A));
     Tensor o = MatrixExp.of(S);

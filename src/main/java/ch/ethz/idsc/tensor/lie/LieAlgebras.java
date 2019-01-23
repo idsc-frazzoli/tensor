@@ -11,18 +11,18 @@ import ch.ethz.idsc.tensor.alg.MatrixQ;
 public enum LieAlgebras {
   ;
   private static final Scalar P1 = RealScalar.ONE;
-  private static final Scalar M1 = RealScalar.ONE.negate();
+  private static final Scalar N1 = RealScalar.ONE.negate();
   private static final Scalar P2 = RealScalar.of(+2);
-  private static final Scalar M2 = RealScalar.of(-2);
+  private static final Scalar N2 = RealScalar.of(-2);
 
   private static Tensor _so3() {
     Tensor ad = Array.zeros(3, 3, 3);
     ad.set(P1, 2, 1, 0);
-    ad.set(M1, 2, 0, 1);
+    ad.set(N1, 2, 0, 1);
     ad.set(P1, 0, 2, 1);
-    ad.set(M1, 0, 1, 2);
+    ad.set(N1, 0, 1, 2);
     ad.set(P1, 1, 0, 2);
-    ad.set(M1, 1, 2, 0);
+    ad.set(N1, 1, 2, 0);
     return ad;
   }
 
@@ -40,7 +40,7 @@ public enum LieAlgebras {
   public static Tensor he1() {
     Tensor ad = Array.zeros(3, 3, 3);
     ad.set(P1, 2, 1, 0);
-    ad.set(M1, 2, 0, 1);
+    ad.set(N1, 2, 0, 1);
     return ad;
   }
 
@@ -53,11 +53,11 @@ public enum LieAlgebras {
   public static Tensor sl2() {
     Tensor ad = Array.zeros(3, 3, 3);
     ad.set(P1, 1, 1, 0);
-    ad.set(M1, 1, 0, 1);
-    ad.set(M1, 2, 2, 0);
+    ad.set(N1, 1, 0, 1);
+    ad.set(N1, 2, 2, 0);
     ad.set(P1, 2, 0, 2);
     ad.set(P2, 0, 2, 1);
-    ad.set(M2, 0, 1, 2);
+    ad.set(N2, 0, 1, 2);
     return ad;
   }
 
@@ -65,8 +65,8 @@ public enum LieAlgebras {
   public static Tensor se2() {
     Tensor ad = Array.zeros(3, 3, 3);
     ad.set(P1, 1, 0, 2);
-    ad.set(M1, 1, 2, 0);
-    ad.set(M1, 0, 2, 1);
+    ad.set(N1, 1, 2, 0);
+    ad.set(N1, 0, 2, 1);
     ad.set(P1, 0, 1, 2);
     return ad;
   }

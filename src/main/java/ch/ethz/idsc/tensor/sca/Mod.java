@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.util.Objects;
+
+import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -25,16 +28,16 @@ public class Mod implements ScalarUnaryOperator {
   }
 
   /** @param n
-   * @param d
+   * @param d offset
    * @return remainder on division by n with offset d */
   public static Mod function(Scalar n, Scalar d) {
     if (Scalars.isZero(n))
       throw TensorRuntimeException.of(n);
-    return new Mod(n, d);
+    return new Mod(n, Objects.requireNonNull(d));
   }
 
   /** @param n
-   * @param d
+   * @param d offset
    * @return remainder on division by n with offset d */
   public static Mod function(Number n, Number d) {
     return function(RealScalar.of(n), RealScalar.of(d));
@@ -52,7 +55,7 @@ public class Mod implements ScalarUnaryOperator {
   @Override
   public Scalar apply(Scalar scalar) {
     Scalar loops = Floor.FUNCTION.apply(scalar.subtract(d).divide(n));
-    return scalar.subtract(loops.multiply(n));
+    return scalar.subtract(NumberQ.require(loops).multiply(n));
   }
 
   @SuppressWarnings("unchecked")

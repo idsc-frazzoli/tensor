@@ -192,7 +192,8 @@ public final class DoubleScalar extends AbstractRealScalar implements //
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
-    return object instanceof RealScalar && value == ((RealScalar) object).number().doubleValue();
+    return object instanceof RealScalar //
+        && value == ((RealScalar) object).number().doubleValue();
   }
 
   @Override // from AbstractScalar

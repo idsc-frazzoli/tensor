@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import ch.ethz.idsc.tensor.io.StringScalar;
 import ch.ethz.idsc.tensor.io.StringScalarQ;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ScalarsTest extends TestCase {
@@ -143,6 +144,15 @@ public class ScalarsTest extends TestCase {
     }
   }
 
+  public void testIntValueExactFractionFail() {
+    try {
+      Scalars.intValueExact(RationalScalar.of(2, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testLongValueExact() {
     assertEquals(Scalars.longValueExact(RealScalar.of(Long.MAX_VALUE)), Long.MAX_VALUE);
   }
@@ -163,5 +173,44 @@ public class ScalarsTest extends TestCase {
     assertTrue(Scalars.fromString("3--4") instanceof StringScalar);
     assertTrue(Scalars.fromString("3**4") instanceof StringScalar);
     assertTrue(StringScalarQ.of(Scalars.fromString("3//4")));
+  }
+
+  public void testDivides() {
+    assertTrue(Scalars.divides(RealScalar.of(3), RealScalar.of(9)));
+    assertFalse(Scalars.divides(RealScalar.of(9), RealScalar.of(3)));
+    assertFalse(Scalars.divides(RealScalar.of(2), RealScalar.of(9)));
+    assertTrue(Scalars.divides(RationalScalar.of(3, 7), RationalScalar.of(18, 7)));
+    assertFalse(Scalars.divides(RationalScalar.of(3, 7), RationalScalar.of(8, 7)));
+  }
+
+  public void testComplex() {
+    Scalar c2 = ComplexScalar.of(2, 3);
+    Scalar c1 = c2.multiply(RealScalar.of(3));
+    assertFalse(Scalars.divides(c1, c2));
+    assertTrue(Scalars.divides(c2, c1));
+  }
+
+  public void testGaussian() {
+    Scalar c1 = ComplexScalar.of(3, 1);
+    Scalar c2 = ComplexScalar.of(2, -1);
+    assertFalse(Scalars.divides(c1, c2));
+    assertTrue(Scalars.divides(c2, c1));
+  }
+
+  public void testQuantity() {
+    assertTrue(Scalars.divides(Quantity.of(3, "m"), Quantity.of(9, "m")));
+    assertFalse(Scalars.divides(Quantity.of(3, "m"), Quantity.of(7, "m")));
+    assertFalse(Scalars.divides(Quantity.of(7, "m"), Quantity.of(3, "m")));
+  }
+
+  public void testQuantityIncompatible() {
+    Scalar qs1 = Quantity.of(6, "m");
+    Scalar qs2 = Quantity.of(3, "s");
+    try {
+      Scalars.divides(qs1, qs2);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

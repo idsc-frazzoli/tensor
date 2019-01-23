@@ -26,7 +26,7 @@ public class ExportTest extends TestCase {
     Tensor tensor = Tensors.fromString("{{2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
     Export.of(file, tensor);
     assertEquals(tensor, Import.of(file));
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testCsvGz() throws IOException {
@@ -35,7 +35,7 @@ public class ExportTest extends TestCase {
     Tensor tensor = Tensors.fromString("{{0,2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
     Export.of(file, tensor);
     Tensor imported = Import.of(file);
-    file.delete();
+    assertTrue(file.delete());
     assertEquals(tensor, imported);
   }
 
@@ -46,7 +46,7 @@ public class ExportTest extends TestCase {
     Tensor tensor = RandomVariate.of(distribution, 60, 30);
     Export.of(file, tensor);
     Tensor imported = Import.of(file);
-    file.delete();
+    assertTrue(file.delete());
     assertEquals(tensor, imported);
     assertTrue(ExactScalarQ.all(imported));
   }
@@ -57,7 +57,7 @@ public class ExportTest extends TestCase {
     Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11, 4);
     Export.of(file, image);
     assertEquals(image, Import.of(file));
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testPngGray() throws IOException {
@@ -66,7 +66,7 @@ public class ExportTest extends TestCase {
     Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11);
     Export.of(file, image);
     assertEquals(image, Import.of(file));
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testJpgColor() throws IOException {
@@ -79,7 +79,7 @@ public class ExportTest extends TestCase {
     Scalar total = diff.map(Abs.FUNCTION).flatten(-1).reduce(Tensor::add).get().Get();
     Scalar pixel = total.divide(RealScalar.of(4 * 77.0));
     assertTrue(Scalars.lessEquals(pixel, RealScalar.of(6)));
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testJpgGray() throws IOException {
@@ -91,7 +91,7 @@ public class ExportTest extends TestCase {
     Scalar total = diff.map(Abs.FUNCTION).flatten(-1).reduce(Tensor::add).get().Get();
     Scalar pixel = total.divide(RealScalar.of(77.0));
     assertTrue(Scalars.lessEquals(pixel, RealScalar.of(5)));
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testBmpColor() throws IOException {
@@ -101,7 +101,7 @@ public class ExportTest extends TestCase {
     image.set(Array.of(f -> RealScalar.of(255), 7, 11), Tensor.ALL, Tensor.ALL, 3);
     Export.of(file, image);
     assertEquals(image, Import.of(file));
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testBmpGray() throws IOException {
@@ -110,7 +110,7 @@ public class ExportTest extends TestCase {
     Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11);
     Export.of(file, image);
     assertEquals(image, Import.of(file));
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testMatlabM() throws IOException {
@@ -118,7 +118,7 @@ public class ExportTest extends TestCase {
     assertFalse(file.isFile());
     Tensor tensor = Tensors.fromString("{{2,3.123+3*I,34.1231},{556,3/456,-323/2}}");
     Export.of(file, tensor);
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testFailFile() {

@@ -5,6 +5,6 @@ import junit.framework.TestCase;
 
 public class BuiltInTest extends TestCase {
   public void testSize() {
-    assertTrue(48 <= UnitSystem.SI().map().size());
+    assertTrue(64 <= UnitSystem.SI().map().size());
   }
 }

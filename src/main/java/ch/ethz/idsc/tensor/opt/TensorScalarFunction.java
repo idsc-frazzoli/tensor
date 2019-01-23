@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * Examples:
  * 1) an implicit function that defines a region as {x | f(x) < 0}
  * 2) a smooth noise function that maps a vector to a value in the interval [-1, 1] */
+@FunctionalInterface
 public interface TensorScalarFunction extends Function<Tensor, Scalar>, Serializable {
   // ---
 }

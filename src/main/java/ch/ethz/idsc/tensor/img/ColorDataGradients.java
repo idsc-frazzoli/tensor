@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
  * table of RGBA values implemented in {@link ColorDataGradient}.
  * 
  * <p>inspired by Mathematica::ColorData["Gradients"] */
-public enum ColorDataGradients implements ScalarTensorFunction {
+public enum ColorDataGradients implements ColorDataGradient {
   /** classic is default */
   CLASSIC, //
   /** hue is backed by {@link Hue#of(double, double, double, double)} */
@@ -76,22 +76,23 @@ public enum ColorDataGradients implements ScalarTensorFunction {
     Tensor tensor = ResourceData.of("/colorscheme/" + name().toLowerCase() + ".csv");
     boolean success = Objects.nonNull(tensor);
     scalarTensorFunction = success //
-        ? ColorDataGradient.of(tensor)
-        : StaticHelper.FALLBACK;
+        ? LinearColorDataGradient.of(tensor)
+        : FallbackColorDataGradient.INSTANCE;
     if (!success)
       System.err.println("fail to load " + name());
   }
 
-  public ColorDataGradient deriveWithAlpha(Scalar alpha) {
+  @Override // from ColorDataGradient
+  public Tensor apply(Scalar scalar) {
+    return scalarTensorFunction.apply(scalar);
+  }
+
+  @Override // from ColorDataGradient
+  public ColorDataGradient deriveWithFactor(Scalar alpha) {
     if (scalarTensorFunction instanceof ColorDataGradient) {
       ColorDataGradient colorDataGradient = (ColorDataGradient) scalarTensorFunction;
       return colorDataGradient.deriveWithFactor(alpha);
     }
     throw new RuntimeException();
-  }
-
-  @Override
-  public Tensor apply(Scalar scalar) {
-    return scalarTensorFunction.apply(scalar);
   }
 }

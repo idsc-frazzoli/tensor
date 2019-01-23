@@ -16,13 +16,13 @@ import ch.ethz.idsc.tensor.red.Mean;
 import junit.framework.TestCase;
 
 public class TrapezoidalDistributionTest extends TestCase {
-  private static final Random RANDOM = new Random();
+  final Random random = new Random();
 
   public void testPositive() {
-    Scalar a = RationalScalar.of(RANDOM.nextInt(100), 1);
-    Scalar b = a.add(RealScalar.of(RANDOM.nextDouble() * 10));
-    Scalar c = b.add(RealScalar.of(RANDOM.nextDouble() * 10));
-    Scalar d = c.add(RealScalar.of(RANDOM.nextDouble() * 10));
+    Scalar a = RationalScalar.of(random.nextInt(100), 1);
+    Scalar b = a.add(RealScalar.of(random.nextDouble() * 10));
+    Scalar c = b.add(RealScalar.of(random.nextDouble() * 10));
+    Scalar d = c.add(RealScalar.of(random.nextDouble() * 10));
     Distribution distribution = TrapezoidalDistribution.of(a, b, c, d);
     for (int count = 0; count < 100; ++count) {
       Scalar scalar = RandomVariate.of(distribution);
@@ -60,10 +60,10 @@ public class TrapezoidalDistributionTest extends TestCase {
   }
 
   public void testMean() {
-    Scalar a = RationalScalar.of(RANDOM.nextInt(100), 1);
-    Scalar b = a.add(RealScalar.of(RANDOM.nextDouble() * 10));
-    Scalar c = b.add(RealScalar.of(RANDOM.nextDouble() * 10));
-    Scalar d = c.add(RealScalar.of(RANDOM.nextDouble() * 10));
+    Scalar a = RationalScalar.of(random.nextInt(100), 1);
+    Scalar b = a.add(RealScalar.of(random.nextDouble() * 10));
+    Scalar c = b.add(RealScalar.of(random.nextDouble() * 10));
+    Scalar d = c.add(RealScalar.of(random.nextDouble() * 10));
     TrapezoidalDistribution distribution = (TrapezoidalDistribution) TrapezoidalDistribution.of(a, b, c, d);
     Tensor all = Tensors.empty();
     for (int i = 0; i < 3000; ++i) {

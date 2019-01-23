@@ -43,7 +43,7 @@ public class InterquartileRangeTest extends TestCase {
     Distribution distribution = PoissonDistribution.of(lambda);
     Scalar iqr = InterquartileRange.of(distribution);
     assertEquals(iqr, RealScalar.of(5));
-    Tensor random = RandomVariate.of(distribution, 1000);
+    Tensor random = RandomVariate.of(distribution, 1100);
     Scalar test = InterquartileRange.of(random);
     assertTrue(Clip.function(4, 6).isInside(test));
   }

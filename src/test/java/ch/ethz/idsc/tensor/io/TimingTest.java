@@ -38,16 +38,6 @@ public class TimingTest extends TestCase {
       // ---
     }
     assertTrue(0 < timing.nanoSeconds());
-    try {
-      timing.resetToZero();
-      fail();
-    } catch (Exception e) {
-      // ---
-    }
-    timing.stop();
-    timing.resetToZero();
-    assertEquals(timing.nanoSeconds(), 0);
-    timing.start();
   }
 
   public void testStopFail() {

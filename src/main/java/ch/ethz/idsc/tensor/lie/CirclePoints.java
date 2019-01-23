@@ -13,6 +13,10 @@ import ch.ethz.idsc.tensor.alg.Range;
  * Tensor::CirclePoints[3] == {{1.000, 0.000}, {-0.500, 0.866}, {-0.500, -0.866}}
  * using a rotation around (0, 0) by Pi/6.
  * 
+ * <p>aspects consistent with Mathematica
+ * CirclePoints[0] == {}
+ * CirclePoints[-1] throws an Exception
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/CirclePoints.html">CirclePoints</a> */
 public enum CirclePoints {
@@ -20,9 +24,14 @@ public enum CirclePoints {
   /** the first coordinate is always {1, 0}.
    * the orientation of the points is counter-clockwise.
    * 
-   * @param n
-   * @return n x 2 matrix with evenly spaced points on the unit-circle */
+   * if n == 0 the return value is the empty tensor {}
+   * 
+   * @param n non-negative integer
+   * @return n x 2 matrix with evenly spaced points on the unit-circle
+   * @throws Exception if n is negative */
   public static Tensor of(int n) {
+    if (n < 0)
+      throw new RuntimeException("n=" + n);
     return Range.of(0, n).multiply(DoubleScalar.of(2 * Math.PI / n)).map(AngleVector::of);
   }
 }

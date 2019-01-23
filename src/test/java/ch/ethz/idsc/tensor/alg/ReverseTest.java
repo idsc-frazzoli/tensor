@@ -18,9 +18,9 @@ public class ReverseTest extends TestCase {
   }
 
   public void testReverse() {
-    Random r = new Random();
+    Random random = new Random();
     int n = 5;
-    Tensor m = Array.of(index -> RealScalar.of(r.nextInt(100)), n, n, n, n);
+    Tensor m = Array.of(index -> RealScalar.of(random.nextInt(100)), n, n, n, n);
     Tensor v = Reverse.of(IdentityMatrix.of(n));
     Tensor t1 = BasisTransform.ofForm(m, v);
     Tensor t2 = StaticHelper.nestRank(m, Reverse::of);

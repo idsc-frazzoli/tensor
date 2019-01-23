@@ -15,7 +15,8 @@ public class PutTest extends TestCase {
     Tensor tensor = Tensors.fromString("{{2,3.123+3*I,34.1231},{556,3/456,-323/2,{3,8.45`}}}");
     Put.of(file, tensor);
     Tensor readin = Get.of(file);
-    file.delete();
+    assertTrue(file.delete());
+    assertFalse(file.exists());
     assertEquals(tensor, readin);
   }
 }

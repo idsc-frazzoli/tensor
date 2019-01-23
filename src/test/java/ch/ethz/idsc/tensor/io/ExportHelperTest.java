@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -17,23 +18,26 @@ import junit.framework.TestCase;
 
 public class ExportHelperTest extends TestCase {
   public void testGif() throws IOException {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream(128);
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(128);
     Tensor image = Tensors.fromString("{{{255,2,3,255},{0,0,0,0},{91,120,230,255},{0,0,0,0}}}");
-    ExportHelper.of(Extension.GIF, image, outputStream);
-    Export.of(HomeDirectory.file("some.gif"), image);
-    byte[] array = outputStream.toByteArray(); // 54 bytes used
+    ExportHelper.of(Extension.GIF, image, byteArrayOutputStream);
+    File file = HomeDirectory.file(getClass().getSimpleName() + ".gif");
+    assertFalse(file.exists());
+    Export.of(file, image);
+    assertTrue(file.isFile());
+    assertTrue(file.delete());
+    byte[] array = byteArrayOutputStream.toByteArray(); // 54 bytes used
     BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(array));
     Tensor tensor = ImageFormat.from(bufferedImage);
     assertEquals(image, tensor);
   }
 
   public void testGif2() throws IOException {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream(128);
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(128);
     Tensor row1 = Tensors.fromString("{{255,2,3,255},{0,0,0,0},{91,120,230,255},{0,0,0,0}}");
     Tensor image = Tensors.of(row1, row1);
-    ExportHelper.of(Extension.GIF, image, outputStream);
-    // Export.of(UserHome.file("test.gif"), image);
-    byte[] array = outputStream.toByteArray(); // 56 bytes used
+    ExportHelper.of(Extension.GIF, image, byteArrayOutputStream);
+    byte[] array = byteArrayOutputStream.toByteArray(); // 56 bytes used
     BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(array));
     Tensor tensor = ImageFormat.from(bufferedImage);
     Scalar diff = Frobenius.between(image, tensor);

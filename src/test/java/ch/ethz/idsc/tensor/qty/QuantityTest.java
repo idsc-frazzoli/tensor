@@ -173,12 +173,13 @@ public class QuantityTest extends TestCase {
       // ---
     }
   }
-  // public void testNullFail() {
-  // try {
-  // Quantity.of(RealScalar.ZERO, (Unit) null);
-  // fail();
-  // } catch (Exception exception) {
-  // // ---
-  // }
-  // }
+
+  public void testNullFail() {
+    try {
+      Quantity.of(RealScalar.ZERO, (Unit) null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

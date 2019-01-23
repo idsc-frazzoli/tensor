@@ -137,11 +137,11 @@ public class TensorPropertiesTest extends TestCase {
     assertFalse(file.exists());
     TensorProperties tensorProperties = TensorProperties.wrap(ParamContainer.INSTANCE);
     tensorProperties.save(file);
-    assertTrue(file.exists());
+    assertTrue(file.isFile());
     ParamContainer paramContainer = new ParamContainer();
     TensorProperties.wrap(paramContainer).load(file);
     assertEquals(paramContainer.shape, Tensors.fromString("{1, 2+I, 3[kg], 99}"));
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testTryLoad() {
@@ -167,7 +167,7 @@ public class TensorPropertiesTest extends TestCase {
     TensorProperties tensorProperties = TensorProperties.wrap(new ParamContainer());
     assertTrue(tensorProperties.trySave(file));
     assertTrue(file.isFile());
-    file.delete();
+    assertTrue(file.delete());
   }
 
   public void testTrySaveFail() {

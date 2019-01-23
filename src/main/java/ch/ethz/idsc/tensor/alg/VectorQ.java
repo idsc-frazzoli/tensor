@@ -14,7 +14,8 @@ public enum VectorQ {
   /** @param tensor
    * @return true if all entries of given tensor are of type {@link Scalar} */
   public static boolean of(Tensor tensor) {
-    return !ScalarQ.of(tensor) && tensor.stream().allMatch(ScalarQ::of);
+    return !ScalarQ.of(tensor) //
+        && tensor.stream().allMatch(ScalarQ::of);
   }
 
   /** @param tensor
@@ -23,7 +24,8 @@ public enum VectorQ {
   public static boolean ofLength(Tensor tensor, int length) {
     if (length < 0)
       throw new IllegalArgumentException(Integer.toString(length));
-    return tensor.length() == length && of(tensor);
+    return tensor.length() == length //
+        && of(tensor);
   }
 
   /** @param tensor

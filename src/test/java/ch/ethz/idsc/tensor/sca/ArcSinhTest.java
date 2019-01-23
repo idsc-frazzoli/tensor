@@ -26,7 +26,7 @@ public class ArcSinhTest extends TestCase {
     Scalar r = ArcSinh.of(s);
     // 2.8441 - 0.947341 I
     Scalar a = Scalars.fromString("2.8440976626506527-0.9473406443130488*I");
-    assertTrue(Statics.PRECISION.close(a, r));
+    Chop._14.requireClose(a, r);
     assertEquals(a, ArcSinh.of(s));
   }
 }

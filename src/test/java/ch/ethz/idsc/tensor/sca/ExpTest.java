@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ExpTest extends TestCase {
@@ -23,28 +24,37 @@ public class ExpTest extends TestCase {
   }
 
   public void testDecimal() {
-    Scalar s = DecimalScalar.of("1");
-    Scalar e = Exp.of(s);
-    assertTrue(e instanceof DecimalScalar);
-    assertTrue(e.toString().startsWith("2.71828182845904523536028747135266"));
+    Scalar scalar = Exp.of(DecimalScalar.of("1"));
+    assertTrue(scalar instanceof DecimalScalar);
+    assertTrue(scalar.toString().startsWith("2.71828182845904523536028747135266"));
   }
 
   public void testComplexDecimal() {
-    Scalar s = ComplexScalar.of(DecimalScalar.of("1"), DecimalScalar.of("2.12"));
-    Scalar e = Exp.of(s);
-    assertTrue(e instanceof ComplexScalar);
+    Scalar scalar = Exp.of(ComplexScalar.of(DecimalScalar.of("1"), DecimalScalar.of("2.12")));
+    assertTrue(scalar instanceof ComplexScalar);
     // mathematica gives -1.4189653368301074` + 2.3185326117622904` I
     Scalar m = Scalars.fromString("-1.4189653368301074 + 2.3185326117622904 * I");
-    assertTrue(Chop._15.close(e, m));
+    assertTrue(Chop._15.close(scalar, m));
   }
 
   public void testEmpty() {
     assertEquals(Exp.of(Tensors.empty()), Tensors.empty());
   }
 
-  public void testFail() {
+  public void testFailQuantity() {
+    Scalar scalar = Quantity.of(2, "m");
     try {
-      Exp.of(GaussScalar.of(6, 7));
+      Log.of(scalar);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFail() {
+    Scalar scalar = GaussScalar.of(6, 7);
+    try {
+      Exp.of(scalar);
       fail();
     } catch (Exception exception) {
       // ---

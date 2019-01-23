@@ -2,9 +2,11 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 import ch.ethz.idsc.tensor.alg.BinaryPower;
 import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.red.Divisible;
 
 /** collection of useful static functions related to {@link Scalar} */
 public enum Scalars {
@@ -72,28 +74,24 @@ public enum Scalars {
     return !scalar.equals(scalar.zero());
   }
 
+  /** bi-predicate that tests if m divides n, i.e. "m|n"
+   * 
+   * @param m in exact precision
+   * @param n in exact precision
+   * @return true if m divides n, else false
+   * @see Divisible */
+  public static boolean divides(Scalar m, Scalar n) {
+    return Divisible.of(n, m);
+  }
+
   /***************************************************/
   /** utility to compute the power of a scalar type to an integer exponent
    * 
-   * @param one
-   * @return */
-  public static BinaryPower<Scalar> binaryPower(Scalar one) {
-    return new BinaryPower<Scalar>() {
-      @Override
-      public Scalar zeroth() {
-        return one;
-      }
-
-      @Override
-      public Scalar invert(Scalar scalar) {
-        return scalar.reciprocal();
-      }
-
-      @Override
-      public Scalar multiply(Scalar s1, Scalar s2) {
-        return s1.multiply(s2);
-      }
-    };
+   * @param one non-null
+   * @return
+   * @throws Exception if given parameter one is null */
+  public static <T extends Scalar> BinaryPower<T> binaryPower(T one) {
+    return new ScalarBinaryPower<>(Objects.requireNonNull(one));
   }
 
   /***************************************************/
@@ -141,9 +139,9 @@ public enum Scalars {
    * @throws Exception if exact conversion is not possible
    * @see IntegerQ */
   public static BigInteger bigIntegerValueExact(Scalar scalar) {
-    if (!IntegerQ.of(scalar))
-      throw TensorRuntimeException.of(scalar);
     RationalScalar rationalScalar = (RationalScalar) scalar;
-    return rationalScalar.numerator();
+    if (rationalScalar.isInteger())
+      return rationalScalar.numerator();
+    throw TensorRuntimeException.of(scalar);
   }
 }

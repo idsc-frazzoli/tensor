@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 /* package */ enum HueColorData implements ScalarTensorFunction {
   FUNCTION;
   // ---
-  @Override
+  @Override // from ScalarTensorFunction
   public Tensor apply(Scalar scalar) {
     double value = scalar.number().doubleValue();
     return Double.isFinite(value) //

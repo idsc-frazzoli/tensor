@@ -60,9 +60,9 @@ public class GaussScalarTest extends TestCase {
   }
 
   public void testExtendedGcd() {
-    Random r = new Random();
+    Random random = new Random();
     for (int c1 = 0; c1 < 1000; ++c1) {
-      ExtendedGcd extendedGcd = new ExtendedGcd(r.nextInt(100000) - 50000, -7920);
+      ExtendedGcd extendedGcd = new ExtendedGcd(random.nextInt(100000) - 50000, -7920);
       assertTrue(extendedGcd.isConsistent());
     }
   }
@@ -158,5 +158,10 @@ public class GaussScalarTest extends TestCase {
 
   public void testEqualsMisc() {
     assertFalse(GaussScalar.of(3, 7).equals("hello"));
+  }
+
+  public void testToString() {
+    String string = GaussScalar.of(3, 7).toString();
+    assertEquals(string, "G:3'7");
   }
 }

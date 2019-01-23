@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -14,7 +15,7 @@ public class CompatibleUnitQ {
   }
 
   public static CompatibleUnitQ in(UnitSystem unitSystem) {
-    return new CompatibleUnitQ(unitSystem);
+    return new CompatibleUnitQ(Objects.requireNonNull(unitSystem));
   }
 
   // ---

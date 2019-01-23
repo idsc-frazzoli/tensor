@@ -53,26 +53,27 @@ public class ImportTest extends TestCase {
     assertEquals(table, Tensors.fromString("{{123/875+I, 9.3}, {-9, 5/8123123123123123, 1010101}}"));
   }
 
+  /** gjoel noticed that on java9/windows Files::lines in an old implementation of
+   * Import::of the file was not closed sufficiently fast to allow the deletion of
+   * the file. */
   public void testCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
     File file = HomeDirectory.file("tensorTest" + ImportTest.class.getSimpleName() + ".csv");
     assertFalse(file.exists());
     Export.of(file, Tensors.fromString("{{1, 2}, {3, 4}}"));
-    assertTrue(file.exists());
+    assertTrue(file.isFile());
     assertTrue(8 <= file.length());
     Import.of(file);
-    boolean deleted = file.delete();
-    assertTrue(deleted);
+    assertTrue(file.delete());
   }
 
   public void testImageClose() throws Exception {
     Tensor tensor = Tensors.fromString("{{1, 2}, {3, 4}}");
     File file = HomeDirectory.file("tensorTest" + ImportTest.class.getSimpleName() + ".png");
     Export.of(file, tensor);
-    assertTrue(file.exists());
+    assertTrue(file.isFile());
     Tensor image = Import.of(file);
     assertEquals(tensor, image);
-    file.delete();
-    assertFalse(file.exists());
+    assertTrue(file.delete());
   }
 
   public void testFolderCsvClosed() throws IOException, ClassNotFoundException, DataFormatException {
@@ -83,7 +84,7 @@ public class ImportTest extends TestCase {
     File file = new File(dir, "tensorTest" + ImportTest.class.getSimpleName() + ".csv");
     assertFalse(file.exists());
     Export.of(file, Tensors.fromString("{{1, 2}, {3, 4}, {5, 6}}"));
-    assertTrue(file.exists());
+    assertTrue(file.isFile());
     assertTrue(12 <= file.length());
     Tensor table = Import.of(file);
     assertEquals(Dimensions.of(table), Arrays.asList(3, 2));
@@ -102,10 +103,9 @@ public class ImportTest extends TestCase {
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
     File file = HomeDirectory.file("tensorTest" + ImportTest.class.getSimpleName() + ".png");
     Export.of(file, tensor);
-    assertTrue(file.exists());
+    assertTrue(file.isFile());
     Import.of(file);
-    file.delete();
-    assertFalse(file.exists());
+    assertTrue(file.delete());
   }
 
   public void testJpg() throws Exception {
@@ -164,6 +164,6 @@ public class ImportTest extends TestCase {
     Export.object(file, Tensors.vector(1, 2, 3, 4));
     Tensor vector = Import.object(file);
     assertEquals(vector, Tensors.vector(1, 2, 3, 4));
-    file.delete();
+    assertTrue(file.delete());
   }
 }

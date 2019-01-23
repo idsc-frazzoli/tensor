@@ -15,13 +15,13 @@ public enum Degree {
    * 
    * @param degree
    * @return radians == degree * PI / 180 */
-  public static final Scalar of(Number degree) {
+  public static Scalar of(Number degree) {
     return of(RealScalar.of(degree));
   }
 
   /** @param degree
    * @return radians == degree * PI / 180 */
-  public static final Scalar of(Scalar degree) {
+  public static Scalar of(Scalar degree) {
     return UnitSystem.SI().apply(Quantity.of(degree, DEGREE));
   }
 }

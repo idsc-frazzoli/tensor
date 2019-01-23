@@ -1,4 +1,5 @@
 // code by jph
+// https://en.wikipedia.org/wiki/Quaternion
 package ch.ethz.idsc.tensor.qty;
 
 import java.io.Serializable;
@@ -9,191 +10,177 @@ import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.lie.Cross;
 import ch.ethz.idsc.tensor.red.Norm;
-import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.ArcCos;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
+import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
+import ch.ethz.idsc.tensor.sca.Exp;
+import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
+import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class QuaternionImpl extends AbstractScalar implements Quaternion, //
     ChopInterface, ExactScalarQInterface, NInterface, Serializable {
   private static final Scalar TWO = RealScalar.of(2);
   // ---
-  private final Scalar re;
-  private final Scalar im;
-  private final Scalar jm;
-  private final Scalar km;
+  private final Scalar w;
+  private final Tensor xyz;
 
-  QuaternionImpl(Scalar re, Scalar im, Scalar jm, Scalar km) {
-    this.re = re;
-    this.im = im;
-    this.jm = jm;
-    this.km = km;
+  QuaternionImpl(Scalar w, Tensor xyz) {
+    this.w = w;
+    this.xyz = xyz.unmodifiable();
   }
 
   @Override // from AbstractScalar
-  protected Scalar plus(Scalar scalar) {
+  protected Quaternion plus(Scalar scalar) {
     if (scalar instanceof Quaternion) {
       Quaternion quaternion = (Quaternion) scalar;
-      return Quaternion.of(re.add(quaternion.re()), im.add(quaternion.im()), jm.add(quaternion.jm()), km.add(quaternion.km()));
+      return new QuaternionImpl(w.add(quaternion.w()), xyz.add(quaternion.xyz()));
     }
-    if (scalar instanceof ComplexEmbedding) {
-      ComplexEmbedding complexEmbedding = (ComplexEmbedding) scalar;
-      return Quaternion.of(re.add(complexEmbedding.real()), im.add(complexEmbedding.imag()), jm, km);
-    }
-    return scalar.add(this);
+    throw TensorRuntimeException.of(this, scalar);
   }
 
-  @Override
-  public Scalar multiply(Scalar scalar) {
+  @Override // from Quaternion
+  public Quaternion multiply(Scalar scalar) {
     if (scalar instanceof Quaternion) {
       Quaternion quaternion = (Quaternion) scalar;
-      return Quaternion.of( //
-          re.multiply(quaternion.re()) //
-              .subtract(im.multiply(quaternion.im())) //
-              .subtract(jm.multiply(quaternion.jm())) //
-              .subtract(km.multiply(quaternion.km())) //
-          , //
-          re.multiply(quaternion.im()) //
-              .add(im.multiply(quaternion.re())) //
-              .add(jm.multiply(quaternion.km())) //
-              .subtract(km.multiply(quaternion.jm())) //
-          , //
-          re.multiply(quaternion.jm()) //
-              .subtract(im.multiply(quaternion.km())) //
-              .add(jm.multiply(quaternion.re())) //
-              .add(km.multiply(quaternion.im())) //
-          , //
-          re.multiply(quaternion.km()) //
-              .add(im.multiply(quaternion.jm())) //
-              .subtract(jm.multiply(quaternion.im())) //
-              .add(km.multiply(quaternion.re())) //
-      );
+      return new QuaternionImpl( //
+          w.multiply(quaternion.w()).subtract(xyz.dot(quaternion.xyz())), //
+          xyz.multiply(quaternion.w()).add(quaternion.xyz().multiply(w())).add(Cross.of(xyz, quaternion.xyz())));
     }
     if (scalar instanceof RealScalar)
-      return Quaternion.of(re.multiply(scalar), im.multiply(scalar), jm.multiply(scalar), km.multiply(scalar));
+      return new QuaternionImpl(w.multiply(scalar), xyz.multiply(scalar));
     if (scalar instanceof ComplexEmbedding) {
       ComplexEmbedding complexEmbedding = (ComplexEmbedding) scalar;
-      return Quaternion.of( //
-          re.multiply(complexEmbedding.real()) //
-              .subtract(im.multiply(complexEmbedding.imag())), //
-          im.multiply(complexEmbedding.real()) //
-              .add(re.multiply(complexEmbedding.imag())), //
-          jm.multiply(complexEmbedding.real()) //
-              .add(km.multiply(complexEmbedding.imag())), //
-          km.multiply(complexEmbedding.real()) //
-              .subtract(jm.multiply(complexEmbedding.imag())) //
-      );
+      Scalar imag = complexEmbedding.imag();
+      return multiply(new QuaternionImpl( //
+          complexEmbedding.real(), //
+          Tensors.of(imag, imag.zero(), imag.zero())));
     }
     throw TensorRuntimeException.of(scalar);
   }
 
-  @Override
-  public Scalar negate() {
-    return new QuaternionImpl(re.negate(), im.negate(), jm.negate(), km.negate());
+  @Override // from Quaternion
+  public Quaternion negate() {
+    return new QuaternionImpl(w.negate(), xyz.negate());
   }
 
-  @Override
-  public Scalar reciprocal() {
-    return conjugate().divide(AbsSquared.FUNCTION.apply(this));
+  @Override // from Quaternion
+  public Quaternion divide(Scalar scalar) {
+    return multiply(scalar.reciprocal());
   }
 
-  @Override
+  @Override // from Quaternion
+  public Quaternion reciprocal() {
+    Quaternion conjugate = conjugate();
+    return conjugate.divide(multiply(conjugate).w());
+  }
+
+  @Override // from Scalar
   public Scalar abs() {
-    return Norm._2.ofVector(Tensors.of(re, im, jm, km));
+    return Norm._2.ofVector(xyz.copy().append(w));
   }
 
-  @Override
+  @Override // from Scalar
   public Number number() {
     throw TensorRuntimeException.of(this);
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar zero() {
-    return RealScalar.ZERO;
+    return Quaternion.ZERO;
   }
 
   /***************************************************/
   @Override // from ChopInterface
-  public Scalar chop(Chop chop) {
-    return Quaternion.of(chop.apply(re), chop.apply(im), chop.apply(jm), chop.apply(km));
+  public Quaternion chop(Chop chop) {
+    return new QuaternionImpl(chop.apply(w), xyz.map(chop));
   }
 
   @Override // from ConjugateInterface
-  public Scalar conjugate() {
-    return new QuaternionImpl(re, im.negate(), jm.negate(), km.negate());
+  public Quaternion conjugate() {
+    return new QuaternionImpl(w, xyz.negate());
+  }
+
+  @Override // from ExpInterface
+  public Quaternion exp() {
+    Scalar vn = Norm._2.ofVector(xyz);
+    return new QuaternionImpl( //
+        Cos.FUNCTION.apply(vn), //
+        xyz.multiply(Sin.FUNCTION.apply(vn).divide(vn))) //
+            .multiply(Exp.FUNCTION.apply(w));
   }
 
   @Override // from ExactScalarQInterface
   public boolean isExactScalar() {
-    return ExactScalarQ.of(re) && ExactScalarQ.of(im) //
-        && ExactScalarQ.of(jm) && ExactScalarQ.of(km);
+    return ExactScalarQ.of(w) //
+        && ExactScalarQ.all(xyz);
+  }
+
+  @Override // from LogInterface
+  public Quaternion log() {
+    Scalar abs = abs();
+    Scalar vn = Norm._2.ofVector(xyz);
+    return new QuaternionImpl( //
+        Log.FUNCTION.apply(abs), //
+        xyz.multiply(ArcCos.FUNCTION.apply(w.divide(abs))).divide(vn));
   }
 
   @Override // from NInterface
   public Scalar n() {
-    return Quaternion.of( //
-        re.number().doubleValue(), im.number().doubleValue(), //
-        jm.number().doubleValue(), km.number().doubleValue());
+    return new QuaternionImpl(N.DOUBLE.apply(w), xyz.map(N.DOUBLE));
   }
 
   @Override // from NInterface
   public Scalar n(MathContext mathContext) {
     N n = N.in(mathContext.getPrecision());
-    return Quaternion.of(n.apply(re), n.apply(im), n.apply(jm), n.apply(km));
+    return new QuaternionImpl(n.apply(w), xyz.map(n));
   }
 
   @Override // from SqrtInterface
-  public Scalar sqrt() {
-    Scalar nre = Sqrt.FUNCTION.apply(re.add(abs()).multiply(TWO));
-    return Quaternion.of(nre.divide(TWO), im.divide(nre), jm.divide(nre), km.divide(nre));
+  public Quaternion sqrt() {
+    Scalar nre = Sqrt.FUNCTION.apply(w.add(abs()).multiply(TWO));
+    return new QuaternionImpl(nre.divide(TWO), xyz.divide(nre));
   }
 
   /***************************************************/
   @Override // from Quaternion
-  public Scalar re() {
-    return re;
+  public Scalar w() {
+    return w;
   }
 
   @Override // from Quaternion
-  public Scalar im() {
-    return im;
-  }
-
-  @Override // from Quaternion
-  public Scalar jm() {
-    return jm;
-  }
-
-  @Override // from Quaternion
-  public Scalar km() {
-    return km;
+  public Tensor xyz() {
+    return xyz;
   }
 
   /***************************************************/
   @Override // from AbstractScalar
   public int hashCode() {
-    return Objects.hash(re, im, jm, km);
+    return Objects.hash(w, xyz);
   }
 
   @Override // from AbstractScalar
   public boolean equals(Object object) {
     if (object instanceof Quaternion) {
       Quaternion quaternion = (Quaternion) object;
-      return re.equals(quaternion.re()) && im.equals(quaternion.im()) //
-          && jm.equals(quaternion.jm()) && km.equals(quaternion.km());
+      return w.equals(quaternion.w()) //
+          && xyz.equals(quaternion.xyz());
     }
     return false;
   }
 
   @Override // from AbstractScalar
   public String toString() {
-    return String.format("Q:%s'%s'%s'%s", re, im, jm, km);
+    return "Q:" + w + "'" + xyz;
   }
 }

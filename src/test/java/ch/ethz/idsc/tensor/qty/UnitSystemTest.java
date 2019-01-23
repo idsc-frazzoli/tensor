@@ -22,12 +22,15 @@ public class UnitSystemTest extends TestCase {
 
   public void testScalar() {
     Scalar scalar = RealScalar.ONE;
-    assertEquals(UnitSystem.SI().apply(scalar), scalar);
+    Scalar result = UnitSystem.SI().apply(scalar);
+    assertEquals(result, scalar);
+    ExactScalarQ.require(result);
   }
 
   public void testVoltage() {
     Scalar normal = UnitSystem.SI().apply(Quantity.of(1, "V"));
     assertEquals(normal, Quantity.of(1, "A^-1*kg*m^2*s^-3"));
+    ExactScalarQ.require(normal);
   }
 
   public void testMiles() {

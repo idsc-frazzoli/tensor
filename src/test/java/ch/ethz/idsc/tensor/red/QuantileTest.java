@@ -61,8 +61,8 @@ public class QuantileTest extends TestCase {
   }
 
   public void testLimitTheorem() {
-    Random rnd = new Random();
-    Tensor tensor = Array.of(l -> RealScalar.of(rnd.nextDouble()), 5000);
+    Random random = new Random();
+    Tensor tensor = Array.of(l -> RealScalar.of(random.nextDouble()), 5000);
     Tensor weight = Tensors.vector(.76, .1, .25, .5, .05, .95, 0, .5, .99, 1);
     Tensor quantile = Quantile.of(tensor, weight);
     Tensor deviation = quantile.subtract(weight);

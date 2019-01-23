@@ -100,4 +100,10 @@ public interface Clip extends ScalarUnaryOperator {
 
   /** @return difference between upper and lower bound of clip interval */
   Scalar width();
+
+  @Override
+  int hashCode();
+
+  @Override
+  boolean equals(Object object);
 }

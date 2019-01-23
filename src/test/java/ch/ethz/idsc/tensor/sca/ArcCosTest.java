@@ -25,7 +25,7 @@ public class ArcCosTest extends TestCase {
     Scalar r = ArcCos.of(s);
     assertEquals(r, ArcCos.of(s));
     // 3.1415926535897932385 - 1.7627471740390860505 I
-    assertTrue(Statics.PRECISION.close(r, Scalars.fromString("3.141592653589793-1.762747174039086*I")));
+    Chop._14.requireClose(r, Scalars.fromString("3.141592653589793-1.762747174039086*I"));
   }
 
   public void testComplex() {

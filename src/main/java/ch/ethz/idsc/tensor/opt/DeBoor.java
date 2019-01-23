@@ -17,10 +17,10 @@ public class DeBoor implements ScalarTensorFunction {
    * @return
    * @throws Exception if given knots is not a vector */
   public static DeBoor of(Tensor knots, Tensor control) {
-    int p = knots.length() >> 1;
-    if (control.length() != p + 1)
+    int degree = knots.length() / 2; // TODO flooring!
+    if (control.length() != degree + 1)
       throw TensorRuntimeException.of(knots, control);
-    return new DeBoor(p, VectorQ.require(knots), control);
+    return new DeBoor(degree, VectorQ.require(knots), control);
   }
 
   // ---
@@ -42,8 +42,9 @@ public class DeBoor implements ScalarTensorFunction {
     Tensor d = control.copy(); // d is modified over the course of the algorithm
     for (int r = 1; r < degree + 1; ++r)
       for (int j = degree; j >= r; --j) {
-        Scalar num = x.subtract(knots.Get(j - 1));
-        Scalar den = knots.Get(j + degree - r).subtract(knots.Get(j - 1));
+        Scalar kj1 = knots.Get(j - 1);
+        Scalar num = x.subtract(kj1);
+        Scalar den = knots.Get(j + degree - r).subtract(kj1);
         Scalar alpha = Scalars.isZero(den) //
             ? RealScalar.ZERO
             : num.divide(den);
