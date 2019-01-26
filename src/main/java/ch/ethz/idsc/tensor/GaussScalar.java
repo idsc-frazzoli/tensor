@@ -35,7 +35,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   // helper function
   private static GaussScalar in(long value, long prime) {
-    return new GaussScalar(((value % prime) + prime) % prime, prime);
+    return new GaussScalar(Math.floorMod(value, prime), prime);
   }
 
   // ---

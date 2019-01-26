@@ -70,8 +70,21 @@ public enum Subdivide {
    * 
    * @param clip
    * @param n
-   * @return Subdivide.of(clip.min(), clip.max(), n) */
-  public static Tensor of(Clip clip, int n) {
+   * @return Subdivide.increasing(clip.min(), clip.max(), n) */
+  public static Tensor increasing(Clip clip, int n) {
     return of(clip.min(), clip.max(), n);
+  }
+
+  /** Example:
+   * <pre>
+   * Clip clip = Clip.function(Quantity.of(+20, "m"), Quantity.of(+40, "m"));
+   * Subdivide.decreasing(clip, 4) == Tensors.fromString("{40[m], 35[m], 30[m], 25[m], 20[m]}"));
+   * </pre>
+   * 
+   * @param clip
+   * @param n
+   * @return Subdivide.of(clip.max(), clip.min(), n) */
+  public static Tensor decreasing(Clip clip, int n) {
+    return of(clip.max(), clip.min(), n);
   }
 }
