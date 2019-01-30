@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.sca.Floor;
 
 /** A typical application of {@code LanczosInterpolation} is image resizing.
@@ -44,7 +45,7 @@ public class LanczosInterpolation extends AbstractInterpolation {
 
   @Override // from Interpolation
   public Tensor get(Tensor index) {
-    if (index.length() == 0)
+    if (Tensors.isEmpty(index))
       return tensor.copy();
     Tensor sum = tensor;
     for (Tensor value : index)

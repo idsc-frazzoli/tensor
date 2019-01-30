@@ -24,7 +24,7 @@ public enum BinCounts {
    * @return
    * @throws Exception if any scalar in the given vector is less than zero */
   public static Tensor of(Tensor vector) {
-    if (vector.length() == 0)
+    if (Tensors.isEmpty(vector))
       return Tensors.empty();
     NavigableMap<Tensor, Long> navigableMap = Tally.sorted(Floor.of(vector));
     Sign.requirePositiveOrZero(navigableMap.firstKey().Get());

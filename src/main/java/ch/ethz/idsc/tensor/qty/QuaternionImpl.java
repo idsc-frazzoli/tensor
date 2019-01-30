@@ -25,11 +25,12 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
+import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class QuaternionImpl extends AbstractScalar implements Quaternion, //
-    ChopInterface, ExactScalarQInterface, NInterface, Serializable {
+    ChopInterface, ExactScalarQInterface, NInterface, PowerInterface, Serializable {
   private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final Scalar w;
@@ -144,6 +145,12 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   public Scalar n(MathContext mathContext) {
     N n = N.in(mathContext.getPrecision());
     return new QuaternionImpl(n.apply(w), xyz.map(n));
+  }
+
+  @Override
+  public Scalar power(Scalar exponent) {
+    // TODO quaternion power
+    throw new UnsupportedOperationException();
   }
 
   @Override // from SqrtInterface
