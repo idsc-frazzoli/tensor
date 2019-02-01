@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.Expectation;
 
-/** <p>Quote from Numerical Recipes in Fortran 77:
+/** Quote from Numerical Recipes in Fortran 77:
  * It is not uncommon, in real life, to be dealing with a distribution whose second
  * moment does not exist (i.e., is infinite). In this case, the variance or standard
  * deviation is useless as a measure of the data’s width around its central value:

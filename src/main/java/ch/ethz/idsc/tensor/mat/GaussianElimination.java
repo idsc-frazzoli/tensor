@@ -59,6 +59,16 @@ import ch.ethz.idsc.tensor.Unprotect;
     });
   }
 
+  /** @return x with m.dot(x) == b */
+  Tensor solution() {
+    Tensor sol = rhs.map(Scalar::zero); // all-zeros copy of rhs
+    for (int c0 = ind.length - 1; 0 <= c0; --c0) {
+      Scalar factor = lhs.Get(ind[c0], c0);
+      sol.set(rhs.get(ind[c0]).subtract(lhs.get(ind[c0]).dot(sol)).divide(factor), c0);
+    }
+    return sol;
+  }
+
   /** constructs reduced row echelon form (also called row canonical form)
    * 
    * @param matrix
@@ -67,9 +77,8 @@ import ch.ethz.idsc.tensor.Unprotect;
     lhs = matrix.copy();
     int n = lhs.length();
     int m = Unprotect.dimension1(lhs);
-    ind = new int[n];
+    ind = IntStream.range(0, n).toArray();
     rhs = null;
-    IntStream.range(0, n).forEach(index -> ind[index] = index);
     int j = 0;
     for (int c0 = 0; c0 < n && j < m; ++j) {
       swap(pivot.get(c0, j, ind, lhs), c0);
@@ -109,15 +118,5 @@ import ch.ethz.idsc.tensor.Unprotect;
     return transpositions % 2 == 0 //
         ? scalar
         : scalar.negate();
-  }
-
-  /** @return x with m.dot(x) == b */
-  Tensor solution() {
-    Tensor sol = rhs.map(Scalar::zero); // all-zeros copy of rhs
-    for (int c0 = ind.length - 1; 0 <= c0; --c0) {
-      Scalar factor = lhs.Get(ind[c0], c0);
-      sol.set(rhs.get(ind[c0]).subtract(lhs.get(ind[c0]).dot(sol)).divide(factor), c0);
-    }
-    return sol;
   }
 }
