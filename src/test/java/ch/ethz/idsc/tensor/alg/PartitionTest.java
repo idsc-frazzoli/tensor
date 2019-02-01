@@ -11,4 +11,19 @@ public class PartitionTest extends TestCase {
     Tensor r = Tensors.fromString("{{1,2,3}}");
     assertEquals(s, r);
   }
+
+  public void testPartitionTwo() {
+    Tensor s = Partition.of(Tensors.vector(1, 2, 3, 4), 2);
+    Tensor r = Tensors.fromString("{{1,2},{3,4}}");
+    assertEquals(s, r);
+  }
+
+  public void testPartitionFail() {
+    try {
+      Partition.of(Tensors.vector(1, 2, 3, 4), 3);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
