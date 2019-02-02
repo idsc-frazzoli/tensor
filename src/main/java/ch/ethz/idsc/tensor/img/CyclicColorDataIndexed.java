@@ -26,8 +26,7 @@ public class CyclicColorDataIndexed extends BaseColorDataIndexed {
 
   @Override // from ColorDataIndexed
   public Color getColor(int index) {
-    index %= colors.length;
-    return colors[0 <= index ? index : index + colors.length];
+    return colors[Math.floorMod(index, colors.length)];
   }
 
   @Override // from ColorDataIndexed

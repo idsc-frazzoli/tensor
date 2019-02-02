@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 public class RodriguesTest extends TestCase {
   private static void checkDiff(Tensor c) {
     Tensor e = Rodrigues.exp(c);
-    assertTrue(Chop._14.close(e, MatrixExp.of(Cross.of(c))));
+    assertTrue(Chop._14.close(e, MatrixExp.of(Cross.skew3(c))));
     assertTrue(Chop._14.close(e.dot(c), c));
   }
 
@@ -66,7 +66,7 @@ public class RodriguesTest extends TestCase {
     Tensor lom = Rodrigues.logMatrix(matrix);
     Tensor log = Rodrigues.log(matrix);
     assertTrue(Chop._14.close(vec, log));
-    assertTrue(Chop._14.close(lom, Cross.of(vec)));
+    assertTrue(Chop._14.close(lom, Cross.skew3(vec)));
   }
 
   public void testLogEps() {

@@ -46,15 +46,27 @@ public class SubdivideTest extends TestCase {
     assertEquals(tensor, QuantityTensor.of(Tensors.vector(-20, -10, 0, 10, 20), "deg"));
   }
 
-  public void testClipInterval() {
+  public void testIncrClipInterval() {
     Clip clip = Clip.function(Quantity.of(+20, "m"), Quantity.of(+40, "m"));
-    Tensor tensor = Subdivide.of(clip, 4);
+    Tensor tensor = Subdivide.increasing(clip, 4);
     assertEquals(tensor, Tensors.fromString("{20[m], 25[m], 30[m], 35[m], 40[m]}"));
   }
 
-  public void testClipPoint() {
+  public void testIncrClipPoint() {
     Clip clip = Clip.function(Quantity.of(+20, "m"), Quantity.of(+20, "m"));
-    Tensor tensor = Subdivide.of(clip, 4);
+    Tensor tensor = Subdivide.increasing(clip, 4);
+    assertEquals(tensor, Tensors.fromString("{20[m], 20[m], 20[m], 20[m], 20[m]}"));
+  }
+
+  public void testDecrClipInterval() {
+    Clip clip = Clip.function(Quantity.of(+20, "m"), Quantity.of(+40, "m"));
+    Tensor tensor = Subdivide.decreasing(clip, 4);
+    assertEquals(tensor, Tensors.fromString("{40[m], 35[m], 30[m], 25[m], 20[m]}"));
+  }
+
+  public void testDecrClipPoint() {
+    Clip clip = Clip.function(Quantity.of(+20, "m"), Quantity.of(+20, "m"));
+    Tensor tensor = Subdivide.decreasing(clip, 4);
     assertEquals(tensor, Tensors.fromString("{20[m], 20[m], 20[m], 20[m], 20[m]}"));
   }
 

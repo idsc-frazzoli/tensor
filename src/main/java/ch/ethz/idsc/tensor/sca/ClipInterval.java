@@ -25,11 +25,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
   @Override
   public final Scalar apply(Scalar scalar) {
-    boolean cmpMin = Scalars.lessThan(scalar, min);
-    boolean cmpMax = Scalars.lessThan(max, scalar);
-    if (cmpMin)
+    if (Scalars.lessThan(scalar, min))
       return min;
-    if (cmpMax)
+    if (Scalars.lessThan(max, scalar))
       return max;
     return scalar;
   }
@@ -52,9 +50,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
   @Override // from Clip
   public final Scalar requireInside(Scalar scalar) {
-    if (isOutside(scalar))
-      throw TensorRuntimeException.of(min, max, scalar);
-    return scalar;
+    if (isInside(scalar))
+      return scalar;
+    throw TensorRuntimeException.of(min, max, scalar);
   }
 
   @Override // from Clip

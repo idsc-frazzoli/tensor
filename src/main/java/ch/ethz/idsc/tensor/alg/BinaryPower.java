@@ -15,16 +15,16 @@ import ch.ethz.idsc.tensor.mat.MatrixPower;
  * interface used by {@link MatrixPower} and {@link GaussScalar} */
 public abstract class BinaryPower<T> implements Serializable {
   /** @return value when exponent equals zero */
-  public abstract T zeroth();
+  protected abstract T zeroth();
 
   /** @param object to invert when the given exponent is negative
    * @return */
-  public abstract T invert(T object);
+  protected abstract T invert(T object);
 
   /** @param factor1
    * @param factor2
    * @return product factor1 * factor2 */
-  public abstract T multiply(T factor1, T factor2);
+  protected abstract T multiply(T factor1, T factor2);
 
   /** @param x
    * @param exponent

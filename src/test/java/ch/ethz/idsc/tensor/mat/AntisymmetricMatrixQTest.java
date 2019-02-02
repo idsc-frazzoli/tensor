@@ -16,7 +16,7 @@ public class AntisymmetricMatrixQTest extends TestCase {
   }
 
   public void testCross() {
-    assertTrue(AntisymmetricMatrixQ.of(Cross.of(Tensors.vector(1, 2, 3))));
+    assertTrue(AntisymmetricMatrixQ.of(Cross.skew3(Tensors.vector(1, 2, 3))));
   }
 
   public void testNonMatrix() {

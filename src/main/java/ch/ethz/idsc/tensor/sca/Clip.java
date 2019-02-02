@@ -43,14 +43,6 @@ public interface Clip extends ScalarUnaryOperator {
    * @param max
    * @return function that clips the input to the closed interval [min, max]
    * @throws Exception if min is greater than max */
-  static Clip function(Number min, Number max) {
-    return function(RealScalar.of(min), RealScalar.of(max));
-  }
-
-  /** @param min
-   * @param max
-   * @return function that clips the input to the closed interval [min, max]
-   * @throws Exception if min is greater than max */
   static Clip function(Scalar min, Scalar max) {
     Scalar width = max.subtract(min);
     if (Sign.isNegative(width))
@@ -58,6 +50,14 @@ public interface Clip extends ScalarUnaryOperator {
     return min.equals(max) //
         ? new ClipPoint(min, width)
         : new ClipInterval(min, max, width);
+  }
+
+  /** @param min
+   * @param max
+   * @return function that clips the input to the closed interval [min, max]
+   * @throws Exception if min is greater than max */
+  static Clip function(Number min, Number max) {
+    return function(RealScalar.of(min), RealScalar.of(max));
   }
 
   /** @param tensor
@@ -101,9 +101,9 @@ public interface Clip extends ScalarUnaryOperator {
   /** @return difference between upper and lower bound of clip interval */
   Scalar width();
 
-  @Override
+  @Override // from Object
   int hashCode();
 
-  @Override
+  @Override // from Object
   boolean equals(Object object);
 }

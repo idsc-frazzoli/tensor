@@ -1,10 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import java.io.IOException;
+
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 /** the purpose of the test is to demonstrate that
@@ -116,5 +120,11 @@ public class ScalarUnaryOperatorTest extends TestCase {
     _checkOps(DoubleScalar.INDETERMINATE);
     _checkOps(DoubleScalar.POSITIVE_INFINITY);
     _checkOps(DoubleScalar.NEGATIVE_INFINITY);
+  }
+
+  public void testSerializable() throws ClassNotFoundException, IOException {
+    ScalarUnaryOperator scalarUnaryOperator = t -> t;
+    ScalarUnaryOperator copy = Serialization.copy(scalarUnaryOperator);
+    assertEquals(copy.apply(ComplexScalar.I), ComplexScalar.I);
   }
 }

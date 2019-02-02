@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.red;
 import java.util.Comparator;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArgMin.html">ArgMin</a> */
@@ -18,7 +19,7 @@ public enum ArgMin {
    * or -1 if tensor is empty */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> int of(Tensor tensor, Comparator<T> comparator) {
-    if (tensor.length() == 0)
+    if (Tensors.isEmpty(tensor))
       return EMPTY;
     Tensor ref = tensor.get(0);
     int arg = 0;
@@ -42,7 +43,7 @@ public enum ArgMin {
    * @return index of minimum entry in tensor, or -1 if tensor is empty */
   @SuppressWarnings("unchecked")
   public static <T extends Comparable<T>> int of(Tensor tensor) {
-    if (tensor.length() == 0)
+    if (Tensors.isEmpty(tensor))
       return EMPTY;
     T max = (T) tensor.get(0);
     int arg = 0;

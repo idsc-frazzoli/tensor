@@ -13,9 +13,7 @@ public enum RotateLeft {
    * @param n
    * @return */
   public static Tensor of(Tensor tensor, int n) {
-    int index = n % tensor.length();
-    if (index < 0)
-      index += tensor.length();
+    int index = Math.floorMod(n, tensor.length());
     return Join.of( //
         tensor.extract(index, tensor.length()), //
         tensor.extract(0, index));

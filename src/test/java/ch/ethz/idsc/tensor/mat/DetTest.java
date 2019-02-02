@@ -19,6 +19,15 @@ import junit.framework.TestCase;
 
 public class DetTest extends TestCase {
   public void testEmpty() {
+    try {
+      Det.of(Tensors.empty());
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testEmptyMatrix() {
     Tensor m = Tensors.matrix(new Number[][] { {} });
     // this is consistent with Mathematica
     // Mathematica throws an exception
@@ -189,6 +198,15 @@ public class DetTest extends TestCase {
   public void testFailRank3() {
     try {
       Det.of(LieAlgebras.sl2());
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailRank3b() {
+    try {
+      Det.of(Array.zeros(2, 2, 3));
       fail();
     } catch (Exception exception) {
       // ---

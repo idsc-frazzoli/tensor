@@ -38,7 +38,7 @@ public enum Det {
       throw TensorRuntimeException.of(matrix);
     if (n == m) // square
       try {
-        return new GaussianElimination(matrix, Array.zeros(n), pivot).det();
+        return new GaussianElimination(matrix, pivot, Array.zeros(n)).det();
       } catch (Exception exception) {
         // matrix is singular
       }

@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 
 public class UserNameTest extends TestCase {
   public void testUsername() {
+    assertNotNull(UserName.get());
     assertFalse(UserName.get().isEmpty());
   }
 

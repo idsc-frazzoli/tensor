@@ -156,7 +156,8 @@ public interface Tensor extends Iterable<Tensor> {
    * We deviate from this to avoid the ambiguity with length of an empty list:
    * <code>Length[{}] == 0</code>
    * 
-   * <p>In order to check if a tensor is an empty vector use <code>tensor.length() == 0</code>.
+   * <p>In order to check if a tensor is an empty vector use
+   * <code>tensor.length() == 0</code>, or <code>Tensors.isEmpty(tensor)</code>.
    *
    * @return number of entries on the first level; {@link Scalar#LENGTH} for scalars */
   int length();

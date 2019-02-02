@@ -39,10 +39,10 @@ public enum Rodrigues {
   public static Tensor exp(Tensor vector) {
     Scalar beta = Norm._2.ofVector(vector);
     Scalar s1 = Sinc.FUNCTION.apply(beta);
-    Tensor X1 = Cross.of(vector.multiply(s1));
+    Tensor X1 = Cross.skew3(vector.multiply(s1));
     Scalar h2 = Sinc.FUNCTION.apply(beta.multiply(HALF));
     Scalar r2 = Sqrt.FUNCTION.apply(h2.multiply(h2).multiply(HALF));
-    Tensor X2 = Cross.of(vector.multiply(r2));
+    Tensor X2 = Cross.skew3(vector.multiply(r2));
     return ID3.add(X1).add(X2.dot(X2));
   }
 

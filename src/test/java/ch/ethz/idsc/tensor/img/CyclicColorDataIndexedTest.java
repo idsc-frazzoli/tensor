@@ -37,6 +37,16 @@ public class CyclicColorDataIndexedTest extends TestCase {
     assertEquals(colorDataIndexed.getColor(1), ref1);
   }
 
+  public void testEmptyFail() {
+    Tensor tensor = Tensors.empty();
+    try {
+      CyclicColorDataIndexed.create(tensor);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFail() {
     Tensor tensor = Tensors.fromString("{{1,2,3},{5,6,7}}");
     try {

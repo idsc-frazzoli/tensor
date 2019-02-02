@@ -169,4 +169,10 @@ public class EmpiricalDistributionTest extends TestCase {
       // ---
     }
   }
+
+  public void testQuantity() {
+    Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(Tensors.fromString("{1[m], 2[m]}"));
+    assertEquals(PDF.of(distribution).at(RealScalar.of(0)), RationalScalar.of(1, 3));
+    assertEquals(PDF.of(distribution).at(RealScalar.of(1)), RationalScalar.of(2, 3));
+  }
 }

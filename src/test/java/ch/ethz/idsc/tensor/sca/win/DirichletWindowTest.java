@@ -26,6 +26,12 @@ public class DirichletWindowTest extends TestCase {
 
   public void testQuantityFail() {
     try {
+      DirichletWindow.FUNCTION.apply(Quantity.of(0, "s"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       DirichletWindow.FUNCTION.apply(Quantity.of(2, "s"));
       fail();
     } catch (Exception exception) {

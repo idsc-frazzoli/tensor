@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Join;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
+import ch.ethz.idsc.tensor.alg.NormalizeUnlessZero;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Sign;
 
@@ -21,6 +22,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * The expected complexity of this algorithm is O(n log n).
  * However, the worst-case complexity is O(n^2). */
 public class RamerDouglasPeucker implements TensorUnaryOperator {
+  private static final TensorUnaryOperator NORMALIZE_UNLESS_ZERO = NormalizeUnlessZero.with(Norm._2);
+
   /** @param epsilon
    * @return operator that takes as input tensors of dimensions N x 2 */
   public static TensorUnaryOperator of(Scalar epsilon) {
@@ -36,14 +39,12 @@ public class RamerDouglasPeucker implements TensorUnaryOperator {
 
   @Override
   public Tensor apply(Tensor tensor) {
-    if (tensor.length() == 0)
+    if (Tensors.isEmpty(tensor))
       return Tensors.empty();
-    MatrixQ.require(tensor);
-    if (Unprotect.dimension1(tensor) == 2) {
-      if (tensor.length() == 1)
-        return tensor;
-      return recur(tensor);
-    }
+    if (Unprotect.dimension1(tensor) == 2)
+      return tensor.length() < 3 //
+          ? MatrixQ.require(tensor).copy()
+          : recur(tensor);
     throw TensorRuntimeException.of(tensor);
   }
 
@@ -53,11 +54,7 @@ public class RamerDouglasPeucker implements TensorUnaryOperator {
       return tensor;
     Tensor first = tensor.get(0);
     Tensor last = Last.of(tensor);
-    Tensor diff = last.subtract(first);
-    Scalar norm = Norm._2.ofVector(diff);
-    if (Scalars.isZero(norm)) // LONGTERM not sure what to do when |diff| == 0
-      throw TensorRuntimeException.of(tensor);
-    Tensor vector = diff.divide(norm);
+    Tensor vector = NORMALIZE_UNLESS_ZERO.apply(last.subtract(first));
     Tensor cross2 = Tensors.of(vector.Get(1).negate(), vector.Get(0));
     Scalar dmax = epsilon.zero();
     int split = -1;

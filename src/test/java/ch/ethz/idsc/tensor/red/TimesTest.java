@@ -17,4 +17,13 @@ public class TimesTest extends TestCase {
   public void testEmpty() {
     assertEquals(Times.of(), RealScalar.ONE);
   }
+
+  public void testNullFail() {
+    try {
+      Times.of(RealScalar.of(3), null, RealScalar.of(8));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

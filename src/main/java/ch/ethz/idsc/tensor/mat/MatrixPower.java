@@ -42,17 +42,17 @@ public class MatrixPower extends BinaryPower<Tensor> {
   }
 
   @Override // from BinaryPower
-  public Tensor zeroth() {
+  protected Tensor zeroth() {
     return IdentityMatrix.of(n);
   }
 
   @Override // from BinaryPower
-  public Tensor invert(Tensor matrix) {
+  protected Tensor invert(Tensor matrix) {
     return Inverse.of(matrix);
   }
 
   @Override // from BinaryPower
-  public Tensor multiply(Tensor matrix1, Tensor matrix2) {
+  protected Tensor multiply(Tensor matrix1, Tensor matrix2) {
     return matrix1.dot(matrix2);
   }
 }

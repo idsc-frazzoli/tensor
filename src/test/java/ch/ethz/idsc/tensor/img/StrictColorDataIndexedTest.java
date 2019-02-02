@@ -45,6 +45,16 @@ public class StrictColorDataIndexedTest extends TestCase {
     assertEquals(colorDataIndexed.getColor(1), ref1);
   }
 
+  public void testEmptyFail() {
+    Tensor tensor = Tensors.empty();
+    try {
+      StrictColorDataIndexed.create(tensor);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailCreate() {
     Tensor tensor = Tensors.fromString("{{1,2,3},{5,6,7}}");
     try {

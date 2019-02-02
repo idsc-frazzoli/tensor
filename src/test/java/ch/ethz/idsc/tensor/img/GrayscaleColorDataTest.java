@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.red.Norm;
 import junit.framework.TestCase;
 
@@ -21,5 +22,6 @@ public class GrayscaleColorDataTest extends TestCase {
   public void testTransparent() {
     Tensor vector = GrayscaleColorData.FUNCTION.apply(DoubleScalar.POSITIVE_INFINITY);
     assertTrue(Scalars.isZero(Norm._2.ofVector(vector)));
+    assertEquals(vector, Array.zeros(4));
   }
 }
