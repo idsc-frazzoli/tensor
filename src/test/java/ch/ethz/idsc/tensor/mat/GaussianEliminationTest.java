@@ -1,7 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
 
 public class GaussianEliminationTest extends TestCase {
@@ -11,8 +13,18 @@ public class GaussianEliminationTest extends TestCase {
   }
 
   public void testPivots() {
-    Tensor gf1 = GaussianForm.rowReduce(HilbertMatrix.of(3, 5), PivotArgMaxAbs.INSTANCE);
-    Tensor gf2 = GaussianForm.rowReduce(HilbertMatrix.of(3, 5), PivotFirstNonZero.INSTANCE);
-    assertEquals(gf1, gf2);
+    Tensor matrix = HilbertMatrix.of(3);
+    Tensor rhs = Tensors.vector(-1, -2, 3);
+    GaussianElimination ge1 = new GaussianElimination(matrix, PivotArgMaxAbs.INSTANCE, rhs);
+    GaussianElimination ge2 = new GaussianElimination(matrix, PivotFirstNonZero.INSTANCE, rhs);
+    assertEquals(ge1.det(), ge2.det());
+    assertEquals(ge1.lhs(), ge2.lhs());
+    assertEquals(ge1.solution(), ge2.solution());
+    assertEquals(ge1.det(), ge2.det());
+    assertEquals(ge1.lhs(), ge2.lhs());
+    assertEquals(ge1.solution(), ge2.solution());
+    ExactScalarQ.requireAll(ge1.solution());
+    ExactScalarQ.requireAll(ge2.solution());
+    assertEquals(ge1.solution(), Tensors.vector(153, -888, 870));
   }
 }

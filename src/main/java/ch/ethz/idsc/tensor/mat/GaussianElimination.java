@@ -26,14 +26,14 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * professional hand computers to solve the normal equations of least-squares problems.
  * The algorithm that is taught in high school was named for Gauss only in the 1950s as
  * a result of confusion over the history of the subject. */
-/* package */ class GaussianElimination extends GaussianForm {
+/* package */ class GaussianElimination extends RowReduce {
   private final Tensor rhs;
 
   /** @param matrix square and invertible
    * @param b tensor with first dimension identical to size of matrix
    * @param pivot
    * @throws TensorRuntimeException if matrix m is singular */
-  GaussianElimination(Tensor matrix, Tensor b, Pivot pivot) {
+  GaussianElimination(Tensor matrix, Pivot pivot, Tensor b) {
     super(matrix, pivot);
     rhs = b.copy();
     for (int c0 = 0; c0 < n; ++c0) {

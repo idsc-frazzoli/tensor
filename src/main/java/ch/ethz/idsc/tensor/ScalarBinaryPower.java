@@ -15,19 +15,19 @@ import ch.ethz.idsc.tensor.alg.BinaryPower;
   }
 
   @Override // from BinaryPower
-  public T zeroth() {
+  protected T zeroth() {
     return one;
   }
 
   @Override // from BinaryPower
   @SuppressWarnings("unchecked")
-  public T invert(T scalar) {
+  protected T invert(T scalar) {
     return (T) scalar.reciprocal();
   }
 
   @Override // from BinaryPower
   @SuppressWarnings("unchecked")
-  public T multiply(T s1, T s2) {
+  protected T multiply(T s1, T s2) {
     return (T) s1.multiply(s2);
   }
 }

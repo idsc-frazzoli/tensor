@@ -29,6 +29,12 @@ public class ParzenWindowTest extends TestCase {
 
   public void testQuantityFail() {
     try {
+      ParzenWindow.FUNCTION.apply(Quantity.of(0, "s"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       ParzenWindow.FUNCTION.apply(Quantity.of(2, "s"));
       fail();
     } catch (Exception exception) {

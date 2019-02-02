@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
@@ -56,5 +57,12 @@ public class RowReduceTest extends TestCase {
     Tensor nul = RowReduce.of(Tensors.of(ve1, ve1));
     assertEquals(nul, Tensors.fromString("{{1, 2}, {0[m], 0[m]}}"));
     assertTrue(Chop.NONE.close(nul, Tensors.fromString("{{1, 2}, {0, 0}}")));
+  }
+
+  public void testPivots() {
+    Tensor matrix = HilbertMatrix.of(3, 5);
+    Tensor gf1 = RowReduce.of(matrix);
+    Tensor gf2 = RowReduce.of(Reverse.of(matrix), PivotFirstNonZero.INSTANCE);
+    assertEquals(gf1, gf2);
   }
 }

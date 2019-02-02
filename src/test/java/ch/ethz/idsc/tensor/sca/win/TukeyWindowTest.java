@@ -45,6 +45,12 @@ public class TukeyWindowTest extends TestCase {
 
   public void testQuantityFail() {
     try {
+      TukeyWindow.FUNCTION.apply(Quantity.of(0, "s"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
       TukeyWindow.FUNCTION.apply(Quantity.of(2, "s"));
       fail();
     } catch (Exception exception) {
