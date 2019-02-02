@@ -23,12 +23,13 @@ public enum ToeplitzMatrix {
    * </pre>
    * 
    * @param vector with odd number of entries
-   * @return */
+   * @return
+   * @throws Exception if given vector has even length, or is not a vector */
   public static Tensor of(Tensor vector) {
     VectorQ.require(vector);
     if (vector.length() % 2 == 0)
       throw TensorRuntimeException.of(vector);
     final int n = (vector.length() + 1) / 2;
-    return Tensors.matrix((i, j) -> vector.Get(n - i + j - 1), n, n);
+    return Tensors.matrix((i, j) -> vector.get(n - i + j - 1), n, n);
   }
 }

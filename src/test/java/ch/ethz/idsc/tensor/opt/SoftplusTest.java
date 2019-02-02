@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class SoftplusTest extends TestCase {
@@ -23,5 +24,14 @@ public class SoftplusTest extends TestCase {
     Scalar s1 = Softplus.FUNCTION.apply(RealScalar.ONE);
     Tensor tensor = Softplus.of(Tensors.vector(0, 1));
     assertEquals(tensor, Tensors.of(s0, s1));
+  }
+
+  public void testQuantityFail() {
+    try {
+      Softplus.FUNCTION.apply(Quantity.of(1, "s"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
