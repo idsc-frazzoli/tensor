@@ -46,7 +46,7 @@ public class TensorWedgeTest extends TestCase {
 
   public void testCross() {
     Tensor vector = Tensors.vector(2, 3, 4);
-    Tensor matrix = Cross.of(vector);
+    Tensor matrix = Cross.skew3(vector);
     assertTrue(AntisymmetricMatrixQ.of(matrix));
     assertEquals(matrix, TensorWedge.of(matrix));
   }

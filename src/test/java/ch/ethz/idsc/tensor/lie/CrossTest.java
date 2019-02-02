@@ -13,8 +13,16 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class CrossTest extends TestCase {
-  static Tensor checkAB(Tensor a, Tensor b) {
-    return Cross.of(a).dot(b);
+  public static Tensor alt_skew3(Tensor a) {
+    return LieAlgebras.so3().dot(a);
+  }
+
+  static void checkAB(Tensor a, Tensor b) {
+    Tensor r1 = Cross.of(a, b);
+    Tensor r2 = Cross.skew3(a).dot(b);
+    Tensor r3 = alt_skew3(a).dot(b);
+    assertEquals(r1, r2);
+    assertEquals(r2, r3);
   }
 
   public void testUnits() {
@@ -34,7 +42,7 @@ public class CrossTest extends TestCase {
     for (int c = 0; c < 10; ++c) {
       Tensor a = RandomVariate.of(distribution, 3);
       Tensor b = RandomVariate.of(distribution, 3);
-      assertEquals(Cross.of(a, b), checkAB(a, b));
+      checkAB(a, b);
     }
   }
 
@@ -43,7 +51,7 @@ public class CrossTest extends TestCase {
     for (int c = 0; c < 10; ++c) {
       Tensor a = RandomVariate.of(distribution, 3);
       Tensor b = RandomVariate.of(distribution, 3);
-      assertEquals(Cross.of(a, b), checkAB(a, b));
+      checkAB(a, b);
     }
   }
 
