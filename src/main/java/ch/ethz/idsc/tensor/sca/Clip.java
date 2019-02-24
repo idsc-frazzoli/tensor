@@ -29,16 +29,6 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Clip.html">Clip</a> */
 public interface Clip extends ScalarUnaryOperator {
-  /** clip function that maps to the unit interval [0, 1] */
-  static Clip unit() {
-    return ClipInterval.UNIT;
-  }
-
-  /** clip function that clips scalars to the interval [-1, 1] */
-  static Clip absoluteOne() {
-    return ClipInterval.ABSOLUTE_ONE;
-  }
-
   /** @param min
    * @param max
    * @return function that clips the input to the closed interval [min, max]

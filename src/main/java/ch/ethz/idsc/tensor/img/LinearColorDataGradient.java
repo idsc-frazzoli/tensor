@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.N;
 
 /** ColorDataGradient maps a {@link Scalar} from the interval [0, 1] to a 4-vector
@@ -52,6 +52,6 @@ public class LinearColorDataGradient implements ColorDataGradient {
 
   @Override // from ColorDataGradient
   public LinearColorDataGradient deriveWithFactor(Scalar factor) {
-    return new LinearColorDataGradient(StaticHelper.withFactor(tensor, Clip.unit().requireInside(factor)));
+    return new LinearColorDataGradient(StaticHelper.withFactor(tensor, Clips.unit().requireInside(factor)));
   }
 }

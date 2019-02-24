@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.red.Total;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 
 /** <a href="https://en.wikipedia.org/wiki/Poisson_binomial_distribution">wikipedia</a> */
 public class PoissonBinomialDistribution implements Distribution, //
@@ -23,7 +23,7 @@ public class PoissonBinomialDistribution implements Distribution, //
    * @param p_vector with scalar entries in the interval [0, 1]
    * @return */
   public static Distribution of(Tensor p_vector) {
-    if (p_vector.stream().map(Scalar.class::cast).anyMatch(Clip.unit()::isOutside))
+    if (p_vector.stream().map(Scalar.class::cast).anyMatch(Clips.unit()::isOutside))
       throw TensorRuntimeException.of(p_vector);
     return new PoissonBinomialDistribution(p_vector);
   }

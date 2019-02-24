@@ -23,6 +23,7 @@ import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 // cubic basis functions over unit interval [0, 1]
@@ -147,7 +148,7 @@ public class BSplineFunctionTest extends TestCase {
         BSplineFunction bSplineFunction = BSplineFunction.of(degree, IdentityMatrix.of(length));
         for (Tensor _x : Subdivide.of(0, length - 1, 13)) {
           Tensor tensor = bSplineFunction.apply(_x.Get());
-          assertTrue(tensor.stream().map(Scalar.class::cast).allMatch(Clip.unit()::isInside));
+          assertTrue(tensor.stream().map(Scalar.class::cast).allMatch(Clips.unit()::isInside));
           assertEquals(Total.of(tensor), RealScalar.ONE);
           assertTrue(ExactScalarQ.all(tensor));
         }

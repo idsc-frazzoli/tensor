@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Series;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** inspired by
@@ -39,7 +39,7 @@ public enum InverseErf implements ScalarUnaryOperator {
       return DoubleScalar.NEGATIVE_INFINITY;
     if (scalar.equals(RealScalar.ONE))
       return DoubleScalar.POSITIVE_INFINITY;
-    return SERIES.apply(Clip.absoluteOne().requireInside(scalar));
+    return SERIES.apply(Clips.absoluteOne().requireInside(scalar));
   }
 
   /** @param tensor

@@ -32,9 +32,9 @@ public class ClipTest extends TestCase {
   }
 
   public void testUnit() {
-    assertEquals(Clip.unit().apply(RealScalar.of(-.1)), RealScalar.ZERO);
-    assertEquals(Clip.unit().apply(RealScalar.of(0.1)), RealScalar.of(0.1));
-    assertEquals(Clip.unit().apply(RealScalar.of(1.1)), RealScalar.ONE);
+    assertEquals(Clips.unit().apply(RealScalar.of(-.1)), RealScalar.ZERO);
+    assertEquals(Clips.unit().apply(RealScalar.of(0.1)), RealScalar.of(0.1));
+    assertEquals(Clips.unit().apply(RealScalar.of(1.1)), RealScalar.ONE);
   }
 
   public void testFail() {
@@ -80,7 +80,7 @@ public class ClipTest extends TestCase {
 
   public void testInsideFail() {
     try {
-      Clip.unit().isInside(Quantity.of(0.5, "m"));
+      Clips.unit().isInside(Quantity.of(0.5, "m"));
       fail();
     } catch (Exception exception) {
       // ---
@@ -157,13 +157,13 @@ public class ClipTest extends TestCase {
 
   public void testQuantityFail() {
     try {
-      Clip.unit().apply(Quantity.of(-5, "m"));
+      Clips.unit().apply(Quantity.of(-5, "m"));
       fail();
     } catch (Exception exception) {
       // ---
     }
     try {
-      Clip.absoluteOne().apply(Quantity.of(-5, "m"));
+      Clips.absoluteOne().apply(Quantity.of(-5, "m"));
       fail();
     } catch (Exception exception) {
       // ---

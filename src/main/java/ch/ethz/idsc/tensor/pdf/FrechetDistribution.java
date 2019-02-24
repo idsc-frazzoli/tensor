@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Gamma;
 import ch.ethz.idsc.tensor.sca.Log;
@@ -63,7 +63,7 @@ public class FrechetDistribution extends AbstractContinuousDistribution implemen
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    return quantile_unit(Clip.unit().requireInside(p));
+    return quantile_unit(Clips.unit().requireInside(p));
   }
 
   private Scalar quantile_unit(Scalar p) {

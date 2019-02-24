@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.sca.ArcCos;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /** inspired by
@@ -33,7 +33,7 @@ public enum VectorAngle {
         : NORMALIZE.apply(u).dot(NORMALIZE.apply(Conjugate.of(v))).Get();
     if (ratio instanceof RealScalar)
       // due to numerical inaccuracy, for instance, ratio == 1.0000000000000002 may occur
-      ratio = Clip.absoluteOne().apply(ratio); // clip to [-1, 1]
+      ratio = Clips.absoluteOne().apply(ratio); // clip to [-1, 1]
     return Optional.of(ArcCos.FUNCTION.apply(ratio));
   }
 }

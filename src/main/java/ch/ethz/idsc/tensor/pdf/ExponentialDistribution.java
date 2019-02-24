@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Sign;
@@ -59,7 +59,7 @@ public class ExponentialDistribution extends AbstractContinuousDistribution impl
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    return quantile_unit(RealScalar.ONE.subtract(Clip.unit().requireInside(p)));
+    return quantile_unit(RealScalar.ONE.subtract(Clips.unit().requireInside(p)));
   }
 
   private Scalar quantile_unit(Scalar p) {
