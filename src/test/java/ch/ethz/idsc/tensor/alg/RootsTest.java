@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -84,27 +84,27 @@ public class RootsTest extends TestCase {
     Tensor coeffs = Tensors.fromString("{21, - 10 [s^-1], +1 [s^-2], 0, 0, 0}");
     Tensor roots = Roots.of(coeffs);
     assertEquals(roots, Tensors.fromString("{3[s], 7[s]}"));
-    assertTrue(ExactScalarQ.all(roots));
+    assertTrue(ExactTensorQ.of(roots));
   }
 
   public void testQuadraticComplexQuantity() {
     Tensor coeffs = Tensors.fromString("{1, 0 [s^-1], 1 [s^-2]}");
     Tensor roots = Roots.of(coeffs);
     assertEquals(roots, Tensors.fromString("{-I[s], I[s]}"));
-    assertTrue(ExactScalarQ.all(roots));
+    assertTrue(ExactTensorQ.of(roots));
   }
 
   public void testPseudoCubicQuantity() {
     Tensor coeffs = Tensors.fromString("{0, 21, - 10 [s^-1], +1 [s^-2], 0, 0, 0}");
     Tensor roots = Roots.of(coeffs);
     assertEquals(Sort.of(roots), Tensors.fromString("{0[s], 3[s], 7[s]}"));
-    assertTrue(ExactScalarQ.all(roots));
+    assertTrue(ExactTensorQ.of(roots));
   }
 
   public void testPseudoQuarticQuantity() {
     Tensor coeffs = Tensors.fromString("{0, 0, 21, - 10 [s^-1], +1 [s^-2], 0, 0, 0}");
     Tensor roots = Roots.of(coeffs);
     assertEquals(Sort.of(roots), Tensors.fromString("{0[s], 0[s], 3[s], 7[s]}"));
-    assertTrue(ExactScalarQ.all(roots));
+    assertTrue(ExactTensorQ.of(roots));
   }
 }

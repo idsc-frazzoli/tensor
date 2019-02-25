@@ -50,21 +50,6 @@ public enum ExactScalarQ {
   }
 
   /** @param tensor
-   * @return true if all scalar entries in given tensor satisfy the predicate {@link #of(Tensor)} */
-  public static boolean all(Tensor tensor) {
-    return tensor.flatten(-1).allMatch(ExactScalarQ::of);
-  }
-
-  /** @param tensor
-   * @return given tensor
-   * @throws Exception if given tensor does not have all entries in exact precision */
-  public static Tensor requireAll(Tensor tensor) {
-    if (all(tensor))
-      return tensor;
-    throw TensorRuntimeException.of(tensor);
-  }
-
-  /** @param tensor
    * @return true if any scalar entry in given tensor satisfies the predicate {@link #of(Tensor)} */
   public static boolean any(Tensor tensor) {
     return tensor.flatten(-1).anyMatch(ExactScalarQ::of);

@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.alg.DeleteDuplicates;
 import ch.ethz.idsc.tensor.alg.Sort;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.sca.Chop;

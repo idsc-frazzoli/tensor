@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.red;
 
 import java.util.Optional;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -28,7 +28,7 @@ public enum VectorAngle {
     Scalar nv = Norm._2.ofVector(v);
     if (Scalars.isZero(nu) || Scalars.isZero(nv))
       return Optional.empty();
-    Scalar ratio = ExactScalarQ.all(u) || ExactScalarQ.all(v) //
+    Scalar ratio = ExactTensorQ.of(u) || ExactTensorQ.of(v) //
         ? u.dot(Conjugate.of(v)).divide(nu).divide(nv).Get()
         : NORMALIZE.apply(u).dot(NORMALIZE.apply(Conjugate.of(v))).Get();
     if (ratio instanceof RealScalar)

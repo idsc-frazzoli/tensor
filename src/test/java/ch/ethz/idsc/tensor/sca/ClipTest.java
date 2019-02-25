@@ -16,7 +16,7 @@ public class ClipTest extends TestCase {
   public void testApply() {
     Scalar min = RealScalar.of(-3);
     Scalar max = RealScalar.of(10);
-    Clip clip = Clip.function(min, max);
+    Clip clip = Clips.interval(min, max);
     assertEquals(clip.apply(RealScalar.of(-10)), min);
     assertEquals(clip.apply(RealScalar.of(-4)), min);
     assertEquals(clip.apply(RealScalar.of(0)), RealScalar.ZERO);
@@ -26,7 +26,7 @@ public class ClipTest extends TestCase {
   public void testVector() {
     Scalar min = RealScalar.of(-3);
     Scalar max = RealScalar.of(10);
-    Clip clip = Clip.function(min, max);
+    Clip clip = Clips.interval(min, max);
     Tensor vector = Tensors.vector(-30, 30, 5);
     assertEquals(clip.of(vector), Tensors.vector(-3, 10, 5));
   }
@@ -38,9 +38,9 @@ public class ClipTest extends TestCase {
   }
 
   public void testFail() {
-    Clip.function(5, 5);
+    Clips.interval(5, 5);
     try {
-      Clip.function(2, -3);
+      Clips.interval(2, -3);
       fail();
     } catch (Exception exception) {
       // ---
@@ -50,7 +50,7 @@ public class ClipTest extends TestCase {
   public void testQuantity() {
     Scalar min = Quantity.of(-3, "m");
     Scalar max = Quantity.of(2, "m");
-    Clip clip = Clip.function(min, max);
+    Clip clip = Clips.interval(min, max);
     assertEquals(clip.apply(Quantity.of(-5, "m")), min);
     assertEquals(clip.apply(Quantity.of(5, "m")), max);
     Scalar value = Quantity.of(-1, "m");
@@ -60,7 +60,7 @@ public class ClipTest extends TestCase {
   public void testQuantityInside() {
     Scalar min = Quantity.of(-3, "m");
     Scalar max = Quantity.of(2, "m");
-    Clip clip = Clip.function(min, max);
+    Clip clip = Clips.interval(min, max);
     assertTrue(clip.isInside(Quantity.of(1, "m")));
     assertTrue(clip.isInside(Quantity.of(2, "m")));
     assertFalse(clip.isInside(Quantity.of(3, "m")));
@@ -78,19 +78,10 @@ public class ClipTest extends TestCase {
     }
   }
 
-  public void testInsideFail() {
-    try {
-      Clips.unit().isInside(Quantity.of(0.5, "m"));
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void testRescaleQuantity() {
     Scalar min = Quantity.of(-3, "m");
     Scalar max = Quantity.of(2, "m");
-    Clip clip = Clip.function(min, max);
+    Clip clip = Clips.interval(min, max);
     assertEquals(clip.rescale(Quantity.of(-3, "m")), RealScalar.ZERO);
     assertEquals(clip.rescale(Quantity.of(-1, "m")), RationalScalar.of(2, 5));
     assertEquals(clip.rescale(Quantity.of(2, "m")), RealScalar.ONE);
@@ -103,7 +94,7 @@ public class ClipTest extends TestCase {
   public void testRescale() {
     Scalar min = RealScalar.of(5);
     Scalar max = RealScalar.of(25);
-    Clip clip = Clip.function(min, max);
+    Clip clip = Clips.interval(min, max);
     assertEquals(clip.rescale(RealScalar.of(20)), RealScalar.of(3 / 4.0));
     assertEquals(clip.min(), RealScalar.of(5));
     assertEquals(clip.max(), RealScalar.of(25));
@@ -111,14 +102,14 @@ public class ClipTest extends TestCase {
   }
 
   public void testClipMinMax() {
-    Clip clip = Clip.function(3, 5);
+    Clip clip = Clips.interval(3, 5);
     assertEquals(clip.min(), RealScalar.of(3));
     assertEquals(clip.max(), RealScalar.of(5));
     assertEquals(clip.width(), RealScalar.of(2));
   }
 
   public void testClipOutside() {
-    Clip clip = Clip.function(3, 5);
+    Clip clip = Clips.interval(3, 5);
     assertEquals(clip.requireInside(RealScalar.of(3.9)), RealScalar.of(3.9));
     try {
       clip.requireInside(RealScalar.of(2.9));
@@ -129,13 +120,13 @@ public class ClipTest extends TestCase {
   }
 
   public void testClipInfty() {
-    Clip clip = Clip.function(DoubleScalar.NEGATIVE_INFINITY, DoubleScalar.POSITIVE_INFINITY);
+    Clip clip = Clips.interval(DoubleScalar.NEGATIVE_INFINITY, DoubleScalar.POSITIVE_INFINITY);
     Tensor tensor = RandomVariate.of(NormalDistribution.standard(), 2, 3, 4);
     assertEquals(tensor.map(clip), tensor);
   }
 
   public void testClipInftyQuantity() {
-    Clip clip = Clip.function(Quantity.of(Double.NEGATIVE_INFINITY, "V"), Quantity.of(Double.POSITIVE_INFINITY, "V"));
+    Clip clip = Clips.interval(Quantity.of(Double.NEGATIVE_INFINITY, "V"), Quantity.of(Double.POSITIVE_INFINITY, "V"));
     Tensor tensor = RandomVariate.of(NormalDistribution.standard(), 2, 3, 4).map(s -> Quantity.of(s, "V"));
     assertEquals(tensor.map(clip), tensor);
   }
@@ -143,27 +134,12 @@ public class ClipTest extends TestCase {
   public void testQuantityOutside() {
     Scalar min = Quantity.of(-3, "m");
     Scalar max = Quantity.of(2, "m");
-    Clip clip = Clip.function(min, max);
+    Clip clip = Clips.interval(min, max);
     assertFalse(clip.isOutside(Quantity.of(1, "m")));
     assertFalse(clip.isOutside(Quantity.of(2, "m")));
     assertTrue(clip.isOutside(Quantity.of(3, "m")));
     try {
       clip.isOutside(Quantity.of(3, "V"));
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testQuantityFail() {
-    try {
-      Clips.unit().apply(Quantity.of(-5, "m"));
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
-    try {
-      Clips.absoluteOne().apply(Quantity.of(-5, "m"));
       fail();
     } catch (Exception exception) {
       // ---

@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
@@ -28,7 +29,7 @@ public class MeanDeviationTest extends TestCase {
 
   public void testArray() {
     Scalar value = MeanDeviation.ofVector(RandomVariate.of(UniformDistribution.unit(), 10000));
-    Clip clip = Clip.function(0.23, 0.27);
+    Clip clip = Clips.interval(0.23, 0.27);
     clip.requireInside(value);
   }
 

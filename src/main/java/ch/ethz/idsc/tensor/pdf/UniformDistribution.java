@@ -36,7 +36,7 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
   public static Distribution of(Scalar min, Scalar max) {
     if (Scalars.lessEquals(max, min))
       throw TensorRuntimeException.of(min, max);
-    return of(Clip.function(min, max));
+    return of(Clips.interval(min, max));
   }
 
   /** @param clip

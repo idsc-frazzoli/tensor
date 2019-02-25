@@ -1,6 +1,6 @@
 // code by jph
 // adapted from the Internet
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.num;
 
 /** @see GaussScalar */
 /* package */ class ExtendedGcd {

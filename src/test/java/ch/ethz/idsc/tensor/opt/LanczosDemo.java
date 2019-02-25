@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Import;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 
 enum LanczosDemo {
   ;
@@ -35,7 +35,7 @@ enum LanczosDemo {
     Tensor sy = Subdivide.of(0, list.get(1) - 1, ny - 1);
     Tensor result = Tensor.of(sx.stream().map(vx -> interpolation.get(Tensors.of(vx))));
     result = Tensor.of(result.stream().map(row -> interp(row, sy)));
-    result = result.map(Clip.function(0, 255));
+    result = result.map(Clips.interval(0, 255));
     Export.of(HomeDirectory.file(String.format("castle%02d.png", Math.round(factor * 10))), result);
   }
 }

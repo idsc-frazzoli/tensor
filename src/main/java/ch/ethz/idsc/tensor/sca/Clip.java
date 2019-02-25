@@ -6,14 +6,13 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** Clip encodes a closed interval in the ordered set of real numbers.
  * 
  * <p>Example:
  * <pre>
- * Clip clip = Clip.function(5, 10);
+ * Clip clip = Clips.interval(5, 10);
  * clip.apply(3) == 5
  * clip.apply(5) == 5
  * clip.apply(6) == 6
@@ -24,32 +23,12 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * <p>{@code Clip} also works for intervals defined by {@link Quantity}.
  * 
  * <p>An instance of {@link Clip} is immutable.
- * {@link Clip} does not implement {@link #hashCode()}, {@link #equals(Object)}, or {@link #toString()}.
+ * {@link Clip} implements {@link #hashCode()}, and {@link #equals(Object)}.
+ * {@link Clip} does not implement {@link #toString()}.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Clip.html">Clip</a> */
 public interface Clip extends ScalarUnaryOperator {
-  /** @param min
-   * @param max
-   * @return function that clips the input to the closed interval [min, max]
-   * @throws Exception if min is greater than max */
-  static Clip function(Scalar min, Scalar max) {
-    Scalar width = max.subtract(min);
-    if (Sign.isNegative(width))
-      throw TensorRuntimeException.of(min, max);
-    return min.equals(max) //
-        ? new ClipPoint(min, width)
-        : new ClipInterval(min, max, width);
-  }
-
-  /** @param min
-   * @param max
-   * @return function that clips the input to the closed interval [min, max]
-   * @throws Exception if min is greater than max */
-  static Clip function(Number min, Number max) {
-    return function(RealScalar.of(min), RealScalar.of(max));
-  }
-
   /** @param tensor
    * @return tensor with all entries of given tensor applied to clip function */
   <T extends Tensor> T of(T tensor);
@@ -79,7 +58,7 @@ public interface Clip extends ScalarUnaryOperator {
    * @param scalar
    * @return value in interval [0, 1] relative to position of scalar in clip interval.
    * If the clip interval width is zero, the return value is zero.
-   * If the given scalar is outside the clip interval, the return value is outside [0, 1]. */
+   * If the given scalar is outside the clip interval, the return value is either 0, or 1. */
   Scalar rescale(Scalar scalar);
 
   /** @return lower bound of clip interval */

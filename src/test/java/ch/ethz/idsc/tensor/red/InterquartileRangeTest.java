@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.pdf.PoissonDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Log;
 import junit.framework.TestCase;
 
@@ -45,7 +45,7 @@ public class InterquartileRangeTest extends TestCase {
     assertEquals(iqr, RealScalar.of(5));
     Tensor random = RandomVariate.of(distribution, 1100);
     Scalar test = InterquartileRange.of(random);
-    assertTrue(Clip.function(4, 6).isInside(test));
+    assertTrue(Clips.interval(4, 6).isInside(test));
   }
 
   public void testFail() {

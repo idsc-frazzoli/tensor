@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Increment;
 import junit.framework.TestCase;
 
@@ -68,7 +68,7 @@ public class LanczosInterpolationTest extends TestCase {
       Scalar index = RandomVariate.of(distribution).divide(RealScalar.of(3));
       Scalar scalar = interpolation.At(index);
       Scalar diff = Increment.ONE.apply(index).subtract(scalar);
-      Clip.function(0, 0.5).requireInside(diff);
+      Clips.interval(0, 0.5).requireInside(diff);
       assertEquals(scalar, interpolation.get(Tensors.of(index)));
       assertEquals(scalar, interpolation.at(index));
     }

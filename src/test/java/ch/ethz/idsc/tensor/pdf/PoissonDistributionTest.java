@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class PoissonDistributionTest extends TestCase {
@@ -81,9 +81,9 @@ public class PoissonDistributionTest extends TestCase {
     // navigableMap.forEach((k, v) -> System.out.println(k + " " + v));
     InverseCDF inv = InverseCDF.of(distribution);
     // System.out.println(inv.quantile(RealScalar.of(0.9999999999999985)));
-    assertTrue(Clip.function(24, 26).isInside(inv.quantile(RealScalar.of(0.9999999989237532))));
-    assertTrue(Clip.function(32, 34).isInside(inv.quantile(RealScalar.of(0.9999999999999985))));
-    assertTrue(Clip.function(1900, 2000).isInside(inv.quantile(RealScalar.ONE)));
+    assertTrue(Clips.interval(24, 26).isInside(inv.quantile(RealScalar.of(0.9999999989237532))));
+    assertTrue(Clips.interval(32, 34).isInside(inv.quantile(RealScalar.of(0.9999999999999985))));
+    assertTrue(Clips.interval(1900, 2000).isInside(inv.quantile(RealScalar.ONE)));
   }
 
   public void testToString() {

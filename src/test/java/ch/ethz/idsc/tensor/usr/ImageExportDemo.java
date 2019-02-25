@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.function.UnaryOperator;
 
-import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -15,6 +14,7 @@ import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Import;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 
 /* package */ enum ImageExportDemo {
   ;

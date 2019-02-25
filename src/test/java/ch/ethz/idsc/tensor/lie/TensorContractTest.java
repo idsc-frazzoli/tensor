@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.lie;
 
 import java.util.Arrays;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -16,7 +16,7 @@ public class TensorContractTest extends TestCase {
     Tensor vector = TensorContract.of(LieAlgebras.so3(), 0, 2);
     assertTrue(VectorQ.ofLength(vector, 3));
     assertEquals(vector, Array.zeros(3));
-    assertTrue(ExactScalarQ.all(vector));
+    assertTrue(ExactTensorQ.of(vector));
   }
 
   public void testFail() {

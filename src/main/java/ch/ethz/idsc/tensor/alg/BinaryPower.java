@@ -5,8 +5,8 @@ package ch.ethz.idsc.tensor.alg;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-import ch.ethz.idsc.tensor.GaussScalar;
 import ch.ethz.idsc.tensor.mat.MatrixPower;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 
 /** exponentiation with integer exponents
  * 

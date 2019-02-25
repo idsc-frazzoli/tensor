@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.num;
 
 import java.util.Random;
 

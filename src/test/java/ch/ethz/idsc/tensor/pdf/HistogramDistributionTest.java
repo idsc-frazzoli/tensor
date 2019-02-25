@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class HistogramDistributionTest extends TestCase {
@@ -26,8 +27,8 @@ public class HistogramDistributionTest extends TestCase {
     assertEquals(pdf.at(RealScalar.of(-4.1)), RealScalar.ZERO);
     assertEquals(pdf.at(RealScalar.ZERO), RealScalar.ZERO);
     assertEquals(pdf.at(RealScalar.of(11)), RationalScalar.of(1, 5));
-    Clip c1 = Clip.function(-4, 0);
-    Clip c2 = Clip.function(10, 12);
+    Clip c1 = Clips.interval(-4, 0);
+    Clip c2 = Clips.interval(10, 12);
     Set<Scalar> set = new HashSet<>();
     for (int c = 0; c < 100; ++c) {
       Scalar x = RandomVariate.of(distribution);
@@ -72,7 +73,7 @@ public class HistogramDistributionTest extends TestCase {
     assertEquals(pdf.at(Quantity.of(0, "m")), RealScalar.ZERO);
     assertEquals(pdf.at(Quantity.of(1.2, "m")), RationalScalar.of(1, 7));
     assertEquals(pdf.at(Quantity.of(4.15, "m")), RationalScalar.of(3, 7));
-    Clip clip = Clip.function(Quantity.of(0.7, "m"), Quantity.of(4.2, "m"));
+    Clip clip = Clips.interval(Quantity.of(0.7, "m"), Quantity.of(4.2, "m"));
     Set<Scalar> set = new HashSet<>();
     for (int c = 0; c < 100; ++c) {
       Scalar x = RandomVariate.of(distribution);

@@ -1,10 +1,17 @@
 // code by jph
-package ch.ethz.idsc.tensor;
+package ch.ethz.idsc.tensor.num;
 
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
+import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
@@ -30,7 +37,7 @@ public class GaussScalarTest extends TestCase {
     GaussScalar num = (GaussScalar) GaussScalar.of(32, 193);
     assertEquals(num.number().intValue(), 32);
     assertEquals(num.number().longValue(), 32);
-    assertEquals(num.prime(), 193);
+    assertEquals(num.prime(), BigInteger.valueOf(193));
   }
 
   public void testMatrix1() {
@@ -68,9 +75,9 @@ public class GaussScalarTest extends TestCase {
   }
 
   public void testNegativePrime() { // this is a "feature"
-    Scalar a = GaussScalar.of(2, -7);
-    Scalar b = GaussScalar.of(3, -7);
-    assertEquals(GaussScalar.of(-2, -7), a.add(b));
+    Scalar a = GaussScalar.of(2, 7);
+    Scalar b = GaussScalar.of(3, 7);
+    assertEquals(GaussScalar.of(-2, 7), a.add(b));
   }
 
   public void testSqrt() {
@@ -106,7 +113,7 @@ public class GaussScalarTest extends TestCase {
 
   public void testNumber() {
     Scalar scalar = GaussScalar.of(9, 23);
-    assertTrue(scalar.number() instanceof Long);
+    assertTrue(scalar.number() instanceof BigInteger);
   }
 
   public void testSort() {

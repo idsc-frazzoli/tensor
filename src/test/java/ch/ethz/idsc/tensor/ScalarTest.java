@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.util.Collections;
 
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import junit.framework.TestCase;
 
 public class ScalarTest extends TestCase {

@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -124,7 +125,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   @Override // from ExactScalarQInterface
   public boolean isExactScalar() {
     return ExactScalarQ.of(w) //
-        && ExactScalarQ.all(xyz);
+        && ExactTensorQ.of(xyz);
   }
 
   @Override // from LogInterface

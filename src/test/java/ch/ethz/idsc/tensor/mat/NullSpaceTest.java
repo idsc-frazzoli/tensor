@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import java.util.Arrays;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -45,7 +45,7 @@ public class NullSpaceTest extends TestCase {
       assertEquals(m.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(r), Arrays.asList(2, 4));
     assertFalse(MachineNumberQ.any(r));
-    assertTrue(ExactScalarQ.all(r));
+    assertTrue(ExactTensorQ.of(r));
   }
 
   public void testZeros2() {
@@ -53,7 +53,7 @@ public class NullSpaceTest extends TestCase {
     Tensor r = NullSpace.of(m);
     assertEquals(r, IdentityMatrix.of(5));
     assertFalse(MachineNumberQ.any(r));
-    assertTrue(ExactScalarQ.all(r));
+    assertTrue(ExactTensorQ.of(r));
   }
 
   public void testIdentity() {
@@ -61,7 +61,7 @@ public class NullSpaceTest extends TestCase {
     Tensor r = NullSpace.of(m);
     assertEquals(r, Tensors.empty());
     assertFalse(MachineNumberQ.any(r));
-    assertTrue(ExactScalarQ.all(r));
+    assertTrue(ExactTensorQ.of(r));
   }
 
   public void testIdentityReversed() {
@@ -69,7 +69,7 @@ public class NullSpaceTest extends TestCase {
     Tensor r = NullSpace.of(m);
     assertEquals(r, Tensors.empty());
     assertFalse(MachineNumberQ.any(r));
-    assertTrue(ExactScalarQ.all(r));
+    assertTrue(ExactTensorQ.of(r));
   }
 
   public void testWikipediaKernel() {
@@ -84,7 +84,7 @@ public class NullSpaceTest extends TestCase {
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
     assertFalse(MachineNumberQ.any(nul));
-    assertTrue(ExactScalarQ.all(nul));
+    assertTrue(ExactTensorQ.of(nul));
   }
 
   public void testSome1() {
@@ -99,7 +99,7 @@ public class NullSpaceTest extends TestCase {
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(1, 3));
     assertFalse(MachineNumberQ.any(nul));
-    assertTrue(ExactScalarQ.all(nul));
+    assertTrue(ExactTensorQ.of(nul));
   }
 
   public void testSome2() {
@@ -114,7 +114,7 @@ public class NullSpaceTest extends TestCase {
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
     assertFalse(MachineNumberQ.any(nul));
-    assertTrue(ExactScalarQ.all(nul));
+    assertTrue(ExactTensorQ.of(nul));
   }
 
   public void testSome3() {
@@ -129,7 +129,7 @@ public class NullSpaceTest extends TestCase {
       assertEquals(A.dot(v), Array.zeros(4));
     assertEquals(Dimensions.of(nul), Arrays.asList(3, 6));
     assertFalse(MachineNumberQ.any(nul));
-    assertTrue(ExactScalarQ.all(nul));
+    assertTrue(ExactTensorQ.of(nul));
   }
 
   public void testComplex() {
@@ -143,7 +143,7 @@ public class NullSpaceTest extends TestCase {
     for (Tensor v : nul)
       assertEquals(m.dot(v), Array.zeros(2));
     assertFalse(MachineNumberQ.any(nul));
-    assertTrue(ExactScalarQ.all(nul));
+    assertTrue(ExactTensorQ.of(nul));
   }
 
   public void testMatsim() {
@@ -162,7 +162,7 @@ public class NullSpaceTest extends TestCase {
     Tensor nul = NullSpace.of(mat);
     assertEquals(nul, Tensors.fromString("{{1, -1/2}}"));
     assertFalse(MachineNumberQ.any(nul));
-    assertTrue(ExactScalarQ.all(nul));
+    assertTrue(ExactTensorQ.of(nul));
   }
 
   public void testQuantityMixed() {

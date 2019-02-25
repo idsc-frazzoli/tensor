@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.red.Max;
 import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.red.StandardDeviation;
 import ch.ethz.idsc.tensor.sca.Ceiling;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
@@ -68,7 +68,7 @@ public enum BinningMethod implements TensorScalarFunction {
   }
 
   private static Scalar division(Tensor tensor, Scalar k) {
-    return Clip.function( //
+    return Clips.interval( //
         tensor.stream().reduce(Min::of).get().Get(), //
         tensor.stream().reduce(Max::of).get().Get()).width().divide(k);
   }

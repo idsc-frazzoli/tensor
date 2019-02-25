@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
@@ -88,7 +88,7 @@ public class HistogramDistribution extends AbstractContinuousDistribution implem
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     Scalar xlo = discrete.apply(Floor.toMultipleOf(width).apply(x));
-    Scalar ofs = Clip.function(xlo, Increment.ONE.apply(xlo)).rescale(discrete.apply(x));
+    Scalar ofs = Clips.interval(xlo, Increment.ONE.apply(xlo)).rescale(discrete.apply(x));
     CDF cdf = CDF.of(distribution);
     return LinearInterpolation.of(Tensors.of(cdf.p_lessThan(xlo), cdf.p_lessEquals(xlo))).At(ofs);
   }
@@ -103,7 +103,7 @@ public class HistogramDistribution extends AbstractContinuousDistribution implem
     Scalar x_floor = InverseCDF.of(distribution).quantile(p);
     CDF cdf = CDF.of(distribution);
     return original.apply(x_floor.add( //
-        Clip.function(cdf.p_lessThan(x_floor), cdf.p_lessEquals(x_floor)).rescale(p)));
+        Clips.interval(cdf.p_lessThan(x_floor), cdf.p_lessEquals(x_floor)).rescale(p)));
   }
 
   @Override // from RandomVariateInterface
