@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
 public class GaussScalarFailTest extends TestCase {
@@ -54,6 +55,16 @@ public class GaussScalarFailTest extends TestCase {
   public void testMultiplyFail() {
     try {
       GaussScalar.of(2, 7).multiply(RealScalar.of(.3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testPowerFail() {
+    Scalar scalar = GaussScalar.of(2, 7);
+    try {
+      Power.of(scalar, 2.3);
       fail();
     } catch (Exception exception) {
       // ---

@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -44,7 +45,7 @@ public class ColorDataGradientsTest extends TestCase {
     ColorDataGradient cdg2 = ColorDataGradients.CLASSIC.deriveWithFactor(RationalScalar.HALF);
     Tensor rgba1 = cdg1.apply(RealScalar.of(.5));
     Tensor rgba2 = cdg2.apply(RealScalar.of(.5));
-    System.out.println(rgba1);
+    assertEquals(rgba1, Tensors.vector(47.5, 195, 33.5, 255));
     assertEquals(rgba1.get(3), RealScalar.of(255));
     assertEquals(rgba2.get(3), RealScalar.of(127.5));
   }

@@ -69,7 +69,7 @@ public class JacobiMethodTest extends TestCase {
       checkEquation(matrix, eigsys);
       SingularValueDecomposition svd = SingularValueDecomposition.of(matrix);
       Tensor values = Reverse.of(Sort.of(svd.values()));
-      assertTrue(Chop._10.close(eigsys.values(), values));
+      Chop._10.requireClose(eigsys.values(), values);
     }
   }
 
@@ -80,7 +80,7 @@ public class JacobiMethodTest extends TestCase {
       checkEquation(matrix, eigsys);
       SingularValueDecomposition svd = SingularValueDecomposition.of(matrix);
       Tensor values = Reverse.of(Sort.of(svd.values()));
-      assertTrue(Chop._10.close(eigsys.values(), values));
+      Chop._10.requireClose(eigsys.values(), values);
     }
   }
 
@@ -88,13 +88,13 @@ public class JacobiMethodTest extends TestCase {
     Tensor matrix = HilbertMatrix.of(2);
     Eigensystem eigsys = Eigensystem.ofSymmetric(matrix);
     Tensor expected = Tensors.vector(1.2675918792439982155, 0.065741454089335117813);
-    assertEquals(Chop._12.of(expected.subtract(eigsys.values())), Array.zeros(matrix.length()));
+    Chop._12.requireClose(expected.subtract(eigsys.values()), Array.zeros(matrix.length()));
   }
 
   public void testHilbert3() {
     Tensor matrix = HilbertMatrix.of(3);
     Eigensystem eigsys = Eigensystem.ofSymmetric(matrix);
     Tensor expected = Tensors.vector(1.4083189271236539575, 0.12232706585390584656, 0.0026873403557735292310);
-    assertEquals(Chop._12.of(expected.subtract(eigsys.values())), Array.zeros(matrix.length()));
+    Chop._12.requireClose(expected.subtract(eigsys.values()), Array.zeros(matrix.length()));
   }
 }

@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.MachineNumberQ;
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -27,7 +26,7 @@ public class NullSpaceTest extends TestCase {
     int n = zeros.length();
     Tensor nul = NullSpace.usingSvd(zeros);
     assertEquals(Dimensions.of(nul), Arrays.asList(n, n));
-    assertTrue(nul.get(0, 0) instanceof RationalScalar);
+    assertEquals(nul.get(0, 0), RealScalar.ONE);
     assertEquals(nul, IdentityMatrix.of(n));
   }
 

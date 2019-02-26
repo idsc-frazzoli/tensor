@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.mat;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -17,11 +16,12 @@ import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Norm1;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.Increment;
 import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class SingularValueDecompositionImpl implements SingularValueDecomposition {
+  private static final Scalar _0 = DoubleScalar.of(0);
+  private static final Scalar _1 = DoubleScalar.of(1);
   /** Difference between 1.0 and the minimum double greater than 1.0
    * DBL_EPSILON == 2.220446049250313E-16 */
   private static final Scalar DBL_EPSILON = DoubleScalar.of(Math.nextUp(1.0) - 1.0);
@@ -53,7 +53,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Chop chop = Chop.below(Norm._1.ofMatrix(Tensors.of(w, r)).multiply(DBL_EPSILON).number().doubleValue());
     // ---
     v = Array.zeros(cols, cols);
-    v.set(RealScalar.ONE, cols - 1, cols - 1);
+    v.set(_1, cols - 1, cols - 1);
     for (int i = cols - 2; 0 <= i; --i)
       initV(i);
     for (int i = cols - 1; 0 <= i; --i)
@@ -87,7 +87,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   }
 
   private void initU1(int i) {
-    Scalar p = RealScalar.ZERO;
+    Scalar p = _0;
     Scalar scale = Norm1.ofVector(u.stream().skip(i).map(row -> row.Get(i)));
     if (Scalars.nonZero(scale)) {
       IntStream.range(i, rows).forEach(k -> u.set(x -> x.divide(scale), k, i));
@@ -104,7 +104,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
             .reduce(Scalar::add).get();
         StaticHelper.addScaled(i, rows, u, i, j, dot.divide(h));
       }
-      IntStream.range(i, rows).forEach(k -> u.set(x -> x.multiply(scale), k, i));
+      IntStream.range(i, rows).forEach(k -> u.set(scale::multiply, k, i));
     }
     w.set(scale.multiply(p), i);
   }
@@ -112,7 +112,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private void initU2(int i) {
     final int ip1 = i + 1;
     if (ip1 != cols) {
-      Scalar p = RealScalar.ZERO;
+      Scalar p = _0;
       Scalar scale = Norm._1.ofVector(u.get(i).extract(ip1, cols));
       if (Scalars.nonZero(scale)) {
         IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.divide(scale), i, k));
@@ -127,12 +127,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         Tensor ui = u.get(i);
         for (int j = ip1; j < rows; ++j) {
           Scalar s = (Scalar) u.get(j).extract(ip1, cols).dot(ui.extract(ip1, cols));
-          for (int k = ip1; k < cols; ++k) {
-            Scalar srv = s.multiply(r.Get(k));
-            u.set(x -> x.add(srv), j, k);
-          }
+          for (int k = ip1; k < cols; ++k)
+            u.set(s.multiply(r.Get(k))::add, j, k);
         }
-        IntStream.range(ip1, cols).forEach(k -> u.set(x -> x.multiply(scale), i, k));
+        IntStream.range(ip1, cols).forEach(k -> u.set(scale::multiply, i, k));
       }
       r.set(scale.multiply(p), ip1);
     }
@@ -151,17 +149,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
             (Scalar) uiEx.dot(Tensor.of(v.stream().skip(ip1).map(row -> row.Get(fj)))));
       }
     }
-    IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, i, j));
-    IntStream.range(ip1, cols).forEach(j -> v.set(RealScalar.ZERO, j, i));
-    v.set(RealScalar.ONE, i, i);
+    IntStream.range(ip1, cols).forEach(j -> v.set(_0, i, j));
+    IntStream.range(ip1, cols).forEach(j -> v.set(_0, j, i));
+    v.set(_1, i, i);
   }
 
   private void initU3(int i) {
     final int ip1 = i + 1;
-    IntStream.range(ip1, cols).forEach(j -> u.set(RealScalar.ZERO, i, j));
+    IntStream.range(ip1, cols).forEach(j -> u.set(_0, i, j));
     Scalar p = w.Get(i);
     if (Scalars.isZero(p))
-      IntStream.range(i, rows).forEach(j -> u.set(RealScalar.ZERO, j, i));
+      IntStream.range(i, rows).forEach(j -> u.set(_0, j, i));
     else {
       Scalar gi = p;
       for (int j = ip1; j < cols; ++j) {
@@ -174,7 +172,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       }
       IntStream.range(i, rows).forEach(j -> u.set(x -> x.divide(gi), j, i));
     }
-    u.set(Increment.ONE, i, i);
+    u.set(_1::add, i, i);
   }
 
   private int levelW(int k, Chop chop) {
@@ -182,8 +180,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       if (chop.allZero(r.Get(l)))
         return l;
       if (chop.allZero(w.Get(l - 1))) {
-        Scalar c = RealScalar.ZERO;
-        Scalar s = RealScalar.ONE;
+        Scalar c = _0;
+        Scalar s = _1;
         for (int i = l; i < k + 1; ++i) {
           Scalar f = s.multiply(r.Get(i));
           r.set(c.multiply(r.Get(i)), i);
@@ -212,10 +210,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar h = r.Get(i);
     Scalar hy = h.multiply(y);
     Scalar f = y.subtract(z).multiply(y.add(z)).add(p.subtract(h).multiply(p.add(h))).divide(hy.add(hy));
-    p = Hypot.of(f, RealScalar.ONE);
+    p = Hypot.of(f, _1);
     f = x.subtract(z).multiply(x.add(z)).add(h.multiply(y.divide(f.add(CopySign.of(p, f))).subtract(h))).divide(x);
-    Scalar s = RealScalar.ONE;
-    Scalar c = RealScalar.ONE;
+    Scalar s = _1;
+    Scalar c = _1;
     for (int j = l; j < i; ++j) {
       int jp1 = j + 1;
       p = r.Get(jp1);
@@ -241,7 +239,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       f = c.multiply(p).add(s.multiply(y));
       x = c.multiply(y).subtract(s.multiply(p));
     }
-    r.set(RealScalar.ZERO, l);
+    r.set(_0, l);
     r.set(f, i);
     w.set(x, i);
   }
@@ -250,7 +248,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar z = w.Get(i);
     if (Sign.isNegative(z)) {
       w.set(z.negate(), i);
-      v.set(Tensor::negate, Tensor.ALL, i);
+      v.set(Scalar::negate, Tensor.ALL, i);
     }
   }
 }
