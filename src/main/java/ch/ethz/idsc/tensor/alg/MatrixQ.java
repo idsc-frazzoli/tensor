@@ -6,7 +6,10 @@ import java.util.Arrays;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** The implementation is consistent with Mathematica::MatrixQ, in particular
+ * MatrixQ[ {} ] == false
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/MatrixQ.html">MatrixQ</a> */
 public enum MatrixQ {
   ;

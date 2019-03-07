@@ -39,7 +39,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   QuaternionImpl(Scalar w, Tensor xyz) {
     this.w = w;
-    this.xyz = xyz.unmodifiable();
+    this.xyz = xyz;
   }
 
   @Override // from AbstractScalar
@@ -168,7 +168,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Quaternion
   public Tensor xyz() {
-    return xyz;
+    return xyz.unmodifiable();
   }
 
   /***************************************************/

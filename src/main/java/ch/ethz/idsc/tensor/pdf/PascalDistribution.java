@@ -3,21 +3,20 @@ package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.alg.Binomial;
-import ch.ethz.idsc.tensor.sca.Ceiling;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/PascalDistribution.html">PascalDistribution</a> */
 public class PascalDistribution extends EvaluatedDiscreteDistribution implements VarianceInterface {
-  private static final Scalar FACTOR = RealScalar.of(5);
-
   /** @param n number of successes
    * @param p success probability
    * @return distribution of the number of trials with success probability p before n successes occur */
   public static Distribution of(int n, Scalar p) {
-    return new PascalDistribution(n, p);
+    if (n <= 0)
+      throw new RuntimeException("n=" + n);
+    return new PascalDistribution(n, Clips.unit().requireInside(p));
   }
 
   // ---
@@ -30,8 +29,7 @@ public class PascalDistribution extends EvaluatedDiscreteDistribution implements
     this.n = n;
     this.p = p;
     o_p = RealScalar.ONE.subtract(p);
-    upperBound = Scalars.intValueExact(Ceiling.FUNCTION.apply(mean().add(variance().multiply(FACTOR))));
-    inverse_cdf_build();
+    upperBound = inverse_cdf_build_upperBound();
   }
 
   @Override // from DiscreteDistribution
@@ -55,9 +53,7 @@ public class PascalDistribution extends EvaluatedDiscreteDistribution implements
   }
 
   @Override // from AbstractDiscreteDistribution
-  protected Scalar protected_p_equals(int x) {
-    if (n <= x)
-      return Power.of(o_p, x - n).multiply(Power.of(p, n)).multiply(Binomial.of(x - 1, n - 1));
-    return RealScalar.ZERO;
+  protected Scalar protected_p_equals(int x) { // lowerBound() <= x
+    return Power.of(o_p, x - n).multiply(Power.of(p, n)).multiply(Binomial.of(x - 1, n - 1));
   }
 }

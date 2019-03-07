@@ -14,6 +14,15 @@ public class UnprotectTest extends TestCase {
     assertTrue(Unprotect.dimension1(Array.zeros(2, 3, 4)) == 3);
   }
 
+  public void testFailEmpty() {
+    try {
+      Unprotect.dimension1(Tensors.empty());
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFail1() {
     Tensor unstruct = Tensors.fromString("{{-1,0,1,2},{3,4,5}}");
     assertEquals(unstruct.length(), 2);
