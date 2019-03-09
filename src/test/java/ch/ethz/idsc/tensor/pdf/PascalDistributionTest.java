@@ -19,7 +19,7 @@ public class PascalDistributionTest extends TestCase {
     PDF pdf = PDF.of(distribution);
     Scalar scalar = pdf.at(RealScalar.of(5));
     assertEquals(scalar, Power.of(p, 5));
-    assertTrue(42 < distribution.upperBound());
+    assertTrue(Scalars.lessEquals(RealScalar.of(43), distribution.inverse_cdf().lastEntry().getValue()));
   }
 
   public void testCDF() {
@@ -49,7 +49,7 @@ public class PascalDistributionTest extends TestCase {
     assertEquals(var, RationalScalar.of(2244, 25));
     ExactScalarQ.require(mean);
     ExactScalarQ.require(var);
-    assertTrue(172 <= distribution.upperBound());
+    assertTrue(Scalars.lessEquals(RealScalar.of(172), distribution.inverse_cdf().lastEntry().getValue()));
   }
 
   public void testRandomVariate() {
@@ -67,7 +67,7 @@ public class PascalDistributionTest extends TestCase {
     PascalDistribution distribution = (PascalDistribution) PascalDistribution.of(5, p);
     InverseCDF inverseCDF = InverseCDF.of(distribution);
     Scalar quantile = inverseCDF.quantile(RealScalar.of(.999));
-    assertTrue(Scalars.lessThan(quantile, RealScalar.of(distribution.upperBound())));
+    assertTrue(Scalars.lessThan(quantile, distribution.inverse_cdf().lastEntry().getValue()));
     assertTrue(Scalars.isZero(distribution.p_equals(3)));
     assertTrue(Scalars.isZero(distribution.p_equals(4)));
     assertTrue(Scalars.nonZero(distribution.p_equals(5)));

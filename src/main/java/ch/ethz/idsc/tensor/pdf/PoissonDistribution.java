@@ -44,7 +44,7 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
   private PoissonDistribution(Scalar lambda) {
     this.lambda = lambda;
     values.append(Exp.FUNCTION.apply(lambda.negate()));
-    inverse_cdf_build();
+    inverse_cdf_build(P_EQUALS_MAX);
   }
 
   @Override // from MeanInterface
@@ -60,11 +60,6 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
   @Override // from DiscreteDistribution
   public int lowerBound() {
     return 0;
-  }
-
-  @Override // from EvaluatedDiscreteDistribution
-  protected int upperBound() {
-    return P_EQUALS_MAX;
   }
 
   @Override // from AbstractDiscreteDistribution

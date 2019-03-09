@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.alg.Binomial;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Power;
 
@@ -23,13 +24,12 @@ public class PascalDistribution extends EvaluatedDiscreteDistribution implements
   private final int n;
   private final Scalar p;
   private final Scalar o_p;
-  private final int upperBound;
 
   private PascalDistribution(int n, Scalar p) {
     this.n = n;
     this.p = p;
     o_p = RealScalar.ONE.subtract(p);
-    upperBound = inverse_cdf_build_upperBound();
+    inverse_cdf_build(Chop._14);
   }
 
   @Override // from DiscreteDistribution
@@ -45,11 +45,6 @@ public class PascalDistribution extends EvaluatedDiscreteDistribution implements
   @Override // from VarianceInterface
   public Scalar variance() {
     return mean().multiply(o_p).divide(p);
-  }
-
-  @Override // from EvaluatedDiscreteDistribution
-  protected int upperBound() {
-    return upperBound;
   }
 
   @Override // from AbstractDiscreteDistribution
