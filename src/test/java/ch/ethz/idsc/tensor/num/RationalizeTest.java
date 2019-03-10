@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.sca;
+package ch.ethz.idsc.tensor.num;
 
 import java.util.List;
 import java.util.Random;
@@ -14,6 +14,11 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
+import ch.ethz.idsc.tensor.sca.Ceiling;
+import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Floor;
+import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class RationalizeTest extends TestCase {

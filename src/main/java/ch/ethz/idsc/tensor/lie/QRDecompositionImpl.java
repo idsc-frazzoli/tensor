@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.lie;
 
 import java.io.Serializable;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -66,7 +66,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     Scalar sign = qrSignOperator.of(R.Get(k, k));
     x.set(value -> value.subtract(sign.multiply(xn)), k);
     final Tensor m;
-    if (ExactScalarQ.all(x))
+    if (ExactTensorQ.of(x))
       m = TensorProduct.of(x, Conjugate.of(x).multiply(TWO).divide(Norm2Squared.ofVector(x)));
     else {
       Tensor v = NORMALIZE.apply(x);

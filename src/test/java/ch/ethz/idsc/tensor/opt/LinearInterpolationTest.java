@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.opt;
 
 import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -110,10 +111,10 @@ public class LinearInterpolationTest extends TestCase {
     Scalar r2 = Quantity.of((9 + 6) * 0.5, "s");
     Tensor vec = interpolation.get(Tensors.of(RationalScalar.HALF));
     assertEquals(vec, Tensors.of(r1, r2));
-    assertTrue(ExactScalarQ.all(vec));
+    assertTrue(ExactTensorQ.of(vec));
     Tensor at = interpolation.at(RationalScalar.HALF);
     assertEquals(at, Tensors.of(r1, r2));
-    assertTrue(ExactScalarQ.all(at));
+    assertTrue(ExactTensorQ.of(at));
   }
 
   public void testExact() {
@@ -124,8 +125,8 @@ public class LinearInterpolationTest extends TestCase {
     Tensor res1 = interpolation.at(index);
     Tensor res2 = interpolation.get(Tensors.of(index));
     VectorQ.requireLength(res1, 5);
-    assertTrue(ExactScalarQ.all(res1));
-    assertTrue(ExactScalarQ.all(res2));
+    assertTrue(ExactTensorQ.of(res1));
+    assertTrue(ExactTensorQ.of(res2));
     assertEquals(res1, res2);
   }
 

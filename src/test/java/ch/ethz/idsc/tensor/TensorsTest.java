@@ -22,7 +22,7 @@ public class TensorsTest extends TestCase {
 
   public void testNorm() {
     Tensor vector = Tensors.vectorLong(2, 3, 4, 5);
-    assertTrue(ExactScalarQ.all(vector));
+    assertTrue(ExactTensorQ.of(vector));
     Scalar scalar = (Scalar) vector.dot(vector);
     assertEquals(scalar, RationalScalar.of(4 + 9 + 16 + 25, 1));
     assertTrue(ExactScalarQ.of(scalar));

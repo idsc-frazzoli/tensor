@@ -5,6 +5,7 @@ import java.util.Random;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -31,7 +32,7 @@ public class MatrixExpTest extends TestCase {
     Tensor zeros = Array.zeros(7, 7);
     Tensor eye = MatrixExp.of(zeros);
     assertEquals(eye, IdentityMatrix.of(7));
-    assertTrue(ExactScalarQ.all(eye));
+    assertTrue(ExactTensorQ.of(eye));
   }
 
   public void testExp() {
@@ -82,7 +83,7 @@ public class MatrixExpTest extends TestCase {
   public void testExact() {
     Tensor mat = Tensors.matrixInt(new int[][] { { 0, 2, 3 }, { 0, 0, -1 }, { 0, 0, 0 } });
     Tensor result = MatrixExp.of(mat);
-    assertTrue(ExactScalarQ.all(result));
+    assertTrue(ExactTensorQ.of(result));
     Tensor actual = Tensors.matrixInt(new int[][] { { 1, 2, 2 }, { 0, 1, -1 }, { 0, 0, 1 } });
     assertEquals(result, actual);
     assertEquals(result.toString(), actual.toString());

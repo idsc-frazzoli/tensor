@@ -62,6 +62,14 @@ public class RootsCubicTest extends TestCase {
     assertTrue(Chop._13.allZero(tensor));
   }
 
+  public void testCubicNumerics() {
+    Tensor coeffs = Tensors.vector(0.7480756509468256, -0.11264914570345713, 0.5215628590156208, -0.8016542468533115);
+    Tensor roots = Roots.of(coeffs);
+    ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
+    Tensor tensor = roots.map(scalarUnaryOperator);
+    assertTrue(Chop._05.allZero(tensor));
+  }
+
   public void testCubicRandom() {
     Distribution distribution = NormalDistribution.standard();
     for (int index = 0; index < 20; ++index) {
@@ -69,7 +77,7 @@ public class RootsCubicTest extends TestCase {
       Tensor roots = Roots.of(coeffs);
       ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
       Tensor tensor = roots.map(scalarUnaryOperator);
-      boolean allZero = Chop._06.allZero(tensor);
+      boolean allZero = Chop._05.allZero(tensor);
       if (!allZero) {
         System.out.println(coeffs);
         System.out.println(tensor);

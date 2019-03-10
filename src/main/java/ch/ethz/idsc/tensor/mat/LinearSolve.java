@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -53,7 +53,7 @@ public enum LinearSolve {
    * @return x with m.x == b
    * @throws TensorRuntimeException if such an x does not exist */
   public static Tensor any(Tensor m, Tensor b) {
-    if (!ExactScalarQ.all(m)) // LONGTERM explore options for machine scalars
+    if (!ExactTensorQ.of(m)) // LONGTERM explore options for machine scalars
       throw TensorRuntimeException.of(m, b);
     switch (TensorRank.of(b)) {
     case 1:

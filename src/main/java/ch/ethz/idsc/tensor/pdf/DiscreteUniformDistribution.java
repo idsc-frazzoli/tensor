@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.sca.Ceiling;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Floor;
 
 /** Careful:
@@ -69,7 +69,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   public Scalar quantile(Scalar p) {
     if (p.equals(RealScalar.ONE))
       return RealScalar.of(max - 1); // consistent with Mathematica
-    return protected_quantile(Clip.unit().requireInside(p));
+    return protected_quantile(Clips.unit().requireInside(p));
   }
 
   @Override // from InverseCDF
@@ -87,13 +87,13 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     Scalar num = Ceiling.FUNCTION.apply(x).subtract(RationalScalar.of(min, 1));
-    return (Scalar) num.multiply(p).map(Clip.unit());
+    return (Scalar) num.multiply(p).map(Clips.unit());
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
     Scalar num = RealScalar.ONE.add(Floor.FUNCTION.apply(x)).subtract(RationalScalar.of(min, 1));
-    return (Scalar) num.multiply(p).map(Clip.unit());
+    return (Scalar) num.multiply(p).map(Clips.unit());
   }
 
   @Override // from Object

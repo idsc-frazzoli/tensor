@@ -6,13 +6,13 @@ import junit.framework.TestCase;
 
 public class ClipIntervalTest extends TestCase {
   public void testEqualsInterval() {
-    assertEquals(Clip.function(3, 7), Clip.function(3, 7));
-    assertFalse(Clip.function(3, 7).equals(Clip.function(3, 8)));
+    assertEquals(Clips.interval(3, 7), Clips.interval(3, 7));
+    assertFalse(Clips.interval(3, 7).equals(Clips.interval(3, 8)));
   }
 
   public void testEqualsQuantity() {
-    Clip c1 = Clip.function(3, 7);
-    Clip c2 = Clip.function(Quantity.of(2, "m"), Quantity.of(3, "m"));
+    Clip c1 = Clips.interval(3, 7);
+    Clip c2 = Clips.interval(Quantity.of(2, "m"), Quantity.of(3, "m"));
     assertFalse(c1.equals(c2));
     assertFalse(c2.equals(c1));
     assertFalse(c1.equals(null));
@@ -22,13 +22,13 @@ public class ClipIntervalTest extends TestCase {
   }
 
   public void testEqualsPoint() {
-    assertEquals(Clip.function(7, 7), Clip.function(7, 7));
-    assertFalse(Clip.function(7, 7).equals(Clip.function(7, 8)));
+    assertEquals(Clips.interval(7, 7), Clips.interval(7, 7));
+    assertFalse(Clips.interval(7, 7).equals(Clips.interval(7, 8)));
   }
 
   public void testHash() {
-    assertEquals(Clip.function(7, 7).hashCode(), Clip.function(7, 7).hashCode());
-    assertEquals(Clip.function(3, 7).hashCode(), Clip.function(3, 7).hashCode());
-    assertFalse(Clip.function(3, 7).hashCode() == Clip.function(3, 8).hashCode());
+    assertEquals(Clips.interval(7, 7).hashCode(), Clips.interval(7, 7).hashCode());
+    assertEquals(Clips.interval(3, 7).hashCode(), Clips.interval(3, 7).hashCode());
+    assertFalse(Clips.interval(3, 7).hashCode() == Clips.interval(3, 8).hashCode());
   }
 }

@@ -3,14 +3,14 @@ package ch.ethz.idsc.tensor.mat;
 
 import java.util.Random;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
-import ch.ethz.idsc.tensor.GaussScalar;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -130,7 +130,7 @@ public class InverseTest extends TestCase {
     Tensor expected = Tensors.fromString( //
         "{{-4/5[m^-2], 3/10[m^-1*rad^-1]}, {3/10[m^-1*rad^-1], -1/20[rad^-2]}}");
     assertEquals(inverse, expected);
-    assertTrue(ExactScalarQ.all(inverse));
+    assertTrue(ExactTensorQ.of(inverse));
   }
 
   public void testQuantity2() {

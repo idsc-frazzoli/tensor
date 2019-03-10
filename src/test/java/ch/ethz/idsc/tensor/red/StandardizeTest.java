@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -19,13 +19,13 @@ public class StandardizeTest extends TestCase {
 
   public void testExact1() {
     Tensor res = Standardize.of(Tensors.vector(1, 2, 3));
-    assertTrue(ExactScalarQ.all(res));
+    assertTrue(ExactTensorQ.of(res));
     assertEquals(res, Tensors.vector(-1, 0, 1));
   }
 
   public void testExact2() {
     Tensor res = Standardize.of(Tensors.vector(1, 3, 5));
-    assertTrue(ExactScalarQ.all(res));
+    assertTrue(ExactTensorQ.of(res));
     assertEquals(res, Tensors.vector(-1, 0, 1));
   }
 

@@ -15,6 +15,7 @@ import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
@@ -51,7 +52,7 @@ public class ExpectationTest extends TestCase {
   public void testEmpiricalDistribution() {
     int upper = 200;
     Tensor unscaledPDF = RandomVariate.of(DiscreteUniformDistribution.of(0, 10000), upper);
-    Clip clip = Clip.function(2, 8);
+    Clip clip = Clips.interval(2, 8);
     Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(unscaledPDF);
     ScalarUnaryOperator suo = clip;
     Scalar expect = Expectation.of(suo, distribution);

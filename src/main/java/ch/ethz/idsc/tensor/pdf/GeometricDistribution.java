@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Ceiling;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Power;
@@ -53,7 +53,7 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    return protected_quantile(Clip.unit().requireInside(p));
+    return protected_quantile(Clips.unit().requireInside(p));
   }
 
   @Override // from AbstractDiscreteDistribution

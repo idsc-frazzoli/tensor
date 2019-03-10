@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.red;
 
 import java.util.Optional;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.sca.ArcCos;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /** inspired by
@@ -28,12 +28,12 @@ public enum VectorAngle {
     Scalar nv = Norm._2.ofVector(v);
     if (Scalars.isZero(nu) || Scalars.isZero(nv))
       return Optional.empty();
-    Scalar ratio = ExactScalarQ.all(u) || ExactScalarQ.all(v) //
+    Scalar ratio = ExactTensorQ.of(u) || ExactTensorQ.of(v) //
         ? u.dot(Conjugate.of(v)).divide(nu).divide(nv).Get()
         : NORMALIZE.apply(u).dot(NORMALIZE.apply(Conjugate.of(v))).Get();
     if (ratio instanceof RealScalar)
       // due to numerical inaccuracy, for instance, ratio == 1.0000000000000002 may occur
-      ratio = Clip.absoluteOne().apply(ratio); // clip to [-1, 1]
+      ratio = Clips.absoluteOne().apply(ratio); // clip to [-1, 1]
     return Optional.of(ArcCos.FUNCTION.apply(ratio));
   }
 }

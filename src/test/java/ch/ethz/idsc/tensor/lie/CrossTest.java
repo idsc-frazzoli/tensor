@@ -1,11 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
-import ch.ethz.idsc.tensor.GaussScalar;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.UnitVector;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
@@ -29,11 +29,11 @@ public class CrossTest extends TestCase {
     Tensor v1 = UnitVector.of(3, 0);
     Tensor v2 = UnitVector.of(3, 1);
     Tensor v3 = UnitVector.of(3, 2);
-    assertTrue(ExactScalarQ.all(Cross.of(v1, v2)));
+    assertTrue(ExactTensorQ.of(Cross.of(v1, v2)));
     assertEquals(Cross.of(v1, v2), v3);
-    assertTrue(ExactScalarQ.all(Cross.of(v2, v3)));
+    assertTrue(ExactTensorQ.of(Cross.of(v2, v3)));
     assertEquals(Cross.of(v2, v3), v1);
-    assertTrue(ExactScalarQ.all(Cross.of(v3, v1)));
+    assertTrue(ExactTensorQ.of(Cross.of(v3, v1)));
     assertEquals(Cross.of(v3, v1), v2);
   }
 

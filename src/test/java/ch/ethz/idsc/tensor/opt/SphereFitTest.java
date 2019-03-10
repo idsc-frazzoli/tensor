@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.Optional;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -26,7 +26,7 @@ public class SphereFitTest extends TestCase {
       Tensor center = optional.get().center();
       Tensor radius = optional.get().radius();
       assertEquals(center, Tensors.vector(0.5, 0.5).add(shift));
-      assertTrue(ExactScalarQ.all(center));
+      assertTrue(ExactTensorQ.of(center));
       assertTrue(Chop._13.close(radius, RealScalar.of(Math.sqrt(0.5))));
     }
   }

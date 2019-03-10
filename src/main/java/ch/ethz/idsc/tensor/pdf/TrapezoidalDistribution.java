@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** Characteristics of a trapezoidal distribution: the graph of the PDF resembles
@@ -45,7 +46,7 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
   private final Scalar alpha;
 
   private TrapezoidalDistribution(Scalar a, Scalar b, Scalar c, Scalar d) {
-    clip = Clip.function(a, d);
+    clip = Clips.interval(a, d);
     this.a = a;
     this.b = clip.requireInside(b);
     this.c = clip.requireInside(c);

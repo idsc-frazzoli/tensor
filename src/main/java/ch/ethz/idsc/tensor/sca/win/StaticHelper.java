@@ -5,12 +5,13 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Cos;
 
 /** helper functions to evaluate window functions */
 /* package */ enum StaticHelper {
   ;
-  static final Clip SEMI = Clip.function( //
+  static final Clip SEMI = Clips.interval( //
       RationalScalar.HALF.negate(), //
       RationalScalar.HALF);
   // ---

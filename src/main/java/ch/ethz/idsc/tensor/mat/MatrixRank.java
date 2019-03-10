@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -20,7 +20,7 @@ public enum MatrixRank {
    * @param matrix with exact and/or numeric precision entries
    * @return rank of matrix */
   public static int of(Tensor matrix) {
-    return ExactScalarQ.all(matrix) //
+    return ExactTensorQ.of(matrix) //
         ? usingRowReduce(matrix)
         : usingSvd(matrix);
   }

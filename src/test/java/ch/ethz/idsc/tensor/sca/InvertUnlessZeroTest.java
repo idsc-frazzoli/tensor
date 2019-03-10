@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -14,7 +15,7 @@ public class InvertUnlessZeroTest extends TestCase {
   public void testVector() {
     Tensor tensor = InvertUnlessZero.of(Tensors.vector(1, 0, 2));
     assertEquals(tensor, Tensors.vector(1, 0, 0.5));
-    assertTrue(ExactScalarQ.all(tensor));
+    assertTrue(ExactTensorQ.of(tensor));
   }
 
   public void testQuantity() {

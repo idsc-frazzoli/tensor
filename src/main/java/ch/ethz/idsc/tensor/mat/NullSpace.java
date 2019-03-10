@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.mat;
 
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -46,7 +46,7 @@ public enum NullSpace {
    * @param matrix
    * @return vectors that span the nullspace */
   public static Tensor of(Tensor matrix) {
-    return ExactScalarQ.all(matrix) //
+    return ExactTensorQ.of(matrix) //
         ? usingRowReduce(matrix)
         : usingSvd(matrix);
   }

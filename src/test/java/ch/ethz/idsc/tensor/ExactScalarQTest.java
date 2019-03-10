@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -40,11 +41,6 @@ public class ExactScalarQTest extends TestCase {
     assertFalse(ExactScalarQ.of(Quantity.of(2.71, "kg*s")));
   }
 
-  public void testAll() {
-    assertFalse(ExactScalarQ.all(Tensors.vector(1, 1, 1.)));
-    assertTrue(ExactScalarQ.all(Tensors.vector(1, 2, 3)));
-  }
-
   public void testAny() {
     assertTrue(ExactScalarQ.any(Tensors.vector(1., 1, 1.)));
     assertFalse(ExactScalarQ.any(Tensors.vectorDouble(1, 2, 3)));
@@ -64,13 +60,7 @@ public class ExactScalarQTest extends TestCase {
     }
   }
 
-  public void testRequireAll() {
-    ExactScalarQ.requireAll(Tensors.fromString("{{9/8,3/2[s]},1/2+3/4*I}"));
-    try {
-      ExactScalarQ.requireAll(Tensors.vector(1, 2, 3, .7));
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
+  public void testTensor2() {
+    assertFalse(ExactScalarQ.of(Tensors.vector(1, 2, 3)));
   }
 }

@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -23,6 +23,7 @@ import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 // cubic basis functions over unit interval [0, 1]
@@ -121,14 +122,14 @@ public class BSplineFunctionTest extends TestCase {
 
   public void testQuantity() {
     Tensor control = Tensors.fromString("{2[m],7[m],3[m]}");
-    Clip clip = Clip.function(2, 7);
+    Clip clip = Clips.interval(2, 7);
     int n = control.length() - 1;
     for (int degree = 0; degree <= 5; ++degree) {
       BSplineFunction bSplineFunction = BSplineFunction.of(degree, control);
       Tensor tensor = Subdivide.of(0, n, 10).map(bSplineFunction);
       VectorQ.require(tensor);
       Tensor nounit = tensor.map(QuantityMagnitude.SI().in("m"));
-      assertTrue(ExactScalarQ.all(nounit));
+      assertTrue(ExactTensorQ.of(nounit));
       nounit.map(clip::requireInside);
     }
   }
@@ -147,9 +148,9 @@ public class BSplineFunctionTest extends TestCase {
         BSplineFunction bSplineFunction = BSplineFunction.of(degree, IdentityMatrix.of(length));
         for (Tensor _x : Subdivide.of(0, length - 1, 13)) {
           Tensor tensor = bSplineFunction.apply(_x.Get());
-          assertTrue(tensor.stream().map(Scalar.class::cast).allMatch(Clip.unit()::isInside));
+          assertTrue(tensor.stream().map(Scalar.class::cast).allMatch(Clips.unit()::isInside));
           assertEquals(Total.of(tensor), RealScalar.ONE);
-          assertTrue(ExactScalarQ.all(tensor));
+          assertTrue(ExactTensorQ.of(tensor));
         }
       }
   }
@@ -173,36 +174,36 @@ public class BSplineFunctionTest extends TestCase {
       BSplineFunction mapReverse = BSplineFunction.of(degree, Reverse.of(control));
       Tensor reverse = Reverse.of(domain.map(mapReverse));
       assertEquals(forward, reverse);
-      assertTrue(ExactScalarQ.all(forward));
-      assertTrue(ExactScalarQ.all(reverse));
+      assertTrue(ExactTensorQ.of(forward));
+      assertTrue(ExactTensorQ.of(reverse));
     }
   }
 
   public void testBasisWeights1a() {
     BSplineFunction bSplineFunction = BSplineFunction.of(1, UnitVector.of(3, 1));
     Tensor limitMask = Range.of(1, 2).map(bSplineFunction);
-    assertTrue(ExactScalarQ.all(limitMask));
+    assertTrue(ExactTensorQ.of(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1}"));
   }
 
   public void testBasisWeights2() {
     BSplineFunction bSplineFunction = BSplineFunction.of(2, UnitVector.of(5, 2));
     Tensor limitMask = Range.of(1, 4).map(bSplineFunction);
-    assertTrue(ExactScalarQ.all(limitMask));
+    assertTrue(ExactTensorQ.of(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/8, 3/4, 1/8}"));
   }
 
   public void testBasisWeights3a() {
     BSplineFunction bSplineFunction = BSplineFunction.of(3, UnitVector.of(7, 3));
     Tensor limitMask = Range.of(2, 5).map(bSplineFunction);
-    assertTrue(ExactScalarQ.all(limitMask));
+    assertTrue(ExactTensorQ.of(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/6, 2/3, 1/6}"));
   }
 
   public void testBasisWeights3b() {
     BSplineFunction bSplineFunction = BSplineFunction.of(3, UnitVector.of(5, 2));
     Tensor limitMask = Range.of(1, 4).map(bSplineFunction);
-    assertTrue(ExactScalarQ.all(limitMask));
+    assertTrue(ExactTensorQ.of(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/6, 2/3, 1/6}"));
   }
 
@@ -210,7 +211,7 @@ public class BSplineFunctionTest extends TestCase {
     BSplineFunction bSplineFunction = BSplineFunction.of(4, UnitVector.of(9, 4));
     Tensor limitMask = Range.of(2, 7).map(bSplineFunction);
     assertEquals(Total.of(limitMask), RealScalar.ONE);
-    assertTrue(ExactScalarQ.all(limitMask));
+    assertTrue(ExactTensorQ.of(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/384, 19/96, 115/192, 19/96, 1/384}"));
   }
 
@@ -218,7 +219,7 @@ public class BSplineFunctionTest extends TestCase {
     BSplineFunction bSplineFunction = BSplineFunction.of(5, UnitVector.of(11, 5));
     Tensor limitMask = Range.of(3, 8).map(bSplineFunction);
     assertEquals(Total.of(limitMask), RealScalar.ONE);
-    assertTrue(ExactScalarQ.all(limitMask));
+    assertTrue(ExactTensorQ.of(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/120, 13/60, 11/20, 13/60, 1/120}"));
   }
 
@@ -226,7 +227,7 @@ public class BSplineFunctionTest extends TestCase {
     BSplineFunction bSplineFunction = BSplineFunction.of(5, UnitVector.of(9, 4));
     Tensor limitMask = Range.of(2, 7).map(bSplineFunction);
     assertEquals(Total.of(limitMask), RealScalar.ONE);
-    assertTrue(ExactScalarQ.all(limitMask));
+    assertTrue(ExactTensorQ.of(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/120, 13/60, 11/20, 13/60, 1/120}"));
   }
 
@@ -234,7 +235,7 @@ public class BSplineFunctionTest extends TestCase {
     BSplineFunction bSplineFunction = BSplineFunction.of(5, UnitVector.of(7, 3));
     Tensor limitMask = Range.of(1, 6).map(bSplineFunction);
     assertEquals(Total.of(limitMask), RealScalar.ONE);
-    assertTrue(ExactScalarQ.all(limitMask));
+    assertTrue(ExactTensorQ.of(limitMask));
     assertEquals(limitMask, Tensors.fromString("{1/120, 13/60, 11/20, 13/60, 1/120}"));
   }
 

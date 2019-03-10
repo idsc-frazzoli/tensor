@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
@@ -32,7 +32,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
   public static Distribution of(int n, Scalar p) {
     if (n < 0)
       throw new IllegalArgumentException("n=" + n);
-    Clip.unit().requireInside(p);
+    Clips.unit().requireInside(p);
     // ---
     boolean revert = Scalars.lessThan(RationalScalar.HALF, p);
     Scalar q = revert //
@@ -71,12 +71,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
     this.n = n;
     this.p = p;
     this.table = table;
-    inverse_cdf_build();
-  }
-
-  @Override // from EvaluatedDiscreteDistribution
-  public int upperBound() {
-    return n;
+    inverse_cdf_build(n);
   }
 
   @Override // from MeanInterface

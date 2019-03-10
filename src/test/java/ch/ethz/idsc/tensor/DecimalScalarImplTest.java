@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Floor;

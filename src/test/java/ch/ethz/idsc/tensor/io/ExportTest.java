@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.io.File;
 import java.io.IOException;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -48,7 +48,7 @@ public class ExportTest extends TestCase {
     Tensor imported = Import.of(file);
     assertTrue(file.delete());
     assertEquals(tensor, imported);
-    assertTrue(ExactScalarQ.all(imported));
+    assertTrue(ExactTensorQ.of(imported));
   }
 
   public void testPngColor() throws IOException {

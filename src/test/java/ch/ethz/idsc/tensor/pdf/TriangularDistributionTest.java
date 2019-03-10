@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.red.Mean;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class TriangularDistributionTest extends TestCase {
@@ -41,7 +41,7 @@ public class TriangularDistributionTest extends TestCase {
     Scalar c = RealScalar.of(3);
     Distribution distribution = TriangularDistribution.of(a, b, c);
     Scalar mean = Mean.of(RandomVariate.of(distribution, 100)).Get();
-    Clip.function(1.5, 2.5).requireInside(mean);
+    Clips.interval(1.5, 2.5).requireInside(mean);
     assertEquals(Mean.of(distribution), RealScalar.of(2));
   }
 
@@ -107,7 +107,7 @@ public class TriangularDistributionTest extends TestCase {
     Distribution distribution = TriangularDistribution.of(a, b, c);
     assertEquals(Mean.of(distribution), RationalScalar.of(4, 3));
     Scalar mean = Mean.of(RandomVariate.of(distribution, 100)).Get();
-    Clip.function(1.2, 1.5).requireInside(mean);
+    Clips.interval(1.2, 1.5).requireInside(mean);
   }
 
   public void testPdfHi() {
@@ -140,6 +140,6 @@ public class TriangularDistributionTest extends TestCase {
     Distribution distribution = TriangularDistribution.of(a, b, b);
     assertEquals(Mean.of(distribution), RationalScalar.of(5, 3));
     Scalar mean = Mean.of(RandomVariate.of(distribution, 100)).Get();
-    Clip.function(1.5, 1.8).requireInside(mean);
+    Clips.interval(1.5, 1.8).requireInside(mean);
   }
 }

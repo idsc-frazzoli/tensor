@@ -8,18 +8,19 @@ import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class TruncatedDistributionTest extends TestCase {
   public void testSimple() {
-    Clip clip = Clip.function(10, 11);
+    Clip clip = Clips.interval(10, 11);
     Distribution distribution = TruncatedDistribution.of(NormalDistribution.of(10, 2), clip);
     Scalar scalar = RandomVariate.of(distribution);
     assertTrue(clip.isInside(scalar));
   }
 
   public void testSerializable() throws ClassNotFoundException, IOException {
-    Clip clip = Clip.function(10, 11);
+    Clip clip = Clips.interval(10, 11);
     Distribution distribution = TruncatedDistribution.of(BinomialDistribution.of(20, DoubleScalar.of(.5)), clip);
     Scalar scalar = RandomVariate.of(distribution);
     assertTrue(ExactScalarQ.of(scalar));
@@ -29,7 +30,7 @@ public class TruncatedDistributionTest extends TestCase {
   }
 
   public void testFail() {
-    Clip clip = Clip.function(10, 11);
+    Clip clip = Clips.interval(10, 11);
     Distribution distribution = TruncatedDistribution.of(NormalDistribution.of(-100, .2), clip);
     try {
       RandomVariate.of(distribution);

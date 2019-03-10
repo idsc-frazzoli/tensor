@@ -52,7 +52,7 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
     Scalar scale = Last.of(accumulate).Get();
     pdf = unscaledPDF.divide(scale);
     cdf = accumulate.divide(scale);
-    inverse_cdf_build();
+    inverse_cdf_build(cdf.length() - 1);
   }
 
   @Override // from MeanInterface
@@ -63,11 +63,6 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
   @Override // from DiscreteDistribution
   public int lowerBound() {
     return 0;
-  }
-
-  @Override // from EvaluatedDiscreteDistribution
-  protected int upperBound() {
-    return cdf.length() - 1;
   }
 
   @Override // from AbstractDiscreteDistribution

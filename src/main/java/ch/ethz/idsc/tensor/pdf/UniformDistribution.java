@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 
 /** uniform distribution over continuous interval [a, b].
  * 
@@ -20,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.Clip;
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
 public class UniformDistribution extends AbstractContinuousDistribution implements //
     InverseCDF, MeanInterface, VarianceInterface {
-  private static final Distribution UNIT = new UniformDistribution(Clip.unit()) {
+  private static final Distribution UNIT = new UniformDistribution(Clips.unit()) {
     @Override // from RandomVariateInterface
     public Scalar randomVariate(Random random) {
       return DoubleScalar.of(random.nextDouble());
@@ -35,7 +36,7 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
   public static Distribution of(Scalar min, Scalar max) {
     if (Scalars.lessEquals(max, min))
       throw TensorRuntimeException.of(min, max);
-    return of(Clip.function(min, max));
+    return of(Clips.interval(min, max));
   }
 
   /** @param clip
@@ -72,7 +73,7 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    return quantile_unit(Clip.unit().requireInside(p));
+    return quantile_unit(Clips.unit().requireInside(p));
   }
 
   private Scalar quantile_unit(Scalar p) {

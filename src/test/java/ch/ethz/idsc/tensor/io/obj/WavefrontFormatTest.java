@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -46,8 +46,8 @@ public class WavefrontFormatTest extends TestCase {
       Tensor normals = wavefrontObject.normals();
       Tensor faces = wavefrontObject.faces();
       normals.add(faces); // test if tensors have identical structure
-      assertTrue(ExactScalarQ.all(faces));
-      assertTrue(ExactScalarQ.all(normals));
+      assertTrue(ExactTensorQ.of(faces));
+      assertTrue(ExactTensorQ.of(normals));
     }
     {
       WavefrontObject wavefrontObject = objects.get(1);

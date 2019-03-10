@@ -18,9 +18,9 @@ public class AngleVectorTest extends TestCase {
     for (int index = 0; index < 10; ++index) {
       Scalar angle = RandomVariate.of(distribution);
       Tensor vector = AngleVector.of(angle);
-      assertTrue(Chop._14.close(Norm._2.ofVector(vector), RealScalar.ONE));
+      Chop._14.requireClose(Norm._2.ofVector(vector), RealScalar.ONE);
       Scalar check = ArcTan.of(vector.Get(0), vector.Get(1));
-      assertTrue(Chop._11.close(angle, check));
+      Chop._10.requireClose(angle, check);
     }
   }
 

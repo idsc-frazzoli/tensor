@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Arrays;
 
-import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -30,7 +30,7 @@ public class OuterTest extends TestCase {
   public void testScalarDivide() {
     Tensor result = Outer.of(Scalar::divide, Tensors.vector(12, 3), Tensors.vector(1, 7, 9, 2));
     assertEquals(Dimensions.of(result), Arrays.asList(2, 4));
-    ExactScalarQ.requireAll(result);
+    ExactTensorQ.require(result);
     Tensor tensor = Tensors.fromString("{{12, 12/7, 4/3, 6}, {3, 3/7, 1/3, 3/2}}");
     assertEquals(tensor, result);
   }
@@ -38,7 +38,7 @@ public class OuterTest extends TestCase {
   public void testMixed() {
     Tensor result = Outer.of(Tensor::multiply, HilbertMatrix.of(2), Tensors.vector(1, 7, 9));
     assertEquals(Dimensions.of(result), Arrays.asList(2, 3, 2));
-    ExactScalarQ.requireAll(result);
+    ExactTensorQ.require(result);
     Tensor tensor = Tensors.fromString("{{{1, 1/2}, {7, 7/2}, {9, 9/2}}, {{1/2, 1/3}, {7/2, 7/3}, {9/2, 3}}}");
     assertEquals(result, tensor);
   }

@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.opt;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -77,7 +78,7 @@ public class BSplineInterpolationTest extends TestCase {
         assertEquals(result, tensor.get(index));
         Tensor svalue = interpolation.get(Tensors.vector(1, 2));
         assertEquals(svalue, UnitVector.of(3, 0).negate());
-        ExactScalarQ.requireAll(svalue);
+        ExactTensorQ.require(svalue);
       }
     }
   }
@@ -86,7 +87,7 @@ public class BSplineInterpolationTest extends TestCase {
     Tensor interp = Tensors.vector(1, 0, 3, 2);
     for (int degree = 0; degree < 4; ++degree) {
       Tensor tensor = BSplineInterpolation.solve(degree, interp);
-      assertTrue(ExactScalarQ.all(tensor));
+      assertTrue(ExactTensorQ.of(tensor));
       BSplineFunction bSplineFunction = BSplineFunction.of(degree, tensor);
       for (int index = 0; index < interp.length(); ++index)
         assertEquals(bSplineFunction.apply(RealScalar.of(index)), interp.get(index));
@@ -97,7 +98,7 @@ public class BSplineInterpolationTest extends TestCase {
     for (int n = 1; n < 6; ++n) {
       Tensor tensor = BSplineInterpolation.matrix(1, n);
       assertEquals(tensor, IdentityMatrix.of(n));
-      assertTrue(ExactScalarQ.all(tensor));
+      assertTrue(ExactTensorQ.of(tensor));
     }
   }
 
@@ -107,7 +108,7 @@ public class BSplineInterpolationTest extends TestCase {
       Tensor tensor = BSplineInterpolation.matrix(2, n);
       assertEquals(Dimensions.of(tensor), Arrays.asList(n, n));
       assertEquals(tensor.dot(vector), vector);
-      assertTrue(ExactScalarQ.all(tensor));
+      assertTrue(ExactTensorQ.of(tensor));
     }
   }
 
@@ -117,7 +118,7 @@ public class BSplineInterpolationTest extends TestCase {
       Tensor tensor = BSplineInterpolation.matrix(3, n);
       assertEquals(Dimensions.of(tensor), Arrays.asList(n, n));
       assertEquals(tensor.dot(vector), vector);
-      assertTrue(ExactScalarQ.all(tensor));
+      assertTrue(ExactTensorQ.of(tensor));
     }
   }
 }

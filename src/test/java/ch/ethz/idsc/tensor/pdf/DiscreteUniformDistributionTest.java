@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class DiscreteUniformDistributionTest extends TestCase {
@@ -53,7 +53,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
   public void testInverseCDF() {
     InverseCDF inverseCDF = InverseCDF.of(DiscreteUniformDistribution.of(0, 10));
     Scalar s = inverseCDF.quantile(RationalScalar.of(1, 2));
-    assertTrue(Clip.function(4, 5).isInside(s));
+    assertTrue(Clips.interval(4, 5).isInside(s));
     assertEquals(inverseCDF.quantile(RealScalar.of(.9999999)), RealScalar.of(9));
     assertEquals(inverseCDF.quantile(RealScalar.of(1)), RealScalar.of(9));
   }

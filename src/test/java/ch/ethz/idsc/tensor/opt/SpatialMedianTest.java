@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Clip;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class SpatialMedianTest extends TestCase {
@@ -74,7 +75,7 @@ public class SpatialMedianTest extends TestCase {
       if (optional.isPresent()) {
         ++present;
         Tensor weiszfeld = optional.get();
-        Clip clip = Clip.function(Quantity.of(0, "m"), Quantity.of(1, "m"));
+        Clip clip = Clips.interval(Quantity.of(0, "m"), Quantity.of(1, "m"));
         clip.requireInside(weiszfeld.Get(0));
         clip.requireInside(weiszfeld.Get(1));
       }
