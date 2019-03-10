@@ -42,12 +42,4 @@ public enum Clips {
   public static Clip absoluteOne() {
     return ABSOLUTE_ONE;
   }
-
-  /***************************************************/
-  private static final Clip UNIT_NUMERIC = Clips.interval(0.0, 1.0);
-
-  /** @return function that clips a scalar to the unit interval [0.0, 1.0] */
-  public static Clip unitNumeric() {
-    return UNIT_NUMERIC;
-  }
 }

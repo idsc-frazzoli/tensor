@@ -2,19 +2,11 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ClipsTest extends TestCase {
-  public void testUnitNumeric() {
-    Scalar max = Clips.unitNumeric().apply(RealScalar.of(5.0));
-    assertEquals(max, RealScalar.ONE);
-    assertFalse(ExactScalarQ.of(max));
-  }
-
   public void testSignZero1() {
     Clip clip = Clips.interval(-0.0, +0.0);
     assertTrue(clip instanceof ClipPoint);
