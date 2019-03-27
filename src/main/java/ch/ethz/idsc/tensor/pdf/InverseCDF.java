@@ -18,6 +18,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/InverseCDF.html">InverseCDF</a> */
+@FunctionalInterface
 public interface InverseCDF {
   /** @param distribution
    * @return inverse of the cumulative distribution function

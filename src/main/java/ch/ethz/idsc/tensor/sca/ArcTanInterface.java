@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.sca;
 import ch.ethz.idsc.tensor.Scalar;
 
 /** Mathematica::ArcTan[x, y] */
+@FunctionalInterface
 public interface ArcTanInterface {
   /** @param x
    * @return ArcTan[x, this] */
