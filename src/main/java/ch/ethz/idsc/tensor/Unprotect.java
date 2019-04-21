@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Notice:
@@ -11,6 +12,16 @@ import java.util.List;
  * <a href="https://reference.wolfram.com/language/ref/Unprotect.html">Unprotect</a> */
 public enum Unprotect {
   ;
+  /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
+   * 
+   * @param initialCapacity non-negative
+   * @return empty tensor that allows the initialCapacity-fold invocation of
+   * {@link Tensor#append(Tensor)} before allocating more memory
+   * @throws Exception if initialCapacity is negative */
+  public static Tensor empty(int initialCapacity) {
+    return new TensorImpl(new ArrayList<>(initialCapacity));
+  }
+
   /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
    * 
    * @param tensor

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
@@ -8,7 +9,6 @@ import ch.ethz.idsc.tensor.sca.Sign;
 
 /** suggested base class for implementations of {@link RealScalar} */
 public abstract class AbstractRealScalar extends AbstractScalar implements RealScalar {
-  private static final Scalar PI = DoubleScalar.of(Math.PI);
   static final double LOG_LO = 0.75;
   static final double LOG_HI = 1.3;
 
@@ -49,7 +49,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
 
   @Override // from ArgInterface
   public Scalar arg() {
-    return isNonNegative() ? ZERO : PI;
+    return isNonNegative() ? ZERO : Pi.VALUE;
   }
 
   @Override // from ExpInterface
@@ -65,7 +65,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
         return DoubleScalar.of(Math.log1p(subtract(RealScalar.ONE).number().doubleValue()));
       return DoubleScalar.of(Math.log(value));
     }
-    return ComplexScalarImpl.of(Log.FUNCTION.apply(negate()), PI);
+    return ComplexScalarImpl.of(Log.FUNCTION.apply(negate()), Pi.VALUE);
   }
 
   @Override // from PowerInterface

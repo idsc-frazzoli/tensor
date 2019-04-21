@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.function.UnaryOperator;
 
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/NestList.html">NestList</a> */
@@ -18,7 +18,7 @@ public enum NestList {
    * @return tensor of length n + 1 */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> Tensor of(UnaryOperator<T> unaryOperator, T x, int n) {
-    Tensor tensor = Tensors.of(x);
+    Tensor tensor = Unprotect.empty(n + 1).append(x);
     for (int index = 0; index < n; ++index)
       tensor.append(unaryOperator.apply((T) Last.of(tensor)));
     return tensor;

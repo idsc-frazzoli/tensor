@@ -6,7 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -38,9 +38,8 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
     Scalar q = revert //
         ? RealScalar.ONE.subtract(p)
         : p;
-    Tensor table = Tensors.empty();
     Scalar last = Power.of(RealScalar.ONE.subtract(q), n);
-    table.append(last);
+    Tensor table = Unprotect.empty(n + 1).append(last);
     final Scalar pratio = q.divide(RealScalar.ONE.subtract(q));
     for (int k = 1; k <= n; ++k) {
       // ((1 - k + n) p) / (k - k p) == ((1 - k + n)/k) * (p/(1 - p))

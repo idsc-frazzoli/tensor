@@ -14,7 +14,8 @@ public enum Accumulate {
    * <p>concept as MATLAB::cumsum
    * 
    * @param tensor
-   * @return */
+   * @return
+   * @see FoldList */
   public static Tensor of(Tensor tensor) {
     return FoldList.of(Tensor::add, tensor);
   }

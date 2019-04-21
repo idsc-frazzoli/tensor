@@ -26,12 +26,6 @@ public class OrthogonalMatrixQTest extends TestCase {
       Tensor matrix = Rodrigues.exp(RandomVariate.of(distribution, 3));
       assertTrue(OrthogonalMatrixQ.of(matrix));
       OrthogonalMatrixQ.require(matrix);
-      try {
-        OrthogonalMatrixQ.require(matrix, Chop.NONE);
-        fail();
-      } catch (Exception exception) {
-        // ---
-      }
     }
   }
 

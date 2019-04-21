@@ -8,13 +8,14 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.num.GaussScalar;
+import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ExpTest extends TestCase {
   public void testEuler() {
-    Scalar emi = Exp.of(ComplexScalar.of(0, -Math.PI));
-    Scalar tru = RealScalar.of(-1);
+    Scalar emi = Exp.of(ComplexScalar.of(RealScalar.ZERO, Pi.VALUE.negate()));
+    Scalar tru = RealScalar.ONE.negate();
     assertTrue(Chop._15.close(emi, tru));
   }
 

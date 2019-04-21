@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Sign;
@@ -69,15 +70,13 @@ import ch.ethz.idsc.tensor.sca.Sign;
     return bi;
   }
 
-  private static final Scalar PI_HALF = DoubleScalar.of(Math.PI / 2);
-
   /** @param x complex scalar
    * @param y complex scalar
    * @return Mathematica::ArcTan[x, y] */
   static Scalar arcTan(Scalar x, Scalar y) {
     if (Scalars.isZero(x)) { // prevent division by zero
       ComplexEmbedding complexEmbedding = (ComplexEmbedding) y;
-      return Sign.FUNCTION.apply(complexEmbedding.real()).multiply(PI_HALF);
+      return Sign.FUNCTION.apply(complexEmbedding.real()).multiply(Pi.HALF);
     }
     return ArcTan.FUNCTION.apply(y.divide(x));
   }
