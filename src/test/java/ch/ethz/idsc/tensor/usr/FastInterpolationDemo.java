@@ -8,12 +8,16 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Timing;
+import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Increment;
 
+/** demonstration that the function call
+ * {@link Interpolation#at(Scalar)} is 2-3 times faster than
+ * {@link Interpolation#get(Tensor)} */
 /* package */ enum FastInterpolationDemo {
   ;
   private static final Distribution DISTRIBUTION = UniformDistribution.unit();

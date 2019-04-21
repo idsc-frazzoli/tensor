@@ -14,13 +14,13 @@ public enum Degree {
    * QuantityMagnitude[Quantity[1, "Degrees"], "Radians"]
    * 
    * @param degree
-   * @return radians == degree * PI / 180 */
+   * @return radians == degree / 180 * PI */
   public static Scalar of(Number degree) {
     return of(RealScalar.of(degree));
   }
 
   /** @param degree
-   * @return radians == degree * PI / 180 */
+   * @return radians == degree / 180 * PI */
   public static Scalar of(Scalar degree) {
     return UnitSystem.SI().apply(Quantity.of(degree, DEGREE));
   }

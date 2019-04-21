@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
 public class MatrixQTest extends TestCase {
@@ -35,9 +36,11 @@ public class MatrixQTest extends TestCase {
     assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1}}"), 1, 2));
     assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1}}"), 2, 1));
     assertTrue(MatrixQ.ofSize(Tensors.fromString("{{1,1,3},{7,2,9}}"), 2, 3));
+    MatrixQ.requireSize(Tensors.fromString("{{1,1,3},{7,2,9}}"), 2, 3);
     assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1,1},{7,2,9}}"), 2, 2));
     assertTrue(MatrixQ.ofSize(HilbertMatrix.of(3, 4), 3, 4));
     assertTrue(MatrixQ.ofSize(HilbertMatrix.of(2, 7), 2, 7));
+    MatrixQ.requireSize(HilbertMatrix.of(2, 7), 2, 7);
     assertFalse(MatrixQ.ofSize(HilbertMatrix.of(2, 7), 2, 6));
     assertFalse(MatrixQ.ofSize(HilbertMatrix.of(2, 7), 3, 7));
   }
@@ -67,6 +70,16 @@ public class MatrixQTest extends TestCase {
   public void testOfNullThrow() {
     try {
       MatrixQ.of(null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRequireSize() {
+    MatrixQ.requireSize(IdentityMatrix.of(3), 3, 3);
+    try {
+      MatrixQ.requireSize(IdentityMatrix.of(3), 3, 4);
       fail();
     } catch (Exception exception) {
       // ---
