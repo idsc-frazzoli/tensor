@@ -23,6 +23,20 @@ public class UnprotectTest extends TestCase {
     }
   }
 
+  public void testEmptyLinkedList() {
+    assertEquals(Unprotect.emptyLinkedList(), Tensors.empty());
+    assertEquals(Unprotect.emptyLinkedList(), Tensors.unmodifiableEmpty());
+  }
+
+  public void testEmptyLinkedListUnmodifiable() {
+    try {
+      Unprotect.emptyLinkedList().unmodifiable().append(RealScalar.ZERO);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testDimension1() {
     assertTrue(Unprotect.dimension1(Tensors.vector(1, 2, 3)) == Scalar.LENGTH);
     assertTrue(Unprotect.dimension1(HilbertMatrix.of(2, 4)) == 4);

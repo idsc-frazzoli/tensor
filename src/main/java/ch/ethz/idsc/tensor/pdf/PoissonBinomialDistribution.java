@@ -37,7 +37,7 @@ public class PoissonBinomialDistribution implements Distribution, //
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return Total.of(p_vector).Get();
+    return Total.ofVector(p_vector);
   }
 
   @Override // from RandomVariateInterface

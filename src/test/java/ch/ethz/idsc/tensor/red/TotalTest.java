@@ -1,10 +1,17 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Normalize;
+import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import junit.framework.TestCase;
 
 public class TotalTest extends TestCase {
@@ -29,6 +36,38 @@ public class TotalTest extends TestCase {
   public void testExample() {
     Tensor tensor = Total.of(Tensors.fromString("{{1, 2}, {3, 4}, {5, 6}}"));
     assertEquals(tensor, Tensors.vector(9, 12));
+  }
+
+  public void testOfVectorSimple() {
+    Scalar scalar = Total.ofVector(Tensors.vector(1, 2, 3));
+    assertEquals(scalar, RealScalar.of(6));
+  }
+
+  public void testOfVectorEmpty() {
+    Scalar scalar = Total.ofVector(Tensors.empty());
+    assertEquals(scalar, RealScalar.ZERO);
+  }
+
+  public void testOfVectorNormalize() throws ClassNotFoundException, IOException {
+    TensorUnaryOperator tensorUnaryOperator = Normalize.with(Total::ofVector);
+    TensorUnaryOperator copy = Serialization.copy(tensorUnaryOperator);
+    Tensor vector = copy.apply(Tensors.vector(1, 2, 3));
+    assertEquals(vector, Tensors.vector(1, 2, 3).divide(RealScalar.of(6)));
+  }
+
+  public void testOfVectorFail() {
+    try {
+      Total.ofVector(RealScalar.ONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Total.ofVector(HilbertMatrix.of(3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testPmulEmpty() {

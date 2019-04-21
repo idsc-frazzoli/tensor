@@ -76,7 +76,7 @@ public enum Array {
       return function.apply(index);
     List<Integer> copy = new ArrayList<>(index);
     copy.add(-1);
-    int length = requirePositiveOrZero(dimensions.get(level));
+    int length = dimensions.get(level);
     Tensor tensor = Unprotect.empty(length);
     for (int count = 0; count < length; ++count) {
       copy.set(level, count);

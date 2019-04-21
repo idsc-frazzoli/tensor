@@ -2,7 +2,10 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import ch.ethz.idsc.tensor.io.TableBuilder;
 
 /** Notice:
  * 
@@ -20,6 +23,14 @@ public enum Unprotect {
    * @throws Exception if initialCapacity is negative */
   public static Tensor empty(int initialCapacity) {
     return new TensorImpl(new ArrayList<>(initialCapacity));
+  }
+
+  /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
+   * 
+   * @return empty tensor with elements stored in a linked list
+   * @see TableBuilder */
+  public static Tensor emptyLinkedList() {
+    return new TensorImpl(new LinkedList<>());
   }
 
   /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !

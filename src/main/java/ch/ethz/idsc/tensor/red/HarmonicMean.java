@@ -20,6 +20,6 @@ public enum HarmonicMean {
    * @throws ArithmeticException if any entry of vector is zero, or vector is empty */
   public static Scalar ofVector(Tensor vector) {
     return RationalScalar.of(vector.length(), 1) //
-        .divide((Scalar) Total.of(vector.map(Scalar::reciprocal)));
+        .divide(Total.ofVector(vector.map(Scalar::reciprocal)));
   }
 }

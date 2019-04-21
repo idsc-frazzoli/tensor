@@ -33,16 +33,16 @@ public class TableBuilderTest extends TestCase {
   }
 
   public void testModify() {
-    TableBuilder tb = new TableBuilder();
-    tb.appendRow(Tensors.vector(1, 2, 3, 4));
-    Tensor t1 = tb.toTable();
+    TableBuilder tableBuilder = new TableBuilder();
+    tableBuilder.appendRow(Tensors.vector(1, 2, 3, 4));
+    Tensor t1 = tableBuilder.toTable();
     try {
       t1.set(RealScalar.of(99), 0, 2);
       fail();
     } catch (Exception exception) {
       // ---
     }
-    assertEquals(tb.toTable().get(0), Range.of(1, 5));
+    assertEquals(tableBuilder.toTable().get(0), Range.of(1, 5));
   }
 
   public void testFail() {

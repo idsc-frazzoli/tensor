@@ -1,12 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.io.Serializable;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Flatten;
 
 /** Several applications that use the tensor library export tables as
@@ -38,32 +38,32 @@ import ch.ethz.idsc.tensor.alg.Flatten;
  * 
  * <p>Due to the use of a LinkedList, TableBuilder is typically faster than
  * {@link Tensors#empty()} with subsequent {@link Tensor#append(Tensor)} */
-public final class TableBuilder {
+public final class TableBuilder implements Serializable {
   /** LinkedList was found to be the faster than ArrayDeque */
-  private final Deque<Tensor> deque = new LinkedList<>();
+  private final Tensor tensor = Unprotect.emptyLinkedList();
 
   /** entries of given tensors are flattened into a vector,
    * which is appended as a row to the table.
    * 
    * @param tensors */
   public void appendRow(Tensor... tensors) {
-    deque.add(Flatten.of(tensors));
+    tensor.append(Flatten.of(tensors));
   }
 
   /** function name inspired by TableModel::getRowCount
    * 
    * @return number of rows */
   public int getRowCount() {
-    return deque.size();
+    return tensor.length();
   }
 
   /** @return unmodifiable tensor with rows as entries */
   public Tensor toTable() {
-    return Tensor.of(deque.stream()).unmodifiable();
+    return tensor.unmodifiable();
   }
 
   /** @return stream of references to rows */
   public Stream<Tensor> stream() {
-    return deque.stream().map(Tensor::unmodifiable);
+    return tensor.stream().map(Tensor::unmodifiable);
   }
 }

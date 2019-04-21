@@ -45,10 +45,11 @@ public enum Subdivide {
    * @throws Exception if n is negative or zero
    * @see Range */
   public static Tensor of(Tensor startInclusive, Tensor endInclusive, int n) {
-    if (0 < n)
+    if (0 < n) {
+      Tensor difference = endInclusive.subtract(startInclusive);
       return Tensor.of(IntStream.rangeClosed(0, n) //
-          .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
-              .add(endInclusive.multiply(RationalScalar.of(count, n)))));
+          .mapToObj(count -> startInclusive.add(difference.multiply(RationalScalar.of(count, n)))));
+    }
     throw new IllegalArgumentException("n=" + n);
   }
 
