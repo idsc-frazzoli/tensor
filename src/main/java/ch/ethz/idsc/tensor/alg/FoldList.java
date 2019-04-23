@@ -20,11 +20,12 @@ public enum FoldList {
    * @param tensor must not be a {@link Scalar}
    * @return see description above */
   public static Tensor of(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {
-    Tensor result = Unprotect.empty(tensor.length());
-    if (0 < tensor.length()) {
+    int length = tensor.length();
+    Tensor result = Unprotect.empty(length);
+    if (0 < length) {
       Tensor entry = tensor.get(0);
       result.append(entry);
-      for (int index = 1; index < tensor.length(); ++index)
+      for (int index = 1; index < length; ++index)
         result.append(entry = binaryOperator.apply(entry, tensor.get(index)));
     }
     return result;
@@ -40,8 +41,9 @@ public enum FoldList {
    * @return */
   public static Tensor of(BinaryOperator<Tensor> binaryOperator, Tensor x, Tensor tensor) {
     ScalarQ.thenThrow(tensor);
-    Tensor result = Unprotect.empty(tensor.length() + 1).append(x);
-    for (int index = 0; index < tensor.length(); ++index)
+    int length = tensor.length();
+    Tensor result = Unprotect.empty(length + 1).append(x);
+    for (int index = 0; index < length; ++index)
       result.append(x = binaryOperator.apply(x, tensor.get(index)));
     return result;
   }

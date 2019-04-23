@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HarmonicMean.html">HarmonicMean</a> */
-// LONGTERM HarmonicMean is defined for matrices
 public enum HarmonicMean {
   ;
   /** computes the harmonic mean of the {@link Scalar}s on the first level of given tensor.

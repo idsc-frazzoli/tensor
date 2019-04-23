@@ -55,19 +55,20 @@ public class PadRight implements TensorUnaryOperator {
 
   @Override // from TensorUnaryOperator
   public Tensor apply(Tensor tensor) {
+    int length = tensor.length();
     final int dim0 = dimensions.get(0);
     if (1 < dimensions.size()) { // recur
       TensorUnaryOperator tensorUnaryOperator = with(element, dimensions.subList(1, dimensions.size()));
-      if (dim0 <= tensor.length())
+      if (dim0 <= length)
         return Tensor.of(tensor.stream().limit(dim0).map(tensorUnaryOperator));
       List<Integer> copy = new ArrayList<>(dimensions);
-      copy.set(0, dim0 - tensor.length());
+      copy.set(0, dim0 - length);
       return Join.of( //
           Tensor.of(tensor.stream().map(tensorUnaryOperator)), //
           Array.of(index -> element, copy));
     }
-    return dim0 <= tensor.length() //
+    return dim0 <= length //
         ? tensor.extract(0, dim0)
-        : Join.of(tensor, Array.of(index -> element, dim0 - tensor.length()));
+        : Join.of(tensor, Array.of(index -> element, dim0 - length));
   }
 }

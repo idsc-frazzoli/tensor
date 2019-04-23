@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -21,7 +22,7 @@ import ch.ethz.idsc.tensor.sca.Gamma;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Binomial.html">Binomial</a> */
-public class Binomial {
+public class Binomial implements Serializable {
   /** @param n non-negative integer
    * @return binomial function that computes n choose k */
   public static Binomial of(Scalar n) {

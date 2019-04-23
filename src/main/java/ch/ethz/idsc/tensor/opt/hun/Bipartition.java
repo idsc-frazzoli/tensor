@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.opt.hun;
 import java.util.Set;
 import java.util.stream.Stream;
 
-interface Bipartition {
+/* package */ interface Bipartition {
   /** @param index to add as node */
   void add(int index);
 

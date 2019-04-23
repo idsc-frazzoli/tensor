@@ -1,16 +1,31 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.stream.IntStream;
+
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
+import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class SubdivideTest extends TestCase {
+  static Tensor compare(Tensor startInclusive, Tensor endInclusive, int n) {
+    if (0 < n) {
+      Tensor difference = endInclusive.subtract(startInclusive);
+      return Tensor.of(IntStream.rangeClosed(0, n) //
+          .mapToObj(count -> startInclusive.add(difference.multiply(RationalScalar.of(count, n)))));
+    }
+    throw new IllegalArgumentException("n=" + n);
+  }
+
   public void testSubdivide() {
     Tensor tensor = Subdivide.of(RealScalar.of(10), RealScalar.of(15), 5);
     Tensor result = Tensors.vector(10, 11, 12, 13, 14, 15);
@@ -77,6 +92,17 @@ public class SubdivideTest extends TestCase {
     assertEquals(tensor.length(), n + 1);
   }
 
+  public void testNumeric() {
+    Scalar beg = RealScalar.of(-.1);
+    Scalar end = RealScalar.of(0.3);
+    Tensor tensor = Subdivide.of(beg, end, 5);
+    Tensor result = compare(beg, end, 5);
+    assertEquals(beg, tensor.get(0));
+    assertEquals(end, Last.of(tensor));
+    assertEquals(RealScalar.of(0.06), tensor.Get(2));
+    Chop._16.requireClose(tensor, result);
+  }
+
   public void testZeroFail() {
     try {
       Subdivide.of(RealScalar.of(-2), RealScalar.of(2), 0);
@@ -104,6 +130,15 @@ public class SubdivideTest extends TestCase {
     }
     try {
       Subdivide.of(null, RealScalar.of(2), 1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testGaussScalarFail() {
+    try {
+      Subdivide.of(GaussScalar.of(2, 7), GaussScalar.of(1, 7), 2);
       fail();
     } catch (Exception exception) {
       // ---
