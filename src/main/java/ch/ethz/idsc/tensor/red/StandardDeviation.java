@@ -7,6 +7,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** implementation is consistent with Mathematica::StandardDeviation
  * 
+ * Application in Normalize
+ * <pre>
+ * Normalize.with(StandardDeviation::ofVector)
+ * </pre>
+ * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/StandardDeviation.html">StandardDeviation</a> */
 public enum StandardDeviation {

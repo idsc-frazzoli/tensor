@@ -28,9 +28,21 @@ public enum MatrixQ {
   }
 
   /** @param tensor
+   * @return given tensor
    * @throws Exception if given tensor is not a matrix */
   public static Tensor require(Tensor tensor) {
     if (of(tensor))
+      return tensor;
+    throw TensorRuntimeException.of(tensor);
+  }
+
+  /** @param tensor
+   * @param rows
+   * @param cols
+   * @return given tensor
+   * @throws Exception if given tensor is not a matrix with given number of rows and columns */
+  public static Tensor requireSize(Tensor tensor, int rows, int cols) {
+    if (ofSize(tensor, rows, cols))
       return tensor;
     throw TensorRuntimeException.of(tensor);
   }

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.sca.Gamma;
 
 /** binomial coefficient implemented for integer input
@@ -21,7 +22,7 @@ import ch.ethz.idsc.tensor.sca.Gamma;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Binomial.html">Binomial</a> */
-public class Binomial {
+public class Binomial implements Serializable {
   /** @param n non-negative integer
    * @return binomial function that computes n choose k */
   public static Binomial of(Scalar n) {
@@ -87,12 +88,13 @@ public class Binomial {
 
   // ---
   private final int n;
-  /* package for testing */ final Tensor row = Tensors.empty();
+  /* package for testing */ final Tensor row;
 
   private Binomial(int n) {
     this.n = n;
-    row.append(RealScalar.ONE);
     int half = n / 2;
+    row = Unprotect.empty(half + 1);
+    row.append(RealScalar.ONE);
     for (int k = 1; k <= half; ++k)
       row.append(Last.of(row).multiply(RationalScalar.of(n - k + 1, k)));
   }

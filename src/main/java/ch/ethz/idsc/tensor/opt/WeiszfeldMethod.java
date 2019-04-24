@@ -52,7 +52,7 @@ import ch.ethz.idsc.tensor.sca.N;
       if (Scalars.isZero(dist.Get(index)))
         return Optional.of(point.copy());
       Tensor distinv = unaryOperator.apply(dist.map(Scalar::reciprocal));
-      point = distinv.dot(points).divide(Total.of(distinv).Get());
+      point = distinv.dot(points).divide(Total.ofVector(distinv));
       Scalar delta = Norm._2.between(point, prev);
       if (Scalars.lessEquals(delta, tolerance))
         return Optional.of(point);

@@ -6,7 +6,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Unprotect;
-import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.MatrixQ;
 
 /** implementation is consistent with Mathematica
@@ -37,11 +36,7 @@ public enum Det {
     if (m == 0)
       throw TensorRuntimeException.of(matrix);
     if (n == m) // square
-      try {
-        return new GaussianElimination(matrix, pivot, Array.zeros(n)).det();
-      } catch (Exception exception) {
-        // matrix is singular
-      }
+      return Determinant.of(matrix, pivot);
     MatrixQ.require(matrix);
     return RealScalar.ZERO;
   }

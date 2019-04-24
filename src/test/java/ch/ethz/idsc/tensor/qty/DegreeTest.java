@@ -1,15 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.opt.Pi;
 import junit.framework.TestCase;
 
 public class DegreeTest extends TestCase {
   public void testFullRotation() {
-    assertEquals(Degree.of(360), DoubleScalar.of(Math.PI * 2));
+    assertEquals(Degree.of(360), Pi.TWO);
   }
 
   public void testReciprocal() {

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.red.Nest;
 import ch.ethz.idsc.tensor.sca.Arg;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -26,14 +27,14 @@ public class DecimalScalarTest extends TestCase {
 
   public void testDivide() {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
-    Scalar d = s.divide(DoubleScalar.of(2 * Math.PI));
+    Scalar d = s.divide(Pi.TWO);
     assertTrue(d instanceof DoubleScalar);
     assertEquals(d, RealScalar.of(0.5));
   }
 
   public void testUnderDouble() {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
-    Scalar d = s.under(DoubleScalar.of(2 * Math.PI));
+    Scalar d = s.under(Pi.TWO);
     assertTrue(d instanceof DoubleScalar);
     assertEquals(d, RealScalar.of(2));
   }

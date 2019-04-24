@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** The implementation is consistent with Mathematica.
  * Special examples:
@@ -74,10 +74,10 @@ public enum Array {
     int level = index.size();
     if (level == dimensions.size())
       return function.apply(index);
-    Tensor tensor = Tensors.empty();
     List<Integer> copy = new ArrayList<>(index);
     copy.add(-1);
-    int length = requirePositiveOrZero(dimensions.get(level));
+    int length = dimensions.get(level);
+    Tensor tensor = Unprotect.empty(length);
     for (int count = 0; count < length; ++count) {
       copy.set(level, count);
       tensor.append(of(function, dimensions, copy));

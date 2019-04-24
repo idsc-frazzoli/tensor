@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.stream.IntStream;
 
@@ -8,6 +9,7 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -61,6 +63,11 @@ public class BinomialTest extends TestCase {
 
   public void testScalar() {
     assertEquals(Binomial.of(RealScalar.of(4), RealScalar.of(2)), RealScalar.of(6));
+  }
+
+  public void testSerializable() throws ClassNotFoundException, IOException {
+    Binomial binomial = Serialization.copy(Binomial.of(3));
+    assertEquals(binomial.over(2), RealScalar.of(3));
   }
 
   public void testFailNK() {

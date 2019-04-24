@@ -75,6 +75,35 @@ public class QuantityMagnitudeTest extends TestCase {
     assertEquals(result, RationalScalar.of(365, 84));
   }
 
+  public void testHorsepower() {
+    ScalarUnaryOperator scalarUnaryOperator = QuantityMagnitude.SI().in("W");
+    Scalar ps = scalarUnaryOperator.apply(Quantity.of(1.0, "PS"));
+    Scalar hp = scalarUnaryOperator.apply(Quantity.of(1.0, "hp"));
+    assertEquals(ps, RealScalar.of(735.49875));
+    Chop._12.requireClose(hp, RealScalar.of(745.6998715822702));
+  }
+
+  public void testHorsepowerKiloWatts() {
+    ScalarUnaryOperator scalarUnaryOperator = QuantityMagnitude.SI().in("kW");
+    Scalar ps = scalarUnaryOperator.apply(Quantity.of(1.0, "PS"));
+    Scalar hp = scalarUnaryOperator.apply(Quantity.of(1.0, "hp"));
+    Chop._14.requireClose(ps, RealScalar.of(0.73549875));
+    Chop._14.requireClose(hp, RealScalar.of(0.7456998715822702));
+  }
+
+  public void testKiloponds() {
+    ScalarUnaryOperator scalarUnaryOperator = QuantityMagnitude.SI().in("N");
+    Scalar kp = scalarUnaryOperator.apply(Quantity.of(1.0, "kp"));
+    assertEquals(kp, RealScalar.of(9.80665));
+  }
+
+  public void testMetricTons() {
+    ScalarUnaryOperator scalarUnaryOperator = QuantityMagnitude.SI().in("t");
+    Scalar _1kg_in_tons = scalarUnaryOperator.apply(Quantity.of(1000, "g"));
+    ExactScalarQ.require(_1kg_in_tons);
+    assertEquals(_1kg_in_tons, RationalScalar.of(1, 1000));
+  }
+
   public void testFailConversion() {
     QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
     Scalar quantity = Quantity.of(360, "kg");

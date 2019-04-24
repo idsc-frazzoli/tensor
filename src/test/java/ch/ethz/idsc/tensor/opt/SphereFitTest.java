@@ -1,12 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -31,7 +33,7 @@ public class SphereFitTest extends TestCase {
     }
   }
 
-  public void testLeastSquare() {
+  public void testLeastSquare() throws ClassNotFoundException, IOException {
     Tensor _points = Tensors.of( //
         Tensors.vector(1, 0), //
         Tensors.vector(0, 0), //
@@ -40,8 +42,9 @@ public class SphereFitTest extends TestCase {
     for (Tensor shift : Tensors.fromString("{{0,0},{0,-5/3},{10,0},{20,20}}")) {
       Tensor points = Tensor.of(_points.stream().map(point -> point.add(shift)));
       Optional<SphereFit> optional = SphereFit.of(points);
-      Tensor center = optional.get().center();
-      Tensor radius = optional.get().radius();
+      SphereFit sphereFit = Serialization.copy(optional.get());
+      Tensor center = sphereFit.center();
+      Tensor radius = sphereFit.radius();
       assertTrue(Chop._13.close(center, Tensors.vector(0.39894957983193285, 0.4067226890756306).add(shift)));
       assertTrue(Chop._09.close(radius, RealScalar.of(0.6342832218291473)));
     }

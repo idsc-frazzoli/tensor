@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * 
  * <p>The function is used in {@link Expectation} to provide the variance of
  * a given {@link Distribution}. */
+@FunctionalInterface
 public interface VarianceInterface {
   /** @return variance of distribution */
   Scalar variance();

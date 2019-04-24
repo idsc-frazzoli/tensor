@@ -1,12 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.alg.MatrixQ;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.mat.MatrixRank;
 import ch.ethz.idsc.tensor.mat.PseudoInverse;
@@ -15,7 +16,7 @@ import ch.ethz.idsc.tensor.red.Norm2Squared;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** reference: "Circle fitting by linear and non-linear least squares", by J. D. Coope */
-public class SphereFit {
+public class SphereFit implements Serializable {
   private static final Scalar TWO = RealScalar.of(2);
 
   /** @param points encoded as matrix
@@ -23,12 +24,11 @@ public class SphereFit {
    * of the fitted sphere, or empty if points are numerically co-linear
    * @throws Exception if points is empty, or not a matrix */
   public static Optional<SphereFit> of(Tensor points) {
-    MatrixQ.require(points);
     Tensor A = Tensor.of(points.stream() //
         .map(point -> point.multiply(TWO).append(RealScalar.ONE)));
     Tensor b = Tensor.of(points.stream().map(Norm2Squared::ofVector));
     int rows = A.length();
-    int cols = A.get(0).length();
+    int cols = Unprotect.dimension1(A);
     if (rows < cols)
       return Optional.empty();
     SingularValueDecomposition svd = SingularValueDecomposition.of(A);

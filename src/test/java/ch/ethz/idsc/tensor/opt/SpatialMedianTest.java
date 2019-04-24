@@ -1,11 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -41,14 +43,14 @@ public class SpatialMedianTest extends TestCase {
     assertTrue(Chop._08.close(weighted.get(), solution));
   }
 
-  public void testPoles() {
+  public void testPoles() throws ClassNotFoundException, IOException {
     Tensor tensor = Tensors.of( //
         Tensors.vector(-1, 0), //
         Tensors.vector(0, 0), //
         Tensors.vector(2, 10), //
         Tensors.vector(2, -10) //
     );
-    SpatialMedian fermatWeberProblem = SpatialMedian.with(RealScalar.of(1e-2));
+    SpatialMedian fermatWeberProblem = Serialization.copy(SpatialMedian.with(RealScalar.of(1e-2)));
     Tensor sol = fermatWeberProblem.uniform(tensor).get();
     assertTrue(Norm._2.between(sol, tensor.get(1)).Get().number().doubleValue() < 2e-2);
   }

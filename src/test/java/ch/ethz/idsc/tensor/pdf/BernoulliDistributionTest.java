@@ -54,6 +54,34 @@ public class BernoulliDistributionTest extends TestCase {
     assertTrue(Scalars.lessThan(dev, RealScalar.of(.07)));
   }
 
+  public void testInverseCdf() {
+    Scalar p = RationalScalar.of(1, 3);
+    EvaluatedDiscreteDistribution distribution = (EvaluatedDiscreteDistribution) BernoulliDistribution.of(p);
+    NavigableMap<Scalar, Scalar> map = distribution.inverse_cdf();
+    assertEquals(map.get(RationalScalar.of(2, 3)), RealScalar.ZERO);
+    assertEquals(map.get(RationalScalar.of(1, 1)), RealScalar.ONE);
+  }
+
+  public void testNumber() {
+    Distribution distribution = BernoulliDistribution.of(0.5);
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    double half = 0.5;
+    assertEquals(inverseCDF.quantile(RealScalar.of(half)), RealScalar.ONE);
+    assertEquals(inverseCDF.quantile(RealScalar.of(Math.nextDown(half))), RealScalar.ZERO);
+    try {
+      inverseCDF.quantile(RealScalar.of(-0.1));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      inverseCDF.quantile(RealScalar.of(1.1));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailP() {
     try {
       BernoulliDistribution.of(RationalScalar.of(-1, 3));
@@ -69,11 +97,18 @@ public class BernoulliDistributionTest extends TestCase {
     }
   }
 
-  public void testInverseCdf() {
-    Scalar p = RationalScalar.of(1, 3);
-    EvaluatedDiscreteDistribution distribution = (EvaluatedDiscreteDistribution) BernoulliDistribution.of(p);
-    NavigableMap<Scalar, Scalar> map = distribution.inverse_cdf();
-    assertEquals(map.get(RationalScalar.of(2, 3)), RealScalar.ZERO);
-    assertEquals(map.get(RationalScalar.of(1, 1)), RealScalar.ONE);
+  public void testFailPNumber() {
+    try {
+      BernoulliDistribution.of(-1e-10);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      BernoulliDistribution.of(1.0001);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

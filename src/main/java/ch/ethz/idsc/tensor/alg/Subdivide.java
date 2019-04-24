@@ -15,7 +15,11 @@ import ch.ethz.idsc.tensor.sca.Clip;
  * <a href="https://reference.wolfram.com/language/ref/Subdivide.html">Subdivide</a> */
 public enum Subdivide {
   ;
-  /** Examples:
+  /** Subdivides interpolates between given start and end with n-1 intermediate points.
+   * The return value is a tensor with first element identical to given start and
+   * the last element identical to given end.
+   * 
+   * <p>Examples:
    * <pre>
    * Subdivide.of(10, 15, 5) == {10, 11, 12, 13, 14, 15}
    * Subdivide.of(10, 15, 4) == {10, 45/4, 25/2, 55/4, 15}
@@ -46,6 +50,7 @@ public enum Subdivide {
    * @see Range */
   public static Tensor of(Tensor startInclusive, Tensor endInclusive, int n) {
     if (0 < n)
+      // implementation is not as efficient
       return Tensor.of(IntStream.rangeClosed(0, n) //
           .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
               .add(endInclusive.multiply(RationalScalar.of(count, n)))));

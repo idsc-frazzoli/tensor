@@ -15,16 +15,11 @@ public class GaussianEliminationTest extends TestCase {
   public void testPivots() {
     Tensor matrix = HilbertMatrix.of(3);
     Tensor rhs = Tensors.vector(-1, -2, 3);
-    GaussianElimination ge1 = new GaussianElimination(matrix, PivotArgMaxAbs.INSTANCE, rhs);
-    GaussianElimination ge2 = new GaussianElimination(matrix, PivotFirstNonZero.INSTANCE, rhs);
-    assertEquals(ge1.det(), ge2.det());
-    assertEquals(ge1.lhs(), ge2.lhs());
-    assertEquals(ge1.solution(), ge2.solution());
-    assertEquals(ge1.det(), ge2.det());
-    assertEquals(ge1.lhs(), ge2.lhs());
-    assertEquals(ge1.solution(), ge2.solution());
-    ExactTensorQ.require(ge1.solution());
-    ExactTensorQ.require(ge2.solution());
-    assertEquals(ge1.solution(), Tensors.vector(153, -888, 870));
+    Tensor ge1 = GaussianElimination.of(matrix, PivotArgMaxAbs.INSTANCE, rhs);
+    Tensor ge2 = GaussianElimination.of(matrix, PivotFirstNonZero.INSTANCE, rhs);
+    assertEquals(ge1, ge2);
+    ExactTensorQ.require(ge1);
+    ExactTensorQ.require(ge2);
+    assertEquals(ge1, Tensors.vector(153, -888, 870));
   }
 }

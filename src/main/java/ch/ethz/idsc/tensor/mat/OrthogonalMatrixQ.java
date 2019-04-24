@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Chop;
 
@@ -24,5 +25,25 @@ public enum OrthogonalMatrixQ {
    * @see UnitaryMatrixQ */
   public static boolean of(Tensor tensor) {
     return of(tensor, NullSpace.CHOP_DEFAULT);
+  }
+
+  /** @param tensor
+   * @param chop
+   * @return
+   * @throws Exception if given tensor is not an orthogonal matrix */
+  public static Tensor require(Tensor tensor, Chop chop) {
+    if (of(tensor, chop))
+      return tensor;
+    throw TensorRuntimeException.of(tensor);
+  }
+
+  /** @param tensor
+   * @param chop
+   * @return
+   * @throws Exception if given tensor is not an orthogonal matrix */
+  public static Tensor require(Tensor tensor) {
+    if (of(tensor))
+      return tensor;
+    throw TensorRuntimeException.of(tensor);
   }
 }
