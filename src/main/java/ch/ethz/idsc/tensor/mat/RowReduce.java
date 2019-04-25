@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import java.util.stream.IntStream;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -46,6 +48,6 @@ public class RowReduce extends AbstractReduce {
         ++c0;
       }
     }
-    return lhs();
+    return Tensor.of(IntStream.of(ind).mapToObj(lhs::get));
   }
 }

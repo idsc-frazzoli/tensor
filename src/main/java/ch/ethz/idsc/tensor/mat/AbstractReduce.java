@@ -31,11 +31,6 @@ import ch.ethz.idsc.tensor.Tensor;
     }
   }
 
-  /** @return lhs */
-  final Tensor lhs() {
-    return Tensor.of(IntStream.of(ind).mapToObj(lhs::get));
-  }
-
   final int transpositions() {
     return transpositions;
   }
