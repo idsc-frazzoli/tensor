@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.stream.Stream;
+
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
@@ -10,12 +12,12 @@ public enum RotateLeft {
   /** RotateLeft[{a, b, c, d, e}, 2] == {c, d, e, a, b}
    * 
    * @param tensor
-   * @param n
+   * @param n any integer
    * @return */
   public static Tensor of(Tensor tensor, int n) {
     int index = Math.floorMod(n, tensor.length());
-    return Join.of( //
-        tensor.extract(index, tensor.length()), //
-        tensor.extract(0, index));
+    return Tensor.of(Stream.concat( //
+        tensor.stream().skip(index), //
+        tensor.stream().limit(index)).map(Tensor::copy));
   }
 }

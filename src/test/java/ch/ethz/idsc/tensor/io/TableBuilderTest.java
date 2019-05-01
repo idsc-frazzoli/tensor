@@ -28,8 +28,8 @@ public class TableBuilderTest extends TestCase {
     assertEquals(tb.getRowCount(), 4);
     tb.appendRow(Tensors.vector(1, 2, 3));
     assertEquals(tb.stream().count(), 5);
-    Tensor matrix = tb.toTable();
-    assertEquals(matrix, Tensors.fromString("{{1,2,3,4,5},{-2,6,0,7},{},{100},{1,2,3}}"));
+    Tensor table = tb.toTable();
+    assertEquals(table, Tensors.fromString("{{1,2,3,4,5},{-2,6,0,7},{},{100},{1,2,3}}"));
   }
 
   public void testModify() {
@@ -45,13 +45,26 @@ public class TableBuilderTest extends TestCase {
     assertEquals(tableBuilder.toTable().get(0), Range.of(1, 5));
   }
 
+  public void testUnmodifiableWrapper() {
+    TableBuilder tableBuilder = new TableBuilder();
+    Tensor tensor = tableBuilder.toTable();
+    assertEquals(tensor.length(), 0);
+    tableBuilder.appendRow();
+    assertEquals(tensor.length(), 1);
+    tableBuilder.appendRow();
+    assertEquals(tensor.length(), 2);
+    assertEquals(tableBuilder.getRowCount(), 2);
+  }
+
   public void testFail() {
     TableBuilder tableBuilder = new TableBuilder();
+    assertEquals(tableBuilder.getRowCount(), 0);
     try {
       tableBuilder.appendRow((Tensor[]) null);
       fail();
     } catch (Exception exception) {
       // ---
     }
+    assertEquals(tableBuilder.getRowCount(), 0);
   }
 }

@@ -50,7 +50,7 @@ public enum MatlabExport {
     else {
       List<Integer> dims = Dimensions.of(tensor);
       Integer[] sigma = new Integer[dims.size()];
-      IntStream.range(0, dims.size()).forEach(i -> sigma[i] = dims.size() - i - 1);
+      IntStream.range(0, dims.size()).forEach(index -> sigma[index] = dims.size() - index - 1);
       if (dims.size() == 1)
         dims.add(1); // [n, 1]
       list.add("a=zeros(" + dims + ");");

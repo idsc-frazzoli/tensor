@@ -10,6 +10,7 @@ public class UserNameTest extends TestCase {
   }
 
   public void testIs() {
+    assertTrue(UserName.is(UserName.get()));
     assertFalse(UserName.is(""));
     assertFalse(UserName.is("&E T H!"));
   }

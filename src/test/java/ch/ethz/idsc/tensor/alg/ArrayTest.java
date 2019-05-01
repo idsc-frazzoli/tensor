@@ -3,11 +3,13 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.red.Tally;
 import junit.framework.TestCase;
 
 public class ArrayTest extends TestCase {
@@ -57,6 +59,10 @@ public class ArrayTest extends TestCase {
     Tensor zeros = Array.zeros(3, 5, 2, 7);
     Tensor table = Array.of(l -> RealScalar.ZERO, 3, 5, 2, 7);
     assertEquals(zeros, table);
+    zeros.set(RealScalar.ONE, 0, 1, 0, 2);
+    Map<Tensor, Long> map = Tally.of(Flatten.of(zeros));
+    assertEquals(map.get(RealScalar.ZERO), (Long) (3L * 5 * 2 * 7 - 1L));
+    assertEquals(map.get(RealScalar.ONE), (Long) 1L);
   }
 
   public void testZeros2() {

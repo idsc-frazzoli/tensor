@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -44,11 +44,11 @@ public enum Array {
    * @return tensor of {@link RealScalar#ZERO} with given dimensions
    * @throws Exception if any of the integer parameters is negative */
   public static Tensor zeros(List<Integer> dimensions) {
-    if (dimensions.size() == 0)
+    int size = dimensions.size();
+    if (size == 0)
       return RealScalar.ZERO;
     int length = requirePositiveOrZero(dimensions.get(0));
-    return Tensor.of(IntStream.range(0, length) //
-        .mapToObj(i -> zeros(dimensions.subList(1, dimensions.size()))));
+    return Tensor.of(Stream.generate(() -> zeros(dimensions.subList(1, size))).limit(length));
   }
 
   /** Careful:

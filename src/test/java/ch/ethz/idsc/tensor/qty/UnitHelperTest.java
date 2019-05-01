@@ -23,7 +23,6 @@ public class UnitHelperTest extends TestCase {
 
   public void testFail() {
     _confirmFail("Haqiuyt asdMAM");
-    _confirmFail("HaqiuytasdMAM_");
     _confirmFail("HaqiuytasdMAM2");
     _confirmFail("Haqiuyta2sdMAM");
     _confirmFail("Haqiuyta2sdMAM^3");
@@ -39,5 +38,12 @@ public class UnitHelperTest extends TestCase {
     assertEquals(UnitHelper.MEMO.lookup("a*"), UnitHelper.MEMO.lookup("a"));
     assertEquals(UnitHelper.MEMO.lookup("a***"), UnitHelper.MEMO.lookup("a"));
     assertEquals(UnitHelper.MEMO.lookup("**a***b**"), UnitHelper.MEMO.lookup("a*b"));
+  }
+
+  public void testUnderscore() {
+    Unit unit = UnitHelper.MEMO.lookup("V_AC");
+    assertTrue(unit == UnitHelper.MEMO.lookup("V_AC"));
+    assertTrue(UnitHelper.MEMO.lookup("____").equals(UnitHelper.MEMO.lookup("____")));
+    assertFalse(UnitHelper.MEMO.lookup("___").equals(UnitHelper.MEMO.lookup("____")));
   }
 }

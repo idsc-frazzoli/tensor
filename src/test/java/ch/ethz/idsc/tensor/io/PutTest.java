@@ -13,10 +13,21 @@ public class PutTest extends TestCase {
     File file = HomeDirectory.file("tensorLib_PutTest.put");
     assertFalse(file.exists());
     Tensor tensor = Tensors.fromString("{{2,3.123+3*I,34.1231},{556,3/456,-323/2,{3,8.45`}}}");
-    Put.of(file, tensor);
+    Put.of(file, tensor.unmodifiable());
     Tensor readin = Get.of(file);
     assertTrue(file.delete());
     assertFalse(file.exists());
     assertEquals(tensor, readin);
+  }
+
+  public void testNullFail() {
+    File file = HomeDirectory.file("tensorLib_PutTestNull.put");
+    assertFalse(file.exists());
+    try {
+      Put.of(file, null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

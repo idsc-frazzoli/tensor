@@ -37,7 +37,10 @@ import ch.ethz.idsc.tensor.alg.Flatten;
  * <p>The name TableBuilder was inspired by {@link StringBuilder}.
  * 
  * <p>Due to the use of a LinkedList, TableBuilder is typically faster than
- * {@link Tensors#empty()} with subsequent {@link Tensor#append(Tensor)} */
+ * {@link Tensors#empty()} with subsequent {@link Tensor#append(Tensor)}.
+ * 
+ * <p>The resulting table is <em>not</em> required to be regular, i.e.
+ * a matrix. The rows may differ in length. */
 public final class TableBuilder implements Serializable {
   /** LinkedList was found to be the faster than ArrayDeque */
   private final Tensor tensor = Unprotect.emptyLinkedList();
@@ -57,7 +60,21 @@ public final class TableBuilder implements Serializable {
     return tensor.length();
   }
 
-  /** @return unmodifiable tensor with rows as entries */
+  /** Hint: Although the tensor returned is unmodifiable, subsequent
+   * changes to the table builder affect the tensor!
+   *
+   * <pre>
+   * TableBuilder tableBuilder = new TableBuilder();
+   * Tensor tensor = tableBuilder.toTable();
+   * assertEquals(tensor.length(), 0);
+   * tableBuilder.appendRow();
+   * assertEquals(tensor.length(), 1);
+   * </pre>
+   * 
+   * Hint: Since the tensor is backed by a linked list, extractions
+   * with {@link Tensor#get(Integer...)} are inefficient!
+   * 
+   * @return unmodifiable tensor with rows of table builder as entries. */
   public Tensor toTable() {
     return tensor.unmodifiable();
   }

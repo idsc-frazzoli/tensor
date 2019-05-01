@@ -8,8 +8,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /* package */ class TensorExtract extends AbstractExtract {
   static Tensor convolve(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
-    TensorExtract extract = new TensorExtract(tensor, radius);
-    return Tensor.of(IntStream.range(0, tensor.length()).mapToObj(extract::extract).map(unaryOperator));
+    TensorExtract tensorExtract = new TensorExtract(tensor, radius);
+    return Tensor.of(IntStream.range(0, tensor.length()).mapToObj(tensorExtract::extract).map(unaryOperator));
   }
 
   // ---
