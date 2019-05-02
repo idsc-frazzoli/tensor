@@ -43,12 +43,12 @@ import ch.ethz.idsc.tensor.sca.Mod;
       }
     }
 
-    @Override
+    @Override // from ExtendedGCD
     public Scalar gcd() {
       return gcd;
     }
 
-    @Override
+    @Override // from ExtendedGCD
     public Tensor factors() {
       return Tensors.of(x, y);
     }

@@ -34,8 +34,9 @@ public enum Factorial implements ScalarUnaryOperator {
       throw new IllegalArgumentException(Integer.toString(index));
     if (MEMO.length() <= index)
       synchronized (FUNCTION) {
+        Scalar x = (Scalar) Last.of(MEMO);
         while (MEMO.length() <= index)
-          MEMO.append(Last.of(MEMO).multiply(RationalScalar.of(MEMO.length(), 1)));
+          MEMO.append(x = x.multiply(RationalScalar.of(MEMO.length(), 1)));
       }
     return MEMO.Get(index);
   }

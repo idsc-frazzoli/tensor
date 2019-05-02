@@ -32,4 +32,37 @@ public class NestListTest extends TestCase {
     vector.set(RealScalar.ZERO, 0);
     assertEquals(list, Tensors.fromString("{{1,2,3}}"));
   }
+
+  public void testZero() {
+    Tensor vector = NestList.of(Cos::of, RealScalar.ONE, 0);
+    assertEquals(vector, Tensors.vector(1));
+  }
+
+  public void testNullOperator() {
+    assertEquals(NestList.of(null, RealScalar.ONE, 0), Tensors.vector(1));
+  }
+
+  public void testFailNull() {
+    try {
+      NestList.of(Cos::of, null, 0);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailNegative() {
+    try {
+      NestList.of(Cos::of, RealScalar.ONE, -1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      NestList.of(Cos::of, RealScalar.ONE, -2);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

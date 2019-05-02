@@ -47,7 +47,7 @@ public enum Array {
     int size = dimensions.size();
     if (size == 0)
       return RealScalar.ZERO;
-    int length = requirePositiveOrZero(dimensions.get(0));
+    int length = StaticHelper.requirePositiveOrZero(dimensions.get(0));
     return Tensor.of(Stream.generate(() -> zeros(dimensions.subList(1, size))).limit(length));
   }
 
@@ -83,11 +83,5 @@ public enum Array {
       tensor.append(of(function, dimensions, copy));
     }
     return tensor;
-  }
-
-  private static int requirePositiveOrZero(int length) {
-    if (length < 0)
-      throw new IllegalArgumentException(Integer.toString(length));
-    return length;
   }
 }

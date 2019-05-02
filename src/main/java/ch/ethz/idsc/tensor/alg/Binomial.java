@@ -93,10 +93,10 @@ public class Binomial implements Serializable {
   private Binomial(int n) {
     this.n = n;
     int half = n / 2;
-    row = Unprotect.empty(half + 1);
-    row.append(RealScalar.ONE);
+    Scalar x = RealScalar.ONE;
+    row = Unprotect.empty(half + 1).append(x);
     for (int k = 1; k <= half; ++k)
-      row.append(Last.of(row).multiply(RationalScalar.of(n - k + 1, k)));
+      row.append(x = x.multiply(RationalScalar.of(n - k + 1, k)));
   }
 
   /** @param k
