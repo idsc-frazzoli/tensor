@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Frobenius;
+import ch.ethz.idsc.tensor.usr.TestFile;
 import junit.framework.TestCase;
 
 public class ExportHelperTest extends TestCase {
@@ -21,8 +22,7 @@ public class ExportHelperTest extends TestCase {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(128);
     Tensor image = Tensors.fromString("{{{255,2,3,255},{0,0,0,0},{91,120,230,255},{0,0,0,0}}}");
     ExportHelper.of(Extension.GIF, image, byteArrayOutputStream);
-    File file = HomeDirectory.file(getClass().getSimpleName() + ".gif");
-    assertFalse(file.exists());
+    File file = TestFile.withExtension("gif");
     Export.of(file, image);
     assertTrue(file.isFile());
     assertTrue(file.delete());

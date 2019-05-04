@@ -13,6 +13,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Tally;
 import junit.framework.TestCase;
 
@@ -224,6 +225,12 @@ public class BinomialDistributionTest extends TestCase {
     BinomialDistribution.of(3, RealScalar.ONE);
     try {
       BinomialDistribution.of(10, RationalScalar.of(4, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      BinomialDistribution.of(10, Quantity.of(.2, "s"));
       fail();
     } catch (Exception exception) {
       // ---

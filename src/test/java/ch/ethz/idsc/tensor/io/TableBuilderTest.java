@@ -17,32 +17,32 @@ public class TableBuilderTest extends TestCase {
   }
 
   public void testAppendRow() throws IOException {
-    TableBuilder tb = new TableBuilder();
-    tb.appendRow(RealScalar.ONE, Tensors.vector(2, 3, 4), RealScalar.of(5));
-    assertEquals(tb.getRowCount(), 1);
-    tb.appendRow(RealScalar.of(-2), RealScalar.of(6), Tensors.vector(0, 7));
-    assertEquals(tb.getRowCount(), 2);
-    tb.appendRow();
-    assertEquals(tb.getRowCount(), 3);
-    tb.appendRow(RealScalar.of(100));
-    assertEquals(tb.getRowCount(), 4);
-    tb.appendRow(Tensors.vector(1, 2, 3));
-    assertEquals(tb.stream().count(), 5);
-    Tensor table = tb.toTable();
+    TableBuilder tableBuilder = new TableBuilder();
+    tableBuilder.appendRow(RealScalar.ONE, Tensors.vector(2, 3, 4), RealScalar.of(5));
+    assertEquals(tableBuilder.getRowCount(), 1);
+    tableBuilder.appendRow(RealScalar.of(-2), RealScalar.of(6), Tensors.vector(0, 7));
+    assertEquals(tableBuilder.getRowCount(), 2);
+    tableBuilder.appendRow();
+    assertEquals(tableBuilder.getRowCount(), 3);
+    tableBuilder.appendRow(RealScalar.of(100));
+    assertEquals(tableBuilder.getRowCount(), 4);
+    tableBuilder.appendRow(Tensors.vector(1, 2, 3));
+    assertEquals(tableBuilder.stream().count(), 5);
+    Tensor table = tableBuilder.toTable();
     assertEquals(table, Tensors.fromString("{{1,2,3,4,5},{-2,6,0,7},{},{100},{1,2,3}}"));
   }
 
   public void testModify() {
     TableBuilder tableBuilder = new TableBuilder();
     tableBuilder.appendRow(Tensors.vector(1, 2, 3, 4));
-    Tensor t1 = tableBuilder.toTable();
+    Tensor table = tableBuilder.toTable();
     try {
-      t1.set(RealScalar.of(99), 0, 2);
+      table.set(RealScalar.of(99), 0, 2);
       fail();
     } catch (Exception exception) {
       // ---
     }
-    assertEquals(tableBuilder.toTable().get(0), Range.of(1, 5));
+    assertEquals(table.get(0), Range.of(1, 5));
   }
 
   public void testUnmodifiableWrapper() {

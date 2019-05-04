@@ -38,9 +38,10 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
     Scalar q = revert //
         ? RealScalar.ONE.subtract(p)
         : p;
-    Scalar last = Power.of(RealScalar.ONE.subtract(q), n);
+    Scalar _1_q = RealScalar.ONE.subtract(q); // 1 - q
+    Scalar last = Power.of(_1_q, n);
     Tensor table = Unprotect.empty(n + 1).append(last);
-    final Scalar pratio = q.divide(RealScalar.ONE.subtract(q));
+    final Scalar pratio = q.divide(_1_q);
     for (int k = 1; k <= n; ++k) {
       // ((1 - k + n) p) / (k - k p) == ((1 - k + n)/k) * (p/(1 - p))
       Scalar ratio = RationalScalar.of(n - k + 1, k).multiply(pratio);
