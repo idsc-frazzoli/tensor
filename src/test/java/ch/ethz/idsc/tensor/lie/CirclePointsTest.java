@@ -3,6 +3,8 @@ package ch.ethz.idsc.tensor.lie;
 
 import java.util.Arrays;
 
+import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -19,6 +21,17 @@ import junit.framework.TestCase;
 public class CirclePointsTest extends TestCase {
   public void testZero() {
     assertEquals(CirclePoints.of(0), Tensors.empty());
+  }
+
+  public void testExact() {
+    ExactTensorQ.require(CirclePoints.of(2));
+    ExactTensorQ.require(CirclePoints.of(4));
+    Chop._12.requireClose(CirclePoints.of(4), CirclePoints.numeric(4));
+    Chop._12.requireClose(CirclePoints.of(6), CirclePoints.numeric(6));
+    Chop._12.requireClose(CirclePoints.of(12), CirclePoints.numeric(12));
+    assertEquals(CirclePoints.of(6).flatten(-1).filter(ExactScalarQ::of).count(), 8);
+    assertEquals(CirclePoints.of(9).flatten(-1).filter(ExactScalarQ::of).count(), 4);
+    assertEquals(CirclePoints.of(12).flatten(-1).filter(ExactScalarQ::of).count(), 16);
   }
 
   public void testNorm() {
