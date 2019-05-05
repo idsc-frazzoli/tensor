@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.io.TableBuilder;
@@ -27,10 +26,10 @@ public enum Unprotect {
 
   /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
    * 
-   * @return empty tensor with elements stored in a linked list
+   * @return tensor backed by given list
    * @see TableBuilder */
-  public static Tensor emptyLinkedList() {
-    return new TensorImpl(new LinkedList<>());
+  public static Tensor using(List<Tensor> list) {
+    return new TensorImpl(list);
   }
 
   /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !

@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Range;
@@ -34,11 +33,5 @@ public enum CirclePoints {
     if (n < 0)
       throw new RuntimeException("n=" + n);
     return Range.of(0, n).divide(RealScalar.of(n)).map(AngleVector::rotation);
-  }
-
-  public static Tensor numeric(int n) {
-    if (n < 0)
-      throw new RuntimeException("n=" + n);
-    return Range.of(0, n).multiply(DoubleScalar.of(2 * Math.PI / n)).map(AngleVector::of);
   }
 }
