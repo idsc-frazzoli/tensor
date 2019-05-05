@@ -1,11 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
-
 import ch.ethz.idsc.tensor.Scalar;
 
-abstract class AbstractAlphaBetaDistribution extends AbstractContinuousDistribution implements //
+/* package */ abstract class AbstractAlphaBetaDistribution extends AbstractContinuousDistribution implements //
     MeanInterface, VarianceInterface {
   static final double NEXTDOWNONE = Math.nextDown(1.0);
   // ---
@@ -16,14 +14,6 @@ abstract class AbstractAlphaBetaDistribution extends AbstractContinuousDistribut
     this.alpha = alpha;
     this.beta = beta;
   }
-
-  @Override // from RandomVariateInterface
-  public final Scalar randomVariate(Random random) {
-    return randomVariate(random.nextDouble());
-  }
-
-  /* package for testing */
-  abstract Scalar randomVariate(double reference);
 
   @Override // from CDF
   public final Scalar p_lessEquals(Scalar x) {

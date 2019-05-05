@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
-
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -38,12 +36,8 @@ public class GompertzMakehamDistribution extends AbstractContinuousDistribution 
       throw TensorRuntimeException.of(lambda, xi);
   }
 
-  @Override // from RandomVariateInterface
-  public Scalar randomVariate(Random random) {
-    return randomVariate(random.nextDouble());
-  }
-
-  /* package for testing */ Scalar randomVariate(double reference) {
+  @Override // from AbstractContinuousDistribution
+  protected Scalar randomVariate(double reference) {
     double uniform = Math.nextUp(reference);
     return Log.FUNCTION.apply( //
         xi.subtract(Log.FUNCTION.apply(DoubleScalar.of(uniform))).divide(xi)).divide(lambda);

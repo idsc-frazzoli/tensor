@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -12,8 +13,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/NormalDistribution.html">NormalDistribution</a> */
-public class NormalDistribution extends AbstractContinuousDistribution implements //
-    InverseCDF, MeanInterface, VarianceInterface {
+public class NormalDistribution implements //
+    ContinuousDistribution, InverseCDF, MeanInterface, VarianceInterface, Serializable {
   private static final Distribution STANDARD = of(RealScalar.ZERO, RealScalar.ONE);
 
   /** @param mean

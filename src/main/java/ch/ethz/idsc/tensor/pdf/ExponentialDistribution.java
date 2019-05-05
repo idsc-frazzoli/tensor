@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
-
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -47,12 +45,8 @@ public class ExponentialDistribution extends AbstractContinuousDistribution impl
     lambda_negate = lambda.negate();
   }
 
-  @Override // from RandomVariateInterface
-  public Scalar randomVariate(Random random) {
-    return randomVariate(random.nextDouble());
-  }
-
-  /* package for testing */ Scalar randomVariate(double reference) {
+  @Override // from AbstractContinuousDistribution
+  protected Scalar randomVariate(double reference) {
     // {@link Random#nextDouble()} samples uniformly from the range 0.0 (inclusive) to 1.0d (exclusive)
     return quantile_unit(DoubleScalar.of(Math.nextUp(reference)));
   }

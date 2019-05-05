@@ -30,7 +30,7 @@ public class GumbelDistribution extends AbstractAlphaBetaDistribution {
   }
 
   @Override
-  Scalar randomVariate(double reference) {
+  protected Scalar randomVariate(double reference) {
     // avoid result -Infinity when reference is close to 1.0
     double uniform = reference == NEXTDOWNONE //
         ? reference

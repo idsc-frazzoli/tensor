@@ -1,8 +1,6 @@
 // code by clruch
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
-
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -98,9 +96,9 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
     return RealScalar.ZERO;
   }
 
-  @Override // from RandomVariateInterface
-  public Scalar randomVariate(Random random) {
-    return quantile(RealScalar.of(random.nextDouble()));
+  @Override // from AbstractContinuousDistribution
+  protected Scalar randomVariate(double reference) {
+    return quantile(RealScalar.of(reference));
   }
 
   @Override // from InverseCDF
