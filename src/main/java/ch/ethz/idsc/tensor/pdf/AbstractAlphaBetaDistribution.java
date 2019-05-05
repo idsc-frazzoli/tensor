@@ -15,11 +15,6 @@ import ch.ethz.idsc.tensor.Scalar;
     this.beta = beta;
   }
 
-  @Override // from CDF
-  public final Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
-  }
-
   @Override // from Object
   public final String toString() {
     return String.format("%s[%s, %s]", getClass().getSimpleName(), alpha, beta);

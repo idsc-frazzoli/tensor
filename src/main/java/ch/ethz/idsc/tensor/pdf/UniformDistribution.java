@@ -100,11 +100,10 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
     return clip.rescale(x);
   }
 
-  @Override // from CDF
-  public Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
-  }
-
+  // @Override // from CDF
+  // public Scalar p_lessEquals(Scalar x) {
+  // return p_lessThan(x);
+  // }
   @Override // from Object
   public String toString() {
     return String.format("%s[%s, %s]", getClass().getSimpleName(), clip.min(), clip.max());

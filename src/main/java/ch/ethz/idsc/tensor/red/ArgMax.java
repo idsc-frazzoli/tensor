@@ -45,12 +45,12 @@ public enum ArgMax {
   public static <T extends Comparable<T>> int of(Tensor tensor) {
     if (Tensors.isEmpty(tensor))
       return EMPTY;
-    T max = (T) tensor.get(0);
+    T ref = (T) tensor.get(0);
     int arg = 0;
     for (int index = 1; index < tensor.length(); ++index) {
       T cmp = (T) tensor.get(index);
-      if (max.compareTo(cmp) < 0) {
-        max = cmp;
+      if (ref.compareTo(cmp) < 0) {
+        ref = cmp;
         arg = index;
       }
     }

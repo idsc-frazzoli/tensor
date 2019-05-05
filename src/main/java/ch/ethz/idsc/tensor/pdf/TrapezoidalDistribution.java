@@ -74,11 +74,6 @@ public class TrapezoidalDistribution extends AbstractContinuousDistribution impl
     return RealScalar.ONE;
   }
 
-  @Override // from CDF
-  public Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
-  }
-
   @Override // from PDF
   public Scalar at(Scalar x) {
     if (clip.isInside(x)) { // support is [a, d]

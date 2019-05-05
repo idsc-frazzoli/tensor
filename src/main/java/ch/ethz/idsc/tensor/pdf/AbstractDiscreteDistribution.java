@@ -12,15 +12,11 @@ import ch.ethz.idsc.tensor.Scalars;
 
 /** functionality and suggested base class for a discrete probability distribution */
 public abstract class AbstractDiscreteDistribution implements DiscreteDistribution, //
-    InverseCDF, MeanInterface, PDF, RandomVariateInterface, Serializable {
+    InverseCDF, MeanInterface, Serializable {
   @Override // from RandomVariateInterface
   public final Scalar randomVariate(Random random) {
     return protected_quantile(DoubleScalar.of(random.nextDouble()));
   }
-
-  /** @param p in the semi-open interval [0, 1)
-   * @return */
-  protected abstract Scalar protected_quantile(Scalar p);
 
   @Override // from PDF
   public final Scalar at(Scalar x) {
@@ -35,6 +31,11 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
       return RealScalar.ZERO;
     return protected_p_equals(n);
   }
+
+  /***************************************************/
+  /** @param p in the semi-open interval [0, 1)
+   * @return */
+  protected abstract Scalar protected_quantile(Scalar p);
 
   /** @param n with n >= lowerBound()
    * @return P(X == n), i.e. probability of random variable X == n */

@@ -12,6 +12,12 @@ public abstract class AbstractContinuousDistribution implements ContinuousDistri
     return randomVariate(random.nextDouble());
   }
 
+  @Override // from CDF
+  public final Scalar p_lessEquals(Scalar x) {
+    return p_lessThan(x);
+  }
+
+  /***************************************************/
   /** @param reference uniformly distributed in the interval [0, 1)
    * @return */
   protected abstract Scalar randomVariate(double reference);
