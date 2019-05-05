@@ -11,7 +11,7 @@ public class WindowFunctionTest extends TestCase {
     for (WindowFunction windowFunction : WindowFunction.values()) {
       assertEquals(windowFunction.apply(RealScalar.of(-0.500001)), RealScalar.ZERO);
       assertEquals(windowFunction.apply(RealScalar.of(+0.500001)), RealScalar.ZERO);
-      assertTrue(Chop._15.close(windowFunction.apply(RealScalar.ZERO), RealScalar.ONE));
+      Chop._15.requireClose(windowFunction.apply(RealScalar.ZERO), RealScalar.ONE);
     }
   }
 

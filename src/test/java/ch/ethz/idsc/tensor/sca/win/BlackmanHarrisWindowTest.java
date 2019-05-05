@@ -14,19 +14,19 @@ public class BlackmanHarrisWindowTest extends TestCase {
   public void testSimple() {
     ScalarUnaryOperator windowFunction = BlackmanHarrisWindow.FUNCTION;
     Scalar scalar = windowFunction.apply(RationalScalar.HALF);
-    assertTrue(Chop._10.close(scalar, Scalars.fromString("3/50000")));
+    Chop._10.requireClose(scalar, Scalars.fromString("3/50000"));
   }
 
   public void testQuarter() {
     ScalarUnaryOperator windowFunction = BlackmanHarrisWindow.FUNCTION;
     Scalar scalar = windowFunction.apply(RationalScalar.of(1, 4));
-    assertTrue(Chop._10.close(scalar, RationalScalar.of(21747, 100000)));
+    Chop._10.requireClose(scalar, RationalScalar.of(21747, 100000));
   }
 
   public void testThird() {
     ScalarUnaryOperator windowFunction = BlackmanHarrisWindow.FUNCTION;
     Scalar scalar = windowFunction.apply(RationalScalar.of(1, 3));
-    assertTrue(Chop._10.close(scalar, RationalScalar.of(11129, 200000)));
+    Chop._10.requireClose(scalar, RationalScalar.of(11129, 200000));
   }
 
   public void testOutside() {

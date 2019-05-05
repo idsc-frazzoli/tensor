@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
 import ch.ethz.idsc.tensor.qty.Unit;
+import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class UniformDistributionTest extends TestCase {
@@ -75,6 +76,15 @@ public class UniformDistributionTest extends TestCase {
   public void testToString() {
     Distribution distribution = UniformDistribution.of(Quantity.of(3, "g"), Quantity.of(6, "g"));
     assertEquals(distribution.toString(), "UniformDistribution[3[g], 6[g]]");
+  }
+
+  public void testClipPointFail() {
+    try {
+      UniformDistribution.of(Clips.interval(3, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testQuantileFail() {

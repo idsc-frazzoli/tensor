@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.num.GaussScalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class SinhTest extends TestCase {
@@ -36,6 +37,12 @@ public class SinhTest extends TestCase {
   }
 
   public void testFail() {
+    try {
+      Sinh.of(Quantity.of(1, "deg"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
     try {
       Sinh.of(GaussScalar.of(6, 7));
       fail();

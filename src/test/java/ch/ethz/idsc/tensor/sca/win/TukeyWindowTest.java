@@ -28,7 +28,7 @@ public class TukeyWindowTest extends TestCase {
     ScalarUnaryOperator scalarUnaryOperator = TukeyWindow.FUNCTION;
     assertEquals(scalarUnaryOperator.apply(RealScalar.of(0.12)), RealScalar.ONE);
     Scalar scalar = scalarUnaryOperator.apply(RealScalar.of(0.22));
-    assertTrue(Chop._12.close(scalar, RealScalar.of(0.9381533400219317))); // mathematica
+    Chop._12.requireClose(scalar, RealScalar.of(0.9381533400219317)); // mathematica
   }
 
   public void testSemiExact() {

@@ -55,7 +55,7 @@ public class PascalDistributionTest extends TestCase {
   public void testRandomVariate() {
     Scalar p = RationalScalar.of(3, 4);
     Distribution distribution = PascalDistribution.of(5, p);
-    Tensor tensor = RandomVariate.of(distribution, 2000);
+    Tensor tensor = RandomVariate.of(distribution, 2300);
     Tensor mean = Mean.of(tensor);
     Scalar diff = Mean.of(distribution).subtract(mean);
     assertTrue(Scalars.lessThan(diff.abs(), RealScalar.of(0.1)));

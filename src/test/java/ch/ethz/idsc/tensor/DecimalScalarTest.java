@@ -43,7 +43,7 @@ public class DecimalScalarTest extends TestCase {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
     Scalar d = s.under(RationalScalar.of(1, 2));
     assertTrue(d instanceof DecimalScalar);
-    assertTrue(Chop._10.close(d, DoubleScalar.of(0.5 / Math.PI)));
+    Chop._10.requireClose(d, DoubleScalar.of(0.5 / Math.PI));
   }
 
   public void testUnderDecimal() {
@@ -51,7 +51,7 @@ public class DecimalScalarTest extends TestCase {
     Scalar d2 = DecimalScalar.of(new BigDecimal("-11.233", MathContext.DECIMAL128));
     Scalar res = d1.under(d2);
     assertTrue(res instanceof DecimalScalar);
-    assertTrue(Chop._10.close(res, DoubleScalar.of(-11.233 / 123.0123)));
+    Chop._10.requireClose(res, DoubleScalar.of(-11.233 / 123.0123));
   }
 
   public void testN() {
@@ -63,7 +63,7 @@ public class DecimalScalarTest extends TestCase {
   public void testTrig() {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL32));
     assertTrue(Chop._06.allZero(Sin.of(s)));
-    assertTrue(Chop._06.close(Cos.of(s), RealScalar.ONE.negate()));
+    Chop._06.requireClose(Cos.of(s), RealScalar.ONE.negate());
   }
 
   public void testPower() {
@@ -82,7 +82,7 @@ public class DecimalScalarTest extends TestCase {
   public void testArg() {
     Scalar a = Arg.of(DecimalScalar.of(BigDecimal.ONE.negate()));
     Scalar b = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL128));
-    assertTrue(Chop._20.close(a, b));
+    Chop._20.requireClose(a, b);
   }
 
   private static void _checkEqCmp(Scalar s1, Scalar s2) {

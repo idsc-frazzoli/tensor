@@ -41,6 +41,6 @@ public class ArcCosTest extends TestCase {
     // _14 is insufficient on aarch64
     // aarch64: 0.9537320301188748+2.8462888282083836*I
     // x86_64 : 0.9537320301188659+2.846288828208396*I
-    assertTrue(Chop._12.close(r, Scalars.fromString("0.9537320301188659+2.846288828208396*I")));
+    Chop._12.requireClose(r, Scalars.fromString("0.9537320301188659+2.846288828208396*I"));
   }
 }
