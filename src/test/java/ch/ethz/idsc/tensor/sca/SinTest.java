@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class SinTest extends TestCase {
@@ -26,6 +27,12 @@ public class SinTest extends TestCase {
   }
 
   public void testTypeFail() {
+    try {
+      Sin.of(Quantity.of(1, "deg"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
     try {
       Sin.of(StringScalar.of("some"));
       fail();

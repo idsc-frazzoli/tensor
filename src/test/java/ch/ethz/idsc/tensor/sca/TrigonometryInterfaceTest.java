@@ -31,8 +31,8 @@ public class TrigonometryInterfaceTest extends TestCase {
 
   public void testQuantityDegree() {
     Scalar scalar = UnitSystem.SI().apply(Quantity.of(180, "deg"));
-    assertTrue(Chop._13.close(Sin.of(scalar), RealScalar.ZERO));
-    assertTrue(Chop._13.close(Cos.of(scalar), RealScalar.ONE.negate()));
+    Chop._13.requireClose(Sin.of(scalar), RealScalar.ZERO);
+    Chop._13.requireClose(Cos.of(scalar), RealScalar.ONE.negate());
   }
 
   public void testQuantityFail() {

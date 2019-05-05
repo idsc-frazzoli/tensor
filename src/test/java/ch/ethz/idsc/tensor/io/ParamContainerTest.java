@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.usr.TestFile;
 import junit.framework.TestCase;
 
 public class ParamContainerTest extends TestCase {
@@ -33,8 +34,7 @@ public class ParamContainerTest extends TestCase {
     paramContainerFile.tensor = Tensors.vector(1, 2, 3);
     paramContainerFile.file = HomeDirectory.file("file.txt");
     TensorProperties tensorProperties = TensorProperties.wrap(paramContainerFile);
-    File storage = HomeDirectory.file(ParamContainerTest.class.getName() + ".properties");
-    assertFalse(storage.exists());
+    File storage = TestFile.withExtension("properties");
     tensorProperties.save(storage);
     ParamContainerFile loaded = TensorProperties.wrap(new ParamContainerFile()).tryLoad(storage);
     assertEquals(loaded.file, paramContainerFile.file);

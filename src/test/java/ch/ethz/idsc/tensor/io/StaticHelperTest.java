@@ -44,9 +44,4 @@ public class StaticHelperTest extends TestCase {
     assertEquals(count, count2);
     assertEquals(count, 5);
   }
-
-  public void testUsername() {
-    String name = System.getProperty("user.name");
-    assertFalse(name.isEmpty());
-  }
 }

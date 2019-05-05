@@ -21,7 +21,7 @@ public class TanhTest extends TestCase {
   public void testComplex() {
     Scalar c = Tanh.of(ComplexScalar.of(2, 3.));
     Scalar s = Scalars.fromString("0.965385879022133 - 0.009884375038322494*I"); // Mathematica
-    assertTrue(Chop._13.close(c, s));
+    Chop._13.requireClose(c, s);
   }
 
   public void testFail() {

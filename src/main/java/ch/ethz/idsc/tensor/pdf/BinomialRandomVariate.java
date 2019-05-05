@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.pdf;
 
 import java.util.Random;
-import java.util.stream.IntStream;
+import java.util.stream.DoubleStream;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -29,8 +29,9 @@ import ch.ethz.idsc.tensor.Scalar;
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     double p_success = p.number().doubleValue();
-    return RationalScalar.of(IntStream.range(0, n) //
-        .filter(i -> random.nextDouble() < p_success).count(), 1);
+    return RationalScalar.of( //
+        DoubleStream.generate(random::nextDouble).limit(n).filter(value -> value < p_success).count(), //
+        1);
   }
 
   @Override // from MeanInterface

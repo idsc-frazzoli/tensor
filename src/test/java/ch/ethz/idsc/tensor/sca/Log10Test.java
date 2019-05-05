@@ -18,19 +18,19 @@ public class Log10Test extends TestCase {
   public void testLog() {
     Scalar s = DoubleScalar.of(-3);
     Scalar r = Scalars.fromString("0.4771212547196624 + 1.3643763538418412* I");
-    assertTrue(Chop._12.close(Log10.of(s), r));
+    Chop._12.requireClose(Log10.of(s), r);
     assertEquals(Log10.of(RealScalar.ZERO), DoubleScalar.NEGATIVE_INFINITY);
   }
 
   public void testComplex() {
     Scalar s = ComplexScalar.of(-2, 1);
     Scalar r = Scalars.fromString("0.3494850021680094 + 1.1630167557051545* I ");
-    assertTrue(Chop._12.close(Log10.of(s), r));
+    Chop._12.requireClose(Log10.of(s), r);
   }
 
   public void testBase() {
     Scalar scalar = DoubleScalar.of(1412.123);
-    assertTrue(Chop._08.close(Log10.of(scalar), Log.base(RealScalar.of(10)).apply(scalar)));
+    Chop._08.requireClose(Log10.of(scalar), Log.base(RealScalar.of(10)).apply(scalar));
   }
 
   public void testFail() {

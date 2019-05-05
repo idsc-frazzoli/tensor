@@ -1,7 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
@@ -23,14 +27,40 @@ public class UnprotectTest extends TestCase {
     }
   }
 
-  public void testEmptyLinkedList() {
-    assertEquals(Unprotect.emptyLinkedList(), Tensors.empty());
-    assertEquals(Unprotect.emptyLinkedList(), Tensors.unmodifiableEmpty());
+  public void testUsingEmpty() {
+    assertEquals(Unprotect.using(new LinkedList<>()), Tensors.empty());
+    assertEquals(Unprotect.using(new LinkedList<>()), Tensors.unmodifiableEmpty());
+    assertEquals(Unprotect.using(Arrays.asList()), Tensors.empty());
+    assertEquals(Unprotect.using(Arrays.asList()), Tensors.unmodifiableEmpty());
+  }
+
+  public void testUsingListScalar() {
+    List<Tensor> list = Arrays.asList(RealScalar.of(4), RealScalar.of(5));
+    Tensor tensor = Unprotect.using(list);
+    assertEquals(tensor, Tensors.vector(4, 5));
+  }
+
+  public void testUsingCopyOnWrite() {
+    List<Tensor> list = new CopyOnWriteArrayList<>();
+    Tensor tensor = Unprotect.using(list);
+    tensor.append(RealScalar.of(2));
+    tensor.append(RealScalar.of(6));
+    assertEquals(tensor, Tensors.vector(2, 6));
+  }
+
+  public void testUsingNCopies() {
+    Tensor tensor = Unprotect.using(Collections.nCopies(5, RealScalar.of(2)));
+    assertEquals(tensor, Tensors.vector(2, 2, 2, 2, 2));
+    try {
+      tensor.append(RealScalar.ONE);
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testEmptyLinkedListUnmodifiable() {
     try {
-      Unprotect.emptyLinkedList().unmodifiable().append(RealScalar.ZERO);
+      Unprotect.using(new LinkedList<>()).unmodifiable().append(RealScalar.ZERO);
       fail();
     } catch (Exception exception) {
       // ---

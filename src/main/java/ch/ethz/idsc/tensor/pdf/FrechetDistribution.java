@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
-
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -21,9 +19,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/FrechetDistribution.html">FrechetDistribution</a> */
-public class FrechetDistribution extends AbstractContinuousDistribution implements //
-    InverseCDF, MeanInterface, VarianceInterface {
-  private static final double NEXTDOWNONE = Math.nextDown(1.0);
+public class FrechetDistribution extends AbstractAlphaBetaDistribution implements InverseCDF {
   private static final Scalar TWO = RealScalar.of(2);
 
   /** @param alpha positive
@@ -40,20 +36,12 @@ public class FrechetDistribution extends AbstractContinuousDistribution implemen
   }
 
   // ---
-  private final Scalar alpha;
-  private final Scalar beta;
-
   private FrechetDistribution(Scalar alpha, Scalar beta) {
-    this.alpha = alpha;
-    this.beta = beta;
+    super(alpha, beta);
   }
 
-  @Override // from RandomVariateInterface
-  public Scalar randomVariate(Random random) {
-    return randomVariate(random.nextDouble());
-  }
-
-  /* package for testing */ Scalar randomVariate(double reference) {
+  @Override
+  protected Scalar randomVariate(double reference) {
     // avoid result -Infinity when reference is close to 1.0
     double uniform = reference == NEXTDOWNONE //
         ? reference
@@ -96,15 +84,5 @@ public class FrechetDistribution extends AbstractContinuousDistribution implemen
     if (Sign.isNegativeOrZero(x))
       return RealScalar.ZERO;
     return Exp.FUNCTION.apply(Power.of(x.divide(beta), alpha.negate()).negate());
-  }
-
-  @Override // from CDF
-  public Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
-  }
-
-  @Override // from Object
-  public String toString() {
-    return String.format("%s[%s, %s]", getClass().getSimpleName(), alpha, beta);
   }
 }

@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.sca.Exp;
 
@@ -18,8 +18,9 @@ import ch.ethz.idsc.tensor.sca.Exp;
  * inspired by
  * <a href="https://reference.wolfram.com/language/ref/PoissonDistribution.html">PoissonDistribution</a> */
 public class PoissonDistribution extends EvaluatedDiscreteDistribution implements VarianceInterface {
-  // lambda above max lead to incorrect results due to numerical properties
-  private static final int P_EQUALS_MAX = 1950; // probabilities are zero beyond that point
+  /** probabilities are zero beyond P_EQUALS_MAX */
+  private static final int P_EQUALS_MAX = 1950;
+  /** lambda above max leads to incorrect results due to numerics */
   private static final Scalar LAMBDA_MAX = RealScalar.of(700);
 
   /** Example:
@@ -27,7 +28,7 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
    * 
    * Because P[X==0] == Exp[-lambda], the implementation limits lambda to 700.
    * 
-   * @param lambda positive and <= 700
+   * @param lambda strictly positive and <= 700
    * @return */
   public static Distribution of(Scalar lambda) {
     if (Scalars.lessEquals(lambda, RealScalar.ZERO))
@@ -39,7 +40,7 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
 
   // ---
   private final Scalar lambda;
-  private final Tensor values = Tensors.empty();
+  private final Tensor values = Unprotect.empty(32);
 
   private PoissonDistribution(Scalar lambda) {
     this.lambda = lambda;
@@ -66,9 +67,12 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
   protected Scalar protected_p_equals(int n) {
     if (P_EQUALS_MAX < n)
       return RealScalar.ZERO;
-    while (values.length() <= n) {
-      Scalar factor = lambda.divide(RationalScalar.of(values.length(), 1));
-      values.append(Last.of(values).multiply(factor));
+    if (values.length() <= n) {
+      Scalar x = (Scalar) Last.of(values);
+      while (values.length() <= n) {
+        Scalar factor = lambda.divide(RationalScalar.of(values.length(), 1));
+        values.append(x = x.multiply(factor));
+      }
     }
     return values.Get(n);
   }

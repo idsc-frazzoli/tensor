@@ -13,8 +13,8 @@ import ch.ethz.idsc.tensor.alg.Transpose;
  * 
  * <pre>
  * MatrixForm.of("{{1,2,321341234},{2,44,12333}}");
- * [ 1 _2 321341234 ]
- * [ 2 44 ____12333 ]
+ * 1 _2 321341234
+ * 2 44 ____12333
  * </pre>
  * 
  * <p>inspired by
@@ -23,7 +23,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
  * @see Pretty */
 public enum MatrixForm {
   ;
-  private static final Collector<CharSequence, ?, String> COLLECTOR = Collectors.joining("  ", "[ ", " ]");
+  private static final Collector<CharSequence, ?, String> COLLECTOR = Collectors.joining(" ");
 
   /** @param tensor not of type {@link Scalar}
    * @return

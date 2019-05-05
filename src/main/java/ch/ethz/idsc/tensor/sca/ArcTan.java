@@ -12,7 +12,16 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /** For real input, the returned angle is in the range -pi/2 through pi/2.
  * 
  * http://www.milefoot.com/math/complex/functionsofi.htm
+ *
+ * <p>Special cases are
+ * <pre>
+ * Mathematica:ArcTan[0, 0] == Indeterminate
+ * tensor-lib.:ArcTan[0, 0] == 0
  * 
+ * Mathematica:ArcTan[-1, 0] == pi
+ * tensor-lib.:ArcTan[-1, 0] == pi
+ * </pre>
+ *
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ArcTan.html">ArcTan</a> */
 public enum ArcTan implements ScalarUnaryOperator {

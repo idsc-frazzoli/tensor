@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import java.util.Random;
-
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -21,10 +19,11 @@ import ch.ethz.idsc.tensor.sca.Clips;
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
 public class UniformDistribution extends AbstractContinuousDistribution implements //
     InverseCDF, MeanInterface, VarianceInterface {
+  private static final Scalar _12 = RealScalar.of(12);
   private static final Distribution UNIT = new UniformDistribution(Clips.unit()) {
-    @Override // from RandomVariateInterface
-    public Scalar randomVariate(Random random) {
-      return DoubleScalar.of(random.nextDouble());
+    @Override // from AbstractContinuousDistribution
+    public Scalar randomVariate(double reference) {
+      return DoubleScalar.of(reference);
     }
   };
 
@@ -34,22 +33,20 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
    * @param max
    * @return uniform distribution over the half-open interval [min, max) */
   public static Distribution of(Scalar min, Scalar max) {
-    if (Scalars.lessEquals(max, min))
-      throw TensorRuntimeException.of(min, max);
-    return of(Clips.interval(min, max));
-  }
-
-  /** @param clip
-   * @return uniform distribution over the half-open interval [clip.min(), clip.max()) */
-  public static Distribution of(Clip clip) {
-    return new UniformDistribution(clip);
+    return new UniformDistribution(Clips.interval(min, max));
   }
 
   /** @param min < max
    * @param max
    * @return uniform distribution over the half-open interval [min, max) */
   public static Distribution of(Number min, Number max) {
-    return of(RealScalar.of(min), RealScalar.of(max));
+    return new UniformDistribution(Clips.interval(min, max));
+  }
+
+  /** @param clip
+   * @return uniform distribution over the half-open interval [clip.min(), clip.max()) */
+  public static Distribution of(Clip clip) {
+    return new UniformDistribution(clip);
   }
 
   /** @return uniform distribution over the half-open unit interval [0, 1) */
@@ -64,11 +61,13 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
   private UniformDistribution(Clip clip) {
     this.clip = clip;
     width = clip.width();
+    if (Scalars.isZero(width))
+      throw TensorRuntimeException.of(clip.min(), clip.max());
   }
 
-  @Override // from RandomVariateInterface
-  public Scalar randomVariate(Random random) {
-    return quantile_unit(DoubleScalar.of(random.nextDouble()));
+  @Override // from AbstractContinuousDistribution
+  protected Scalar randomVariate(double reference) {
+    return quantile_unit(DoubleScalar.of(reference));
   }
 
   @Override // from InverseCDF
@@ -87,7 +86,7 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
 
   @Override // from VarianceInterface
   public Scalar variance() {
-    return width.multiply(width).divide(RationalScalar.of(12, 1));
+    return width.multiply(width).divide(_12);
   }
 
   @Override // from PDF
@@ -100,11 +99,6 @@ public class UniformDistribution extends AbstractContinuousDistribution implemen
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     return clip.rescale(x);
-  }
-
-  @Override // from CDF
-  public Scalar p_lessEquals(Scalar x) {
-    return p_lessThan(x);
   }
 
   @Override // from Object

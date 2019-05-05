@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.io.Serializable;
 import java.util.Random;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.sca.Clip;
@@ -34,8 +34,8 @@ public class TruncatedDistribution implements Distribution, RandomVariateInterfa
 
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
-    return IntStream.range(0, MAXITER) //
-        .mapToObj(i -> RandomVariate.of(distribution)) //
+    return Stream.generate(() -> RandomVariate.of(distribution)) //
+        .limit(MAXITER) //
         .filter(clip::isInside) //
         .findFirst().get();
   }

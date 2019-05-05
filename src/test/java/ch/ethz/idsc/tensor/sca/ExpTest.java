@@ -16,7 +16,7 @@ public class ExpTest extends TestCase {
   public void testEuler() {
     Scalar emi = Exp.of(ComplexScalar.of(RealScalar.ZERO, Pi.VALUE.negate()));
     Scalar tru = RealScalar.ONE.negate();
-    assertTrue(Chop._15.close(emi, tru));
+    Chop._15.requireClose(emi, tru);
   }
 
   public void testExpZero() {
@@ -35,7 +35,7 @@ public class ExpTest extends TestCase {
     assertTrue(scalar instanceof ComplexScalar);
     // mathematica gives -1.4189653368301074` + 2.3185326117622904` I
     Scalar m = Scalars.fromString("-1.4189653368301074 + 2.3185326117622904 * I");
-    assertTrue(Chop._15.close(scalar, m));
+    Chop._15.requireClose(scalar, m);
   }
 
   public void testEmpty() {

@@ -11,8 +11,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /* package */ class BlockExtract extends AbstractExtract {
   static Tensor convolve(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
-    BlockExtract extract = new BlockExtract(tensor, radius);
-    return Array.of(index -> unaryOperator.apply(extract.block(index)), Dimensions.of(tensor));
+    BlockExtract blockExtract = new BlockExtract(tensor, radius);
+    return Array.of(index -> unaryOperator.apply(blockExtract.block(index)), Dimensions.of(tensor));
   }
 
   // ---

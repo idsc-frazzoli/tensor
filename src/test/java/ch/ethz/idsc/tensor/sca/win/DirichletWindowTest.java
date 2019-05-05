@@ -12,10 +12,10 @@ import junit.framework.TestCase;
 public class DirichletWindowTest extends TestCase {
   public void testSimple() {
     ScalarUnaryOperator scalarUnaryOperator = DirichletWindow.FUNCTION;
-    Scalar s0 = scalarUnaryOperator.apply(RealScalar.of(.1));
-    assertEquals(s0, RealScalar.ONE);
-    Scalar s1 = scalarUnaryOperator.apply(RealScalar.of(.6));
-    assertEquals(s1, RealScalar.ZERO);
+    assertEquals(scalarUnaryOperator.apply(RealScalar.of(+0.1)), RealScalar.ONE);
+    assertEquals(scalarUnaryOperator.apply(RealScalar.of(+0.6)), RealScalar.ZERO);
+    assertEquals(scalarUnaryOperator.apply(RealScalar.of(-0.1)), RealScalar.ONE);
+    assertEquals(scalarUnaryOperator.apply(RealScalar.of(-0.6)), RealScalar.ZERO);
   }
 
   public void testSemiExact() {
