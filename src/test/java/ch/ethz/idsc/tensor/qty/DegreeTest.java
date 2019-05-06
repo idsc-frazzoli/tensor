@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.io.StringScalar;
@@ -8,6 +9,8 @@ import ch.ethz.idsc.tensor.opt.Pi;
 import junit.framework.TestCase;
 
 public class DegreeTest extends TestCase {
+  private final Unit turns = Unit.of("turns");
+
   public void testFullRotation() {
     assertEquals(Degree.of(360), Pi.TWO);
   }
@@ -23,6 +26,11 @@ public class DegreeTest extends TestCase {
     Scalar scalar = Degree.of(10);
     scalar = scalar.reciprocal();
     assertEquals(scalar.multiply(rad), RealScalar.ONE);
+  }
+
+  public void testTurns() {
+    assertEquals(UnitSystem.SI().apply(Quantity.of(RationalScalar.HALF, turns)), Pi.VALUE);
+    assertEquals(QuantityMagnitude.SI().in(Unit.ONE).apply(Quantity.of(1, turns)), Pi.TWO);
   }
 
   public void testStringScalarFail() {

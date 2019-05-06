@@ -32,6 +32,6 @@ public enum CirclePoints {
   public static Tensor of(int n) {
     if (n < 0)
       throw new RuntimeException("n=" + n);
-    return Range.of(0, n).divide(RealScalar.of(n)).map(AngleVector::rotation);
+    return Range.of(0, n).divide(RealScalar.of(n)).map(AngleVector::turns);
   }
 }
