@@ -19,6 +19,13 @@ public class FourierTest extends TestCase {
     Chop._12.requireClose(InverseFourier.of(Fourier.of(vector)), vector);
   }
 
+  public void test2Quantity() {
+    Tensor vector = Tensors.fromString("{1 + 2*I[m], 3 + 11*I[m]}");
+    Tensor expect = Tensors.fromString("{2.828427124746190 + 9.19238815542512*I[m], -1.414213562373095 - 6.36396103067893*I[m]}");
+    Chop._12.requireClose(Fourier.of(vector), expect);
+    Chop._12.requireClose(InverseFourier.of(Fourier.of(vector)), vector);
+  }
+
   public void test4() {
     Tensor vector = Tensors.vector(1, 2, 0, 0);
     Tensor tensor = Fourier.of(vector);
