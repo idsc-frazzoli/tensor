@@ -11,7 +11,8 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/** Fourier transform is restricted to vectors with length of power of 2.
+/** Discrete Fourier transform of a list of complex numbers.
+ * Fourier transform is restricted to vectors with length of power of 2.
  * Functionality works for vectors with entries of type {@link Quantity}.
  * 
  * <p>Consistent with Mathematica:
@@ -21,11 +22,18 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * <a href="https://reference.wolfram.com/language/ref/Fourier.html">Fourier</a> */
 public enum Fourier {
   ;
+  /** @param vector of length of power of 2
+   * @return discrete Fourier transform of given vector */
+  public static Tensor of(Tensor vector) {
+    return of(vector, 1);
+  }
+
   /** Hint: uses decimation-in-time or Cooley-Tukey FFT
    * 
    * @param vector of length of power of 2
-   * @return */
-  public static Tensor of(Tensor vector) {
+   * @param b is +1 for forward, and -1 for inverse transform
+   * @return discrete Fourier transform of given vector */
+  public static Tensor of(Tensor vector, int b) {
     final int n = vector.length();
     if (n == 0 || 0 != (n & (n - 1)))
       throw TensorRuntimeException.of(vector);
@@ -39,7 +47,7 @@ public enum Fourier {
           array[j] = val;
         }
         int m = n >> 1;
-        while (m >= 1 && j >= m) {
+        while (m > 0 && j >= m) {
           j -= m;
           m >>= 1;
         }
@@ -47,10 +55,9 @@ public enum Fourier {
       }
     }
     int mmax = 1;
-    int isign = 1;
     while (n > mmax) {
       int istep = mmax << 1;
-      double thalf = isign * Math.PI / istep;
+      double thalf = b * Math.PI / istep;
       double wtemp = Math.sin(thalf);
       Scalar wp = ComplexScalar.of(-2 * wtemp * wtemp, Math.sin(thalf + thalf));
       Scalar w = RealScalar.ONE;

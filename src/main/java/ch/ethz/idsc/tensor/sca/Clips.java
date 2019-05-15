@@ -29,9 +29,23 @@ public enum Clips {
     return interval(RealScalar.of(min), RealScalar.of(max));
   }
 
+  /** @param max non negative
+   * @return function that clips the input to the closed interval [-max, max]
+   * @throws Exception if max is negative */
+  public static Clip absolute(Scalar max) {
+    return interval(max.negate(), max);
+  }
+
+  /** @param max non negative
+   * @return function that clips the input to the closed interval [-max, max]
+   * @throws Exception if max is negative */
+  public static Clip absolute(Number max) {
+    return absolute(RealScalar.of(max));
+  }
+
   /***************************************************/
-  private static final Clip UNIT = Clips.interval(0, 1);
-  private static final Clip ABSOLUTE_ONE = Clips.interval(-1, 1);
+  private static final Clip UNIT = interval(0, 1);
+  private static final Clip ABSOLUTE_ONE = absolute(1);
 
   /** @return function that clips a scalar to the unit interval [0, 1] */
   public static Clip unit() {

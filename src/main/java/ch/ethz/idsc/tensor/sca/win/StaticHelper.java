@@ -11,9 +11,7 @@ import ch.ethz.idsc.tensor.sca.Cos;
 /** helper functions to evaluate window functions */
 /* package */ enum StaticHelper {
   ;
-  static final Clip SEMI = Clips.interval( //
-      RationalScalar.HALF.negate(), //
-      RationalScalar.HALF);
+  static final Clip SEMI = Clips.absolute(RationalScalar.HALF);
   // ---
   private static final Scalar _2_PI = RealScalar.of(2 * Math.PI);
   private static final Scalar _4_PI = RealScalar.of(4 * Math.PI);
