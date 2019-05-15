@@ -56,7 +56,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /***************************************************/
   @Override // from Scalar
   public Scalar abs() { // "complex modulus"
-    return Hypot.BIFUNCTION.apply(re, im);
+    return Hypot.of(re, im);
   }
 
   @Override // from Scalar

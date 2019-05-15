@@ -94,8 +94,18 @@ public class RescaleTest extends TestCase {
     }
   }
 
-  public void testQuantityFail() {
+  public void testQuantityMixedFail() {
     Tensor vector = Tensors.of(Quantity.of(1, "s"), Quantity.of(2, "m"));
+    try {
+      Rescale.of(vector);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testQuantityZeroFail() {
+    Tensor vector = Tensors.of(Quantity.of(0, ""), Quantity.of(0, "m"));
     try {
       Rescale.of(vector);
       fail();

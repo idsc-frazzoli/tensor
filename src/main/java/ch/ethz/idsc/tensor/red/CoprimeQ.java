@@ -12,6 +12,6 @@ public enum CoprimeQ {
     Scalar c = StaticHelper.normalForm(a.multiply(b));
     if (Scalars.isZero(a) && Scalars.isZero(b))
       return false;
-    return LCM.BIFUNCTION.apply(a, b).equals(c);
+    return LCM.of(a, b).equals(c);
   }
 }

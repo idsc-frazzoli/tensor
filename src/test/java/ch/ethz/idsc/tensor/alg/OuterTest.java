@@ -22,7 +22,7 @@ public class OuterTest extends TestCase {
   }
 
   public void testScalar() {
-    Tensor tensor = Outer.of(Hypot.BIFUNCTION, Tensors.vector(12, 3), Tensors.vector(1, 7, 9, 0));
+    Tensor tensor = Outer.of(Hypot::of, Tensors.vector(12, 3), Tensors.vector(1, 7, 9, 0));
     assertEquals(Dimensions.of(tensor), Arrays.asList(2, 4));
     assertEquals(tensor.get(0).extract(2, 4), Tensors.vector(15, 12));
   }

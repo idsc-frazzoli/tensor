@@ -66,8 +66,8 @@ public class ClipsTest extends TestCase {
     Clip clip = Clips.absoluteOne();
     assertTrue(clip.isInside(RealScalar.of(-1)));
     assertTrue(clip.isInside(RealScalar.of(+1)));
-    assertTrue(clip.isOutside(RealScalar.of(Math.nextUp(1))));
-    assertTrue(clip.isOutside(RealScalar.of(Math.nextDown(-1))));
+    assertTrue(clip.isOutside(RealScalar.of(Math.nextUp(1.0))));
+    assertTrue(clip.isOutside(RealScalar.of(Math.nextDown(-1.0))));
   }
 
   public void testAbsoluteZero() {
@@ -75,6 +75,31 @@ public class ClipsTest extends TestCase {
     Scalar scalar = clip.rescale(Quantity.of(5, "N"));
     assertEquals(scalar, RealScalar.ZERO);
     ExactScalarQ.require(scalar);
+  }
+
+  public void testPositive() {
+    Clip clip = Clips.positive(Quantity.of(10, "N"));
+    clip.requireInside(Quantity.of(0, "N"));
+    clip.requireInside(Quantity.of(+10, "N"));
+    assertTrue(clip.isOutside(Quantity.of(Math.nextDown(0.0), "N")));
+    assertTrue(clip.isOutside(Quantity.of(Math.nextUp(10.0), "N")));
+  }
+
+  public void testPositiveNumber() {
+    Clip clip = Clips.positive(10);
+    clip.requireInside(Quantity.of(0, ""));
+    clip.requireInside(Quantity.of(+10, ""));
+    assertTrue(clip.isOutside(Quantity.of(Math.nextDown(0.0), "")));
+    assertTrue(clip.isOutside(Quantity.of(Math.nextUp(10.0), "")));
+  }
+
+  public void testPositiveFail() {
+    try {
+      Clips.positive(Quantity.of(-1, "kg"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testAbsoluteFail() {
@@ -104,6 +129,20 @@ public class ClipsTest extends TestCase {
     }
     try {
       Clips.absoluteOne().apply(Quantity.of(-5, "m"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testQuantityMixedZero() {
+    Clip clip = Clips.interval(Quantity.of(0, "m"), Quantity.of(0, ""));
+    clip.apply(Quantity.of(2, "m"));
+  }
+
+  public void testQuantityMixedUnitsFail() {
+    try {
+      Clips.interval(Quantity.of(2, "m"), Quantity.of(3, "kg"));
       fail();
     } catch (Exception exception) {
       // ---
