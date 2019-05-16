@@ -1,8 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -41,6 +44,73 @@ public class ClipsTest extends TestCase {
     clip.requireInside(DoubleScalar.POSITIVE_INFINITY);
   }
 
+  public void testAbsolute() {
+    Clip clip = Clips.absolute(Quantity.of(10, "N"));
+    clip.requireInside(Quantity.of(-10, "N"));
+    clip.requireInside(Quantity.of(+10, "N"));
+    assertTrue(clip.isOutside(Quantity.of(-10.1, "N")));
+    assertTrue(clip.isOutside(Quantity.of(+10.1, "N")));
+  }
+
+  public void testAbsoluteNumber() {
+    Clip clip = Clips.absolute(Math.PI);
+    assertTrue(clip.isInside(RealScalar.of(-1)));
+    assertTrue(clip.isInside(RealScalar.of(+1)));
+    assertTrue(clip.isInside(RealScalar.of(-Math.PI)));
+    assertTrue(clip.isInside(RealScalar.of(+Math.PI)));
+    assertTrue(clip.isOutside(RealScalar.of(Math.nextUp(Math.PI))));
+    assertTrue(clip.isOutside(RealScalar.of(Math.nextDown(-Math.PI))));
+  }
+
+  public void testAbsoluteOne() {
+    Clip clip = Clips.absoluteOne();
+    assertTrue(clip.isInside(RealScalar.of(-1)));
+    assertTrue(clip.isInside(RealScalar.of(+1)));
+    assertTrue(clip.isOutside(RealScalar.of(Math.nextUp(1.0))));
+    assertTrue(clip.isOutside(RealScalar.of(Math.nextDown(-1.0))));
+  }
+
+  public void testAbsoluteZero() {
+    Clip clip = Clips.absolute(Quantity.of(0, "N"));
+    Scalar scalar = clip.rescale(Quantity.of(5, "N"));
+    assertEquals(scalar, RealScalar.ZERO);
+    ExactScalarQ.require(scalar);
+  }
+
+  public void testPositive() {
+    Clip clip = Clips.positive(Quantity.of(10, "N"));
+    clip.requireInside(Quantity.of(0, "N"));
+    clip.requireInside(Quantity.of(+10, "N"));
+    assertTrue(clip.isOutside(Quantity.of(Math.nextDown(0.0), "N")));
+    assertTrue(clip.isOutside(Quantity.of(Math.nextUp(10.0), "N")));
+  }
+
+  public void testPositiveNumber() {
+    Clip clip = Clips.positive(10);
+    clip.requireInside(Quantity.of(0, ""));
+    clip.requireInside(Quantity.of(+10, ""));
+    assertTrue(clip.isOutside(Quantity.of(Math.nextDown(0.0), "")));
+    assertTrue(clip.isOutside(Quantity.of(Math.nextUp(10.0), "")));
+  }
+
+  public void testPositiveFail() {
+    try {
+      Clips.positive(Quantity.of(-1, "kg"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testAbsoluteFail() {
+    try {
+      Clips.absolute(Quantity.of(-1, "kg"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testInsideFail() {
     try {
       Clips.unit().isInside(Quantity.of(0.5, "m"));
@@ -59,6 +129,29 @@ public class ClipsTest extends TestCase {
     }
     try {
       Clips.absoluteOne().apply(Quantity.of(-5, "m"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testQuantityMixedZero() {
+    Clip clip = Clips.interval(Quantity.of(0, "m"), Quantity.of(0, ""));
+    clip.apply(Quantity.of(2, "m"));
+  }
+
+  public void testQuantityMixedUnitsFail() {
+    try {
+      Clips.interval(Quantity.of(2, "m"), Quantity.of(3, "kg"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testComplexFail() {
+    try {
+      Clips.absolute(ComplexScalar.I);
       fail();
     } catch (Exception exception) {
       // ---

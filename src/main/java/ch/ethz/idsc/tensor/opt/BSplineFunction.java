@@ -64,7 +64,7 @@ public class BSplineFunction implements ScalarTensorFunction {
         ? RationalScalar.HALF
         : RealScalar.ZERO;
     last = control.length() - 1;
-    domain = Clips.interval(0, last);
+    domain = Clips.positive(last);
     clip = Clips.interval( //
         domain.min().add(shift), //
         domain.max().add(shift));

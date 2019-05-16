@@ -37,18 +37,18 @@ public class AngleVectorTest extends TestCase {
   }
 
   public void testRotation() {
-    ExactTensorQ.require(AngleVector.rotation(RationalScalar.of(-2, 2)));
-    assertEquals(AngleVector.rotation(RationalScalar.of(-2, 2)), Tensors.vector(+1, 0));
-    assertEquals(AngleVector.rotation(RationalScalar.of(0, 2)), Tensors.vector(+1, 0));
-    assertEquals(AngleVector.rotation(RationalScalar.of(1, 2)), Tensors.vector(-1, 0));
-    assertFalse(ExactTensorQ.of(AngleVector.rotation(RealScalar.of(-2.0))));
+    ExactTensorQ.require(AngleVector.turns(RationalScalar.of(-2, 2)));
+    assertEquals(AngleVector.turns(RationalScalar.of(-2, 2)), Tensors.vector(+1, 0));
+    assertEquals(AngleVector.turns(RationalScalar.of(0, 2)), Tensors.vector(+1, 0));
+    assertEquals(AngleVector.turns(RationalScalar.of(1, 2)), Tensors.vector(-1, 0));
+    assertFalse(ExactTensorQ.of(AngleVector.turns(RealScalar.of(-2.0))));
   }
 
   public void testRotationOfEquivalence() {
     Distribution distribution = NormalDistribution.standard();
     for (int count = 0; count < 50; ++count) {
       Scalar fraction = RandomVariate.of(distribution);
-      Chop._12.requireClose(AngleVector.rotation(fraction), AngleVector.of(fraction.multiply(Pi.TWO)));
+      Chop._12.requireClose(AngleVector.turns(fraction), AngleVector.of(fraction.multiply(Pi.TWO)));
     }
   }
 

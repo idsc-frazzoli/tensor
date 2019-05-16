@@ -33,6 +33,8 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Chop.html">Chop</a> */
 public class Chop implements ScalarUnaryOperator {
+  public static final Chop _01 = below(1e-01);
+  public static final Chop _02 = below(1e-02);
   public static final Chop _03 = below(1e-03);
   public static final Chop _04 = below(1e-04);
   public static final Chop _05 = below(1e-05);

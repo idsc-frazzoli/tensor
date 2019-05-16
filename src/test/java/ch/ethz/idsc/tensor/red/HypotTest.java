@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 
 public class HypotTest extends TestCase {
   private static void _checkPair(double x, double y) {
-    Scalar res = Hypot.BIFUNCTION.apply(RealScalar.of(x), RealScalar.of(y));
+    Scalar res = Hypot.of(RealScalar.of(x), RealScalar.of(y));
     double jav = Math.hypot(x, y);
     assertTrue(Chop._17.close(res, RealScalar.of(jav)));
   }
@@ -74,7 +74,7 @@ public class HypotTest extends TestCase {
   public void testComplex() {
     Scalar c1 = ComplexScalar.of(1, -5);
     Scalar c2 = ComplexScalar.of(2, 4);
-    Scalar pair = Hypot.BIFUNCTION.apply(c1, c2);
+    Scalar pair = Hypot.of(c1, c2);
     assertEquals(Sqrt.of(RealScalar.of(46)), pair);
     Scalar value = Hypot.ofVector(Tensors.of(c1, c2));
     assertEquals(value, pair);
@@ -95,20 +95,11 @@ public class HypotTest extends TestCase {
     Scalar s2 = DoubleScalar.INDETERMINATE;
     assertFalse(Scalars.isZero(s2));
     try {
-      Scalar s3 = Hypot.BIFUNCTION.apply(s1, s2); // NaN+NaN*I
+      Scalar s3 = Hypot.of(s1, s2); // NaN+NaN*I
       assertTrue(s3 instanceof ComplexScalar);
       assertFalse(Scalars.isZero(s3));
       @SuppressWarnings("unused")
       Scalar s4 = ArcTan.FUNCTION.apply(s2);
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testDoubleNaNFail() {
-    try {
-      ArcTan.FUNCTION.apply(ComplexScalar.of(Double.NaN, Double.NaN));
       fail();
     } catch (Exception exception) {
       // ---
@@ -128,20 +119,18 @@ public class HypotTest extends TestCase {
     Scalar qs1 = Quantity.of(3, "m");
     Scalar qs2 = Quantity.of(4, "m");
     Scalar qs3 = Quantity.of(5, "m");
-    assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs3);
+    assertEquals(Hypot.of(qs1, qs2), qs3);
   }
 
   public void testQuantityZero() {
     Scalar qs1 = Quantity.of(1, "m");
     Scalar qs2 = Quantity.of(0, "m");
-    assertEquals(Hypot.BIFUNCTION.apply(qs1, qs2), qs1);
+    assertEquals(Hypot.of(qs1, qs2), qs1);
   }
 
   public void testQuantityZeroFail() {
     try {
-      Hypot.BIFUNCTION.apply( //
-          Quantity.of(1, "m"), //
-          Quantity.of(0, "s"));
+      Hypot.of(Quantity.of(1, "m"), Quantity.of(0, "s"));
       fail();
     } catch (Exception exception) {
       // ---

@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class BuiltInTest extends TestCase {
   public void testSize() {
-    assertTrue(71 <= UnitSystem.SI().map().size());
+    assertTrue(72 <= UnitSystem.SI().map().size());
   }
 
   public void testInstances() {

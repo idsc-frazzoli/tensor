@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import java.util.function.BinaryOperator;
-
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -17,11 +15,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * <p>Hypot also operates on vectors.
  * 
  * <p>Hypot is inspired by {@link Math#hypot(double, double)} */
-public enum Hypot implements BinaryOperator<Scalar> {
-  BIFUNCTION;
-  // ---
-  @Override // from BinaryOperator
-  public Scalar apply(Scalar a, Scalar b) {
+public enum Hypot {
+  ;
+  public static Scalar of(Scalar a, Scalar b) {
     Scalar ax = a.abs();
     Scalar ay = b.abs();
     Scalar min = Min.of(ax, ay);
@@ -53,9 +49,5 @@ public enum Hypot implements BinaryOperator<Scalar> {
       return max;
     abs = abs.divide(max);
     return max.multiply(Sqrt.FUNCTION.apply((Scalar) abs.dot(abs)));
-  }
-
-  public static Scalar of(Scalar a, Scalar b) {
-    return BIFUNCTION.apply(a, b);
   }
 }

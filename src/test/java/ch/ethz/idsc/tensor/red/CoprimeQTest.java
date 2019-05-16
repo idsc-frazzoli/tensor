@@ -26,7 +26,7 @@ public class CoprimeQTest extends TestCase {
   // public void testComplex() {
   // Scalar a = ComplexScalar.of(2, 1);
   // Scalar b = ComplexScalar.of(3, 1);
-  // Scalar lcm = LCM.BIFUNCTION.apply(a, b);
+  // Scalar lcm = LCM.of(a, b);
   // Scalar prd = a.multiply(b);
   // System.out.println(lcm);
   // System.out.println(prd);

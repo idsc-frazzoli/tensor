@@ -73,11 +73,11 @@ import ch.ethz.idsc.tensor.sca.Sign;
               t = A.Get(ip, iq).divide(h);
             } else {
               Scalar theta = RationalScalar.HALF.multiply(h).divide(A.Get(ip, iq));
-              t = theta.abs().add(Hypot.BIFUNCTION.apply(theta, RealScalar.ONE)).reciprocal();
+              t = theta.abs().add(Hypot.of(theta, RealScalar.ONE)).reciprocal();
               if (Sign.isNegative(theta))
                 t = t.negate();
             }
-            Scalar c = Hypot.BIFUNCTION.apply(t, RealScalar.ONE).Get().reciprocal();
+            Scalar c = Hypot.of(t, RealScalar.ONE).Get().reciprocal();
             Scalar s = t.multiply(c);
             Scalar tau = s.divide(c.add(RealScalar.ONE));
             final Scalar fh = t.multiply(A.Get(ip, iq));

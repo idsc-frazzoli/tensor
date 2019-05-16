@@ -120,6 +120,15 @@ public class ArcTanTest extends TestCase {
     }
   }
 
+  public void testDoubleNaNFail() {
+    try {
+      ArcTan.FUNCTION.apply(ComplexScalar.of(Double.NaN, Double.NaN));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testQuantityFail() {
     try {
       ArcTan.of(Quantity.of(12, "m"), Quantity.of(4, "s"));

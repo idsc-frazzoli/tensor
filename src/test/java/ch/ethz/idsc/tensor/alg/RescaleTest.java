@@ -29,6 +29,8 @@ public class RescaleTest extends TestCase {
   public void testMatrix() {
     assertEquals(Rescale.of(Tensors.fromString("{{2,2,2},{2,2}}")), Tensors.fromString("{{0,0,0},{0,0}}"));
     assertEquals(Rescale.of(Tensors.fromString("{{1,2,3}}")), Tensors.fromString("{{0,1/2,1}}"));
+    assertEquals(Rescale.of(Tensors.fromString("{{1,2,3},{}}")), Tensors.fromString("{{0,1/2,1},{}}"));
+    assertEquals(Rescale.of(Tensors.fromString("{{-1},{2,3}}")), Tensors.fromString("{{0},{3/4,1}}"));
     assertEquals(Rescale.of(Tensors.fromString("{{10,20,30}}")), Tensors.fromString("{{0,1/2,1}}"));
   }
 
@@ -92,8 +94,18 @@ public class RescaleTest extends TestCase {
     }
   }
 
-  public void testQuantityFail() {
+  public void testQuantityMixedFail() {
     Tensor vector = Tensors.of(Quantity.of(1, "s"), Quantity.of(2, "m"));
+    try {
+      Rescale.of(vector);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testQuantityZeroFail() {
+    Tensor vector = Tensors.of(Quantity.of(0, ""), Quantity.of(0, "m"));
     try {
       Rescale.of(vector);
       fail();
