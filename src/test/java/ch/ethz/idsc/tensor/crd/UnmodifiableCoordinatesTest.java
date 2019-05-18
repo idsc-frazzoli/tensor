@@ -11,7 +11,7 @@ public class UnmodifiableCoordinatesTest extends TestCase {
 
   public void testSimple() {
     Tensor vector = Tensors.vector(1, 2, 3);
-    testSimple(UnmodifiableCoordinates.of(vector));
+    testSimple(new UnmodifiableCoordinates(vector, CS));
     testSimple(CS.origin().unmodifiable());
   }
 

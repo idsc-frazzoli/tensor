@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.crd;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -11,6 +12,7 @@ import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.VectorQ;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 
 public class Coordinates implements Tensor {
   public static Coordinates of(Tensor vector) {
@@ -26,16 +28,16 @@ public class Coordinates implements Tensor {
   }
 
   // ---
-  private final Tensor vector;
+  private final Tensor values;
   private final CoordinateSystem system;
 
   protected Coordinates(Tensor vector, CoordinateSystem system) {
-    this.vector = VectorQ.require(vector);
+    this.values = VectorQ.require(vector);
     this.system = system;
   }
 
-  public Tensor vector() {
-    return vector.unmodifiable();
+  public Tensor values() {
+    return values.unmodifiable();
   }
 
   public CoordinateSystem system() {
@@ -43,34 +45,34 @@ public class Coordinates implements Tensor {
   }
 
   @Override
-  public Tensor unmodifiable() {
-    return new UnmodifiableCoordinates(vector, system);
+  public Coordinates unmodifiable() {
+    return new UnmodifiableCoordinates(values, system);
   }
 
   @Override
-  public Tensor copy() {
+  public Coordinates copy() {
     return this;
   }
 
   @Override
   public Tensor get(Integer... index) {
-    return vector.get(index);
+    return values.get(index);
   }
 
   @Override
   public Scalar Get(Integer... index) {
-    return vector.Get(index);
+    return values.Get(index);
   }
 
   @Override
   public Tensor get(List<Integer> index) {
-    return vector.get(index);
+    return values.get(index);
   }
 
   @Override
   public void set(Tensor tensor, Integer... index) {
     if (ScalarQ.of(tensor) && index.length == 1)
-      vector.set(tensor, index[0]);
+      values.set(tensor, index[0]);
     else
       throw TensorRuntimeException.of(tensor, this);
   }
@@ -82,18 +84,18 @@ public class Coordinates implements Tensor {
   }
 
   @Override
-  public Tensor append(Tensor tensor) {
+  public Coordinates append(Tensor tensor) {
     throw new UnsupportedOperationException("unmodifiable");
   }
 
   @Override
   public int length() {
-    return vector.length();
+    return values.length();
   }
 
   @Override
   public Stream<Tensor> stream() {
-    return vector.stream();
+    return values.stream();
   }
 
   @Override
@@ -105,67 +107,77 @@ public class Coordinates implements Tensor {
 
   @Override
   public Tensor extract(int fromIndex, int toIndex) {
-    return vector.extract(fromIndex, toIndex);
+    return values.extract(fromIndex, toIndex);
   }
 
   @Override
   public Tensor block(List<Integer> fromIndex, List<Integer> dimensions) {
-    return vector.block(fromIndex, dimensions);
+    return values.block(fromIndex, dimensions);
   }
 
   @Override
-  public Tensor negate() {
-    return new Coordinates(vector.negate(), system);
+  public Coordinates negate() {
+    return new Coordinates(values.negate(), system);
   }
 
   @Override
-  public Tensor add(Tensor tensor) {
-    return doIfAllowed(tensor, vector::add);
+  public Coordinates add(Tensor tensor) {
+    return doIfAllowed(tensor, values::add);
   }
 
   @Override
-  public Tensor subtract(Tensor tensor) {
-    return doIfAllowed(tensor, vector::subtract);
+  public Coordinates subtract(Tensor tensor) {
+    return doIfAllowed(tensor, values::subtract);
   }
 
   @Override
-  public Tensor pmul(Tensor tensor) {
-    return doIfAllowed(tensor, vector::pmul);
+  public Coordinates pmul(Tensor tensor) {
+    return doIfAllowed(tensor, values::pmul);
   }
 
   @Override
-  public Tensor dot(Tensor tensor)  {
-    return doIfAllowed(tensor, vector::dot);
+  public Coordinates dot(Tensor tensor)  {
+    return doIfAllowed(tensor, values::dot);
   }
 
-  protected Coordinates doIfAllowed(Tensor coords, Function<Tensor, Tensor> function) {
+  protected Coordinates doIfAllowed(Tensor coords, TensorUnaryOperator function) {
     if (CompatibleSystemQ.to(this).with(coords))
-      return new Coordinates(function.apply(((Coordinates) coords).vector()), system);
+      return new Coordinates(function.apply(((Coordinates) coords).values), system);
     throw TensorRuntimeException.of(coords, this);
   }
 
   @Override
-  public Tensor multiply(Scalar scalar)  {
-    return new Coordinates(vector.multiply(scalar), system);
+  public Coordinates multiply(Scalar scalar)  {
+    return new Coordinates(values.multiply(scalar), system);
   }
 
   @Override
-  public Tensor divide(Scalar scalar)  {
-    return new Coordinates(vector.divide(scalar), system);
+  public Coordinates divide(Scalar scalar)  {
+    return new Coordinates(values.divide(scalar), system);
   }
 
   @Override
-  public Tensor map(Function<Scalar, ? extends Tensor> function) {
-    return new Coordinates(vector.map(function), system);
+  public Coordinates map(Function<Scalar, ? extends Tensor> function) {
+    return new Coordinates(values.map(function), system);
   }
 
   @Override // from Iterable
   public Iterator<Tensor> iterator() {
-    return vector.iterator();
+    return values.iterator();
   }
 
   @Override // from Object
   public boolean equals(Object obj) {
-    return obj instanceof Coordinates && ((Coordinates) obj).vector().equals(vector) && ((Coordinates) obj).system().equals(system);
+    return obj instanceof Coordinates && ((Coordinates) obj).values.equals(values) && ((Coordinates) obj).system().equals(system);
+  }
+
+  @Override // from Object
+  public String toString() {
+    return values.toString() + system.toString();
+  }
+
+  @Override// from Object
+  public int hashCode() {
+    return Objects.hash(values, system.name());
   }
 }

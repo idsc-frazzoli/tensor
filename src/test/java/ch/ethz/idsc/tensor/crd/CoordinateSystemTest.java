@@ -14,7 +14,7 @@ public class CoordinateSystemTest extends TestCase {
 
   public void testOrigin() {
     CoordinateSystem cs = CoordinateSystem.of(TEST);
-    assertEquals(Array.zeros(3), cs.origin().vector());
+    assertEquals(Array.zeros(3), cs.origin().values());
   }
 
   public void testEquals() {

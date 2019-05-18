@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor.crd;
 import ch.ethz.idsc.tensor.alg.Array;
 
 public class CoordinateSystem {
+  static final char CS_OPENING_BRACKET = '(';
+  static final char CS_CLOSING_BRACKET = ')';
   public static final CoordinateSystem DEFAULT = new CoordinateSystem("");
 
   public static CoordinateSystem of(String string) {
@@ -32,5 +34,10 @@ public class CoordinateSystem {
   @Override // from Object
   public boolean equals(Object obj) {
     return obj instanceof CoordinateSystem && ((CoordinateSystem) obj).name().equals(name);
+  }
+
+  @Override // from Object
+  public String toString() {
+    return CS_OPENING_BRACKET + name + CS_CLOSING_BRACKET;
   }
 }
