@@ -8,8 +8,12 @@ import ch.ethz.idsc.tensor.Tensor;
     return vector instanceof Coordinates ? (UnmodifiableCoordinates) vector : of(vector, CoordinateSystem.DEFAULT);
   }
 
+  public static UnmodifiableCoordinates of (Tensor vector, String system) {
+    return of(vector, CoordinateSystem.of(system));
+  }
+
   public static UnmodifiableCoordinates of(Tensor vector, CoordinateSystem system) {
-    return vector instanceof Coordinates ? (UnmodifiableCoordinates) CompatibleSystemQ.in(system).require(vector): new UnmodifiableCoordinates(vector, system);
+    return vector instanceof Coordinates ? (UnmodifiableCoordinates) CompatibleSystemQ.to(system).require(vector): new UnmodifiableCoordinates(vector, system);
   }
 
   // ---

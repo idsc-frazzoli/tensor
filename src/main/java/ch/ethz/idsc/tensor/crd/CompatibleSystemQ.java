@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor.crd;
 import ch.ethz.idsc.tensor.Tensor;
 
 public class CompatibleSystemQ {
-  public static CompatibleSystemQ in(CoordinateSystem system) {
+  public static CompatibleSystemQ to(CoordinateSystem system) {
     return new CompatibleSystemQ(system);
   }
 
@@ -25,6 +25,12 @@ public class CompatibleSystemQ {
 
   public boolean with(CoordinateSystem system) {
     return this.system.equals(system);
+  }
+
+  public CoordinateSystem require(CoordinateSystem system) {
+    if (with(system))
+      return system;
+    throw new UnsupportedOperationException(String.format("incompatible: '%s' and '%s'", system.name(), system.name()));
   }
 
   public Coordinates require(Tensor coords) {

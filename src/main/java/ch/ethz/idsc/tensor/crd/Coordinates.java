@@ -17,8 +17,12 @@ public class Coordinates implements Tensor {
     return vector instanceof Coordinates ? (Coordinates) vector : of(vector, CoordinateSystem.DEFAULT);
   }
 
+  public static Coordinates of(Tensor vector, String system) {
+    return of(vector, CoordinateSystem.of(system));
+  }
+
   public static Coordinates of(Tensor vector, CoordinateSystem system) {
-    return vector instanceof Coordinates ? CompatibleSystemQ.in(system).require(vector): new Coordinates(vector, system);
+    return vector instanceof Coordinates ? CompatibleSystemQ.to(system).require(vector): new Coordinates(vector, system);
   }
 
   // ---
