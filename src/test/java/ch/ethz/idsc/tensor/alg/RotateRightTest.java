@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
@@ -25,9 +26,18 @@ public class RotateRightTest extends TestCase {
     }
   }
 
+  public void testFailScalar() {
+    try {
+      RotateRight.of(RealScalar.ONE, 0);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailNull() {
     try {
-      RotateLeft.of(null, 0);
+      RotateRight.of(null, 0);
       fail();
     } catch (Exception exception) {
       // ---

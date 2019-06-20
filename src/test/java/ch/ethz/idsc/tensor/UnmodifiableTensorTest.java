@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.util.Iterator;
 
+import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
@@ -71,6 +72,7 @@ public class UnmodifiableTensorTest extends TestCase {
     Tensor b = Tensors.empty().unmodifiable();
     assertEquals(a, b);
     assertEquals(a.hashCode(), b.hashCode());
+    assertTrue(b == b.unmodifiable());
   }
 
   public void testUnmodifiableSet() {
@@ -86,7 +88,14 @@ public class UnmodifiableTensorTest extends TestCase {
   public void testUnmodifiableIterator() {
     Tensor eye = IdentityMatrix.of(3).unmodifiable();
     Iterator<Tensor> iterator = eye.iterator();
-    iterator.next();
+    Tensor next = iterator.next();
+    assertEquals(next, UnitVector.of(3, 0));
+    try {
+      next.set(RealScalar.ONE, 1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
     try {
       iterator.remove();
       fail();

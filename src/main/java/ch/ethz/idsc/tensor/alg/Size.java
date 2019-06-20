@@ -47,7 +47,7 @@ import ch.ethz.idsc.tensor.Tensors;
     return size[index];
   }
 
-  @Override
+  @Override // from Iterable
   public Iterator<MultiIndex> iterator() {
     return new Iterator<MultiIndex>() {
       // invoking constructor of OuterProductInteger is verified
@@ -65,7 +65,7 @@ import ch.ethz.idsc.tensor.Tensors;
     };
   }
 
-  @Override
+  @Override // from Object
   public String toString() {
     return Tensors.vectorInt(size) + ".." + Tensors.vectorInt(prod);
   }

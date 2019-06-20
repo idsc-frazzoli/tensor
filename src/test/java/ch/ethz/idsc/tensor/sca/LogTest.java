@@ -44,6 +44,36 @@ public class LogTest extends TestCase {
     assertEquals(scalar, RealScalar.of(2));
   }
 
+  public void testBaseNumber() {
+    ScalarUnaryOperator scalarUnaryOperator = Log.base(2);
+    Scalar scalar = scalarUnaryOperator.apply(RealScalar.of(64));
+    assertEquals(scalar, RealScalar.of(6));
+  }
+
+  public void testStrangeBase() {
+    ScalarUnaryOperator scalarUnaryOperator = Log.base(0.1);
+    Scalar scalar = scalarUnaryOperator.apply(RealScalar.of(3));
+    // Mathematica ............................ -0.47712125471966243730
+    Chop._12.requireClose(scalar, RealScalar.of(-0.47712125471966255));
+  }
+
+  public void testNegativeBase() {
+    ScalarUnaryOperator scalarUnaryOperator = Log.base(-0.1);
+    Scalar scalar = scalarUnaryOperator.apply(RealScalar.of(3));
+    // Mathematica ................. -0.1667368328837891, -0.22749179210112070I
+    Scalar result = ComplexScalar.of(-0.1667368328837892, -0.22749179210112075);
+    Chop._12.requireClose(scalar, result);
+  }
+
+  public void testBaseOneFail() {
+    try {
+      Log.base(1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailQuantity() {
     Scalar scalar = Quantity.of(2, "m");
     try {
