@@ -15,6 +15,7 @@ import java.util.Objects;
    * @param den has to be non-zero
    * @throws {@link ArithmeticException} if den is zero */
   public static BigFraction of(BigInteger num, BigInteger den) {
+    // LONGTERM "if" is obsolete in some function invocations
     if (den.signum() == 0)
       throw new ArithmeticException(num + "/" + den);
     BigInteger gcd = num.gcd(den);
