@@ -21,12 +21,12 @@ public class SpectrogramArray implements TensorUnaryOperator {
 
   /** Mathematica default
    * 
-   * @param tensor
+   * @param vector
    * @return */
-  public static Tensor of(Tensor tensor) {
-    int num = Scalars.intValueExact(Round.FUNCTION.apply(LOG2.apply(Sqrt.FUNCTION.apply(RealScalar.of(tensor.length())))));
+  public static Tensor of(Tensor vector) {
+    int num = Scalars.intValueExact(Round.FUNCTION.apply(LOG2.apply(Sqrt.FUNCTION.apply(RealScalar.of(vector.length())))));
     int windowLength = 1 << ++num;
-    return of(windowLength, Scalars.intValueExact(Round.FUNCTION.apply(RationalScalar.of(windowLength, 3)))).apply(tensor);
+    return of(windowLength, Scalars.intValueExact(Round.FUNCTION.apply(RationalScalar.of(windowLength, 3)))).apply(vector);
   }
 
   /***************************************************/
@@ -62,8 +62,8 @@ public class SpectrogramArray implements TensorUnaryOperator {
   }
 
   @Override // from TensorUnaryOperator
-  public Tensor apply(Tensor signal) {
-    return Tensor.of(Partition.stream(signal, windowLength, offset) //
+  public Tensor apply(Tensor vector) {
+    return Tensor.of(Partition.stream(vector, windowLength, offset) //
         .map(tensorUnaryOperator) //
         .map(Fourier::of));
   }

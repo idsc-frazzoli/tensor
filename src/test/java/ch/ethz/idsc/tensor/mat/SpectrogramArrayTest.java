@@ -78,4 +78,38 @@ public class SpectrogramArrayTest extends TestCase {
       // ---
     }
   }
+
+  public void testDimensionsFail() {
+    TensorUnaryOperator tensorUnaryOperator = SpectrogramArray.of(32, 8);
+    try {
+      tensorUnaryOperator.apply(RealScalar.ONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      tensorUnaryOperator.apply(HilbertMatrix.of(32));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testScalarFail() {
+    try {
+      SpectrogramArray.of(RealScalar.ONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMatrixFail() {
+    try {
+      SpectrogramArray.of(HilbertMatrix.of(32));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
