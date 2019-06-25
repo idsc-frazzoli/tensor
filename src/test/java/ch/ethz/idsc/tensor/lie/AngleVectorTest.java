@@ -15,9 +15,18 @@ import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class AngleVectorTest extends TestCase {
+  public void testNumeric() {
+    for (int count = 0; count < 12; ++count) {
+      Scalar scalar = N.DOUBLE.of(RationalScalar.of(count, 12));
+      Tensor tensor = AngleVector.turns(scalar);
+      Chop._12.requireClose(tensor, AngleVector.of(scalar.multiply(Pi.TWO)));
+    }
+  }
+
   public void testNorm() {
     Distribution distribution = UniformDistribution.of(Pi.VALUE.negate(), Pi.VALUE);
     for (int index = 0; index < 10; ++index) {

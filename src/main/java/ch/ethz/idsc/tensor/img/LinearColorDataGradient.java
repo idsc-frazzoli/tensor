@@ -5,6 +5,8 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 import ch.ethz.idsc.tensor.sca.Clips;
@@ -28,6 +30,8 @@ public class LinearColorDataGradient implements ColorDataGradient {
    * @param tensor n x 4 where each row contains {r, g, b, a} with values ranging in [0, 256)
    * @return */
   public static ColorDataGradient of(Tensor tensor) {
+    if (Unprotect.dimension1(tensor) != 4)
+      throw TensorRuntimeException.of(tensor);
     return new LinearColorDataGradient(tensor);
   }
 
@@ -36,7 +40,7 @@ public class LinearColorDataGradient implements ColorDataGradient {
   private final Interpolation interpolation;
   private final Scalar scale;
 
-  private LinearColorDataGradient(Tensor tensor) {
+  /* package */ LinearColorDataGradient(Tensor tensor) {
     this.tensor = tensor;
     interpolation = LinearInterpolation.of(N.DOUBLE.of(tensor));
     scale = DoubleScalar.of(tensor.length() - 1);

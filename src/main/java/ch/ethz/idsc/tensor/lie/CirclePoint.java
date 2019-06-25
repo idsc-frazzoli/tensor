@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.lie;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -34,11 +35,7 @@ import ch.ethz.idsc.tensor.sca.Sin;
 
   /** @param scalar
    * @return */
-  public boolean contains(Scalar scalar) {
-    return map.containsKey(scalar);
-  }
-
-  public Tensor turns(Scalar scalar) {
-    return map.get(scalar);
+  public Optional<Tensor> turns(Scalar scalar) {
+    return Optional.ofNullable(map.get(scalar));
   }
 }

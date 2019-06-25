@@ -76,7 +76,7 @@ public enum ColorDataGradients implements ColorDataGradient {
     Tensor tensor = ResourceData.of("/colorscheme/" + name().toLowerCase() + ".csv");
     boolean success = Objects.nonNull(tensor);
     scalarTensorFunction = success //
-        ? LinearColorDataGradient.of(tensor)
+        ? new LinearColorDataGradient(tensor)
         : FallbackColorDataGradient.INSTANCE;
     if (!success)
       System.err.println("fail to load " + name());
