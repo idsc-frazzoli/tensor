@@ -20,6 +20,15 @@ public class LinearColorDataGradientTest extends TestCase {
     Subdivide.of(0, 1, 10).map(colorDataGradient);
   }
 
+  public void testRangeFail() {
+    try {
+      LinearColorDataGradient.of(Tensors.fromString("{{1, 2, 3, 4}, {1, 2, 3, 257}}"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testVectorFail() {
     try {
       LinearColorDataGradient.of(Tensors.vector(1, 2, 3, 4));

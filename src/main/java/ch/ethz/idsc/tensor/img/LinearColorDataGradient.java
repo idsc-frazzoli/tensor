@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.N;
 
@@ -25,6 +26,8 @@ import ch.ethz.idsc.tensor.sca.N;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a> */
 public class LinearColorDataGradient implements ColorDataGradient {
+  private static final Clip CLIP = Clips.interval(0, 256);
+
   /** colors are generated using {@link LinearInterpolation} of given tensor
    * 
    * @param tensor n x 4 where each row contains {r, g, b, a} with values ranging in [0, 256)
@@ -32,7 +35,7 @@ public class LinearColorDataGradient implements ColorDataGradient {
   public static ColorDataGradient of(Tensor tensor) {
     if (Unprotect.dimension1(tensor) != 4)
       throw TensorRuntimeException.of(tensor);
-    return new LinearColorDataGradient(tensor);
+    return new LinearColorDataGradient(tensor.map(CLIP::requireInside));
   }
 
   // ---

@@ -14,6 +14,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
 import junit.framework.TestCase;
 
 public class SpectrogramArrayTest extends TestCase {
@@ -28,6 +30,16 @@ public class SpectrogramArrayTest extends TestCase {
         .mapToDouble(i -> Math.cos(i * 0.25 + (i / 20.0) * (i / 20.0))) //
         .mapToObj(RealScalar::of));
     int windowLength = Unprotect.dimension1(SpectrogramArray.of(tensor));
+    assertEquals(windowLength, 64);
+  }
+
+  public void testQuantity() {
+    Tensor tensor = Tensor.of(IntStream.range(0, 2000) //
+        .mapToDouble(i -> Math.cos(i * 0.25 + (i / 20.0) * (i / 20.0))) //
+        .mapToObj(d -> Quantity.of(d, "m")));
+    Tensor array = SpectrogramArray.of(tensor);
+    Tensor array2 = array.map(QuantityMagnitude.SI().in("km"));
+    int windowLength = Unprotect.dimension1(array2);
     assertEquals(windowLength, 64);
   }
 

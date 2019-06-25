@@ -4,6 +4,8 @@ package ch.ethz.idsc.tensor.red;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class FirstPositionTest extends TestCase {
@@ -15,6 +17,19 @@ public class FirstPositionTest extends TestCase {
     assertEquals(FirstPosition.of(tensor, RealScalar.of(8)).getAsInt(), 3);
     assertEquals(FirstPosition.of(tensor, RealScalar.of(9)).getAsInt(), 4);
     assertFalse(FirstPosition.of(tensor, RealScalar.of(10)).isPresent());
+  }
+
+  public void testQuantity() {
+    Tensor tensor = Tensors.vector(5, 6, 7, 8, 9.0).map(s -> Quantity.of(s, "km"));
+    assertFalse(FirstPosition.of(tensor, RealScalar.of(5)).isPresent());
+    assertEquals(FirstPosition.of(tensor, Quantity.of(8, "km")).getAsInt(), 3);
+    assertEquals(FirstPosition.of(tensor, Quantity.of(9, "km")).getAsInt(), 4);
+    assertFalse(FirstPosition.of(tensor, RealScalar.of(10)).isPresent());
+  }
+
+  public void testMatrix() {
+    Tensor tensor = HilbertMatrix.of(10);
+    assertEquals(FirstPosition.of(tensor, tensor.get(3)).getAsInt(), 3);
   }
 
   public void testFailScalar() {

@@ -18,8 +18,8 @@ public enum ArrayPlot {
    * encodes RGBA color values. If the input tensor does not have matrix structure,
    * the return tensor cannot be exported to an image.
    * 
-   * @param tensor, typically a matrix
-   * @param function, for instance {@link ColorDataGradients#CLASSIC}
+   * @param tensor typically a matrix
+   * @param function for instance {@link ColorDataGradients#CLASSIC}
    * @return */
   public static Tensor of(Tensor tensor, Function<Scalar, ? extends Tensor> function) {
     return Rescale.of(tensor).map(function);

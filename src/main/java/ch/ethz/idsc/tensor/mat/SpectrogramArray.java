@@ -13,8 +13,13 @@ import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import ch.ethz.idsc.tensor.sca.Sqrt;
+import ch.ethz.idsc.tensor.sca.win.DirichletWindow;
 
-/** inspired by
+/** Mathematica::SpectrogramArray has the option to multiply the data segments with a window function,
+ * with {@link DirichletWindow} as the default. The implementation in the tensor library uses the fixed
+ * choice of {@link DirichletWindow}.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/SpectrogramArray.html">SpectrogramArray</a> */
 public class SpectrogramArray implements TensorUnaryOperator {
   private static final ScalarUnaryOperator LOG2 = Log.base(2);
@@ -22,7 +27,8 @@ public class SpectrogramArray implements TensorUnaryOperator {
   /** Mathematica default
    * 
    * @param vector
-   * @return */
+   * @return
+   * @throws Exception if input is not a vector */
   public static Tensor of(Tensor vector) {
     int num = Scalars.intValueExact(Round.FUNCTION.apply(LOG2.apply(Sqrt.FUNCTION.apply(RealScalar.of(vector.length())))));
     int windowLength = 1 << ++num;
