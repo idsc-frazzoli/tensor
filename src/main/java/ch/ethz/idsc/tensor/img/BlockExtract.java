@@ -24,9 +24,10 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
   }
 
   private Tensor block(List<Integer> index) {
-    List<Integer> ofs = new ArrayList<>();
-    List<Integer> len = new ArrayList<>();
-    for (int count = 0; count < index.size(); ++count) {
+    int size = index.size();
+    List<Integer> ofs = new ArrayList<>(size);
+    List<Integer> len = new ArrayList<>(size);
+    for (int count = 0; count < size; ++count) {
       int start = Math.max(0, index.get(count) - radius);
       ofs.add(start);
       len.add(Math.min(dimensions.get(count), index.get(count) + radius + 1) - start);

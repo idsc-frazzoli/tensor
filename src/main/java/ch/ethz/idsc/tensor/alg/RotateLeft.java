@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
@@ -13,7 +14,8 @@ public enum RotateLeft {
    * 
    * @param tensor
    * @param n any integer
-   * @return */
+   * @return
+   * @throws Exception if given tensor is a {@link Scalar} */
   public static Tensor of(Tensor tensor, int n) {
     int index = Math.floorMod(n, tensor.length());
     return Tensor.of(Stream.concat( //

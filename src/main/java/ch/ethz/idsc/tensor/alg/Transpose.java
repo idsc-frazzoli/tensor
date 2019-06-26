@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -77,7 +77,7 @@ public enum Transpose {
     Tensor data = Tensor.of(tensor.flatten(-1));
     int[] inverse = new int[sigma.length];
     IntStream.range(0, sigma.length).forEach(index -> inverse[sigma[index]] = index);
-    List<Tensor> list = new ArrayList<>();
+    List<Tensor> list = new LinkedList<>(); // could preallocate
     for (MultiIndex src : tensorSize)
       list.add(data.Get(mySize.indexOf(src.permute(inverse))));
     Integer[] tsize = new Integer[sigma.length]; // int[] to Integer[]

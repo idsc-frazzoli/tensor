@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
@@ -15,9 +16,18 @@ import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
 public class AngleVectorTest extends TestCase {
+  public void testNumeric() {
+    for (int count = 0; count < 12; ++count) {
+      Scalar scalar = N.DOUBLE.of(RationalScalar.of(count, 12));
+      Tensor tensor = AngleVector.turns(scalar);
+      Chop._12.requireClose(tensor, AngleVector.of(scalar.multiply(Pi.TWO)));
+    }
+  }
+
   public void testNorm() {
     Distribution distribution = UniformDistribution.of(Pi.VALUE.negate(), Pi.VALUE);
     for (int index = 0; index < 10; ++index) {
@@ -50,6 +60,14 @@ public class AngleVectorTest extends TestCase {
       Scalar fraction = RandomVariate.of(distribution);
       Chop._12.requireClose(AngleVector.turns(fraction), AngleVector.of(fraction.multiply(Pi.TWO)));
     }
+  }
+
+  public void testModify() {
+    Tensor o1 = AngleVector.turns(RealScalar.ZERO);
+    assertEquals(o1, UnitVector.of(2, 0));
+    o1.set(RealScalar.of(3), 0);
+    Tensor o2 = AngleVector.turns(RealScalar.ZERO);
+    assertEquals(o2, UnitVector.of(2, 0));
   }
 
   public void testNullFail() {

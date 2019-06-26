@@ -19,8 +19,6 @@ import ch.ethz.idsc.tensor.sca.Exp;
  * <a href="https://reference.wolfram.com/language/ref/GaborMatrix.html">GaborMatrix</a> */
 public enum GaborMatrix {
   ;
-  private static final Scalar TWO = RealScalar.of(2);
-
   /** only approximately consistent with Mathematica
    * 
    * @param r
@@ -28,8 +26,8 @@ public enum GaborMatrix {
    * @param phi
    * @return */
   public static Tensor of(int r, Tensor k, Scalar phi) {
-    Scalar sigma = RationalScalar.of(r, 2);
-    Scalar factor = AbsSquared.FUNCTION.apply(sigma).multiply(TWO).negate();
+    Scalar sigmas = AbsSquared.FUNCTION.apply(RationalScalar.of(r, 2));
+    Scalar factor = sigmas.add(sigmas).negate();
     int m = 2 * r + 1;
     Scalar center = RealScalar.of(-r);
     Tensor offset = k.map(scalar -> center);

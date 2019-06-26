@@ -11,33 +11,33 @@ import junit.framework.TestCase;
 
 public class StandardizeTest extends TestCase {
   public void testNumeric() {
-    Tensor res = Standardize.of(Tensors.vector(6.5, 3.8, 6.6, 5.7, 6.0, 6.4, 5.3));
+    Tensor res = Standardize.ofVector(Tensors.vector(6.5, 3.8, 6.6, 5.7, 6.0, 6.4, 5.3));
     assertTrue(Chop._12.allZero(Mean.of(res)));
     assertTrue(Chop._12.close(Variance.ofVector(res), RealScalar.ONE));
     assertTrue(Chop._12.close(StandardDeviation.ofVector(res), RealScalar.ONE));
   }
 
   public void testExact1() {
-    Tensor res = Standardize.of(Tensors.vector(1, 2, 3));
+    Tensor res = Standardize.ofVector(Tensors.vector(1, 2, 3));
     assertTrue(ExactTensorQ.of(res));
     assertEquals(res, Tensors.vector(-1, 0, 1));
   }
 
   public void testExact2() {
-    Tensor res = Standardize.of(Tensors.vector(1, 3, 5));
+    Tensor res = Standardize.ofVector(Tensors.vector(1, 3, 5));
     assertTrue(ExactTensorQ.of(res));
     assertEquals(res, Tensors.vector(-1, 0, 1));
   }
 
   public void testLengthShort() {
     try {
-      Standardize.of(Tensors.empty());
+      Standardize.ofVector(Tensors.empty());
       fail();
     } catch (Exception exception) {
       // ---
     }
     try {
-      Standardize.of(Tensors.vector(2));
+      Standardize.ofVector(Tensors.vector(2));
       fail();
     } catch (Exception exception) {
       // ---
@@ -46,7 +46,7 @@ public class StandardizeTest extends TestCase {
 
   public void testScalarFail() {
     try {
-      Standardize.of(RealScalar.of(84.312));
+      Standardize.ofVector(RealScalar.of(84.312));
       fail();
     } catch (Exception exception) {
       // ---
@@ -55,7 +55,7 @@ public class StandardizeTest extends TestCase {
 
   public void testMatrixFail() {
     try {
-      Standardize.of(HilbertMatrix.of(5));
+      Standardize.ofVector(HilbertMatrix.of(5));
       fail();
     } catch (Exception exception) {
       // ---

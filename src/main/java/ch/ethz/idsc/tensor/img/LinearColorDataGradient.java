@@ -5,8 +5,11 @@ import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
+import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.N;
 
@@ -23,12 +26,16 @@ import ch.ethz.idsc.tensor.sca.N;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a> */
 public class LinearColorDataGradient implements ColorDataGradient {
+  private static final Clip CLIP = Clips.interval(0, 256);
+
   /** colors are generated using {@link LinearInterpolation} of given tensor
    * 
    * @param tensor n x 4 where each row contains {r, g, b, a} with values ranging in [0, 256)
    * @return */
   public static ColorDataGradient of(Tensor tensor) {
-    return new LinearColorDataGradient(tensor);
+    if (Unprotect.dimension1(tensor) != 4)
+      throw TensorRuntimeException.of(tensor);
+    return new LinearColorDataGradient(tensor.map(CLIP::requireInside));
   }
 
   // ---
@@ -36,7 +43,7 @@ public class LinearColorDataGradient implements ColorDataGradient {
   private final Interpolation interpolation;
   private final Scalar scale;
 
-  private LinearColorDataGradient(Tensor tensor) {
+  /* package */ LinearColorDataGradient(Tensor tensor) {
     this.tensor = tensor;
     interpolation = LinearInterpolation.of(N.DOUBLE.of(tensor));
     scale = DoubleScalar.of(tensor.length() - 1);

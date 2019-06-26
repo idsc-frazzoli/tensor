@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -37,8 +36,6 @@ public enum AngleVector {
    * @return AngleVector.of(turns.multiply(Pi.TWO)) */
   public static Tensor turns(Scalar turns) {
     Scalar scalar = MOD.apply(turns);
-    return scalar instanceof RationalScalar && CirclePoint.INSTANCE.contains(scalar) //
-        ? CirclePoint.INSTANCE.turns(scalar)
-        : of(scalar.multiply(Pi.TWO));
+    return CirclePoint.INSTANCE.turns(scalar).orElse(of(scalar.multiply(Pi.TWO)));
   }
 }

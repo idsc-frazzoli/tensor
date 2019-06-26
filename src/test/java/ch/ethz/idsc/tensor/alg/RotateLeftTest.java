@@ -25,6 +25,15 @@ public class RotateLeftTest extends TestCase {
     assertEquals(tensor, RotateLeft.of(HilbertMatrix.of(3), 1));
   }
 
+  public void testFailScalar() {
+    try {
+      RotateLeft.of(RealScalar.ONE, 0);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailNull() {
     try {
       RotateLeft.of(null, 0);

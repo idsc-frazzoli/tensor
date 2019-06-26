@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import junit.framework.TestCase;
 
-public class PmulTest extends TestCase {
+public class TensorPmulTest extends TestCase {
   public void testVectorMatrixEx1() {
     Tensor mat = Tensors.fromString("{{1,2,3},{4,5,6}}");
     Tensors.vector(-2, 2).pmul(mat);

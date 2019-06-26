@@ -9,6 +9,7 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.ExactTensorQ;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -32,12 +33,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class QuaternionImpl extends AbstractScalar implements Quaternion, //
     ChopInterface, ExactScalarQInterface, NInterface, PowerInterface, Serializable {
-  private static final Scalar TWO = RealScalar.of(2);
-  // ---
   private final Scalar w;
   private final Tensor xyz;
 
-  QuaternionImpl(Scalar w, Tensor xyz) {
+  /* package */ QuaternionImpl(Scalar w, Tensor xyz) {
     this.w = w;
     this.xyz = xyz;
   }
@@ -156,8 +155,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from SqrtInterface
   public Quaternion sqrt() {
-    Scalar nre = Sqrt.FUNCTION.apply(w.add(abs()).multiply(TWO));
-    return new QuaternionImpl(nre.divide(TWO), xyz.divide(nre));
+    Scalar w_abs = w.add(abs());
+    Scalar nre = Sqrt.FUNCTION.apply(w_abs.add(w_abs));
+    return new QuaternionImpl(nre.multiply(RationalScalar.HALF), xyz.divide(nre));
   }
 
   /***************************************************/

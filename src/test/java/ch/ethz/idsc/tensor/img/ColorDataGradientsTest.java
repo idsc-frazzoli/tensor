@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.io.ResourceData;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -48,6 +49,13 @@ public class ColorDataGradientsTest extends TestCase {
     assertEquals(rgba1, Tensors.vector(47.5, 195, 33.5, 255));
     assertEquals(rgba1.get(3), RealScalar.of(255));
     assertEquals(rgba2.get(3), RealScalar.of(127.5));
+  }
+
+  public void testStrict() {
+    for (ColorDataGradients colorDataGradients : ColorDataGradients.values()) {
+      Tensor tensor = ResourceData.of("/colorscheme/" + colorDataGradients.name().toLowerCase() + ".csv");
+      LinearColorDataGradient.of(tensor);
+    }
   }
 
   public void testFail() {

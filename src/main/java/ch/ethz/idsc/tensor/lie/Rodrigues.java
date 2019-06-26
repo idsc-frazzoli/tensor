@@ -31,7 +31,6 @@ public enum Rodrigues {
   ;
   private static final Tensor ID3 = IdentityMatrix.of(3);
   private static final Scalar HALF = RationalScalar.HALF;
-  private static final Scalar TWO = RealScalar.of(2);
 
   /** @param vector of length() == 3
    * @return 3x3 rotation matrix identical to MatrixExp[Cross[vector]]
@@ -51,9 +50,10 @@ public enum Rodrigues {
   public static Tensor logMatrix(Tensor matrix) {
     if (MatrixQ.ofSize(matrix, 3, 3) && OrthogonalMatrixQ.of(matrix)) {
       Scalar theta = theta(matrix);
-      return Scalars.isZero(theta) //
-          ? Array.zeros(3, 3) //
-          : matrix.subtract(Transpose.of(matrix)).multiply(theta.divide(Sin.FUNCTION.apply(theta).multiply(TWO)));
+      if (Scalars.isZero(theta))
+        return Array.zeros(3, 3);
+      Scalar sin = Sin.FUNCTION.apply(theta);
+      return matrix.subtract(Transpose.of(matrix)).multiply(theta.divide(sin.add(sin)));
     }
     throw TensorRuntimeException.of(matrix);
   }
@@ -67,7 +67,7 @@ public enum Rodrigues {
 
   private static Scalar theta(Tensor matrix) {
     Scalar value = matrix.Get(0, 0).add(matrix.Get(1, 1)).add(matrix.Get(2, 2)) //
-        .subtract(RealScalar.ONE).divide(TWO);
+        .subtract(RealScalar.ONE).multiply(HALF);
     return ArcCos.FUNCTION.apply(value);
   }
 }

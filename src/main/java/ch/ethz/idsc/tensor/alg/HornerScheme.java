@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** the horner scheme improves speed and stability for the numeric evaluation of large polynomials
+/** Horner's scheme improves speed and stability for the numeric evaluation of large polynomials
  * 
  * <p>Quote from Wikipedia:
  * These methods named after the British mathematician William George Horner,
