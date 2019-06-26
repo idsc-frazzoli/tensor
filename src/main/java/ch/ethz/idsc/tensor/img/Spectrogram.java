@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.sca.win.DirichletWindow;
  * with {@link DirichletWindow} as the default. The implementation in the tensor library uses the fixed
  * choice of {@link DirichletWindow}.
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Spectrogram.html">Spectrogram</a> */
 public enum Spectrogram {
   ;

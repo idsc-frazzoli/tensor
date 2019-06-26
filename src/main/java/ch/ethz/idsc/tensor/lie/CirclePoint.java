@@ -36,6 +36,6 @@ import ch.ethz.idsc.tensor.sca.Sin;
   /** @param scalar
    * @return */
   public Optional<Tensor> turns(Scalar scalar) {
-    return Optional.ofNullable(map.get(scalar));
+    return Optional.ofNullable(map.get(scalar)).map(Tensor::copy);
   }
 }

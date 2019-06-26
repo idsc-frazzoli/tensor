@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
@@ -59,6 +60,14 @@ public class AngleVectorTest extends TestCase {
       Scalar fraction = RandomVariate.of(distribution);
       Chop._12.requireClose(AngleVector.turns(fraction), AngleVector.of(fraction.multiply(Pi.TWO)));
     }
+  }
+
+  public void testModify() {
+    Tensor o1 = AngleVector.turns(RealScalar.ZERO);
+    assertEquals(o1, UnitVector.of(2, 0));
+    o1.set(RealScalar.of(3), 0);
+    Tensor o2 = AngleVector.turns(RealScalar.ZERO);
+    assertEquals(o2, UnitVector.of(2, 0));
   }
 
   public void testNullFail() {
