@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.red.Min;
 import ch.ethz.idsc.tensor.red.StandardDeviation;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Clips;
-import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.sca.CubeRoot;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** bin size computations are inspired by Wikipedia:
@@ -29,7 +29,7 @@ public enum BinningMethod implements TensorScalarFunction {
   VARIANCE() {
     @Override
     public Scalar apply(Tensor tensor) {
-      return RationalScalar.of(7, 2).multiply(StandardDeviation.ofVector(tensor)).divide(cuberoot(tensor.length()));
+      return RationalScalar.of(7, 2).multiply(StandardDeviation.ofVector(tensor)).divide(crt_length(tensor));
     }
   },
   /** Freedman-Diaconis' choice:
@@ -37,14 +37,16 @@ public enum BinningMethod implements TensorScalarFunction {
   IQR() {
     @Override
     public Scalar apply(Tensor tensor) {
-      return RealScalar.of(2).multiply(InterquartileRange.of(tensor)).divide(cuberoot(tensor.length()));
+      Scalar iqr = InterquartileRange.of(tensor);
+      return iqr.add(iqr).divide(crt_length(tensor));
     }
   },
   /** Rice Rule */
   RICE() {
     @Override
     public Scalar apply(Tensor tensor) {
-      return division(tensor, Ceiling.FUNCTION.apply(RealScalar.of(2).multiply(cuberoot(tensor.length()))));
+      Scalar crl = crt_length(tensor);
+      return division(tensor, Ceiling.FUNCTION.apply(crl.add(crl)));
     }
   },
   /** Square-root choice:
@@ -59,12 +61,10 @@ public enum BinningMethod implements TensorScalarFunction {
     }
   };
   // ---
-  private static final Scalar THIRD = RationalScalar.of(1, 3);
-
-  /** @param number
-   * @return number ^ (1/3) */
-  private static Scalar cuberoot(int number) {
-    return Power.of(number, THIRD);
+  /** @param tensor
+   * @return tensor.length() ^ (1/3) */
+  private static Scalar crt_length(Tensor tensor) {
+    return CubeRoot.FUNCTION.apply(RealScalar.of(tensor.length()));
   }
 
   private static Scalar division(Tensor tensor, Scalar k) {

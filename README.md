@@ -244,6 +244,8 @@ Indices for the `set` and `get` functions start from zero like in C/Java:
 
 ### Visualization
 
+Image functions: `ArrayPlot`, `Spectrogram`
+
 Predefined color gradients
 
 ![colordatagradients](https://user-images.githubusercontent.com/4012178/42363743-fb28d35e-80f8-11e8-9b34-41652073304d.png)

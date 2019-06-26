@@ -63,7 +63,7 @@ public enum Trace {
   }
 
   /** @param matrix
-   * @return
+   * @return sum of diagonal elements of given matrix
    * @throws Exception if input is not a matrix */
   public static Scalar of(Tensor matrix) {
     return of(matrix, 0, 1).Get();

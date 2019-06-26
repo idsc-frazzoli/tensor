@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ShenCastanMatrix.html">ShenCastanMatrix</a> */
-enum ShenCastanMatrix {
+/* package */ enum ShenCastanMatrix {
   ;
   // LONGTERM implement
 }

@@ -14,7 +14,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ enum RootsCubic {
   ;
-  private static final Scalar _2 = RealScalar.of(2);
   private static final Scalar _3 = RealScalar.of(3);
   private static final Scalar _1_3 = RationalScalar.of(1, 3);
   private static final Scalar _2_3 = RationalScalar.of(2, 3);
@@ -45,7 +44,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar bd3_c2 = Times.of(b, d3).subtract(c2);
     //
     Scalar c3 = c2.multiply(c);
-    Scalar c3s = Times.of(b, c, d, _9).subtract(Times.of(c3, _2)).subtract(Times.of(a, d, d, _27));
+    Scalar c3s = Times.of(b, c, d, _9).subtract(c3.add(c3)).subtract(Times.of(a, d, d, _27));
     //
     Scalar det = Power.of( //
         c3s.add(Sqrt.of(_4.multiply(Power.of(bd3_c2, _3)).add(Times.of(c3s, c3s)))), _1_3);

@@ -6,6 +6,6 @@ package ch.ethz.idsc.tensor.pdf;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/HypoexponentialDistribution.html">HypoexponentialDistribution</a> */
-enum HypoexponentialDistribution {
+/* package */ enum HypoexponentialDistribution implements Distribution {
   // LONGTERM implement
 }
