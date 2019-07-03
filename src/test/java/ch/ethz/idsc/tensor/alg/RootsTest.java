@@ -38,7 +38,7 @@ public class RootsTest extends TestCase {
   }
 
   public void testZerosQuantity() {
-    Tensor roots = Roots.of(Tensors.fromString("{0, 0, 1[m^-2],0[m^-3]}"));
+    Tensor roots = Roots.of(Tensors.fromString("{0, 0, 1[m^-2], 0[m^-3]}"));
     assertEquals(roots, Tensors.fromString("{0[m^2], 0[m^2]}"));
   }
 

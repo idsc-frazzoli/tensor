@@ -12,7 +12,7 @@ public class AntisymmetricMatrixQTest extends TestCase {
   public void testMatrix() {
     assertTrue(AntisymmetricMatrixQ.of(Array.zeros(4, 4)));
     assertFalse(AntisymmetricMatrixQ.of(IdentityMatrix.of(3)));
-    assertTrue(AntisymmetricMatrixQ.of(Tensors.fromString("{{0,1},{-1,0}}")));
+    assertTrue(AntisymmetricMatrixQ.of(Tensors.fromString("{{0, 1}, {-1, 0}}")));
   }
 
   public void testCross() {

@@ -71,7 +71,7 @@ public class CsvFormatTest extends TestCase {
   }
 
   public void testVector() {
-    Tensor r = Tensors.fromString("{123,456}");
+    Tensor r = Tensors.fromString("{123, 456}");
     List<String> list = CsvFormat.of(r).collect(Collectors.toList());
     Tensor s = CsvFormat.parse(list.stream()); // [[123], [456]]
     assertEquals(Partition.of(r, 1), s);

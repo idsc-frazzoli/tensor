@@ -20,13 +20,13 @@ public class ImageCropTest extends TestCase {
 
   public void testGrayscale() {
     TensorUnaryOperator tensorUnaryOperator = ImageCrop.color(RealScalar.ZERO);
-    Tensor image = Tensors.fromString("{{0,0,0},{0,1,0},{0,0,0}}");
+    Tensor image = Tensors.fromString("{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}");
     Tensor result = tensorUnaryOperator.apply(image);
     assertEquals(result, Tensors.fromString("{{1}}"));
   }
 
   public void testColor() {
-    Tensor image = Tensors.fromString("{{0,0,0},{0,1,0},{0,0,0}}");
+    Tensor image = Tensors.fromString("{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}");
     image = ArrayPlot.of(image, ColorDataGradients.CLASSIC);
     TensorUnaryOperator tensorUnaryOperator = ImageCrop.color(image.get(0, 0));
     Tensor result = tensorUnaryOperator.apply(image);

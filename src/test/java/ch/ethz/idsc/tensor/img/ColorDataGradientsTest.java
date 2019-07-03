@@ -64,7 +64,7 @@ public class ColorDataGradientsTest extends TestCase {
       cdf.apply(RealScalar.of(0.5));
       cdf.apply(RealScalar.of(0.99));
       if (cdg.equals(ColorDataGradients.HUE)) {
-        // hue is implemented periodically [0,1) == [1,2) == ...
+        // hue is implemented periodically [0, 1) == [1, 2) == ...
       } else {
         try {
           cdf.apply(RealScalar.of(-0.1));

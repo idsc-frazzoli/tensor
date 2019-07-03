@@ -70,8 +70,8 @@ public class MatrixExpTest extends TestCase {
   }
 
   public void testGoldenThompsonInequality() {
-    Tensor a = Tensors.fromString("{{2,I},{-I,2}}");
-    Tensor b = Tensors.fromString("{{2,1-I},{1+I,2}}");
+    Tensor a = Tensors.fromString("{{2, I}, {-I, 2}}");
+    Tensor b = Tensors.fromString("{{2, 1-I}, {1+I, 2}}");
     assertTrue(HermitianMatrixQ.of(a));
     assertTrue(HermitianMatrixQ.of(b));
     Scalar tra = Trace.of(MatrixExp.of(a.add(b)));

@@ -17,10 +17,10 @@ public class PositiveSemidefiniteMatrixQTest extends TestCase {
   }
 
   public void testComplex() {
-    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(Tensors.fromString("{{10,I},{-I,10}}")));
-    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(Tensors.fromString("{{10,I},{-I,1/10}}")));
-    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{10,I},{-I,10}}"))));
-    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{10,I},{-I,1/10}}"))));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(Tensors.fromString("{{10, I},{-I, 10}}")));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(Tensors.fromString("{{10, I},{-I, 1/10}}")));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{10, I},{-I, 10}}"))));
+    assertTrue(PositiveSemidefiniteMatrixQ.ofHermitian(N.DOUBLE.of(Tensors.fromString("{{10, I},{-I, 1/10}}"))));
   }
 
   public void testVector() {

@@ -9,8 +9,8 @@ import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 
 /** Quantile does not average as {@link Median}:
- * <code>Quantile[{1,2}, 0.5] == 1</code>,
- * <code>Median[{1,2}] == 3/2</code>
+ * <code>Quantile[{1, 2}, 0.5] == 1</code>,
+ * <code>Median[{1, 2}] == 3/2</code>
  * 
  * <p>implementation is compliant to Mathematica
  * 

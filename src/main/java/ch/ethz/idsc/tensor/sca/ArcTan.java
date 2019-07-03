@@ -48,7 +48,7 @@ public enum ArcTan implements ScalarUnaryOperator {
    * 
    * @param x
    * @param y
-   * @return arc tangent of y/x, taking into account which quadrant the point (x,y) is in */
+   * @return arc tangent of y/x, taking into account which quadrant the point (x, y) is in */
   public static Scalar of(Scalar x, Scalar y) {
     if (y instanceof ArcTanInterface) {
       ArcTanInterface arcTanInterface = (ArcTanInterface) y;

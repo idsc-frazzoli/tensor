@@ -31,7 +31,7 @@ public class HankelTensorTest extends TestCase {
       // ---
     }
     try {
-      HankelTensor.of(Tensors.fromString("{{1,2}}"), 1);
+      HankelTensor.of(Tensors.fromString("{{1, 2}}"), 1);
       fail();
     } catch (Exception exception) {
       // ---

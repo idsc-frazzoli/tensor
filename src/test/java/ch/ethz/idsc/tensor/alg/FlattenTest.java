@@ -17,7 +17,7 @@ public class FlattenTest extends TestCase {
   }
 
   public void testLevel0b() {
-    Tensor m = Tensors.fromString("{{0,1,{2,{3}}},{{4},5}}");
+    Tensor m = Tensors.fromString("{{0, 1, {2, {3}}}, {{4}, 5}}");
     assertEquals(Flatten.of(m, 0), m);
   }
 
@@ -31,7 +31,7 @@ public class FlattenTest extends TestCase {
   }
 
   public void testAll() {
-    assertEquals(Flatten.of(Tensors.fromString("{{0,1,{{2},3}},{4,5}}")), Range.of(0, 6));
+    assertEquals(Flatten.of(Tensors.fromString("{{0, 1, {{2}, 3}}, {4, 5}}")), Range.of(0, 6));
   }
 
   public void testScalar() {
@@ -46,21 +46,21 @@ public class FlattenTest extends TestCase {
   }
 
   public void testVarargs() {
-    Tensor res = Flatten.of(Tensors.vector(1, 2, 3), RealScalar.of(4), Tensors.fromString("{{5},6,{{7},8}}"));
+    Tensor res = Flatten.of(Tensors.vector(1, 2, 3), RealScalar.of(4), Tensors.fromString("{{5}, 6, {{7}, 8}}"));
     assertEquals(res, Range.of(1, 9));
   }
 
   public void testReferences0() {
-    Tensor tensor = Tensors.fromString("{{1,2},{3,4}}");
+    Tensor tensor = Tensors.fromString("{{1, 2}, {3, 4}}");
     Tensor flatten = Flatten.of(tensor, 0);
     flatten.set(RealScalar.ZERO, 0, 0);
-    assertEquals(tensor, Tensors.fromString("{{1,2},{3,4}}"));
+    assertEquals(tensor, Tensors.fromString("{{1, 2}, {3, 4}}"));
   }
 
   public void testReferences1() {
-    Tensor tensor = Tensors.fromString("{{{1,2},{3,4}}}");
+    Tensor tensor = Tensors.fromString("{{{1, 2}, {3, 4}}}");
     Tensor flatten = Flatten.of(tensor, 1);
     flatten.set(RealScalar.ZERO, 0, 0);
-    assertEquals(tensor, Tensors.fromString("{{{1,2},{3,4}}}"));
+    assertEquals(tensor, Tensors.fromString("{{{1, 2}, {3, 4}}}"));
   }
 }

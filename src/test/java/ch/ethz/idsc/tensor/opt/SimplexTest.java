@@ -89,10 +89,10 @@ public class SimplexTest extends TestCase {
    * pp. 30 */
   public void testP30() {
     Tensor m = fromString( //
-        "{1,1,1,1,0,0,0}", //
-        "{1,0,0,0,1,0,0}", //
-        "{0,0,1,0,0,1,0}", //
-        "{0,3,1,0,0,0,1}" //
+        "{1, 1, 1, 1, 0, 0, 0}", //
+        "{1, 0, 0, 0, 1, 0, 0}", //
+        "{0, 0, 1, 0, 0, 1, 0}", //
+        "{0, 3, 1, 0, 0, 0, 1}" //
     );
     Tensor b = Tensors.vector(4, 2, 3, 6);
     Tensor c = Tensors.vector(0, 2, 0, 1, 0, 0, 5);

@@ -83,7 +83,7 @@ public class UnprotectTest extends TestCase {
   }
 
   public void testFail1() {
-    Tensor unstruct = Tensors.fromString("{{-1,0,1,2},{3,4,5}}");
+    Tensor unstruct = Tensors.fromString("{{-1, 0, 1, 2}, {3, 4, 5}}");
     assertEquals(unstruct.length(), 2);
     try {
       Unprotect.dimension1(unstruct);

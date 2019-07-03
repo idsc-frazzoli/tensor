@@ -70,9 +70,9 @@ public enum CsvFormat {
 
   /** Example: The stream of the following strings
    * <pre>
-   * "10,200,3"
+   * "10, 200, 3"
    * "78"
-   * "-3,2.3"
+   * "-3, 2.3"
    * </pre>
    * results in the tensor {{10, 200, 3}, {78}, {-3, 2.3}}
    * 

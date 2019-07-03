@@ -59,7 +59,7 @@ public class MatlabExportTest extends TestCase {
         scalar -> scalar instanceof Quantity //
             ? ((Quantity) scalar).value()
             : scalar;
-    Tensor m = Tensors.fromString("{{1[m],2[s^-1],0[r]},{3,4[N],7[rad]}}");
+    Tensor m = Tensors.fromString("{{1[m], 2[s^-1], 0[r]}, {3, 4[N], 7[rad]}}");
     Stream<String> stream = MatlabExport.of(m, sc -> scalarUnaryOperator.apply(sc).toString());
     List<String> list = stream.collect(Collectors.toList());
     assertTrue(list.contains("a=zeros([2, 3]);"));
@@ -73,7 +73,7 @@ public class MatlabExportTest extends TestCase {
   }
 
   public void testFail() {
-    Tensor tensor = Tensors.fromString("{{1,2},{3,4,5}}");
+    Tensor tensor = Tensors.fromString("{{1, 2}, {3, 4, 5}}");
     try {
       MatlabExport.of(tensor);
       fail();

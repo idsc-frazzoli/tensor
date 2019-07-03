@@ -42,7 +42,7 @@ public class TransposeTest extends TestCase {
   }
 
   public void testMatrixWithVectors() {
-    Tensor tensor = Tensors.fromString("{{1,{2,2}},{{3},4},{5,{6}}}");
+    Tensor tensor = Tensors.fromString("{{1, {2, 2}}, {{3}, 4}, {5, {6}}}");
     Tensor transp = Transpose.of(tensor);
     assertEquals(transp, Tensors.fromString("{{1, {3}, 5}, {{2, 2}, 4, {6}}}"));
   }
@@ -126,7 +126,7 @@ public class TransposeTest extends TestCase {
   }
 
   public void testNonArray() {
-    Tensor tensor = Tensors.fromString("{{0,1,{2,3,4}},{5,6,7}}");
+    Tensor tensor = Tensors.fromString("{{0, 1, {2, 3, 4}}, {5, 6, 7}}");
     Tensor result = Transpose.nonArray(tensor, 1, 0);
     Tensor correct = Tensors.fromString("{{0, 5}, {1, 6}, {{2, 3, 4}, 7}}");
     assertEquals(result, correct);

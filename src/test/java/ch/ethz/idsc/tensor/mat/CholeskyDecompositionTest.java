@@ -110,8 +110,8 @@ public class CholeskyDecompositionTest extends TestCase {
   }
 
   public void testComplex() {
-    checkDecomp(Tensors.fromString("{{10,I},{-I,10}}"));
-    checkDecomp(N.DOUBLE.of(Tensors.fromString("{{10,I},{-I,10}}")));
+    checkDecomp(Tensors.fromString("{{10, I}, {-I, 10}}"));
+    checkDecomp(N.DOUBLE.of(Tensors.fromString("{{10, I}, {-I, 10}}")));
   }
 
   public void testQuantity1() {
@@ -147,7 +147,7 @@ public class CholeskyDecompositionTest extends TestCase {
     }
     {
       CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
-      assertEquals(Det.of(mat), cd.det()); // 100[kg^2,m^2,rad^2]
+      assertEquals(Det.of(mat), cd.det()); // 100[kg^2, m^2, rad^2]
       Tensor lower = rows_pmul_v(cd.getL(), Sqrt.of(cd.diagonal()));
       Tensor upper = Sqrt.of(cd.diagonal()).pmul(ConjugateTranspose.of(cd.getL()));
       Tensor res = lower.dot(upper);
@@ -166,7 +166,7 @@ public class CholeskyDecompositionTest extends TestCase {
   }
 
   public void testQuantityComplex() {
-    Tensor mat = Tensors.fromString("{{10[m^2],I[m*kg]},{-I[m*kg],10[kg^2]}}");
+    Tensor mat = Tensors.fromString("{{10[m^2], I[m*kg]}, {-I[m*kg], 10[kg^2]}}");
     CholeskyDecomposition cd = CholeskyDecomposition.of(mat);
     Tensor sdiag = Sqrt.of(cd.diagonal());
     Tensor upper = sdiag.pmul(ConjugateTranspose.of(cd.getL()));

@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sin;
 
 /** generalization of complex power (x+y*I)^n in two
- * dimensions {x,y}^n to three dimensions {x,y,z}^n
+ * dimensions {x, y}^n to three dimensions {x, y, z}^n
  * 
  * see Mandelbulb fractal */
 public enum NylanderPower {

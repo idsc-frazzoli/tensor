@@ -32,29 +32,29 @@ public class LinearProgrammingTest extends TestCase {
 
   // MATLAB linprog example
   public void testMatlab1() { // min c.x == -10/9
-    Tensor c = Tensors.fromString("{-1,-1/3}");
-    Tensor m = Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}");
+    Tensor c = Tensors.fromString("{-1, -1/3}");
+    Tensor m = Tensors.fromString("{{1, 1}, {1, 1/4}, {1, -1}, {-1/4, -1}, {-1, -1}, {-1, 1}}");
     Tensor b = Tensors.vector(2, 1, 2, 1, -1, 2);
     Tensor x = LinearProgramming.minLessEquals(c, m, b);
-    assertEquals(x, Tensors.fromString("{2/3,4/3}"));
+    assertEquals(x, Tensors.fromString("{2/3, 4/3}"));
     // System.out.println(c.dot(x));
   }
 
   // MATLAB linprog example
   public void testMatlab1max() { // max c.x == min -c.x == -10/9
-    Tensor c = Tensors.fromString("{1,1/3}");
-    Tensor m = Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}");
+    Tensor c = Tensors.fromString("{1, 1/3}");
+    Tensor m = Tensors.fromString("{{1, 1}, {1, 1/4}, {1, -1}, {-1/4, -1}, {-1, -1}, {-1, 1}}");
     Tensor b = Tensors.vector(2, 1, 2, 1, -1, 2);
     Tensor x = LinearProgramming.maxLessEquals(c, m, b);
-    assertEquals(x, Tensors.fromString("{2/3,4/3}"));
+    assertEquals(x, Tensors.fromString("{2/3, 4/3}"));
     // System.out.println(c.dot(x).negate());
   }
 
   // MATLAB linprog example dual
   public void testMatlab1maxDual() {
     Tensor c = Tensors.vector(2, 1, 2, 1, -1, 2);
-    Tensor m = Transpose.of(Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}"));
-    Tensor b = Tensors.fromString("{1,1/3}");
+    Tensor m = Transpose.of(Tensors.fromString("{{1, 1}, {1, 1/4}, {1, -1}, {-1/4, -1}, {-1, -1}, {-1, 1}}"));
+    Tensor b = Tensors.fromString("{1, 1/3}");
     TensorRuntimeException.of(c, m, b);
     // Tensor y = LinearProgramming.minLessEquals(c, m.negate(), b.negate());
     // System.out.println(y);
@@ -66,11 +66,11 @@ public class LinearProgrammingTest extends TestCase {
 
   // MATLAB linprog example
   public void testMatlab2() {
-    Tensor c = Tensors.fromString("{-1,-1/3,0,0,0,0,0,0}");
-    Tensor Ap = Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}");
+    Tensor c = Tensors.fromString("{-1,-1/3, 0, 0, 0, 0, 0, 0}");
+    Tensor Ap = Tensors.fromString("{{1, 1}, {1, 1/4}, {1, -1}, {-1/4, -1}, {-1, -1}, {-1, 1}}");
     Tensor m = Join.of(1, Ap, IdentityMatrix.of(6));
-    m.append(Tensors.fromString("{1, 1/4,0,0,0,0,0,0}"));
-    Tensor b = Tensors.fromString("{2,1,2,1,-1,2,1/2}");
+    m.append(Tensors.fromString("{1, 1/4, 0, 0, 0, 0, 0, 0}"));
+    Tensor b = Tensors.fromString("{2, 1, 2, 1, -1, 2, 1/2}");
     Tensor x = LinearProgramming.minEquals(c, m, b);
     assertEquals(x.extract(0, 2), Tensors.vector(0, 2));
   }

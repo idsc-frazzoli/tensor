@@ -84,13 +84,13 @@ public class RamerDouglasPeuckerTest extends TestCase {
 
   public void testFail() {
     try {
-      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Tensors.fromString("{{{1},2}}"));
+      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Tensors.fromString("{{{1}, 2}}"));
       fail();
     } catch (Exception exception) {
       // ---
     }
     try {
-      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Tensors.fromString("{{{1},2},{{1},2},{{1},2}}"));
+      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Tensors.fromString("{{{1}, 2}, {{1}, 2},{{1}, 2}}"));
       fail();
     } catch (Exception exception) {
       // ---

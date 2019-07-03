@@ -32,7 +32,7 @@ public class TensorPropertiesTest extends TestCase {
   public void testListSize2() throws Exception {
     ParamContainer paramContainer = new ParamContainer();
     TensorProperties tensorProperties = TensorProperties.wrap(paramContainer);
-    paramContainer.shape = Tensors.fromString("{1,2,3}");
+    paramContainer.shape = Tensors.fromString("{1, 2, 3}");
     paramContainer.abc = RealScalar.ONE;
     paramContainer.maxTor = Scalars.fromString("3.13[m*s^2]");
     List<String> list = tensorProperties.strings();
@@ -68,7 +68,7 @@ public class TensorPropertiesTest extends TestCase {
     paramContainer.string = "some string, no new line please";
     assertEquals(tensorProperties.strings().size(), 1);
     paramContainer.maxTor = Scalars.fromString("3.13[m*s^2]");
-    paramContainer.shape = Tensors.fromString("{1,2,3}");
+    paramContainer.shape = Tensors.fromString("{1, 2, 3}");
     assertEquals(tensorProperties.strings().size(), 3);
     paramContainer.abc = RealScalar.ONE;
     assertEquals(tensorProperties.strings().size(), 4);

@@ -32,8 +32,8 @@ public class VectorQTest extends TestCase {
 
   public void testMisc() {
     assertFalse(VectorQ.of(Tensors.fromString("{{1}}")));
-    assertFalse(VectorQ.of(Tensors.fromString("{{1,1,3},{7,2,9}}")));
-    assertFalse(VectorQ.of(Tensors.fromString("{{1,1},{7,2,9}}")));
+    assertFalse(VectorQ.of(Tensors.fromString("{{1, 1, 3}, {7, 2, 9}}")));
+    assertFalse(VectorQ.of(Tensors.fromString("{{1, 1}, {7, 2, 9}}")));
   }
 
   public void testAd() {

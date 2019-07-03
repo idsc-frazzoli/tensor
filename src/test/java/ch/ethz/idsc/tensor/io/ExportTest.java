@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 public class ExportTest extends TestCase {
   public void testCsv() throws IOException {
     File file = TestFile.withExtension("csv");
-    Tensor tensor = Tensors.fromString("{{2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
+    Tensor tensor = Tensors.fromString("{{2, 3.123+3*I[V]}, {34.1231`32, 556, 3/456, -323/2}}");
     Export.of(file, tensor);
     assertEquals(tensor, Import.of(file));
     assertTrue(file.delete());
@@ -31,7 +31,7 @@ public class ExportTest extends TestCase {
 
   public void testCsvGz() throws IOException {
     File file = TestFile.withExtension("csv");
-    Tensor tensor = Tensors.fromString("{{0,2,3.123+3*I[V]},{34.1231`32,556,3/456,-323/2}}");
+    Tensor tensor = Tensors.fromString("{{0, 2, 3.123+3*I[V]}, {34.1231`32, 556, 3/456, -323/2}}");
     Export.of(file, tensor);
     Tensor imported = Import.of(file);
     assertTrue(file.delete());
@@ -107,7 +107,7 @@ public class ExportTest extends TestCase {
 
   public void testMatlabM() throws IOException {
     File file = TestFile.withExtension("m");
-    Tensor tensor = Tensors.fromString("{{2,3.123+3*I,34.1231},{556,3/456,-323/2}}");
+    Tensor tensor = Tensors.fromString("{{2, 3.123+3*I, 34.1231}, {556, 3/456, -323/2}}");
     Export.of(file, tensor);
     assertTrue(file.delete());
   }

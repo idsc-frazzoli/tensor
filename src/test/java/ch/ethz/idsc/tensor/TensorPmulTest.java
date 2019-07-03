@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 public class TensorPmulTest extends TestCase {
   public void testVectorMatrixEx1() {
-    Tensor mat = Tensors.fromString("{{1,2,3},{4,5,6}}");
+    Tensor mat = Tensors.fromString("{{1, 2, 3}, {4, 5, 6}}");
     Tensors.vector(-2, 2).pmul(mat);
     Tensor factor = Tensors.vector(-2, 2, 2);
     Tensor rep = TensorMap.of(row -> row.pmul(factor), mat, 1);

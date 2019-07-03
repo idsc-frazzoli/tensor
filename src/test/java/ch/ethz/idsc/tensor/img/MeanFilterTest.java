@@ -40,7 +40,7 @@ public class MeanFilterTest extends TestCase {
   }
 
   public void testMatrix() {
-    Tensor matrix = Tensors.fromString("{{1,2,3,2,1,0,0,1,0}, {3,3,3,2,2,2,1,1,1}, {0,0,0,0,0,0,0,0,0}}");
+    Tensor matrix = Tensors.fromString("{{1, 2, 3, 2, 1, 0, 0, 1, 0}, {3, 3, 3, 2, 2, 2, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 0, 0, 0}}");
     assertEquals(MeanFilter.of(matrix, 0), matrix);
     Tensor result = MeanFilter.of(matrix, 1);
     String mathematica = //
@@ -58,7 +58,7 @@ public class MeanFilterTest extends TestCase {
   }
 
   public void testNonArray() {
-    Tensor matrix = Tensors.fromString("{{1,2,3,3,{3,2,3}},{3},{0,0,0}}");
+    Tensor matrix = Tensors.fromString("{{1, 2, 3, 3, {3, 2, 3}}, {3}, {0, 0, 0}}");
     matrix.flatten(-1).forEach(RationalScalar.class::cast); // test if parsing went ok
     try {
       MeanFilter.of(matrix, 1);

@@ -42,7 +42,7 @@ public class MatrixLog2Test extends TestCase {
   }
 
   public void testFull() {
-    Tensor matrix = Tensors.fromString("{{4,2},{-1,1}}");
+    Tensor matrix = Tensors.fromString("{{4, 2}, {-1, 1}}");
     Tensor mlog = MatrixLog.of(matrix);
     Tensor mathematica = Tensors.fromString( //
         "{{1.5040773967762740734, 0.81093021621632876396},{-0.40546510810816438198, 0.28768207245178092744}}");
@@ -51,7 +51,7 @@ public class MatrixLog2Test extends TestCase {
   }
 
   public void testUpper() {
-    Tensor matrix = Tensors.fromString("{{4,2},{0,1}}");
+    Tensor matrix = Tensors.fromString("{{4, 2}, {0, 1}}");
     Tensor mlog = MatrixLog.of(matrix);
     Tensor mathematica = Tensors.fromString( //
         "{{1.3862943611198906188, 0.92419624074659374589}, {0, 0}}");
@@ -60,7 +60,7 @@ public class MatrixLog2Test extends TestCase {
   }
 
   public void testLower() {
-    Tensor matrix = Tensors.fromString("{{4,0},{2,1}}");
+    Tensor matrix = Tensors.fromString("{{4, 0}, {2, 1}}");
     Tensor mlog = MatrixLog.of(matrix);
     Tensor mathematica = Transpose.of(Tensors.fromString( //
         "{{1.3862943611198906188, 0.92419624074659374589}, {0, 0}}"));

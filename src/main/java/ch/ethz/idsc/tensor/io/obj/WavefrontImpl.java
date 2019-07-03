@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.io.obj;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -14,11 +13,7 @@ import ch.ethz.idsc.tensor.Tensors;
   private final Tensor normals = Tensors.empty();
   private final List<WavefrontObject> objects = new ArrayList<>();
 
-  public WavefrontImpl(Stream<String> stream) {
-    stream.forEach(this::parse);
-  }
-
-  private void parse(String string) {
+  void parse(String string) {
     if (string.startsWith("v "))
       vertices.append(StaticHelper.three(string.substring(2)));
     else //

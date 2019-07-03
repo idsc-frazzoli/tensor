@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class PrimitivesTest extends TestCase {
   public void testByteArray() {
-    Tensor tensor = Tensors.fromString("{{1,2,3},-1,{{256}}}");
+    Tensor tensor = Tensors.fromString("{{1, 2, 3}, -1, {{256}}}");
     byte[] array = Primitives.toByteArray(tensor);
     assertEquals(array[0], 1);
     assertEquals(array[1], 2);

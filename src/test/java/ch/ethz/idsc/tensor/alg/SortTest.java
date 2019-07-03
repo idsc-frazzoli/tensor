@@ -30,7 +30,7 @@ public class SortTest extends TestCase {
         return Scalars.compare(o1.Get(0), o2.Get(0));
       }
     };
-    Tensor a = Tensors.fromString("{{4,1},{2,8},{9,0},{3,5}}");
+    Tensor a = Tensors.fromString("{{4, 1}, {2, 8}, {9, 0}, {3, 5}}");
     Tensor s = Sort.of(a, comparator);
     assertEquals(s, Tensors.fromString("{{2, 8}, {3, 5}, {4, 1}, {9, 0}}"));
   }

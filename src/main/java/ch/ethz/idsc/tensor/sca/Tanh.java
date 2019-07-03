@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * <pre>
  * Tanh(x + y) = F(Tanh(x), tanh(y))
- * F(x,y) = (x + y)/(1 + xy)
+ * F(x, y) = (x + y)/(1 + xy)
  * </pre>
  * 
  * <p>formula for addition of velocities in special relativity (with the speed of light equal to 1)

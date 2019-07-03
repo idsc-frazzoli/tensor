@@ -86,7 +86,7 @@ public class NormalizeFailTest extends TestCase {
 
   public void testMatrixFail() {
     try {
-      Normalize.with(Norm._2::ofVector).apply(Tensors.fromString("{{1,2},{3,4,5}}"));
+      Normalize.with(Norm._2::ofVector).apply(Tensors.fromString("{{1, 2}, {3, 4, 5}}"));
       fail();
     } catch (Exception exception) {
       // ---

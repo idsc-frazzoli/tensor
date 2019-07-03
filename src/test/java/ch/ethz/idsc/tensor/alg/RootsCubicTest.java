@@ -55,7 +55,7 @@ public class RootsCubicTest extends TestCase {
   }
 
   public void testCubicQuantity() {
-    Tensor coeffs = Tensors.fromString("{2[m^-5],3[m^-4],4[m^-3],5[m^-2]}");
+    Tensor coeffs = Tensors.fromString("{2[m^-5], 3[m^-4], 4[m^-3], 5[m^-2]}");
     Tensor roots = Roots.of(coeffs);
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);

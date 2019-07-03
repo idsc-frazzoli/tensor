@@ -30,7 +30,7 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
   }
 
   /** @param alpha
-   * @return operator that maps a vector of the form rgba to rgb,alpha */
+   * @return operator that maps a vector of the form rgba to rgb, alpha */
   private static TensorUnaryOperator withAlpha(int alpha) {
     Scalar scalar = RealScalar.of(alpha);
     return rgba -> rgba.extract(0, 3).append(scalar);
@@ -45,7 +45,7 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
   }
 
   /** @param factor
-   * @return operator that maps a vector of the form rgba to rgb,alpha*factor */
+   * @return operator that maps a vector of the form rgba to rgb, alpha*factor */
   private static TensorUnaryOperator withFactor(Scalar factor) {
     return rgba -> {
       Tensor copy = rgba.copy();

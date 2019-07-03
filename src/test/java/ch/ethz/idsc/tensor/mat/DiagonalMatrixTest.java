@@ -66,7 +66,7 @@ public class DiagonalMatrixTest extends TestCase {
 
   public void testFailNonVector() {
     try {
-      DiagonalMatrix.with(Tensors.fromString("{1,2,{3}}"));
+      DiagonalMatrix.with(Tensors.fromString("{1, 2, {3}}"));
       fail();
     } catch (Exception exception) {
       // ---

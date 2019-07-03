@@ -68,8 +68,8 @@ public class ListCorrelateTest extends TestCase {
   }
 
   public void testNarrow2() {
-    Tensor kernel = Tensors.fromString("{{1,2,3}}");
-    Tensor tensor = Tensors.fromString("{{1,2}}");
+    Tensor kernel = Tensors.fromString("{{1, 2, 3}}");
+    Tensor tensor = Tensors.fromString("{{1, 2}}");
     try {
       ListCorrelate.of(kernel, tensor);
       fail();
@@ -79,8 +79,8 @@ public class ListCorrelateTest extends TestCase {
   }
 
   public void testNarrow3() {
-    Tensor kernel = Tensors.fromString("{{1,2,3},{2,3,4}}");
-    Tensor tensor = Tensors.fromString("{{1,2,3}}");
+    Tensor kernel = Tensors.fromString("{{1, 2, 3}, {2, 3, 4}}");
+    Tensor tensor = Tensors.fromString("{{1, 2, 3}}");
     try {
       ListCorrelate.of(kernel, tensor);
       fail();

@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 public class PutTest extends TestCase {
   public void testUnstructured() throws IOException {
     File file = TestFile.withExtension("put");
-    Tensor tensor = Tensors.fromString("{{2,3.123+3*I,34.1231},{556,3/456,-323/2,{3,8.45`}}}");
+    Tensor tensor = Tensors.fromString("{{2, 3.123+3*I, 34.1231}, {556, 3/456, -323/2, {3, 8.45`}}}");
     Put.of(file, tensor.unmodifiable());
     Tensor readin = Get.of(file);
     assertTrue(file.delete());

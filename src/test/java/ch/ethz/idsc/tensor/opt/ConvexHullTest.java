@@ -116,13 +116,13 @@ public class ConvexHullTest extends TestCase {
       // ---
     }
     try {
-      ConvexHull.of(Tensors.fromString("{{{1},2}}"));
+      ConvexHull.of(Tensors.fromString("{{{1}, 2}}"));
       fail();
     } catch (Exception exception) {
       // ---
     }
     try {
-      ConvexHull.of(Tensors.fromString("{{2,3},{{1},2}}"));
+      ConvexHull.of(Tensors.fromString("{{2, 3}, {{1}, 2}}"));
       fail();
     } catch (Exception exception) {
       // ---
@@ -130,14 +130,14 @@ public class ConvexHullTest extends TestCase {
   }
 
   public void testFailMore() {
-    Tensor bad1 = Tensors.fromString("{{1,2},{3,4,5}}");
+    Tensor bad1 = Tensors.fromString("{{1, 2}, {3, 4, 5}}");
     try {
       ConvexHull.of(bad1);
       fail();
     } catch (Exception exception) {
       // ---
     }
-    Tensor bad2 = Tensors.fromString("{{1,2,3},{3,4}}");
+    Tensor bad2 = Tensors.fromString("{{1, 2, 3}, {3, 4}}");
     try {
       ConvexHull.of(bad2);
       fail();

@@ -81,7 +81,7 @@ public enum Tensors {
   /** @param biFunction
    * @param n number of rows
    * @param m number of columns
-   * @return (n x m)-matrix with (i,j)th-entry == bifunction.apply(i,j) */
+   * @return (n x m)-matrix with (i, j)th-entry == bifunction.apply(i, j) */
   public static Tensor matrix(BiFunction<Integer, Integer, ? extends Tensor> biFunction, int n, int m) {
     return Tensor.of(IntStream.range(0, n).mapToObj( //
         i -> Tensor.of(IntStream.range(0, m).mapToObj(j -> biFunction.apply(i, j)))));
@@ -124,7 +124,7 @@ public enum Tensors {
   }
 
   /** Example:
-   * Tensors.fromString("{1+3/2*I,{3.7[m*s],9/4[kg^-1]}}");
+   * Tensors.fromString("{1+3/2*I, {3.7[m*s], 9/4[kg^-1]}}");
    * 
    * @param string
    * @return

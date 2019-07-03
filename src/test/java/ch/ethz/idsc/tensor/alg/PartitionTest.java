@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 public class PartitionTest extends TestCase {
   public void testPartition() {
     Tensor s = Partition.of(Tensors.vector(1, 2, 3), 3);
-    Tensor r = Tensors.fromString("{{1,2,3}}");
+    Tensor r = Tensors.fromString("{{1, 2, 3}}");
     assertEquals(s, r);
   }
 
@@ -20,7 +20,7 @@ public class PartitionTest extends TestCase {
 
   public void testPartitionTwo() {
     Tensor s = Partition.of(Tensors.vector(1, 2, 3, 4), 2);
-    Tensor r = Tensors.fromString("{{1,2},{3,4}}");
+    Tensor r = Tensors.fromString("{{1, 2}, {3, 4}}");
     assertEquals(s, r);
   }
 
@@ -44,7 +44,7 @@ public class PartitionTest extends TestCase {
 
   public void testPartitionInsufficient() {
     Tensor tensor = Partition.of(Tensors.vector(1, 2, 3, 4), 3);
-    assertEquals(tensor, Tensors.fromString("{{1,2,3}}"));
+    assertEquals(tensor, Tensors.fromString("{{1, 2, 3}}"));
   }
 
   public void testScalarFail() {

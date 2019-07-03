@@ -10,6 +10,8 @@ public enum WavefrontFormat {
    * @param stream
    * @return */
   public static Wavefront parse(Stream<String> stream) {
-    return new WavefrontImpl(stream);
+    WavefrontImpl wavefrontImpl = new WavefrontImpl();
+    stream.sequential().forEach(wavefrontImpl::parse);
+    return wavefrontImpl;
   }
 }

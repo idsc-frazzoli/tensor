@@ -21,9 +21,9 @@ public class LieAlgebrasTest extends TestCase {
   }
 
   public void testSe2Matrix() {
-    Tensor bx = Tensors.fromString("{{0,0,1},{0,0,0},{0,0,0}}");
-    Tensor by = Tensors.fromString("{{0,0,0},{0,0,1},{0,0,0}}");
-    Tensor bt = Tensors.fromString("{{0,-1,0},{1,0,0},{0,0,0}}");
+    Tensor bx = Tensors.fromString("{{0, 0, 1}, {0, 0, 0}, {0, 0, 0}}");
+    Tensor by = Tensors.fromString("{{0, 0, 0}, {0, 0, 1}, {0, 0, 0}}");
+    Tensor bt = Tensors.fromString("{{0, -1, 0}, {1, 0, 0}, {0, 0, 0}}");
     assertEquals(LieAlgebras.bracketMatrix(bx, by), Array.zeros(3, 3));
     assertEquals(LieAlgebras.bracketMatrix(bt, bx), by);
     assertEquals(LieAlgebras.bracketMatrix(by, bt), bx);

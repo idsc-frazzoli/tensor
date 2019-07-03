@@ -31,7 +31,7 @@ public class ArrayPadTest extends TestCase {
   }
 
   public void testNonArray() {
-    Tensor tensor = Tensors.fromString("{{1,2},{3}}");
+    Tensor tensor = Tensors.fromString("{{1, 2}, {3}}");
     Tensor vector = ArrayPad.of(tensor, Arrays.asList(2), Arrays.asList(3));
     assertEquals(vector.length(), 2 + 2 + 3);
   }

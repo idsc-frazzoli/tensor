@@ -27,17 +27,17 @@ public class MatrixQTest extends TestCase {
 
   public void testMatrix() {
     assertTrue(MatrixQ.of(Tensors.fromString("{{1}}")));
-    assertTrue(MatrixQ.of(Tensors.fromString("{{1,1,3},{7,2,9}}")));
-    assertFalse(MatrixQ.of(Tensors.fromString("{{1,1},{7,2,9}}")));
+    assertTrue(MatrixQ.of(Tensors.fromString("{{1, 1, 3}, {7, 2, 9}}")));
+    assertFalse(MatrixQ.of(Tensors.fromString("{{1, 1}, {7, 2, 9}}")));
   }
 
   public void testMatrixSize() {
     assertTrue(MatrixQ.ofSize(Tensors.fromString("{{1}}"), 1, 1));
     assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1}}"), 1, 2));
     assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1}}"), 2, 1));
-    assertTrue(MatrixQ.ofSize(Tensors.fromString("{{1,1,3},{7,2,9}}"), 2, 3));
-    MatrixQ.requireSize(Tensors.fromString("{{1,1,3},{7,2,9}}"), 2, 3);
-    assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1,1},{7,2,9}}"), 2, 2));
+    assertTrue(MatrixQ.ofSize(Tensors.fromString("{{1, 1, 3}, {7, 2, 9}}"), 2, 3));
+    MatrixQ.requireSize(Tensors.fromString("{{1, 1, 3}, {7, 2, 9}}"), 2, 3);
+    assertFalse(MatrixQ.ofSize(Tensors.fromString("{{1, 1}, {7, 2, 9}}"), 2, 2));
     assertTrue(MatrixQ.ofSize(HilbertMatrix.of(3, 4), 3, 4));
     assertTrue(MatrixQ.ofSize(HilbertMatrix.of(2, 7), 2, 7));
     MatrixQ.requireSize(HilbertMatrix.of(2, 7), 2, 7);

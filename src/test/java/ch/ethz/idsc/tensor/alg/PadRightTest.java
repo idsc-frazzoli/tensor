@@ -29,28 +29,28 @@ public class PadRightTest extends TestCase {
 
   public void testMatrixRegular() {
     TensorUnaryOperator tuo = PadRight.zeros(2, 4);
-    Tensor vector = Tensors.fromString("{{1,2,3}}");
+    Tensor vector = Tensors.fromString("{{1, 2, 3}}");
     Tensor result = tuo.apply(vector);
     assertEquals(result, Tensors.fromString("{{1, 2, 3, 0}, {0, 0, 0, 0}}"));
   }
 
   public void testMatrixIrregular1() {
     TensorUnaryOperator tuo = PadRight.zeros(3, 4);
-    Tensor vector = Tensors.fromString("{{1,2,3},{4,5}}");
+    Tensor vector = Tensors.fromString("{{1, 2, 3}, {4, 5}}");
     Tensor result = tuo.apply(vector);
     assertEquals(result, Tensors.fromString("{{1, 2, 3, 0}, {4, 5, 0, 0}, {0, 0, 0, 0}}"));
   }
 
   public void testMatrixIrregular2() {
     TensorUnaryOperator tuo = PadRight.zeros(1, 2);
-    Tensor vector = Tensors.fromString("{{1,2,3},{4,5}}");
+    Tensor vector = Tensors.fromString("{{1, 2, 3}, {4, 5}}");
     Tensor result = tuo.apply(vector);
     assertEquals(result, Tensors.fromString("{{1, 2}}"));
   }
 
   public void testMatrixIrregular3() {
     TensorUnaryOperator tuo = PadRight.zeros(2, 2);
-    Tensor vector = Tensors.fromString("{{1},{2},{4,5}}");
+    Tensor vector = Tensors.fromString("{{1}, {2}, {4, 5}}");
     Tensor result = tuo.apply(vector);
     assertEquals(result, Tensors.fromString("{{1, 0}, {2, 0}}"));
   }
@@ -62,14 +62,14 @@ public class PadRightTest extends TestCase {
   public void testQuantity() {
     Scalar element = Quantity.of(2, "Apples");
     TensorUnaryOperator tuo = PadRight.with(element, 3);
-    Tensor tensor = tuo.apply(Tensors.fromString("{1[A],2[V]}"));
+    Tensor tensor = tuo.apply(Tensors.fromString("{1[A], 2[V]}"));
     assertEquals(tensor.toString(), "{1[A], 2[V], 2[Apples]}");
   }
 
   public void testFail() {
     TensorUnaryOperator tuo = PadRight.zeros(2, 2, 6);
     try {
-      tuo.apply(Tensors.fromString("{{1},{2},{4,5}}"));
+      tuo.apply(Tensors.fromString("{{1}, {2}, {4, 5}}"));
       fail();
     } catch (Exception exception) {
       // ---

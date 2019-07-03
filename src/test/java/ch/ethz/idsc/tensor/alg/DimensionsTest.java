@@ -53,7 +53,7 @@ public class DimensionsTest extends TestCase {
   }
 
   public void testArrayWithDimensions() {
-    Tensor tensor = Tensors.fromString("{{1,2},{3,{4}},{5,6}}");
+    Tensor tensor = Tensors.fromString("{{1, 2}, {3, {4}}, {5, 6}}");
     assertFalse(Dimensions.isArrayWithDimensions(tensor, Arrays.asList(3, 2)));
   }
 }
