@@ -169,7 +169,7 @@ public class LinearProgrammingTest extends TestCase {
 
   public void testClrsP879_7() {
     Tensor c = Tensors.vector(1, 1, 1);
-    Tensor m = Tensors.fromString("{{-2, -7.5, -3},{-20, -5, -10}}");
+    Tensor m = Tensors.fromString("{{-2, -7.5, -3}, {-20, -5, -10}}");
     Tensor b = Tensors.vector(-10000, -30000);
     try {
       LinearProgramming.minLessEquals(c, m, b);

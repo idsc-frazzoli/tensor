@@ -13,7 +13,7 @@ public class MatrixQTest extends TestCase {
   public void testEmpty() {
     assertFalse(MatrixQ.of(Tensors.fromString("{}")));
     assertTrue(MatrixQ.of(Tensors.fromString("{{}}")));
-    assertTrue(MatrixQ.of(Tensors.fromString("{{},{}}")));
+    assertTrue(MatrixQ.of(Tensors.fromString("{{}, {}}")));
   }
 
   public void testScalar() {

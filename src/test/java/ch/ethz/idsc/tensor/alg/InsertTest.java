@@ -8,19 +8,19 @@ import junit.framework.TestCase;
 
 public class InsertTest extends TestCase {
   public void testIndex0() {
-    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5,{}}");
+    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}}");
     Insert.inplace(tensor, Tensors.fromString("{{{9}}}"), 0);
     assertEquals(tensor, Tensors.fromString("{{{{9}}}, {1}, {2}, {3, 4}, 5, {}}"));
   }
 
   public void testIndex1() {
-    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5,{}}");
+    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}}");
     Insert.inplace(tensor, Tensors.fromString("{{{9}}}"), 1);
     assertEquals(tensor, Tensors.fromString("{{1}, {{{9}}}, {2}, {3, 4}, 5, {}}"));
   }
 
   public void testIndexLast() {
-    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5,{}}");
+    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}}");
     Insert.inplace(tensor, Tensors.fromString("{{{9}}}"), 5);
     assertEquals(tensor, Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}, {{{9}}}}"));
   }
@@ -47,7 +47,7 @@ public class InsertTest extends TestCase {
 
   // ---
   public void testAIndex0() {
-    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5,{}}");
+    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}}");
     Tensor result = Insert.of(tensor, Tensors.fromString("{{{9}}}"), 0);
     assertEquals(result, Tensors.fromString("{{{{9}}}, {1}, {2}, {3, 4}, 5, {}}"));
   }
@@ -59,7 +59,7 @@ public class InsertTest extends TestCase {
   }
 
   public void testAIndexLast() {
-    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5,{}}");
+    Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}}");
     Tensor result = Insert.of(tensor, Tensors.fromString("{{{9}}}"), 5);
     assertEquals(result, Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}, {{{9}}}}"));
   }

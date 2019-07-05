@@ -45,7 +45,7 @@ public class MatrixLog2Test extends TestCase {
     Tensor matrix = Tensors.fromString("{{4, 2}, {-1, 1}}");
     Tensor mlog = MatrixLog.of(matrix);
     Tensor mathematica = Tensors.fromString( //
-        "{{1.5040773967762740734, 0.81093021621632876396},{-0.40546510810816438198, 0.28768207245178092744}}");
+        "{{1.5040773967762740734, 0.81093021621632876396}, {-0.40546510810816438198, 0.28768207245178092744}}");
     Chop._12.requireClose(mlog, mathematica);
     Chop._12.requireClose(matrix, MatrixExp.of(mlog));
   }

@@ -29,7 +29,7 @@ public class RescaleTest extends TestCase {
   public void testMatrix() {
     assertEquals(Rescale.of(Tensors.fromString("{{2, 2, 2}, {2, 2}}")), Tensors.fromString("{{0, 0, 0}, {0, 0}}"));
     assertEquals(Rescale.of(Tensors.fromString("{{1, 2, 3}}")), Tensors.fromString("{{0, 1/2, 1}}"));
-    assertEquals(Rescale.of(Tensors.fromString("{{1, 2, 3},{}}")), Tensors.fromString("{{0, 1/2, 1}, {}}"));
+    assertEquals(Rescale.of(Tensors.fromString("{{1, 2, 3}, {}}")), Tensors.fromString("{{0, 1/2, 1}, {}}"));
     assertEquals(Rescale.of(Tensors.fromString("{{-1}, {2, 3}}")), Tensors.fromString("{{0}, {3/4, 1}}"));
     assertEquals(Rescale.of(Tensors.fromString("{{10, 20, 30}}")), Tensors.fromString("{{0, 1/2, 1}}"));
   }

@@ -34,7 +34,7 @@ public class TransposeFailTest extends TestCase {
   }
 
   public void testEmpty2() {
-    Tensor empty2 = Tensors.fromString("{{},{}}");
+    Tensor empty2 = Tensors.fromString("{{}, {}}");
     assertEquals(Transpose.of(empty2), Tensors.empty());
     try {
       Transpose.of(Transpose.of(empty2));

@@ -70,6 +70,12 @@ public class GompertzMakehamDistributionTest extends TestCase {
     assertEquals(CDF.of(distribution).p_lessEquals(RealScalar.ZERO), RealScalar.ZERO);
   }
 
+  public void testToString() {
+    Distribution distribution = GompertzMakehamDistribution.of(Quantity.of(.3, "m^-1"), RealScalar.of(.1));
+    String string = distribution.toString();
+    assertTrue(string.startsWith(GompertzMakehamDistribution.class.getSimpleName()));
+  }
+
   public void testFail() {
     try {
       GompertzMakehamDistribution.of(RealScalar.of(0), RealScalar.of(.2));

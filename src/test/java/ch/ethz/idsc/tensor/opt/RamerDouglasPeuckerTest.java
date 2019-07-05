@@ -90,7 +90,7 @@ public class RamerDouglasPeuckerTest extends TestCase {
       // ---
     }
     try {
-      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Tensors.fromString("{{{1}, 2}, {{1}, 2},{{1}, 2}}"));
+      RamerDouglasPeucker.of(RealScalar.of(.1)).apply(Tensors.fromString("{{{1}, 2}, {{1}, 2}, {{1}, 2}}"));
       fail();
     } catch (Exception exception) {
       // ---

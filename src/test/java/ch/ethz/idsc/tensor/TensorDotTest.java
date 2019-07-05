@@ -52,7 +52,7 @@ public class TensorDotTest extends TestCase {
 
   public void testDotIrregular() {
     Tensor a = Tensors.vector(1, 2, 3);
-    Tensor b = Tensors.fromString("{{1,{2}},{2,{3}},{4,{5}}}");
+    Tensor b = Tensors.fromString("{{1, {2}}, {2, {3}}, {4, {5}}}");
     assertEquals(a.dot(b), Tensors.fromString("{17, {23}}"));
   }
 }
