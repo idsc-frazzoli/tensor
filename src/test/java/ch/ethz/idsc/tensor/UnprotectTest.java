@@ -67,6 +67,27 @@ public class UnprotectTest extends TestCase {
     }
   }
 
+  public void testByref() {
+    Tensor beg = Tensors.vector(1, 2, 3);
+    Tensor byref = Unprotect.byRef(beg, beg, beg);
+    byref.set(RealScalar.ZERO, 0, 0);
+    assertEquals(beg, Tensors.vector(0, 2, 3));
+    assertEquals(byref, Tensors.fromString("{{0, 2, 3}, {0, 2, 3}, {0, 2, 3}}"));
+  }
+
+  public void testByrefFail() {
+    Tensor beg = Tensors.vector(1, 2, 3);
+    Tensor byref = Unprotect.byRef(beg, null, beg);
+    byref.get(0);
+    byref.get(2);
+    // try {
+    //
+    // fail();
+    // } catch (Exception exception) {
+    // // ---
+    // }
+  }
+
   public void testDimension1() {
     assertTrue(Unprotect.dimension1(Tensors.vector(1, 2, 3)) == Scalar.LENGTH);
     assertTrue(Unprotect.dimension1(HilbertMatrix.of(2, 4)) == 4);

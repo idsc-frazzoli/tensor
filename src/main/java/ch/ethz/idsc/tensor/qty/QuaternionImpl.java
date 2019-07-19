@@ -12,6 +12,7 @@ import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
@@ -27,12 +28,12 @@ import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
-import ch.ethz.idsc.tensor.sca.PowerInterface;
+import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sin;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ class QuaternionImpl extends AbstractScalar implements Quaternion, //
-    ChopInterface, ExactScalarQInterface, NInterface, PowerInterface, Serializable {
+    ChopInterface, ExactScalarQInterface, NInterface, Serializable {
   private final Scalar w;
   private final Tensor xyz;
 
@@ -147,10 +148,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     return new QuaternionImpl(n.apply(w), xyz.map(n));
   }
 
-  @Override
+  @Override // from PowerInterface
   public Scalar power(Scalar exponent) {
-    // TODO quaternion power
-    throw new UnsupportedOperationException();
+    Scalar abs = abs();
+    Scalar et = exponent.multiply(ArcCos.FUNCTION.apply(w.divide(abs)));
+    Scalar qa = Power.of(abs, exponent);
+    Scalar vn = Norm._2.ofVector(xyz);
+    return new QuaternionImpl( //
+        Cos.FUNCTION.apply(et).multiply(qa), //
+        Scalars.isZero(vn) //
+            ? xyz.map(Scalar::zero)
+            : xyz.multiply(Sin.FUNCTION.apply(et).multiply(qa).divide(vn)));
   }
 
   @Override // from SqrtInterface

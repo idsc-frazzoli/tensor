@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Series;
-import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
@@ -37,7 +36,7 @@ public enum Erf implements ScalarUnaryOperator {
 
   @Override
   public Scalar apply(Scalar scalar) {
-    Scalar t = Abs.of(scalar).multiply(HALF).add(RealScalar.ONE).reciprocal();
+    Scalar t = scalar.abs().multiply(HALF).add(RealScalar.ONE).reciprocal();
     Scalar x2 = AbsSquared.FUNCTION.apply(scalar);
     Scalar tau = Exp.FUNCTION.apply(SERIES.apply(t).subtract(x2)).multiply(t);
     return Sign.isPositiveOrZero(scalar) //

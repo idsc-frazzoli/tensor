@@ -43,6 +43,26 @@ public class SpectrogramArrayTest extends TestCase {
     assertEquals(windowLength, 64);
   }
 
+  public void testStaticOps() {
+    SpectrogramArray.of(Quantity.of(1, "s"), Quantity.of(100, "s^-1"));
+    SpectrogramArray.of(Quantity.of(1, "s"), Quantity.of(100, "s^-1"), 10);
+  }
+
+  public void testStaticOpsFail() {
+    try {
+      SpectrogramArray.of(Quantity.of(0, "s"), Quantity.of(100, "s^-1"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      SpectrogramArray.of(Quantity.of(1, "s"), Quantity.of(0.100, "s^-1"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testPreallocate() {
     for (int windowLength = 1; windowLength < 8; ++windowLength)
       for (int offset = 1; offset <= windowLength; ++offset) {

@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.mat.SpectrogramArray;
  * Tensor-Lib.::Partition[{1, 2, 3, 4}, 3] == {{1, 2, 3}}
  * </pre>
  * 
- * <p>Partition is used in {@link Transpose}
+ * <p>Partition is used in {@link Transpose} and {@link SpectrogramArray}.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Partition.html">Partition</a> */
