@@ -29,8 +29,8 @@ public enum Reverse {
   /** @param tensor
    * @return tensor with entries on all levels reversed */
   public static Tensor all(Tensor tensor) {
-    if (ScalarQ.of(tensor))
-      return tensor;
-    return of(Tensor.of(tensor.stream().map(Reverse::all)));
+    return ScalarQ.of(tensor) //
+        ? tensor
+        : of(Tensor.of(tensor.stream().map(Reverse::all)));
   }
 }

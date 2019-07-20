@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.io.IOException;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -14,9 +15,9 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class OrderingTest extends TestCase {
-  public void testVector() {
+  public void testVector() throws ClassNotFoundException, IOException {
     Tensor vector = Tensors.vector(4, 2, 3, 0, 1);
-    int[] array = Ordering.INCREASING.of(vector);
+    int[] array = Serialization.copy(Ordering.INCREASING).of(vector);
     Tensor ascending = Tensor.of( //
         IntStream.range(0, array.length).mapToObj(index -> vector.Get(array[index])));
     assertEquals(ascending, Sort.of(vector));
