@@ -149,7 +149,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   }
 
   @Override // from PowerInterface
-  public Scalar power(Scalar exponent) {
+  public Quaternion power(Scalar exponent) {
     Scalar abs = abs();
     Scalar et = exponent.multiply(ArcCos.FUNCTION.apply(w.divide(abs)));
     Scalar qa = Power.of(abs, exponent);
@@ -197,6 +197,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from AbstractScalar
   public String toString() {
-    return "Q:" + w + "'" + xyz;
+    return "{\"w\": " + w + ", \"xyz\": " + xyz + "}";
   }
 }

@@ -29,7 +29,9 @@ public enum Tensors {
     return Tensor.of(Stream.of(tensors).map(Tensor::copy));
   }
 
-  /** @param scalars
+  /** Hint: function does not check scalar arguments for null
+   * 
+   * @param scalars
    * @return vector of references to given {@link Scalar}s */
   public static Tensor of(Scalar... scalars) {
     return Tensor.of(Stream.of(scalars));

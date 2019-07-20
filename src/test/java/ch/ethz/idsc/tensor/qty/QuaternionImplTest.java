@@ -79,6 +79,12 @@ public class QuaternionImplTest extends TestCase {
     Chop._12.requireClose(q2, qm);
   }
 
+  public void testPower0() {
+    assertEquals(Power.of(Quaternion.of(3, 1, 2, 3), RealScalar.ZERO), Quaternion.ONE);
+    assertEquals(Power.of(Quaternion.of(3, 0, 0, 0), RealScalar.ZERO), Quaternion.ONE);
+    assertEquals(Power.of(Quaternion.of(0, 1, 2, 3), RealScalar.ZERO), Quaternion.ONE);
+  }
+
   public void testUnaffected() {
     Tensor vector = Tensors.vector(1, 2, 3);
     Quaternion quaternion = Quaternion.of(RealScalar.ZERO, vector);
@@ -133,5 +139,11 @@ public class QuaternionImplTest extends TestCase {
     Scalar q1 = Quaternion.of(1, 3, -2, 2);
     Scalar q2 = Serialization.copy(q1);
     assertEquals(q1, q2);
+  }
+
+  public void testToString() {
+    Quaternion quaternion = Quaternion.of(1, 2, 3, 4);
+    String string = quaternion.toString();
+    assertEquals(string, "{\"w\": 1, \"xyz\": {2, 3, 4}}");
   }
 }

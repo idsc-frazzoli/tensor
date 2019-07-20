@@ -154,4 +154,13 @@ public class TensorTest extends TestCase {
     Tensor b = a.map(Chop._12);
     assertEquals(b, Tensors.of(RealScalar.ZERO, Tensors.of(RealScalar.ZERO)));
   }
+
+  public void testMapNullFail() {
+    try {
+      Tensors.vector(1, 2, 3).map(s -> null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

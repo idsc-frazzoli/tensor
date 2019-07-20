@@ -72,6 +72,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
     return width;
   }
 
+  /***************************************************/
   @Override // from Object
   public final int hashCode() {
     return Objects.hash(min, max);
@@ -85,5 +86,10 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
           && max.equals(clip.max());
     }
     return false;
+  }
+
+  @Override // from Object
+  public final String toString() {
+    return "{\"min\": " + min() + ", \"max\": " + max() + "}";
   }
 }

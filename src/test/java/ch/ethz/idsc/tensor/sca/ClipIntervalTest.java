@@ -31,4 +31,9 @@ public class ClipIntervalTest extends TestCase {
     assertEquals(Clips.interval(3, 7).hashCode(), Clips.interval(3, 7).hashCode());
     assertFalse(Clips.interval(3, 7).hashCode() == Clips.interval(3, 8).hashCode());
   }
+
+  public void testToString() {
+    String string = Clips.interval(3, 7).toString();
+    assertEquals(string, "{\"min\": 3, \"max\": 7}");
+  }
 }

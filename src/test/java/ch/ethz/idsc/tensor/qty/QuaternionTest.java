@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.VectorQ;
@@ -22,10 +23,41 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class QuaternionTest extends TestCase {
+  public void testContructQuantity() {
+    Quaternion quaternion = Quaternion.of(Quantity.of(3, "m"), Tensors.fromString("{2[m],3[m],4[m]}"));
+    Scalar abs = quaternion.abs();
+    Chop._12.requireClose(abs, Scalars.fromString("6.164414002968976[m]"));
+    ExactScalarQ.require(quaternion);
+    assertEquals(quaternion.conjugate(), Quaternion.of(Quantity.of(3, "m"), Tensors.fromString("{-2[m],-3[m],-4[m]}")));
+    assertTrue(quaternion.sqrt() instanceof QuaternionImpl);
+    Quaternion actual = quaternion.reciprocal();
+    Quaternion expect = Quaternion.of(Scalars.fromString("3/38[m^-1]"), Tensors.fromString("{-1/19[m^-1], -3/38[m^-1], -2/19[m^-1]}"));
+    assertEquals(expect, actual);
+    try {
+      quaternion.exp();
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      quaternion.log();
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNoRef() {
+    Tensor xya = Tensors.vector(1, 2, 3);
+    Quaternion quaternion = Quaternion.of(RealScalar.ONE, xya);
+    xya.set(Scalar::zero, Tensor.ALL);
+    assertTrue(Chop.NONE.allZero(xya));
+    assertEquals(quaternion.xyz(), Tensors.vector(1, 2, 3));
+  }
+
   public void testContruct() {
     Scalar c1 = ComplexScalar.of(1, 3);
     Scalar q1 = Quaternion.of(1, 3, 0, 0);
-    // assertEquals(c1, q1);
     assertEquals(q1, q1);
     assertFalse(c1.equals(Quaternion.of(1, 3, 1, 0)));
   }
@@ -135,7 +167,7 @@ public class QuaternionTest extends TestCase {
     assertTrue(ExactScalarQ.of(q1));
     Scalar n1 = N.DOUBLE.apply(q1);
     assertFalse(ExactScalarQ.of(n1));
-    assertEquals(n1.toString(), "Q:1.0'{3.0, -2.0, 2.0}");
+    assertEquals(n1.toString(), "{\"w\": 1.0, \"xyz\": {3.0, -2.0, 2.0}}");
   }
 
   public void testN2() {
@@ -143,7 +175,7 @@ public class QuaternionTest extends TestCase {
     assertTrue(ExactScalarQ.of(q1));
     Scalar n1 = N.DECIMAL64.apply(q1);
     assertFalse(ExactScalarQ.of(n1));
-    assertEquals(n1.toString(), "Q:1'{3, -2, 2}");
+    assertEquals(n1.toString(), "{\"w\": 1, \"xyz\": {3, -2, 2}}");
   }
 
   public void testExpLog() {
@@ -188,7 +220,7 @@ public class QuaternionTest extends TestCase {
     }
   }
 
-  public void testNullFail() {
+  public void testNull1Fail() {
     try {
       Quaternion.of(null, Tensors.vector(1, 2, 3));
       fail();
@@ -196,19 +228,34 @@ public class QuaternionTest extends TestCase {
       // ---
     }
     try {
-      Quaternion.of(RealScalar.ONE, Tensors.vector(1, 2, 3, 4));
+      Quaternion.of(RealScalar.ONE, null);
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testNull2Fail() {
+    try {
+      Quaternion.of(null, RealScalar.ONE, RealScalar.of(2), RealScalar.of(8));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNull3Fail() {
     try {
       Quaternion.of(1, null, 2, 3);
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testFormatFail() {
     try {
-      Quaternion.of(RealScalar.ONE, null);
+      Quaternion.of(RealScalar.ONE, Tensors.vector(1, 2, 3, 4));
       fail();
     } catch (Exception exception) {
       // ---

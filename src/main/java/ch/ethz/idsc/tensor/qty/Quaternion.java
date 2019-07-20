@@ -18,6 +18,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
  * The consistent handling of the non-commutativity of the multiplication
  * may require significant modifications of the existing algorithms.
  * 
+ * <p>The tensor library does not provide parsing a string to a quaternion.
+ * 
  * <p>Mathematica does not serve as a role model for quaternions. Their
  * corresponding functionality appears cumbersome and limited.
  * 
@@ -28,28 +30,28 @@ public interface Quaternion extends Scalar, //
   static final Quaternion ZERO = of(0, 0, 0, 0);
   static final Quaternion ONE = of(1, 0, 0, 0);
 
-  /** @param w
+  /** @param w real part
    * @param xyz vector of length 3
-   * @return
+   * @return quaternion
    * @throws Exception if given xyz is not a vector of length 3 */
   static Quaternion of(Scalar w, Tensor xyz) {
     return new QuaternionImpl(Objects.requireNonNull(w), VectorQ.requireLength(xyz, 3).copy());
   }
 
-  /** @param w
+  /** @param w real part
    * @param x
    * @param y
    * @param z
-   * @return */
+   * @return quaternion */
   static Quaternion of(Scalar w, Scalar x, Scalar y, Scalar z) {
     return new QuaternionImpl(Objects.requireNonNull(w), Tensors.of(x, y, z));
   }
 
-  /** @param w
+  /** @param w real part
    * @param x
    * @param y
    * @param z
-   * @return */
+   * @return quaternion */
   static Quaternion of(Number w, Number x, Number y, Number z) {
     return new QuaternionImpl(RealScalar.of(w), Tensors.vector(x, y, z));
   }
@@ -74,6 +76,9 @@ public interface Quaternion extends Scalar, //
 
   @Override // from LogInterface
   Quaternion log();
+
+  @Override // from PowerInterface
+  Quaternion power(Scalar exponent);
 
   @Override // from SqrtInterface
   Quaternion sqrt();
