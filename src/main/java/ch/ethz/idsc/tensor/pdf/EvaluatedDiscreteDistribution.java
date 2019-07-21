@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Sign;
 
@@ -67,9 +66,7 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
 
   @Override // from InverseCDF
   public final Scalar quantile(Scalar p) {
-    if (Sign.isNegative(p))
-      throw TensorRuntimeException.of(p);
-    return Scalars.lessThan(p, RealScalar.ONE) //
+    return Scalars.lessThan(Sign.requirePositiveOrZero(p), RealScalar.ONE) //
         ? inverse_cdf.higherEntry(p).getValue() // strictly higher
         : inverse_cdf.ceilingEntry(p).getValue();
   }
