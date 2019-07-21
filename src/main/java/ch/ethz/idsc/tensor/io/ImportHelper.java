@@ -1,12 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Properties;
-import java.util.stream.Stream;
 import java.util.zip.DataFormatException;
 import java.util.zip.GZIPInputStream;
 
@@ -34,23 +31,17 @@ import ch.ethz.idsc.tensor.Tensor;
     switch (extension) {
     case CSV:
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
-      return CsvFormat.parse(lines(inputStream));
+      return CsvFormat.parse(ReadLine.of(inputStream));
     case BMP:
     case GIF:
     case JPG:
     case PNG:
       return ImageFormat.from(ImageIO.read(inputStream));
     case VECTOR:
-      return VectorFormat.parse(lines(inputStream));
+      return VectorFormat.parse(ReadLine.of(inputStream));
     default:
       throw new UnsupportedOperationException(extension.name());
     }
-  }
-
-  /** @param inputStream
-   * @return lines in given inputStream as stream of strings */
-  static Stream<String> lines(InputStream inputStream) {
-    return new BufferedReader(new InputStreamReader(inputStream)).lines();
   }
 
   /** @param inputStream

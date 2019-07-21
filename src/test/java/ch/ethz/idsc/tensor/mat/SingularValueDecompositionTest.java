@@ -116,7 +116,7 @@ public class SingularValueDecompositionTest extends TestCase {
   public void testSvdR2() {
     Tensor mat = Tensors.matrix((r, c) -> RationalScalar.of(random.nextInt(100) - 50, random.nextInt(100) + 1), 20, 4);
     Tensor B = Tensors.matrix(new Scalar[][] { //
-        // "{1,2,3,-1}"
+        // "{1, 2, 3, -1}"
         { RationalScalar.of(1, 1), RationalScalar.of(2, 1), RationalScalar.of(3, 1), RationalScalar.of(-1, 1) }, //
         { RationalScalar.of(0, 1), RationalScalar.of(0, 1), RationalScalar.of(4, 1), RationalScalar.of(2, 1) }, //
         { RationalScalar.of(0, 1), RationalScalar.of(0, 1), RationalScalar.of(0, 1), RationalScalar.of(1, 1) }, //
@@ -193,7 +193,7 @@ public class SingularValueDecompositionTest extends TestCase {
       // ---
     }
     try {
-      SingularValueDecomposition.of(Tensors.fromString("{{1,2},{2,{3}}}"));
+      SingularValueDecomposition.of(Tensors.fromString("{{1, 2}, {2, {3}}}"));
       fail();
     } catch (Exception exception) {
       // ---

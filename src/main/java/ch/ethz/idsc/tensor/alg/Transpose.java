@@ -40,7 +40,7 @@ public enum Transpose {
    * 
    * <p>Special cases that are consistent with Mathematica:
    * <pre>
-   * Transpose[{{},{}}] == {}
+   * Transpose[{{}, {}}] == {}
    * Transpose[{}] throws an Exception
    * </pre>
    * 

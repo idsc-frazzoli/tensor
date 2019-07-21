@@ -124,7 +124,7 @@ public class TensorSetTest extends TestCase {
   }
 
   public void testSetAllSelfUnstructured() {
-    Tensor a = Tensors.fromString("{{1,2},{3+I,4,5,6},{}}");
+    Tensor a = Tensors.fromString("{{1, 2}, {3+I, 4, 5, 6}, {}}");
     Tensor c = a.copy().unmodifiable();
     a.set(a, Tensor.ALL);
     assertEquals(a, c);

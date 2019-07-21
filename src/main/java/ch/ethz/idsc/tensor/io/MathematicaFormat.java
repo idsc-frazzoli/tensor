@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Tensors;
 /** utility to exchange data with Wolfram Mathematica
  * 
  * <p>Mathematica::Put stores an expression to a file
- * <code>Put[{1,2,3}, "filePath"]</code>
+ * <code>Put[{1, 2, 3}, "filePath"]</code>
  * 
  * <p>Mathematica::Get retrieves an expression from a file
  * <code>expr = Get["filePath"]</code>

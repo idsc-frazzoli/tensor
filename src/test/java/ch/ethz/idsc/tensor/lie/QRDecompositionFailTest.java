@@ -16,7 +16,7 @@ public class QRDecompositionFailTest extends TestCase {
 
   public void testFail() {
     try {
-      QRDecomposition.of(Tensors.fromString("{{1,2},{3,4,5}}"));
+      QRDecomposition.of(Tensors.fromString("{{1, 2}, {3, 4, 5}}"));
       fail();
     } catch (Exception exception) {
       // ---

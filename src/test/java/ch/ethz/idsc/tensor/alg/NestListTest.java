@@ -30,7 +30,7 @@ public class NestListTest extends TestCase {
     Tensor vector = Tensors.vector(1, 2, 3);
     Tensor list = NestList.of(f -> f, vector, 0);
     vector.set(RealScalar.ZERO, 0);
-    assertEquals(list, Tensors.fromString("{{1,2,3}}"));
+    assertEquals(list, Tensors.fromString("{{1, 2, 3}}"));
   }
 
   public void testZero() {

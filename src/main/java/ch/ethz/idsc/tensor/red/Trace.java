@@ -14,9 +14,9 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * 
  * <p>Trace is identical to Mathematica::Tr except for few special cases:
  * <ul>
- * <li>Mathematica also defines the function for vectors Mathematica::Tr[{1,2,3}].
+ * <li>Mathematica also defines the function for vectors Mathematica::Tr[{1, 2, 3}].
  * In the tensor library computing the trace of a vector throws an exception:
- * Trace.of[{1,2,3}] == undefined
+ * Trace.of[{1, 2, 3}] == undefined
  * <li>Mathematica::Tr[{{}}] == 0 whereas
  * Tensor::Trace[{{}}, 0, 1] throws an exception.
  * <li>Mathematica::Tr[{}] == 0 whereas

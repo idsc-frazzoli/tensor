@@ -1,9 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** simplified version of Mathematica::Differences
  * 
@@ -24,7 +28,17 @@ public enum Differences {
    * @param tensor
    * @return the successive differences of elements in tensor */
   public static Tensor of(Tensor tensor) {
-    return Tensor.of(IntStream.range(0, tensor.length() - 1) //
-        .mapToObj(index -> tensor.get(index + 1).subtract(tensor.get(index))));
+    int length = tensor.length();
+    if (length <= 1)
+      return Tensors.empty();
+    List<Tensor> list = new ArrayList<>(length - 1);
+    Iterator<Tensor> iterator = tensor.iterator();
+    Tensor prev = iterator.next();
+    for (int index = 1; index < length; ++index) {
+      Tensor next = iterator.next();
+      list.add(next.subtract(prev));
+      prev = next;
+    }
+    return Unprotect.using(list);
   }
 }

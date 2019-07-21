@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 public class VectorFormatTest extends TestCase {
   public void testVector() throws IOException {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream(128);
-    Tensor tensor = Tensors.fromString("{2,3,4.125,\"abc\",4/3[m*s^-1],xyz\",3+I/7,ethz}");
+    Tensor tensor = Tensors.fromString("{2, 3, 4.125,\"abc\", 4/3[m*s^-1],xyz\",3+I/7,ethz}");
     ExportHelper.of(Extension.VECTOR, tensor, outputStream);
     byte[] array = outputStream.toByteArray(); // 44 bytes used
     InputStream inputStream = new ByteArrayInputStream(array);

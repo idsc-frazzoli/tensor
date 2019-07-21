@@ -7,9 +7,9 @@ import junit.framework.TestCase;
 
 public class HermitianMatrixQTest extends TestCase {
   public void testMatrix() {
-    assertTrue(HermitianMatrixQ.of(Tensors.fromString("{{0,I},{-I,0}}")));
-    assertFalse(HermitianMatrixQ.of(Tensors.fromString("{{I,I},{-I,0}}")));
-    assertFalse(HermitianMatrixQ.of(Tensors.fromString("{{0,I},{I,0}}")));
+    assertTrue(HermitianMatrixQ.of(Tensors.fromString("{{0, I}, {-I, 0}}")));
+    assertFalse(HermitianMatrixQ.of(Tensors.fromString("{{I, I}, {-I, 0}}")));
+    assertFalse(HermitianMatrixQ.of(Tensors.fromString("{{0, I}, {I, 0}}")));
   }
 
   public void testHilbert() {

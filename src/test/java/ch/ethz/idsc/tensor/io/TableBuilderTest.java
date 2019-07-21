@@ -29,7 +29,7 @@ public class TableBuilderTest extends TestCase {
     tableBuilder.appendRow(Tensors.vector(1, 2, 3));
     assertEquals(tableBuilder.stream().count(), 5);
     Tensor table = tableBuilder.toTable();
-    assertEquals(table, Tensors.fromString("{{1,2,3,4,5},{-2,6,0,7},{},{100},{1,2,3}}"));
+    assertEquals(table, Tensors.fromString("{{1, 2, 3, 4, 5}, {-2, 6, 0, 7}, {}, {100}, {1, 2, 3}}"));
   }
 
   public void testModify() {

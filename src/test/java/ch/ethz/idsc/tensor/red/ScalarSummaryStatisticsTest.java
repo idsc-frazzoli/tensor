@@ -25,7 +25,7 @@ public class ScalarSummaryStatisticsTest extends TestCase {
   }
 
   public void testQuantity() {
-    ScalarSummaryStatistics stats = Tensors.fromString("{3[s],11[s],6[s],4[s]}").stream() //
+    ScalarSummaryStatistics stats = Tensors.fromString("{3[s], 11[s], 6[s], 4[s]}").stream() //
         .parallel().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
     assertEquals(stats.getSum(), Quantity.of(24, "s"));
     assertEquals(stats.getMin(), Quantity.of(3, "s"));

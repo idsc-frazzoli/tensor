@@ -93,11 +93,11 @@ public interface Tensor extends Iterable<Tensor> {
    * An exception is thrown, if there is no Scalar at the specified index location.
    * 
    * @param index
-   * @return {@link Scalar} at this[index[0],index[1],...] */
+   * @return {@link Scalar} at this[index[0], index[1], ...] */
   Scalar Get(Integer... index);
 
   /** @param index
-   * @return copy of this[index[0],index[1],...,All] */
+   * @return copy of this[index[0], index[1], ..., All] */
   Tensor get(List<Integer> index);
 
   /** set copy of tensor as element at location this[index[0], index[1], ...].
@@ -264,7 +264,7 @@ public interface Tensor extends Iterable<Tensor> {
   /** dot product as in Mathematica
    * 
    * <p>The {@link Dimensions} of the dotted tensors reduce according to the pattern
-   * <code>[n1,n2,n3,n4,n5] . [n5,n6,...,n9] == [n1,n2,n3,n4,n6,...,n9]</code>
+   * <code>[n1, n2, n3, n4, n5] . [n5, n6, ..., n9] == [n1, n2, n3, n4, n6, ..., n9]</code>
    * 
    * @param tensor
    * @return dot product between this and input tensor */

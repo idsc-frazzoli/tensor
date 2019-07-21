@@ -17,7 +17,7 @@ public class TensorWedgeTest extends TestCase {
   }
 
   public void testCreate() {
-    Tensor matrix = Tensors.fromString("{{1,2},{0,4}}");
+    Tensor matrix = Tensors.fromString("{{1, 2}, {0, 4}}");
     Tensor wedged = TensorWedge.of(matrix);
     assertEquals(wedged, Tensors.fromString("{{0, 1}, {-1, 0}}"));
   }

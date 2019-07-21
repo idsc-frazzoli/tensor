@@ -72,8 +72,8 @@ public class LinearSolveAnyTest extends TestCase {
   }
 
   public void testAny() {
-    Tensor m = Tensors.fromString("{{1, 0, -1}, {0,1,0}, {1,0,-1}}");
-    Tensor b = Tensors.fromString("{0,0,0}");
+    Tensor m = Tensors.fromString("{{1, 0, -1}, {0, 1, 0}, {1, 0, -1}}");
+    Tensor b = Tensors.fromString("{0, 0, 0}");
     Tensor x = LinearSolve.any(m, b);
     Scalar det = Det.of(m);
     assertEquals(det, RealScalar.ZERO);

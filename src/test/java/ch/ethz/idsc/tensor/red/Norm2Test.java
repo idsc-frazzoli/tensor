@@ -60,7 +60,7 @@ public class Norm2Test extends TestCase {
   }
 
   public void testQuantityMixed() {
-    Tensor vec = Tensors.fromString("{0[m^2],0[s*rad],1}");
+    Tensor vec = Tensors.fromString("{0[m^2], 0[s*rad], 1}");
     assertEquals(Norm._2.of(vec), RealScalar.ONE);
   }
 

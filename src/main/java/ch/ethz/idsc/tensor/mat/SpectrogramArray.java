@@ -32,18 +32,15 @@ public class SpectrogramArray implements TensorUnaryOperator {
   public static Tensor of(Tensor vector) {
     int num = Scalars.intValueExact(Round.FUNCTION.apply(LOG2.apply(Sqrt.FUNCTION.apply(RealScalar.of(vector.length())))));
     int windowLength = 1 << ++num;
-    return of(windowLength, Scalars.intValueExact(Round.FUNCTION.apply(RationalScalar.of(windowLength, 3)))).apply(vector);
+    return of(windowLength, default_offset(windowLength)).apply(vector);
+  }
+
+  // helper function
+  private static int default_offset(int windowLength) {
+    return Scalars.intValueExact(Round.FUNCTION.apply(RationalScalar.of(windowLength, 3)));
   }
 
   /***************************************************/
-  /** @param windowDuration
-   * @param samplingFrequency
-   * @param offset positive
-   * @return */
-  public static TensorUnaryOperator of(Scalar windowDuration, Scalar samplingFrequency, int offset) {
-    return of(Scalars.intValueExact(Round.FUNCTION.apply(windowDuration.multiply(samplingFrequency))), offset);
-  }
-
   /** @param windowLength
    * @param offset positive and not greater than windowLength
    * @return */
@@ -53,7 +50,28 @@ public class SpectrogramArray implements TensorUnaryOperator {
     return new SpectrogramArray(windowLength, offset);
   }
 
-  // ---
+  /** @param windowDuration
+   * @param samplingFrequency
+   * @param offset positive
+   * @return */
+  public static TensorUnaryOperator of(Scalar windowDuration, Scalar samplingFrequency, int offset) {
+    return of(windowLength(windowDuration, samplingFrequency), offset);
+  }
+
+  /** @param windowDuration
+   * @param samplingFrequency
+   * @return spectrogram operator with default offset */
+  public static TensorUnaryOperator of(Scalar windowDuration, Scalar samplingFrequency) {
+    int windowLength = windowLength(windowDuration, samplingFrequency);
+    return of(windowLength, default_offset(windowLength));
+  }
+
+  // helper function
+  private static int windowLength(Scalar windowDuration, Scalar samplingFrequency) {
+    return Scalars.intValueExact(Round.FUNCTION.apply(windowDuration.multiply(samplingFrequency)));
+  }
+
+  /***************************************************/
   private final int windowLength;
   private final int offset;
   private final TensorUnaryOperator tensorUnaryOperator;

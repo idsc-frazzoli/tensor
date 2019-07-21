@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * <p>Example:
  * <pre>
- * Tensor box = {{0,7}, {0,8}, {1,5}, {2,7}};
+ * Tensor box = {{0, 7}, {0, 8}, {1, 5}, {2, 7}};
  * box.stream().reduce(Entrywise.max()).get() == {2, 8}
  * box.stream().reduce(Entrywise.min()).get() == {0, 5}
  * </pre>

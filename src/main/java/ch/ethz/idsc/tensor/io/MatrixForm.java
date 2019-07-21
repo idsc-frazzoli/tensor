@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 /** compact display for a matrix
  * 
  * <pre>
- * MatrixForm.of("{{1,2,321341234},{2,44,12333}}");
+ * MatrixForm.of("{{1, 2, 321341234}, {2, 44, 12333}}");
  * 1 _2 321341234
  * 2 44 ____12333
  * </pre>

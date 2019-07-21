@@ -24,7 +24,7 @@ import ch.ethz.idsc.tensor.io.StringScalar;
 
   static void vector2() throws IOException {
     Tensor tensor = Tensors.fromString( //
-        "{Infinity, 0,0, 2.1342134E-300, -Infinity, NaN, 0, 136458123548175/23947236498726349876239876234}");
+        "{Infinity, 0, 0, 2.1342134E-300, -Infinity, NaN, 0, 136458123548175/23947236498726349876239876234}");
     boolean status = tensor.stream().anyMatch(s -> s instanceof StringScalar);
     if (status)
       throw TensorRuntimeException.of(tensor);
@@ -38,7 +38,7 @@ import ch.ethz.idsc.tensor.io.StringScalar;
   }
 
   static void matrix2() throws IOException {
-    Tensor tensor = Tensors.fromString("{{1/2,0,1.3},{-0.12,2+3*I,0}}");
+    Tensor tensor = Tensors.fromString("{{1/2, 0, 1.3}, {-0.12, 2+3*I, 0}}");
     Export.of(HomeDirectory.file("me_matrix2.m"), tensor);
   }
 

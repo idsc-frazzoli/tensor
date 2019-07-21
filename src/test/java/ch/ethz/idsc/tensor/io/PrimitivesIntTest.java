@@ -36,7 +36,7 @@ public class PrimitivesIntTest extends TestCase {
   }
 
   public void testToIntArray2D() {
-    Tensor tensor = Tensors.fromString("{{1,2},{3,{4},5},{6}}");
+    Tensor tensor = Tensors.fromString("{{1, 2}, {3, {4}, 5}, {6}}");
     int[][] array = Primitives.toIntArray2D(tensor);
     assertEquals(Tensors.vectorInt(array[0]), Tensors.vector(1, 2));
     assertEquals(Tensors.vectorInt(array[1]), Tensors.vector(3, 4, 5));
@@ -45,7 +45,7 @@ public class PrimitivesIntTest extends TestCase {
   }
 
   public void testToIntArray2Dvector() {
-    Tensor tensor = Tensors.fromString("{1,2,{3,{4},5},{{6},7}}");
+    Tensor tensor = Tensors.fromString("{1, 2, {3, {4}, 5}, {{6}, 7}}");
     int[][] array = Primitives.toIntArray2D(tensor);
     assertEquals(Tensors.vectorInt(array[0]), Tensors.vector(1));
     assertEquals(Tensors.vectorInt(array[1]), Tensors.vector(2));

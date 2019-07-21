@@ -34,7 +34,7 @@ public class CauchyTensorTest extends TestCase {
       // ---
     }
     try {
-      CauchyTensor.of(Tensors.fromString("{{1,2}}"), 1);
+      CauchyTensor.of(Tensors.fromString("{{1, 2}}"), 1);
       fail();
     } catch (Exception exception) {
       // ---

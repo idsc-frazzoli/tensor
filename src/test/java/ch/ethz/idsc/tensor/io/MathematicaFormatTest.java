@@ -73,7 +73,7 @@ public class MathematicaFormatTest extends TestCase {
   }
 
   public void testExponent2() {
-    Tensor tensor = MathematicaFormat.parse(Stream.of("{1*^-10,1*^10}"));
+    Tensor tensor = MathematicaFormat.parse(Stream.of("{1*^-10, 1*^10}"));
     checkNonString(tensor);
     String put = Put.string(tensor);
     Tensor recon = MathematicaFormat.parse(Stream.of(put));

@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 public class ExportHelperTest extends TestCase {
   public void testGif() throws IOException {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(128);
-    Tensor image = Tensors.fromString("{{{255,2,3,255},{0,0,0,0},{91,120,230,255},{0,0,0,0}}}");
+    Tensor image = Tensors.fromString("{{{255, 2, 3, 255}, {0, 0, 0, 0}, {91, 120, 230, 255}, {0, 0, 0, 0}}}");
     ExportHelper.of(Extension.GIF, image, byteArrayOutputStream);
     File file = TestFile.withExtension("gif");
     Export.of(file, image);
@@ -34,7 +34,7 @@ public class ExportHelperTest extends TestCase {
 
   public void testGif2() throws IOException {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(128);
-    Tensor row1 = Tensors.fromString("{{255,2,3,255},{0,0,0,0},{91,120,230,255},{0,0,0,0}}");
+    Tensor row1 = Tensors.fromString("{{255, 2, 3, 255}, {0, 0, 0, 0}, {91, 120, 230, 255}, {0, 0, 0, 0}}");
     Tensor image = Tensors.of(row1, row1);
     ExportHelper.of(Extension.GIF, image, byteArrayOutputStream);
     byte[] array = byteArrayOutputStream.toByteArray(); // 56 bytes used

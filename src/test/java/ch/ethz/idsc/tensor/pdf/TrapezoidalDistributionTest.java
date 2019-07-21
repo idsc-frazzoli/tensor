@@ -24,7 +24,7 @@ public class TrapezoidalDistributionTest extends TestCase {
     Scalar c = b.add(RealScalar.of(random.nextDouble() * 10));
     Scalar d = c.add(RealScalar.of(random.nextDouble() * 10));
     Distribution distribution = TrapezoidalDistribution.of(a, b, c, d);
-    for (int count = 0; count < 100; ++count) {
+    for (int count = 0; count < 30; ++count) {
       Scalar scalar = RandomVariate.of(distribution);
       assertTrue(Scalars.lessEquals(RealScalar.ZERO, scalar));
     }

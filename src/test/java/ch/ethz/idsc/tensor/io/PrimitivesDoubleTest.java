@@ -26,7 +26,7 @@ public class PrimitivesDoubleTest extends TestCase {
   }
 
   public void testToDoubleArray2D() {
-    Tensor tensor = Tensors.fromString("{{1,2},{3,{4},5},{6}}");
+    Tensor tensor = Tensors.fromString("{{1, 2}, {3, {4}, 5}, {6}}");
     double[][] array = Primitives.toDoubleArray2D(tensor);
     assertEquals(Tensors.vectorDouble(array[0]), Tensors.vector(1, 2));
     assertEquals(Tensors.vectorDouble(array[1]), Tensors.vector(3, 4, 5));
@@ -35,7 +35,7 @@ public class PrimitivesDoubleTest extends TestCase {
   }
 
   public void testToDoubleArray2Dvector() {
-    Tensor tensor = Tensors.fromString("{1,2,{3,{4},5},{{6},7}}");
+    Tensor tensor = Tensors.fromString("{1, 2, {3, {4}, 5}, {{6}, 7}}");
     double[][] array = Primitives.toDoubleArray2D(tensor);
     assertEquals(Tensors.vectorDouble(array[0]), Tensors.vector(1));
     assertEquals(Tensors.vectorDouble(array[1]), Tensors.vector(2));

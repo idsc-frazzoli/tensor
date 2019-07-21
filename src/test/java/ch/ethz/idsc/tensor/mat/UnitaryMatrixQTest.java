@@ -35,7 +35,7 @@ public class UnitaryMatrixQTest extends TestCase {
   }
 
   public void testOthers() {
-    assertFalse(UnitaryMatrixQ.of(Tensors.fromString("{{1,2},{I,I}}")));
+    assertFalse(UnitaryMatrixQ.of(Tensors.fromString("{{1, 2}, {I, I}}")));
     assertFalse(UnitaryMatrixQ.of(RealScalar.of(3)));
     assertFalse(UnitaryMatrixQ.of(Tensors.vector(1, 2, 3)));
     assertFalse(UnitaryMatrixQ.of(LieAlgebras.so3()));

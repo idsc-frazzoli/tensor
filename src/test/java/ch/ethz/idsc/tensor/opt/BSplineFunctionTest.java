@@ -60,7 +60,7 @@ public class BSplineFunctionTest extends TestCase {
   }
 
   public void testLinearCurve() {
-    Tensor control = Tensors.fromString("{{2,3}, {1,0}, {5,7}, {0,0}, {-2,3}}");
+    Tensor control = Tensors.fromString("{{2, 3}, {1, 0}, {5, 7}, {0, 0}, {-2, 3}}");
     assertTrue(MatrixQ.of(control));
     BSplineFunction bSplineFunction = BSplineFunction.of(1, control);
     assertEquals(bSplineFunction.apply(RealScalar.of(1.5)), Tensors.vector(3, 3.5));
@@ -121,7 +121,7 @@ public class BSplineFunctionTest extends TestCase {
   }
 
   public void testQuantity() {
-    Tensor control = Tensors.fromString("{2[m],7[m],3[m]}");
+    Tensor control = Tensors.fromString("{2[m], 7[m], 3[m]}");
     Clip clip = Clips.interval(2, 7);
     int n = control.length() - 1;
     for (int degree = 0; degree <= 5; ++degree) {

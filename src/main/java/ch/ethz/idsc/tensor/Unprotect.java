@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.io.TableBuilder;
 
@@ -30,6 +31,15 @@ public enum Unprotect {
    * @see TableBuilder */
   public static Tensor using(List<Tensor> list) {
     return new TensorImpl(list);
+  }
+
+  /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
+   * 
+   * @param tensors
+   * @return It That Must Not Be Described
+   * @see Tensors#of(Tensor...) */
+  public static Tensor byRef(Tensor... tensors) {
+    return Tensor.of(Stream.of(tensors));
   }
 
   /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !

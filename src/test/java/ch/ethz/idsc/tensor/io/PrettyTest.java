@@ -29,17 +29,17 @@ public class PrettyTest extends TestCase {
   }
 
   public void testNonArray() {
-    String s = Pretty.of(Tensors.fromString("{1,2,{3}}"));
+    String s = Pretty.of(Tensors.fromString("{1, 2, {3}}"));
     assertEquals(s, "[\n 1  2  [ 3 ]\n]");
   }
 
   public void testNonArrayNested() {
-    String s = Pretty.of(Tensors.fromString("{1,2,{3,{4}}}"));
+    String s = Pretty.of(Tensors.fromString("{1, 2, {3, {4}}}"));
     assertEquals(s, "[\n 1  2  [\n 3   [ 4 ]\n ]\n]");
   }
 
   public void testRegressionV051() {
-    Tensor tensor = Tensors.fromString("{1[A],{2,3,4,5[s]},{7,{8.1,9.0}},{{-1,2,3},{4,5,6}}}");
+    Tensor tensor = Tensors.fromString("{1[A], {2, 3, 4, 5[s]}, {7, {8.1, 9.0}}, {{-1, 2, 3}, {4, 5, 6}}}");
     String string = Pretty.of(tensor);
     String pty051 = ResourceData.object("/io/pretty.string");
     assertEquals(string, pty051);

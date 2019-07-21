@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -8,14 +10,15 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.alg.Subdivide;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class DeBoorTest extends TestCase {
-  public void testDegree0() {
+  public void testDegree0() throws ClassNotFoundException, IOException {
     Tensor knots = Tensors.empty().unmodifiable();
     Tensor control = Tensors.vector(-1).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = Serialization.copy(DeBoor.of(knots, control));
     assertEquals(deBoor.apply(RealScalar.of(9)), RealScalar.of(-1));
     assertEquals(deBoor.apply(RealScalar.of(9.25)), RealScalar.of(-1));
     assertEquals(deBoor.apply(RealScalar.of(16)), RealScalar.of(-1));
@@ -28,6 +31,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(9, 10).unmodifiable();
     Tensor control = Tensors.vector(-1, 3).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 1);
     assertEquals(deBoor.apply(RealScalar.of(9)), RealScalar.of(-1));
     assertEquals(deBoor.apply(RealScalar.of(9.25)), RealScalar.of(0));
     assertEquals(deBoor.apply(RealScalar.of(10)), RealScalar.of(3));
@@ -107,6 +111,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.unmodifiableEmpty();
     Tensor control = Tensors.vector(90).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 0);
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(90));
     assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RealScalar.of(90));
     assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(90));
@@ -116,6 +121,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(0, 1).unmodifiable();
     Tensor control = Tensors.vector(90, 100).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 1);
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(90));
     assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RealScalar.of(95));
     assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(100));
@@ -125,6 +131,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(1, 2).unmodifiable();
     Tensor control = Tensors.vector(100, 120).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 1);
     assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(100));
     assertEquals(deBoor.apply(RationalScalar.of(3, 2)), RealScalar.of(110));
     assertEquals(deBoor.apply(RealScalar.of(2)), RealScalar.of(120));
@@ -135,6 +142,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(0, 0, 1, 2).unmodifiable();
     Tensor control = Tensors.vector(0, 0, 1).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 2);
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(0));
     assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RationalScalar.of(1, 8));
     assertEquals(deBoor.apply(RealScalar.of(1)), RationalScalar.of(1, 2));
@@ -144,6 +152,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(0, 1, 2, 3).unmodifiable();
     Tensor control = Tensors.vector(0, 1, 0).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 2);
     assertEquals(deBoor.apply(RealScalar.of(1)), RationalScalar.of(1, 2));
     assertEquals(deBoor.apply(RationalScalar.of(3, 2)), RationalScalar.of(3, 4));
     assertEquals(deBoor.apply(RealScalar.of(2)), RationalScalar.of(1, 2));
@@ -153,6 +162,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(1, 2, 3, 3).unmodifiable();
     Tensor control = Tensors.vector(1, 0, 0).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 2);
     assertEquals(deBoor.apply(RealScalar.of(2)), RationalScalar.of(1, 2));
     assertEquals(deBoor.apply(RationalScalar.of(5, 2)), RationalScalar.of(1, 8));
     assertEquals(deBoor.apply(RealScalar.of(3)), RationalScalar.of(0, 2));
@@ -163,6 +173,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(-2, -2, -2, -1, 0, 1).unmodifiable();
     Tensor control = Tensors.vector(0, 0, 0, 6).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 3);
     assertEquals(deBoor.apply(RealScalar.of(-2)), RealScalar.of(0));
     assertEquals(deBoor.apply(RealScalar.of(-1.5)), RationalScalar.of(1, 8));
     assertEquals(deBoor.apply(RealScalar.of(-1)), RealScalar.of(1));
@@ -172,6 +183,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(-2, -2, -1, 0, 1, 2).unmodifiable();
     Tensor control = Tensors.vector(0, 0, 6, 0).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 3);
     assertEquals(deBoor.apply(RealScalar.of(-1)), RealScalar.of(1));
     assertEquals(deBoor.apply(RationalScalar.of(-1, 2)), RationalScalar.of(23, 8));
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(4));
@@ -181,6 +193,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(-2, -1, 0, 1, 2, 2).unmodifiable();
     Tensor control = Tensors.vector(0, 6, 0, 0).unmodifiable();
     DeBoor deBoor = DeBoor.of(knots, control);
+    assertEquals(deBoor.degree(), 3);
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(4));
     assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RationalScalar.of(23, 8));
     assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(1));
@@ -207,6 +220,17 @@ public class DeBoorTest extends TestCase {
   public void testKnotsMatrixFail() {
     try {
       DeBoor.of(HilbertMatrix.of(2), Tensors.vector(1, 2));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testKnotsLengthOdd() {
+    DeBoor deBoor = DeBoor.of(Tensors.vector(1, 2), Range.of(0, 2));
+    assertEquals(deBoor.degree(), 1);
+    try {
+      DeBoor.of(Tensors.vector(1, 2, 3), Range.of(0, 2));
       fail();
     } catch (Exception exception) {
       // ---

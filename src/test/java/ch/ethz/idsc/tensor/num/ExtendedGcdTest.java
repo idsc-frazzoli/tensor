@@ -17,7 +17,7 @@ public class ExtendedGcdTest extends TestCase {
 
   public void testRandom() {
     Random random = new Random();
-    for (int count = 0; count < 100; ++count)
+    for (int count = 0; count < 30; ++count)
       assertTrue(new ExtendedGcd(random.nextLong(), random.nextLong()).isConsistent());
   }
 }

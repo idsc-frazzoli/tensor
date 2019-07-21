@@ -186,7 +186,7 @@ public class DetTest extends TestCase {
   }
 
   public void testFailMatrixQ() {
-    Tensor table = Tensors.fromString("{{1,2,3},{4,5}}");
+    Tensor table = Tensors.fromString("{{1, 2, 3}, {4, 5}}");
     try {
       Det.of(table);
       fail();

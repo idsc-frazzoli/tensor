@@ -9,7 +9,12 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.pdf.Distribution;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.AbsSquared;
+import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
 public class QuaternionImplTest extends TestCase {
@@ -21,6 +26,63 @@ public class QuaternionImplTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testPower2() {
+    Scalar quaternion = Quaternion.of(1, 3, -2, 2);
+    Scalar q2 = Power.of(quaternion, RealScalar.of(2));
+    Scalar qm = quaternion.multiply(quaternion);
+    Chop._12.requireClose(q2, qm);
+  }
+
+  public void testPower3() {
+    Scalar quaternion = Quaternion.of(1, 3, -2, 2);
+    Scalar q3 = Power.of(quaternion, RealScalar.of(3));
+    Scalar qm = quaternion.multiply(quaternion).multiply(quaternion);
+    Chop._12.requireClose(q3, qm);
+  }
+
+  public void testPower3Random() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < 100; ++index) {
+      Scalar quaternion = Quaternion.of(RandomVariate.of(distribution), RandomVariate.of(distribution, 3));
+      Scalar q3 = Power.of(quaternion, RealScalar.of(3));
+      Scalar qm = quaternion.multiply(quaternion).multiply(quaternion);
+      Chop._12.requireClose(q3, qm);
+    }
+  }
+
+  public void testPowerN1Random() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < 100; ++index) {
+      Scalar quaternion = Quaternion.of(RandomVariate.of(distribution), RandomVariate.of(distribution, 3));
+      Scalar qr = Power.of(quaternion, RealScalar.of(-1));
+      Scalar qm = quaternion.reciprocal();
+      Chop._12.requireClose(qr, qm);
+    }
+  }
+
+  public void testPowerN2Random() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < 100; ++index) {
+      Scalar quaternion = Quaternion.of(RandomVariate.of(distribution), RandomVariate.of(distribution, 3));
+      Scalar q2r = Power.of(quaternion, RealScalar.of(-2));
+      Scalar qm = quaternion.multiply(quaternion).reciprocal();
+      Chop._12.requireClose(q2r, qm);
+    }
+  }
+
+  public void testPowerReal() {
+    Scalar quaternion = Quaternion.of(3, 0, 0, 0);
+    Scalar qm = quaternion.multiply(quaternion);
+    Scalar q2 = Power.of(quaternion, RealScalar.of(2));
+    Chop._12.requireClose(q2, qm);
+  }
+
+  public void testPower0() {
+    assertEquals(Power.of(Quaternion.of(3, 1, 2, 3), RealScalar.ZERO), Quaternion.ONE);
+    assertEquals(Power.of(Quaternion.of(3, 0, 0, 0), RealScalar.ZERO), Quaternion.ONE);
+    assertEquals(Power.of(Quaternion.of(0, 1, 2, 3), RealScalar.ZERO), Quaternion.ONE);
   }
 
   public void testUnaffected() {
@@ -77,5 +139,11 @@ public class QuaternionImplTest extends TestCase {
     Scalar q1 = Quaternion.of(1, 3, -2, 2);
     Scalar q2 = Serialization.copy(q1);
     assertEquals(q1, q2);
+  }
+
+  public void testToString() {
+    Quaternion quaternion = Quaternion.of(1, 2, 3, 4);
+    String string = quaternion.toString();
+    assertEquals(string, "{\"w\": 1, \"xyz\": {2, 3, 4}}");
   }
 }

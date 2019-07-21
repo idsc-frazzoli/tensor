@@ -26,8 +26,8 @@ public class SimplexCornersTest extends TestCase {
 
   // MATLAB linprog example
   public void testMatlab1() { // min c.x == -10/9
-    Tensor c = Tensors.fromString("{-1,-1/3,0,0,0,0,0,0}");
-    Tensor Ap = Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}");
+    Tensor c = Tensors.fromString("{-1, -1/3, 0, 0, 0, 0, 0, 0}");
+    Tensor Ap = Tensors.fromString("{{1, 1}, {1, 1/4}, {1, -1}, {-1/4, -1}, {-1, -1}, {-1, 1}}");
     Tensor m = Join.of(1, Ap, IdentityMatrix.of(6));
     Tensor b = Tensors.vector(2, 1, 2, 1, -1, 2);
     NavigableMap<Scalar, Tensor> map = SimplexCorners.minEquals(c, m, b, true);
@@ -39,9 +39,9 @@ public class SimplexCornersTest extends TestCase {
   // MATLAB linprog example
   public void testMatlab1Dual() {
     Tensor c = Tensors.vector(2, 1, 2, 1, -1, 2, 0, 0).negate();
-    Tensor Ap = Transpose.of(Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}")); // .negate();
+    Tensor Ap = Transpose.of(Tensors.fromString("{{1, 1}, {1, 1/4}, {1, -1}, {-1/4, -1}, {-1, -1}, {-1, 1}}")); // .negate();
     Tensor m = Join.of(1, Ap, IdentityMatrix.of(2));
-    Tensor b = Tensors.fromString("{-1,-1/3}").negate();
+    Tensor b = Tensors.fromString("{-1, -1/3}").negate();
     NavigableMap<Scalar, Tensor> map = SimplexCorners.minEquals(c, m, b, false);
     map.clear();
     // assertTrue(map.containsKey(RationalScalar.of(-10, 9)));
@@ -51,11 +51,11 @@ public class SimplexCornersTest extends TestCase {
 
   // MATLAB linprog example
   public void testMatlab2() {
-    Tensor c = Tensors.fromString("{-1,-1/3,0,0,0,0,0,0}");
-    Tensor Ap = Tensors.fromString("{{1,1},{1,1/4},{1,-1},{-1/4,-1},{-1,-1},{-1,1}}");
+    Tensor c = Tensors.fromString("{-1, -1/3, 0, 0, 0, 0, 0, 0}");
+    Tensor Ap = Tensors.fromString("{{1, 1}, {1, 1/4}, {1, -1}, {-1/4, -1}, {-1, -1}, {-1, 1}}");
     Tensor m = Join.of(1, Ap, IdentityMatrix.of(6));
-    m.append(Tensors.fromString("{1, 1/4,0,0,0,0,0,0}"));
-    Tensor b = Tensors.fromString("{2,1,2,1,-1,2,1/2}");
+    m.append(Tensors.fromString("{1, 1/4, 0, 0, 0, 0, 0, 0}"));
+    Tensor b = Tensors.fromString("{2, 1, 2, 1, -1, 2, 1/2}");
     // Tensor x = LinearProgramming.minEquals(c, m, b);
     NavigableMap<Scalar, Tensor> map = SimplexCorners.minEquals(c, m, b, true);
     assertTrue(map.containsKey(RationalScalar.of(-2, 3)));

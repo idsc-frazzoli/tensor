@@ -90,7 +90,7 @@ public class TensorsTest extends TestCase {
   public void testLongArrays() {
     long[][] data = new long[][] { { 1, -2, 3 }, { 4, 9 }, { 0, 0, 0, 0, 0 }, {} };
     Tensor actual = Tensors.matrixLong(data);
-    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9},{0,0,0,0,0},{}}");
+    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9}, {0, 0, 0, 0, 0}, {}}");
     assertEquals(expected, actual);
   }
 
@@ -113,14 +113,14 @@ public class TensorsTest extends TestCase {
   public void testDoubleArrays() {
     double[][] data = new double[][] { { 1, -2, 3 }, { 4, 9 }, { 0, 0, 0, 0, 0 }, {} };
     Tensor actual = Tensors.matrixDouble(data);
-    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9},{0,0,0,0,0},{}}");
+    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9}, {0, 0, 0, 0, 0}, {}}");
     assertEquals(expected, actual);
   }
 
   public void testNumberArrays() {
     Number[][] data = new Number[][] { { 1, -2, 3 }, { 4, 9 }, { 0, 0, 0, 0, 0 }, {} };
     Tensor actual = Tensors.matrix(data);
-    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9},{0,0,0,0,0},{}}");
+    Tensor expected = Tensors.fromString("{{1, -2, 3}, {4, 9}, {0, 0, 0, 0, 0}, {}}");
     assertEquals(expected, actual);
   }
 

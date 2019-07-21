@@ -29,8 +29,8 @@ public class VectorAngleTest extends TestCase {
   }
 
   public void testComplex() {
-    Tensor u = Tensors.fromString("{0+1*I,3/4-1*I}");
-    Tensor v = Tensors.fromString("{1+1*I,-1/2+2*I}");
+    Tensor u = Tensors.fromString("{0+1*I, 3/4-1*I}");
+    Tensor v = Tensors.fromString("{1+1*I, -1/2+2*I}");
     Scalar s1 = VectorAngle.of(u, v).get();
     assertEquals(s1.toString(), "1.921525068221019"); // mathematica
   }

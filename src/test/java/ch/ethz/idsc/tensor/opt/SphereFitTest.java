@@ -22,7 +22,7 @@ public class SphereFitTest extends TestCase {
         Tensors.vector(1, 0), //
         Tensors.vector(0, 0), //
         Tensors.vector(0, 1)).unmodifiable();
-    for (Tensor shift : Tensors.fromString("{{0,0},{0,-5/3},{10,0},{20,20}}")) {
+    for (Tensor shift : Tensors.fromString("{{0, 0}, {0, -5/3}, {10, 0}, {20, 20}}")) {
       Tensor points = Tensor.of(_points.stream().map(point -> point.add(shift)));
       Optional<SphereFit> optional = SphereFit.of(points);
       Tensor center = optional.get().center();
@@ -39,7 +39,7 @@ public class SphereFitTest extends TestCase {
         Tensors.vector(0, 0), //
         Tensors.vector(0, 1), //
         Tensors.vector(0.8, 0.7));
-    for (Tensor shift : Tensors.fromString("{{0,0},{0,-5/3},{10,0},{20,20}}")) {
+    for (Tensor shift : Tensors.fromString("{{0, 0}, {0, -5/3}, {10, 0}, {20, 20}}")) {
       Tensor points = Tensor.of(_points.stream().map(point -> point.add(shift)));
       Optional<SphereFit> optional = SphereFit.of(points);
       SphereFit sphereFit = Serialization.copy(optional.get());
@@ -55,7 +55,7 @@ public class SphereFitTest extends TestCase {
         Tensors.vector(0, 0), //
         Tensors.vector(0, 0), //
         Tensors.vector(0, 1)).unmodifiable();
-    for (Tensor shift : Tensors.fromString("{{0,0},{0,-5/3},{10,0},{20,20}}")) {
+    for (Tensor shift : Tensors.fromString("{{0, 0}, {0, -5/3}, {10, 0}, {20, 20}}")) {
       Tensor points = Tensor.of(_points.stream().map(point -> point.add(shift)));
       Optional<SphereFit> optional = SphereFit.of(points);
       assertFalse(optional.isPresent());
@@ -107,7 +107,7 @@ public class SphereFitTest extends TestCase {
 
   public void testFailUnstructured1() {
     try {
-      SphereFit.of(Tensors.fromString("{{1,2,3},{4,-5}}"));
+      SphereFit.of(Tensors.fromString("{{1, 2, 3}, {4, -5}}"));
       fail();
     } catch (Exception exception) {
       // ---
@@ -116,7 +116,7 @@ public class SphereFitTest extends TestCase {
 
   public void testFailUnstructured2() {
     try {
-      SphereFit.of(Tensors.fromString("{{1,2,3},{4,-5},{6,7,8}}"));
+      SphereFit.of(Tensors.fromString("{{1, 2, 3}, {4, -5}, {6, 7, 8}}"));
       fail();
     } catch (Exception exception) {
       // ---

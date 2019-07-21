@@ -25,7 +25,7 @@ public class SingularValueDecompositionExtTest extends TestCase {
   }
 
   public void testEps() {
-    Tensor A = Tensors.fromString("{{1,0},{0,1E-14}}");
+    Tensor A = Tensors.fromString("{{1, 0}, {0, 1E-14}}");
     assertTrue(NumberQ.all(A));
     SingularValueDecomposition svd = SingularValueDecomposition.of(A);
     assertEquals(NullSpace.of(svd).length(), 1);

@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 public class StrictColorDataIndexedTest extends TestCase {
   public void testColors2() {
-    Tensor tensor = Tensors.fromString("{{1,2,3,4},{5,6,7,8}}");
+    Tensor tensor = Tensors.fromString("{{1, 2, 3, 4}, {5, 6, 7, 8}}");
     ColorDataIndexed colorDataIndexed = StrictColorDataIndexed.create(tensor);
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.9)), tensor.get(1));
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.1)), tensor.get(1));
@@ -22,7 +22,7 @@ public class StrictColorDataIndexedTest extends TestCase {
   }
 
   public void testColors3() {
-    Tensor tensor = Tensors.fromString("{{1,2,3,4},{5,6,7,8},{9,10,11,12}}");
+    Tensor tensor = Tensors.fromString("{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}");
     ColorDataIndexed colorDataIndexed = StrictColorDataIndexed.create(tensor);
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.9)), tensor.get(1));
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.1)), tensor.get(1));
@@ -36,7 +36,7 @@ public class StrictColorDataIndexedTest extends TestCase {
   }
 
   public void testDerive() {
-    Tensor tensor = Tensors.fromString("{{1,2,3,4},{5,6,7,8}}");
+    Tensor tensor = Tensors.fromString("{{1, 2, 3, 4}, {5, 6, 7, 8}}");
     ColorDataIndexed colorDataIndexed = StrictColorDataIndexed.create(tensor);
     colorDataIndexed = colorDataIndexed.deriveWithAlpha(255);
     final Color ref0 = new Color(1, 2, 3, 255);
@@ -56,7 +56,7 @@ public class StrictColorDataIndexedTest extends TestCase {
   }
 
   public void testFailCreate() {
-    Tensor tensor = Tensors.fromString("{{1,2,3},{5,6,7}}");
+    Tensor tensor = Tensors.fromString("{{1, 2, 3}, {5, 6, 7}}");
     try {
       StrictColorDataIndexed.create(tensor);
       fail();
@@ -66,7 +66,7 @@ public class StrictColorDataIndexedTest extends TestCase {
   }
 
   public void testFailExtract() {
-    Tensor tensor = Tensors.fromString("{{1,2,3,4},{5,6,7,8}}");
+    Tensor tensor = Tensors.fromString("{{1, 2, 3, 4}, {5, 6, 7, 8}}");
     ColorDataIndexed colorDataIndexed = StrictColorDataIndexed.create(tensor);
     try {
       colorDataIndexed.getColor(-1);
