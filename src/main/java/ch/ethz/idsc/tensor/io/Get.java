@@ -40,7 +40,7 @@ public enum Get {
   public static Tensor of(File file) throws IOException {
     // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
     try (InputStream inputStream = new FileInputStream(file)) {
-      return MathematicaFormat.parse(ImportHelper.lines(inputStream));
+      return MathematicaFormat.parse(ReadLine.of(inputStream));
     }
   }
 

@@ -1,10 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.Tensor;
@@ -42,8 +40,7 @@ public class LowercaseETest extends TestCase {
 
   public static Tensor importMatlabCsv(String string) throws IOException {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) { // auto closeable
-      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-      return CsvFormat.parse(bufferedReader.lines().map(String::toUpperCase));
+      return CsvFormat.parse(ReadLine.of(inputStream).map(String::toUpperCase));
     }
   }
 

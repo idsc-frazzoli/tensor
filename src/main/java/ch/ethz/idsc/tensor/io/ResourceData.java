@@ -86,7 +86,7 @@ public enum ResourceData {
    * @return list of lines in resource or null if resource could not be loaded */
   public static List<String> lines(String string) {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
-      return ImportHelper.lines(inputStream).collect(Collectors.toList());
+      return ReadLine.of(inputStream).collect(Collectors.toList());
     } catch (Exception exception) {
       // ---
     }
