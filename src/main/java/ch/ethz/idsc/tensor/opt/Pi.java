@@ -33,7 +33,7 @@ public enum Pi {
     Scalar X = RealScalar.ONE;
     Scalar S = _13591409;
     int k = 0;
-    Scalar root = Sqrt.of(DecimalScalar.of("10005", precision));
+    Scalar root = Sqrt.FUNCTION.apply(DecimalScalar.of("10005", precision));
     Scalar prev = RealScalar.ZERO;
     while (true) {
       ++k;

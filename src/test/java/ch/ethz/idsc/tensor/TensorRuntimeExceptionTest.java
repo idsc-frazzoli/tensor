@@ -37,11 +37,7 @@ public class TensorRuntimeExceptionTest extends TestCase {
   }
 
   public void testNull() {
-    try {
-      TensorRuntimeException.of(Tensors.vector(2), null);
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
+    Exception exception = TensorRuntimeException.of(Tensors.vector(4, 7, 1, 1), null, RealScalar.ONE);
+    assertEquals(exception.getMessage(), "{4, 7, 1, 1}; null; 1");
   }
 }

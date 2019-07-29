@@ -69,6 +69,18 @@ public enum Array {
     return zeros(Arrays.asList(dimensions));
   }
 
+  /** MATLAB::repmat
+   * 
+   * @param entry non-null
+   * @param dimensions
+   * @return unmodifiable tensor with given dimensions and entries as given entry */
+  public static Tensor repmat(Tensor entry, Integer... dimensions) {
+    Tensor tensor = entry.copy();
+    for (int index = dimensions.length - 1; 0 <= index; --index)
+      tensor = Unprotect.unmodifiable(Collections.nCopies(dimensions[index], tensor));
+    return tensor;
+  }
+
   // helper function
   private static Tensor of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions, List<Integer> index) {
     int level = index.size();

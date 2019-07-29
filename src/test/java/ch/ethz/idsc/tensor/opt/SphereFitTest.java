@@ -17,6 +17,18 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class SphereFitTest extends TestCase {
+  public void testToString() {
+    Tensor points = Tensors.of( //
+        Tensors.vector(1, 0), //
+        Tensors.vector(0, 0), //
+        Tensors.vector(0, 1)).unmodifiable();
+    Optional<SphereFit> optional = SphereFit.of(points);
+    SphereFit sphereFit = optional.get();
+    String string = sphereFit.toString();
+    assertTrue(string.startsWith("{\"center\": {1/2, 1/2}, \"radius\": 0.7071067811"));
+    assertTrue(string.endsWith("}"));
+  }
+
   public void testLinearSolve() {
     Tensor _points = Tensors.of( //
         Tensors.vector(1, 0), //
@@ -25,8 +37,9 @@ public class SphereFitTest extends TestCase {
     for (Tensor shift : Tensors.fromString("{{0, 0}, {0, -5/3}, {10, 0}, {20, 20}}")) {
       Tensor points = Tensor.of(_points.stream().map(point -> point.add(shift)));
       Optional<SphereFit> optional = SphereFit.of(points);
-      Tensor center = optional.get().center();
-      Tensor radius = optional.get().radius();
+      SphereFit sphereFit = optional.get();
+      Tensor center = sphereFit.center();
+      Tensor radius = sphereFit.radius();
       assertEquals(center, Tensors.vector(0.5, 0.5).add(shift));
       assertTrue(ExactTensorQ.of(center));
       assertTrue(Chop._13.close(radius, RealScalar.of(Math.sqrt(0.5))));

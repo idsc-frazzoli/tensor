@@ -47,7 +47,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar c3s = Times.of(b, c, d, _9).subtract(c3.add(c3)).subtract(Times.of(a, d, d, _27));
     //
     Scalar det = Power.of( //
-        c3s.add(Sqrt.of(_4.multiply(Power.of(bd3_c2, _3)).add(Times.of(c3s, c3s)))), _1_3);
+        c3s.add(Sqrt.FUNCTION.apply(_4.multiply(Power.of(bd3_c2, _3)).add(Times.of(c3s, c3s)))), _1_3);
     //
     Scalar s2_den = d3.multiply(det);
     //

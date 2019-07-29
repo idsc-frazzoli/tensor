@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,10 +22,14 @@ public class TensorRuntimeException extends RuntimeException {
   }
 
   private static String message(Tensor... tensors) {
-    return Stream.of(tensors).map(TensorRuntimeException::format).collect(Collectors.joining("; "));
+    return Stream.of(tensors) //
+        .map(TensorRuntimeException::format) //
+        .collect(Collectors.joining("; "));
   }
 
   private static String format(Tensor tensor) {
+    if (Objects.isNull(tensor))
+      return "null";
     if (Numel.of(tensor) <= MAX_NUMEL)
       return formatContent(tensor);
     return "T" + Dimensions.of(tensor);

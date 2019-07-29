@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -20,7 +21,14 @@ public enum Tensors {
   /** @return new modifiable tensor instance with no entries, i.e. length() == 0
    * @see #isEmpty(Tensor) */
   public static Tensor empty() {
-    return Tensor.of(Stream.empty());
+    return new TensorImpl(new ArrayList<>());
+  }
+
+  /** @param initialCapacity
+   * @return empty tensor for which initialCapacity number of {@link Tensor#append(Tensor)}
+   * operations are intended */
+  public static Tensor allocate(int initialCapacity) {
+    return new TensorImpl(new ArrayList<>(initialCapacity));
   }
 
   /** @param tensors
