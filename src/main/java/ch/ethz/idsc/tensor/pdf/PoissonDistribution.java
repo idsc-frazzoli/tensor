@@ -7,7 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.sca.Exp;
 
@@ -40,7 +40,7 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
 
   // ---
   private final Scalar lambda;
-  private final Tensor values = Unprotect.empty(32);
+  private final Tensor values = Tensors.reserve(32);
 
   private PoissonDistribution(Scalar lambda) {
     this.lambda = lambda;

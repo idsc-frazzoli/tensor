@@ -20,6 +20,21 @@ public class TensorsTest extends TestCase {
     assertEquals(Tensors.empty(), Tensors.of());
   }
 
+  public void testAllocate() {
+    assertEquals(Tensors.reserve(100), Tensors.empty());
+    assertEquals(Tensors.reserve(100), Tensors.unmodifiableEmpty());
+  }
+
+  public void testAllocateFail() {
+    Tensors.reserve(0);
+    try {
+      Tensors.reserve(-1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testNorm() {
     Tensor vector = Tensors.vectorLong(2, 3, 4, 5);
     assertTrue(ExactTensorQ.of(vector));

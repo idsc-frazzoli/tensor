@@ -27,7 +27,7 @@ public enum Tensors {
   /** @param initialCapacity
    * @return empty tensor for which initialCapacity number of {@link Tensor#append(Tensor)}
    * operations are intended */
-  public static Tensor allocate(int initialCapacity) {
+  public static Tensor reserve(int initialCapacity) {
     return new TensorImpl(new ArrayList<>(initialCapacity));
   }
 

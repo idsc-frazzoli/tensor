@@ -12,21 +12,6 @@ import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import junit.framework.TestCase;
 
 public class UnprotectTest extends TestCase {
-  public void testEmpty() {
-    assertEquals(Unprotect.empty(100), Tensors.empty());
-    assertEquals(Unprotect.empty(100), Tensors.unmodifiableEmpty());
-  }
-
-  public void testEmptyFail() {
-    Unprotect.empty(0);
-    try {
-      Unprotect.empty(-1);
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void testUsingEmpty() {
     assertEquals(Unprotect.using(new LinkedList<>()), Tensors.empty());
     assertEquals(Unprotect.using(new LinkedList<>()), Tensors.unmodifiableEmpty());

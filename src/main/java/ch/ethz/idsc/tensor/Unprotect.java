@@ -37,14 +37,6 @@ public enum Unprotect {
 
   /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
    * 
-   * @param list
-   * @return unmodifiable tensor backed by given list */
-  public static Tensor unmodifiable(List<Tensor> list) {
-    return new UnmodifiableTensor(list);
-  }
-
-  /** THE USE OF THIS FUNCTION IN THE APPLICATION LAYER IS NOT RECOMMENDED !
-   * 
    * @param tensors
    * @return It That Must Not Be Described
    * @see Tensors#of(Tensor...) */

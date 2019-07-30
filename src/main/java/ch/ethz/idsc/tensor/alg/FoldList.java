@@ -6,7 +6,7 @@ import java.util.function.BinaryOperator;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.Tensors;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/FoldList.html">FoldList</a> */
@@ -21,7 +21,7 @@ public enum FoldList {
    * @return see description above */
   public static Tensor of(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {
     int length = tensor.length();
-    Tensor result = Unprotect.empty(length);
+    Tensor result = Tensors.reserve(length);
     if (0 < length) {
       Tensor entry = tensor.get(0);
       result.append(entry);
@@ -42,7 +42,7 @@ public enum FoldList {
   public static Tensor of(BinaryOperator<Tensor> binaryOperator, Tensor x, Tensor tensor) {
     ScalarQ.thenThrow(tensor);
     int length = tensor.length();
-    Tensor result = Unprotect.empty(length + 1).append(x);
+    Tensor result = Tensors.reserve(length + 1).append(x);
     for (int index = 0; index < length; ++index)
       result.append(x = binaryOperator.apply(x, tensor.get(index)));
     return result;

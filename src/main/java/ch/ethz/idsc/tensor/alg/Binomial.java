@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.sca.Gamma;
 
 /** binomial coefficient implemented for integer input
@@ -94,7 +94,7 @@ public class Binomial implements Serializable {
     this.n = n;
     int half = n / 2;
     Scalar x = RealScalar.ONE;
-    row = Unprotect.empty(half + 1).append(x);
+    row = Tensors.reserve(half + 1).append(x);
     for (int k = 1; k <= half; ++k)
       row.append(x = x.multiply(RationalScalar.of(n - k + 1, k)));
   }
