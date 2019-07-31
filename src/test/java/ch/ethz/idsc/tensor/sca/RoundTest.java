@@ -126,7 +126,6 @@ public class RoundTest extends TestCase {
       DecimalScalar ds = (DecimalScalar) pi;
       BigDecimal bd = (BigDecimal) ds.number();
       assertEquals(bd.precision(), 4 + 2);
-      // System.out.println(bd.precision());
     }
   }
 

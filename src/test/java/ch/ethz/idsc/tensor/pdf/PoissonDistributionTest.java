@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.pdf;
 import java.util.NavigableMap;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -43,31 +44,29 @@ public class PoissonDistributionTest extends TestCase {
     PDF pdf = PDF.of(distribution);
     pdf.at(RealScalar.of(30));
     Tensor prob = values(pdf, 30);
-    // assertEquals(poissonDistribution.values().length(), 30 + 1);
     Scalar sum = Total.of(prob).Get();
-    // System.out.println(sum);
     assertEquals(sum, RealScalar.ONE);
   }
 
   public void testPDF() {
     Distribution distribution = PoissonDistribution.of(RealScalar.of(10.5));
     CDF cdf = CDF.of(distribution);
-    Scalar s = cdf.p_lessThan(RealScalar.of(50));
-    assertEquals(Chop._12.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
+    Scalar scalar = cdf.p_lessThan(RealScalar.of(50));
+    assertEquals(Chop._12.of(scalar.subtract(RealScalar.ONE)), RealScalar.ZERO);
   }
 
   public void testPDF2() {
     Distribution distribution = PoissonDistribution.of(RealScalar.of(1.5));
     CDF cdf = CDF.of(distribution);
-    Scalar s = cdf.p_lessThan(RealScalar.of(50));
-    assertEquals(Chop._12.of(s.subtract(RealScalar.ONE)), RealScalar.ZERO);
+    Scalar scalar = cdf.p_lessThan(RealScalar.of(50));
+    assertEquals(Chop._12.of(scalar.subtract(RealScalar.ONE)), RealScalar.ZERO);
   }
 
   public void testInverseCDF() {
-    InverseCDF inv = InverseCDF.of(PoissonDistribution.of(RealScalar.of(5.5)));
-    Scalar x0 = inv.quantile(RealScalar.of(.0));
-    Scalar x1 = inv.quantile(RealScalar.of(.1));
-    Scalar x2 = inv.quantile(RealScalar.of(.5));
+    InverseCDF inverseCDF = InverseCDF.of(PoissonDistribution.of(RealScalar.of(5.5)));
+    Scalar x0 = inverseCDF.quantile(RealScalar.of(.0));
+    Scalar x1 = inverseCDF.quantile(RealScalar.of(.1));
+    Scalar x2 = inverseCDF.quantile(RealScalar.of(.5));
     assertEquals(x0, RealScalar.ZERO);
     assertTrue(Scalars.lessThan(x1, x2));
   }
@@ -78,12 +77,10 @@ public class PoissonDistributionTest extends TestCase {
     NavigableMap<Scalar, Scalar> navigableMap = edd.inverse_cdf();
     assertTrue(34 < navigableMap.size());
     assertTrue(navigableMap.size() < 38);
-    // navigableMap.forEach((k, v) -> System.out.println(k + " " + v));
-    InverseCDF inv = InverseCDF.of(distribution);
-    // System.out.println(inv.quantile(RealScalar.of(0.9999999999999985)));
-    assertTrue(Clips.interval(24, 26).isInside(inv.quantile(RealScalar.of(0.9999999989237532))));
-    assertTrue(Clips.interval(32, 34).isInside(inv.quantile(RealScalar.of(0.9999999999999985))));
-    assertTrue(Clips.interval(1900, 2000).isInside(inv.quantile(RealScalar.ONE)));
+    InverseCDF inverseCDF = InverseCDF.of(distribution);
+    assertTrue(Clips.interval(24, 26).isInside(inverseCDF.quantile(RealScalar.of(0.9999999989237532))));
+    assertTrue(Clips.interval(32, 34).isInside(inverseCDF.quantile(RealScalar.of(0.9999999999999985))));
+    assertTrue(Clips.interval(1900, 2000).isInside(inverseCDF.quantile(RealScalar.ONE)));
   }
 
   public void testToString() {
@@ -126,8 +123,6 @@ public class PoissonDistributionTest extends TestCase {
     assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-1))));
     assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-10000000))));
     assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-1000000.12))));
-    // for (Tensor s : Range.of(1900, 2000))
-    // System.out.println(s+" "+pdf.at(s.Get()));
   }
 
   public void testNextDownOne() {
@@ -135,9 +130,8 @@ public class PoissonDistributionTest extends TestCase {
       Scalar lambda = DoubleScalar.of(c * .5 + 300);
       AbstractDiscreteDistribution distribution = //
           (AbstractDiscreteDistribution) PoissonDistribution.of(lambda);
-      // Scalar s =
-      distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
-      // System.out.println(lambda + " -> " + s);
+      Scalar scalar = distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
+      ExactScalarQ.require(scalar);
     }
   }
 }

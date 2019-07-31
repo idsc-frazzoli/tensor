@@ -41,7 +41,6 @@ import ch.ethz.idsc.tensor.sca.Ceiling;
     int spa = 0;
     int size = 12 + spa;
     Tensor large = ImageResize.nearest(image, size, size - spa);
-    // System.out.println(Dimensions.of(large));
     for (int count = size - spa; count < large.length(); count += size)
       for (int i = 0; i < spa; ++i)
         large.set(s -> RealScalar.ZERO, count + i, Tensor.ALL, Tensor.ALL);

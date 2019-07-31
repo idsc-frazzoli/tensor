@@ -19,41 +19,47 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
   /** @param value
    * @return */
   public static Scalar of(boolean value) {
-    return value ? TRUE : FALSE;
+    return value //
+        ? TRUE
+        : FALSE;
   }
 
   // ---
   private final boolean value;
 
-  // only invoked to initialize the static members
+  /** constructor initializes the static members
+   * 
+   * @param value */
   private BooleanScalar(boolean value) {
     this.value = value;
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar negate() {
     return this;
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar reciprocal() {
     if (!value)
       throw TensorRuntimeException.of(this);
     return this;
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar abs() {
     return this;
   }
 
-  @Override
+  @Override // from Scalar
   public Number number() {
     // since Boolean is not an instance of Number, we return type Integer
-    return value ? 1 : 0;
+    return value //
+        ? 1
+        : 0;
   }
 
-  @Override
+  @Override // from Scalar
   public Scalar zero() {
     return FALSE;
   }
@@ -95,12 +101,12 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
     return this;
   }
 
-  @Override
+  @Override // from Object
   public int hashCode() {
     return Boolean.hashCode(value);
   }
 
-  @Override
+  @Override // from Object
   public boolean equals(Object object) {
     if (object instanceof BooleanScalar) {
       BooleanScalar booleanScalar = (BooleanScalar) object;
@@ -109,7 +115,7 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
     return false;
   }
 
-  @Override
+  @Override // from Object
   public String toString() {
     return Boolean.toString(value);
   }

@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Map;
 
 import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -48,8 +47,7 @@ public class EqualizingDistributionTest extends TestCase {
     assertEquals(Last.of(linear), RealScalar.of(30));
     Tensor uniform = Differences.of(linear);
     ExactTensorQ.require(uniform);
-    Map<Tensor, Long> map2 = Tally.of(uniform);
-    assertEquals(map2, Collections.singletonMap(RationalScalar.of(33, 10), 10L));
+    assertEquals(Tally.of(uniform), Collections.singletonMap(RationalScalar.of(33, 10), 10L));
   }
 
   public void testFail() {

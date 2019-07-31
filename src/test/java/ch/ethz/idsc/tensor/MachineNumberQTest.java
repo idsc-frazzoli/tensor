@@ -44,6 +44,6 @@ public class MachineNumberQTest extends TestCase {
 
   public void testAny() {
     assertTrue(MachineNumberQ.any(Tensors.vector(1, 1, 1.)));
-    assertFalse(MachineNumberQ.any(Tensors.vector(1, 1, 1)));
+    assertFalse(MachineNumberQ.any(Tensors.vector(1, 2, 3)));
   }
 }

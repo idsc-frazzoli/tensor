@@ -28,7 +28,7 @@ import ch.ethz.idsc.tensor.sca.Beta;
     try {
       return Arg.of(Nest.of(z -> Beta.of(z, z), seed, DEPTH));
     } catch (Exception exception) {
-      // System.out.println("fail=" + seed);
+      // ---
     }
     return DoubleScalar.INDETERMINATE;
   }

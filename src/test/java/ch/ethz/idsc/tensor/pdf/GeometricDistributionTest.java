@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -125,11 +126,11 @@ public class GeometricDistributionTest extends TestCase {
 
   public void testNextDownOne() {
     for (int c = 500; c <= 700; c += 100) {
-      Scalar p = DoubleScalar.of(.1 / c);
-      // System.out.println(p);
+      Scalar p = DoubleScalar.of(0.1 / c);
       AbstractDiscreteDistribution distribution = //
           (AbstractDiscreteDistribution) GeometricDistribution.of(p);
-      distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
+      Scalar scalar = distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
+      assertTrue(Scalars.lessThan(scalar, RealScalar.of(260000)));
     }
   }
 

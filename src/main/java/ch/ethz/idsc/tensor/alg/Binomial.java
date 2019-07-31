@@ -66,12 +66,11 @@ public class Binomial implements Serializable {
   }
 
   /***************************************************/
-  /* package for testing */ static int MEMO_REUSE = 0;
   private static final int MEMO_SIZE = 100;
   private static final Map<Integer, Binomial> MEMO = new LinkedHashMap<Integer, Binomial>(MEMO_SIZE * 4 / 3, 0.75f, true) {
     @Override
     protected boolean removeEldestEntry(Map.Entry<Integer, Binomial> eldest) {
-      return size() > MEMO_SIZE;
+      return MEMO_SIZE < size();
     }
   };
 
@@ -81,8 +80,7 @@ public class Binomial implements Serializable {
     if (Objects.isNull(binomial)) {
       binomial = new Binomial(n);
       MEMO.put(n, binomial);
-    } else
-      ++MEMO_REUSE;
+    }
     return binomial;
   }
 

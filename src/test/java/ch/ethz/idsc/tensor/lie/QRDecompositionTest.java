@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
+import java.io.IOException;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
@@ -12,6 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Flatten;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.Det;
 import ch.ethz.idsc.tensor.mat.DiagonalMatrix;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
@@ -31,19 +33,18 @@ import junit.framework.TestCase;
 
 public class QRDecompositionTest extends TestCase {
   private static QRDecomposition specialOps(Tensor A) {
-    QRDecomposition qr = QRDecomposition.of(A);
-    Tensor Q = qr.getQ();
-    Tensor Qi = qr.getInverseQ();
-    Tensor R = qr.getR();
+    QRDecomposition qrDecomposition = QRDecomposition.of(A);
+    Tensor Q = qrDecomposition.getQ();
+    Tensor Qi = qrDecomposition.getInverseQ();
+    Tensor R = qrDecomposition.getR();
     assertTrue(Chop._10.close(Q.dot(R), A));
     assertTrue(Chop._10.close(Q.dot(Qi), IdentityMatrix.of(A.length())));
     Scalar qrDet = Det.of(Q).multiply(Det.of(R));
     assertTrue(Chop._10.close(qrDet, Det.of(A)));
     Tensor lower = LowerTriangularize.of(R, -1);
-    // System.out.println(Pretty.of(lower));
     assertTrue(Chop.NONE.allZero(lower));
-    assertTrue(Chop._10.close(qrDet, qr.det()));
-    return qr;
+    assertTrue(Chop._10.close(qrDet, qrDecomposition.det()));
+    return qrDecomposition;
   }
 
   final Random random = new Random();
@@ -62,9 +63,11 @@ public class QRDecompositionTest extends TestCase {
     specialOps(A);
   }
 
-  public void testRandomReal2() {
+  public void testRandomReal2() throws ClassNotFoundException, IOException {
     Tensor A = Tensors.matrix((i, j) -> RealScalar.of(random.nextDouble()), 3, 5);
-    specialOps(A);
+    QRDecomposition qrDecomposition = Serialization.copy(specialOps(A));
+    assertTrue(Chop.NONE.allZero(qrDecomposition.det()));
+    ExactScalarQ.require(qrDecomposition.det());
   }
 
   public void testRandomRealSquare() {

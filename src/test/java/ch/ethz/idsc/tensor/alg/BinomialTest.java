@@ -43,7 +43,6 @@ public class BinomialTest extends TestCase {
   public void testTreadSafe() {
     IntStream.range(0, 20000).parallel() //
         .forEach(n -> Binomial.of(50 + (n % 500)));
-    // System.out.println(Binomial.MEMO_REUSE);
   }
 
   public void testOrder() {

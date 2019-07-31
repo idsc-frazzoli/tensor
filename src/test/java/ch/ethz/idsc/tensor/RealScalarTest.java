@@ -93,6 +93,7 @@ public class RealScalarTest extends TestCase {
 
   public void testCreateFail() {
     Number number = new AtomicInteger(123);
+    RealScalar.of(number.intValue());
     try {
       RealScalar.of(number);
       fail();

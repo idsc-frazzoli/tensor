@@ -72,8 +72,6 @@ public class TrapezoidalDistributionTest extends TestCase {
     }
     Scalar meanCalc = distribution.mean();
     Scalar meanSamples = (Scalar) Mean.of(all);
-    // System.out.println("meanCalc: " + meanCalc);
-    // System.out.println("meanSamp: " + meanSamples);
     Scalar diff = meanCalc.subtract(meanSamples).abs();
     assertTrue(Scalars.lessEquals(diff, RealScalar.of(0.5)));
   }

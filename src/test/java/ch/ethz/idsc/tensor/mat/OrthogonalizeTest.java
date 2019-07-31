@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -40,9 +41,6 @@ public class OrthogonalizeTest extends TestCase {
     assertFalse(OrthogonalMatrixQ.of(matrix));
     _check(matrix);
     Tensor q = Orthogonalize.of(matrix);
-    // System.out.println(q);
-    // System.out.println(q.get(0));
-    // System.out.println(v0);
     Scalar angle1 = VectorAngle.of(q.get(0), v0).get();
     Scalar angle2 = VectorAngle.of(q.get(1), v1).get();
     assertTrue(Chop._07.allZero(angle1));
@@ -60,10 +58,7 @@ public class OrthogonalizeTest extends TestCase {
     Tensor matrix = Tensors.of(v0);
     _check(matrix);
     Tensor q = Orthogonalize.of(matrix);
-    // System.out.println(q.get(0));
-    // System.out.println(v0);
     Scalar a1 = VectorAngle.of(q.get(0), v0).get();
-    // System.out.println(a1);
     assertTrue(Scalars.isZero(a1));
   }
 
@@ -86,6 +81,15 @@ public class OrthogonalizeTest extends TestCase {
     try {
       Tensor matrix = Transpose.of(Tensors.fromString("{{1, 0, 1}, {1, 1, 1}}"));
       Orthogonalize.of(matrix);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailAd() {
+    try {
+      Orthogonalize.of(LieAlgebras.so3());
       fail();
     } catch (Exception exception) {
       // ---

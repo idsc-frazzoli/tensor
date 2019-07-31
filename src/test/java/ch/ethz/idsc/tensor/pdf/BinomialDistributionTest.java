@@ -15,6 +15,7 @@ import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Tally;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class BinomialDistributionTest extends TestCase {
@@ -107,13 +108,14 @@ public class BinomialDistributionTest extends TestCase {
 
   public void testSome() {
     for (int n = 10; n < 1200; n += 10) {
-      EvaluatedDiscreteDistribution distribution = (EvaluatedDiscreteDistribution) BinomialDistribution.of(n, RealScalar.of(.333));
+      EvaluatedDiscreteDistribution distribution = //
+          (EvaluatedDiscreteDistribution) BinomialDistribution.of(n, RealScalar.of(0.333));
       double extreme = Math.nextDown(1.0);
       distribution.quantile(RealScalar.of(extreme));
       NavigableMap<Scalar, Scalar> navigableMap = distribution.inverse_cdf();
-      @SuppressWarnings("unused")
       Entry<Scalar, Scalar> entry = navigableMap.lastEntry();
-      // System.out.println(n + " " + entry);
+      Chop._12.requireClose(entry.getKey(), RealScalar.ONE);
+      IntegerQ.require(entry.getValue());
     }
   }
 

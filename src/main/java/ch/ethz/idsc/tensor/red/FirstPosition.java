@@ -13,7 +13,7 @@ public enum FirstPosition {
   ;
   /** @param tensor non-null
    * @param element non-null
-   * @return index with tensor.get(index).equals(element) or OptionalInt.empty() */
+   * @return smallest index with tensor.get(index).equals(element) or OptionalInt.empty() */
   public static OptionalInt of(Tensor tensor, Tensor element) {
     ScalarQ.thenThrow(tensor);
     return IntStream.range(0, tensor.length()) //

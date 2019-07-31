@@ -24,9 +24,10 @@ public enum Tensors {
     return new TensorImpl(new ArrayList<>());
   }
 
-  /** @param initialCapacity
+  /** @param initialCapacity non-negative
    * @return empty tensor for which initialCapacity number of {@link Tensor#append(Tensor)}
-   * operations are intended */
+   * operations are intended
+   * @throws Exception if initialCapacity is negative */
   public static Tensor reserve(int initialCapacity) {
     return new TensorImpl(new ArrayList<>(initialCapacity));
   }
