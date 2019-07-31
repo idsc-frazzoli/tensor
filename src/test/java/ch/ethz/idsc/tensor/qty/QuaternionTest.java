@@ -109,7 +109,7 @@ public class QuaternionTest extends TestCase {
   }
 
   public void testSqrt() {
-    for (int index = 0; index < 100; ++index) {
+    for (int index = 0; index < 10; ++index) {
       Tensor arg = RandomVariate.of(NormalDistribution.standard(), 4);
       Scalar q = Quaternion.of(arg.Get(0), arg.extract(1, 4));
       Scalar r = Sqrt.of(q);
@@ -119,7 +119,7 @@ public class QuaternionTest extends TestCase {
   }
 
   public void testSqrt0() {
-    for (int index = 0; index < 100; ++index) {
+    for (int index = 0; index < 10; ++index) {
       Tensor arg = RandomVariate.of(NormalDistribution.standard(), 4);
       Scalar q = Quaternion.of(RealScalar.ZERO, arg.extract(1, 4));
       Scalar r = Sqrt.of(q);
@@ -146,7 +146,7 @@ public class QuaternionTest extends TestCase {
 
   public void testNormVsAbs() {
     Distribution distribution = NormalDistribution.standard();
-    for (int index = 0; index < 100; ++index) {
+    for (int index = 0; index < 10; ++index) {
       Tensor vec = RandomVariate.of(distribution, 4);
       Scalar q1 = _createQ(vec);
       Scalar nrm = Norm._2.ofVector(vec);

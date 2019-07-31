@@ -5,8 +5,10 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.StringScalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.qty.Quaternion;
 import ch.ethz.idsc.tensor.qty.Unit;
 import junit.framework.TestCase;
 
@@ -137,5 +139,6 @@ public class SignTest extends TestCase {
     _checkFail(DoubleScalar.INDETERMINATE);
     _checkFail(ComplexScalar.of(2, 3));
     _checkFail(StringScalar.of("string"));
+    _checkFail(Quaternion.of(RealScalar.of(-4), Tensors.vector(1, 2, 3)));
   }
 }

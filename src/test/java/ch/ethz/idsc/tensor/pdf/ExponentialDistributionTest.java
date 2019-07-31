@@ -19,9 +19,9 @@ import junit.framework.TestCase;
 public class ExponentialDistributionTest extends TestCase {
   public void testPositive() {
     Distribution distribution = ExponentialDistribution.of(RealScalar.ONE);
-    for (int c = 0; c < 100; ++c) {
-      Scalar s = RandomVariate.of(distribution);
-      assertTrue(Scalars.lessEquals(RealScalar.ZERO, s));
+    for (int count = 0; count < 10; ++count) {
+      Scalar scalar = RandomVariate.of(distribution);
+      assertTrue(Scalars.lessEquals(RealScalar.ZERO, scalar));
     }
   }
 

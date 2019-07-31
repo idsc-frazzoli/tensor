@@ -44,7 +44,7 @@ public class QuaternionImplTest extends TestCase {
 
   public void testPower3Random() {
     Distribution distribution = NormalDistribution.standard();
-    for (int index = 0; index < 100; ++index) {
+    for (int index = 0; index < 10; ++index) {
       Scalar quaternion = Quaternion.of(RandomVariate.of(distribution), RandomVariate.of(distribution, 3));
       Scalar q3 = Power.of(quaternion, RealScalar.of(3));
       Scalar qm = quaternion.multiply(quaternion).multiply(quaternion);
@@ -54,7 +54,7 @@ public class QuaternionImplTest extends TestCase {
 
   public void testPowerN1Random() {
     Distribution distribution = NormalDistribution.standard();
-    for (int index = 0; index < 100; ++index) {
+    for (int index = 0; index < 10; ++index) {
       Scalar quaternion = Quaternion.of(RandomVariate.of(distribution), RandomVariate.of(distribution, 3));
       Scalar qr = Power.of(quaternion, RealScalar.of(-1));
       Scalar qm = quaternion.reciprocal();
@@ -64,7 +64,7 @@ public class QuaternionImplTest extends TestCase {
 
   public void testPowerN2Random() {
     Distribution distribution = NormalDistribution.standard();
-    for (int index = 0; index < 100; ++index) {
+    for (int index = 0; index < 10; ++index) {
       Scalar quaternion = Quaternion.of(RandomVariate.of(distribution), RandomVariate.of(distribution, 3));
       Scalar q2r = Power.of(quaternion, RealScalar.of(-2));
       Scalar qm = quaternion.multiply(quaternion).reciprocal();

@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.red;
+package ch.ethz.idsc.tensor.num;
 
 import java.io.Serializable;
 

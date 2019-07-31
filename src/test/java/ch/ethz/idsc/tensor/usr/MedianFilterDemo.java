@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.io.Import;
 
-enum MedianFilterDemo {
+/* package */ enum MedianFilterDemo {
   ;
   public static void main(String[] args) throws Exception {
     File file = HomeDirectory.file("1bab14b2.jpg");

@@ -18,7 +18,11 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
 import ch.ethz.idsc.tensor.red.ArgMax;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
+import ch.ethz.idsc.tensor.sca.Ceiling;
+import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.sca.Round;
+import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
@@ -68,7 +72,7 @@ public class GaussScalarTest extends TestCase {
 
   public void testExtendedGcd() {
     Random random = new Random();
-    for (int c1 = 0; c1 < 1000; ++c1) {
+    for (int c1 = 0; c1 < 10; ++c1) {
       ExtendedGcd extendedGcd = new ExtendedGcd(random.nextInt(100000) - 50000, -7920);
       assertTrue(extendedGcd.isConsistent());
     }
@@ -124,19 +128,31 @@ public class GaussScalarTest extends TestCase {
   }
 
   public void testArgMax() {
-    Tensor v = Tensors.of(GaussScalar.of(1, 7), GaussScalar.of(4, 7), GaussScalar.of(2, 7), GaussScalar.of(0, 7));
-    int i = ArgMax.of(v);
+    Tensor vector = Tensors.of(GaussScalar.of(1, 7), GaussScalar.of(4, 7), GaussScalar.of(2, 7), GaussScalar.of(0, 7));
+    int i = ArgMax.of(vector);
     assertEquals(i, 1);
   }
 
   public void testPower() {
     int prime = 677;
-    final Scalar val = GaussScalar.of(432, prime);
+    Scalar scalar = GaussScalar.of(432, prime);
     Scalar now = GaussScalar.of(1, prime);
     for (int index = 0; index < prime; ++index) {
-      assertEquals(Power.of(val, index), now);
-      now = now.multiply(val);
+      assertEquals(Power.of(scalar, index), now);
+      now = now.multiply(scalar);
     }
+  }
+
+  public void testSign() {
+    assertEquals(Sign.FUNCTION.apply(GaussScalar.of(0, 677)), RealScalar.ZERO);
+    assertEquals(Sign.FUNCTION.apply(GaussScalar.of(-432, 677)), RealScalar.ONE);
+  }
+
+  public void testRounding() {
+    Scalar scalar = GaussScalar.of(-432, 677);
+    assertEquals(Round.of(scalar), scalar);
+    assertEquals(Ceiling.of(scalar), scalar);
+    assertEquals(Floor.of(scalar), scalar);
   }
 
   public void testSerializable() throws Exception {
@@ -164,11 +180,12 @@ public class GaussScalarTest extends TestCase {
   }
 
   public void testEqualsMisc() {
+    assertFalse(GaussScalar.of(3, 7).equals(null));
     assertFalse(GaussScalar.of(3, 7).equals("hello"));
   }
 
   public void testToString() {
     String string = GaussScalar.of(3, 7).toString();
-    assertEquals(string, "G:3'7");
+    assertEquals(string, "{\"value\": 3, \"prime\": 7}");
   }
 }

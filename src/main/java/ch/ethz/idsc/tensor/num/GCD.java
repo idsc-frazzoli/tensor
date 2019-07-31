@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.red;
+package ch.ethz.idsc.tensor.num;
 
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.Scalar;
