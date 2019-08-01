@@ -35,13 +35,13 @@ public enum Trace {
     if (d0 == d1)
       throw new IllegalArgumentException(d0 + "==" + d1);
     List<Integer> dimensions = Dimensions.of(tensor);
-    final int length = dimensions.get(d0);
-    if (length != dimensions.get(d1))
-      throw new IllegalArgumentException(length + "!=" + dimensions.get(d1));
-    List<Integer> index = IntStream.range(0, dimensions.size()) //
-        .map(i -> Tensor.ALL) //
-        .boxed().collect(Collectors.toList());
-    return IntStream.range(0, length).mapToObj(count -> {
+    int l0 = dimensions.get(d0);
+    int l1 = dimensions.get(d1);
+    if (l0 != l1)
+      throw new IllegalArgumentException(l0 + "!=" + l1);
+    List<Integer> index = IntStream.generate(() -> Tensor.ALL) //
+        .limit(Math.max(d0, d1) + 1).boxed().collect(Collectors.toList());
+    return IntStream.range(0, l0).mapToObj(count -> {
       index.set(d0, count);
       index.set(d1, count);
       return tensor.get(index);

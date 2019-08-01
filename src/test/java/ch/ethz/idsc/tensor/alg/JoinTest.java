@@ -49,7 +49,7 @@ public class JoinTest extends TestCase {
       Join.of(Tensors.vector(0, 1, 2), RealScalar.of(3));
       fail();
     } catch (Exception exception) {
-      assertEquals(exception.getMessage(), "{0, 1, 2}; 3");
+      // ---
     }
   }
 

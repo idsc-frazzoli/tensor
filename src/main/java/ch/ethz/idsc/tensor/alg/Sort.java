@@ -10,15 +10,16 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum Sort {
   ;
   /** @param tensor
-   * @return tensor with entries sorted according to canonic ordering */
+   * @return tensor with entries sorted according to canonic ordering
+   * @see Ordering */
   public static Tensor of(Tensor tensor) {
-    return Tensor.of(tensor.stream().sorted());
+    return Tensor.of(tensor.stream().sorted().map(Tensor::copy));
   }
 
   /** @param tensor
    * @param comparator
    * @return tensor with entries sorted according to given comparator */
   public static Tensor of(Tensor tensor, Comparator<? super Tensor> comparator) {
-    return Tensor.of(tensor.stream().sorted(comparator));
+    return Tensor.of(tensor.stream().sorted(comparator).map(Tensor::copy));
   }
 }

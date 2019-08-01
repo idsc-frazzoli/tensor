@@ -42,9 +42,9 @@ public enum MatrixRank {
   /** @param matrix with numeric precision entries
    * @return rank of matrix */
   public static int usingSvd(Tensor matrix) {
-    int n = matrix.length();
-    int m = Unprotect.dimension1(matrix);
-    return of(SingularValueDecomposition.of(m <= n ? matrix : Transpose.of(matrix)));
+    return of(SingularValueDecomposition.of(Unprotect.dimension1(matrix) <= matrix.length() //
+        ? matrix
+        : Transpose.of(matrix)));
   }
 
   /** @param svd
@@ -52,7 +52,10 @@ public enum MatrixRank {
    * @return rank of matrix decomposed in svd */
   public static int of(SingularValueDecomposition svd, Chop chop) {
     return Math.toIntExact(svd.values().stream() //
-        .map(Scalar.class::cast).map(chop).filter(Scalars::nonZero).count());
+        .map(Scalar.class::cast) //
+        .map(chop) //
+        .filter(Scalars::nonZero) //
+        .count());
   }
 
   /** @param svd

@@ -4,9 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** Join has the functionality of joining tensors along a given dimension.
  * 
@@ -43,22 +41,21 @@ public enum Join {
    * 
    * @param tensors
    * @return joins elements of all tensors along their first dimension
-   * @throws Exception if any of the given tensors is a Scalar */
+   * @throws Exception if any of the given tensors is a scalar */
   public static Tensor of(Tensor... tensors) {
     return of(0, Arrays.asList(tensors));
   }
 
   /** @param level
    * @param list
-   * @return joins tensors in the list along dimension level */
+   * @return joins tensors in the list along dimension level
+   * @throws Exception if any tensor in the list is a scalar */
   public static Tensor of(int level, List<Tensor> list) {
     return MapThread.of(Join::flatten, list, level);
   }
 
   // helper function called in base case of more general function of(...)
   private static Tensor flatten(List<Tensor> list) {
-    if (list.stream().anyMatch(ScalarQ::of))
-      throw TensorRuntimeException.of(list.toArray(new Tensor[list.size()]));
     return Tensor.of(list.stream() //
         .flatMap(tensor -> tensor.stream()) //
         .map(Tensor::copy));

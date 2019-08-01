@@ -62,6 +62,14 @@ public class SortTest extends TestCase {
     }
   }
 
+  public void testReference() {
+    Tensor tensor = Tensors.fromString("{{1, 2, 3}}");
+    Tensor sorted = Sort.of(tensor);
+    assertEquals(tensor, sorted);
+    tensor.set(RealScalar.ONE::add, Tensor.ALL, Tensor.ALL);
+    assertFalse(tensor.equals(sorted));
+  }
+
   public void testFail() {
     try {
       Sort.of(RealScalar.of(3.12));

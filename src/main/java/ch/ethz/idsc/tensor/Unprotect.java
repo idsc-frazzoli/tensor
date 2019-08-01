@@ -21,7 +21,7 @@ public enum Unprotect {
    * @return empty tensor that allows the initialCapacity-fold invocation of
    * {@link Tensor#append(Tensor)} before allocating more memory
    * @throws Exception if initialCapacity is negative */
-  // TODO JPH TENSOR 076 replaced by Tensors.allocate
+  // TODO JPH TENSOR 076 replaced by Tensors.reserve
   public static Tensor empty(int initialCapacity) {
     return new TensorImpl(new ArrayList<>(initialCapacity));
   }

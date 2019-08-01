@@ -35,8 +35,8 @@ public enum Spectrogram {
    * @return truncated and transposed {@link SpectrogramArray} for visualization
    * @throws Exception if input is not a vector */
   public static Tensor array(Tensor vector) {
-    Tensor tensor = SpectrogramArray.of(vector).map(Scalar::abs);
+    Tensor tensor = SpectrogramArray.of(vector);
     int half = Unprotect.dimension1(tensor) / 2;
-    return Tensors.vector(i -> tensor.get(Tensor.ALL, half - i - 1), half);
+    return Tensors.vector(i -> tensor.get(Tensor.ALL, half - i - 1).map(Scalar::abs), half);
   }
 }
