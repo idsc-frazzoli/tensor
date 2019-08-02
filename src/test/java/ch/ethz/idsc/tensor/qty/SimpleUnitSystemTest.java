@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.util.Map;
 import java.util.Properties;
 
 import ch.ethz.idsc.tensor.Scalar;
@@ -63,5 +64,28 @@ public class SimpleUnitSystemTest extends TestCase {
   public void testDerive() {
     UnitSystem unitSystem = SimpleUnitSystem.from(UnitSystem.SI().map());
     assertEquals(unitSystem.map(), UnitSystem.SI().map());
+  }
+
+  public void testEmpty() {
+    UnitSystem unitSystem = SimpleUnitSystem.from(new Properties());
+    assertTrue(unitSystem.map().isEmpty());
+  }
+
+  public void testFailNullProperties() {
+    try {
+      SimpleUnitSystem.from((Properties) null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailNullMap() {
+    try {
+      SimpleUnitSystem.from((Map<String, Scalar>) null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

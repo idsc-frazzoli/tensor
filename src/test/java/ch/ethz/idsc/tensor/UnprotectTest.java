@@ -65,12 +65,18 @@ public class UnprotectTest extends TestCase {
     Tensor byref = Unprotect.byRef(beg, null, beg);
     byref.get(0);
     byref.get(2);
-    // try {
-    //
-    // fail();
-    // } catch (Exception exception) {
-    // // ---
-    // }
+    try {
+      byref.get(1); // invokes copy() on the entry
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      byref.extract(0, 3); // invokes copy() on the entries
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testDimension1() {

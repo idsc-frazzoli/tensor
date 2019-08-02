@@ -50,4 +50,13 @@ public class ReadLineTest extends TestCase {
       // ---
     }
   }
+
+  public void testNullFail() {
+    try {
+      ReadLine.of(null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

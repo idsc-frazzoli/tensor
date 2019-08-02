@@ -10,8 +10,10 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.BinaryPower;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.mat.LinearSolve;
@@ -70,15 +72,7 @@ public class GaussScalarTest extends TestCase {
     assertEquals(m.dot(a), b);
   }
 
-  public void testExtendedGcd() {
-    Random random = new Random();
-    for (int c1 = 0; c1 < 10; ++c1) {
-      ExtendedGcd extendedGcd = new ExtendedGcd(random.nextInt(100000) - 50000, -7920);
-      assertTrue(extendedGcd.isConsistent());
-    }
-  }
-
-  public void testNegativePrime() { // this is a "feature"
+  public void testNegativePrime() {
     Scalar a = GaussScalar.of(2, 7);
     Scalar b = GaussScalar.of(3, 7);
     assertEquals(GaussScalar.of(-2, 7), a.add(b));
@@ -140,6 +134,30 @@ public class GaussScalarTest extends TestCase {
     for (int index = 0; index < prime; ++index) {
       assertEquals(Power.of(scalar, index), now);
       now = now.multiply(scalar);
+    }
+  }
+
+  public void testPower2() {
+    long prime = 59;
+    BinaryPower<GaussScalar> binaryPower = Scalars.binaryPower(GaussScalar.of(1, prime));
+    Random random = new Random();
+    for (int index = 0; index < prime; ++index) {
+      GaussScalar gaussScalar = GaussScalar.of(random.nextInt(), prime);
+      if (!gaussScalar.number().equals(BigInteger.ZERO))
+        for (int exponent = -10; exponent <= 10; ++exponent) {
+          Scalar p1 = Power.of(gaussScalar, exponent);
+          Scalar p2 = binaryPower.apply(gaussScalar, exponent);
+          assertEquals(p1, p2);
+        }
+    }
+  }
+
+  public void testPowerZero() {
+    long prime = 107;
+    Scalar scalar = GaussScalar.of(1, prime);
+    for (int index = 0; index < prime; ++index) {
+      GaussScalar gaussScalar = GaussScalar.of(index, prime);
+      assertEquals(Power.of(gaussScalar, 0), scalar);
     }
   }
 

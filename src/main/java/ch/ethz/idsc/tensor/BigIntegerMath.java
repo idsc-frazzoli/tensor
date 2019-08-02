@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import java.math.BigInteger;
+import java.util.Optional;
 
 /** implementation is standalone */
 /* package */ enum BigIntegerMath {
@@ -9,11 +10,11 @@ import java.math.BigInteger;
   /** @param value
    * @return exact root of value
    * @throws IllegalArgumentException if value is not a square number */
-  public static BigInteger sqrt(BigInteger value) {
+  public static Optional<BigInteger> sqrt(BigInteger value) {
     BigInteger root = sqrtApproximation(value);
     if (root.multiply(root).equals(value))
-      return root;
-    throw new IllegalArgumentException(value.toString()); // value is not square
+      return Optional.of(root);
+    return Optional.empty();
   }
 
   /** @param value

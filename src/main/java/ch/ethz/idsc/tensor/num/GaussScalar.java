@@ -9,7 +9,6 @@ import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
@@ -54,7 +53,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from Scalar
   public GaussScalar reciprocal() {
-    return in(value.modInverse(prime), prime);
+    return new GaussScalar(value.modInverse(prime), prime);
   }
 
   @Override // from Scalar
@@ -115,11 +114,9 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from PowerInterface
   public GaussScalar power(Scalar exponent) {
-    if (Scalars.isZero(exponent))
-      return in(BigInteger.ONE, prime);
     if (IntegerQ.of(exponent)) {
-      RationalScalar rationalScalar = (RationalScalar) exponent;
-      return Scalars.binaryPower(in(BigInteger.ONE, prime)).apply(this, rationalScalar.numerator());
+      RationalScalar exp = (RationalScalar) exponent;
+      return new GaussScalar(value.modPow(exp.numerator(), prime), prime);
     }
     throw TensorRuntimeException.of(this, exponent);
   }

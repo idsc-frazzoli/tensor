@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Objects;
+import java.util.Optional;
 
 import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
@@ -191,15 +192,14 @@ public final class RationalScalar extends AbstractRealScalar implements //
    * @return {@link RationalScalar} precision if numerator and denominator are both squares */
   @Override // from AbstractRealScalar
   public Scalar sqrt() {
-    try {
-      boolean isNonNegative = isNonNegative();
-      BigInteger sqrtnum = BigIntegerMath.sqrt(isNonNegative ? numerator() : numerator().negate());
-      BigInteger sqrtden = BigIntegerMath.sqrt(denominator());
-      return isNonNegative //
-          ? of(sqrtnum, sqrtden)
-          : ComplexScalarImpl.of(ZERO, of(sqrtnum, sqrtden));
-    } catch (Exception exception) {
-      // ---
+    boolean isNonNegative = isNonNegative();
+    Optional<BigInteger> sqrtnum = BigIntegerMath.sqrt(isNonNegative ? numerator() : numerator().negate());
+    if (sqrtnum.isPresent()) {
+      Optional<BigInteger> sqrtden = BigIntegerMath.sqrt(denominator());
+      if (sqrtden.isPresent()) {
+        Scalar sqrt = of(sqrtnum.get(), sqrtden.get());
+        return isNonNegative ? sqrt : ComplexScalarImpl.of(ZERO, sqrt);
+      }
     }
     return super.sqrt();
   }

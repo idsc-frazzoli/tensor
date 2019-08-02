@@ -3,23 +3,37 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Comparator;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** inspired by
+/** <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Sort.html">Sort</a> */
 public enum Sort {
   ;
-  /** @param tensor
-   * @return tensor with entries sorted according to canonic ordering
+  /** @param vector
+   * @return vector with entries sorted according to canonic ordering
    * @see Ordering */
-  public static Tensor of(Tensor tensor) {
-    return Tensor.of(tensor.stream().sorted().map(Tensor::copy));
+  public static Tensor of(Tensor vector) {
+    if (vector.length() == 1)
+      return vector.copy();
+    return Tensor.of(vector.stream().sorted());
   }
 
-  /** @param tensor
+  /** @param vector
    * @param comparator
    * @return tensor with entries sorted according to given comparator */
-  public static Tensor of(Tensor tensor, Comparator<? super Tensor> comparator) {
+  @SuppressWarnings("unchecked")
+  public static <T extends Scalar> Tensor of(Tensor vector, Comparator<T> comparator) {
+    return Tensor.of(vector.stream().map(scalar -> (T) scalar).sorted(comparator));
+  }
+
+  /** Hint: the comparator is not allowed to alter the content of the parameters,
+   * otherwise the behavior is undefined.
+   * 
+   * @param tensor
+   * @param comparator
+   * @return tensor with entries sorted according to given comparator */
+  public static Tensor ofTensor(Tensor tensor, Comparator<Tensor> comparator) {
     return Tensor.of(tensor.stream().sorted(comparator).map(Tensor::copy));
   }
 }

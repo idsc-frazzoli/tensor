@@ -22,6 +22,20 @@ public class UnprotectInsertTest extends TestCase {
     assertEquals(tensor, Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}, {{{9}}}}"));
   }
 
+  public void testUnmodifiableFail() {
+    Tensor vector = Tensors.vector(1, 2, 3, 4);
+    assertEquals(vector.length(), 4);
+    Unprotect.insert(vector, RealScalar.ZERO, 2);
+    try {
+      Unprotect.insert(vector.unmodifiable(), RealScalar.ZERO, 2);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    assertEquals(vector.length(), 5);
+    assertEquals(vector, Tensors.vector(1, 2, 0, 3, 4));
+  }
+
   public void testFailSmall() {
     Unprotect.insert(Tensors.vector(1, 2, 3), RealScalar.ZERO, 0);
     try {

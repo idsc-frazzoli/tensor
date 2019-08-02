@@ -14,6 +14,13 @@ public enum ReadLine {
    * the given {@link InputStream} is not necessarily closed. Therefore, use
    * try-with-resources statement on input stream.
    * 
+   * Example:
+   * <pre>
+   * try (InputStream inputStream = new FileInputStream(file)) {
+   * . ReadLine.of(inputStream).map(...).forEach(...)
+   * }
+   * </pre>
+   * 
    * @param inputStream
    * @return lines in given inputStream as stream of strings */
   public static Stream<String> of(InputStream inputStream) {
