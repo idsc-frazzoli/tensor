@@ -246,6 +246,14 @@ Indices for the `set` and `get` functions start from zero like in C/Java:
 
 Image functions: `ArrayPlot`, `Spectrogram`
 
+    Tensor data = Cos.of(Subdivide.of(0, 100, 2000).map(Series.of(Tensors.vector(0, 5, 1))));
+    Tensor image = Spectrogram.of(data, ColorDataGradients.VISIBLESPECTRUM);
+    Export.of(HomeDirectory.file("spectrogram.png"), ImageResize.nearest(image, 4));
+
+gives the image
+
+![spectrogram](https://user-images.githubusercontent.com/4012178/62372991-1d3fe200-b539-11e9-8d3c-490ddb835ab0.png)
+
 Predefined color gradients
 
 ![colordatagradients](https://user-images.githubusercontent.com/4012178/42363743-fb28d35e-80f8-11e8-9b34-41652073304d.png)
