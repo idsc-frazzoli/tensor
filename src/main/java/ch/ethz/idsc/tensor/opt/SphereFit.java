@@ -38,15 +38,16 @@ public class SphereFit implements Serializable {
         ? LinearSolve.of(A, b)
         : PseudoInverse.of(svd).dot(b);
     Tensor center = x.extract(0, cols - 1);
-    return Optional.of(new SphereFit(center, //
-        Sqrt.of(x.Get(cols - 1).add(Norm2Squared.ofVector(center)))));
+    return Optional.of(new SphereFit( //
+        center, //
+        Sqrt.FUNCTION.apply(x.Get(cols - 1).add(Norm2Squared.ofVector(center)))));
   }
 
   // ---
   private final Tensor center;
   private final Scalar radius;
 
-  public SphereFit(Tensor center, Scalar radius) {
+  private SphereFit(Tensor center, Scalar radius) {
     this.center = center;
     this.radius = radius;
   }
@@ -59,5 +60,10 @@ public class SphereFit implements Serializable {
   /** @return radius of fitted sphere */
   public Scalar radius() {
     return radius;
+  }
+
+  @Override // from Object
+  public String toString() {
+    return "{\"center\": " + center() + ", \"radius\": " + radius() + "}";
   }
 }

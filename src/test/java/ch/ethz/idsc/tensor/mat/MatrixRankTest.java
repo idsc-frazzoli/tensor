@@ -36,23 +36,23 @@ public class MatrixRankTest extends TestCase {
   }
 
   public void testNumeric3() {
-    Tensor m = Tensors.fromString("{{0, 1.0, 0}, {0, 1, 1/1000000000000000000000000000000000000}}");
-    assertEquals(MatrixRank.usingRowReduce(m), 2);
-    assertEquals(MatrixRank.usingSvd(m), 1);
-    assertEquals(MatrixRank.of(m), 1); // <- numeric
+    Tensor matrix = Tensors.fromString("{{0, 1.0, 0}, {0, 1, 1/1000000000000000000000000000000000000}}");
+    assertEquals(MatrixRank.usingRowReduce(matrix), 2);
+    assertEquals(MatrixRank.usingSvd(matrix), 1);
+    assertEquals(MatrixRank.of(matrix), 1); // <- numeric
   }
 
   public void testExact() {
-    Tensor m = Tensors.fromString("{{0, 1, 0}, {0, 1, 1/1000000000000000000000000000000000000}}");
-    assertEquals(MatrixRank.usingRowReduce(m), 2);
-    assertEquals(MatrixRank.usingSvd(m), 1); // <- numeric
-    assertEquals(MatrixRank.of(m), 2); // <- exact
+    Tensor matrix = Tensors.fromString("{{0, 1, 0}, {0, 1, 1/1000000000000000000000000000000000000}}");
+    assertEquals(MatrixRank.usingRowReduce(matrix), 2);
+    assertEquals(MatrixRank.usingSvd(matrix), 1); // <- numeric
+    assertEquals(MatrixRank.of(matrix), 2); // <- exact
   }
 
   public void testZeros() {
-    Tensor m = Array.zeros(9, 5);
-    SingularValueDecomposition svd = SingularValueDecomposition.of(m);
-    int rank = MatrixRank.of(svd);
+    Tensor matrix = Array.zeros(9, 5);
+    SingularValueDecomposition singularValueDecomposition = SingularValueDecomposition.of(matrix);
+    int rank = MatrixRank.of(singularValueDecomposition);
     assertEquals(rank, 0);
   }
 }

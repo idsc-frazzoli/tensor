@@ -1,11 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/KnownUnitQ.html">KnownUnitQ</a> */
-public class KnownUnitQ {
+public class KnownUnitQ implements Serializable {
   public static KnownUnitQ SI() {
     return BuiltIn.SI.knownUnitQ;
   }

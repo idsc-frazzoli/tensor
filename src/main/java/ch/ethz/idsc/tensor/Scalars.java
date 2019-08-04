@@ -6,8 +6,8 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.alg.BinaryPower;
 import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.num.Divisible;
 import ch.ethz.idsc.tensor.num.GaussScalar;
-import ch.ethz.idsc.tensor.red.Divisible;
 
 /** collection of useful static functions related to {@link Scalar} */
 public enum Scalars {

@@ -38,7 +38,6 @@ public class HypotTest extends TestCase {
     checkPair(0, 1e-300);
     checkPair(0, 0);
     checkPair(1, 1);
-    // System.out.println(1/Math.nextDown(0.0));
     checkPair(Math.nextDown(0.0), 0);
     checkPair(Math.nextDown(0.f), 0);
     checkPair(Math.nextUp(0.0), 0);

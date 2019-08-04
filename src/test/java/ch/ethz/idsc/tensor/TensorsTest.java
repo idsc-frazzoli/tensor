@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -15,9 +16,30 @@ import junit.framework.TestCase;
 
 public class TensorsTest extends TestCase {
   public void testEmpty() {
-    assertEquals(Tensors.empty(), Tensors.empty());
-    assertEquals(Tensors.empty(), Tensors.vector());
-    assertEquals(Tensors.empty(), Tensors.of());
+    Tensor tensor = Tensors.empty();
+    assertEquals(tensor, Tensors.empty());
+    assertEquals(tensor, Tensors.vector());
+    assertEquals(tensor, Tensors.of());
+  }
+
+  public void testReserve() {
+    Tensor tensor = Tensors.reserve(100);
+    assertEquals(tensor, Tensors.empty());
+    assertEquals(tensor, Tensors.unmodifiableEmpty());
+    assertFalse(Tensors.isUnmodifiable(tensor));
+    List<Tensor> list = Unprotect.list(tensor);
+    list.add(RealScalar.ONE);
+    assertEquals(tensor.length(), 1);
+  }
+
+  public void testReserveFail() {
+    Tensors.reserve(0);
+    try {
+      Tensors.reserve(-1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testNorm() {

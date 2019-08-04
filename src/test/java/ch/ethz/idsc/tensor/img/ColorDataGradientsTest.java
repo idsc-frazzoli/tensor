@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
@@ -12,7 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.io.ResourceData;
-import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Increment;
@@ -20,9 +21,9 @@ import junit.framework.TestCase;
 
 public class ColorDataGradientsTest extends TestCase {
   public void testDimensions() {
-    for (ScalarTensorFunction cdf : ColorDataGradients.values()) {
-      assertEquals(Dimensions.of(cdf.apply(RealScalar.ZERO)), Arrays.asList(4));
-      assertEquals(Dimensions.of(cdf.apply(RealScalar.ONE)), Arrays.asList(4));
+    for (ColorDataGradient colorDataGradient : ColorDataGradients.values()) {
+      assertEquals(Dimensions.of(colorDataGradient.apply(RealScalar.ZERO)), Arrays.asList(4));
+      assertEquals(Dimensions.of(colorDataGradient.apply(RealScalar.ONE)), Arrays.asList(4));
     }
   }
 
@@ -41,14 +42,19 @@ public class ColorDataGradientsTest extends TestCase {
     assertTrue(Chop.NONE.allZero(ColorDataGradients.CLASSIC.apply(nan)));
   }
 
-  public void testDeriveWithAlpha() {
-    ColorDataGradient cdg1 = ColorDataGradients.CLASSIC.deriveWithFactor(RealScalar.ONE);
-    ColorDataGradient cdg2 = ColorDataGradients.CLASSIC.deriveWithFactor(RationalScalar.HALF);
-    Tensor rgba1 = cdg1.apply(RealScalar.of(.5));
-    Tensor rgba2 = cdg2.apply(RealScalar.of(.5));
+  public void testDeriveWithOpacity() {
+    ColorDataGradient colorDataGradient1 = ColorDataGradients.CLASSIC.deriveWithOpacity(RealScalar.ONE);
+    ColorDataGradient colorDataGradient2 = ColorDataGradients.CLASSIC.deriveWithOpacity(RationalScalar.HALF);
+    Tensor rgba1 = colorDataGradient1.apply(RealScalar.of(.5));
+    Tensor rgba2 = colorDataGradient2.apply(RealScalar.of(.5));
     assertEquals(rgba1, Tensors.vector(47.5, 195, 33.5, 255));
     assertEquals(rgba1.get(3), RealScalar.of(255));
     assertEquals(rgba2.get(3), RealScalar.of(127.5));
+  }
+
+  public void testDeriveWithOpacityAll() throws ClassNotFoundException, IOException {
+    for (ColorDataGradient colorDataGradient : ColorDataGradients.values())
+      Serialization.copy(colorDataGradient.deriveWithOpacity(RealScalar.of(0.2)));
   }
 
   public void testStrict() {
@@ -59,28 +65,28 @@ public class ColorDataGradientsTest extends TestCase {
   }
 
   public void testFail() {
-    for (ScalarTensorFunction cdf : ColorDataGradients.values()) {
-      ColorDataGradients cdg = (ColorDataGradients) cdf;
-      cdf.apply(RealScalar.of(0.5));
-      cdf.apply(RealScalar.of(0.99));
-      if (cdg.equals(ColorDataGradients.HUE)) {
+    for (ColorDataGradient colorDataGradient : ColorDataGradients.values()) {
+      // ColorDataGradients cdg = (ColorDataGradients) colorDataGradient;
+      colorDataGradient.apply(RealScalar.of(0.5));
+      colorDataGradient.apply(RealScalar.of(0.99));
+      if (colorDataGradient.equals(ColorDataGradients.HUE)) {
         // hue is implemented periodically [0, 1) == [1, 2) == ...
       } else {
         try {
-          cdf.apply(RealScalar.of(-0.1));
+          colorDataGradient.apply(RealScalar.of(-0.1));
           fail();
         } catch (Exception exception) {
           // ---
         }
         try {
-          cdf.apply(RealScalar.of(1.1));
+          colorDataGradient.apply(RealScalar.of(1.1));
           fail();
         } catch (Exception exception) {
           // ---
         }
       }
       try {
-        cdf.apply(ComplexScalar.of(0.5, 0.5));
+        colorDataGradient.apply(ComplexScalar.of(0.5, 0.5));
         fail();
       } catch (Exception exception) {
         // ---

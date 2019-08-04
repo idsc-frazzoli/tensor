@@ -38,9 +38,8 @@ public class ConvexHullTest extends TestCase {
         Tensors.vector(-1.3, 2.5), //
         Tensors.vector(1, 10) //
     );
-    Tensor hul = ConvexHull.of(v);
-    // System.out.println(hul);
-    assertEquals(hul, v);
+    Tensor hull = ConvexHull.of(v);
+    assertEquals(hull, v);
   }
 
   public void testExample() {
@@ -72,8 +71,8 @@ public class ConvexHullTest extends TestCase {
     Tensor ve1 = Tensors.of(qs1, qs2);
     Tensor ve2 = Tensors.of(qs3, qs4);
     Tensor mat = Tensors.of(ve2, ve1);
-    Tensor hul = ConvexHull.of(mat);
-    assertEquals(hul, mat);
+    Tensor hull = ConvexHull.of(mat);
+    assertEquals(hull, mat);
   }
 
   public void testChallenge() {

@@ -60,7 +60,7 @@ public class SincTest extends TestCase {
     Scalar res1 = Sinc.of(Sinc.THRESHOLD);
     double val1 = Sinc.THRESHOLD.number().doubleValue();
     double val0 = val1;
-    for (int c = 0; c < 100; ++c)
+    for (int count = 0; count < 100; ++count)
       val0 = Math.nextDown(val0);
     Scalar res0 = Sinc.of(DoubleScalar.of(val0));
     assertEquals(res1, res0);

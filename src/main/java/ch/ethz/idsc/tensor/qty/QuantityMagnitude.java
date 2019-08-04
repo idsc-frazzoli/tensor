@@ -52,7 +52,7 @@ public class QuantityMagnitude {
    * @param unit
    * @return operator that maps a quantity to the equivalent scalar of given unit */
   public ScalarUnaryOperator in(Unit unit) {
-    final Scalar base = unitSystem.apply(QuantityImpl.of(RealScalar.ONE, unit));
+    Scalar base = unitSystem.apply(QuantityImpl.of(RealScalar.ONE, unit));
     return new ScalarUnaryOperator() {
       @Override
       public Scalar apply(Scalar scalar) {

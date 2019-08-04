@@ -6,7 +6,6 @@ import java.util.Objects;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.ResourceData;
-import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 
 /** the functions provided in the list below can be used in {@link ArrayPlot}.
  * 
@@ -25,7 +24,7 @@ public enum ColorDataGradients implements ColorDataGradient {
   /** classic is default */
   CLASSIC, //
   /** hue is backed by {@link Hue#of(double, double, double, double)} */
-  HUE(HueColorData.FUNCTION), // <- cyclic
+  HUE(HueColorData.DEFAULT), // <- cyclic
   /** hsluv is hue with brightness equalized, see hsluv.org */
   HSLUV, // <- cyclic
   SUNSET, //
@@ -50,7 +49,7 @@ public enum ColorDataGradients implements ColorDataGradient {
   /** mathematica default */
   DENSITY, //
   SOLAR, //
-  GRAYSCALE(GrayscaleColorData.FUNCTION), //
+  GRAYSCALE(GrayscaleColorData.DEFAULT), //
   BONE, //
   COPPER, //
   AVOCADO, //
@@ -66,16 +65,16 @@ public enum ColorDataGradients implements ColorDataGradient {
   AURORA, //
   ;
   // ---
-  private final ScalarTensorFunction scalarTensorFunction;
+  private final ColorDataGradient colorDataGradient;
 
-  private ColorDataGradients(ScalarTensorFunction scalarTensorFunction) {
-    this.scalarTensorFunction = scalarTensorFunction;
+  private ColorDataGradients(ColorDataGradient colorDataGradient) {
+    this.colorDataGradient = colorDataGradient;
   }
 
   private ColorDataGradients() {
     Tensor tensor = ResourceData.of("/colorscheme/" + name().toLowerCase() + ".csv");
     boolean success = Objects.nonNull(tensor);
-    scalarTensorFunction = success //
+    colorDataGradient = success //
         ? new LinearColorDataGradient(tensor)
         : FallbackColorDataGradient.INSTANCE;
     if (!success)
@@ -84,15 +83,11 @@ public enum ColorDataGradients implements ColorDataGradient {
 
   @Override // from ColorDataGradient
   public Tensor apply(Scalar scalar) {
-    return scalarTensorFunction.apply(scalar);
+    return colorDataGradient.apply(scalar);
   }
 
   @Override // from ColorDataGradient
-  public ColorDataGradient deriveWithFactor(Scalar alpha) {
-    if (scalarTensorFunction instanceof ColorDataGradient) {
-      ColorDataGradient colorDataGradient = (ColorDataGradient) scalarTensorFunction;
-      return colorDataGradient.deriveWithFactor(alpha);
-    }
-    throw new RuntimeException();
+  public ColorDataGradient deriveWithOpacity(Scalar opacity) {
+    return colorDataGradient.deriveWithOpacity(opacity);
   }
 }

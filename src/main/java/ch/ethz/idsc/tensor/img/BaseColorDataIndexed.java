@@ -34,6 +34,8 @@ import ch.ethz.idsc.tensor.Tensor;
    * @return */
   protected abstract int toInt(Scalar scalar);
 
+  /** @param alpha in the range [0, 1, ..., 255]
+   * @return */
   protected final Tensor tableWithAlpha(int alpha) {
     return StaticHelper.withAlpha(tensor, alpha);
   }

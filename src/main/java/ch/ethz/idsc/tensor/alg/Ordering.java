@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.mat.Eigensystem;
@@ -34,8 +35,10 @@ public enum Ordering {
   }
 
   /** @param vector
-   * @return array of indices i[:] so that vector[i[0]], vector[i[1]], ... is ordered */
+   * @return array of indices i[:] so that vector[i[0]], vector[i[1]], ... is ordered
+   * @throws Exception if given vector cannot be sorted */
   public int[] of(Tensor vector) {
+    ScalarQ.thenThrow(vector);
     return orderingInterface.stream(vector).mapToInt(Integer::intValue).toArray();
   }
 }

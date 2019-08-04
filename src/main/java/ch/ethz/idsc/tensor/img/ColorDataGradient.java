@@ -17,9 +17,9 @@ import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a> */
 public interface ColorDataGradient extends ScalarTensorFunction {
-  /** @param factor in the interval [0, 1]
+  /** @param opacity in the interval [0, 1]
    * @return new instance of ColorDataIndexed with identical RGB color values
    * but with transparency as given alpha
    * @throws Exception if alpha is not in the valid range */
-  ColorDataGradient deriveWithFactor(Scalar factor);
+  ColorDataGradient deriveWithOpacity(Scalar opacity);
 }

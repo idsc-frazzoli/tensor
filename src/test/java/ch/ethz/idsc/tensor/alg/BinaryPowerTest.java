@@ -6,21 +6,21 @@ import junit.framework.TestCase;
 public class BinaryPowerTest extends TestCase {
   public void testInteger() {
     BinaryPower<Integer> binaryPower = new BinaryPower<Integer>() {
-      @Override
+      @Override // from BinaryPower
       public Integer zeroth() {
         return 1;
       }
 
-      @Override
+      @Override // from BinaryPower
       public Integer invert(Integer integer) {
         if (integer.equals(1))
           return integer;
         throw new RuntimeException();
       }
 
-      @Override
+      @Override // from BinaryPower
       public Integer multiply(Integer int1, Integer int2) {
-        return int1 * int2;
+        return Math.multiplyExact(int1, int2);
       }
     };
     assertEquals(binaryPower.apply(5, 0), (Integer) 1);

@@ -34,7 +34,7 @@ public enum Differences {
     List<Tensor> list = new ArrayList<>(length - 1);
     Iterator<Tensor> iterator = tensor.iterator();
     Tensor prev = iterator.next();
-    for (int index = 1; index < length; ++index) {
+    while (iterator.hasNext()) {
       Tensor next = iterator.next();
       list.add(next.subtract(prev));
       prev = next;

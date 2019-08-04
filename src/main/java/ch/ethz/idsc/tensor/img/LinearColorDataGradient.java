@@ -58,7 +58,7 @@ public class LinearColorDataGradient implements ColorDataGradient {
   }
 
   @Override // from ColorDataGradient
-  public LinearColorDataGradient deriveWithFactor(Scalar factor) {
-    return new LinearColorDataGradient(StaticHelper.withFactor(tensor, Clips.unit().requireInside(factor)));
+  public LinearColorDataGradient deriveWithOpacity(Scalar opacity) {
+    return new LinearColorDataGradient(StaticHelper.withOpacity(tensor, Clips.unit().requireInside(opacity)));
   }
 }

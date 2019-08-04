@@ -68,7 +68,7 @@ public enum Roots {
     Scalar p = coeffs.Get(1).divide(c).multiply(N1_2);
     Scalar p2 = p.multiply(p);
     Scalar q = coeffs.Get(0).divide(c);
-    Scalar discr = Sqrt.of(p2.subtract(q));
+    Scalar discr = Sqrt.FUNCTION.apply(p2.subtract(q));
     return Tensors.of(p.subtract(discr), p.add(discr));
   }
 }

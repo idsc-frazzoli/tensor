@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.num;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -9,6 +10,15 @@ import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
 public class GaussScalarFailTest extends TestCase {
+  public void testPrimeNegative() {
+    try {
+      GaussScalar.of(2, -7);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testPrime() {
     try {
       GaussScalar.of(2, 20001);
@@ -65,6 +75,12 @@ public class GaussScalarFailTest extends TestCase {
     Scalar scalar = GaussScalar.of(2, 7);
     try {
       Power.of(scalar, 2.3);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Power.of(scalar, RationalScalar.of(2, 3));
       fail();
     } catch (Exception exception) {
       // ---

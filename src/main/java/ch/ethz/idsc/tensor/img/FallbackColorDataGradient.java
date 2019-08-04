@@ -15,7 +15,7 @@ import ch.ethz.idsc.tensor.Tensor;
   }
 
   @Override // from ColorDataGradient
-  public ColorDataGradient deriveWithFactor(Scalar factor) {
+  public ColorDataGradient deriveWithOpacity(Scalar factor) {
     return this;
   }
 }

@@ -122,10 +122,10 @@ public class DecimalScalarTest extends TestCase {
 
   public void testPrecision() {
     for (int value = 0; value < 10000; value += 31) {
-      DecimalScalar ds = (DecimalScalar) DecimalScalar.of(Math.sqrt(value));
-      String string = ds.toString();
+      DecimalScalar decimalScalar = (DecimalScalar) DecimalScalar.of(Math.sqrt(value));
+      String string = decimalScalar.toString();
       Scalar dbl_s = Scalars.fromString(string);
-      assertEquals(ds, dbl_s);
+      assertEquals(decimalScalar, dbl_s);
     }
   }
 

@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.IOException;
+
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class KnownUnitQTest extends TestCase {
@@ -12,8 +15,8 @@ public class KnownUnitQTest extends TestCase {
     assertFalse(KnownUnitQ.SI().of(Unit.of("CHF*m")));
   }
 
-  public void testFail() {
-    KnownUnitQ knownUnitQ = KnownUnitQ.SI();
+  public void testFail() throws ClassNotFoundException, IOException {
+    KnownUnitQ knownUnitQ = Serialization.copy(KnownUnitQ.SI());
     try {
       knownUnitQ.of(null);
       fail();

@@ -109,17 +109,13 @@ public class RationalizeTest extends TestCase {
         .map(Math::round) //
         .collect(Collectors.toList());
     Tensor ratio = vector.map(Rationalize.withDenominatorLessEquals(RealScalar.ONE));
-    // System.out.println(Rationalize.of(RealScalar.of(-11.5), 1));
     assertEquals(ratio, Tensors.vector(round));
   }
 
   private static void denCheck(Scalar scalar, Scalar max) {
     Tensor re = Rationalize.withDenominatorLessEquals(max).apply(scalar);
-    RationalScalar rs = (RationalScalar) re;
-    // System.out.println("---");
-    // System.out.println(rs.denominator().longValue());
-    // System.out.println(max);
-    assertTrue(Scalars.lessEquals(RealScalar.of(rs.denominator()), max));
+    RationalScalar rationalScalar = (RationalScalar) re;
+    assertTrue(Scalars.lessEquals(RealScalar.of(rationalScalar.denominator()), max));
   }
 
   public void testDenominator() {

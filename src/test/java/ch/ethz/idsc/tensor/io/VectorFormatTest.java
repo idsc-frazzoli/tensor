@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.stream.Stream;
 
+import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -42,6 +43,13 @@ public class VectorFormatTest extends TestCase {
     assertEquals(tensor.Get(0).toString(), "ethz");
     assertEquals(tensor.Get(1).toString(), "idsc");
     assertEquals(tensor.Get(2).toString(), "tensor library");
+  }
+
+  public void testPrimes() {
+    for (Tensor _x : ResourceData.of("/number/primes.vector")) {
+      RationalScalar x = (RationalScalar) _x;
+      assertTrue(x.numerator().isProbablePrime(100));
+    }
   }
 
   public void testScalarFail() {

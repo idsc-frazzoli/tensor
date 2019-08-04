@@ -30,10 +30,10 @@ public class HistogramDistributionTest extends TestCase {
     Clip c1 = Clips.interval(-4, 0);
     Clip c2 = Clips.interval(10, 12);
     Set<Scalar> set = new HashSet<>();
-    for (int c = 0; c < 100; ++c) {
-      Scalar x = RandomVariate.of(distribution);
-      assertTrue(c1.isInside(x) || c2.isInside(x));
-      set.add(x);
+    for (int count = 0; count < 100; ++count) {
+      Scalar scalar = RandomVariate.of(distribution);
+      assertTrue(c1.isInside(scalar) || c2.isInside(scalar));
+      set.add(scalar);
     }
     assertTrue(90 < set.size());
   }
@@ -75,10 +75,10 @@ public class HistogramDistributionTest extends TestCase {
     assertEquals(pdf.at(Quantity.of(4.15, "m")), RationalScalar.of(3, 7));
     Clip clip = Clips.interval(Quantity.of(0.7, "m"), Quantity.of(4.2, "m"));
     Set<Scalar> set = new HashSet<>();
-    for (int c = 0; c < 100; ++c) {
-      Scalar x = RandomVariate.of(distribution);
-      assertTrue(clip.isInside(x));
-      set.add(x);
+    for (int count = 0; count < 100; ++count) {
+      Scalar scalar = RandomVariate.of(distribution);
+      assertTrue(clip.isInside(scalar));
+      set.add(scalar);
     }
     assertTrue(90 < set.size());
   }

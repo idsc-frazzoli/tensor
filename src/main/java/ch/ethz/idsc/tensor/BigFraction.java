@@ -5,14 +5,19 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Objects;
 
-/** integer fraction in normal form non-degenerate, i.e. denominator != 0 immutable */
+/** immutable integer fraction in normal form, i.e. denominator is strictly positive */
 /* package */ final class BigFraction implements Serializable {
+  /** @param num numerator
+   * @param den denominator non-zero
+   * @return
+   * @throws {@link ArithmeticException} if den is zero */
   public static BigFraction of(long num, long den) {
     return of(BigInteger.valueOf(num), BigInteger.valueOf(den));
   }
 
-  /** @param num
-   * @param den has to be non-zero
+  /** @param num numerator
+   * @param den denominator non-zero
+   * @return
    * @throws {@link ArithmeticException} if den is zero */
   public static BigFraction of(BigInteger num, BigInteger den) {
     // LONGTERM "if" is obsolete in some function invocations

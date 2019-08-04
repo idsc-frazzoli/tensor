@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.usr;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
-import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.Parallelize;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -30,17 +29,12 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
   private final ScalarUnaryOperator scalarUnaryOperator;
 
   public NewtonDemo(Tensor coeffs) {
-    scalarUnaryOperator = NewtonScalarMethod.polynomial(coeffs);
+    scalarUnaryOperator = NewtonScalarMethod.polynomial(coeffs).iteration;
   }
 
   private Scalar function(int y, int x) {
     Scalar seed = ComplexScalar.of(RE.Get(x), IM.Get(y));
-    try {
-      return Arg.of(Nest.of(scalarUnaryOperator, N.DOUBLE.apply(seed), DEPTH));
-    } catch (Exception exception) {
-      System.out.println("fail=" + seed);
-    }
-    return DoubleScalar.INDETERMINATE;
+    return Arg.of(Nest.of(scalarUnaryOperator, N.DOUBLE.apply(seed), DEPTH));
   }
 
   static void _animation() throws Exception {
@@ -63,3 +57,6 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
     Export.of(HomeDirectory.Pictures(NewtonDemo.class.getSimpleName() + ".png"), image);
   }
 }
+// depth3
+// Series.of(Tensors.vector(1, 5, 0, 1)), //
+// Series.of(Tensors.vector(2, 1, 1))).iteration;

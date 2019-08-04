@@ -1,14 +1,18 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.Unprotect;
 
 /** Entrywise applies a BinaryOperator<Scalar> across multiple tensors.
  * The tensors are required to have the same dimensions/structure.
@@ -25,31 +29,32 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * Entrywise.with(Scalar::add).of(a, b, c) == a.add(b).add(c)
  * Entrywise.with(Scalar::multiply).of(a, b, c) == a.pmul(b).pmul(c)
  * </pre> */
-public class Entrywise implements BinaryOperator<Tensor> {
-  private static final Entrywise MAX = Entrywise.with(Max::of);
-  private static final Entrywise MIN = Entrywise.with(Min::of);
-
-  /** @param binaryOperator
-   * @return */
+public class Entrywise implements BinaryOperator<Tensor>, Serializable {
+  /** @param binaryOperator non-null
+   * @return
+   * @throws Exception if given binaryOperator is null */
   public static Entrywise with(BinaryOperator<Scalar> binaryOperator) {
-    return new Entrywise(binaryOperator);
+    return new Entrywise(Objects.requireNonNull(binaryOperator));
+  }
+
+  private static final Entrywise MIN = with(Min::of);
+  private static final Entrywise MAX = with(Max::of);
+
+  /** @return entrywise minimum operator */
+  public static Entrywise min() {
+    return MIN;
   }
 
   /** @return entrywise maximum operator */
   public static Entrywise max() {
     return MAX;
   }
-
-  /** @return entrywise minimum operator */
-  public static Entrywise min() {
-    return MIN;
-  }
   // ---
 
   private final BinaryOperator<Scalar> binaryOperator;
 
   private Entrywise(BinaryOperator<Scalar> binaryOperator) {
-    this.binaryOperator = Objects.requireNonNull(binaryOperator);
+    this.binaryOperator = binaryOperator;
   }
 
   @Override // from BinaryOperator
@@ -59,8 +64,12 @@ public class Entrywise implements BinaryOperator<Tensor> {
     // ---
     if (a.length() != b.length())
       throw TensorRuntimeException.of(a, b);
-    return Tensor.of(IntStream.range(0, a.length()) //
-        .mapToObj(index -> apply(a.get(index), b.get(index))));
+    Iterator<Tensor> ia = a.iterator();
+    Iterator<Tensor> ib = b.iterator();
+    List<Tensor> list = new ArrayList<>(a.length());
+    while (ia.hasNext())
+      list.add(apply(ia.next(), ib.next()));
+    return Unprotect.using(list);
   }
 
   /** Example:

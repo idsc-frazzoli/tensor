@@ -31,7 +31,6 @@ public class DetTest extends TestCase {
     Tensor m = Tensors.matrix(new Number[][] { {} });
     // this is consistent with Mathematica
     // Mathematica throws an exception
-    // System.out.println("here!");
     try {
       Det.of(m);
       fail();

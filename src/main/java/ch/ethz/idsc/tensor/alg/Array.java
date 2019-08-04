@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
 
 /** The implementation is consistent with Mathematica.
@@ -69,6 +70,18 @@ public enum Array {
     return zeros(Arrays.asList(dimensions));
   }
 
+  /** MATLAB::repmat
+   * 
+   * @param entry non-null
+   * @param dimensions
+   * @return unmodifiable tensor with given dimensions and entries as given entry */
+  public static Tensor repmat(Tensor entry, Integer... dimensions) {
+    Tensor tensor = entry.copy();
+    for (int index = dimensions.length - 1; 0 <= index; --index)
+      tensor = Unprotect.using(Collections.nCopies(dimensions[index], tensor));
+    return tensor.unmodifiable();
+  }
+
   // helper function
   private static Tensor of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions, List<Integer> index) {
     int level = index.size();
@@ -77,7 +90,7 @@ public enum Array {
     List<Integer> copy = new ArrayList<>(index);
     copy.add(-1);
     int length = dimensions.get(level);
-    Tensor tensor = Unprotect.empty(length);
+    Tensor tensor = Tensors.reserve(length);
     for (int count = 0; count < length; ++count) {
       copy.set(level, count);
       tensor.append(of(function, dimensions, copy));

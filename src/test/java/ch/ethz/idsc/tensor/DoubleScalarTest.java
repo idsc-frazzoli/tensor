@@ -139,8 +139,8 @@ public class DoubleScalarTest extends TestCase {
   }
 
   public void testValue() {
-    DoubleScalar ds = (DoubleScalar) DoubleScalar.of(3.14);
-    assertEquals(ds.number(), 3.14);
+    DoubleScalar doubleScalar = (DoubleScalar) DoubleScalar.of(3.14);
+    assertEquals(doubleScalar.number(), 3.14);
   }
 
   public void testEquals() {

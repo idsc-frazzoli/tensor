@@ -30,7 +30,7 @@ public class QuaternionToRotationMatrixTest extends TestCase {
 
   public void testRandom() {
     Distribution distribution = NormalDistribution.standard();
-    for (int index = 0; index < 100; ++index) {
+    for (int index = 0; index < 10; ++index) {
       Tensor wxyz = RandomVariate.of(distribution, 4);
       Tensor matrix = QuaternionToRotationMatrix.of(Quaternion.of(wxyz.Get(0), wxyz.extract(1, 4)));
       assertTrue(OrthogonalMatrixQ.of(matrix, Chop._12));
@@ -44,7 +44,7 @@ public class QuaternionToRotationMatrixTest extends TestCase {
 
   public void testQuaternionVector() {
     Random random = new Random();
-    for (int index = 0; index < 100; ++index) {
+    for (int index = 0; index < 10; ++index) {
       Quaternion quaternion = Quaternion.of(random.nextGaussian(), random.nextGaussian(), random.nextGaussian(), random.nextGaussian());
       quaternion = quaternion.divide(quaternion.abs()); // normalize
       Tensor vector = RandomVariate.of(NormalDistribution.standard(), 3);

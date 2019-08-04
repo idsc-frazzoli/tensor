@@ -33,7 +33,6 @@ import ch.ethz.idsc.tensor.num.GaussScalar;
     int n = 251;
     Tensor matrix = Tensors.matrix((i, j) -> //
     GaussScalar.of(i + 14 * j + i * i + i * j * 3, n), n, n);
-    // System.out.println(Pretty.of(Rescale.of(matrix)));
     UnaryOperator<Scalar> asd = s -> RealScalar.of(s.number());
     matrix.map(asd);
     Tensor image = ArrayPlot.of(matrix.map(asd), ColorDataGradients.AURORA);

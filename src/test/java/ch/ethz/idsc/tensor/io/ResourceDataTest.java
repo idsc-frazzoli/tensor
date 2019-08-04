@@ -43,9 +43,9 @@ public class ResourceDataTest extends TestCase {
 
   public void testPrimes() {
     Tensor primes = ResourceData.of("/number/primes.vector");
-    assertNotNull(primes);
     List<Integer> dimensions = Dimensions.of(primes);
     assertEquals(dimensions.size(), 1);
+    assertTrue(500 < dimensions.get(0));
     assertEquals(primes.Get(5), Scalars.fromString("13"));
   }
 

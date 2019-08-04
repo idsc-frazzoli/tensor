@@ -8,6 +8,8 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.pdf.BinomialDistribution;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
@@ -41,6 +43,15 @@ public class OrderingTest extends TestCase {
     assertEquals(ascending, Sort.of(vector));
   }
 
+  public void testNormalDecreasing() {
+    Distribution d = NormalDistribution.standard();
+    Tensor vector = RandomVariate.of(d, 1000);
+    int[] array = Ordering.DECREASING.of(vector);
+    Tensor decreasing = Tensor.of( //
+        IntStream.range(0, array.length).mapToObj(index -> vector.Get(array[index])));
+    assertEquals(Reverse.of(decreasing), Sort.of(vector));
+  }
+
   public void testEnum() {
     assertEquals(Ordering.valueOf("INCREASING"), Ordering.INCREASING);
     assertEquals(Ordering.valueOf("DECREASING"), Ordering.DECREASING);
@@ -50,5 +61,30 @@ public class OrderingTest extends TestCase {
     Ordering a = Ordering.DECREASING;
     Ordering b = Serialization.copy(a);
     assertEquals(a, b);
+  }
+
+  public void testSingleton() {
+    Tensor tensor = Tensors.fromString("{{1, 2, 3}}");
+    int[] array = Ordering.DECREASING.of(tensor);
+    assertEquals(array.length, 1);
+    assertEquals(array[0], 0);
+  }
+
+  public void testScalarFail() {
+    try {
+      Ordering.INCREASING.of(Pi.HALF);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMatrixFail() {
+    try {
+      Ordering.INCREASING.of(HilbertMatrix.of(4));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

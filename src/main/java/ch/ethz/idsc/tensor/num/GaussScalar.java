@@ -3,41 +3,38 @@ package ch.ethz.idsc.tensor.num;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
+import ch.ethz.idsc.tensor.sca.RoundingInterface;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
-/** over finite field with prime number of elements denoted by
+/** scalars from finite field with prime number of elements and values
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
-    Comparable<Scalar>, ExactScalarQInterface, PowerInterface, Serializable, SqrtInterface {
-  private static final Set<BigInteger> PROBABLE_PRIMES = new HashSet<>();
-
-  private static BigInteger assertIsProbablePrime(BigInteger prime) {
-    if (!PROBABLE_PRIMES.contains(prime)) {
-      if (!prime.isProbablePrime(20))
-        throw new IllegalArgumentException("not a prime number " + prime);
-      PROBABLE_PRIMES.add(prime);
-    }
-    return prime;
+    Comparable<Scalar>, ExactScalarQInterface, PowerInterface, RoundingInterface, //
+    Serializable, SignInterface, SqrtInterface {
+  /** @param value
+   * @param prime number
+   * @return value in finite field with prime number of elements
+   * @throws Exception if given prime is not a prime number */
+  public static GaussScalar of(BigInteger value, BigInteger prime) {
+    return in(value, StaticHelper.assertIsProbablePrime(prime));
   }
 
   /** @param value
-   * @param prime
-   * @return value in finite field with prime number of elements */
+   * @param prime number
+   * @return value in finite field with prime number of elements
+   * @throws Exception if given prime is not a prime number */
   public static GaussScalar of(long value, long prime) {
-    BigInteger _prime = BigInteger.valueOf(prime);
-    return in(BigInteger.valueOf(value), assertIsProbablePrime(_prime));
+    return of(BigInteger.valueOf(value), BigInteger.valueOf(prime));
   }
 
   // helper function
@@ -49,6 +46,8 @@ public class GaussScalar extends AbstractScalar implements //
   private final BigInteger value;
   private final BigInteger prime;
 
+  /** @param value non-negative
+   * @param prime */
   private GaussScalar(BigInteger value, BigInteger prime) {
     this.value = value;
     this.prime = prime;
@@ -62,7 +61,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from Scalar
   public GaussScalar reciprocal() {
-    return in(value.modInverse(prime), prime);
+    return new GaussScalar(value.modInverse(prime), prime);
   }
 
   @Override // from Scalar
@@ -123,13 +122,31 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from PowerInterface
   public GaussScalar power(Scalar exponent) {
-    if (Scalars.isZero(exponent))
-      return in(BigInteger.ONE, prime);
     if (IntegerQ.of(exponent)) {
-      RationalScalar rationalScalar = (RationalScalar) exponent;
-      return Scalars.binaryPower(in(BigInteger.ONE, prime)).apply(this, rationalScalar.numerator());
+      RationalScalar exp = (RationalScalar) exponent;
+      return new GaussScalar(value.modPow(exp.numerator(), prime), prime);
     }
     throw TensorRuntimeException.of(this, exponent);
+  }
+
+  @Override // from RoundingInterface
+  public Scalar ceiling() {
+    return this;
+  }
+
+  @Override // from RoundingInterface
+  public Scalar floor() {
+    return this;
+  }
+
+  @Override // from RoundingInterface
+  public Scalar round() {
+    return this;
+  }
+
+  @Override // from SignInterface
+  public int signInt() {
+    return value.signum();
   }
 
   @Override // from SqrtInterface
@@ -165,6 +182,6 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    return "G:" + value + "'" + prime;
+    return "{\"value\": " + value + ", \"prime\": " + prime + "}";
   }
 }

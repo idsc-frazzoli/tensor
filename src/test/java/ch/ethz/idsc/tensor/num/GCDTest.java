@@ -1,5 +1,5 @@
 // code by jph
-package ch.ethz.idsc.tensor.red;
+package ch.ethz.idsc.tensor.num;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
@@ -45,6 +45,5 @@ public class GCDTest extends TestCase {
     // GCD[9 + 3 I, 123 + 9 I]
     Scalar scalar = GCD.of(ComplexScalar.of(9, 3), ComplexScalar.of(123, 9));
     assertEquals(scalar, ComplexScalar.of(-3, 3));
-    // System.out.println(scalar);
   }
 }

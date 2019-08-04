@@ -103,4 +103,18 @@ public class UnmodifiableTensorTest extends TestCase {
       // ---
     }
   }
+
+  public void testIteratorRemove() {
+    Tensor tensor = IdentityMatrix.of(4).unmodifiable();
+    for (Iterator<Tensor> iterator = tensor.iterator(); iterator.hasNext();) {
+      iterator.next();
+      try {
+        iterator.remove();
+        fail();
+      } catch (Exception exception) {
+        // ---
+      }
+    }
+    assertEquals(tensor, IdentityMatrix.of(4));
+  }
 }

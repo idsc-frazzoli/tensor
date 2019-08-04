@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.Round;
 
-enum HistogramDistributionDemo {
+/* package */ enum HistogramDistributionDemo {
   ;
   public static void main(String[] args) {
     Distribution gndtruth = NormalDistribution.standard();

@@ -57,7 +57,7 @@ public enum BinningMethod implements TensorScalarFunction {
   SQRT() {
     @Override
     public Scalar apply(Tensor tensor) {
-      return division(tensor, Sqrt.of(RealScalar.of(tensor.length())));
+      return division(tensor, Sqrt.FUNCTION.apply(RealScalar.of(tensor.length())));
     }
   };
   // ---

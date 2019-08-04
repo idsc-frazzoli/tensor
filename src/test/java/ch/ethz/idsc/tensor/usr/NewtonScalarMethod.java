@@ -9,13 +9,15 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** https://en.wikipedia.org/wiki/Newton%27s_method */
 /* package */ class NewtonScalarMethod implements ScalarUnaryOperator {
-  public static ScalarUnaryOperator polynomial(Tensor coeffs) {
-    return new NewtonScalarMethod(Series.of(coeffs), Series.of(Multinomial.derivative(coeffs)));
+  public static NewtonScalarMethod polynomial(Tensor coeffs) {
+    return new NewtonScalarMethod( //
+        Series.of(coeffs), //
+        Series.of(Multinomial.derivative(coeffs)));
   }
 
   // ---
   private final ScalarUnaryOperator function;
-  private final ScalarUnaryOperator iteration;
+  public final ScalarUnaryOperator iteration;
 
   public NewtonScalarMethod(ScalarUnaryOperator function, ScalarUnaryOperator derivative) {
     this.function = function;

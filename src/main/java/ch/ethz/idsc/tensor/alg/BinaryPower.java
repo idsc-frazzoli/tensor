@@ -5,14 +5,13 @@ package ch.ethz.idsc.tensor.alg;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-import ch.ethz.idsc.tensor.mat.MatrixPower;
-import ch.ethz.idsc.tensor.num.GaussScalar;
-
 /** exponentiation with integer exponents
  * 
  * implementation uses exponentiation by squaring
  * 
- * interface used by {@link MatrixPower} and {@link GaussScalar} */
+ * interface used by MatrixPower, RationalScalar, ComplexScalar, and GaussScalar
+ * 
+ * @param <T> may also be Integer etc. */
 public abstract class BinaryPower<T> implements Serializable {
   /** @return value when exponent equals zero */
   protected abstract T zeroth();

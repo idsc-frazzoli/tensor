@@ -193,4 +193,14 @@ public class TensorPropertiesTest extends TestCase {
       // ---
     }
   }
+
+  public void testSerializationFail() {
+    TensorProperties tensorProperties = TensorProperties.wrap(new ParamContainer());
+    try {
+      Serialization.copy(tensorProperties);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
