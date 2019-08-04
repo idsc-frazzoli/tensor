@@ -10,6 +10,15 @@ import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
 public class GaussScalarFailTest extends TestCase {
+  public void testPrimeNegative() {
+    try {
+      GaussScalar.of(2, -7);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testPrime() {
     try {
       GaussScalar.of(2, 20001);

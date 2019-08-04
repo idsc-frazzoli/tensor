@@ -16,17 +16,25 @@ import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
-/** over finite field with prime number of elements denoted by
+/** scalars from finite field with prime number of elements and values
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
     Comparable<Scalar>, ExactScalarQInterface, PowerInterface, RoundingInterface, //
     Serializable, SignInterface, SqrtInterface {
   /** @param value
-   * @param prime
-   * @return value in finite field with prime number of elements */
+   * @param prime number
+   * @return value in finite field with prime number of elements
+   * @throws Exception if given prime is not a prime number */
+  public static GaussScalar of(BigInteger value, BigInteger prime) {
+    return in(value, StaticHelper.assertIsProbablePrime(prime));
+  }
+
+  /** @param value
+   * @param prime number
+   * @return value in finite field with prime number of elements
+   * @throws Exception if given prime is not a prime number */
   public static GaussScalar of(long value, long prime) {
-    BigInteger _prime = BigInteger.valueOf(prime);
-    return in(BigInteger.valueOf(value), StaticHelper.assertIsProbablePrime(_prime));
+    return of(BigInteger.valueOf(value), BigInteger.valueOf(prime));
   }
 
   // helper function

@@ -5,19 +5,18 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.N;
 
-/* package */ enum GrayscaleColorData implements ScalarTensorFunction {
-  FUNCTION;
+/* package */ class GrayscaleColorData implements ColorDataGradient {
+  public static final ColorDataGradient DEFAULT = new GrayscaleColorData(RealScalar.of(255));
   // ---
   private final Tensor[] tensors = new Tensor[256];
 
-  private GrayscaleColorData() {
-    Scalar TFF = RealScalar.of(255);
+  private GrayscaleColorData(Scalar alpha) {
     for (int index = 0; index < 256; ++index) {
       Scalar num = RealScalar.of(index);
-      tensors[index] = N.DOUBLE.of(Tensors.of(num, num, num, TFF));
+      tensors[index] = N.DOUBLE.of(Tensors.of(num, num, num, alpha));
     }
   }
 
@@ -27,5 +26,11 @@ import ch.ethz.idsc.tensor.sca.N;
     return Double.isFinite(value) //
         ? tensors[(int) (value * 255 + 0.5)]
         : StaticHelper.transparent();
+  }
+
+  @Override // from ColorDataGradient
+  public ColorDataGradient deriveWithOpacity(Scalar opacity) {
+    double value = Clips.unit().requireInside(opacity).number().doubleValue();
+    return new GrayscaleColorData(RealScalar.of((int) (value * 255 + 0.5)));
   }
 }

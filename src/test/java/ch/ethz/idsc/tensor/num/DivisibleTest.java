@@ -5,6 +5,7 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -13,6 +14,11 @@ public class DivisibleTest extends TestCase {
     assertTrue(Divisible.of(RealScalar.of(9), RealScalar.of(3)));
     assertTrue(Divisible.of(RationalScalar.of(18, 7), RationalScalar.of(3, 7)));
     assertFalse(Divisible.of(RationalScalar.of(8, 7), RationalScalar.of(3, 7)));
+  }
+
+  public void testNegative() {
+    assertTrue(Divisible.of(RealScalar.of(9), RealScalar.of(-3)));
+    assertTrue(Divisible.of(RealScalar.of(-3), RealScalar.of(-3)));
   }
 
   public void testComplex() {
@@ -70,6 +76,21 @@ public class DivisibleTest extends TestCase {
     }
     try {
       Divisible.of(Quantity.of(9, "m"), null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testZeroFail() {
+    try {
+      Divisible.of(RealScalar.ONE, RealScalar.ZERO);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Scalars.divides(RealScalar.ZERO, RealScalar.ONE);
       fail();
     } catch (Exception exception) {
       // ---

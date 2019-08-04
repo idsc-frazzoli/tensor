@@ -10,6 +10,6 @@ public class FallbackColorDataGradientTest extends TestCase {
   }
 
   public void testDerive() {
-    assertEquals(FallbackColorDataGradient.INSTANCE.deriveWithFactor(null), FallbackColorDataGradient.INSTANCE);
+    assertEquals(FallbackColorDataGradient.INSTANCE.deriveWithOpacity(null), FallbackColorDataGradient.INSTANCE);
   }
 }
