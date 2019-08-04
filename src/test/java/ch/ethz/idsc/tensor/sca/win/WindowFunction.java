@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
   Gaussian(GaussianWindow.FUNCTION), //
   Hamming(HammingWindow.FUNCTION), //
   Hann(HannWindow.FUNCTION), //
+  Lanczos(LanczosWindow.FUNCTION), //
   Nuttall(NuttallWindow.FUNCTION), //
   Parzen(ParzenWindow.FUNCTION), //
   Tukey(TukeyWindow.FUNCTION), //

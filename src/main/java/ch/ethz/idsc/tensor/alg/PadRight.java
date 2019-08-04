@@ -65,10 +65,10 @@ public class PadRight implements TensorUnaryOperator {
       copy.set(0, dim0 - length);
       return Join.of( //
           Tensor.of(tensor.stream().map(tensorUnaryOperator)), //
-          Array.of(index -> element, copy));
+          ConstantArray.of(element, copy));
     }
     return dim0 <= length //
         ? tensor.extract(0, dim0)
-        : Join.of(tensor, Array.of(index -> element, dim0 - length));
+        : Join.of(tensor, ConstantArray.of(element, dim0 - length));
   }
 }

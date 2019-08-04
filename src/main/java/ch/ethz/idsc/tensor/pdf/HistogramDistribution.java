@@ -63,7 +63,7 @@ public class HistogramDistribution implements //
   // ---
   private final ScalarUnaryOperator discrete;
   private final ScalarUnaryOperator original;
-  private final Distribution distribution;
+  private final EmpiricalDistribution empiricalDistribution;
   private final Scalar width;
   private final Scalar width_half;
 
@@ -71,27 +71,29 @@ public class HistogramDistribution implements //
     Scalar min = Floor.toMultipleOf(width).apply(samples.stream().reduce(Min::of).get().Get());
     discrete = scalar -> scalar.subtract(min).divide(width);
     original = scalar -> scalar.multiply(width).add(min);
-    distribution = EmpiricalDistribution.fromUnscaledPDF(BinCounts.of(samples.map(discrete)));
+    empiricalDistribution = //
+        (EmpiricalDistribution) EmpiricalDistribution.fromUnscaledPDF(BinCounts.of(samples.map(discrete)));
     this.width = width;
     width_half = width.multiply(RationalScalar.HALF);
   }
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    return PDF.of(distribution).at(Floor.FUNCTION.apply(discrete.apply(x)));
+    return empiricalDistribution.at(Floor.FUNCTION.apply(discrete.apply(x)));
   }
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return original.apply(Expectation.mean(distribution)).add(width_half);
+    return original.apply(empiricalDistribution.mean()).add(width_half);
   }
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     Scalar xlo = discrete.apply(Floor.toMultipleOf(width).apply(x));
     Scalar ofs = Clips.interval(xlo, Increment.ONE.apply(xlo)).rescale(discrete.apply(x));
-    CDF cdf = CDF.of(distribution);
-    return LinearInterpolation.of(Tensors.of(cdf.p_lessThan(xlo), cdf.p_lessEquals(xlo))).At(ofs);
+    return LinearInterpolation.of(Tensors.of( //
+        empiricalDistribution.p_lessThan(xlo), //
+        empiricalDistribution.p_lessEquals(xlo))).At(ofs);
   }
 
   @Override // from CDF
@@ -101,20 +103,20 @@ public class HistogramDistribution implements //
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    Scalar x_floor = InverseCDF.of(distribution).quantile(p);
-    CDF cdf = CDF.of(distribution);
-    return original.apply(x_floor.add( //
-        Clips.interval(cdf.p_lessThan(x_floor), cdf.p_lessEquals(x_floor)).rescale(p)));
+    Scalar x_floor = empiricalDistribution.quantile(p);
+    return original.apply(x_floor.add(Clips.interval( //
+        empiricalDistribution.p_lessThan(x_floor), //
+        empiricalDistribution.p_lessEquals(x_floor)).rescale(p)));
   }
 
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
-    return original.apply(RandomVariate.of(distribution, random) //
+    return original.apply(empiricalDistribution.randomVariate(random) //
         .add(RandomVariate.of(UniformDistribution.unit(), random)));
   }
 
   @Override // from VarianceInterface
   public Scalar variance() {
-    return Expectation.variance(distribution).add(RationalScalar.of(1, 12)).multiply(AbsSquared.of(width));
+    return Expectation.variance(empiricalDistribution).add(RationalScalar.of(1, 12)).multiply(AbsSquared.of(width));
   }
 }
