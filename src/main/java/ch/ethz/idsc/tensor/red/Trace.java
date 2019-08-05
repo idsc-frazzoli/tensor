@@ -39,8 +39,9 @@ public enum Trace {
     int l1 = dimensions.get(d1);
     if (l0 != l1)
       throw new IllegalArgumentException(l0 + "!=" + l1);
-    List<Integer> index = IntStream.generate(() -> Tensor.ALL) //
-        .limit(Math.max(d0, d1) + 1).boxed().collect(Collectors.toList());
+    List<Integer> index = IntStream.range(0, Math.max(d0, d1) + 1) //
+        .mapToObj(i -> Tensor.ALL) //
+        .collect(Collectors.toList());
     return IntStream.range(0, l0).mapToObj(count -> {
       index.set(d0, count);
       index.set(d1, count);

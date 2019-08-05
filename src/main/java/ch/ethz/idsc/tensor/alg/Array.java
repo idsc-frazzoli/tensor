@@ -6,12 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
 
 /** The implementation is consistent with Mathematica.
  * Special examples:
@@ -31,6 +30,7 @@ public enum Array {
    * @return tensor with given dimensions and entries as function(index)
    * @throws Exception if any dimension is negative */
   public static Tensor of(Function<List<Integer>, ? extends Tensor> function, List<Integer> dimensions) {
+    dimensions.forEach(StaticHelper::requirePositiveOrZero);
     return of(function, 0, dimensions, new ArrayList<>(dimensions));
   }
 
@@ -46,33 +46,36 @@ public enum Array {
   private static Tensor of(Function<List<Integer>, ? extends Tensor> function, int level, List<Integer> dimensions, List<Integer> index) {
     if (level == dimensions.size())
       return function.apply(index);
-    int length = dimensions.get(level);
-    Tensor tensor = Tensors.reserve(length);
-    for (int count = 0; count < length; ++count) {
-      index.set(level, count);
-      tensor.append(of(function, level + 1, dimensions, index));
-    }
-    return tensor;
+    return Tensor.of(IntStream.range(0, dimensions.get(level)) //
+        .mapToObj(count -> {
+          index.set(level, count);
+          return of(function, level + 1, dimensions, index);
+        }));
   }
 
   /***************************************************/
   public static Tensor fill(Supplier<? extends Tensor> supplier, List<Integer> dimensions) {
     if (dimensions.isEmpty())
       return supplier.get();
-    return _fill(supplier, dimensions);
+    dimensions.forEach(StaticHelper::requirePositiveOrZero);
+    return fill(supplier, 0, dimensions);
   }
 
   public static Tensor fill(Supplier<? extends Tensor> supplier, Integer... dimensions) {
-    return _fill(supplier, Arrays.asList(dimensions));
+    return fill(supplier, 0, Arrays.asList(dimensions));
   }
 
   // helper function
-  /* package */ static Tensor _fill(Supplier<? extends Tensor> supplier, List<Integer> dimensions) {
-    int length = StaticHelper.requirePositiveOrZero(dimensions.get(0));
-    if (dimensions.size() == 1)
-      return Tensor.of(Stream.generate(supplier).limit(length));
-    List<Integer> subList = dimensions.subList(1, dimensions.size());
-    return Tensor.of(Stream.generate(() -> _fill(supplier, subList)).limit(length));
+  private static Tensor fill(Supplier<? extends Tensor> supplier, int level, List<Integer> dimensions) {
+    // if (level == dimensions.size())
+    // return supplier.get();
+    // return Tensor.of(IntStream.range(0, dimensions.get(level)) //
+    // .mapToObj(i -> fill(supplier, level + 1, dimensions)));
+    int length = dimensions.get(level);
+    int next = level + 1;
+    if (dimensions.size() == next)
+      return Tensor.of(IntStream.range(0, length).mapToObj(i -> supplier.get()));
+    return Tensor.of(IntStream.range(0, length).mapToObj(i -> fill(supplier, next, dimensions)));
   }
 
   /***************************************************/
@@ -82,7 +85,8 @@ public enum Array {
   public static Tensor zeros(List<Integer> dimensions) {
     if (dimensions.isEmpty())
       return RealScalar.ZERO;
-    return _fill(() -> RealScalar.ZERO, dimensions);
+    dimensions.forEach(StaticHelper::requirePositiveOrZero);
+    return fill(() -> RealScalar.ZERO, 0, dimensions);
   }
 
   /** Careful:

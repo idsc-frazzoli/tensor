@@ -5,10 +5,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
-import ch.ethz.idsc.tensor.lie.Rodrigues;
-import ch.ethz.idsc.tensor.pdf.Distribution;
-import ch.ethz.idsc.tensor.pdf.NormalDistribution;
-import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
 
 public class UnitaryMatrixQTest extends TestCase {
@@ -24,14 +20,6 @@ public class UnitaryMatrixQTest extends TestCase {
 
   public void testFourier() {
     assertTrue(UnitaryMatrixQ.of(FourierMatrix.of(11)));
-  }
-
-  public void testRodriques() {
-    Distribution dis = NormalDistribution.standard();
-    for (int c = 0; c < 20; ++c) {
-      Tensor matrix = Rodrigues.exp(RandomVariate.of(dis, 3));
-      assertTrue(UnitaryMatrixQ.of(matrix));
-    }
   }
 
   public void testOthers() {
