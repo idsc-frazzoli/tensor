@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import ch.ethz.idsc.tensor.ExactScalarQ;
@@ -10,6 +11,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
 
@@ -87,8 +89,8 @@ public class UnitSystemTest extends TestCase {
     assertEquals(euro, Quantity.of(12.8, "EUR"));
   }
 
-  public void testKnots() {
-    UnitSystem unitSystem = UnitSystem.SI();
+  public void testKnots() throws ClassNotFoundException, IOException {
+    UnitSystem unitSystem = Serialization.copy(UnitSystem.SI());
     Scalar r1 = unitSystem.apply(Quantity.of(1, "knots"));
     Unit unit = QuantityUnit.of(r1);
     assertEquals(unit, Unit.of("m*s^-1"));

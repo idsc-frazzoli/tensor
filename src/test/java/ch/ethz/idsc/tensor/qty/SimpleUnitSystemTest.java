@@ -1,17 +1,19 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class SimpleUnitSystemTest extends TestCase {
-  public void testMap() {
+  public void testMap() throws ClassNotFoundException, IOException {
     Properties properties = new Properties();
     properties.setProperty("cent", "1/100[FRA]");
-    UnitSystem unitSystem = SimpleUnitSystem.from(properties);
+    UnitSystem unitSystem = Serialization.copy(SimpleUnitSystem.from(properties));
     Scalar scalar = unitSystem.apply(Quantity.of(100, "cent"));
     assertEquals(scalar, Quantity.of(1, "FRA"));
     assertEquals(unitSystem.map().size(), 1);
@@ -61,8 +63,8 @@ public class SimpleUnitSystemTest extends TestCase {
     }
   }
 
-  public void testDerive() {
-    UnitSystem unitSystem = SimpleUnitSystem.from(UnitSystem.SI().map());
+  public void testDerive() throws ClassNotFoundException, IOException {
+    UnitSystem unitSystem = Serialization.copy(SimpleUnitSystem.from(UnitSystem.SI().map()));
     assertEquals(unitSystem.map(), UnitSystem.SI().map());
   }
 

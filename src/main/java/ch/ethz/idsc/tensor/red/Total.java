@@ -54,25 +54,4 @@ public enum Total {
   public static Scalar ofVector(Tensor vector) {
     return of(vector).Get();
   }
-
-  /** The return value has {@link Dimensions} of input tensor reduced by 1.
-   * 
-   * <p>For instance
-   * <pre>
-   * prod({ 3, 4, 2 }) == 3 * 4 * 2 == 24
-   * prod({ { 1, 2, 3 }, { 4, 5, 6 } }) == { 4, 10, 18 }
-   * </pre>
-   * 
-   * <p>For an empty list, the result is RealScalar.ONE. This is consistent with
-   * Mathematica::Times @@ {} == 1
-   * 
-   * <p>implementation is consistent with MATLAB::prod
-   * prod([]) == 1
-   * 
-   * @param tensor
-   * @return total pointwise product of tensor entries at first level, or 1 if tensor is empty
-   * @throws TensorRuntimeException if input tensor is a scalar */
-  public static Tensor prod(Tensor tensor) {
-    return tensor.stream().reduce(Tensor::pmul).orElse(RealScalar.ONE);
-  }
 }

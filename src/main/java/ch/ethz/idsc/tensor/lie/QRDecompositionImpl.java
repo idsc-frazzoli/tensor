@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.red.Diagonal;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Norm2Squared;
-import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.red.Times;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
@@ -26,7 +26,6 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
  * reproduces example on wikipedia */
 /* package */ class QRDecompositionImpl implements QRDecomposition, Serializable {
   private static final TensorUnaryOperator NORMALIZE = Normalize.with(Norm._2);
-  private static final Scalar TWO = RealScalar.of(2);
   // ---
   private final int n;
   private final int m;
@@ -67,10 +66,10 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
     x.set(value -> value.subtract(sign.multiply(xn)), k);
     final Tensor m;
     if (ExactTensorQ.of(x))
-      m = TensorProduct.of(x, Conjugate.of(x).multiply(TWO).divide(Norm2Squared.ofVector(x)));
+      m = TensorProduct.of(x, Conjugate.of(x.add(x)).divide(Norm2Squared.ofVector(x)));
     else {
       Tensor v = NORMALIZE.apply(x);
-      m = TensorProduct.of(v, Conjugate.of(v).multiply(TWO));
+      m = TensorProduct.of(v, Conjugate.of(v.add(v)));
     }
     Tensor r = eye.subtract(m);
     r.set(Tensor::negate, k); // 2nd reflection
@@ -94,6 +93,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 
   @Override // from QRDecomposition
   public Scalar det() {
-    return n == m ? Total.prod(Diagonal.of(R)).Get() : RealScalar.ZERO;
+    return n == m //
+        ? Times.pmul(Diagonal.of(R)).Get()
+        : RealScalar.ZERO;
   }
 }

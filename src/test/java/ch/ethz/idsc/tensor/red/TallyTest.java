@@ -7,6 +7,7 @@ import java.util.NavigableMap;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import junit.framework.TestCase;
@@ -23,6 +24,14 @@ public class TallyTest extends TestCase {
   public void testEmpty() {
     Map<Tensor, Long> map = Tally.of(Tensors.empty());
     assertEquals(map, Collections.emptyMap());
+  }
+
+  public void testStreamScalar() {
+    Tensor tensor = Tensors.vector(4, 2, 3, 7, 2, 5, 4, 2, 2, 5);
+    Map<Scalar, Long> map = Tally.of(tensor.stream().map(Scalar.class::cast));
+    assertEquals((long) map.get(RealScalar.of(2)), 4);
+    assertEquals((long) map.get(RealScalar.of(4)), 2);
+    assertEquals((long) map.get(RealScalar.of(5)), 2);
   }
 
   public void testInfty() {

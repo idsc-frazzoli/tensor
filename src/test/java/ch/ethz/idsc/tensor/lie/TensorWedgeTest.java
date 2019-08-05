@@ -4,7 +4,9 @@ package ch.ethz.idsc.tensor.lie;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.mat.AntisymmetricMatrixQ;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import junit.framework.TestCase;
@@ -49,5 +51,23 @@ public class TensorWedgeTest extends TestCase {
     Tensor matrix = Cross.skew3(vector);
     assertTrue(AntisymmetricMatrixQ.of(matrix));
     assertEquals(matrix, TensorWedge.of(matrix));
+  }
+
+  public void testFailRectangularMatrix() {
+    try {
+      TensorWedge.of(HilbertMatrix.of(3, 4));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailRectangularArray() {
+    try {
+      TensorWedge.of(Array.zeros(2, 2, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

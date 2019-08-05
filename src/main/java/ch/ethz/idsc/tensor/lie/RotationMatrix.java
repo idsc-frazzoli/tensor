@@ -14,8 +14,8 @@ public enum RotationMatrix {
   ;
   /** @param angle
    * @return 2x2 orthogonal matrix that encodes the rotation by given angle
-   * [ cos -sin]
-   * [ sin +cos] */
+   * [ +cos -sin]
+   * [ +sin +cos] */
   public static Tensor of(Scalar angle) {
     Scalar cos = Cos.FUNCTION.apply(angle);
     Scalar sin = Sin.FUNCTION.apply(angle);

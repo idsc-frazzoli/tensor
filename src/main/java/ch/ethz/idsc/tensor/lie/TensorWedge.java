@@ -22,8 +22,9 @@ public enum TensorWedge {
     return of(TensorProduct.of(a, b));
   }
 
-  /** @param tensor
-   * @return alternating tensor */
+  /** @param tensor of any rank with dimensions [n, n, ..., n]
+   * @return alternating tensor
+   * @throws Exception if given tensor does not have regular dimensions */
   public static Tensor of(Tensor tensor) {
     Tensor sum = tensor.map(Scalar::zero);
     int rank = TensorRank.of(tensor);
