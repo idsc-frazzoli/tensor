@@ -16,7 +16,7 @@ public class PascalDistribution extends EvaluatedDiscreteDistribution implements
    * @return distribution of the number of trials with success probability p before n successes occur */
   public static Distribution of(int n, Scalar p) {
     if (n <= 0)
-      throw new RuntimeException("n=" + n);
+      throw new IllegalArgumentException(Integer.toString(n));
     return new PascalDistribution(n, Clips.unit().requireInside(p));
   }
 

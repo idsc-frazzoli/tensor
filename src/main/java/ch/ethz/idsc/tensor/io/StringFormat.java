@@ -111,7 +111,7 @@ class TensorJoiningInverse implements JoiningInverse<Tensor> {
   public Tensor emit() {
     Tensor tensor = deque.pop();
     if (!deque.isEmpty() || 1 < tensor.length())
-      throw new RuntimeException();
+      throw new IllegalStateException();
     return tensor.get(0);
   }
 

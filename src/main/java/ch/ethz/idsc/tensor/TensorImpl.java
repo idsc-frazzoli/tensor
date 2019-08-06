@@ -130,7 +130,7 @@ import java.util.stream.Stream;
   @Override
   public Tensor block(List<Integer> fromIndex, List<Integer> dimensions) {
     if (fromIndex.size() != dimensions.size())
-      throw new RuntimeException(fromIndex + " " + dimensions);
+      throw new IllegalArgumentException(fromIndex + " " + dimensions);
     return fromIndex.isEmpty() ? copy() : _block(fromIndex, dimensions);
   }
 

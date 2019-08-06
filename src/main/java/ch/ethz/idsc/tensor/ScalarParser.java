@@ -93,7 +93,7 @@ import java.util.regex.Pattern;
       BigDecimal bigDecimal = new BigDecimal(ante, mathContext);
       return DecimalScalar.of(bigDecimal);
     }
-    throw new RuntimeException(_string);
+    throw new IllegalArgumentException(_string);
   }
 
   /** helper function that formats imaginary part to a String

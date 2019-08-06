@@ -8,6 +8,13 @@ import junit.framework.Assert;
 
 public enum TestFile {
   ;
+  /** Example:
+   * invoking the function inside "AnimatedGifWriterTest"
+   * from a method "testColor()" results in a return value of
+   * new File("/home/username/AnimatedGifWriterTest_testColor.extension")
+   * 
+   * @param extension
+   * @return */
   public static File withExtension(String extension) {
     StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
     String className = stackTraceElement.getClassName();

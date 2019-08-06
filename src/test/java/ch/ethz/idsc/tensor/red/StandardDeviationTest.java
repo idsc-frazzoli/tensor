@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Normalize;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Sqrt;
@@ -23,5 +24,23 @@ public class StandardDeviationTest extends TestCase {
     Tensor tensor = Tensors.vector(1, 5, 3, 7, 5, 2);
     Tensor result = tensorUnaryOperator.apply(tensor);
     Chop._14.requireClose(StandardDeviation.ofVector(result), RealScalar.ONE);
+  }
+
+  public void testScalarFail() {
+    try {
+      StandardDeviation.ofVector(RealScalar.ONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMatrixFail() {
+    try {
+      StandardDeviation.ofVector(HilbertMatrix.of(3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

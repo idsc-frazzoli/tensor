@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.mat;
 
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
@@ -20,5 +21,11 @@ public class NegativeSemidefiniteMatrixQTest extends TestCase {
 
   public void testVector() {
     assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(Tensors.vector(1, 2, 3)));
+  }
+
+  public void testRectangular() {
+    assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(HilbertMatrix.of(2, 3)));
+    assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(HilbertMatrix.of(3, 2)));
+    assertFalse(NegativeSemidefiniteMatrixQ.ofHermitian(Array.zeros(3, 4)));
   }
 }

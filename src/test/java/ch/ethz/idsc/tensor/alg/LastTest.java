@@ -3,11 +3,16 @@ package ch.ethz.idsc.tensor.alg;
 
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
 public class LastTest extends TestCase {
   public void testLast() {
     assertEquals(Last.of(Tensors.vector(3, 2, 6, 4)), RealScalar.of(4));
+  }
+
+  public void testMatrix() {
+    assertEquals(Last.of(IdentityMatrix.of(4)), UnitVector.of(4, 3));
   }
 
   public void testFailEmpty() {

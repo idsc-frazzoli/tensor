@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -11,11 +13,13 @@ import ch.ethz.idsc.tensor.Tensor;
   // ---
   @Override // from ColorDataGradient
   public Tensor apply(Scalar scalar) {
+    Objects.requireNonNull(scalar);
     return StaticHelper.transparent();
   }
 
   @Override // from ColorDataGradient
   public ColorDataGradient deriveWithOpacity(Scalar factor) {
+    Objects.requireNonNull(factor);
     return this;
   }
 }

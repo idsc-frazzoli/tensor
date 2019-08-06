@@ -13,4 +13,13 @@ public class PDFTest extends TestCase {
     Scalar density = pdf.at(RealScalar.of(3));
     assertTrue(Chop._15.close(density, RealScalar.of(0.016663494807363458)));
   }
+
+  public void testNullFail() {
+    try {
+      PDF.of(null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

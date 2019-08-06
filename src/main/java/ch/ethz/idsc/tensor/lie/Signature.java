@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.alg.Ordering;
 import ch.ethz.idsc.tensor.alg.Range;
 
 /** Hint: the tensor library implementation of Signature is not as general as
@@ -19,7 +20,9 @@ import ch.ethz.idsc.tensor.alg.Range;
  * </pre>
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Signature.html">Signature</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Signature.html">Signature</a>
+ * 
+ * @see Ordering */
 public enum Signature {
   ;
   private static final Scalar[] SIGN = new Scalar[] { //
@@ -37,6 +40,10 @@ public enum Signature {
         .toArray();
     if (array.length != permutation.length())
       throw TensorRuntimeException.of(permutation);
+    return of(array);
+  }
+
+  private static Scalar of(int[] array) {
     int transpositions = 0;
     for (int index = 0; index < array.length; ++index)
       while (array[index] != index) {

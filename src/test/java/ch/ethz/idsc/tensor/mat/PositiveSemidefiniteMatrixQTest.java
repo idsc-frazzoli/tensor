@@ -26,4 +26,10 @@ public class PositiveSemidefiniteMatrixQTest extends TestCase {
   public void testVector() {
     assertFalse(PositiveSemidefiniteMatrixQ.ofHermitian(Tensors.vector(1, 2, 3)));
   }
+
+  public void testRectangular() {
+    assertFalse(PositiveSemidefiniteMatrixQ.ofHermitian(HilbertMatrix.of(2, 3)));
+    assertFalse(PositiveSemidefiniteMatrixQ.ofHermitian(HilbertMatrix.of(3, 2)));
+    assertFalse(PositiveSemidefiniteMatrixQ.ofHermitian(Array.zeros(3, 4)));
+  }
 }

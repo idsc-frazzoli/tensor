@@ -18,17 +18,17 @@ import ch.ethz.idsc.tensor.sca.Mod;
   }
 
   public ExtendedGCD function(Tensor vector) {
-    return new ExtendedGCDImp(vector);
+    return new ExtendedGCDImpl(vector);
   }
 
-  private class ExtendedGCDImp implements ExtendedGCD {
+  private class ExtendedGCDImpl implements ExtendedGCD, Serializable {
     private final Scalar a;
     private final Scalar b;
     private final Scalar x;
     private final Scalar y;
     private final Scalar gcd;
 
-    public ExtendedGCDImp(Tensor vector) {
+    public ExtendedGCDImpl(Tensor vector) {
       this.a = vector.Get(0);
       this.b = vector.Get(1);
       if (Scalars.isZero(a)) {
@@ -36,7 +36,7 @@ import ch.ethz.idsc.tensor.sca.Mod;
         y = one;
         gcd = b;
       } else {
-        ExtendedGCDImp result = new ExtendedGCDImp(Tensors.of(Mod.function(a).apply(b), a));
+        ExtendedGCDImpl result = new ExtendedGCDImpl(Tensors.of(Mod.function(a).apply(b), a));
         x = result.y.subtract(Floor.FUNCTION.apply(b.divide(a)).multiply(result.x));
         y = result.x;
         gcd = result.gcd;

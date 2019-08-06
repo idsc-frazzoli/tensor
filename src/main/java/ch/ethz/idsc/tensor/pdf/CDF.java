@@ -25,7 +25,7 @@ public interface CDF {
     if (distribution instanceof DiscreteDistribution)
       return new DiscreteCDF((DiscreteDistribution) distribution);
     Objects.requireNonNull(distribution);
-    throw new RuntimeException(distribution.getClass().getName());
+    throw new IllegalArgumentException(distribution.getClass().getName());
   }
 
   /** @param x

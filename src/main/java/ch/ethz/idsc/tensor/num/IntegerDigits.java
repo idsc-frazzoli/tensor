@@ -47,15 +47,15 @@ public enum IntegerDigits {
    * @throws Exception if base is less than +2 */
   public static ScalarTensorFunction base(long base) {
     if (base < 2)
-      throw new RuntimeException(Long.toString(base));
+      throw new IllegalArgumentException(Long.toString(base));
     return base(BigInteger.valueOf(base));
   }
 
-  /* package */ static ScalarTensorFunction base(BigInteger base) {
+  private static ScalarTensorFunction base(BigInteger base) {
     return scalar -> Tensor.of(of(Scalars.bigIntegerValueExact(scalar), base).stream().map(RealScalar::of));
   }
 
-  /* package */ static Deque<BigInteger> of(BigInteger bigInteger, BigInteger base) {
+  private static Deque<BigInteger> of(BigInteger bigInteger, BigInteger base) {
     bigInteger = bigInteger.abs();
     Deque<BigInteger> deque = new ArrayDeque<>();
     while (!bigInteger.equals(BigInteger.ZERO)) {

@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.io;
 
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** "MAT-File Format" by The MathWorks, Inc.
  * 
@@ -18,7 +17,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 /* package */ enum MatFileFormat {
   ;
   static byte[] of(Tensor tensor) {
-    throw TensorRuntimeException.of(tensor);
+    throw new UnsupportedOperationException();
   }
 
   static Tensor parse(byte[] bytes) {

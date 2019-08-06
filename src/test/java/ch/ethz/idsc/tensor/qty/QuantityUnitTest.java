@@ -2,6 +2,8 @@
 package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.io.StringScalar;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import junit.framework.TestCase;
 
 public class QuantityUnitTest extends TestCase {
@@ -13,6 +15,8 @@ public class QuantityUnitTest extends TestCase {
 
   public void testScalar() {
     assertEquals(QuantityUnit.of(RealScalar.ONE), Unit.ONE);
+    assertEquals(QuantityUnit.of(GaussScalar.of(2, 5)), Unit.ONE);
+    assertEquals(QuantityUnit.of(StringScalar.of("abc[s]")), Unit.ONE);
   }
 
   public void testNullFail() {

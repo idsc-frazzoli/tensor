@@ -28,8 +28,8 @@ public class Timing {
   public static Timing stopped() {
     return new Timing();
   }
-  // ---
 
+  // ---
   /** last frozen display, initialized at 0:00:00 */
   private long frozen;
   /** last internal {@link System#nanoTime()} time when timing was started */
@@ -45,7 +45,7 @@ public class Timing {
    * @throws Exception if timing is already started */
   public void start() {
     if (!isStopped())
-      throw new RuntimeException();
+      throw new IllegalStateException();
     tic = System.nanoTime();
   }
 

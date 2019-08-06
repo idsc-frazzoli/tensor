@@ -46,7 +46,7 @@ public class SpectrogramArray implements TensorUnaryOperator {
    * @return */
   public static TensorUnaryOperator of(int windowLength, int offset) {
     if (offset <= 0 || windowLength < offset)
-      throw new RuntimeException(windowLength + " " + offset);
+      throw new IllegalArgumentException("windowLength=" + windowLength + " offset=" + offset);
     return new SpectrogramArray(windowLength, offset);
   }
 
