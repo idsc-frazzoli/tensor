@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class CyclicColorDataIndexedTest extends TestCase {
   public void testCustom() {
     Tensor tensor = Tensors.fromString("{{1, 2, 3, 4}, {5, 6, 7, 8}}");
-    ColorDataIndexed colorDataIndexed = CyclicColorDataIndexed.create(tensor);
+    ColorDataIndexed colorDataIndexed = CyclicColorDataIndexed.of(tensor);
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.9 - 20)), tensor.get(1));
     assertEquals(colorDataIndexed.apply(RealScalar.of(1.9)), tensor.get(1));
     assertEquals(colorDataIndexed.apply(RealScalar.of(3.9)), tensor.get(1));
@@ -29,7 +29,7 @@ public class CyclicColorDataIndexedTest extends TestCase {
 
   public void testDerive() {
     Tensor tensor = Tensors.fromString("{{1, 2, 3, 4}, {5, 6, 7, 8}}");
-    ColorDataIndexed colorDataIndexed = CyclicColorDataIndexed.create(tensor);
+    ColorDataIndexed colorDataIndexed = CyclicColorDataIndexed.of(tensor);
     colorDataIndexed = colorDataIndexed.deriveWithAlpha(255);
     final Color ref0 = new Color(1, 2, 3, 255);
     assertEquals(colorDataIndexed.getColor(0), ref0);
@@ -37,20 +37,28 @@ public class CyclicColorDataIndexedTest extends TestCase {
     assertEquals(colorDataIndexed.getColor(1), ref1);
   }
 
-  public void testEmptyFail() {
-    Tensor tensor = Tensors.empty();
+  public void testFailEmpty() {
     try {
-      CyclicColorDataIndexed.create(tensor);
+      CyclicColorDataIndexed.of(Tensors.empty());
       fail();
     } catch (Exception exception) {
       // ---
     }
   }
 
-  public void testFail() {
+  public void testFailScalar() {
+    try {
+      CyclicColorDataIndexed.of(RealScalar.ZERO);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailRGB() {
     Tensor tensor = Tensors.fromString("{{1, 2, 3}, {5, 6, 7}}");
     try {
-      CyclicColorDataIndexed.create(tensor);
+      CyclicColorDataIndexed.of(tensor);
       fail();
     } catch (Exception exception) {
       // ---

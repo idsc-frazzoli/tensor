@@ -20,6 +20,24 @@ public class LinearColorDataGradientTest extends TestCase {
     Subdivide.of(0, 1, 10).map(colorDataGradient);
   }
 
+  public void testCornerCaseLo() {
+    try {
+      LinearColorDataGradient.of(Tensors.fromString("{{0, 0, 0, 0}, {-0.1, 0, 0, 0}}"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testCornerCase() {
+    try {
+      LinearColorDataGradient.of(Tensors.fromString("{{0, 0, 0, 0}, {256, 256, 256, 256}}"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testRangeFail() {
     try {
       LinearColorDataGradient.of(Tensors.fromString("{{1, 2, 3, 4}, {1, 2, 3, 257}}"));

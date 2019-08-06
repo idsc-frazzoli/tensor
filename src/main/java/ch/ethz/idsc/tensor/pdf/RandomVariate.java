@@ -47,7 +47,7 @@ public enum RandomVariate {
    * @return array of random variates from given interface with given dimensions */
   public static Tensor of(Distribution distribution, Random random, List<Integer> dimensions) {
     RandomVariateInterface randomVariateInterface = (RandomVariateInterface) distribution;
-    return Array.of(list -> _of(randomVariateInterface, random), dimensions); // terminal
+    return Array.fill(() -> _of(randomVariateInterface, random), dimensions); // terminal
   }
 
   /** @param randomVariateInterface

@@ -53,6 +53,7 @@ public class ColorDataListsTest extends TestCase {
   }
 
   public void testSize2() {
+    assertTrue(21 <= ColorDataLists.values().length);
     for (ColorDataLists colorDataLists : ColorDataLists.values()) {
       assertTrue(1 < colorDataLists.cyclic().length());
       assertTrue(colorDataLists.cyclic().length() < 100);
