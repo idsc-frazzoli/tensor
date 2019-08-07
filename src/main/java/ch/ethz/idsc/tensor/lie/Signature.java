@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Ordering;
-import ch.ethz.idsc.tensor.alg.Range;
 
 /** Examples:
  * <pre>
@@ -29,9 +28,9 @@ public enum Signature {
       RealScalar.ONE, //
       RealScalar.ONE.negate() };
 
-  /** @param vector of {@link Range} with integer entries, for instance {2, 0, 1}
-   * @return either +1 or -1
-   * @throws Exception if given permutation is not valid */
+  /** @param vector
+   * @return either +1 or -1, or zero if given vector contains duplicate values
+   * @throws Exception if given vector is not a tensor of rank 1 */
   public static Scalar of(Tensor vector) {
     long count = vector.stream().map(Scalar.class::cast).distinct().count();
     return vector.length() == count //

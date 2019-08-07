@@ -56,7 +56,7 @@ public class LinearColorDataGradient implements ColorDataGradient {
     Scalar value = scalar.multiply(scale); // throws Exception for GaussScalar
     return MachineNumberQ.of(value) //
         ? interpolation.at(value)
-        : StaticHelper.transparent();
+        : Transparent.rgba();
   }
 
   @Override // from ColorDataGradient

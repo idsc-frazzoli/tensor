@@ -21,7 +21,7 @@ public class InsertTest extends TestCase {
 
   public void testAIndexLast() {
     Tensor tensor = Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}}");
-    Tensor result = Insert.of(tensor, Tensors.fromString("{{{9}}}"), 5);
+    Tensor result = Insert.of(tensor.unmodifiable(), Tensors.fromString("{{{9}}}"), 5);
     assertEquals(result, Tensors.fromString("{{1}, {2}, {3, 4}, 5, {}, {{{9}}}}"));
   }
 

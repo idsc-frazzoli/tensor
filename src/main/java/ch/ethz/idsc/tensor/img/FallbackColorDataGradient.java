@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.Tensor;
   @Override // from ColorDataGradient
   public Tensor apply(Scalar scalar) {
     Objects.requireNonNull(scalar);
-    return StaticHelper.transparent();
+    return Transparent.rgba();
   }
 
   @Override // from ColorDataGradient

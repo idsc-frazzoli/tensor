@@ -20,13 +20,16 @@ import ch.ethz.idsc.tensor.Scalar;
         }
       };
 
-  public static BigInteger assertIsProbablePrime(BigInteger prime) {
-    if (!MEMO.containsKey(prime)) {
-      if (!prime.isProbablePrime(CERTAINTY))
-        throw new IllegalArgumentException("not prime: " + prime);
-      MEMO.put(prime, prime);
+  /** @param bigInteger
+   * @return bigInteger
+   * @throws Exception if given bigInteger is not a prime */
+  public static BigInteger assertIsProbablePrime(BigInteger bigInteger) {
+    if (!MEMO.containsKey(bigInteger)) {
+      if (!bigInteger.isProbablePrime(CERTAINTY))
+        throw new IllegalArgumentException("not prime: " + bigInteger);
+      MEMO.put(bigInteger, bigInteger);
     }
-    return prime;
+    return bigInteger;
   }
 
   /***************************************************/

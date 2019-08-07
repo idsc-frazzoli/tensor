@@ -67,15 +67,11 @@ public enum Array {
 
   // helper function
   private static Tensor fill(Supplier<? extends Tensor> supplier, int level, List<Integer> dimensions) {
-    // if (level == dimensions.size())
-    // return supplier.get();
-    // return Tensor.of(IntStream.range(0, dimensions.get(level)) //
-    // .mapToObj(i -> fill(supplier, level + 1, dimensions)));
     int length = dimensions.get(level);
     int next = level + 1;
-    if (dimensions.size() == next)
-      return Tensor.of(IntStream.range(0, length).mapToObj(i -> supplier.get()));
-    return Tensor.of(IntStream.range(0, length).mapToObj(i -> fill(supplier, next, dimensions)));
+    return dimensions.size() == next //
+        ? Tensor.of(IntStream.range(0, length).mapToObj(i -> supplier.get()))
+        : Tensor.of(IntStream.range(0, length).mapToObj(i -> fill(supplier, next, dimensions)));
   }
 
   /***************************************************/

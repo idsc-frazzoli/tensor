@@ -24,7 +24,7 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
   public final Tensor apply(Scalar scalar) {
     return NumberQ.of(scalar) //
         ? tensor.get(toInt(scalar))
-        : StaticHelper.transparent();
+        : Transparent.rgba();
   }
 
   @Override // from ColorDataIndexed

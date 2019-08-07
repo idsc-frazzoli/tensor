@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Serialization;
@@ -68,6 +69,11 @@ public class OrderingTest extends TestCase {
     Integer[] array = Ordering.DECREASING.of(tensor);
     assertEquals(array.length, 1);
     assertEquals(array[0].intValue(), 0);
+  }
+
+  public void testIntegerToTensor() {
+    Integer[] a = { 2, 3, 4 };
+    assertEquals(Tensors.vector(a), Tensors.vector(1, 2, 3).map(RealScalar.ONE::add));
   }
 
   public void testScalarFail() {

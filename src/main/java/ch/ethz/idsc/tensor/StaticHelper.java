@@ -51,23 +51,23 @@ import ch.ethz.idsc.tensor.sca.Sign;
   );
 
   // throws an exception if value is Infinity
-  static BigInteger floor(BigDecimal bd) {
-    BigInteger bi = bd.toBigInteger();
-    if (0 < new BigDecimal(bi).compareTo(bd)) {
-      bd = bd.subtract(BigDecimal.ONE);
-      bi = bd.toBigInteger();
+  static BigInteger floor(BigDecimal bigDecimal) {
+    BigInteger bigInteger = bigDecimal.toBigInteger();
+    if (0 < new BigDecimal(bigInteger).compareTo(bigDecimal)) {
+      bigDecimal = bigDecimal.subtract(BigDecimal.ONE);
+      bigInteger = bigDecimal.toBigInteger();
     }
-    return bi;
+    return bigInteger;
   }
 
   // throws an exception if value is Infinity
-  static BigInteger ceiling(BigDecimal bd) {
-    BigInteger bi = bd.toBigInteger();
-    if (new BigDecimal(bi).compareTo(bd) < 0) {
-      bd = bd.add(BigDecimal.ONE);
-      bi = bd.toBigInteger();
+  static BigInteger ceiling(BigDecimal bigDecimal) {
+    BigInteger bigInteger = bigDecimal.toBigInteger();
+    if (new BigDecimal(bigInteger).compareTo(bigDecimal) < 0) {
+      bigDecimal = bigDecimal.add(BigDecimal.ONE);
+      bigInteger = bigDecimal.toBigInteger();
     }
-    return bi;
+    return bigInteger;
   }
 
   /** @param x complex scalar

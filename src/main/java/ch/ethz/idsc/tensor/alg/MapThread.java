@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/MapThread.html">MapThread</a> */
@@ -28,14 +29,13 @@ public enum MapThread {
    * @return */
   public static Tensor of(Function<List<Tensor>, ? extends Tensor> function, List<Tensor> list, int level) {
     if (0 < level) {
-      long unique = list.stream().mapToInt(Tensor::length).distinct().limit(2).count();
+      long unique = list.stream().map(Tensor::length).distinct().limit(2).count();
       if (1 < unique)
         throw new IllegalArgumentException(Long.toString(unique));
-      int length = 0 == unique //
-          ? 0
-          : list.get(0).length();
-      return Tensor.of(IntStream.range(0, length) //
-          .mapToObj(index -> of(function, extract(index, list), level - 1)));
+      return 0 == unique //
+          ? Tensors.empty()
+          : Tensor.of(IntStream.range(0, list.get(0).length()) //
+              .mapToObj(index -> of(function, extract(index, list), level - 1)));
     }
     return function.apply(list);
   }
