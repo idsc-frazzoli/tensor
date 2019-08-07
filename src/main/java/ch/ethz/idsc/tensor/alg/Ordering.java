@@ -35,10 +35,17 @@ public enum Ordering {
   }
 
   /** @param vector
+   * @return stream of indices i[:] so that vector[i[0]], vector[i[1]], ... is ordered
+   * @throws Exception if given vector cannot be sorted */
+  public Stream<Integer> stream(Tensor vector) {
+    ScalarQ.thenThrow(vector);
+    return orderingInterface.stream(vector);
+  }
+
+  /** @param vector
    * @return array of indices i[:] so that vector[i[0]], vector[i[1]], ... is ordered
    * @throws Exception if given vector cannot be sorted */
-  public int[] of(Tensor vector) {
-    ScalarQ.thenThrow(vector);
-    return orderingInterface.stream(vector).mapToInt(Integer::intValue).toArray();
+  public Integer[] of(Tensor vector) {
+    return stream(vector).toArray(Integer[]::new);
   }
 }

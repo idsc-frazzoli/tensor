@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.qty;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -50,7 +51,7 @@ public class SimpleUnitSystem implements UnitSystem {
 
   private SimpleUnitSystem(Map<String, Scalar> map) {
     this.map = map;
-    set = Collections.unmodifiableSet(StaticHelper.all(map));
+    set = Collections.unmodifiableSet(all(map));
   }
 
   @Override
@@ -88,6 +89,21 @@ public class SimpleUnitSystem implements UnitSystem {
 
   @Override // from UnitSystem
   public Set<String> units() {
+    return set;
+  }
+
+  /** @param map
+   * @return */
+  private static Set<String> all(Map<String, Scalar> map) {
+    Set<String> set = new HashSet<>();
+    for (Entry<String, Scalar> entry : map.entrySet()) {
+      set.add(entry.getKey());
+      Scalar value = entry.getValue();
+      if (value instanceof Quantity) {
+        Quantity quantity = (Quantity) value;
+        set.addAll(quantity.unit().map().keySet());
+      }
+    }
     return set;
   }
 }

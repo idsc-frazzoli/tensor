@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.sca.Clip;
 import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.N;
@@ -60,6 +61,23 @@ public class LinearColorDataGradient implements ColorDataGradient {
 
   @Override // from ColorDataGradient
   public LinearColorDataGradient deriveWithOpacity(Scalar opacity) {
-    return new LinearColorDataGradient(StaticHelper.withOpacity(tensor, Clips.unit().requireInside(opacity)));
+    return new LinearColorDataGradient(withOpacity(tensor, Clips.unit().requireInside(opacity)));
+  }
+
+  /** @param tensor of dimension n x 4
+   * @param opacity in the interval [0, 1]
+   * @return */
+  private static Tensor withOpacity(Tensor tensor, Scalar opacity) {
+    return Tensor.of(tensor.stream().map(withOpacity(opacity)));
+  }
+
+  /** @param opacity in the interval [0, 1]
+   * @return operator that maps a vector of the form rgba to rgb, alpha*factor */
+  private static TensorUnaryOperator withOpacity(Scalar opacity) {
+    return rgba -> {
+      Tensor copy = rgba.copy();
+      copy.set(alpha -> alpha.multiply(opacity), 3);
+      return copy;
+    };
   }
 }

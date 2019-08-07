@@ -50,7 +50,7 @@ public enum ColorDataLists {
   /** hue palette with 13 colors */
   _251, //
   ;
-  private final Tensor tensor = ResourceData.of(StaticHelper.colorlist(name()));
+  private final Tensor tensor = ResourceData.of("/colorlist/" + name().substring(1, 4) + ".csv");
   private final ColorDataIndexed cyclic = new CyclicColorDataIndexed(tensor);
   private final ColorDataIndexed strict = new StrictColorDataIndexed(tensor);
 

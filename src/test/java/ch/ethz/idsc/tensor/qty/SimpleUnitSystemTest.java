@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.qty;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.io.Serialization;
@@ -17,6 +18,21 @@ public class SimpleUnitSystemTest extends TestCase {
     Scalar scalar = unitSystem.apply(Quantity.of(100, "cent"));
     assertEquals(scalar, Quantity.of(1, "FRA"));
     assertEquals(unitSystem.map().size(), 1);
+  }
+
+  public void testAll() {
+    UnitSystem unitSystem = UnitSystem.SI();
+    assertTrue(unitSystem instanceof SimpleUnitSystem);
+    Set<String> set = unitSystem.units();
+    assertTrue(set.contains("cd"));
+    assertTrue(set.contains("m"));
+    assertTrue(set.contains("kg"));
+    assertTrue(set.contains("K"));
+    assertTrue(set.contains("CD"));
+    assertTrue(set.contains("V"));
+    assertFalse(set.contains("CHF"));
+    assertFalse(set.contains("EUR"));
+    assertFalse(set.contains("USD"));
   }
 
   public void testFailKey1() {

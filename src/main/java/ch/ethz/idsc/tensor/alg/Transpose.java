@@ -105,8 +105,7 @@ public enum Transpose {
 
   // helper function
   private static List<Integer> inverse(List<Integer> list, Tensor sigma) {
-    return IntStream.of(Ordering.INCREASING.of(sigma)) //
-        .mapToObj(list::get).collect(Collectors.toList());
+    return Ordering.INCREASING.stream(sigma).map(list::get).collect(Collectors.toList());
   }
 
   // helper function

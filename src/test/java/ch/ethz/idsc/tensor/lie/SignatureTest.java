@@ -6,7 +6,10 @@ import java.util.Map;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Range;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.red.Tally;
 import junit.framework.TestCase;
 
@@ -41,21 +44,44 @@ public class SignatureTest extends TestCase {
     }
   }
 
-  public void testFail() {
+  public void testZero() {
+    assertEquals(Signature.of(Tensors.vector(0, 1, 0)), RealScalar.ZERO);
+    assertEquals(Signature.of(Tensors.of(Pi.HALF, Pi.HALF)), RealScalar.ZERO);
+  }
+
+  public void testNonSequential() {
+    assertEquals(Signature.of(Tensors.vector(0, 1, 3)), RealScalar.ONE);
+    assertEquals(Signature.of(Tensors.vector(0, -1)), RealScalar.ONE.negate());
+    assertEquals(Signature.of(Tensors.vector(3.5, -1)), RealScalar.ONE.negate());
+  }
+
+  public void testScalarFail() {
     try {
-      Signature.of(Tensors.vector(0, 1, 0));
+      Signature.of(RealScalar.ZERO);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testMatrixFail() {
+    try {
+      Signature.of(Array.zeros(2, 2));
       fail();
     } catch (Exception exception) {
       // ---
     }
     try {
-      Signature.of(Tensors.vector(0, -1));
+      Signature.of(HilbertMatrix.of(3));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testUnstructuredFail() {
     try {
-      Signature.of(Tensors.vector(0, 1, 3));
+      Signature.of(Tensors.fromString("{1, {2}}"));
       fail();
     } catch (Exception exception) {
       // ---
