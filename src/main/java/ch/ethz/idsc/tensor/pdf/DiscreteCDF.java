@@ -76,7 +76,7 @@ import ch.ethz.idsc.tensor.Scalars;
     return finished;
   }
 
-  /* package for testing */ boolean cdf_finished() {
+  /* package */ boolean cdf_finished() {
     return cdf_finished;
   }
 }

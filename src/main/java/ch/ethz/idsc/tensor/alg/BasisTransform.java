@@ -23,7 +23,7 @@ public enum BasisTransform {
   /** @param matrix is (1, 1)-tensor
    * @param v square matrix with full rank
    * @return */
-  /* package until approved */ static Tensor ofMatrix(Tensor matrix, Tensor v) {
+  /* package */ static Tensor ofMatrix(Tensor matrix, Tensor v) {
     return LinearSolve.of(v, matrix.dot(v));
   }
 

@@ -50,7 +50,7 @@ import java.util.stream.Stream;
 
   @Override // from TensorImpl
   public Iterator<Tensor> iterator() {
-    /* remove() throws an UnsupportedOperationException */
+    // remove() throws an UnsupportedOperationException
     return new Iterator<Tensor>() {
       int index = 0;
 

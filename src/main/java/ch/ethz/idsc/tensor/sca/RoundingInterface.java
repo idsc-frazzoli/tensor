@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * to support the use of {@link Ceiling}, {@link Floor}, and {@link Round}.
  * 
  * Examples of are {@link RealScalar}, and {@link Quantity}. */
-public interface RoundingInterface { /* optional interface */
+public interface RoundingInterface {
   /** @return equal or higher scalar with integer components */
   Scalar ceiling();
 

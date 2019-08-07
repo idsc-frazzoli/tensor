@@ -76,7 +76,7 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
     return inverse_cdf.higherEntry(p).getValue();
   }
 
-  /* package for testing */ final NavigableMap<Scalar, Scalar> inverse_cdf() {
+  /* package */ final NavigableMap<Scalar, Scalar> inverse_cdf() {
     return Collections.unmodifiableNavigableMap(inverse_cdf);
   }
 }
