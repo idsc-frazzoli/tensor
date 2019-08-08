@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
-import ch.ethz.idsc.tensor.img.MeanFilter;
+import ch.ethz.idsc.tensor.img.MinFilter;
 import ch.ethz.idsc.tensor.io.Export;
 import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.sca.Clips;
@@ -28,7 +28,7 @@ import ch.ethz.idsc.tensor.sca.Clips;
   };
 
   public static void main(String[] args) throws IOException {
-    Tensor tensor = MeanFilter.min(BIVARIATE_EVALUATION.image(PRIME - 1), 2);
+    Tensor tensor = MinFilter.of(BIVARIATE_EVALUATION.image(PRIME - 1), 2);
     Export.of(StaticHelper.image(GaussScalar.class), ArrayPlot.of(tensor, ColorDataGradients.STARRYNIGHT));
   }
 }

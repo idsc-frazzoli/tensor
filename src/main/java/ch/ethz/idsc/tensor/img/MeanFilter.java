@@ -1,14 +1,8 @@
 // code by gjoel
 package ch.ethz.idsc.tensor.img;
 
-import java.util.function.UnaryOperator;
-
-import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
-import ch.ethz.idsc.tensor.alg.TensorMap;
-import ch.ethz.idsc.tensor.alg.TensorRank;
-import ch.ethz.idsc.tensor.red.Entrywise;
 import ch.ethz.idsc.tensor.red.Mean;
 
 /** the implementation is consistent with Mathematica.
@@ -33,25 +27,6 @@ public enum MeanFilter {
    * @throws Exception if given tensor is a scalar
    * @throws Exception if given radius is negative */
   public static Tensor of(Tensor tensor, int radius) {
-    ScalarQ.thenThrow(tensor);
-    if (radius < 0)
-      throw new IllegalArgumentException("radius=" + radius);
-    int rank = TensorRank.of(tensor);
-    UnaryOperator<Tensor> unaryOperator = value -> TensorExtract.convolve(value, radius, Mean::of);
-    for (int level = 0; level < rank; ++level)
-      tensor = TensorMap.of(unaryOperator, tensor, level);
-    return tensor;
-  }
-
-  // TODO JPH generalize !
-  public static Tensor min(Tensor tensor, int radius) {
-    ScalarQ.thenThrow(tensor);
-    if (radius < 0)
-      throw new IllegalArgumentException("radius=" + radius);
-    int rank = TensorRank.of(tensor);
-    UnaryOperator<Tensor> unaryOperator = value -> TensorExtract.convolve(value, radius, Entrywise.min()::reduce);
-    for (int level = 0; level < rank; ++level)
-      tensor = TensorMap.of(unaryOperator, tensor, level);
-    return tensor;
+    return TensorExtract.of(tensor, radius, Mean::of);
   }
 }
