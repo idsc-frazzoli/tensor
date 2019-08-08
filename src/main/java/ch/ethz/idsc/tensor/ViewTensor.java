@@ -37,10 +37,10 @@ import ch.ethz.idsc.tensor.opt.LinearInterpolation;
   Tensor _block(List<Integer> fromIndex, List<Integer> dimensions) {
     int loIndex = fromIndex.get(0);
     List<Tensor> subList = list.subList(loIndex, loIndex + dimensions.get(0));
-    if (fromIndex.size() == 1)
-      return wrap(subList);
     int size = fromIndex.size();
-    return Tensor.of(subList.stream() //
-        .map(tensor -> wrap(tensor)._block(fromIndex.subList(1, size), dimensions.subList(1, size))));
+    return size == 1 //
+        ? wrap(subList)
+        : Tensor.of(subList.stream() //
+            .map(tensor -> wrap(tensor)._block(fromIndex.subList(1, size), dimensions.subList(1, size))));
   }
 }

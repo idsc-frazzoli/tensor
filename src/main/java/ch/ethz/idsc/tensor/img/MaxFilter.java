@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.img;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.red.Entrywise;
 
 /** <p>inspired by
@@ -12,6 +13,6 @@ public enum MaxFilter {
    * @param radius
    * @return */
   public static Tensor of(Tensor tensor, int radius) {
-    return TensorExtract.of(tensor, radius, Entrywise.max()::of);
+    return TensorExtract.of(Unprotect.references(tensor), radius, Entrywise.max()::of);
   }
 }

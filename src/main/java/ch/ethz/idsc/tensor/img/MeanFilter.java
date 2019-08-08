@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.img;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.red.Mean;
 
@@ -27,6 +28,6 @@ public enum MeanFilter {
    * @throws Exception if given tensor is a scalar
    * @throws Exception if given radius is negative */
   public static Tensor of(Tensor tensor, int radius) {
-    return TensorExtract.of(tensor, radius, Mean::of);
+    return TensorExtract.of(Unprotect.references(tensor), radius, Mean::of);
   }
 }

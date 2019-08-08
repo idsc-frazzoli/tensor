@@ -16,11 +16,11 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 /* package */ class NewtonDemo extends BivariateEvaluation {
   private static final int DEPTH = 2;
 
-  // ---
   public static BivariateEvaluation of(Tensor coeffs) {
     return new NewtonDemo(coeffs);
   }
 
+  // ---
   private final ScalarUnaryOperator scalarUnaryOperator;
 
   private NewtonDemo(Tensor coeffs) {

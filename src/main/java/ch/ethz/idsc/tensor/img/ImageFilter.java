@@ -3,7 +3,8 @@ package ch.ethz.idsc.tensor.img;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.UnaryOperator;
+import java.util.Objects;
+import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -12,9 +13,15 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/ImageFilter.html">ImageFilter</a> */
 public class ImageFilter extends AbstractExtract {
-  public static Tensor of(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
-    ImageFilter blockExtract = new ImageFilter(tensor, StaticHelper.requirePositiveOrZero(radius));
-    return Array.of(index -> unaryOperator.apply(blockExtract.block(index)), Dimensions.of(tensor));
+  /** @param tensor not a scalar
+   * @param radius non-negative
+   * @param function non-null
+   * @return
+   * @throws Exception if radius is negative */
+  public static Tensor of(Tensor tensor, int radius, Function<Tensor, ? extends Tensor> function) {
+    Objects.requireNonNull(function);
+    ImageFilter imageFilter = new ImageFilter(tensor, StaticHelper.requirePositiveOrZero(radius));
+    return Array.of(index -> function.apply(imageFilter.block(index)), Dimensions.of(tensor));
   }
 
   // ---

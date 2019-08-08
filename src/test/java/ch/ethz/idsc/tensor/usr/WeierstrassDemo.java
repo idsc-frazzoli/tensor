@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.sca.Power;
 /* package */ enum WeierstrassDemo {
   ;
   private static final int DEPTH = 10;
-  private static final BivariateEvaluation INSTANCE = new BivariateEvaluation( //
+  private static final BivariateEvaluation BIVARIATE_EVALUATION = new BivariateEvaluation( //
       Clips.interval(0.25, 1.0), //
       Clips.interval(0.25, 1.0)) {
     @Override
@@ -25,6 +25,6 @@ import ch.ethz.idsc.tensor.sca.Power;
   };
 
   public static void main(String[] args) throws Exception {
-    StaticHelper.export(INSTANCE, DoubleScalar.class, ColorDataGradients.ALPINE);
+    StaticHelper.export(BIVARIATE_EVALUATION, DoubleScalar.class, ColorDataGradients.ALPINE);
   }
 }

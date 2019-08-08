@@ -10,7 +10,6 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Timing;
 import ch.ethz.idsc.tensor.opt.Interpolation;
 import ch.ethz.idsc.tensor.opt.LinearInterpolation;
-import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.sca.Increment;
@@ -20,10 +19,8 @@ import ch.ethz.idsc.tensor.sca.Increment;
  * {@link Interpolation#get(Tensor)} */
 /* package */ enum FastInterpolationDemo {
   ;
-  private static final Distribution DISTRIBUTION = UniformDistribution.unit();
-
   public static void main(String[] args) {
-    Tensor tensor = RandomVariate.of(DISTRIBUTION, 30, 3);
+    Tensor tensor = RandomVariate.of(UniformDistribution.unit(), 30, 3);
     LinearInterpolation linearInterpolation = //
         (LinearInterpolation) LinearInterpolation.of(tensor);
     {
