@@ -1,6 +1,8 @@
 // code by gjoel
 package ch.ethz.idsc.tensor.img;
 
+import java.util.function.UnaryOperator;
+
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.red.Median;
@@ -31,5 +33,13 @@ public enum MedianFilter {
   // helper function
   private static Tensor flatten(Tensor tensor) {
     return Median.of(Tensor.of(tensor.flatten(-1)));
+  }
+
+  // TODO JPH generalize !
+  // t -> t.flatten(-1).reduce(Min::of).get()
+  public static Tensor with(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
+    if (radius < 0)
+      throw new IllegalArgumentException("radius=" + radius);
+    return BlockExtract.convolve(tensor, radius, unaryOperator);
   }
 }

@@ -85,4 +85,8 @@ public class Entrywise implements BinaryOperator<Tensor>, Serializable {
         ? tensors[0].copy()
         : Stream.of(tensors).reduce(this).get();
   }
+
+  public Tensor reduce(Tensor tensor) {
+    return tensor.stream().reduce(this).get();
+  }
 }

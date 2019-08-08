@@ -1,56 +1,43 @@
 // code by jph
 package ch.ethz.idsc.tensor.usr;
 
+import java.util.stream.Stream;
+
 import ch.ethz.idsc.tensor.ComplexScalar;
-import ch.ethz.idsc.tensor.Parallelize;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.alg.Subdivide;
-import ch.ethz.idsc.tensor.img.ArrayPlot;
 import ch.ethz.idsc.tensor.img.ColorDataGradients;
-import ch.ethz.idsc.tensor.io.Export;
-import ch.ethz.idsc.tensor.io.HomeDirectory;
-import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.sca.ArcCosh;
 import ch.ethz.idsc.tensor.sca.ArcSinh;
 import ch.ethz.idsc.tensor.sca.ArcTanh;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** inspired by Mathematica's documentation of DensityPlot */
-/* package */ class InverseTrigDemo {
-  private static final int RES = StaticHelper.GALLERY_RES;
+/* package */ class InverseTrigDemo extends BivariateEvaluation {
   private static final int EXPONENT = 3;
-  private static final Tensor RE = Subdivide.of(-2.0, +2.0, RES - 1);
-  private static final Tensor IM = Subdivide.of(-2.0, +2.0, RES - 1);
   // ---
-  private final ScalarUnaryOperator scalarUnaryOperator;
+  private final ScalarUnaryOperator[] scalarUnaryOperators;
 
-  InverseTrigDemo(ScalarUnaryOperator scalarUnaryOperator) {
-    this.scalarUnaryOperator = scalarUnaryOperator;
+  InverseTrigDemo(ScalarUnaryOperator... scalarUnaryOperator) {
+    super(Clips.absolute(2.0), Clips.absolute(2.0));
+    this.scalarUnaryOperators = scalarUnaryOperator;
   }
 
-  Scalar function(int y, int x) {
-    return Imag.of(scalarUnaryOperator.apply(Power.of(ComplexScalar.of(RE.Get(x), IM.Get(y)), EXPONENT)));
+  @Override
+  protected Scalar function(Scalar re, Scalar im) {
+    Scalar seed = Power.of(ComplexScalar.of(re, im), EXPONENT);
+    return Stream.of(scalarUnaryOperators) //
+        .map(scalarUnaryOperator -> scalarUnaryOperator.apply(seed)) //
+        .map(Imag.FUNCTION) //
+        .reduce(Scalar::add) //
+        .get();
   }
 
   public static void main(String[] args) throws Exception {
-    Tensor collection = Tensors.empty();
-    {
-      InverseTrigDemo itd = new InverseTrigDemo(ArcSinh.FUNCTION);
-      collection.append(Parallelize.matrix(itd::function, RES, RES));
-    }
-    {
-      InverseTrigDemo itd = new InverseTrigDemo(ArcTanh.FUNCTION);
-      collection.append(Parallelize.matrix(itd::function, RES, RES));
-    }
-    {
-      InverseTrigDemo itd = new InverseTrigDemo(ArcCosh.FUNCTION);
-      collection.append(Parallelize.matrix(itd::function, RES, RES));
-    }
-    Export.of(HomeDirectory.Pictures(InverseTrigDemo.class.getSimpleName() + ".png"), //
-        ArrayPlot.of(Mean.of(collection), ColorDataGradients.THERMOMETER));
+    StaticHelper.export( //
+        new InverseTrigDemo(ArcSinh.FUNCTION, ArcCosh.FUNCTION, ArcTanh.FUNCTION), //
+        ArcCosh.class, ColorDataGradients.THERMOMETER);
   }
 }

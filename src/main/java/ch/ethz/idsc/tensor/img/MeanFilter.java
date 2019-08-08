@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.alg.TensorRank;
+import ch.ethz.idsc.tensor.red.Entrywise;
 import ch.ethz.idsc.tensor.red.Mean;
 
 /** the implementation is consistent with Mathematica.
@@ -37,6 +38,18 @@ public enum MeanFilter {
       throw new IllegalArgumentException("radius=" + radius);
     int rank = TensorRank.of(tensor);
     UnaryOperator<Tensor> unaryOperator = value -> TensorExtract.convolve(value, radius, Mean::of);
+    for (int level = 0; level < rank; ++level)
+      tensor = TensorMap.of(unaryOperator, tensor, level);
+    return tensor;
+  }
+
+  // TODO JPH generalize !
+  public static Tensor min(Tensor tensor, int radius) {
+    ScalarQ.thenThrow(tensor);
+    if (radius < 0)
+      throw new IllegalArgumentException("radius=" + radius);
+    int rank = TensorRank.of(tensor);
+    UnaryOperator<Tensor> unaryOperator = value -> TensorExtract.convolve(value, radius, Entrywise.min()::reduce);
     for (int level = 0; level < rank; ++level)
       tensor = TensorMap.of(unaryOperator, tensor, level);
     return tensor;
