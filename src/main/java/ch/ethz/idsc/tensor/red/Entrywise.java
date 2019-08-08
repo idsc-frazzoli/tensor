@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
-import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -49,8 +48,8 @@ public class Entrywise implements BinaryOperator<Tensor>, Serializable {
   public static Entrywise max() {
     return MAX;
   }
-  // ---
 
+  // ---
   private final BinaryOperator<Scalar> binaryOperator;
 
   private Entrywise(BinaryOperator<Scalar> binaryOperator) {
@@ -74,19 +73,14 @@ public class Entrywise implements BinaryOperator<Tensor>, Serializable {
 
   /** Example:
    * <pre>
-   * Entrywise.with(Min::of).of({1, 2, 3}, {5, 0, 4}) == {1, 0, 3}
-   * Entrywise.with(Max::of).of({1, 2, 3}, {5, 0, 4}) == {5, 2, 4}
+   * Entrywise.with(Min::of).of({{1, 2, 3}, {5, 0, 4}}) == {1, 0, 3}
+   * Entrywise.with(Max::of).of({{1, 2, 3}, {5, 0, 4}}) == {5, 2, 4}
    * </pre>
    * 
-   * @param tensors with identical dimensions/structure
-   * @return */
-  public Tensor of(Tensor... tensors) {
-    return 1 == tensors.length //
-        ? tensors[0].copy()
-        : Stream.of(tensors).reduce(this).get();
-  }
-
-  public Tensor reduce(Tensor tensor) {
+   * @param tensor
+   * @return
+   * @throws Exception */
+  public Tensor of(Tensor tensor) {
     return tensor.stream().reduce(this).get();
   }
 }

@@ -13,14 +13,14 @@ import junit.framework.TestCase;
 public class EntrywiseTest extends TestCase {
   public void testMax() {
     Entrywise entrywise = Entrywise.with(Max::of);
-    Tensor result = entrywise.of( //
-        Tensors.vector(3, 2, 3), Tensors.vector(-2, 1, 4), Tensors.vector(-3, 4, 0));
+    Tensor result = entrywise.of(Tensors.of( //
+        Tensors.vector(3, 2, 3), Tensors.vector(-2, 1, 4), Tensors.vector(-3, 4, 0)));
     assertEquals(result, Tensors.vector(3, 4, 4));
   }
 
   public void testHelpOf() {
-    assertEquals(Entrywise.with(Max::of).of(Tensors.vector(1, 2, 3), Tensors.vector(5, 0, 4)), Tensors.vector(5, 2, 4));
-    assertEquals(Entrywise.with(Min::of).of(Tensors.vector(1, 2, 3), Tensors.vector(5, 0, 4)), Tensors.vector(1, 0, 3));
+    assertEquals(Entrywise.with(Max::of).of(Tensors.of(Tensors.vector(1, 2, 3), Tensors.vector(5, 0, 4))), Tensors.vector(5, 2, 4));
+    assertEquals(Entrywise.with(Min::of).of(Tensors.of(Tensors.vector(1, 2, 3), Tensors.vector(5, 0, 4))), Tensors.vector(1, 0, 3));
   }
 
   public void testStreamReduce() {
@@ -61,11 +61,9 @@ public class EntrywiseTest extends TestCase {
 
   public void testSingle() {
     Tensor single = Tensors.vector(3, 2, 3);
-    Tensor copy = single.copy();
     Entrywise entrywise = Entrywise.with(Max::of);
     Tensor result = entrywise.of(single);
-    result.set(RealScalar.ZERO, 0);
-    assertEquals(single, copy);
+    assertEquals(result, RealScalar.of(3));
   }
 
   public void testAdd() {
@@ -73,7 +71,7 @@ public class EntrywiseTest extends TestCase {
     Tensor a = RandomVariate.of(distribution, 7, 9);
     Tensor b = RandomVariate.of(distribution, 7, 9);
     Tensor c = RandomVariate.of(distribution, 7, 9);
-    Tensor res = Entrywise.with(Scalar::add).of(a, b, c);
+    Tensor res = Entrywise.with(Scalar::add).of(Tensors.of(a, b, c));
     assertEquals(res, a.add(b).add(c));
   }
 
@@ -82,14 +80,14 @@ public class EntrywiseTest extends TestCase {
     Tensor a = RandomVariate.of(distribution, 7, 9);
     Tensor b = RandomVariate.of(distribution, 7, 9);
     Tensor c = RandomVariate.of(distribution, 7, 9);
-    Tensor res = Entrywise.with(Scalar::multiply).of(a, b, c);
+    Tensor res = Entrywise.with(Scalar::multiply).of(Tensors.of(a, b, c));
     assertEquals(res, a.pmul(b).pmul(c));
   }
 
   public void testEmpty() {
     Entrywise entrywise = Entrywise.with(Max::of);
     try {
-      entrywise.of();
+      entrywise.of(Tensors.empty());
       fail();
     } catch (Exception exception) {
       // ---

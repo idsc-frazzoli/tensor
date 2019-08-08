@@ -12,6 +12,6 @@ public enum MaxFilter {
    * @param radius
    * @return */
   public static Tensor of(Tensor tensor, int radius) {
-    return TensorExtract.of(tensor, radius, Entrywise.max()::reduce);
+    return TensorExtract.of(tensor, radius, Entrywise.max()::of);
   }
 }

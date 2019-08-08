@@ -12,6 +12,6 @@ public enum MinFilter {
    * @param radius
    * @return */
   public static Tensor of(Tensor tensor, int radius) {
-    return TensorExtract.of(tensor, radius, Entrywise.min()::reduce);
+    return TensorExtract.of(tensor, radius, Entrywise.min()::of);
   }
 }

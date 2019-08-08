@@ -12,8 +12,7 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
 /* package */ class TensorExtract extends AbstractExtract {
   public static Tensor of(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
     ScalarQ.thenThrow(tensor);
-    if (radius < 0)
-      throw new IllegalArgumentException("radius=" + radius);
+    StaticHelper.requirePositiveOrZero(radius);
     int rank = TensorRank.of(tensor);
     UnaryOperator<Tensor> operator = value -> convolve(value, radius, unaryOperator);
     for (int level = 0; level < rank; ++level)

@@ -9,16 +9,18 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
-/* package */ class BlockExtract extends AbstractExtract {
-  static Tensor convolve(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
-    BlockExtract blockExtract = new BlockExtract(tensor, radius);
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/ImageFilter.html">ImageFilter</a> */
+public class ImageFilter extends AbstractExtract {
+  public static Tensor of(Tensor tensor, int radius, UnaryOperator<Tensor> unaryOperator) {
+    ImageFilter blockExtract = new ImageFilter(tensor, StaticHelper.requirePositiveOrZero(radius));
     return Array.of(index -> unaryOperator.apply(blockExtract.block(index)), Dimensions.of(tensor));
   }
 
   // ---
   private final List<Integer> dimensions;
 
-  private BlockExtract(Tensor tensor, int radius) {
+  private ImageFilter(Tensor tensor, int radius) {
     super(tensor, radius);
     dimensions = Dimensions.of(tensor);
   }
