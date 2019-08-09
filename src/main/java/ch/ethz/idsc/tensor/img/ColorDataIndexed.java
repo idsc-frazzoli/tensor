@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 
 /** function maps {@link Scalar}s to vectors of the form {R, G, B, A} with entries in the interval [0, 255].
+ * implementations are immutable.
  * 
  * <p>The tensor library provides the implementations
  * {@link CyclicColorDataIndexed}

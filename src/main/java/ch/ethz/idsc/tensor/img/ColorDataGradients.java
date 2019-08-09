@@ -19,7 +19,8 @@ import ch.ethz.idsc.tensor.io.ResourceData;
  * The remaining color data gradients are backed by linear interpolation over a predefined
  * table of RGBA values implemented in {@link ColorDataGradient}.
  * 
- * <p>inspired by Mathematica::ColorData["Gradients"] */
+ * <p>inspired by
+ * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a>["Gradients"] */
 public enum ColorDataGradients implements ColorDataGradient {
   /** classic is default */
   CLASSIC, //

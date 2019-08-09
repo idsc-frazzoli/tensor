@@ -17,20 +17,17 @@ import ch.ethz.idsc.tensor.opt.LinearInterpolation;
 /* package */ class ViewTensor extends TensorImpl {
   static TensorImpl wrap(Tensor tensor) {
     TensorImpl impl = (TensorImpl) tensor;
-    return wrap(impl.list);
+    return new ViewTensor(impl.list);
   }
 
-  private static TensorImpl wrap(List<Tensor> list) {
-    return new ViewTensor(list);
-  }
-
+  // ---
   private ViewTensor(List<Tensor> list) {
     super(list);
   }
 
   @Override // from TensorImpl
   public Tensor extract(int fromIndex, int toIndex) {
-    return wrap(list.subList(fromIndex, toIndex));
+    return new ViewTensor(list.subList(fromIndex, toIndex));
   }
 
   @Override // from TensorImpl
@@ -39,7 +36,7 @@ import ch.ethz.idsc.tensor.opt.LinearInterpolation;
     List<Tensor> subList = list.subList(loIndex, loIndex + dimensions.get(0));
     int size = fromIndex.size();
     return size == 1 //
-        ? wrap(subList)
+        ? new ViewTensor(subList)
         : Tensor.of(subList.stream() //
             .map(tensor -> wrap(tensor)._block(fromIndex.subList(1, size), dimensions.subList(1, size))));
   }

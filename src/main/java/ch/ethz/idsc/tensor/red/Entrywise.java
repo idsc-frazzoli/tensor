@@ -19,14 +19,14 @@ import ch.ethz.idsc.tensor.Unprotect;
  * <p>Example:
  * <pre>
  * Tensor box = {{0, 7}, {0, 8}, {1, 5}, {2, 7}};
- * box.stream().reduce(Entrywise.max()).get() == {2, 8}
- * box.stream().reduce(Entrywise.min()).get() == {0, 5}
+ * Entrywise.max().of(box) == {2, 8}
+ * Entrywise.min().of(box) == {0, 5}
  * </pre>
  * 
  * <p>Entrywise reproduces existing functionality:
  * <pre>
- * Entrywise.with(Scalar::add).of(a, b, c) == a.add(b).add(c)
- * Entrywise.with(Scalar::multiply).of(a, b, c) == a.pmul(b).pmul(c)
+ * Entrywise.with(Scalar::add).of(Tensors.of(a, b, c)) == a.add(b).add(c)
+ * Entrywise.with(Scalar::multiply).of(Tensors.of(a, b, c)) == a.pmul(b).pmul(c)
  * </pre> */
 public class Entrywise implements BinaryOperator<Tensor>, Serializable {
   /** @param binaryOperator non-null

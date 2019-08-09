@@ -1,7 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.ConstantArray;
+import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.alg.Subdivide;
 import ch.ethz.idsc.tensor.pdf.DiscreteUniformDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -17,7 +20,8 @@ public class LinearColorDataGradientTest extends TestCase {
   public void testSingle() {
     ColorDataGradient colorDataGradient = //
         LinearColorDataGradient.of(Tensors.fromString("{{1, 2, 3, 4}}"));
-    Subdivide.of(0, 1, 10).map(colorDataGradient);
+    Tensor matrix = Subdivide.of(0, 1, 10).map(colorDataGradient);
+    assertEquals(matrix, ConstantArray.of(Range.of(1, 5), 11));
   }
 
   public void testCornerCaseLo() {

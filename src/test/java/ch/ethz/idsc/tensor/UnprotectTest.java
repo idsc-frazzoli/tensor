@@ -114,23 +114,6 @@ public class UnprotectTest extends TestCase {
     }
   }
 
-  public void testList() {
-    Tensor tensor = Tensors.vector(3, 2, 0, 1.234);
-    List<Tensor> list = Unprotect.list(tensor);
-    assertEquals(list.get(0), RealScalar.of(3));
-    assertEquals(list.get(3), RealScalar.of(1.234));
-  }
-
-  public void testListFail() {
-    Tensor tensor = Tensors.vector(3, 2, 0, 1.234).unmodifiable();
-    try {
-      Unprotect.list(tensor);
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
   public void testReferencesScalar() {
     try {
       Unprotect.references(RealScalar.ONE);

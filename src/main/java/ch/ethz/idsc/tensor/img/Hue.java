@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.NumberQ;
  * 
  * an input scalar that does not satisfy {@link NumberQ} is mapped to a transparent color
  * 
- * inspired by
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Hue.html">Hue</a> */
 public enum Hue {
   ;
@@ -19,7 +19,8 @@ public enum Hue {
    * @param hue is periodically mapped to [0, 1)
    * @param sat in [0, 1] as "saturation"
    * @param val in [0, 1] as "value"
-   * @param alpha in [0, 1] */
+   * @param alpha in [0, 1]
+   * @return */
   public static Color of(double hue, double sat, double val, double alpha) {
     if (!Double.isFinite(hue))
       throw new IllegalArgumentException("hue=" + hue);

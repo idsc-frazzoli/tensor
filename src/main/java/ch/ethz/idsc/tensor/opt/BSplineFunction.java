@@ -35,11 +35,10 @@ public class BSplineFunction implements ScalarTensorFunction {
    * 
    * @param degree of polynomial basis function, non-negative integer
    * @param control points with at least one element
-   * @return */
+   * @return
+   * @throws Exception if degree is negative, or control does not have length at least one */
   public static BSplineFunction of(int degree, Tensor control) {
-    if (degree < 0)
-      throw new IllegalArgumentException(Integer.toString(degree));
-    return new BSplineFunction(degree, control);
+    return new BSplineFunction(StaticHelper.requirePositiveOrZero(degree), control);
   }
 
   // ---

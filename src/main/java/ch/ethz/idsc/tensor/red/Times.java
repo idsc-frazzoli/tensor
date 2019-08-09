@@ -25,15 +25,15 @@ public enum Times {
    * 
    * <p>For instance
    * <pre>
-   * prod({ 3, 4, 2 }) == 3 * 4 * 2 == 24
-   * prod({ { 1, 2, 3 }, { 4, 5, 6 } }) == { 4, 10, 18 }
+   * pmul({ 3, 4, 2 }) == 3 * 4 * 2 == 24
+   * pmul({ { 1, 2, 3 }, { 4, 5, 6 } }) == { 4, 10, 18 }
    * </pre>
    * 
    * <p>For an empty list, the result is RealScalar.ONE. This is consistent with
    * Mathematica::Times @@ {} == 1
    * 
    * <p>implementation is consistent with MATLAB::prod
-   * prod([]) == 1
+   * pmul([]) == 1
    * 
    * @param tensor
    * @return total pointwise product of tensor entries at first level, or 1 if tensor is empty

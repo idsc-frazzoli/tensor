@@ -4,7 +4,8 @@ package ch.ethz.idsc.tensor.img;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.ResourceData;
 
-/** inspired by Mathematica::ColorData[97] */
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a> */
 public enum ColorDataLists {
   /** 16 colors */
   _001,

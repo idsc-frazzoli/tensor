@@ -14,7 +14,6 @@ import ch.ethz.idsc.tensor.sca.Clips;
     this.opacity = opacity;
   }
 
-  // ---
   @Override // from ScalarTensorFunction
   public Tensor apply(Scalar scalar) {
     double value = scalar.number().doubleValue();
