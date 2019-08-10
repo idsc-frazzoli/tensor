@@ -44,12 +44,12 @@ public interface RealScalar extends Scalar, //
         number instanceof Long || //
         number instanceof Short || //
         number instanceof Byte)
-      return RationalScalar.of(number.longValue(), 1);
+      return RationalScalar.integer(number.longValue());
     if (number instanceof Double || //
         number instanceof Float)
       return DoubleScalar.of(number.doubleValue());
     if (number instanceof BigInteger)
-      return RationalScalar.of((BigInteger) number, BigInteger.ONE);
+      return RationalScalar.integer((BigInteger) number);
     if (number instanceof BigDecimal)
       return DecimalScalar.of((BigDecimal) number);
     throw new IllegalArgumentException(number.getClass().getName());

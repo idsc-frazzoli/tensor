@@ -13,12 +13,12 @@ import java.math.BigInteger;
   /** @param value
    * @return rational scalar encoding given integer value */
   public static Scalar of(BigInteger value) {
-    return RationalScalar.of(value, BigInteger.ONE);
+    return RationalScalar.integer(value);
   }
 
   /** @param value
    * @return rational scalar encoding given integer value */
   public static Scalar of(long value) {
-    return RationalScalar.of(value, 1);
+    return RationalScalar.integer(value);
   }
 }

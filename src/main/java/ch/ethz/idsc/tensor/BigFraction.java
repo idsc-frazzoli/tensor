@@ -30,6 +30,19 @@ import java.util.Objects;
         : new BigFraction(num.divide(gcd).negate(), res.negate());
   }
 
+  /** @param num
+   * @return */
+  public static BigFraction integer(long num) {
+    return new BigFraction(BigInteger.valueOf(num), BigInteger.ONE);
+  }
+
+  /** @param num
+   * @return */
+  public static BigFraction integer(BigInteger num) {
+    return new BigFraction(num, BigInteger.ONE);
+  }
+
+  // ---
   /** numerator */
   private final BigInteger num;
   /** denominator (always greater than zero) */

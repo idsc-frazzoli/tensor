@@ -28,6 +28,7 @@ public class ConstantArrayTest extends TestCase {
     Tensor repmat = ConstantArray.of(vector);
     assertTrue(Tensors.isUnmodifiable(repmat));
     assertEquals(Dimensions.of(repmat), Arrays.asList(3));
+    assertEquals(repmat, Range.of(1, 4));
   }
 
   public void testScalar() {
