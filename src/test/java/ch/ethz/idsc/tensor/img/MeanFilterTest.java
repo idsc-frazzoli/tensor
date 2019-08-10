@@ -57,9 +57,10 @@ public class MeanFilterTest extends TestCase {
     }
   }
 
-  public void testNonArray() {
+  public void testNonArrayFail() {
     Tensor matrix = Tensors.fromString("{{1, 2, 3, 3, {3, 2, 3}}, {3}, {0, 0, 0}}");
     matrix.flatten(-1).forEach(RationalScalar.class::cast); // test if parsing went ok
+    MeanFilter.of(matrix, 0);
     try {
       MeanFilter.of(matrix, 1);
       fail();

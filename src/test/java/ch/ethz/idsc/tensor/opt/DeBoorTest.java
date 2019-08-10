@@ -208,6 +208,18 @@ public class DeBoorTest extends TestCase {
     assertEquals(deBoor.apply(RealScalar.of(2)), RealScalar.of(0));
   }
 
+  public void testNullFail() {
+    Tensor knots = Tensors.vector(-1, 0, 1, 2, 2, 2).unmodifiable();
+    Tensor control = Tensors.vector(6, 0, 0, 0).unmodifiable();
+    DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
+    try {
+      DeBoor.of(null, knots, control);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testKnotsScalarFail() {
     try {
       DeBoor.of(LinearBinaryAverage.INSTANCE, RealScalar.ONE, Tensors.empty());

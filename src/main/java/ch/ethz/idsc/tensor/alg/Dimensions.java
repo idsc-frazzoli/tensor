@@ -22,6 +22,7 @@ public enum Dimensions {
    * Dimensions.of[3.14] = {}
    * Dimensions.of[{}] == {0}
    * Dimensions.of[{1, 2, 3}] == {3}
+   * Dimensions.of[{1, 2, {3, 4}}] == {3}
    * Dimensions.of[{{1, 2, 3}, {4, 5, 6}}] == {2, 3}
    * </pre>
    * 

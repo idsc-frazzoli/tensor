@@ -18,14 +18,14 @@ public enum MeanFilter {
   ;
   /** Example:
    * <pre>
-   * MeanFilter.of({-3, 3, 6, 0, 0, 3, -3, -9}, 2) == {0, 2, 3, 2, 1, 0, -3, -6}
+   * MeanFilter[{-3, 3, 6, 0, 0, 3, -3, -9}, 1] == {0, 2, 3, 2, 1, 0, -3, -6}
    * </pre>
    * 
-   * @param tensor of arbitrary rank but not a scalar
+   * @param tensor of array structure with rank at least 1
    * @param radius non-negative integer
    * @return filtered version of input tensor with same {@link Dimensions};
    * for radius == 0 the function returns a copy of the given tensor
-   * @throws Exception if given tensor is a scalar
+   * @throws Exception if given tensor is a scalar, or not of array form
    * @throws Exception if given radius is negative */
   public static Tensor of(Tensor tensor, int radius) {
     return TensorExtract.of(Unprotect.references(tensor), radius, Mean::of);

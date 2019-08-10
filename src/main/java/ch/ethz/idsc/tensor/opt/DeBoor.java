@@ -2,6 +2,8 @@
 // adapted from https://en.wikipedia.org/wiki/De_Boor%27s_algorithm
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -11,7 +13,7 @@ import ch.ethz.idsc.tensor.alg.VectorQ;
 
 /** DeBoor denotes the function that is defined by control points over a sequence of knots. */
 public class DeBoor implements ScalarTensorFunction {
-  /** @param binaryAverage
+  /** @param binaryAverage non-null
    * @param knots vector of length degree * 2
    * @param control points of length degree + 1
    * @return
@@ -19,9 +21,8 @@ public class DeBoor implements ScalarTensorFunction {
   public static DeBoor of(BinaryAverage binaryAverage, Tensor knots, Tensor control) {
     int length = knots.length();
     int degree = length / 2;
-    if (length % 2 == 0 && //
-        control.length() == degree + 1)
-      return new DeBoor(binaryAverage, degree, VectorQ.require(knots), control);
+    if (length % 2 == 0 && control.length() == degree + 1)
+      return new DeBoor(Objects.requireNonNull(binaryAverage), degree, VectorQ.require(knots), control);
     throw TensorRuntimeException.of(knots, control);
   }
 
@@ -58,15 +59,18 @@ public class DeBoor implements ScalarTensorFunction {
     return d[degree]; // control max index = degree
   }
 
+  /** @return */
   public int degree() {
     return degree;
   }
 
-  public Tensor control() {
-    return control.unmodifiable();
-  }
-
+  /** @return */
   public Tensor knots() {
     return knots.unmodifiable();
+  }
+
+  /** @return */
+  public Tensor control() {
+    return control.unmodifiable();
   }
 }

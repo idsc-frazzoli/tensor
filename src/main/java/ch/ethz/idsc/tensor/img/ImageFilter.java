@@ -10,14 +10,18 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 
-/** inspired by
+/** Hint: the implementation also operates on unstructured tensors.
+ * This feature is in contrast to the Mathematica standard.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ImageFilter.html">ImageFilter</a> */
 public class ImageFilter extends AbstractExtract {
   /** @param tensor not a scalar
    * @param radius non-negative
    * @param function non-null
    * @return
-   * @throws Exception if radius is negative */
+   * @throws Exception if radius is negative
+   * @see MedianFilter */
   public static Tensor of(Tensor tensor, int radius, Function<Tensor, ? extends Tensor> function) {
     Objects.requireNonNull(function);
     ImageFilter imageFilter = new ImageFilter(tensor, StaticHelper.requirePositiveOrZero(radius));

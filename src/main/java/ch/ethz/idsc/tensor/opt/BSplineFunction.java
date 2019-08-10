@@ -14,13 +14,16 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * is different from Mathematica.
  * 
  * tensor::BSplineFunction is parameterized over the interval
- * [0, control.length()-1]
+ * [0, control.length() - 1]
  * 
  * tensor::BSplineFunction can be instantiated for all degrees
  * regardless of the length of the control points.
  * 
  * Mathematica::BSplineFunction throws an exception if number
  * of control points is insufficient for the specified degree.
+ * 
+ * tensor::BSplineFunction uses uniform knot spacing except for
+ * string alignment at the terminal points.
  * 
  * <p>Quote from Wikipedia:
  * The term "B-spline" was coined by Isaac Jacob Schoenberg and is short for basis spline.

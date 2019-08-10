@@ -76,4 +76,19 @@ public class TensorMapTest extends TestCase {
     Tensor result = TensorMap.of(tensorScalarFunction, tensor, 2);
     assertEquals(Dimensions.of(result), Arrays.asList(33, 15));
   }
+
+  public void testScalar() {
+    Tensor result = TensorMap.of(RealScalar.ONE::add, RealScalar.ONE, 0);
+    assertEquals(result, RealScalar.of(2));
+  }
+
+  public void testNegativeFail() {
+    Tensor tensor = Tensors.fromString("{{1, 2, 3}, {4, 5, 6}}");
+    try {
+      TensorMap.of(Total::of, tensor, -1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }
