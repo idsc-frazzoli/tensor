@@ -13,9 +13,9 @@ import ch.ethz.idsc.tensor.Tensor;
   INSTANCE;
   // ---
   @Override // from Pivot
-  public int get(int c0, int j, int[] ind, Tensor lhs) {
+  public int get(int c0, int j, int[] ind, Tensor[] lhs) {
     return IntStream.range(c0, ind.length) //
-        .filter(c1 -> Scalars.nonZero(lhs.Get(ind[c1], j))) //
+        .filter(c1 -> Scalars.nonZero(lhs[ind[c1]].Get(j))) //
         .findFirst().orElse(c0);
   }
 }

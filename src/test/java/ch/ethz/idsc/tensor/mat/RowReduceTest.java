@@ -65,4 +65,14 @@ public class RowReduceTest extends TestCase {
     Tensor gf2 = RowReduce.of(Reverse.of(matrix), PivotFirstNonZero.INSTANCE);
     assertEquals(gf1, gf2);
   }
+
+  public void testUnstructuredFail() {
+    Tensor matrix = Tensors.fromString("{{}, {2, 3}}");
+    try {
+      RowReduce.of(matrix);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

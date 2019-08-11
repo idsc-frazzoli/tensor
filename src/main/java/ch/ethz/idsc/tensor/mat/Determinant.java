@@ -22,15 +22,15 @@ import ch.ethz.idsc.tensor.Tensor;
 
   /** @return determinant */
   private Scalar solve() {
-    for (int c0 = 0; c0 < n; ++c0) {
+    for (int c0 = 0; c0 < lhs.length; ++c0) {
       swap(pivot.get(c0, c0, ind, lhs), c0);
-      Scalar piv = lhs.Get(ind[c0], c0);
+      Scalar piv = lhs[ind[c0]].Get(c0);
       if (Scalars.isZero(piv))
         return piv;
       eliminate(c0, piv);
     }
-    Scalar scalar = IntStream.range(0, lhs.length()) //
-        .mapToObj(c0 -> lhs.Get(ind[c0], c0)) //
+    Scalar scalar = IntStream.range(0, lhs.length) //
+        .mapToObj(c0 -> lhs[ind[c0]].Get(c0)) //
         .reduce(Scalar::multiply) //
         .get();
     return transpositions() % 2 == 0 //
@@ -39,9 +39,10 @@ import ch.ethz.idsc.tensor.Tensor;
   }
 
   private void eliminate(int c0, Scalar piv) {
-    IntStream.range(c0 + 1, lhs.length()).forEach(c1 -> { // deliberately without parallel
-      Scalar fac = lhs.Get(ind[c1], c0).divide(piv).negate();
-      lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
-    });
+    for (int c1 = c0 + 1; c1 < lhs.length; ++c1) { // deliberately without parallel
+      int ic1 = ind[c1];
+      Scalar fac = lhs[ic1].Get(c0).divide(piv).negate();
+      lhs[ic1] = lhs[ic1].add(lhs[ind[c0]].multiply(fac));
+    }
   }
 }

@@ -2,11 +2,11 @@
 package ch.ethz.idsc.tensor.mat;
 
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.Unprotect;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/RowReduce.html">RowReduce</a>
@@ -33,21 +33,21 @@ public class RowReduce extends AbstractReduce {
   }
 
   private Tensor solve() {
-    int m = Unprotect.dimension1(lhs);
+    int m = Stream.of(lhs).mapToInt(Tensor::length).max().getAsInt();
     int j = 0;
-    for (int c0 = 0; c0 < n && j < m; ++j) {
+    for (int c0 = 0; c0 < lhs.length && j < m; ++j) {
       swap(pivot.get(c0, j, ind, lhs), c0);
-      Scalar piv = lhs.Get(ind[c0], j);
+      Scalar piv = lhs[ind[c0]].Get(j);
       if (Scalars.nonZero(piv)) {
-        for (int c1 = 0; c1 < n; ++c1)
+        for (int c1 = 0; c1 < lhs.length; ++c1)
           if (c1 != c0) {
-            Scalar fac = lhs.Get(ind[c1], j).divide(piv).negate();
-            lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
+            Scalar fac = lhs[ind[c1]].Get(j).divide(piv).negate();
+            lhs[ind[c1]] = lhs[ind[c1]].add(lhs[ind[c0]].multiply(fac));
           }
-        lhs.set(lhs.get(ind[c0]).divide(piv), ind[c0]);
+        lhs[ind[c0]] = lhs[ind[c0]].divide(piv);
         ++c0;
       }
     }
-    return Tensor.of(IntStream.of(ind).mapToObj(lhs::get));
+    return Tensor.of(IntStream.of(ind).mapToObj(i -> lhs[i]));
   }
 }
