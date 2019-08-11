@@ -18,7 +18,7 @@ public class DeBoorTest extends TestCase {
   public void testDegree0() throws ClassNotFoundException, IOException {
     Tensor knots = Tensors.empty().unmodifiable();
     Tensor control = Tensors.vector(-1).unmodifiable();
-    DeBoor deBoor = Serialization.copy(DeBoor.of(knots, control));
+    DeBoor deBoor = Serialization.copy(DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control));
     assertEquals(deBoor.apply(RealScalar.of(9)), RealScalar.of(-1));
     assertEquals(deBoor.apply(RealScalar.of(9.25)), RealScalar.of(-1));
     assertEquals(deBoor.apply(RealScalar.of(16)), RealScalar.of(-1));
@@ -30,7 +30,7 @@ public class DeBoorTest extends TestCase {
   public void testLinearUnit() {
     Tensor knots = Tensors.vector(9, 10).unmodifiable();
     Tensor control = Tensors.vector(-1, 3).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 1);
     assertEquals(deBoor.apply(RealScalar.of(9)), RealScalar.of(-1));
     assertEquals(deBoor.apply(RealScalar.of(9.25)), RealScalar.of(0));
@@ -40,7 +40,7 @@ public class DeBoorTest extends TestCase {
   public void testLinearDouble() {
     Tensor knots = Tensors.vector(9, 11).unmodifiable();
     Tensor control = Tensors.vector(-1, 3).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.apply(RealScalar.of(9)), RealScalar.of(-1));
     assertEquals(deBoor.apply(RealScalar.of(9.5)), RealScalar.of(0));
     assertEquals(deBoor.apply(RealScalar.of(10)), RealScalar.of(1));
@@ -56,7 +56,7 @@ public class DeBoorTest extends TestCase {
     Tensor control = Tensors.vector(-1, 3, 2).unmodifiable();
     Tensor points = Tensors.empty();
     for (Tensor x : Subdivide.of(10, 11, 5))
-      points.append(Tensors.of(x, DeBoor.of(knots, control).apply(x.Get())));
+      points.append(Tensors.of(x, DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control).apply(x.Get())));
     Tensor result = Tensors.fromString( //
         "{{10, 1}, {51/5, 17/10}, {52/5, 11/5}, {53/5, 5/2}, {54/5, 13/5}, {11, 5/2}}");
     assertEquals(result, points);
@@ -67,7 +67,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(9, 10, 11, 12).unmodifiable();
     Tensor control = Tensors.vector(-1, 3, 2).unmodifiable();
     Tensor points = Tensors.empty();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     for (Tensor x : Subdivide.of(10, 11, 5))
       points.append(Tensors.of(x, deBoor.apply(x.Get())));
     Tensor result = Tensors.fromString( //
@@ -83,7 +83,7 @@ public class DeBoorTest extends TestCase {
     Tensor knots = Tensors.vector(9, 10, 11, 12, 13, 14).unmodifiable();
     Tensor control = Tensors.vector(-1, 3, 2, 7).unmodifiable();
     Tensor points = Tensors.empty();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     for (Tensor x : Subdivide.of(11, 12, 5))
       points.append(Tensors.of(x, deBoor.apply(x.Get())));
     Tensor result = Tensors.fromString( //
@@ -100,17 +100,17 @@ public class DeBoorTest extends TestCase {
     Tensor control = Tensors.vector(3, 3, 2, 7).unmodifiable();
     Tensor points = Tensors.empty();
     for (Tensor x : Subdivide.of(11, 12, 10))
-      points.append(Tensors.of(x, DeBoor.of(knots, control).apply(x.Get())));
+      points.append(Tensors.of(x, DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control).apply(x.Get())));
     Tensor result = Tensors.fromString( //
         "{{11, 3}, {111/10, 35839/12000}, {56/5, 4429/1500}, {113/10, 11631/4000}, {57/5, 1073/375}, {23/2, 271/96}, {58/5, 1401/500}, {117/10, 33697/12000}, {59/5, 1069/375}, {119/10, 11757/4000}, {12, 37/12}}");
     assertEquals(result, points);
     assertTrue(ExactTensorQ.of(points));
   }
 
-  public void testWikiStyleConstant0() {
+  public void testWikiStyleConstant0() throws ClassNotFoundException, IOException {
     Tensor knots = Tensors.unmodifiableEmpty();
     Tensor control = Tensors.vector(90).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = Serialization.copy(DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control));
     assertEquals(deBoor.degree(), 0);
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(90));
     assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RealScalar.of(90));
@@ -120,7 +120,7 @@ public class DeBoorTest extends TestCase {
   public void testWikiStyleLinear0() {
     Tensor knots = Tensors.vector(0, 1).unmodifiable();
     Tensor control = Tensors.vector(90, 100).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 1);
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(90));
     assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RealScalar.of(95));
@@ -130,7 +130,7 @@ public class DeBoorTest extends TestCase {
   public void testWikiStyleLinear1() {
     Tensor knots = Tensors.vector(1, 2).unmodifiable();
     Tensor control = Tensors.vector(100, 120).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 1);
     assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(100));
     assertEquals(deBoor.apply(RationalScalar.of(3, 2)), RealScalar.of(110));
@@ -141,7 +141,7 @@ public class DeBoorTest extends TestCase {
   public void testWikiQuadratic0() {
     Tensor knots = Tensors.vector(0, 0, 1, 2).unmodifiable();
     Tensor control = Tensors.vector(0, 0, 1).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 2);
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(0));
     assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RationalScalar.of(1, 8));
@@ -151,7 +151,7 @@ public class DeBoorTest extends TestCase {
   public void testWikiQuadratic1() {
     Tensor knots = Tensors.vector(0, 1, 2, 3).unmodifiable();
     Tensor control = Tensors.vector(0, 1, 0).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 2);
     assertEquals(deBoor.apply(RealScalar.of(1)), RationalScalar.of(1, 2));
     assertEquals(deBoor.apply(RationalScalar.of(3, 2)), RationalScalar.of(3, 4));
@@ -161,7 +161,7 @@ public class DeBoorTest extends TestCase {
   public void testWikiQuadratic2() {
     Tensor knots = Tensors.vector(1, 2, 3, 3).unmodifiable();
     Tensor control = Tensors.vector(1, 0, 0).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 2);
     assertEquals(deBoor.apply(RealScalar.of(2)), RationalScalar.of(1, 2));
     assertEquals(deBoor.apply(RationalScalar.of(5, 2)), RationalScalar.of(1, 8));
@@ -172,7 +172,7 @@ public class DeBoorTest extends TestCase {
   public void testWikiCubic0() {
     Tensor knots = Tensors.vector(-2, -2, -2, -1, 0, 1).unmodifiable();
     Tensor control = Tensors.vector(0, 0, 0, 6).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 3);
     assertEquals(deBoor.apply(RealScalar.of(-2)), RealScalar.of(0));
     assertEquals(deBoor.apply(RealScalar.of(-1.5)), RationalScalar.of(1, 8));
@@ -182,7 +182,7 @@ public class DeBoorTest extends TestCase {
   public void testWikiCubic1() {
     Tensor knots = Tensors.vector(-2, -2, -1, 0, 1, 2).unmodifiable();
     Tensor control = Tensors.vector(0, 0, 6, 0).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 3);
     assertEquals(deBoor.apply(RealScalar.of(-1)), RealScalar.of(1));
     assertEquals(deBoor.apply(RationalScalar.of(-1, 2)), RationalScalar.of(23, 8));
@@ -192,7 +192,7 @@ public class DeBoorTest extends TestCase {
   public void testWikiCubic2() {
     Tensor knots = Tensors.vector(-2, -1, 0, 1, 2, 2).unmodifiable();
     Tensor control = Tensors.vector(0, 6, 0, 0).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.degree(), 3);
     assertEquals(deBoor.apply(RealScalar.of(0)), RealScalar.of(4));
     assertEquals(deBoor.apply(RationalScalar.of(1, 2)), RationalScalar.of(23, 8));
@@ -202,15 +202,27 @@ public class DeBoorTest extends TestCase {
   public void testWikiCubic3() {
     Tensor knots = Tensors.vector(-1, 0, 1, 2, 2, 2).unmodifiable();
     Tensor control = Tensors.vector(6, 0, 0, 0).unmodifiable();
-    DeBoor deBoor = DeBoor.of(knots, control);
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
     assertEquals(deBoor.apply(RealScalar.of(1)), RealScalar.of(1));
     assertEquals(deBoor.apply(RationalScalar.of(3, 2)), RationalScalar.of(1, 8));
     assertEquals(deBoor.apply(RealScalar.of(2)), RealScalar.of(0));
   }
 
+  public void testNullFail() {
+    Tensor knots = Tensors.vector(-1, 0, 1, 2, 2, 2).unmodifiable();
+    Tensor control = Tensors.vector(6, 0, 0, 0).unmodifiable();
+    DeBoor.of(LinearBinaryAverage.INSTANCE, knots, control);
+    try {
+      DeBoor.of(null, knots, control);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testKnotsScalarFail() {
     try {
-      DeBoor.of(RealScalar.ONE, Tensors.empty());
+      DeBoor.of(LinearBinaryAverage.INSTANCE, RealScalar.ONE, Tensors.empty());
       fail();
     } catch (Exception exception) {
       // ---
@@ -219,7 +231,7 @@ public class DeBoorTest extends TestCase {
 
   public void testKnotsMatrixFail() {
     try {
-      DeBoor.of(HilbertMatrix.of(2), Tensors.vector(1, 2));
+      DeBoor.of(LinearBinaryAverage.INSTANCE, HilbertMatrix.of(2), Tensors.vector(1, 2));
       fail();
     } catch (Exception exception) {
       // ---
@@ -227,10 +239,10 @@ public class DeBoorTest extends TestCase {
   }
 
   public void testKnotsLengthOdd() {
-    DeBoor deBoor = DeBoor.of(Tensors.vector(1, 2), Range.of(0, 2));
+    DeBoor deBoor = DeBoor.of(LinearBinaryAverage.INSTANCE, Tensors.vector(1, 2), Range.of(0, 2));
     assertEquals(deBoor.degree(), 1);
     try {
-      DeBoor.of(Tensors.vector(1, 2, 3), Range.of(0, 2));
+      DeBoor.of(LinearBinaryAverage.INSTANCE, Tensors.vector(1, 2, 3), Range.of(0, 2));
       fail();
     } catch (Exception exception) {
       // ---
@@ -241,7 +253,7 @@ public class DeBoorTest extends TestCase {
     for (int length = 0; length < 10; ++length)
       if (length != 2)
         try {
-          DeBoor.of(Tensors.vector(1, 2), Range.of(0, length));
+          DeBoor.of(LinearBinaryAverage.INSTANCE, Tensors.vector(1, 2), Range.of(0, length));
           fail();
         } catch (Exception exception) {
           // ---

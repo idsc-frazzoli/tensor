@@ -22,16 +22,18 @@ public enum TensorWedge {
     return of(TensorProduct.of(a, b));
   }
 
-  /** @param tensor
-   * @return alternating tensor */
+  /** @param tensor of any rank with dimensions [n, n, ..., n]
+   * @return alternating tensor
+   * @throws Exception if given tensor does not have regular dimensions */
   public static Tensor of(Tensor tensor) {
     Tensor sum = tensor.map(Scalar::zero);
     int rank = TensorRank.of(tensor);
-    Integer[] sigma = new Integer[rank];
     for (Tensor permutation : Permutations.of(Range.of(0, rank))) {
-      IntStream.range(0, rank).forEach(index -> sigma[index] = permutation.Get(index).number().intValue());
+      Integer[] sigma = IntStream.range(0, rank) //
+          .mapToObj(index -> permutation.Get(index).number()) //
+          .toArray(Integer[]::new);
       Tensor transpose = Transpose.of(tensor, sigma);
-      sum = Signature.of(permutation).equals(RealScalar.ONE) //
+      sum = Signature.of(sigma).equals(RealScalar.ONE) //
           ? sum.add(transpose)
           : sum.subtract(transpose);
     }

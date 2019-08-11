@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
-import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.red.Times;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
 /* package */ class CholeskyDecompositionImpl implements CholeskyDecomposition, Serializable {
@@ -46,6 +46,6 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 
   @Override // from CholeskyDecomposition
   public Scalar det() {
-    return Total.prod(d).Get();
+    return Times.pmul(d).Get();
   }
 }

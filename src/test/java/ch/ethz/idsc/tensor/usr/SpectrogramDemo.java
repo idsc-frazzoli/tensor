@@ -11,7 +11,6 @@ import ch.ethz.idsc.tensor.img.ColorDataGradients;
 import ch.ethz.idsc.tensor.img.ImageResize;
 import ch.ethz.idsc.tensor.img.Spectrogram;
 import ch.ethz.idsc.tensor.io.Export;
-import ch.ethz.idsc.tensor.io.HomeDirectory;
 import ch.ethz.idsc.tensor.sca.Cos;
 
 /** Example from Mathematica::Spectrogram:
@@ -21,6 +20,6 @@ import ch.ethz.idsc.tensor.sca.Cos;
   public static void main(String[] args) throws IOException {
     Tensor data = Cos.of(Subdivide.of(0, 100, 2000).map(Series.of(Tensors.vector(0, 5, 1))));
     Tensor image = Spectrogram.of(data, ColorDataGradients.VISIBLESPECTRUM);
-    Export.of(HomeDirectory.file("spectrogram.png"), ImageResize.nearest(image, 4));
+    Export.of(StaticHelper.image(Spectrogram.class), ImageResize.nearest(image, 1));
   }
 }

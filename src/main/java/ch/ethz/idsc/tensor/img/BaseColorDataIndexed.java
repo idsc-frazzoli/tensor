@@ -4,14 +4,16 @@ package ch.ethz.idsc.tensor.img;
 import java.awt.Color;
 
 import ch.ethz.idsc.tensor.NumberQ;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 
 /* package */ abstract class BaseColorDataIndexed implements ColorDataIndexed {
   private final Tensor tensor;
   protected final Color[] colors;
 
-  protected BaseColorDataIndexed(Tensor tensor) {
+  BaseColorDataIndexed(Tensor tensor) {
     this.tensor = tensor;
     colors = tensor.stream() //
         .map(ColorFormat::toColor) //
@@ -22,7 +24,7 @@ import ch.ethz.idsc.tensor.Tensor;
   public final Tensor apply(Scalar scalar) {
     return NumberQ.of(scalar) //
         ? tensor.get(toInt(scalar))
-        : StaticHelper.transparent();
+        : Transparent.rgba();
   }
 
   @Override // from ColorDataIndexed
@@ -32,11 +34,18 @@ import ch.ethz.idsc.tensor.Tensor;
 
   /** @param scalar
    * @return */
-  protected abstract int toInt(Scalar scalar);
+  abstract int toInt(Scalar scalar);
 
   /** @param alpha in the range [0, 1, ..., 255]
    * @return */
-  protected final Tensor tableWithAlpha(int alpha) {
-    return StaticHelper.withAlpha(tensor, alpha);
+  final Tensor tableWithAlpha(int alpha) {
+    return Tensor.of(tensor.stream().map(withAlpha(alpha)));
+  }
+
+  /** @param alpha in the range [0, 1, ..., 255]
+   * @return operator that maps a vector of the form rgba to rgb, alpha */
+  private static TensorUnaryOperator withAlpha(int alpha) {
+    Scalar scalar = RealScalar.of(alpha);
+    return rgba -> rgba.extract(0, 3).append(scalar);
   }
 }

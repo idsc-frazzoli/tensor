@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * <p>a {@link Scalar} that does not implement {@link ExactScalarQInterface} is assumed to
  * <em>not</em> represent an exact quantity by {@link ExactScalarQ}. */
 @FunctionalInterface
-public interface ExactScalarQInterface { /* optional interface */
+public interface ExactScalarQInterface {
   /** @return true, if scalar is encoded in exact precision */
   boolean isExactScalar();
 }

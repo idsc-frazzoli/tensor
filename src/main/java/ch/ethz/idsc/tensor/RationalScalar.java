@@ -36,6 +36,19 @@ public final class RationalScalar extends AbstractRealScalar implements //
     return new RationalScalar(BigFraction.of(num, den));
   }
 
+  /** @param num
+   * @return */
+  /* package */ static Scalar integer(long num) {
+    return new RationalScalar(BigFraction.integer(num));
+  }
+
+  /** @param num
+   * @return */
+  /* package */ static Scalar integer(BigInteger num) {
+    return new RationalScalar(BigFraction.integer(num));
+  }
+
+  // ---
   private final BigFraction bigFraction;
 
   /** private constructor is only called from of(...)

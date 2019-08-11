@@ -39,4 +39,19 @@ public class TruncatedDistributionTest extends TestCase {
       // ---
     }
   }
+
+  public void testNullFail() {
+    try {
+      TruncatedDistribution.of(NormalDistribution.of(-100, .2), null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      TruncatedDistribution.of(null, Clips.interval(10, 11));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

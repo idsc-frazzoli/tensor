@@ -50,8 +50,7 @@ import ch.ethz.idsc.tensor.Tensors;
   @Override // from Iterable
   public Iterator<MultiIndex> iterator() {
     return new Iterator<MultiIndex>() {
-      // invoking constructor of OuterProductInteger is verified
-      OuterProductInteger outerProductInteger = new OuterProductInteger(size, true);
+      final OuterProductInteger outerProductInteger = new OuterProductInteger(size, true);
 
       @Override
       public boolean hasNext() {

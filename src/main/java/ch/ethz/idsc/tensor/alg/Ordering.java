@@ -15,16 +15,16 @@ import ch.ethz.idsc.tensor.mat.Eigensystem;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Ordering.html">Ordering</a> */
 public enum Ordering {
-  INCREASING(tensor -> IntStream.range(0, tensor.length()) //
-      .boxed().sorted((i, j) -> Scalars.compare(tensor.Get(i), tensor.Get(j)))), //
-  DECREASING(tensor -> IntStream.range(0, tensor.length()) //
-      .boxed().sorted((i, j) -> Scalars.compare(tensor.Get(j), tensor.Get(i)))), //
+  INCREASING(vector -> IntStream.range(0, vector.length()) //
+      .boxed().sorted((i, j) -> Scalars.compare(vector.Get(i), vector.Get(j)))), //
+  DECREASING(vector -> IntStream.range(0, vector.length()) //
+      .boxed().sorted((i, j) -> Scalars.compare(vector.Get(j), vector.Get(i)))), //
   ;
   // ---
   private static interface OrderingInterface {
-    /** @param tensor
-     * @return stream of indices so that tensor[i0], tensor[i1], ... is ascending */
-    Stream<Integer> stream(Tensor tensor);
+    /** @param vector
+     * @return stream of indices i[:] so that vector[i[0]], vector[i[1]], ... is ordered */
+    Stream<Integer> stream(Tensor vector);
   }
 
   // ---
@@ -35,10 +35,17 @@ public enum Ordering {
   }
 
   /** @param vector
+   * @return stream of indices i[:] so that vector[i[0]], vector[i[1]], ... is ordered
+   * @throws Exception if given vector cannot be sorted */
+  public Stream<Integer> stream(Tensor vector) {
+    ScalarQ.thenThrow(vector);
+    return orderingInterface.stream(vector);
+  }
+
+  /** @param vector
    * @return array of indices i[:] so that vector[i[0]], vector[i[1]], ... is ordered
    * @throws Exception if given vector cannot be sorted */
-  public int[] of(Tensor vector) {
-    ScalarQ.thenThrow(vector);
-    return orderingInterface.stream(vector).mapToInt(Integer::intValue).toArray();
+  public Integer[] of(Tensor vector) {
+    return stream(vector).toArray(Integer[]::new);
   }
 }

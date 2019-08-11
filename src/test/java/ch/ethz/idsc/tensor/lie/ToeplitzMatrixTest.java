@@ -28,6 +28,12 @@ public class ToeplitzMatrixTest extends TestCase {
     assertTrue(SymmetricMatrixQ.of(matrix));
   }
 
+  public void testRank2() {
+    Tensor matrix = ToeplitzMatrix.of(Tensors.vector(0, 1, 0, 1, 0));
+    assertTrue(SymmetricMatrixQ.of(matrix));
+    assertEquals(RowReduce.of(matrix), Tensors.fromString("{{1, 0, 1}, {0, 1, 0}, {0, 0, 0}}"));
+  }
+
   public void testFullRank() {
     Tensor matrix = RowReduce.of(ToeplitzMatrix.of(Tensors.vector(1, 2, 3, 5, 9)));
     assertEquals(matrix, IdentityMatrix.of(3));
@@ -51,6 +57,15 @@ public class ToeplitzMatrixTest extends TestCase {
   public void testFailEmpty() {
     try {
       ToeplitzMatrix.of(Tensors.empty());
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailScalar() {
+    try {
+      ToeplitzMatrix.of(RealScalar.of(5));
       fail();
     } catch (Exception exception) {
       // ---

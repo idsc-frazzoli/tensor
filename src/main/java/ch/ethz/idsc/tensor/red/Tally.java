@@ -6,6 +6,7 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -24,10 +25,16 @@ public enum Tally {
    * This is a feature and not a bug.
    * 
    * @param tensor
-   * @return map that assigns elements of tensor their multiplicity in tensor
+   * @return map that assigns elements of the tensor their multiplicity in given tensor
    * @throws Exception if given tensor is a {@link Scalar} */
   public static Map<Tensor, Long> of(Tensor tensor) {
-    return tensor.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    return of(tensor.stream());
+  }
+
+  /** @param stream
+   * @return map that assigns elements of the stream their multiplicity in given stream */
+  public static <T extends Tensor> Map<T, Long> of(Stream<T> stream) {
+    return stream.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
   }
 
   /** Hint: the keys in the map are references to the elements in the provided tensor.

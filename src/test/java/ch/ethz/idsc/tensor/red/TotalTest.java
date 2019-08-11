@@ -70,43 +70,9 @@ public class TotalTest extends TestCase {
     }
   }
 
-  public void testPmulEmpty() {
-    Tensor a = Tensors.of(Tensors.empty());
-    Tensor b = Total.prod(a);
-    assertEquals(b, Tensors.empty());
-    assertEquals(RealScalar.of(1), Total.prod(Tensors.empty()));
-  }
-
-  public void testPmul1() {
-    Tensor a = Tensors.vectorLong(1, 2, 2, 5, 1);
-    Tensor r = Total.prod(a);
-    assertEquals(r, RealScalar.of(20));
-  }
-
-  public void testPmul2() {
-    Tensor a = Tensors.matrix(new Number[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-    Tensor r = Total.prod(a);
-    assertEquals(r, Tensors.vector(15, 48));
-  }
-
-  public void testPmul3() {
-    Tensor a = Tensors.matrix(new Number[][] { { 1., 2, 3 }, { 4, 5., 6 } });
-    Tensor r = Total.prod(a);
-    assertEquals(r, Tensors.vector(4, 10, 18));
-  }
-
   public void testTotalScalarFail() {
     try {
       Total.of(RealScalar.ONE);
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
-  }
-
-  public void testTotalProdFail() {
-    try {
-      Total.prod(RealScalar.ONE);
       fail();
     } catch (Exception exception) {
       // ---

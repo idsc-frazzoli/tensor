@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.ArrayQ;
@@ -17,6 +17,7 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
 public class Pretty {
   private static final String OPENING = "[\n";
   private static final String CLOSING = "]\n";
+  private static final String[] SPACES = { "", " ", "  ", "   ", "    ", "     " };
 
   /** @param tensor
    * @return string expression of tensor for use in System.out.println
@@ -72,7 +73,9 @@ public class Pretty {
   }
 
   // helper function
-  private static String spaces(int level) {
-    return Stream.generate(() -> " ").limit(level).collect(Collectors.joining());
+  /* package */ static String spaces(int level) {
+    return level < SPACES.length //
+        ? SPACES[level]
+        : IntStream.range(0, level).mapToObj(i -> " ").collect(Collectors.joining());
   }
 }

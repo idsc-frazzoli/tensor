@@ -36,4 +36,10 @@ public class PositiveDefiniteMatrixQTest extends TestCase {
   public void testVector() {
     assertFalse(PositiveDefiniteMatrixQ.ofHermitian(Tensors.vector(1, 2, 3)));
   }
+
+  public void testRectangular() {
+    assertFalse(PositiveDefiniteMatrixQ.ofHermitian(HilbertMatrix.of(2, 3)));
+    assertFalse(PositiveDefiniteMatrixQ.ofHermitian(HilbertMatrix.of(3, 2)));
+    assertFalse(PositiveDefiniteMatrixQ.ofHermitian(Array.zeros(3, 4)));
+  }
 }

@@ -5,14 +5,17 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 
-/** inspired by
+/** implementation consistent with Mathematica.
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ConjugateTranspose.html">ConjugateTranspose</a> */
 public enum ConjugateTranspose {
   ;
-  /** @param matrix
-   * @return transpose of matrix with entries conjugated
+  /** @param tensor of rank at least 2
+   * @return transpose of tensor with entries conjugated
+   * @throws Exception if given tensor is not of rank at least 2
    * @see Conjugate */
-  public static Tensor of(Tensor matrix) {
-    return Conjugate.of(Transpose.of(matrix));
+  public static Tensor of(Tensor tensor) {
+    return Conjugate.of(Transpose.of(tensor));
   }
 }

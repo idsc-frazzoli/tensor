@@ -2,6 +2,8 @@
 // adapted from https://en.wikipedia.org/wiki/De_Boor%27s_algorithm
 package ch.ethz.idsc.tensor.opt;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -11,28 +13,31 @@ import ch.ethz.idsc.tensor.alg.VectorQ;
 
 /** DeBoor denotes the function that is defined by control points over a sequence of knots. */
 public class DeBoor implements ScalarTensorFunction {
-  /** @param knots vector of length degree * 2
+  /** @param binaryAverage non-null
+   * @param knots vector of length degree * 2
    * @param control points of length degree + 1
    * @return
    * @throws Exception if given knots is not a vector, or degree cannot be established */
-  public static DeBoor of(Tensor knots, Tensor control) {
+  public static DeBoor of(BinaryAverage binaryAverage, Tensor knots, Tensor control) {
     int length = knots.length();
     int degree = length / 2;
-    if (length % 2 == 0 && //
-        control.length() == degree + 1)
-      return new DeBoor(degree, VectorQ.require(knots), control);
+    if (length % 2 == 0 && control.length() == degree + 1)
+      return new DeBoor(Objects.requireNonNull(binaryAverage), degree, VectorQ.require(knots), control);
     throw TensorRuntimeException.of(knots, control);
   }
 
   // ---
+  private final BinaryAverage binaryAverage;
   private final int degree;
   private final Tensor knots;
   private final Tensor control;
 
-  /** @param degree
+  /** @param binaryAverage
+   * @param degree
    * @param knots vector of length degree * 2
    * @param control points of length degree + 1 */
-  /* package */ DeBoor(int degree, Tensor knots, Tensor control) {
+  public DeBoor(BinaryAverage binaryAverage, int degree, Tensor knots, Tensor control) {
+    this.binaryAverage = binaryAverage;
     this.degree = degree;
     this.knots = knots;
     this.control = control;
@@ -40,7 +45,7 @@ public class DeBoor implements ScalarTensorFunction {
 
   @Override
   public Tensor apply(Scalar x) {
-    Tensor d = control.copy(); // d is modified over the course of the algorithm
+    Tensor[] d = control.stream().toArray(Tensor[]::new); // d is modified over the course of the algorithm
     for (int r = 1; r < degree + 1; ++r)
       for (int j = degree; j >= r; --j) {
         Scalar kj1 = knots.Get(j - 1); // knots max index = degree - 1
@@ -49,21 +54,23 @@ public class DeBoor implements ScalarTensorFunction {
         Scalar alpha = Scalars.isZero(den) //
             ? RealScalar.ZERO
             : num.divide(den);
-        Tensor a0 = d.get(j - 1).multiply(RealScalar.ONE.subtract(alpha)); // control max index = degree - 1
-        d.set(dj -> dj.multiply(alpha).add(a0), j); // control max index = degree
+        d[j] = binaryAverage.split(d[j - 1], d[j], alpha); // control max index = degree - 1
       }
-    return d.get(degree); // control max index = degree
+    return d[degree]; // control max index = degree
   }
 
+  /** @return */
   public int degree() {
     return degree;
   }
 
-  public Tensor control() {
-    return control.unmodifiable();
-  }
-
+  /** @return */
   public Tensor knots() {
     return knots.unmodifiable();
+  }
+
+  /** @return */
+  public Tensor control() {
+    return control.unmodifiable();
   }
 }

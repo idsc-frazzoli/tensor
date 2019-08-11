@@ -1,8 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -35,9 +37,27 @@ public class NylanderPowerTest extends TestCase {
     assertTrue(Chop._08.close(expected, actual));
   }
 
-  public void testFail() {
+  public void testMatrixFail() {
+    try {
+      NylanderPower.of(IdentityMatrix.of(3), 3);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testLengthFail() {
     try {
       NylanderPower.of(Tensors.vector(1, 2, 3, 4), 3);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailNull() {
+    try {
+      NylanderPower.of(Tensors.vector(1, 2, 3), (Scalar) null);
       fail();
     } catch (Exception exception) {
       // ---

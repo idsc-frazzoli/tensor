@@ -102,7 +102,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
             .skip(i) //
             .map(row -> row.Get(i).multiply(row.Get(fj))) //
             .reduce(Scalar::add).get();
-        StaticHelper.addScaled(i, rows, u, i, j, dot.divide(h));
+        addScaled(i, rows, u, i, j, dot.divide(h));
       }
       IntStream.range(i, rows).forEach(k -> u.set(scale::multiply, k, i));
     }
@@ -145,7 +145,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       Tensor uiEx = ui.extract(ip1, cols);
       for (int j = ip1; j < cols; ++j) {
         final int fj = j;
-        StaticHelper.addScaled(ip1, cols, v, i, j, //
+        addScaled(ip1, cols, v, i, j, //
             (Scalar) uiEx.dot(Tensor.of(v.stream().skip(ip1).map(row -> row.Get(fj)))));
       }
     }
@@ -168,7 +168,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
             .skip(ip1) // ip1 until rows
             .map(row -> row.Get(i).multiply(row.Get(fj))) //
             .reduce(Scalar::add).get();
-        StaticHelper.addScaled(i, rows, u, i, j, s.divide(u.Get(i, i)).divide(gi));
+        addScaled(i, rows, u, i, j, s.divide(u.Get(i, i)).divide(gi));
       }
       IntStream.range(i, rows).forEach(j -> u.set(x -> x.divide(gi), j, i));
     }
@@ -192,7 +192,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
           w.set(h, i);
           c = g.divide(h);
           s = f.divide(h).negate();
-          StaticHelper.rotate(u, rows, c, s, i, l - 1);
+          rotate(u, rows, c, s, i, l - 1);
         }
         return l;
       }
@@ -224,7 +224,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       r.set(z, j);
       c = f.divide(z);
       s = h.divide(z);
-      StaticHelper.rotate(v, cols, c, s, jp1, j);
+      rotate(v, cols, c, s, jp1, j);
       f = x.multiply(c).add(p.multiply(s));
       p = p.multiply(c).subtract(x.multiply(s));
       h = y.multiply(s);
@@ -235,7 +235,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
         c = f.divide(z);
         s = h.divide(z);
       }
-      StaticHelper.rotate(u, rows, c, s, jp1, j);
+      rotate(u, rows, c, s, jp1, j);
       f = c.multiply(p).add(s.multiply(y));
       x = c.multiply(y).subtract(s.multiply(p));
     }
@@ -249,6 +249,22 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     if (Sign.isNegative(z)) {
       w.set(z.negate(), i);
       v.set(Scalar::negate, Tensor.ALL, i);
+    }
+  }
+
+  private static void addScaled(int l, int cols, Tensor v, int i, int j, Scalar s) {
+    for (int k = l; k < cols; ++k) {
+      Scalar a = s.multiply(v.Get(k, i));
+      v.set(x -> x.add(a), k, j);
+    }
+  }
+
+  private static void rotate(Tensor m, int length, Scalar c, Scalar s, int i, int j) {
+    for (int k = 0; k < length; ++k) {
+      Scalar x = m.Get(k, j);
+      Scalar z = m.Get(k, i);
+      m.set(x.multiply(c).add(z.multiply(s)), k, j);
+      m.set(z.multiply(c).subtract(x.multiply(s)), k, i);
     }
   }
 }

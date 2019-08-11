@@ -1,8 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import java.util.stream.IntStream;
-
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -27,6 +25,10 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * The algorithm that is taught in high school was named for Gauss only in the 1950s as
  * a result of confusion over the history of the subject. */
 /* package */ class GaussianElimination extends AbstractReduce {
+  /** @param matrix square and invertible
+   * @param b tensor with first dimension identical to size of matrix
+   * @param pivot
+   * @throws TensorRuntimeException if matrix m is singular */
   public static Tensor of(Tensor matrix, Pivot pivot, Tensor b) {
     return new GaussianElimination(matrix, pivot, b).solve();
   }
@@ -34,16 +36,12 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   // ---
   private final Tensor rhs;
 
-  /** @param matrix square and invertible
-   * @param b tensor with first dimension identical to size of matrix
-   * @param pivot
-   * @throws TensorRuntimeException if matrix m is singular */
   private GaussianElimination(Tensor matrix, Pivot pivot, Tensor b) {
     super(matrix, pivot);
     rhs = b.copy();
-    for (int c0 = 0; c0 < n; ++c0) {
+    for (int c0 = 0; c0 < lhs.length; ++c0) {
       swap(pivot.get(c0, c0, ind, lhs), c0);
-      Scalar piv = lhs.Get(ind[c0], c0);
+      Scalar piv = lhs[ind[c0]].Get(c0);
       if (Scalars.isZero(piv))
         throw TensorRuntimeException.of(matrix, piv);
       eliminate(c0, piv);
@@ -51,19 +49,22 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
   }
 
   private void eliminate(int c0, Scalar piv) {
-    IntStream.range(c0 + 1, lhs.length()).forEach(c1 -> { // deliberately without parallel
-      Scalar fac = lhs.Get(ind[c1], c0).divide(piv).negate();
-      lhs.set(lhs.get(ind[c1]).add(lhs.get(ind[c0]).multiply(fac)), ind[c1]);
-      rhs.set(rhs.get(ind[c1]).add(rhs.get(ind[c0]).multiply(fac)), ind[c1]);
-    });
+    int ic0 = ind[c0];
+    for (int c1 = c0 + 1; c1 < lhs.length; ++c1) { // deliberately without parallel
+      int ic1 = ind[c1];
+      Scalar fac = lhs[ic1].Get(c0).divide(piv).negate();
+      lhs[ic1] = lhs[ic1].add(lhs[ic0].multiply(fac));
+      rhs.set(rhs.get(ic1).add(rhs.get(ic0).multiply(fac)), ic1);
+    }
   }
 
   /** @return x with m.dot(x) == b */
   private Tensor solve() {
     Tensor sol = rhs.map(Scalar::zero); // all-zeros copy of rhs
     for (int c0 = ind.length - 1; 0 <= c0; --c0) {
-      Scalar factor = lhs.Get(ind[c0], c0);
-      sol.set(rhs.get(ind[c0]).subtract(lhs.get(ind[c0]).dot(sol)).divide(factor), c0);
+      int ic0 = ind[c0];
+      Scalar factor = lhs[ic0].Get(c0);
+      sol.set(rhs.get(ic0).subtract(lhs[ic0].dot(sol)).divide(factor), c0);
     }
     return sol;
   }

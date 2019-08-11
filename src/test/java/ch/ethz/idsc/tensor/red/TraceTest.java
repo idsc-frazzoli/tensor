@@ -31,7 +31,7 @@ public class TraceTest extends TestCase {
     Tensor matrix = Tensors.fromString("{{60, 30, 20}, {30, 20, 15}, {20, 15, 12}}");
     Eigensystem eig = Eigensystem.ofSymmetric(matrix);
     assertTrue(Chop._10.close(Trace.of(matrix), Total.of(eig.values()))); // 1. Viete
-    assertTrue(Chop._10.close(Det.of(matrix), Total.prod(eig.values()))); // 3. Viete
+    assertTrue(Chop._10.close(Det.of(matrix), Times.pmul(eig.values()))); // 3. Viete
     {
       Scalar l1 = eig.values().Get(0);
       Scalar l2 = eig.values().Get(1);

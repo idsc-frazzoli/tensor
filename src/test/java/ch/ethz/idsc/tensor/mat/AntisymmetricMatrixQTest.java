@@ -15,6 +15,11 @@ public class AntisymmetricMatrixQTest extends TestCase {
     assertTrue(AntisymmetricMatrixQ.of(Tensors.fromString("{{0, 1}, {-1, 0}}")));
   }
 
+  public void testRectangularMatrix() {
+    assertFalse(AntisymmetricMatrixQ.of(Array.zeros(2, 4)));
+    assertFalse(AntisymmetricMatrixQ.of(HilbertMatrix.of(2, 3)));
+  }
+
   public void testCross() {
     assertTrue(AntisymmetricMatrixQ.of(Cross.skew3(Tensors.vector(1, 2, 3))));
   }

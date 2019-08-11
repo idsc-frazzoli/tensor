@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.util.Objects;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 
@@ -21,7 +23,10 @@ public interface PDF {
    * @return probability density function
    * @throws Exception if given distribution does not implement PDF */
   static PDF of(Distribution distribution) {
-    return (PDF) distribution;
+    if (distribution instanceof PDF)
+      return (PDF) distribution;
+    Objects.requireNonNull(distribution);
+    throw new IllegalArgumentException(distribution.getClass().getName());
   }
 
   /** "PDF.of(distribution).at(x)" corresponds to Mathematica::PDF[distribution, x]

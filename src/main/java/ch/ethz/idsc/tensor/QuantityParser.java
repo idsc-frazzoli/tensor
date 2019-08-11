@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.qty.Unit;
         return Quantity.of( //
             Scalars.fromString(string.substring(0, index)), //
             Unit.of(string.substring(index + 1, last)));
-      throw new RuntimeException(string);
+      throw new IllegalArgumentException(string);
     }
     return ScalarParser.of(string);
   }

@@ -1,20 +1,38 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class SimpleUnitSystemTest extends TestCase {
-  public void testMap() {
+  public void testMap() throws ClassNotFoundException, IOException {
     Properties properties = new Properties();
     properties.setProperty("cent", "1/100[FRA]");
-    UnitSystem unitSystem = SimpleUnitSystem.from(properties);
+    UnitSystem unitSystem = Serialization.copy(SimpleUnitSystem.from(properties));
     Scalar scalar = unitSystem.apply(Quantity.of(100, "cent"));
     assertEquals(scalar, Quantity.of(1, "FRA"));
     assertEquals(unitSystem.map().size(), 1);
+  }
+
+  public void testAll() {
+    UnitSystem unitSystem = UnitSystem.SI();
+    assertTrue(unitSystem instanceof SimpleUnitSystem);
+    Set<String> set = unitSystem.units();
+    assertTrue(set.contains("cd"));
+    assertTrue(set.contains("m"));
+    assertTrue(set.contains("kg"));
+    assertTrue(set.contains("K"));
+    assertTrue(set.contains("CD"));
+    assertTrue(set.contains("V"));
+    assertFalse(set.contains("CHF"));
+    assertFalse(set.contains("EUR"));
+    assertFalse(set.contains("USD"));
   }
 
   public void testFailKey1() {
@@ -61,8 +79,8 @@ public class SimpleUnitSystemTest extends TestCase {
     }
   }
 
-  public void testDerive() {
-    UnitSystem unitSystem = SimpleUnitSystem.from(UnitSystem.SI().map());
+  public void testDerive() throws ClassNotFoundException, IOException {
+    UnitSystem unitSystem = Serialization.copy(SimpleUnitSystem.from(UnitSystem.SI().map()));
     assertEquals(unitSystem.map(), UnitSystem.SI().map());
   }
 

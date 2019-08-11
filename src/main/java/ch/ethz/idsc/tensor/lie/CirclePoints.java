@@ -31,7 +31,7 @@ public enum CirclePoints {
    * @throws Exception if n is negative */
   public static Tensor of(int n) {
     if (n < 0)
-      throw new RuntimeException("n=" + n);
+      throw new IllegalArgumentException(Integer.toString(n));
     return Range.of(0, n).divide(RealScalar.of(n)).map(AngleVector::turns);
   }
 }

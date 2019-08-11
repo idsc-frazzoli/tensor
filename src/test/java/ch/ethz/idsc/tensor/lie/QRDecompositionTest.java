@@ -8,7 +8,6 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -22,12 +21,9 @@ import ch.ethz.idsc.tensor.mat.LowerTriangularize;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
-import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Diagonal;
-import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
-import ch.ethz.idsc.tensor.sca.Decrement;
 import ch.ethz.idsc.tensor.sca.N;
 import junit.framework.TestCase;
 
@@ -89,29 +85,6 @@ public class QRDecompositionTest extends TestCase {
   public void testZeros() {
     Tensor A = Array.zeros(4, 3);
     specialOps(A);
-  }
-
-  public void testRandomOrthogonal() {
-    Distribution distribution = NormalDistribution.of(0, 5);
-    for (int count = 0; count < 5; ++count) {
-      Tensor matrix = Rodrigues.exp(RandomVariate.of(distribution, 3));
-      specialOps(matrix);
-      QRDecomposition qr = QRDecomposition.preserveOrientation(matrix);
-      assertTrue(Chop._13.close(qr.getR(), IdentityMatrix.of(3)));
-      assertTrue(Chop._12.close(qr.getQ(), matrix));
-    }
-  }
-
-  public void testRandomOrthogonal2() {
-    Distribution distribution = NormalDistribution.of(0, 5);
-    Distribution noise = UniformDistribution.of(-0.03, 0.03);
-    for (int count = 0; count < 5; ++count) {
-      Tensor matrix = Rodrigues.exp(RandomVariate.of(distribution, 3)).add(RandomVariate.of(noise, 3, 3));
-      specialOps(matrix);
-      QRDecomposition qr = QRDecomposition.preserveOrientation(matrix);
-      Scalar infNorm = Norm.INFINITY.ofVector(Diagonal.of(qr.getR()).map(Decrement.ONE));
-      assertTrue(Scalars.lessThan(infNorm, RealScalar.of(.1)));
-    }
   }
 
   public void testRandomComplex1() {

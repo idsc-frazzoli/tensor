@@ -64,11 +64,11 @@ public class PadLeft implements TensorUnaryOperator {
       List<Integer> copy = new ArrayList<>(dimensions);
       copy.set(0, dim0 - length);
       return Join.of( //
-          Array.of(index -> element, copy), //
+          ConstantArray.of(element, copy), //
           Tensor.of(tensor.stream().map(tensorUnaryOperator)));
     }
     return dim0 <= length //
         ? tensor.extract(length - dim0, length)
-        : Join.of(Array.of(index -> element, dim0 - length), tensor);
+        : Join.of(ConstantArray.of(element, dim0 - length), tensor);
   }
 }

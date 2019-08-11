@@ -26,7 +26,8 @@ public enum Expectation {
   public static <T extends Tensor> T of(Function<Scalar, T> function, Distribution distribution) {
     if (distribution instanceof DiscreteDistribution)
       return _of(function, (DiscreteDistribution) distribution);
-    throw new RuntimeException();
+    Objects.requireNonNull(distribution);
+    throw new IllegalArgumentException(distribution.getClass().getName());
   }
 
   /** @param distribution

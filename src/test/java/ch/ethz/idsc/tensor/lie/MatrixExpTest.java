@@ -18,15 +18,13 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.mat.HermitianMatrixQ;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.mat.Inverse;
-import ch.ethz.idsc.tensor.pdf.NormalDistribution;
-import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Trace;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class MatrixExpTest extends TestCase {
-  final Random random = new Random();
+  private static final Random RANDOM = new Random();
 
   public void testZeros() {
     Tensor zeros = Array.zeros(7, 7);
@@ -36,21 +34,15 @@ public class MatrixExpTest extends TestCase {
   }
 
   public void testExp() {
-    double val = random.nextGaussian();
-    double va2 = random.nextGaussian();
-    double va3 = random.nextGaussian();
+    double val = RANDOM.nextGaussian();
+    double va2 = RANDOM.nextGaussian();
+    double va3 = RANDOM.nextGaussian();
     double[][] mat = new double[][] { { 0, val, va2 }, { -val, 0, va3 }, { -va2, -va3, 0 } };
     Tensor bu = Tensors.matrixDouble(mat);
     Tensor o = MatrixExp.of(bu);
     assertEquals( //
         Chop._12.of(o.dot(Transpose.of(o)).subtract(IdentityMatrix.of(o.length()))), //
         Array.zeros(Dimensions.of(o)));
-  }
-
-  public void testRodriguez() {
-    Tensor vector = RandomVariate.of(NormalDistribution.standard(), 3);
-    Tensor wedge = LieAlgebras.so3().dot(vector);
-    assertTrue(Chop._13.close(MatrixExp.of(wedge), Rodrigues.exp(vector)));
   }
 
   public void testExp1() {
@@ -61,7 +53,7 @@ public class MatrixExpTest extends TestCase {
 
   public void testExp2() {
     int n = 10;
-    Tensor A = Tensors.matrix((i, j) -> DoubleScalar.of(random.nextGaussian()), n, n);
+    Tensor A = Tensors.matrix((i, j) -> DoubleScalar.of(RANDOM.nextGaussian()), n, n);
     Tensor S = A.subtract(Transpose.of(A));
     Tensor o = MatrixExp.of(S);
     assertEquals( //

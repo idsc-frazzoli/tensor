@@ -5,25 +5,23 @@ import java.awt.Color;
 
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.Tensors;
 
 /** reference implementation of a {@link ColorDataIndexed} with strict indexing
  * 
  * color indices are required to be in the range 0, 1, ..., tensor.length() - 1 */
 public class StrictColorDataIndexed extends BaseColorDataIndexed {
-  /** @param tensor with dimensions N x 4 where each row encodes {R, G, B, A}
+  /** Hint: tensor may be empty
+   * 
+   * @param tensor with dimensions N x 4 where each row encodes {R, G, B, A}
    * @return
-   * @throws Exception if given tensor is empty */
-  public static ColorDataIndexed create(Tensor tensor) {
-    if (Tensors.isEmpty(tensor))
-      throw TensorRuntimeException.of(tensor);
+   * @see CyclicColorDataIndexed */
+  public static ColorDataIndexed of(Tensor tensor) {
     return new StrictColorDataIndexed(tensor.copy());
   }
 
   // ---
   /** @param tensor with dimensions N x 4 where each row encodes {R, G, B, A} */
-  protected StrictColorDataIndexed(Tensor tensor) {
+  StrictColorDataIndexed(Tensor tensor) {
     super(tensor);
   }
 
@@ -38,7 +36,7 @@ public class StrictColorDataIndexed extends BaseColorDataIndexed {
   }
 
   @Override // from BaseColorDataIndexed
-  protected int toInt(Scalar scalar) {
+  int toInt(Scalar scalar) {
     return scalar.number().intValue();
   }
 }

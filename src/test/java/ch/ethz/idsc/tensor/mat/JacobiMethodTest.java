@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.red.Norm;
-import ch.ethz.idsc.tensor.red.Total;
+import ch.ethz.idsc.tensor.red.Times;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -22,7 +22,7 @@ public class JacobiMethodTest extends TestCase {
     // ---
     // testing determinant
     Scalar det = Det.of(matrix);
-    Tensor prd = Total.prod(eigensys.values());
+    Tensor prd = Times.pmul(eigensys.values());
     Chop._12.requireClose(det, prd);
     Tensor norm = Tensor.of(eigensys.vectors().stream().map(Norm._2::ofVector));
     Chop._12.requireClose(norm, Tensors.vector(i -> RealScalar.ONE, norm.length()));

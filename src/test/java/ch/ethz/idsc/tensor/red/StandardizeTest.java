@@ -11,22 +11,22 @@ import junit.framework.TestCase;
 
 public class StandardizeTest extends TestCase {
   public void testNumeric() {
-    Tensor res = Standardize.ofVector(Tensors.vector(6.5, 3.8, 6.6, 5.7, 6.0, 6.4, 5.3));
-    assertTrue(Chop._12.allZero(Mean.of(res)));
-    assertTrue(Chop._12.close(Variance.ofVector(res), RealScalar.ONE));
-    assertTrue(Chop._12.close(StandardDeviation.ofVector(res), RealScalar.ONE));
+    Tensor tensor = Standardize.ofVector(Tensors.vector(6.5, 3.8, 6.6, 5.7, 6.0, 6.4, 5.3));
+    assertTrue(Chop._12.allZero(Mean.of(tensor)));
+    assertTrue(Chop._12.close(Variance.ofVector(tensor), RealScalar.ONE));
+    assertTrue(Chop._12.close(StandardDeviation.ofVector(tensor), RealScalar.ONE));
   }
 
   public void testExact1() {
-    Tensor res = Standardize.ofVector(Tensors.vector(1, 2, 3));
-    assertTrue(ExactTensorQ.of(res));
-    assertEquals(res, Tensors.vector(-1, 0, 1));
+    Tensor tensor = Standardize.ofVector(Tensors.vector(1, 2, 3));
+    assertTrue(ExactTensorQ.of(tensor));
+    assertEquals(tensor, Tensors.vector(-1, 0, 1));
   }
 
   public void testExact2() {
-    Tensor res = Standardize.ofVector(Tensors.vector(1, 3, 5));
-    assertTrue(ExactTensorQ.of(res));
-    assertEquals(res, Tensors.vector(-1, 0, 1));
+    Tensor tensor = Standardize.ofVector(Tensors.vector(1, 3, 5));
+    assertTrue(ExactTensorQ.of(tensor));
+    assertEquals(tensor, Tensors.vector(-1, 0, 1));
   }
 
   public void testLengthShort() {

@@ -14,13 +14,12 @@ import ch.ethz.idsc.tensor.sca.Clips;
     this.opacity = opacity;
   }
 
-  // ---
   @Override // from ScalarTensorFunction
   public Tensor apply(Scalar scalar) {
     double value = scalar.number().doubleValue();
     return Double.isFinite(value) //
         ? ColorFormat.toVector(Hue.of(value, 1, 1, opacity))
-        : StaticHelper.transparent();
+        : Transparent.rgba();
   }
 
   @Override // from ColorDataGradient

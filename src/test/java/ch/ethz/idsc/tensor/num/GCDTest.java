@@ -6,6 +6,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class GCDTest extends TestCase {
@@ -33,7 +34,7 @@ public class GCDTest extends TestCase {
 
   public void testRational() {
     Scalar scalar = GCD.of(RationalScalar.of(3, 2), RationalScalar.of(2, 1));
-    assertEquals(scalar, RationalScalar.of(1, 2)); // Mathematica gives 1/2
+    assertEquals(scalar, RationalScalar.HALF); // Mathematica gives 1/2
   }
 
   public void testComplex1() {
@@ -45,5 +46,25 @@ public class GCDTest extends TestCase {
     // GCD[9 + 3 I, 123 + 9 I]
     Scalar scalar = GCD.of(ComplexScalar.of(9, 3), ComplexScalar.of(123, 9));
     assertEquals(scalar, ComplexScalar.of(-3, 3));
+  }
+
+  public void testQuantity() {
+    Scalar scalar = GCD.of(Quantity.of(2 * 7 * 5, "s"), Quantity.of(2 * 5 * 13, "s"));
+    assertEquals(scalar, Quantity.of(2 * 5, "s"));
+  }
+
+  public void testNumericFail() {
+    try {
+      GCD.of(RealScalar.of(0.3), RealScalar.of(+60));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      GCD.of(RealScalar.of(123), RealScalar.of(0.2));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

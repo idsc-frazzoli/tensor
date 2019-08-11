@@ -43,12 +43,12 @@ import java.util.List;
           : c0;
   }
 
-  @Override
+  @Override // from Iterator
   public boolean hasNext() {
     return count < total;
   }
 
-  @Override
+  @Override // from Iterator
   public List<Integer> next() {
     if (0 < count)
       for (int c0 : direction) {
@@ -61,7 +61,7 @@ import java.util.List;
     return Arrays.asList(index);
   }
 
-  @Override
+  @Override // from Iterable
   public Iterator<List<Integer>> iterator() {
     return this;
   }

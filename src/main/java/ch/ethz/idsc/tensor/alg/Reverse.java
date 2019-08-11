@@ -3,27 +3,28 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** consistent with Mathematica:
- * Reverse of a scalar is not defined
- * Reverse[ 3.14 ] throws an exception
- * 
- * <p>inspired by
+/** inspired by
  * <a href="https://reference.wolfram.com/language/ref/Reverse.html">Reverse</a> */
 public enum Reverse {
   ;
   /** Reverse[{a, b, c}] == {c, b, a}
    * 
+   * Implementation consistent with Mathematica:
+   * Reverse of a scalar is not defined
+   * Reverse[ 3.14 ] throws an exception
+   * 
    * @param tensor
    * @return tensor with entries on first level reversed
-   * @throws Exception if tensor is a {@link Scalar} */
+   * @throws Exception if tensor is a scalar */
   public static Tensor of(Tensor tensor) {
     ScalarQ.thenThrow(tensor);
-    int length = tensor.length();
-    return Tensor.of(IntStream.range(0, length).map(index -> length - index - 1).mapToObj(tensor::get));
+    int last = tensor.length() - 1;
+    return Tensor.of(IntStream.range(0, tensor.length()) //
+        .map(index -> last - index) //
+        .mapToObj(tensor::get));
   }
 
   /** @param tensor

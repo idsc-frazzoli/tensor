@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.pdf;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -16,25 +17,28 @@ public class TruncatedDistribution implements Distribution, RandomVariateInterfa
 
   /** Careful: function does not check for plausibility of input
    * 
-   * @param distribution
-   * @param clip
-   * @return */
+   * @param distribution non-null
+   * @param clip non-null
+   * @return
+   * @throws Exception if either parameter is null */
   public static Distribution of(Distribution distribution, Clip clip) {
-    return new TruncatedDistribution(distribution, clip);
+    return new TruncatedDistribution( //
+        Objects.requireNonNull((RandomVariateInterface) distribution), //
+        Objects.requireNonNull(clip));
   }
 
   // ---
-  private final Distribution distribution;
+  private final RandomVariateInterface randomVariateInterface;
   private final Clip clip;
 
-  private TruncatedDistribution(Distribution distribution, Clip clip) {
-    this.distribution = distribution;
+  private TruncatedDistribution(RandomVariateInterface randomVariateInterface, Clip clip) {
+    this.randomVariateInterface = randomVariateInterface;
     this.clip = clip;
   }
 
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
-    return Stream.generate(() -> RandomVariate.of(distribution)) //
+    return Stream.generate(() -> randomVariateInterface.randomVariate(random)) //
         .limit(MAXITER) //
         .filter(clip::isInside) //
         .findFirst().get();

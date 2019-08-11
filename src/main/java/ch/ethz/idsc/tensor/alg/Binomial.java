@@ -86,7 +86,7 @@ public class Binomial implements Serializable {
 
   // ---
   private final int n;
-  /* package for testing */ final Tensor row;
+  private final Tensor row;
 
   private Binomial(int n) {
     this.n = n;

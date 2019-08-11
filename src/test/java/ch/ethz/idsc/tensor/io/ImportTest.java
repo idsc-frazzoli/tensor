@@ -14,7 +14,10 @@ import ch.ethz.idsc.tensor.usr.TestFile;
 import junit.framework.TestCase;
 
 public class ImportTest extends TestCase {
-  public static final File IO_OBJECT = new File("src/test/resources/io/object");
+  private static final File IO_OBJECT = new File("src/test/resources/io/object");
+  public static final File IO_OBJECT_TENSOR = new File(IO_OBJECT, "tensor.object");
+  public static final File IO_OBJECT_UNMODIFIABLE = new File(IO_OBJECT, "unmodifiable.object");
+  public static final File IO_OBJECT_VIEWTENSOR = new File(IO_OBJECT, "viewtensor.object");
 
   public void testCsv() throws Exception {
     String string = "/io/libreoffice_calc.csv";
@@ -125,17 +128,17 @@ public class ImportTest extends TestCase {
   }
 
   public void testSerialization1() throws ClassNotFoundException, IOException, DataFormatException {
-    Tensor tensor = Import.object(new File(IO_OBJECT, "tensor.object"));
+    Tensor tensor = Import.object(IO_OBJECT_TENSOR);
     VectorQ.requireLength(tensor, 3);
   }
 
   public void testSerialization2() throws ClassNotFoundException, IOException, DataFormatException {
-    Tensor tensor = Import.object(new File(IO_OBJECT, "unmodifiable.object"));
+    Tensor tensor = Import.object(IO_OBJECT_UNMODIFIABLE);
     assertTrue(Tensors.isUnmodifiable(tensor));
   }
 
   public void testSerialization3() throws ClassNotFoundException, IOException, DataFormatException {
-    Tensor tensor = Import.object(new File(IO_OBJECT, "viewtensor.object"));
+    Tensor tensor = Import.object(IO_OBJECT_VIEWTENSOR);
     VectorQ.requireLength(tensor, 3);
   }
 

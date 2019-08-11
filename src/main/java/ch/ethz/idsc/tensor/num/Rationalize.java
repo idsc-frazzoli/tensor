@@ -46,8 +46,8 @@ public class Rationalize implements ScalarUnaryOperator {
     this.max = Sign.requirePositive(IntegerQ.require(max));
   }
 
-  /* find rational approximation to given real number
-   * David Eppstein / UC Irvine / 8 Aug 1993
+  /** Quote from David Eppstein / UC Irvine / 8 Aug 1993:
+   * "find rational approximation to given real number
    *
    * With corrections from Arno Formella, May 2008
    * usage: a.out r d
@@ -63,13 +63,14 @@ public class Rationalize implements ScalarUnaryOperator {
    * ( a1 1 ) ( a2 1 ) ( a3 1 ) ...
    * ( 1 0 ) ( 1 0 ) ( 1 0 )
    * Instead of keeping the sequence of continued fraction terms,
-   * we just keep the last partial product of these matrices. */
-  /** @param scalar for instance Math.PI, or 2./3.
+   * we just keep the last partial product of these matrices."
+   * 
+   * @param scalar for instance Math.PI, or 2./3.
    * @param max denominator
    * @return approximation of given scalar as {@link RationalScalar} with denominator bounded by max */
   @Override
   public Scalar apply(final Scalar scalar) {
-    Scalar m00 = RealScalar.ONE; /* initialize matrix */
+    Scalar m00 = RealScalar.ONE; // initialize matrix
     Scalar m01 = RealScalar.ZERO;
     Scalar m10 = RealScalar.ZERO;
     Scalar m11 = RealScalar.ONE;

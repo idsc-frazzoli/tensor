@@ -8,15 +8,13 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Range;
-import ch.ethz.idsc.tensor.sca.Clip;
-import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Floor;
 
 /** The implementation of BSplineFunction in the tensor library
  * is different from Mathematica.
  * 
  * tensor::BSplineFunction is parameterized over the interval
- * [0, control.length()-1]
+ * [0, control.length() - 1]
  * 
  * tensor::BSplineFunction can be instantiated for all degrees
  * regardless of the length of the control points.
@@ -24,22 +22,34 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * Mathematica::BSplineFunction throws an exception if number
  * of control points is insufficient for the specified degree.
  * 
+ * tensor::BSplineFunction uses uniform knot spacing except for
+ * string alignment at the terminal points.
+ * 
  * <p>Quote from Wikipedia:
  * The term "B-spline" was coined by Isaac Jacob Schoenberg and is short for basis spline.
  * A spline is a piecewise polynomial function of a given degree in a variable x.
  * The values of x where the pieces of polynomial meet are known as knots, denoted
  * ..., t0, t1, t2, ... and sorted into non-decreasing order. */
-public class BSplineFunction implements ScalarTensorFunction {
+public abstract class BSplineFunction implements ScalarTensorFunction {
   /** the control point are stored by reference, i.e. modifications to
    * given tensor alter the behavior of this BSplineFunction instance.
    * 
    * @param degree of polynomial basis function, non-negative integer
    * @param control points with at least one element
-   * @return */
-  public static BSplineFunction of(int degree, Tensor control) {
-    if (degree < 0)
-      throw new IllegalArgumentException(Integer.toString(degree));
-    return new BSplineFunction(degree, control);
+   * @return
+   * @throws Exception if degree is negative, or control does not have length at least one */
+  public static ScalarTensorFunction string(int degree, Tensor control) {
+    return new BSplineFunctionString(StaticHelper.requirePositiveOrZero(degree), control);
+  }
+
+  /** function is periodic every interval [0, control.length())
+   * 
+   * @param degree non-negative
+   * @param control with at least one element
+   * @return function defined for all real scalars not constrained to a finite interval
+   * @throws Exception if degree is negative, or control does not have length at least one */
+  public static ScalarTensorFunction cyclic(int degree, Tensor control) {
+    return new BSplineFunctionCyclic(StaticHelper.requirePositiveOrZero(degree), control);
   }
 
   // ---
@@ -48,50 +58,46 @@ public class BSplineFunction implements ScalarTensorFunction {
   /** half == degree / 2 */
   private final int half;
   /** shift is 0 for odd degree and 1/2 for even degree */
-  private final Scalar shift;
-  /** index of last control point */
-  private final int last;
-  /** domain of this function */
-  private final Clip domain;
-  /** clip for knots */
-  private final Clip clip;
+  final Scalar shift;
 
-  private BSplineFunction(int degree, Tensor control) {
+  BSplineFunction(int degree, Tensor control) {
     this.degree = degree;
     this.control = control;
     half = degree / 2;
     shift = degree % 2 == 0 //
         ? RationalScalar.HALF
         : RealScalar.ZERO;
-    last = control.length() - 1;
-    domain = Clips.positive(last);
-    clip = Clips.interval( //
-        domain.min().add(shift), //
-        domain.max().add(shift));
   }
 
-  /** @param scalar inside interval [0, control.length() - 1]
-   * @return
-   * @throws Exception if given scalar is outside required interval */
-  @Override
-  public Tensor apply(Scalar scalar) {
-    scalar = domain.requireInside(scalar).add(shift);
+  @Override // from ScalarTensorFunction
+  public final Tensor apply(Scalar scalar) {
+    scalar = domain(scalar).add(shift);
     return deBoor(Floor.FUNCTION.apply(scalar).number().intValue()).apply(scalar);
   }
 
-  /** @param k in the interval [0, control.length() - 1]
+  /** @param k
    * @return */
-  public DeBoor deBoor(int k) {
+  public final DeBoor deBoor(int k) {
     int hi = degree + 1 + k;
-    return new DeBoor(degree, //
-        Range.of(-degree + 1 + k, hi).map(clip), // knots
+    return new DeBoor( //
+        LinearBinaryAverage.INSTANCE, //
+        degree, //
+        knots(Range.of(-degree + 1 + k, hi)), //
         Tensor.of(IntStream.range(k - half, hi - half) // control
             .map(this::bound) //
             .mapToObj(control::get)));
   }
 
-  // helper function
-  private int bound(int index) {
-    return Math.min(Math.max(0, index), last);
-  }
+  /** @param scalar
+   * @return scalar in evaluation domain
+   * @throws Exception if scalar is outside defined domain */
+  abstract Scalar domain(Scalar scalar);
+
+  /** @param knots
+   * @return */
+  abstract Tensor knots(Tensor knots);
+
+  /** @param index
+   * @return */
+  abstract int bound(int index);
 }

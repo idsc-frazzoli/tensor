@@ -4,34 +4,54 @@ package ch.ethz.idsc.tensor.img;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.ResourceData;
 
-/** inspired by Mathematica::ColorData[97] */
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a> */
 public enum ColorDataLists {
-  _001, //
-  _003, //
-  _058, //
-  _061, //
-  _063, //
-  _074, //
-  _094, //
-  _096, //
+  /** 16 colors */
+  _001,
+  /** 10 colors */
+  _003,
+  /** 14 colors */
+  _058,
+  /** 9 colors */
+  _061,
+  /** 16 colors */
+  _063,
+  /** 10 colors */
+  _074,
+  /** 16 colors */
+  _094,
+  /** 16 colors */
+  _096,
   /** mathematica default */
   _097, //
-  _098, //
-  _099, //
-  _100, //
-  _103, //
-  _104, //
-  _106, //
-  _108, //
-  _109, //
-  _110, //
+  /** 16 colors */
+  _098,
+  /** 16 colors */
+  _099,
+  /** 16 colors */
+  _100,
+  /** 16 colors */
+  _103,
+  /** 16 colors */
+  _104,
+  /** 16 colors */
+  _106,
+  /** 16 colors */
+  _108,
+  /** 16 colors */
+  _109,
+  /** 16 colors */
+  _110,
+  /** 16 colors */
   _112, //
-  /** hue palette with 13 colors normalized according to brightness, tensor library default */
+  /** hue palette with 13 colors normalized according to brightness
+   * tensor library default */
   _250, // luma
   /** hue palette with 13 colors */
   _251, //
   ;
-  private final Tensor tensor = ResourceData.of(StaticHelper.colorlist(name()));
+  private final Tensor tensor = ResourceData.of("/colorlist/" + name().substring(1, 4) + ".csv");
   private final ColorDataIndexed cyclic = new CyclicColorDataIndexed(tensor);
   private final ColorDataIndexed strict = new StrictColorDataIndexed(tensor);
 

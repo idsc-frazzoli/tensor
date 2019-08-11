@@ -38,7 +38,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
     }
   };
 
-  /* The Java API recommends to use ArrayDeque instead of Stack. However,
+  /** The Java API recommends to use ArrayDeque instead of Stack. However,
    * in the implementation of GrahamScan, we can't conveniently exchange Stack
    * and ArrayDeque because ArrayDeque#stream() reverses the order.
    * GrahamScan is used in several applications. No performance issues were

@@ -155,11 +155,17 @@ public enum Primitives {
 
   /***************************************************/
   /** @param tensor
-   * @return array of byte values of all scalars in tensor */
+   * @return array of byte values of all scalars in given tensor */
   public static byte[] toByteArray(Tensor tensor) {
-    byte[] array = new byte[Numel.of(tensor)];
-    ByteBuffer byteBuffer = ByteBuffer.wrap(array);
+    return toByteBuffer(tensor).array();
+  }
+
+  /** @param tensor
+   * @return byte buffer containing byte values of all scalars in given tensor */
+  public static ByteBuffer toByteBuffer(Tensor tensor) {
+    ByteBuffer byteBuffer = ByteBuffer.allocate(Numel.of(tensor));
     toStreamNumber(tensor).forEach(number -> byteBuffer.put(number.byteValue()));
-    return array;
+    byteBuffer.flip();
+    return byteBuffer;
   }
 }

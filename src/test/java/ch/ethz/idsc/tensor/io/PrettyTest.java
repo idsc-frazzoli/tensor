@@ -44,4 +44,9 @@ public class PrettyTest extends TestCase {
     String pty051 = ResourceData.object("/io/pretty.string");
     assertEquals(string, pty051);
   }
+
+  public void testSpaces() {
+    for (int level = 0; level < 10; ++level)
+      assertEquals(Pretty.spaces(level).length(), level);
+  }
 }
