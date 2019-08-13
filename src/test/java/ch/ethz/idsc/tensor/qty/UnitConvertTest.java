@@ -1,14 +1,17 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class UnitConvertTest extends TestCase {
-  public void testKm() {
-    UnitConvert unitConvert = UnitConvert.SI();
+  public void testKm() throws ClassNotFoundException, IOException {
+    UnitConvert unitConvert = Serialization.copy(UnitConvert.SI());
     Scalar q = Quantity.of(2, "K*km^2");
     Unit unit = Unit.of("K*cm^2");
     Scalar scalar = unitConvert.to(unit).apply(q);
@@ -98,7 +101,7 @@ public class UnitConvertTest extends TestCase {
 
   public void testFailNull() {
     try {
-      new UnitConvert(null);
+      UnitConvert.of(null);
       fail();
     } catch (Exception exception) {
       // ---

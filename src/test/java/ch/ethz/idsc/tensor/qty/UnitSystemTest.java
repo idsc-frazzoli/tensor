@@ -85,7 +85,7 @@ public class UnitSystemTest extends TestCase {
     }
     Scalar total = Total.of(cart.map(prices)).Get();
     assertEquals(total, Quantity.of(16, "CHF"));
-    Scalar euro = new UnitConvert(prices).to(Unit.of("EUR")).apply(total);
+    Scalar euro = UnitConvert.of(prices).to(Unit.of("EUR")).apply(total);
     assertEquals(euro, Quantity.of(12.8, "EUR"));
   }
 

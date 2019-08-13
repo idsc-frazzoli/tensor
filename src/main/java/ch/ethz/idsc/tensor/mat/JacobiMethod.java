@@ -65,9 +65,12 @@ import ch.ethz.idsc.tensor.sca.Sign;
       for (int ip = 0; ip < n - 1; ++ip) {
         for (int iq = ip + 1; iq < n; ++iq) {
           Scalar g = HUNDRED.multiply(A.Get(ip, iq).abs());
-          if (i > 4 && Scalars.lessEquals(g, EPS.multiply(d.Get(ip).abs())) && Scalars.lessEquals(g, EPS.multiply(d.Get(ip).abs()))) {
-            A.set(RealScalar.ZERO, ip, iq);
-          } else if (!Scalars.lessEquals(A.Get(ip, iq).abs(), tresh)) {
+          if (4 < i && //
+              Scalars.lessEquals(g, EPS.multiply(d.Get(ip).abs())) && //
+              Scalars.lessEquals(g, EPS.multiply(d.Get(iq).abs()))) {
+            A.set(Scalar::zero, ip, iq);
+          } else //
+          if (Scalars.lessThan(tresh, A.Get(ip, iq).abs())) {
             Scalar h = d.Get(iq).subtract(d.Get(ip));
             Scalar t;
             if (Scalars.lessEquals(g, EPS.multiply(h.abs()))) {
@@ -86,7 +89,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
             z.set(v -> v.add(fh), iq);
             d.set(v -> v.subtract(fh), ip);
             d.set(v -> v.add(fh), iq);
-            A.set(RealScalar.ZERO, ip, iq);
+            A.set(Scalar::zero, ip, iq);
             final int fip = ip;
             final int fiq = iq;
             IntStream.range(0, ip).forEach(j -> rotate(A, s, tau, j, fip, j, fiq));

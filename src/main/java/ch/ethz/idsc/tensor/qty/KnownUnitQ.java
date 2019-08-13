@@ -7,12 +7,23 @@ import java.util.Set;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/KnownUnitQ.html">KnownUnitQ</a> */
 public class KnownUnitQ implements Serializable {
-  public static KnownUnitQ SI() {
-    return BuiltIn.SI.knownUnitQ;
-  }
+  private static final KnownUnitQ SI = in(BuiltIn.SI.unitSystem);
 
+  /** @param unitSystem non-null
+   * @return */
   public static KnownUnitQ in(UnitSystem unitSystem) {
     return new KnownUnitQ(unitSystem.units());
+  }
+
+  /** Examples:
+   * <pre>
+   * KnownUnitQ.SI().of(Unit.of("V*K*CD*kOhm^-2")) == true
+   * KnownUnitQ.SI().of(Unit.of("CHF")) == false
+   * </pre>
+   * 
+   * @return */
+  public static KnownUnitQ SI() {
+    return SI;
   }
 
   // ---
@@ -23,7 +34,7 @@ public class KnownUnitQ implements Serializable {
   }
 
   /** @param unit
-   * @return */
+   * @return true if all atomic units of given unit are defined in unit system */
   public boolean of(Unit unit) {
     return set.containsAll(unit.map().keySet());
   }

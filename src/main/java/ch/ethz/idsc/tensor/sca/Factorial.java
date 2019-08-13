@@ -21,6 +21,7 @@ public enum Factorial implements ScalarUnaryOperator {
   private static final Tensor MEMO = Tensors.vector(1); // initialize value for 0!
 
   /** @param scalar non-negative integer
+   * @return factorial of given scalar
    * @throws Exception if scalar is not a non-negative integer */
   @Override
   public Scalar apply(Scalar scalar) {
@@ -28,7 +29,7 @@ public enum Factorial implements ScalarUnaryOperator {
   }
 
   /** @param index
-   * @return */
+   * @return factorial of index */
   public static Scalar of(int index) {
     if (index < 0)
       throw new IllegalArgumentException(Integer.toString(index));
