@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Scalar;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/CompatibleUnitQ.html">CompatibleUnitQ</a> */
 public class CompatibleUnitQ implements Serializable {
-  private static final CompatibleUnitQ SI = in(BuiltIn.SI.unitSystem);
+  private static final CompatibleUnitQ SI = in(UnitSystem.SI());
 
   /** @param unitSystem non-null
    * @return */

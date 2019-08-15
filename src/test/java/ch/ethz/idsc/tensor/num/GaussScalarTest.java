@@ -137,6 +137,16 @@ public class GaussScalarTest extends TestCase {
     }
   }
 
+  public void testPowerNegative() {
+    int prime = 677;
+    Scalar scalar = GaussScalar.of(432, prime);
+    Scalar now = GaussScalar.of(1, prime);
+    for (int index = 0; index < prime; ++index) {
+      assertEquals(Power.of(scalar, -index), now);
+      now = now.divide(scalar);
+    }
+  }
+
   public void testPower2() {
     long prime = 59;
     BinaryPower<GaussScalar> binaryPower = Scalars.binaryPower(GaussScalar.of(1, prime));

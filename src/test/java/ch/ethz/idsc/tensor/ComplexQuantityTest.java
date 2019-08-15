@@ -5,6 +5,15 @@ import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
 public class ComplexQuantityTest extends TestCase {
+  public void testAdd() {
+    Scalar a = Scalars.fromString("-13*I[m]");
+    Scalar b = Scalars.fromString("-3/7[m]");
+    Scalar c = a.add(b);
+    Scalar d = Scalars.fromString("-3/7-13*I[m]");
+    assertEquals(c, d);
+    assertTrue(c instanceof Quantity);
+  }
+
   public void testPolar() {
     Scalar abs = Quantity.of(2, "V*m^-1");
     Scalar q = ComplexScalar.fromPolar(abs, RealScalar.ONE);

@@ -16,6 +16,10 @@ import ch.ethz.idsc.tensor.red.Total;
 import junit.framework.TestCase;
 
 public class UnitSystemTest extends TestCase {
+  public void testSize() {
+    assertTrue(72 <= UnitSystem.SI().map().size());
+  }
+
   public void testExact() {
     Scalar scalar = UnitSystem.SI().apply(Quantity.of(3, "Hz^-2*N*m^-1"));
     assertEquals(scalar, Quantity.of(3, "kg"));

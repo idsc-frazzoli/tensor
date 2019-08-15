@@ -7,6 +7,10 @@ import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class CompatibleUnitQTest extends TestCase {
+  public void testCompatibleUnitQ() {
+    assertTrue(CompatibleUnitQ.SI().with(Unit.of("kgf^2*L^-3")).test(Quantity.of(2, "N^2*m^-9")));
+  }
+
   public void testSimple() throws ClassNotFoundException, IOException {
     CompatibleUnitQ compatibleUnitQ = Serialization.copy(CompatibleUnitQ.SI());
     assertTrue(compatibleUnitQ.with(Unit.of("m*s^-1")).test(Quantity.of(2, "km*ms^-1")));

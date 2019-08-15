@@ -6,8 +6,9 @@ import java.util.Set;
 
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/KnownUnitQ.html">KnownUnitQ</a> */
+// TODO V078 predicate
 public class KnownUnitQ implements Serializable {
-  private static final KnownUnitQ SI = in(BuiltIn.SI.unitSystem);
+  private static final KnownUnitQ SI = in(UnitSystem.SI());
 
   /** @param unitSystem non-null
    * @return */

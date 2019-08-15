@@ -9,10 +9,16 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class QuantityMagnitudeTest extends TestCase {
+  public void testMagnitudeKgf() {
+    Scalar scalar = QuantityMagnitude.SI().in("N").apply(Quantity.of(1, "kgf"));
+    assertEquals(N.DOUBLE.apply(scalar).number().doubleValue(), 9.80665);
+  }
+
   public void testInUnit() {
     Scalar scalar = QuantityMagnitude.SI().in(Unit.of("K*m^2")).apply(Quantity.of(2, "K*km^2"));
     assertEquals(scalar, RealScalar.of(2_000_000));

@@ -7,6 +7,10 @@ import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class KnownUnitQTest extends TestCase {
+  public void testKnownUnitQ() {
+    assertTrue(KnownUnitQ.SI().of(Unit.of("kgf^2*K*gal^-1")));
+  }
+
   public void testSimple() {
     assertTrue(KnownUnitQ.SI().of(Unit.of("V*K*CD*kOhm^-2")));
     assertTrue(KnownUnitQ.SI().of(Unit.of("PS^3")));

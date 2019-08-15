@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/UnitConvert.html">UnitConvert</a> */
 public class UnitConvert implements Serializable {
-  private static final UnitConvert SI = of(BuiltIn.SI.unitSystem);
+  private static final UnitConvert SI = of(UnitSystem.SI());
 
   public static UnitConvert of(UnitSystem unitSystem) {
     return new UnitConvert(Objects.requireNonNull(unitSystem));

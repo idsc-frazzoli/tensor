@@ -14,7 +14,8 @@ public enum TestFile {
    * new File("/home/username/AnimatedGifWriterTest_testColor.extension")
    * 
    * @param extension
-   * @return */
+   * @return file that does not exist
+   * @throws Exception if file already exists */
   public static File withExtension(String extension) {
     StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
     String className = stackTraceElement.getClassName();

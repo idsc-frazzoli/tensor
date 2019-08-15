@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.Scalars;
  * {4[rad], 300[deg], 2, 180[rad], -1[rad]} to
  * {-1[rad], 2, 4[rad], 300[deg], 180[rad]} */
 public class QuantityComparator implements Comparator<Scalar>, Serializable {
-  private static final Comparator<Scalar> SI = of(BuiltIn.SI.unitSystem);
+  private static final Comparator<Scalar> SI = of(UnitSystem.SI());
 
   /** @param unitSystem non-null
    * @return */
