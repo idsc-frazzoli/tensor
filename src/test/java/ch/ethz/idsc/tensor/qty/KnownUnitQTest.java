@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 public class KnownUnitQTest extends TestCase {
   public void testKnownUnitQ() {
     assertTrue(KnownUnitQ.SI().of(Unit.of("kgf^2*K*gal^-1")));
+    assertTrue(KnownUnitQ.SI().of(Unit.ONE));
   }
 
   public void testSimple() {
@@ -19,19 +20,29 @@ public class KnownUnitQTest extends TestCase {
     assertFalse(KnownUnitQ.SI().of(Unit.of("CHF*m")));
   }
 
-  public void testFail() throws ClassNotFoundException, IOException {
-    KnownUnitQ knownUnitQ = Serialization.copy(KnownUnitQ.SI());
+  public void testRequire() {
+    KnownUnitQ.SI().require(Unit.of("PS^3"));
     try {
-      knownUnitQ.of(null);
+      KnownUnitQ.SI().require(Unit.of("CHF"));
       fail();
     } catch (Exception exception) {
       // ---
     }
   }
 
-  public void testNullFail() {
+  public void testNullCreationFail() {
     try {
       KnownUnitQ.in(null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNullArgumentFail() throws ClassNotFoundException, IOException {
+    KnownUnitQ knownUnitQ = Serialization.copy(KnownUnitQ.SI());
+    try {
+      knownUnitQ.of(null);
       fail();
     } catch (Exception exception) {
       // ---

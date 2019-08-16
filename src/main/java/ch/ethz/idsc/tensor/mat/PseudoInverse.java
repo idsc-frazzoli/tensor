@@ -30,6 +30,6 @@ public enum PseudoInverse {
   /** @param svd
    * @return pseudoinverse of matrix determined by given svd */
   public static Tensor of(SingularValueDecomposition svd) {
-    return of(svd, NullSpace.CHOP_DEFAULT);
+    return of(svd, Tolerance.CHOP);
   }
 }

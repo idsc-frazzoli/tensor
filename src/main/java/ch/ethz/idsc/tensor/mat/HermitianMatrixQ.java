@@ -23,6 +23,6 @@ public enum HermitianMatrixQ {
   /** @param tensor
    * @return true if tensor is a Hermitian matrix */
   public static boolean of(Tensor tensor) {
-    return of(tensor, NullSpace.CHOP_DEFAULT);
+    return of(tensor, Tolerance.CHOP);
   }
 }

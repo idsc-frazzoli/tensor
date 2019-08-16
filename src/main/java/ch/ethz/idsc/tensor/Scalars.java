@@ -14,10 +14,11 @@ public enum Scalars {
   ;
   /** parses given string to an instance of {@link Scalar}
    * 
-   * Examples:
+   * <p>Examples:
    * <pre>
    * "7/9" -> RationalScalar.of(7, 9)
    * "3.14" -> DoubleScalar.of(3.14)
+   * "1E-20" -> DoubleScalar.of(1E-20)
    * "(3+2)*I/(-1+4)+8-I" -> ComplexScalar.of(8, 2/3) == "8+2/3*I"
    * "9.81[m*s^-2]" -> Quantity.of(9.81, "m*s^-2")
    * </pre>
@@ -25,7 +26,7 @@ public enum Scalars {
    * If the parsing logic encounters an inconsistency, the return type
    * is a {@link StringScalar} that holds the input string.
    * 
-   * Scalar types that are not supported include {@link GaussScalar}.
+   * <p>Scalar types that are not supported include {@link GaussScalar}.
    * 
    * @param string
    * @return scalar */

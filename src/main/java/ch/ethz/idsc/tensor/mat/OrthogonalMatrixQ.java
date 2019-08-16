@@ -24,7 +24,7 @@ public enum OrthogonalMatrixQ {
    * @return true, if given tensor is a matrix and tensor.Transpose[tensor] is the identity matrix
    * @see UnitaryMatrixQ */
   public static boolean of(Tensor tensor) {
-    return of(tensor, NullSpace.CHOP_DEFAULT);
+    return of(tensor, Tolerance.CHOP);
   }
 
   /** @param tensor

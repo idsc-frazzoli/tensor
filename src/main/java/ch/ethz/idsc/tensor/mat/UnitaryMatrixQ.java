@@ -18,6 +18,6 @@ public enum UnitaryMatrixQ {
   }
 
   public static boolean of(Tensor tensor) {
-    return of(tensor, NullSpace.CHOP_DEFAULT);
+    return of(tensor, Tolerance.CHOP);
   }
 }

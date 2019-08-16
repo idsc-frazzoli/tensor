@@ -19,6 +19,6 @@ public enum SymmetricMatrixQ {
   /** @param tensor
    * @return true if given tensor is a symmetric matrix */
   public static boolean of(Tensor tensor) {
-    return of(tensor, NullSpace.CHOP_DEFAULT);
+    return of(tensor, Tolerance.CHOP);
   }
 }

@@ -10,7 +10,11 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** Quote from Mathematica::QuantityMagnitude
+ * "gives the amount of the specified quantity"
+ * "gives the magnitude value of a Quantity"
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/QuantityMagnitude.html">QuantityMagnitude</a> */
 public class QuantityMagnitude implements Serializable {
   private static final QuantityMagnitude SI = new QuantityMagnitude(UnitSystem.SI());

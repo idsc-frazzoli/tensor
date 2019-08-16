@@ -110,9 +110,11 @@ public interface Quantity extends Scalar, //
    * "gives the amount of the specified quantity"
    * "gives the magnitude value of a Quantity"
    * 
-   * @return value of quantity without unit */
+   * @return value of quantity without unit
+   * @see QuantityMagnitude */
   Scalar value();
 
-  /** @return unit of quantity without value */
+  /** @return unit of quantity without value
+   * @see QuantityUnit */
   Unit unit();
 }
