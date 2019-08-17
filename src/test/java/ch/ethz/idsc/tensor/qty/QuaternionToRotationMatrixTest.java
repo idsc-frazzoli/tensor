@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -43,7 +44,7 @@ public class QuaternionToRotationMatrixTest extends TestCase {
   }
 
   public void testQuaternionVector() {
-    Random random = new Random();
+    Random random = new SecureRandom();
     for (int index = 0; index < 10; ++index) {
       Quaternion quaternion = Quaternion.of(random.nextGaussian(), random.nextGaussian(), random.nextGaussian(), random.nextGaussian());
       quaternion = quaternion.divide(quaternion.abs()); // normalize

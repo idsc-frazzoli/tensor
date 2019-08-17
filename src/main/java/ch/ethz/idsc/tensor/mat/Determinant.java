@@ -20,7 +20,7 @@ import ch.ethz.idsc.tensor.Tensor;
     super(matrix, pivot);
   }
 
-  /** @return determinant */
+  /** @return determinant of given matrix */
   private Scalar solve() {
     for (int c0 = 0; c0 < lhs.length; ++c0) {
       swap(pivot.get(c0, c0, ind, lhs), c0);

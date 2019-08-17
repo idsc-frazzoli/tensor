@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.ExactTensorQ;
@@ -31,7 +32,7 @@ public class InverseTest extends TestCase {
   public void testInverseNoAbs() {
     int n = 12;
     int p = 20357;
-    Random random = new Random();
+    Random random = new SecureRandom();
     Tensor A = Tensors.matrix((i, j) -> GaussScalar.of(random.nextInt(p), p), n, n);
     Tensor b = Tensors.vector(i -> GaussScalar.of(random.nextInt(p), p), n);
     Tensor x = LinearSolve.withoutAbs(A, b);

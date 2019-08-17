@@ -45,4 +45,13 @@ import ch.ethz.idsc.tensor.sca.Chop;
             .map(Scalar.class::cast) //
             .allMatch(predicate);
   }
+
+  /** @param value positive or zero
+   * @return value
+   * @throws Exception if given value is negative */
+  static int requirePositive(int value) {
+    if (value <= 0)
+      throw new IllegalArgumentException(Integer.toString(value));
+    return value;
+  }
 }

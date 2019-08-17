@@ -29,13 +29,13 @@ public class TraceTest extends TestCase {
   // from wikipedia
   public void testViete() {
     Tensor matrix = Tensors.fromString("{{60, 30, 20}, {30, 20, 15}, {20, 15, 12}}");
-    Eigensystem eig = Eigensystem.ofSymmetric(matrix);
-    assertTrue(Chop._10.close(Trace.of(matrix), Total.of(eig.values()))); // 1. Viete
-    assertTrue(Chop._10.close(Det.of(matrix), Times.pmul(eig.values()))); // 3. Viete
+    Eigensystem eigensystem = Eigensystem.ofSymmetric(matrix);
+    assertTrue(Chop._10.close(Trace.of(matrix), Total.of(eigensystem.values()))); // 1. Viete
+    assertTrue(Chop._10.close(Det.of(matrix), Times.pmul(eigensystem.values()))); // 3. Viete
     {
-      Scalar l1 = eig.values().Get(0);
-      Scalar l2 = eig.values().Get(1);
-      Scalar l3 = eig.values().Get(2);
+      Scalar l1 = eigensystem.values().Get(0);
+      Scalar l2 = eigensystem.values().Get(1);
+      Scalar l3 = eigensystem.values().Get(2);
       Scalar res = _tr2Formula(matrix);
       Tensor vector = Tensors.of(l1.multiply(l2), l2.multiply(l3), l3.multiply(l1));
       Tensor cmp = Total.of(vector);

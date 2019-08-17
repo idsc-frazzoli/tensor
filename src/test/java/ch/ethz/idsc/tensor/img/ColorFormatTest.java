@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.img;
 
 import java.awt.Color;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.Tensor;
@@ -11,7 +12,7 @@ import junit.framework.TestCase;
 
 public class ColorFormatTest extends TestCase {
   public void testRandom() {
-    Random random = new Random();
+    Random random = new SecureRandom();
     for (int index = 0; index < 10; ++index) {
       int red = random.nextInt(256);
       int green = random.nextInt(256);

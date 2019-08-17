@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.num;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -150,7 +151,7 @@ public class GaussScalarTest extends TestCase {
   public void testPower2() {
     long prime = 59;
     BinaryPower<GaussScalar> binaryPower = Scalars.binaryPower(GaussScalar.of(1, prime));
-    Random random = new Random();
+    Random random = new SecureRandom();
     for (int index = 0; index < prime; ++index) {
       GaussScalar gaussScalar = GaussScalar.of(random.nextInt(), prime);
       if (!gaussScalar.number().equals(BigInteger.ZERO))

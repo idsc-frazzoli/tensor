@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -22,7 +23,7 @@ public class BasisTransformTest extends TestCase {
   public void testForm() {
     int rows = 6;
     int cols = 8;
-    Random random = new Random();
+    Random random = new SecureRandom();
     Tensor m = IdentityMatrix.of(rows);
     Tensor v = Tensors.matrix((i, j) -> RealScalar.of(random.nextInt(10)), rows, cols);
     Tensor t = BasisTransform.ofForm(m, v);

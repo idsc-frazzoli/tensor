@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -26,6 +27,7 @@ public class RandomVariateTest extends TestCase {
         RandomVariate.of(distribution, new Random(10), 1000), //
         RandomVariate.of(distribution, new Random(10), 1000) //
     );
+    RandomVariate.of(distribution, new SecureRandom(), 2, 3, 4);
   }
 
   public void testFormatArray() {

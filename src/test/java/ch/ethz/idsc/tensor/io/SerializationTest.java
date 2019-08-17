@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.io.IOException;
-import java.util.Random;
+import java.security.SecureRandom;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -52,7 +52,7 @@ public class SerializationTest extends TestCase {
 
   public void testParseFail2() {
     byte[] bytes = new byte[100];
-    new Random().nextBytes(bytes);
+    new SecureRandom().nextBytes(bytes);
     try {
       Serialization.parse(bytes);
       fail();

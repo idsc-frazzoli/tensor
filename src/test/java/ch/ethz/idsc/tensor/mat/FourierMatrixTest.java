@@ -19,7 +19,7 @@ public class FourierMatrixTest extends TestCase {
     Tensor invert = ConjugateTranspose.of(matrix);
     assertTrue(SymmetricMatrixQ.of(matrix));
     assertEquals(Chop._12.of(matrix.dot(invert).subtract(IdentityMatrix.of(n))), zeros);
-    assertEquals(Chop._12.of(Inverse.of(matrix).subtract(invert)), zeros);
+    Chop._12.requireClose(Inverse.of(matrix), invert);
   }
 
   public void testSeveral() {
@@ -37,14 +37,29 @@ public class FourierMatrixTest extends TestCase {
   }
 
   private static void _check(int n) {
-    Tensor m = FourierMatrix.of(n);
-    Tensor minv = FourierMatrix.inverse(n);
-    assertTrue(Chop._10.close(m.dot(minv), IdentityMatrix.of(n)));
+    Tensor matrix = FourierMatrix.of(n);
+    Tensor inverse = FourierMatrix.inverse(n);
+    assertTrue(Chop._10.close(matrix.dot(inverse), IdentityMatrix.of(n)));
   }
 
   public void testInverse() {
     _check(8);
     _check(10);
     _check(11);
+  }
+
+  public void testNegativeFail() {
+    try {
+      FourierMatrix.of(0);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      FourierMatrix.of(-1);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
