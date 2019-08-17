@@ -266,24 +266,26 @@ Predefined color lists
 
 Specify `repository` and `dependency` of the tensor library in the `pom.xml` file of your maven project:
 
-    <repositories>
-      <repository>
-        <id>tensor-mvn-repo</id>
-        <url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>
-        <snapshots>
-          <enabled>true</enabled>
-          <updatePolicy>always</updatePolicy>
-        </snapshots>
-      </repository>
-    </repositories>
-    
-    <dependencies>
-      <dependency>
-        <groupId>ch.ethz.idsc</groupId>
-        <artifactId>tensor</artifactId>
-        <version>0.7.8</version>
-      </dependency>
-    </dependencies>
+```xml
+<repositories>
+  <repository>
+    <id>tensor-mvn-repo</id>
+    <url>https://raw.github.com/idsc-frazzoli/tensor/mvn-repo/</url>
+    <snapshots>
+      <enabled>true</enabled>
+      <updatePolicy>always</updatePolicy>
+    </snapshots>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+    <groupId>ch.ethz.idsc</groupId>
+    <artifactId>tensor</artifactId>
+    <version>0.7.8</version>
+  </dependency>
+</dependencies>
+```
 
 The source code is attached to every release.
 

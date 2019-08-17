@@ -36,19 +36,22 @@ public enum ArcTan implements ScalarUnaryOperator {
     return I_HALF.multiply(Log.FUNCTION.apply(ComplexScalar.I.add(scalar).divide(ComplexScalar.I.subtract(scalar))));
   }
 
-  /** CAREFUL: the ordering of input arguments is
+  /** Careful: the ordering of input arguments is
    * consistent with Mathematica::ArcTan[x, y]
    * but opposite to java.lang.Math::atan2(y, x)
    * 
+   * <pre>
    * ArcTan[x, y] == -ArcTan[x, -y]
    * ArcTan[x, y] == ArcTan[x * lambda, y * lambda] for positive lambda
    * 
    * ArcTan.of(0, 0) == 0 is not consistent with Mathematica.
    * Mathematica::ArcTan[0, 0] is undefined
+   * </pre>
    * 
    * @param x
    * @param y
-   * @return arc tangent of y/x, taking into account which quadrant the point (x, y) is in */
+   * @return arc tangent of y/x, taking into account which quadrant the point (x, y) is in
+   * @throws Exception if y is not instance of ArcTanInterface */
   public static Scalar of(Scalar x, Scalar y) {
     if (y instanceof ArcTanInterface) {
       ArcTanInterface arcTanInterface = (ArcTanInterface) y;

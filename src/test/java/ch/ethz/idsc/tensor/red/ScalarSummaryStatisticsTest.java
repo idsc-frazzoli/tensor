@@ -32,6 +32,7 @@ public class ScalarSummaryStatisticsTest extends TestCase {
     assertEquals(stats.getMax(), Quantity.of(11, "s"));
     assertEquals(stats.getAverage(), Quantity.of(6, "s"));
     assertEquals(stats.getCount(), 4);
+    assertEquals(stats.toString(), "ScalarSummaryStatistics{count=4, sum=24[s], min=3[s], average=6[s], max=11[s]}");
   }
 
   public void testCollector() {
@@ -42,6 +43,7 @@ public class ScalarSummaryStatisticsTest extends TestCase {
     assertEquals(stats.getMax(), RealScalar.of(10));
     assertEquals(stats.getAverage(), RationalScalar.of(14, 3));
     assertEquals(stats.getCount(), 6);
+    assertEquals(stats.toString(), "ScalarSummaryStatistics{count=6, sum=28, min=1, average=14/3, max=10}");
   }
 
   public void testEmpty() {
