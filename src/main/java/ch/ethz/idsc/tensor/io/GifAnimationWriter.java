@@ -4,15 +4,29 @@ package ch.ethz.idsc.tensor.io;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** wraps {@link AnimatedGifWriter} as {@link AnimationWriter} */
-/* package */ class GifAnimationWriter implements AnimationWriter {
+/** Example:
+ * <pre>
+ * try (AnimationWriter animationWriter = new GifAnimationWriter(file, 100, TimeUnit.MILLISECONDS)) {
+ * animationWriter.append(bufferedImage);
+ * ...
+ * }
+ * </pre>
+ * 
+ * in Mathematica, animated gif sequences are created by Mathematica::Export */
+public class GifAnimationWriter implements AnimationWriter {
   private final AnimatedGifWriter animatedGifWriter;
 
-  public GifAnimationWriter(File file, int period) throws IOException {
-    animatedGifWriter = AnimatedGifWriter.of(file, period);
+  /** @param file typically with extension "gif"
+   * @param period
+   * @param timeUnit
+   * @return
+   * @throws IOException */
+  public GifAnimationWriter(File file, int period, TimeUnit timeUnit) throws IOException {
+    animatedGifWriter = AnimatedGifWriter.of(file, (int) TimeUnit.MILLISECONDS.convert(period, timeUnit));
   }
 
   @Override // from AnimationWriter
