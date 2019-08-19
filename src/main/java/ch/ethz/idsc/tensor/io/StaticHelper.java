@@ -45,6 +45,6 @@ import ch.ethz.idsc.tensor.Tensors;
       return new File(string);
     if (cls.equals(Boolean.class))
       return BooleanParser.orNull(string);
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(string);
   }
 }

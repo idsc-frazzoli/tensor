@@ -158,7 +158,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       if (unit.equals(quantity.unit()))
         return ArcTan.of(quantity.value(), value);
     }
-    throw TensorRuntimeException.of(x, this);
+    return ArcTan.FUNCTION.apply(divide(x)); // ArcTan[x, y] == ArcTan[ y / x ]
   }
 
   @Override // from ArgInterface

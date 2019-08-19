@@ -18,16 +18,18 @@ public class SchattenNorm extends VectorNorm implements NormInterface {
 
   /** Hint: for enhanced precision, use p as instance of {@link RationalScalar} if possible
    * 
-   * @param p exponent
-   * @return */
+   * @param p exponent greater or equals 1
+   * @return
+   * @throws Exception if p is less than 1 */
   public static NormInterface with(Scalar p) {
     return p.equals(TWO) //
         ? Frobenius.NORM
         : new SchattenNorm(p);
   }
 
-  /** @param p exponent
-   * @return */
+  /** @param p exponent greater or equals 1
+   * @return
+   * @throws Exception if p is less than 1 */
   public static NormInterface with(Number p) {
     return with(RealScalar.of(p));
   }

@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.opt.Pi;
+import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
@@ -44,7 +45,7 @@ public abstract class AbstractRealScalar extends AbstractScalar implements RealS
       return DoubleScalar.of(Math.atan2( //
           number().doubleValue(), // y
           x.number().doubleValue())); // x
-    throw TensorRuntimeException.of(x, this);
+    return ArcTan.FUNCTION.apply(divide(x)); // ArcTan[x, y] == ArcTan[ y / x ]
   }
 
   @Override // from ArgInterface

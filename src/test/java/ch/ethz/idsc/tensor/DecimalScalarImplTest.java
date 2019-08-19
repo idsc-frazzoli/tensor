@@ -166,6 +166,24 @@ public class DecimalScalarImplTest extends TestCase {
     assertFalse(ds1.equals(GaussScalar.of(6, 7)));
   }
 
+  private static final class ObjectExtension {
+    @Override
+    public boolean equals(Object obj) {
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+  }
+
+  public void testEqualsTrue() {
+    Object object = new ObjectExtension();
+    final Scalar ds1 = DecimalScalar.of(new BigDecimal("1.0234", MathContext.DECIMAL128));
+    assertTrue(ds1.equals(object));
+  }
+
   public void testNullFail() {
     try {
       DecimalScalar.of((BigDecimal) null);

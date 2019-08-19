@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** For real input, the returned angle is in the range -pi/2 through pi/2.
  * 
@@ -20,6 +19,10 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * 
  * Mathematica:ArcTan[-1, 0] == pi
  * tensor-lib.:ArcTan[-1, 0] == pi
+ * </pre>
+ * 
+ * <pre>
+ * ArcTan[x, y] == ArcTan[ y / x ]
  * </pre>
  *
  * <p>inspired by
@@ -57,7 +60,7 @@ public enum ArcTan implements ScalarUnaryOperator {
       ArcTanInterface arcTanInterface = (ArcTanInterface) y;
       return arcTanInterface.arcTan(x);
     }
-    throw TensorRuntimeException.of(x, y);
+    return ArcTan.FUNCTION.apply(y.divide(x));
   }
 
   /** @param x

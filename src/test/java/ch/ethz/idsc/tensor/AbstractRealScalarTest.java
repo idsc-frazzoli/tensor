@@ -2,10 +2,26 @@
 package ch.ethz.idsc.tensor;
 
 import ch.ethz.idsc.tensor.num.GaussScalar;
+import ch.ethz.idsc.tensor.sca.ArcTan;
 import ch.ethz.idsc.tensor.sca.Power;
 import junit.framework.TestCase;
 
 public class AbstractRealScalarTest extends TestCase {
+  public void testArcTan() {
+    try {
+      ArcTan.of(RealScalar.of(2.3), GaussScalar.of(3, 7));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      ArcTan.of(GaussScalar.of(3, 7), RealScalar.of(2.3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testRange() {
     assertEquals(Math.log(AbstractRealScalar.LOG_HI), Math.log1p(AbstractRealScalar.LOG_HI - 1));
     assertEquals(Math.log(AbstractRealScalar.LOG_LO), Math.log1p(AbstractRealScalar.LOG_LO - 1));

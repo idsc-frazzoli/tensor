@@ -26,9 +26,9 @@ public enum Sinc implements ScalarUnaryOperator {
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (Scalars.lessThan(scalar.abs(), THRESHOLD))
-      return SERIES.apply(scalar);
-    return Sin.FUNCTION.apply(scalar).divide(scalar);
+    return Scalars.lessThan(scalar.abs(), THRESHOLD) //
+        ? SERIES.apply(scalar)
+        : Sin.FUNCTION.apply(scalar).divide(scalar);
   }
 
   /** @param tensor

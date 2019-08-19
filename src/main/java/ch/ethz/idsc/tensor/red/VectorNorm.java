@@ -26,14 +26,16 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 public class VectorNorm implements VectorNormInterface, Serializable {
   /** Hint: for enhanced precision, use p as instance of {@link RationalScalar} if possible
    * 
-   * @param p exponent
-   * @return */
+   * @param p exponent greater or equals 1
+   * @return
+   * @throws Exception if p is less than 1 */
   public static VectorNormInterface with(Scalar p) {
     return new VectorNorm(p);
   }
 
-  /** @param p exponent
-   * @return */
+  /** @param p exponent greater or equals 1
+   * @return
+   * @throws Exception if p is less than 1 */
   public static VectorNormInterface with(Number p) {
     return with(RealScalar.of(p));
   }
@@ -42,7 +44,8 @@ public class VectorNorm implements VectorNormInterface, Serializable {
   private final ScalarUnaryOperator p_power;
   private final Scalar p_reciprocal;
 
-  VectorNorm(Scalar p) {
+  // constructor also called from SchattenNorm
+  /* package */ VectorNorm(Scalar p) {
     if (Scalars.lessThan(p, RealScalar.ONE))
       throw TensorRuntimeException.of(p);
     p_power = Power.function(p);
