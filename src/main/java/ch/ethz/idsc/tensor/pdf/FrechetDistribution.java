@@ -60,9 +60,9 @@ public class FrechetDistribution extends AbstractAlphaBetaDistribution implement
 
   @Override // from MeanInterface
   public Scalar mean() {
-    if (Scalars.lessEquals(alpha, RealScalar.ONE))
-      return beta.multiply(DoubleScalar.POSITIVE_INFINITY);
-    return beta.multiply(Gamma.FUNCTION.apply(RealScalar.ONE.subtract(alpha.reciprocal())));
+    return Scalars.lessEquals(alpha, RealScalar.ONE) //
+        ? beta.multiply(DoubleScalar.POSITIVE_INFINITY)
+        : beta.multiply(Gamma.FUNCTION.apply(RealScalar.ONE.subtract(alpha.reciprocal())));
   }
 
   @Override // from VarianceInterface
@@ -81,8 +81,8 @@ public class FrechetDistribution extends AbstractAlphaBetaDistribution implement
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    if (Sign.isNegativeOrZero(x))
-      return RealScalar.ZERO;
-    return Exp.FUNCTION.apply(Power.of(x.divide(beta), alpha.negate()).negate());
+    return Sign.isPositive(x) //
+        ? Exp.FUNCTION.apply(Power.of(x.divide(beta), alpha.negate()).negate())
+        : RealScalar.ZERO;
   }
 }

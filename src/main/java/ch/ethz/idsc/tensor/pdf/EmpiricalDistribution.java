@@ -67,9 +67,9 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
 
   @Override // from AbstractDiscreteDistribution
   protected Scalar protected_p_equals(int n) {
-    if (pdf.length() <= n)
-      return RealScalar.ZERO;
-    return pdf.Get(n);
+    return n < pdf.length() //
+        ? pdf.Get(n)
+        : RealScalar.ZERO;
   }
 
   @Override // from CDF
@@ -87,9 +87,9 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
     int index = Scalars.intValueExact(scalar);
     if (index < 0)
       return RealScalar.ZERO;
-    if (cdf.length() <= index)
-      return RealScalar.ONE;
-    return cdf.Get(index);
+    return index < cdf.length() //
+        ? cdf.Get(index)
+        : RealScalar.ONE;
   }
 
   @Override // from Object

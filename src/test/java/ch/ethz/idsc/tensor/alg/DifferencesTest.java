@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.opt.Pi;
 import junit.framework.TestCase;
 
 public class DifferencesTest extends TestCase {
@@ -41,5 +42,19 @@ public class DifferencesTest extends TestCase {
   public void testConsistent() {
     assertEquals(Differences.of(Tensors.empty()), Tensors.empty());
     assertEquals(Differences.of(Tensors.vector(1)), Tensors.empty());
+  }
+
+  public void testNonArray() {
+    Tensor tensor = Tensors.fromString("{{1, {2, 4}}}");
+    assertEquals(Differences.of(tensor), Tensors.empty());
+  }
+
+  public void testScalar() {
+    try {
+      Differences.of(Pi.TWO);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
