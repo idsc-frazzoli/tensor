@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.function.UnaryOperator;
 
-import ch.ethz.idsc.tensor.Internal;
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 
@@ -26,7 +26,7 @@ public enum NestList {
    * @return tensor of length n + 1
    * @throws Exception if n is negative */
   public static <T extends Tensor> Tensor of(UnaryOperator<T> unaryOperator, T x, int n) {
-    Internal.requirePositiveOrZero(n);
+    Integers.requirePositiveOrZero(n);
     Tensor tensor = Tensors.reserve(n + 1).append(x);
     for (int index = 0; index < n; ++index)
       tensor.append(x = unaryOperator.apply(x));

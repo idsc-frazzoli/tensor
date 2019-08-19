@@ -5,6 +5,9 @@ import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Times;
 import junit.framework.TestCase;
@@ -32,6 +35,11 @@ public class CubeRootTest extends TestCase {
     Scalar scalar = CubeRoot.FUNCTION.apply(RealScalar.ZERO);
     assertEquals(scalar, RealScalar.ZERO);
     ExactScalarQ.require(scalar);
+  }
+
+  public void testOf() {
+    Tensor tensor = CubeRoot.of(Tensors.vector(-27, -8, -1, 0, 1, 8, 27));
+    assertEquals(tensor, Range.of(-3, 4));
   }
 
   public void testComplexFail() {

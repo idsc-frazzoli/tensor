@@ -30,9 +30,10 @@ import ch.ethz.idsc.tensor.Tensors;
     return false;
   }
 
-  /** @param cls
-   * @param string
-   * @return new instance of class that was constructed from given string */
+  /** @param cls class
+   * @param string to parse to an instance of given class
+   * @return new instance of class that was constructed from given string
+   * @throws Exception if given class is not supported */
   /* package */ static Object parse(Class<?> cls, String string) {
     if (cls.equals(Tensor.class))
       return Tensors.fromString(string);
@@ -44,6 +45,6 @@ import ch.ethz.idsc.tensor.Tensors;
       return new File(string);
     if (cls.equals(Boolean.class))
       return BooleanParser.orNull(string);
-    return null;
+    throw new UnsupportedOperationException();
   }
 }

@@ -3,7 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.Internal;
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -40,7 +40,7 @@ public abstract class BSplineFunction implements ScalarTensorFunction {
    * @return
    * @throws Exception if degree is negative, or control does not have length at least one */
   public static ScalarTensorFunction string(int degree, Tensor control) {
-    return new BSplineFunctionString(Internal.requirePositiveOrZero(degree), control);
+    return new BSplineFunctionString(Integers.requirePositiveOrZero(degree), control);
   }
 
   /** function is periodic every interval [0, control.length())
@@ -50,7 +50,7 @@ public abstract class BSplineFunction implements ScalarTensorFunction {
    * @return function defined for all real scalars not constrained to a finite interval
    * @throws Exception if degree is negative, or control does not have length at least one */
   public static ScalarTensorFunction cyclic(int degree, Tensor control) {
-    return new BSplineFunctionCyclic(Internal.requirePositiveOrZero(degree), control);
+    return new BSplineFunctionCyclic(Integers.requirePositiveOrZero(degree), control);
   }
 
   // ---

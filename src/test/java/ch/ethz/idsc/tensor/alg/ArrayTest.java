@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.red.Tally;
 import junit.framework.TestCase;
 
@@ -44,6 +45,16 @@ public class ArrayTest extends TestCase {
     assertEquals( //
         Dimensions.of(tensor).subList(dims.size(), rank), //
         Dimensions.of(array).subList(dims.size(), rank));
+  }
+
+  public void testFillEmpty() {
+    Tensor tensor = Array.fill(() -> Pi.VALUE, Arrays.asList());
+    assertEquals(tensor, Pi.VALUE);
+  }
+
+  public void testFillIntegers() {
+    Tensor tensor = Array.fill(() -> Pi.VALUE, 1, 2);
+    assertEquals(Dimensions.of(tensor), Arrays.asList(1, 2));
   }
 
   public void testBlock() {

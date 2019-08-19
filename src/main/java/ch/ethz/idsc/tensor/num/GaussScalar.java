@@ -78,6 +78,16 @@ public class GaussScalar extends AbstractScalar implements //
     throw TensorRuntimeException.of(this, scalar);
   }
 
+  @Override // from AbstractScalar
+  public GaussScalar divide(Scalar scalar) {
+    return (GaussScalar) super.divide(scalar);
+  }
+
+  @Override // from AbstractScalar
+  public GaussScalar under(Scalar scalar) {
+    return (GaussScalar) super.under(scalar);
+  }
+
   @Override // from Scalar
   public Number number() {
     return value;

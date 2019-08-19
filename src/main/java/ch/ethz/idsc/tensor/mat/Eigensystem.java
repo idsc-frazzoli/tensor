@@ -11,9 +11,9 @@ public interface Eigensystem {
    * @return
    * @throws Exception if input is not a symmetric matrix */
   static Eigensystem ofSymmetric(Tensor matrix) {
-    if (!SymmetricMatrixQ.of(matrix))
-      throw TensorRuntimeException.of(matrix);
-    return new JacobiMethod(matrix);
+    if (SymmetricMatrixQ.of(matrix))
+      return new JacobiMethod(matrix);
+    throw TensorRuntimeException.of(matrix);
   }
 
   /** Careful: Mathematica orders the eigenvalues according to absolute value.

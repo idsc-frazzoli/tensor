@@ -23,8 +23,18 @@ public class OrthogonalMatrixQTest extends TestCase {
     assertFalse(OrthogonalMatrixQ.of(LieAlgebras.so3()));
   }
 
-  public void testRequire() {
+  public void testRequireChop() {
     OrthogonalMatrixQ.require(IdentityMatrix.of(4), Chop.NONE);
+    try {
+      OrthogonalMatrixQ.require(HilbertMatrix.of(3), Chop.NONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRequire() {
+    OrthogonalMatrixQ.require(IdentityMatrix.of(4));
     try {
       OrthogonalMatrixQ.require(HilbertMatrix.of(3));
       fail();

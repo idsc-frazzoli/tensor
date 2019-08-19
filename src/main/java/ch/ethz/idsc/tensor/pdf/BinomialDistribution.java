@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -30,8 +31,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
    * otherwise an instance of {@link BinomialRandomVariate}, which has the capability to
    * generate random variates, but is not available to PDF, or CDF. */
   public static Distribution of(int n, Scalar p) {
-    if (n < 0)
-      throw new IllegalArgumentException("n=" + n);
+    Integers.requirePositiveOrZero(n);
     Clips.unit().requireInside(p);
     // ---
     boolean revert = Scalars.lessThan(RationalScalar.HALF, p);
@@ -91,9 +91,9 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
 
   @Override // from AbstractDiscreteDistribution
   protected Scalar protected_p_equals(int k) {
-    if (n < k)
-      return RealScalar.ZERO;
-    return table.Get(k);
+    return k <= n //
+        ? table.Get(k)
+        : RealScalar.ZERO;
   }
 
   @Override // from Object

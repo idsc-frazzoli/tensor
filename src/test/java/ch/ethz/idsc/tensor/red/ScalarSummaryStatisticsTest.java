@@ -16,6 +16,16 @@ import junit.framework.TestCase;
 public class ScalarSummaryStatisticsTest extends TestCase {
   public void testMembers() {
     ScalarSummaryStatistics scalarSummaryStatistics = Tensors.vector(1, 4, 2, 8, 3, 10) //
+        .stream().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
+    assertEquals(scalarSummaryStatistics.getSum(), RealScalar.of(28));
+    assertEquals(scalarSummaryStatistics.getMin(), RealScalar.of(1));
+    assertEquals(scalarSummaryStatistics.getMax(), RealScalar.of(10));
+    assertEquals(scalarSummaryStatistics.getAverage(), RationalScalar.of(14, 3));
+    assertEquals(scalarSummaryStatistics.getCount(), 6);
+  }
+
+  public void testMembersParallel() {
+    ScalarSummaryStatistics scalarSummaryStatistics = Tensors.vector(1, 4, 2, 8, 3, 10) //
         .stream().parallel().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
     assertEquals(scalarSummaryStatistics.getSum(), RealScalar.of(28));
     assertEquals(scalarSummaryStatistics.getMin(), RealScalar.of(1));

@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.opt.Pi;
 import junit.framework.TestCase;
 
 public class PartitionTest extends TestCase {
@@ -77,5 +78,20 @@ public class PartitionTest extends TestCase {
       } catch (Exception exception) {
         // ---
       }
+  }
+
+  public void testStreamFail() {
+    try {
+      Partition.stream(Pi.VALUE, 3, 2);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      Partition.stream(Pi.VALUE, 2, 3);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

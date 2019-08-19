@@ -30,7 +30,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testCsvGz() throws IOException {
-    File file = TestFile.withExtension("csv");
+    File file = TestFile.withExtension("csv.gz");
     Tensor tensor = Tensors.fromString("{{0, 2, 3.123+3*I[V]}, {34.1231`32, 556, 3/456, -323/2}}");
     Export.of(file, tensor);
     Tensor imported = Import.of(file);
@@ -39,7 +39,7 @@ public class ExportTest extends TestCase {
   }
 
   public void testCsvGzLarge() throws IOException {
-    File file = TestFile.withExtension("csv");
+    File file = TestFile.withExtension("csv.gz");
     Distribution distribution = BinomialDistribution.of(10, RealScalar.of(.3));
     Tensor tensor = RandomVariate.of(distribution, 60, 30);
     Export.of(file, tensor);
@@ -99,6 +99,14 @@ public class ExportTest extends TestCase {
 
   public void testBmpGray() throws IOException {
     File file = TestFile.withExtension("bmp");
+    Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11);
+    Export.of(file, image);
+    assertEquals(image, Import.of(file));
+    assertTrue(file.delete());
+  }
+
+  public void testBmpGzGray() throws IOException {
+    File file = TestFile.withExtension("bmp.gz");
     Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11);
     Export.of(file, image);
     assertEquals(image, Import.of(file));

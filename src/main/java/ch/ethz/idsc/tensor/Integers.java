@@ -1,8 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
-/** inspired by Mathematica::Internal` */
-public enum Internal {
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Integers.html">Integers</a> */
+public enum Integers {
   ;
   /** @param value non-negative
    * @return value

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -26,9 +27,8 @@ public enum IdentityMatrix {
    * @return identity matrix of dimensions n x n
    * @throws Exception if n is negative or zero */
   public static Tensor of(int n) {
-    if (0 < n)
-      return Tensors.matrix(KroneckerDelta::of, n, n);
-    throw new IllegalArgumentException("n=" + n);
+    Integers.requirePositive(n);
+    return Tensors.matrix(KroneckerDelta::of, n, n);
   }
 
   /** @param n
@@ -36,8 +36,7 @@ public enum IdentityMatrix {
    * @return matrix of dimensions n x n with multiplicative one on the diagonal
    * @throws Exception if n is negative or zero */
   public static Tensor of(int n, Scalar one) {
-    if (0 < n)
-      return Tensors.matrix((i, j) -> i.equals(j) ? one : one.zero(), n, n);
-    throw new IllegalArgumentException("n=" + n);
+    Integers.requirePositive(n);
+    return Tensors.matrix((i, j) -> i.equals(j) ? one : one.zero(), n, n);
   }
 }

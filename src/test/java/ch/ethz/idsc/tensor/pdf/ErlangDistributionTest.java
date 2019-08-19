@@ -46,6 +46,11 @@ public class ErlangDistributionTest extends TestCase {
     }
   }
 
+  public void testToString() {
+    Distribution distribution = ErlangDistribution.of(5, Quantity.of(10, "m"));
+    assertEquals(distribution.toString(), "ErlangDistribution[5, 10[m]]");
+  }
+
   public void testFail() {
     try {
       ErlangDistribution.of(0, RealScalar.of(1.8));

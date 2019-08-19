@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 
 /* package */ abstract class BaseColorDataIndexed implements ColorDataIndexed {
   private final Tensor tensor;
-  protected final Color[] colors;
+  final Color[] colors;
 
   BaseColorDataIndexed(Tensor tensor) {
     this.tensor = tensor;
@@ -43,7 +43,7 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
   }
 
   /** @param alpha in the range [0, 1, ..., 255]
-   * @return operator that maps a vector of the form rgba to rgb, alpha */
+   * @return operator that maps a vector of the form {r, g, b, any} to {r, g, b, alpha} */
   private static TensorUnaryOperator withAlpha(int alpha) {
     Scalar scalar = RealScalar.of(alpha);
     return rgba -> rgba.extract(0, 3).append(scalar);

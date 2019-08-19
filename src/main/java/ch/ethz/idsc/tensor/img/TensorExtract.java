@@ -5,7 +5,7 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.Internal;
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.TensorMap;
@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
    * @throws Exception if given radius is negative */
   public static Tensor of(Tensor tensor, int radius, Function<Tensor, ? extends Tensor> function) {
     ScalarQ.thenThrow(tensor);
-    Internal.requirePositiveOrZero(radius);
+    Integers.requirePositiveOrZero(radius);
     int rank = TensorRank.of(tensor);
     UnaryOperator<Tensor> unaryOperator = value -> convolve(value, radius, function);
     for (int level = 0; level < rank; ++level)

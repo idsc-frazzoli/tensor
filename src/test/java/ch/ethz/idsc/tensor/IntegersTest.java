@@ -3,21 +3,21 @@ package ch.ethz.idsc.tensor;
 
 import junit.framework.TestCase;
 
-public class InternalTest extends TestCase {
+public class IntegersTest extends TestCase {
   public void testPositive() {
     for (int value : new int[] { 1, 2, Integer.MAX_VALUE })
-      Internal.requirePositive(value);
+      Integers.requirePositive(value);
   }
 
   public void testPositiveOrZero() {
     for (int value : new int[] { 0, 1, 2, Integer.MAX_VALUE })
-      Internal.requirePositiveOrZero(value);
+      Integers.requirePositiveOrZero(value);
   }
 
   public void testPositiveFail() {
     for (int value : new int[] { Integer.MIN_VALUE, -3, -1, 0 })
       try {
-        Internal.requirePositive(value);
+        Integers.requirePositive(value);
         fail();
       } catch (Exception exception) {
         // ---
@@ -27,7 +27,7 @@ public class InternalTest extends TestCase {
   public void testPositiveOrZeroFail() {
     for (int value : new int[] { Integer.MIN_VALUE, -3, -1 })
       try {
-        Internal.requirePositiveOrZero(value);
+        Integers.requirePositiveOrZero(value);
         fail();
       } catch (Exception exception) {
         // ---

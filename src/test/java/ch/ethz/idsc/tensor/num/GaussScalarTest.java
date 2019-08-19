@@ -40,6 +40,14 @@ public class GaussScalarTest extends TestCase {
     }
   }
 
+  public void testDivideUnder() {
+    GaussScalar num = GaussScalar.of(132, 193);
+    GaussScalar den = GaussScalar.of(37, 193);
+    GaussScalar div1 = num.divide(den);
+    GaussScalar div2 = den.under(num);
+    assertEquals(div1, div2);
+  }
+
   public void testGetter() {
     GaussScalar num = (GaussScalar) GaussScalar.of(32, 193);
     assertEquals(num.number().intValue(), 32);

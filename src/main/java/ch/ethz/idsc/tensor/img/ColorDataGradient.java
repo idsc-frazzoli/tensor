@@ -19,7 +19,7 @@ import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
 public interface ColorDataGradient extends ScalarTensorFunction {
   /** @param opacity in the interval [0, 1]
    * @return new instance of ColorDataIndexed with identical RGB color values
-   * but with transparency as given alpha
-   * @throws Exception if alpha is not in the valid range */
+   * but with transparency as given opacity
+   * @throws Exception if opacity is not in the valid range */
   ColorDataGradient deriveWithOpacity(Scalar opacity);
 }

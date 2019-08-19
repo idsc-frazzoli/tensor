@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** supported file formats are: BMP, CSV, CSV.GZ, JPG, M, PNG
  * 
- * <p>Do not use Export when exchanging {@link Tensor}s with
+ * <p>Hint: Do not use Export when exchanging {@link Tensor}s with
  * Mathematica. For that purpose use {@link Put} and {@link Get}.
  * 
  * <p>inspired by

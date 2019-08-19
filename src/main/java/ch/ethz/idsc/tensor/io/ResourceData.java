@@ -38,9 +38,8 @@ public enum ResourceData {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       return ImportHelper.of(new Filename(string), inputStream);
     } catch (Exception exception) {
-      // ---
+      return null;
     }
-    return null;
   }
 
   /** @param string as path to resource
@@ -49,9 +48,8 @@ public enum ResourceData {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       return ImportHelper.object(inputStream);
     } catch (Exception exception) {
-      // ---
+      return null;
     }
-    return null;
   }
 
   /** @param string as path to resource
@@ -60,9 +58,8 @@ public enum ResourceData {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       return ImportHelper.properties(inputStream);
     } catch (Exception exception) {
-      // ---
+      return null;
     }
-    return null;
   }
 
   /** Hint: function bypasses conversion of image to tensor. When the
@@ -74,9 +71,8 @@ public enum ResourceData {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       return ImageIO.read(inputStream);
     } catch (Exception exception) {
-      // ---
+      return null;
     }
-    return null;
   }
 
   /** Remark: the function returns a list instead of a stream, because a stream
@@ -88,8 +84,7 @@ public enum ResourceData {
     try (InputStream inputStream = ResourceData.class.getResourceAsStream(string)) {
       return ReadLine.of(inputStream).collect(Collectors.toList());
     } catch (Exception exception) {
-      // ---
+      return null;
     }
-    return null;
   }
 }

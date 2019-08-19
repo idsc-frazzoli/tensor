@@ -10,8 +10,8 @@ public enum CoprimeQ {
   ;
   public static boolean of(Scalar a, Scalar b) {
     Scalar c = StaticHelper.normalForm(a.multiply(b));
-    if (Scalars.isZero(a) && Scalars.isZero(b))
-      return false;
-    return LCM.of(a, b).equals(c);
+    return Scalars.isZero(a) && Scalars.isZero(b) //
+        ? false
+        : LCM.of(a, b).equals(c);
   }
 }
