@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.mat.HilbertMatrix;
@@ -43,6 +44,11 @@ public class MatrixQTest extends TestCase {
     MatrixQ.requireSize(HilbertMatrix.of(2, 7), 2, 7);
     assertFalse(MatrixQ.ofSize(HilbertMatrix.of(2, 7), 2, 6));
     assertFalse(MatrixQ.ofSize(HilbertMatrix.of(2, 7), 3, 7));
+  }
+
+  public void testArrayWithDimensions() {
+    Tensor tensor = Tensors.fromString("{{1, 2}, {3, {4}}, {5, 6}}");
+    assertFalse(MatrixQ.ofSize(tensor, 3, 2));
   }
 
   public void testAd() {

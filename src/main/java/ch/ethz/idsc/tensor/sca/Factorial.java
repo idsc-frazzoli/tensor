@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.sca;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -28,12 +29,11 @@ public enum Factorial implements ScalarUnaryOperator {
     return of(Scalars.intValueExact(scalar));
   }
 
-  /** @param index
-   * @return factorial of index */
+  /** @param index non-negative
+   * @return factorial of index
+   * @throws Exception if index is negative */
   public static Scalar of(int index) {
-    if (index < 0)
-      throw new IllegalArgumentException(Integer.toString(index));
-    if (MEMO.length() <= index)
+    if (MEMO.length() <= Integers.requirePositiveOrZero(index))
       synchronized (FUNCTION) {
         Scalar x = (Scalar) Last.of(MEMO);
         while (MEMO.length() <= index)

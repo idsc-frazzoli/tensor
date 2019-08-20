@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 public class DimensionsTest extends TestCase {
   public void testScalar() {
-    assertTrue(Dimensions.of(DoubleScalar.of(.123)).isEmpty());
+    assertTrue(Dimensions.of(DoubleScalar.of(0.123)).isEmpty());
   }
 
   public void testEmpty() {
@@ -50,10 +50,5 @@ public class DimensionsTest extends TestCase {
     assertTrue(Tensors.isEmpty(Tensors.empty()));
     assertFalse(Tensors.isEmpty(RealScalar.ONE));
     assertFalse(Tensors.isEmpty(Tensors.vector(3, 4)));
-  }
-
-  public void testArrayWithDimensions() {
-    Tensor tensor = Tensors.fromString("{{1, 2}, {3, {4}}, {5, 6}}");
-    assertFalse(Dimensions.isArrayWithDimensions(tensor, Arrays.asList(3, 2)));
   }
 }

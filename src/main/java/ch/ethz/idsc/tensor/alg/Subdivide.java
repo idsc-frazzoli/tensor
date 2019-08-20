@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.stream.IntStream;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -49,12 +50,11 @@ public enum Subdivide {
    * @throws Exception if n is negative or zero
    * @see Range */
   public static Tensor of(Tensor startInclusive, Tensor endInclusive, int n) {
-    if (0 < n)
-      // implementation is not as efficient
-      return Tensor.of(IntStream.rangeClosed(0, n) //
-          .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
-              .add(endInclusive.multiply(RationalScalar.of(count, n)))));
-    throw new IllegalArgumentException("n=" + n);
+    Integers.requirePositive(n);
+    // implementation deliberately uses two multiplications instead of one
+    return Tensor.of(IntStream.rangeClosed(0, n) //
+        .mapToObj(count -> startInclusive.multiply(RationalScalar.of(n - count, n)) //
+            .add(endInclusive.multiply(RationalScalar.of(count, n)))));
   }
 
   /** see description above

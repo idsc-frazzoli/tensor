@@ -29,6 +29,9 @@ public enum TensorRank {
   /** @param tensor
    * @return rank of tensor if tensor is an array, else Optional.empty() */
   public static Optional<Integer> ofArray(Tensor tensor) {
-    return Dimensions.arrayRank(tensor);
+    Dimensions dimensions = new Dimensions(tensor);
+    return dimensions.isArray() //
+        ? Optional.of(dimensions.list().size())
+        : Optional.empty();
   }
 }

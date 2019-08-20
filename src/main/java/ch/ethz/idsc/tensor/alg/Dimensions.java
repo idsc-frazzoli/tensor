@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import ch.ethz.idsc.tensor.Scalar;
@@ -15,8 +14,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Dimensions.html">Dimensions</a> */
-public enum Dimensions {
-  ;
+public class Dimensions {
   /** Examples:
    * <pre>
    * Dimensions.of[3.14] = {}
@@ -26,47 +24,33 @@ public enum Dimensions {
    * Dimensions.of[{{1, 2, 3}, {4, 5, 6}}] == {2, 3}
    * </pre>
    * 
-   * @return dimensions of this tensor */
+   * @return dimensions of given tensor */
   public static List<Integer> of(Tensor tensor) {
-    return list(complete(tensor));
+    return new Dimensions(tensor).list();
   }
 
-  /***************************************************/
-  /** @return true if tensor structure is identical at all levels, else false.
-   * true for {@link Scalar}s
-   * 
-   * @see ArrayQ */
-  /* package */ static boolean isArray(Tensor tensor) {
-    return check(complete(tensor));
+  // ---
+  /** list of set of lengths on all levels also includes length of scalars as Scalar.LENGTH == -1 */
+  private final List<Set<Integer>> dims = new ArrayList<>();
+
+  /** @param tensor */
+  public Dimensions(Tensor tensor) {
+    build(tensor, 0);
   }
 
-  /* package */ static boolean isArrayWithRank(Tensor tensor, int rank) {
-    List<Set<Integer>> complete = complete(tensor);
-    return list(complete).size() == rank //
-        && check(complete);
+  private void build(Tensor tensor, int level) {
+    if (dims.size() <= level)
+      dims.add(new HashSet<>());
+    dims.get(level).add(tensor.length());
+    if (!ScalarQ.of(tensor))
+      tensor.stream().forEach(entry -> build(entry, level + 1));
   }
 
-  /* package */ static boolean isArrayWithDimensions(Tensor tensor, List<Integer> dims) {
-    List<Set<Integer>> complete = complete(tensor);
-    return list(complete).equals(dims) //
-        && check(complete);
-  }
-
-  /* package */ static Optional<Integer> arrayRank(Tensor tensor) {
-    List<Set<Integer>> complete = complete(tensor);
-    return check(complete) //
-        ? Optional.of(list(complete).size())
-        : Optional.empty();
-  }
-
-  /***************************************************/
-  private static boolean check(List<Set<Integer>> complete) {
-    return complete.stream().mapToInt(Set::size).allMatch(size -> size == 1);
-  }
-
-  private static List<Integer> list(List<Set<Integer>> complete) {
+  /** @return dimensions of given tensor
+   * @see #of(Tensor) */
+  public List<Integer> list() {
     List<Integer> ret = new ArrayList<>();
-    for (Set<Integer> set : complete)
+    for (Set<Integer> set : dims)
       if (set.size() == 1) {
         int val = set.iterator().next(); // get unique element from set
         if (val == Scalar.LENGTH) // has scalar
@@ -77,20 +61,11 @@ public enum Dimensions {
     return ret;
   }
 
-  /** @param tensor
-   * @return list of set of lengths on all levels
-   * also includes length of scalars as Scalar.LENGTH == -1 */
-  private static List<Set<Integer>> complete(Tensor tensor) {
-    return sets(tensor, 0, new ArrayList<>());
-  }
-
-  // helper function
-  private static List<Set<Integer>> sets(Tensor tensor, int level, List<Set<Integer>> sets) {
-    if (sets.size() <= level)
-      sets.add(new HashSet<>());
-    sets.get(level).add(tensor.length());
-    if (!ScalarQ.of(tensor))
-      tensor.stream().forEach(entry -> sets(entry, level + 1, sets));
-    return sets;
+  /** @return true if tensor structure is identical at all levels, else false.
+   * true for {@link Scalar}s
+   * 
+   * @see ArrayQ */
+  public boolean isArray() {
+    return dims.stream().mapToInt(Set::size).allMatch(size -> size == 1);
   }
 }
