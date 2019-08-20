@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.sca.Mod;
 
-/** function defined for real scalar */
+/** function defined for all real scalars */
 /* package */ class BSplineFunctionCyclic extends BSplineFunction {
   private final int length;
   /** periodic */

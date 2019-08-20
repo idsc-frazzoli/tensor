@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
 public enum PositiveSemidefiniteMatrixQ {
   ;
   /** @param tensor
-   * @return true if tensor is a matrix and the matrix is positive semi-definite
+   * @return true if tensor is a positive semi-definite matrix
    * @throws TensorRuntimeException if result cannot be established */
   public static boolean ofHermitian(Tensor tensor) {
     return StaticHelper.definite(tensor, Sign::isPositiveOrZero);

@@ -3,23 +3,22 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Flatten;
 
-/** Several applications that use the tensor library export tables as
- * CSV files for analysis, and visualization in Mathematica, or Excel.
+/** Several applications require to export tables as CSV files for analysis,
+ * and visualization in Mathematica, or Excel. The applications typically
+ * concatenate scalars, vectors, or even matrices into a single row. Careful
+ * tracking of indices allows to reconstruct the information in Mathematica,
+ * or Excel.
  * 
- * <p>The applications typically concatenate scalars, vectors, or even
- * matrices into a single row. Careful tracking of indices allows to
- * reconstruct the information in Mathematica, or Excel.
- * 
- * <p>The purpose of {@link TableBuilder} is to facilitate the process.
- * The function {@link #appendRow(Tensor...)} flattens the given tensors
- * into a vector. The vector is appended as a new row.
+ * <p>The purpose of {@link TableBuilder} is to facilitate the building of a
+ * table, i.e. a tensor of rank 2. The function {@link #appendRow(Tensor...)}
+ * flattens the given tensors into a vector. The vector is appended as a new
+ * row. The number of elements in each row are not required to be the same.
  * 
  * <p>Example:
  * <pre>
@@ -43,7 +42,7 @@ import ch.ethz.idsc.tensor.alg.Flatten;
  * <p>The resulting table is <em>not</em> required to be regular, i.e.
  * a matrix. The rows may differ in length. */
 public final class TableBuilder implements Serializable {
-  /** LinkedList was found to be the faster than ArrayDeque */
+  /** The type LinkedList was found to be the faster than ArrayDeque */
   private final Tensor tensor = Unprotect.using(new LinkedList<>());
 
   /** entries of given tensors are flattened into a vector,
@@ -61,27 +60,22 @@ public final class TableBuilder implements Serializable {
     return tensor.length();
   }
 
-  /** Hint: Although the tensor returned is unmodifiable, subsequent
-   * changes to the table builder affect the tensor!
+  /** Hint: Since the tensor is backed by a linked list, extractions
+   * with {@link Tensor#get(Integer...)} are inefficient!
+   * 
+   * Hint: Although the return value is unmodifiable, subsequent changes
+   * to the table builder affect the return value!
    *
    * <pre>
    * TableBuilder tableBuilder = new TableBuilder();
-   * Tensor tensor = tableBuilder.toTable();
+   * Tensor tensor = tableBuilder.getTable();
    * assertEquals(tensor.length(), 0);
    * tableBuilder.appendRow();
    * assertEquals(tensor.length(), 1);
    * </pre>
    * 
-   * Hint: Since the tensor is backed by a linked list, extractions
-   * with {@link Tensor#get(Integer...)} are inefficient!
-   * 
    * @return unmodifiable tensor with rows of table builder as entries. */
-  public Tensor toTable() {
+  public Tensor getTable() {
     return tensor.unmodifiable();
-  }
-
-  /** @return stream of references to rows */
-  public Stream<Tensor> stream() {
-    return tensor.stream().map(Tensor::unmodifiable);
   }
 }
