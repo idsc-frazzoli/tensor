@@ -22,8 +22,8 @@ public enum Median {
   public static Tensor ofSorted(Tensor sorted) {
     int length = sorted.length();
     int index = length / 2;
-    if (length % 2 == 0)
-      return Mean.of(sorted.extract(index - 1, index + 1));
-    return sorted.get(index);
+    return length % 2 == 0 //
+        ? Mean.of(sorted.extract(index - 1, index + 1))
+        : sorted.get(index);
   }
 }

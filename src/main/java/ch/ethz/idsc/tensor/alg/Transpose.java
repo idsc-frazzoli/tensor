@@ -79,7 +79,7 @@ public enum Transpose {
     IntStream.range(0, sigma.length).forEach(index -> inverse[sigma[index]] = index);
     List<Tensor> list = new LinkedList<>(); // could preallocate
     for (MultiIndex src : tensorSize)
-      list.add(data.Get(mySize.indexOf(src.permute(inverse))));
+      list.add(data.get(mySize.indexOf(src.permute(inverse))));
     Integer[] tsize = new Integer[sigma.length]; // int[] to Integer[]
     IntStream.range(0, sigma.length).forEach(index -> tsize[index] = tensorSize.size(index));
     return ArrayReshape.of(list.stream(), tsize);

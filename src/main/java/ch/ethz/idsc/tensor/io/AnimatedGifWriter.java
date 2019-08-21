@@ -84,7 +84,7 @@ import javax.imageio.stream.ImageOutputStream;
     return Objects.isNull(iIOMetadata);
   }
 
-  public void append(BufferedImage bufferedImage) throws IOException {
+  public void write(BufferedImage bufferedImage) throws IOException {
     if (isEmpty())
       initialize(bufferedImage.getType());
     imageWriter.writeToSequence(new IIOImage(bufferedImage, null, iIOMetadata), imageWriteParam);

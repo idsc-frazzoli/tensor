@@ -31,7 +31,7 @@ public class GifAnimationWriter implements AnimationWriter {
 
   @Override // from AnimationWriter
   public void write(BufferedImage bufferedImage) throws Exception {
-    animatedGifWriter.append(bufferedImage);
+    animatedGifWriter.write(bufferedImage);
   }
 
   @Override // from AnimationWriter
@@ -40,7 +40,7 @@ public class GifAnimationWriter implements AnimationWriter {
   }
 
   @Override // from AutoCloseable
-  public void close() throws Exception {
+  public void close() throws IOException {
     animatedGifWriter.close();
   }
 }
