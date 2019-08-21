@@ -18,7 +18,7 @@ import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
 /** AnimatedGifWriter is a standalone implementation to generate animated .gif image files */
-public class AnimatedGifWriter implements AutoCloseable {
+/* package */ class AnimatedGifWriter implements AutoCloseable {
   /** initializes animation to loop indefinitely
    * 
    * @param file with extension "gif"

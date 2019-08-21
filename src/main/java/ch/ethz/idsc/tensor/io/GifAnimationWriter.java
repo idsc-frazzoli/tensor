@@ -30,13 +30,13 @@ public class GifAnimationWriter implements AnimationWriter {
   }
 
   @Override // from AnimationWriter
-  public void append(BufferedImage bufferedImage) throws Exception {
+  public void write(BufferedImage bufferedImage) throws Exception {
     animatedGifWriter.append(bufferedImage);
   }
 
   @Override // from AnimationWriter
-  public void append(Tensor tensor) throws Exception {
-    append(ImageFormat.of(tensor));
+  public void write(Tensor tensor) throws Exception {
+    write(ImageFormat.of(tensor));
   }
 
   @Override // from AutoCloseable

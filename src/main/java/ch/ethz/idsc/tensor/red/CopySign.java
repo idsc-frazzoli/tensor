@@ -26,7 +26,8 @@ public enum CopySign {
    * @return {@link Scalar} of type of a with the magnitude of a and the sign of b */
   public static Scalar of(Scalar a, Scalar b) {
     boolean sa = Sign.isPositiveOrZero(a);
-    boolean sb = Sign.isPositiveOrZero(b);
-    return sb ? (sa ? a : a.negate()) : (sa ? a.negate() : a);
+    return Sign.isPositiveOrZero(b) //
+        ? (sa ? a : a.negate())
+        : (sa ? a.negate() : a);
   }
 }

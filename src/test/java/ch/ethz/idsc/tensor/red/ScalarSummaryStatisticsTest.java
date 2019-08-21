@@ -10,7 +10,10 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.num.GaussScalar;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.pdf.UniformDistribution;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class ScalarSummaryStatisticsTest extends TestCase {
@@ -85,6 +88,15 @@ public class ScalarSummaryStatisticsTest extends TestCase {
     ScalarSummaryStatistics sss2 = Tensors.vector(1, 4, 2, 8, 3, 10).stream() //
         .parallel().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
     sss1.combine(sss2);
+  }
+
+  public void testRandom() {
+    Tensor vector = RandomVariate.of(UniformDistribution.unit(), 100);
+    ScalarSummaryStatistics ss1 = vector.stream().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
+    ScalarSummaryStatistics ss2 = vector.stream().parallel().map(Scalar.class::cast).collect(ScalarSummaryStatistics.collector());
+    Tensor mean = Mean.of(vector);
+    Chop._14.requireClose(ss1.getAverage(), ss2.getAverage());
+    Chop._14.requireClose(ss1.getAverage(), mean);
   }
 
   public void testGaussian() {

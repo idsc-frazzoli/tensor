@@ -12,8 +12,8 @@ public class AnimationWriterTest extends TestCase {
   public void testColor() throws Exception {
     File file = TestFile.withExtension("gif");
     try (AnimationWriter animationWriter = new GifAnimationWriter(file, 100, TimeUnit.MILLISECONDS)) {
-      animationWriter.append(Array.zeros(3, 4));
-      animationWriter.append(Array.zeros(3, 4));
+      animationWriter.write(Array.zeros(3, 4));
+      animationWriter.write(Array.zeros(3, 4));
     }
     assertTrue(file.isFile());
     assertTrue(file.delete());

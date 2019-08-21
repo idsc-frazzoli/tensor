@@ -18,7 +18,8 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
  * do not change during the lifetime of the instance.
  * All setter functions throw an exception when invoked on a {@link Scalar}. */
 public interface Scalar extends Tensor {
-  /** {@link Scalar#length()} returns LENGTH, as used in {@link Dimensions} */
+  /** {@link Scalar#length()} returns LENGTH, as used in {@link Dimensions}.
+   * LENGTH is required to be negative. */
   static final int LENGTH = -1;
 
   /** scalar addition

@@ -27,9 +27,9 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
 
   @Override // from DiscreteDistribution
   public final Scalar p_equals(int n) {
-    if (n < lowerBound())
-      return RealScalar.ZERO;
-    return protected_p_equals(n);
+    return lowerBound() <= n //
+        ? protected_p_equals(n)
+        : RealScalar.ZERO;
   }
 
   /***************************************************/
@@ -37,7 +37,7 @@ public abstract class AbstractDiscreteDistribution implements DiscreteDistributi
    * @return */
   protected abstract Scalar protected_quantile(Scalar p);
 
-  /** @param n with n >= lowerBound()
+  /** @param n with lowerBound() <= n
    * @return P(X == n), i.e. probability of random variable X == n */
   protected abstract Scalar protected_p_equals(int n);
 }

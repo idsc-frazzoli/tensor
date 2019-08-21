@@ -85,11 +85,11 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
   // helper function
   private Scalar cdf_get(Scalar scalar) {
     int index = Scalars.intValueExact(scalar);
-    if (index < 0)
-      return RealScalar.ZERO;
-    return index < cdf.length() //
-        ? cdf.Get(index)
-        : RealScalar.ONE;
+    if (0 <= index)
+      return index < cdf.length() //
+          ? cdf.Get(index)
+          : RealScalar.ONE;
+    return RealScalar.ZERO;
   }
 
   @Override // from Object

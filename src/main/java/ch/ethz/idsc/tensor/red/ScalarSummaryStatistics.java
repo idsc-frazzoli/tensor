@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.Scalar;
  * 
  * <p>The scalars are required to be comparable. For instance, complex numbers do
  * not have a natural ordering, therefore the minimum is not well defined.
+ * ScalarSummaryStatistics does not operate on complex numbers or quaterions.
  * 
  * <p>The string expression of an instance of ScalarSummaryStatistics is of the form
  * <pre>
@@ -56,17 +57,19 @@ public class ScalarSummaryStatistics implements Consumer<Scalar> {
     ++count;
   }
 
+  /** Quote from {@link Collector}:
+   * "function which combines two partial results into a combined result"
+   * 
+   * @param other
+   * @return */
   public ScalarSummaryStatistics combine(ScalarSummaryStatistics other) {
-    if (0 == count) {
-      sum = other.sum;
-      min = other.min;
-      max = other.max;
-    } else //
-    if (0 < other.count) {
-      sum = sum.add(other.sum);
-      min = Min.of(min, other.min);
-      max = Max.of(max, other.max);
-    }
+    if (0 == other.count)
+      return this;
+    if (0 == count)
+      return other;
+    sum = sum.add(other.sum);
+    min = Min.of(min, other.min);
+    max = Max.of(max, other.max);
     count += other.count;
     return this;
   }

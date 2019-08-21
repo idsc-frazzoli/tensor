@@ -9,9 +9,9 @@ import ch.ethz.idsc.tensor.Tensor;
 public interface AnimationWriter extends AutoCloseable {
   /** @param bufferedImage to append to the image sequence of the animation
    * @throws Exception */
-  void append(BufferedImage bufferedImage) throws Exception;
+  void write(BufferedImage bufferedImage) throws Exception;
 
   /** @param tensor to append to the image sequence of the animation
    * @throws Exception */
-  void append(Tensor tensor) throws Exception;
+  void write(Tensor tensor) throws Exception;
 }

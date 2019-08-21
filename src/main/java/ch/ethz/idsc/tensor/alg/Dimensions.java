@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.alg;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ public class Dimensions {
 
   // ---
   /** list of set of lengths on all levels also includes length of scalars as Scalar.LENGTH == -1 */
-  private final List<Set<Integer>> dims = new ArrayList<>();
+  private final List<Set<Integer>> lengths = new ArrayList<>();
 
   /** @param tensor */
   public Dimensions(Tensor tensor) {
@@ -39,9 +40,9 @@ public class Dimensions {
   }
 
   private void build(Tensor tensor, int level) {
-    if (dims.size() <= level)
-      dims.add(new HashSet<>());
-    dims.get(level).add(tensor.length());
+    if (lengths.size() <= level)
+      lengths.add(new HashSet<>());
+    lengths.get(level).add(tensor.length());
     if (!ScalarQ.of(tensor))
       tensor.stream().forEach(entry -> build(entry, level + 1));
   }
@@ -50,7 +51,7 @@ public class Dimensions {
    * @see #of(Tensor) */
   public List<Integer> list() {
     List<Integer> ret = new ArrayList<>();
-    for (Set<Integer> set : dims)
+    for (Set<Integer> set : lengths)
       if (set.size() == 1) {
         int val = set.iterator().next(); // get unique element from set
         if (val == Scalar.LENGTH) // has scalar
@@ -66,6 +67,18 @@ public class Dimensions {
    * 
    * @see ArrayQ */
   public boolean isArray() {
-    return dims.stream().mapToInt(Set::size).allMatch(size -> size == 1);
+    return lengths.stream().mapToInt(Set::size).allMatch(size -> size == 1);
+  }
+
+  /** @return 0 for a scalar, 1 for a vector, etc. */
+  public int maxDepth() {
+    return lengths.size() - 1;
+  }
+
+  /** @param depth
+   * @return unmodifiable set of lengths at given depth
+   * @throws Exception if depth is not from the set 0, 1, ..., {@link #maxDepth()} */
+  public Set<Integer> lengths(int depth) {
+    return Collections.unmodifiableSet(lengths.get(depth));
   }
 }

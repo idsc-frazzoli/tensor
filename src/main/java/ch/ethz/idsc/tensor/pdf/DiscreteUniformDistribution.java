@@ -67,9 +67,9 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
-    if (p.equals(RealScalar.ONE))
-      return RealScalar.of(max - 1); // consistent with Mathematica
-    return protected_quantile(Clips.unit().requireInside(p));
+    return p.equals(RealScalar.ONE) //
+        ? RealScalar.of(max - 1) // consistent with Mathematica
+        : protected_quantile(Clips.unit().requireInside(p));
   }
 
   @Override // from InverseCDF
@@ -87,13 +87,13 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
     Scalar num = Ceiling.FUNCTION.apply(x).subtract(RationalScalar.of(min, 1));
-    return (Scalar) num.multiply(p).map(Clips.unit());
+    return Clips.unit().apply(num.multiply(p));
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
     Scalar num = RealScalar.ONE.add(Floor.FUNCTION.apply(x)).subtract(RationalScalar.of(min, 1));
-    return (Scalar) num.multiply(p).map(Clips.unit());
+    return Clips.unit().apply(num.multiply(p));
   }
 
   @Override // from Object
