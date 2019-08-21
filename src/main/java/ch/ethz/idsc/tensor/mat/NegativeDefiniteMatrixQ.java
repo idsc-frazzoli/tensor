@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
 public enum NegativeDefiniteMatrixQ {
   ;
   /** @param tensor
-   * @return true if tensor is a matrix and matrix is negative definite
+   * @return true if tensor is a negative definite matrix
    * @throws TensorRuntimeException if result cannot be established */
   public static boolean ofHermitian(Tensor tensor) {
     return StaticHelper.definite(tensor, Sign::isNegative);

@@ -5,7 +5,10 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Chop;
 
-/** inspired by
+/** consistent with mathematica:
+ * SymmetricMatrixQ[ {} ] == false
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/SymmetricMatrixQ.html">SymmetricMatrixQ</a> */
 public enum SymmetricMatrixQ {
   ;
@@ -19,6 +22,6 @@ public enum SymmetricMatrixQ {
   /** @param tensor
    * @return true if given tensor is a symmetric matrix */
   public static boolean of(Tensor tensor) {
-    return of(tensor, NullSpace.CHOP_DEFAULT);
+    return of(tensor, Tolerance.CHOP);
   }
 }

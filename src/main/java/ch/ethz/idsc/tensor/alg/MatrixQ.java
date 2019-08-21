@@ -16,7 +16,7 @@ public enum MatrixQ {
   /** @param tensor
    * @return true if tensor is a matrix */
   public static boolean of(Tensor tensor) {
-    return Dimensions.isArrayWithRank(tensor, 2);
+    return ArrayQ.ofRank(tensor, 2);
   }
 
   /** @param tensor
@@ -24,7 +24,9 @@ public enum MatrixQ {
    * @param cols
    * @return true if tensor is a matrix with given number of rows and columns */
   public static boolean ofSize(Tensor tensor, int rows, int cols) {
-    return Dimensions.isArrayWithDimensions(tensor, Arrays.asList(rows, cols));
+    Dimensions dimensions = new Dimensions(tensor);
+    return dimensions.list().equals(Arrays.asList(rows, cols)) //
+        && dimensions.isArray();
   }
 
   /** @param tensor

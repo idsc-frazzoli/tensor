@@ -45,7 +45,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   }
 
   private final Scalar value;
-  private final Unit unit; // not Unit.ONE
+  /** unit is never Unit.ONE */
+  private final Unit unit;
 
   private QuantityImpl(Scalar value, Unit unit) {
     this.value = value;
@@ -157,7 +158,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
       if (unit.equals(quantity.unit()))
         return ArcTan.of(quantity.value(), value);
     }
-    throw TensorRuntimeException.of(x, this);
+    return ArcTan.FUNCTION.apply(divide(x)); // ArcTan[x, y] == ArcTan[ y / x ]
   }
 
   @Override // from ArgInterface

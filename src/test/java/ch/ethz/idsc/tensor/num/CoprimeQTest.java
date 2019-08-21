@@ -19,6 +19,7 @@ public class CoprimeQTest extends TestCase {
     _check(1, 6, true);
     _check(1, 1, true);
     _check(1, 0, true);
+    _check(0, 3, true);
     _check(0, 0, false);
     _check(19, 17, true);
     _check(19 * 5, 17 * 5 * 8, false);

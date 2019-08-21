@@ -1,9 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
+import java.util.List;
+
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.alg.MatrixQ;
+import ch.ethz.idsc.tensor.alg.Dimensions;
 
 /** consistent with Mathematica, in particular SquareMatrixQ[{}] == false
  * 
@@ -14,8 +16,11 @@ public enum SquareMatrixQ {
   /** @param tensor
    * @return true if tensor is a square matrix, otherwise false */
   public static boolean of(Tensor tensor) {
-    return MatrixQ.of(tensor) //
-        && tensor.length() == tensor.stream().findFirst().get().length();
+    Dimensions dimensions = new Dimensions(tensor);
+    List<Integer> list = dimensions.list();
+    return list.size() == 2 //
+        && list.get(0).equals(list.get(1)) //
+        && dimensions.isArray();
   }
 
   /** @param tensor

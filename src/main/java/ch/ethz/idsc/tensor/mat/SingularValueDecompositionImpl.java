@@ -34,9 +34,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private final Tensor r;
   private final Tensor v;
 
-  /** @param A with cols <= rows
-   * @param epsilon influences if levelW manipulates w and u
-   * @param maxIterations */
+  /** @param A with cols <= rows */
   /* package */ SingularValueDecompositionImpl(Tensor A) {
     rows = A.length();
     cols = Unprotect.dimension1(A);

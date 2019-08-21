@@ -29,6 +29,7 @@ public class GammaDistribution implements Distribution, MeanInterface, PDF, Vari
     return new GammaDistribution(alpha, beta);
   }
 
+  // ---
   private final Scalar alpha;
   private final Scalar beta;
   private final Scalar factor;
@@ -41,10 +42,10 @@ public class GammaDistribution implements Distribution, MeanInterface, PDF, Vari
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    if (Scalars.lessEquals(x, RealScalar.ZERO))
-      return RealScalar.ZERO;
-    return Exp.FUNCTION.apply(x.negate().divide(beta)) //
-        .multiply(Power.of(x, alpha.subtract(RealScalar.ONE))).multiply(factor);
+    if (Scalars.lessThan(RealScalar.ZERO, x))
+      return Exp.FUNCTION.apply(x.negate().divide(beta)) //
+          .multiply(Power.of(x, alpha.subtract(RealScalar.ONE))).multiply(factor);
+    return RealScalar.ZERO;
   }
 
   @Override // from MeanInterface

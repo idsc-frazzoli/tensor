@@ -39,7 +39,7 @@ public class MappedInterpolation extends AbstractInterpolation {
     return tensor.get(function.apply(index).stream() //
         .map(Scalar.class::cast) //
         .map(Scalar::number) //
-        .map(Number::intValue) //
+        .map(Number::intValue) // deliberate imprecision!
         .collect(Collectors.toList()));
   }
 

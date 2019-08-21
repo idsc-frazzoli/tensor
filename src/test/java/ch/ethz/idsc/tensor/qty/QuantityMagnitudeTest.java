@@ -1,15 +1,24 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class QuantityMagnitudeTest extends TestCase {
+  public void testMagnitudeKgf() {
+    Scalar scalar = QuantityMagnitude.SI().in("N").apply(Quantity.of(1, "kgf"));
+    assertEquals(N.DOUBLE.apply(scalar).number().doubleValue(), 9.80665);
+  }
+
   public void testInUnit() {
     Scalar scalar = QuantityMagnitude.SI().in(Unit.of("K*m^2")).apply(Quantity.of(2, "K*km^2"));
     assertEquals(scalar, RealScalar.of(2_000_000));
@@ -20,8 +29,8 @@ public class QuantityMagnitudeTest extends TestCase {
     assertEquals(scalar, RealScalar.of(2_000_000));
   }
 
-  public void testRad() {
-    QuantityMagnitude quantityMagnitude = QuantityMagnitude.SI();
+  public void testRad() throws ClassNotFoundException, IOException {
+    QuantityMagnitude quantityMagnitude = Serialization.copy(QuantityMagnitude.SI());
     ScalarUnaryOperator scalarUnaryOperator = quantityMagnitude.in(Unit.of("rad"));
     assertTrue(Chop._12.close(scalarUnaryOperator.apply(Quantity.of(360, "deg")), RealScalar.of(Math.PI * 2)));
     Scalar scalar = scalarUnaryOperator.apply(RealScalar.of(2));

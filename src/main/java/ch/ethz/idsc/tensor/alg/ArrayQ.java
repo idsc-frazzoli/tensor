@@ -28,7 +28,7 @@ public enum ArrayQ {
    * @return true if tensor structure is identical at all levels, else false.
    * true for {@link Scalar}s */
   public static boolean of(Tensor tensor) {
-    return Dimensions.isArray(tensor);
+    return new Dimensions(tensor).isArray();
   }
 
   /** @param tensor
@@ -38,7 +38,9 @@ public enum ArrayQ {
    * @see VectorQ
    * @see MatrixQ */
   public static boolean ofRank(Tensor tensor, int rank) {
-    return Dimensions.isArrayWithRank(tensor, rank);
+    Dimensions dimensions = new Dimensions(tensor);
+    return dimensions.list().size() == rank //
+        && dimensions.isArray();
   }
 
   /** @param tensor

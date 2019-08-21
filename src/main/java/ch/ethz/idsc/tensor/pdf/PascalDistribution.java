@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.alg.Binomial;
@@ -11,13 +12,12 @@ import ch.ethz.idsc.tensor.sca.Power;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/PascalDistribution.html">PascalDistribution</a> */
 public class PascalDistribution extends EvaluatedDiscreteDistribution implements VarianceInterface {
-  /** @param n number of successes
-   * @param p success probability
-   * @return distribution of the number of trials with success probability p before n successes occur */
+  /** @param n positive number of successes
+   * @param p success probability in the unit interval [0, 1]
+   * @return distribution of the number of trials with success probability p before n successes occur
+   * @throws Exception if n is negative or zero, or p is outside the unit interval */
   public static Distribution of(int n, Scalar p) {
-    if (n <= 0)
-      throw new IllegalArgumentException(Integer.toString(n));
-    return new PascalDistribution(n, Clips.unit().requireInside(p));
+    return new PascalDistribution(Integers.requirePositive(n), Clips.unit().requireInside(p));
   }
 
   // ---

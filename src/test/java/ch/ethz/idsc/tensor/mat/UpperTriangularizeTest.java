@@ -66,6 +66,12 @@ public class UpperTriangularizeTest extends TestCase {
     }
   }
 
+  public void test1x1() {
+    Tensor matrix = Tensors.fromString("{{1}}");
+    for (int k = -3; k <= 3; ++k)
+      assertEquals(Tensors.fromString("{{" + (k <= 0 ? 1 : 0) + "}}"), UpperTriangularize.of(matrix, k));
+  }
+
   public void testGaussScalar() {
     Tensor matrix = Tensors.matrix((i, j) -> GaussScalar.of(2 * i + j + 1, 7), 3, 4);
     for (int k = -3; k < 5; ++k) {
@@ -75,13 +81,16 @@ public class UpperTriangularizeTest extends TestCase {
     }
   }
 
-  public void testFail() {
+  public void testScalarFail() {
     try {
       UpperTriangularize.of(RealScalar.ONE, 0);
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testRank3Fail() {
     try {
       UpperTriangularize.of(LieAlgebras.he1(), 0);
       fail();

@@ -13,7 +13,7 @@ import ch.ethz.idsc.tensor.sca.Clip;
  * <a href="https://reference.wolfram.com/language/ref/TruncatedDistribution.html">TruncatedDistribution</a> */
 public class TruncatedDistribution implements Distribution, RandomVariateInterface, Serializable {
   /** maximum number of attempts to produce a random variate before an exception is thrown */
-  private static final int MAXITER = 100;
+  private static final int MAX_ITERATIONS = 100;
 
   /** Careful: function does not check for plausibility of input
    * 
@@ -39,7 +39,7 @@ public class TruncatedDistribution implements Distribution, RandomVariateInterfa
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     return Stream.generate(() -> randomVariateInterface.randomVariate(random)) //
-        .limit(MAXITER) //
+        .limit(MAX_ITERATIONS) //
         .filter(clip::isInside) //
         .findFirst().get();
   }

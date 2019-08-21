@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.stream.IntStream;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -10,26 +11,24 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.sca.Floor;
 
-/** The implementation of BSplineFunction in the tensor library
- * is different from Mathematica.
+/** The implementation of BSplineFunction in the tensor library is different from Mathematica.
  * 
- * tensor::BSplineFunction is parameterized over the interval
- * [0, control.length() - 1]
+ * tensor::BSplineFunction is parameterized over the interval [0, control.length() - 1]
  * 
- * tensor::BSplineFunction can be instantiated for all degrees
- * regardless of the length of the control points.
+ * tensor::BSplineFunction can be instantiated for all degrees regardless of the length of
+ * the control points.
  * 
- * Mathematica::BSplineFunction throws an exception if number
- * of control points is insufficient for the specified degree.
+ * Mathematica::BSplineFunction throws an exception if number of control points is
+ * insufficient for the specified degree.
  * 
- * tensor::BSplineFunction uses uniform knot spacing except for
- * string alignment at the terminal points.
+ * tensor::BSplineFunction uses uniform knot spacing except for string alignment at the
+ * terminal points.
  * 
  * <p>Quote from Wikipedia:
  * The term "B-spline" was coined by Isaac Jacob Schoenberg and is short for basis spline.
- * A spline is a piecewise polynomial function of a given degree in a variable x.
- * The values of x where the pieces of polynomial meet are known as knots, denoted
- * ..., t0, t1, t2, ... and sorted into non-decreasing order. */
+ * A spline is a piecewise polynomial function of a given degree in a variable x. The values
+ * of x where the pieces of polynomial meet are known as knots, denoted ..., t0, t1, t2, ...
+ * and sorted into non-decreasing order. */
 public abstract class BSplineFunction implements ScalarTensorFunction {
   /** the control point are stored by reference, i.e. modifications to
    * given tensor alter the behavior of this BSplineFunction instance.
@@ -39,7 +38,7 @@ public abstract class BSplineFunction implements ScalarTensorFunction {
    * @return
    * @throws Exception if degree is negative, or control does not have length at least one */
   public static ScalarTensorFunction string(int degree, Tensor control) {
-    return new BSplineFunctionString(StaticHelper.requirePositiveOrZero(degree), control);
+    return new BSplineFunctionString(Integers.requirePositiveOrZero(degree), control);
   }
 
   /** function is periodic every interval [0, control.length())
@@ -49,7 +48,7 @@ public abstract class BSplineFunction implements ScalarTensorFunction {
    * @return function defined for all real scalars not constrained to a finite interval
    * @throws Exception if degree is negative, or control does not have length at least one */
   public static ScalarTensorFunction cyclic(int degree, Tensor control) {
-    return new BSplineFunctionCyclic(StaticHelper.requirePositiveOrZero(degree), control);
+    return new BSplineFunctionCyclic(Integers.requirePositiveOrZero(degree), control);
   }
 
   // ---

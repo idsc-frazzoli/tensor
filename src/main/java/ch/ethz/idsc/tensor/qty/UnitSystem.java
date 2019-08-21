@@ -24,7 +24,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 public interface UnitSystem extends ScalarUnaryOperator {
   /** @return international system of units, metric system */
   static UnitSystem SI() {
-    return BuiltIn.SI.unitSystem;
+    return LazyHolder.SI.unitSystem;
   }
 
   /** @return unmodifiable view on map that defines the unit system */

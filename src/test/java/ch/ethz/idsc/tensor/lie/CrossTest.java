@@ -72,6 +72,15 @@ public class CrossTest extends TestCase {
     assertEquals(tensor, v3);
   }
 
+  public void testSkew3LengthFail() {
+    try {
+      Cross.skew3(Tensors.vector(1, 2, 3, 4));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailLength2() {
     Tensor v1 = UnitVector.of(3, 0);
     Tensor v2 = UnitVector.of(2, 1);

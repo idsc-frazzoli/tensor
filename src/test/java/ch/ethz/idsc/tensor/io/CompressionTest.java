@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -8,7 +9,7 @@ import junit.framework.TestCase;
 
 public class CompressionTest extends TestCase {
   private static byte[] createBytes(int length) {
-    Random random = new Random();
+    Random random = new SecureRandom();
     byte[] bytes = new byte[length];
     for (int count = 0; count < bytes.length; ++count)
       bytes[count] = (byte) random.nextInt(2);

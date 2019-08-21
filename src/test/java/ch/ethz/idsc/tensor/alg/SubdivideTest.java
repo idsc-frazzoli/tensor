@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.stream.IntStream;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -18,12 +19,10 @@ import junit.framework.TestCase;
 
 public class SubdivideTest extends TestCase {
   static Tensor compare(Tensor startInclusive, Tensor endInclusive, int n) {
-    if (0 < n) {
-      Tensor difference = endInclusive.subtract(startInclusive);
-      return Tensor.of(IntStream.rangeClosed(0, n) //
-          .mapToObj(count -> startInclusive.add(difference.multiply(RationalScalar.of(count, n)))));
-    }
-    throw new IllegalArgumentException("n=" + n);
+    Integers.requirePositive(n);
+    Tensor difference = endInclusive.subtract(startInclusive);
+    return Tensor.of(IntStream.rangeClosed(0, n) //
+        .mapToObj(count -> startInclusive.add(difference.multiply(RationalScalar.of(count, n)))));
   }
 
   public void testSubdivide() {

@@ -44,4 +44,13 @@ public class StaticHelperTest extends TestCase {
     assertEquals(count, count2);
     assertEquals(count, 5);
   }
+
+  public void testParseFail() {
+    try {
+      StaticHelper.parse(Integer.class, "123");
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

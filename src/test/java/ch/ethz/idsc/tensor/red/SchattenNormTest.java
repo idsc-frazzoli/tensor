@@ -29,6 +29,15 @@ public class SchattenNormTest extends TestCase {
     assertEquals(SchattenNorm.with(2), Frobenius.NORM);
   }
 
+  public void testPFail() {
+    try {
+      SchattenNorm.with(0.999);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFail() throws ClassNotFoundException, IOException {
     NormInterface normInterface = Serialization.copy(SchattenNorm.with(1.2));
     Distribution distribution = UniformDistribution.unit();

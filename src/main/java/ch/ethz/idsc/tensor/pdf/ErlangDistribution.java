@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -24,9 +25,7 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
    * @return
    * @throws Exception if k is negative or zero */
   public static Distribution of(int k, Scalar lambda) {
-    if (k <= 0)
-      throw new IllegalArgumentException("k=" + k);
-    return new ErlangDistribution(k, lambda);
+    return new ErlangDistribution(Integers.requirePositive(k), lambda);
   }
 
   private final Scalar k;

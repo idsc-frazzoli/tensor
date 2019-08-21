@@ -27,6 +27,7 @@ public class EqualizingDistributionTest extends TestCase {
     CDF cdf = CDF.of(distribution);
     Tensor domain = Subdivide.of(0, 1, 10);
     assertEquals(domain, domain.map(cdf::p_lessThan));
+    assertEquals(domain, domain.map(cdf::p_lessEquals));
     PDF pdf = PDF.of(distribution);
     assertEquals(domain.map(pdf::at), Tensors.vector(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0));
     assertEquals(Mean.of(distribution), RationalScalar.HALF);

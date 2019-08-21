@@ -39,6 +39,10 @@ public class SquareMatrixQTest extends TestCase {
     SquareMatrixQ.require(IdentityMatrix.of(10));
   }
 
+  public void testNonArray() {
+    assertFalse(SquareMatrixQ.of(Tensors.fromString("{{1, 2}, {{3}, 4}}")));
+  }
+
   public void testRequireScalar() {
     try {
       SquareMatrixQ.require(RealScalar.of(3));
@@ -58,6 +62,7 @@ public class SquareMatrixQTest extends TestCase {
   }
 
   public void testRequireMatrixNonSquare() {
+    assertFalse(SquareMatrixQ.of(HilbertMatrix.of(3, 4)));
     try {
       SquareMatrixQ.require(HilbertMatrix.of(3, 4));
       fail();
@@ -67,6 +72,7 @@ public class SquareMatrixQTest extends TestCase {
   }
 
   public void testRequireRank3() {
+    assertFalse(SquareMatrixQ.of(LieAlgebras.he1()));
     try {
       SquareMatrixQ.require(LieAlgebras.he1());
       fail();

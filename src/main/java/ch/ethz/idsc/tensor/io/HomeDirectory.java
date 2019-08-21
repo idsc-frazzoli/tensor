@@ -11,9 +11,8 @@ public enum HomeDirectory {
     try {
       return new File(System.getProperty("user.home"));
     } catch (Exception exception) { // security exception, null pointer
-      // ---
+      return null;
     }
-    return null;
   }
 
   private static final File USER_HOME = user_home();

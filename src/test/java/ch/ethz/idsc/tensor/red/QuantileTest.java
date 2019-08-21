@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
@@ -61,7 +62,7 @@ public class QuantileTest extends TestCase {
   }
 
   public void testLimitTheorem() {
-    Random random = new Random();
+    Random random = new SecureRandom();
     Tensor tensor = Array.of(l -> RealScalar.of(random.nextDouble()), 5000);
     Tensor weight = Tensors.vector(.76, .1, .25, .5, .05, .95, 0, .5, .99, 1);
     Tensor quantile = Quantile.of(tensor, weight);

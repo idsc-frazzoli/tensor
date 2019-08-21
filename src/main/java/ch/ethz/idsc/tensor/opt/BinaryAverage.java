@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.Tensor;
 /** Reference:
  * "Smoothing using Geodesic Averages", 2018
  * http://www.vixra.org/abs/1810.0283 */
+@FunctionalInterface
 public interface BinaryAverage {
   /** An implementation of split function treats the parameters p and q as unmodifiable.
    * That means, the calling entity may passes in the parameters by reference and has

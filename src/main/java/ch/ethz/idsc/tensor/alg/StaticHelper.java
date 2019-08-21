@@ -9,13 +9,4 @@ package ch.ethz.idsc.tensor.alg;
       dims[sigma[index]] = size[index];
     return dims;
   }
-
-  /** @param value positive or zero
-   * @return value
-   * @throws Exception if given value is negative */
-  static int requirePositiveOrZero(int value) {
-    if (value < 0)
-      throw new IllegalArgumentException(Integer.toString(value));
-    return value;
-  }
 }

@@ -25,9 +25,8 @@ public class RowReduce extends AbstractReduce {
   public static Tensor of(Tensor matrix, Pivot pivot) {
     return new RowReduce(matrix, pivot).solve();
   }
-  // ---
 
-  /** constructor only to be called from {@link GaussianElimination} */
+  // ---
   private RowReduce(Tensor matrix, Pivot pivot) {
     super(matrix, pivot);
   }

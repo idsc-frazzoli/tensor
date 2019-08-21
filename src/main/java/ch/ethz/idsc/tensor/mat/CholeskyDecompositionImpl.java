@@ -29,8 +29,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
           l.set(value.divide(d.Get(j)), i, j);
       }
       Tensor lik = l.get(i).extract(0, i);
-      Tensor ljk = l.get(i).extract(0, i).map(Conjugate.FUNCTION); // variable name is deliberate
-      d.set(A.Get(i, i).subtract(lik.dot(d.extract(0, i).pmul(ljk))), i);
+      Tensor ljk = lik.map(Conjugate.FUNCTION); // variable name is deliberate
+      d.set(A.get(i, i).subtract(lik.dot(d.extract(0, i).pmul(ljk))), i);
     }
   }
 

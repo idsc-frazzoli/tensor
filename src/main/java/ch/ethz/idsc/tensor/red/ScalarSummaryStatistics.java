@@ -9,12 +9,17 @@ import java.util.stream.Collector;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 
-/** ScalarSummaryStatistics tracks the sum, minimum, and maximum in a single
- * pass over a stream of {@link Scalar}s. The stream may be processed in
- * parallel.
+/** ScalarSummaryStatistics tracks the sum, minimum, and maximum in a single pass
+ * over a stream of {@link Scalar}s. The stream may be processed in parallel.
  * 
- * <p>The scalars are required to be comparable. For instance, complex numbers
- * do not have a natural ordering, therefore the minimum is not well defined.
+ * <p>The scalars are required to be comparable. For instance, complex numbers do
+ * not have a natural ordering, therefore the minimum is not well defined.
+ * ScalarSummaryStatistics does not operate on complex numbers or quaterions.
+ * 
+ * <p>The string expression of an instance of ScalarSummaryStatistics is of the form
+ * <pre>
+ * ScalarSummaryStatistics{count=4, sum=24[s], min=3[s], average=6[s], max=11[s]}
+ * </pre>
  * 
  * <p>inspired by {@link IntSummaryStatistics} */
 public class ScalarSummaryStatistics implements Consumer<Scalar> {
@@ -52,17 +57,19 @@ public class ScalarSummaryStatistics implements Consumer<Scalar> {
     ++count;
   }
 
+  /** Quote from {@link Collector}:
+   * "function which combines two partial results into a combined result"
+   * 
+   * @param other
+   * @return */
   public ScalarSummaryStatistics combine(ScalarSummaryStatistics other) {
-    if (0 == count) {
-      sum = other.sum;
-      min = other.min;
-      max = other.max;
-    } else //
-    if (0 < other.count) {
-      sum = sum.add(other.sum);
-      min = Min.of(min, other.min);
-      max = Max.of(max, other.max);
-    }
+    if (0 == other.count)
+      return this;
+    if (0 == count)
+      return other;
+    sum = sum.add(other.sum);
+    min = Min.of(min, other.min);
+    max = Max.of(max, other.max);
     count += other.count;
     return this;
   }
@@ -93,5 +100,15 @@ public class ScalarSummaryStatistics implements Consumer<Scalar> {
   /** @return number of scalars in stream */
   public long getCount() {
     return count;
+  }
+
+  @Override // from Object
+  public String toString() {
+    return getClass().getSimpleName() + //
+        "{count=" + getCount() + //
+        ", sum=" + getSum() + //
+        ", min=" + getMin() + //
+        ", average=" + getAverage() + //
+        ", max=" + getMax() + "}";
   }
 }

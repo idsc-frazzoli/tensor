@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.opt;
 
 import java.util.Objects;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -21,7 +20,8 @@ public class DeBoor implements ScalarTensorFunction {
   public static DeBoor of(BinaryAverage binaryAverage, Tensor knots, Tensor control) {
     int length = knots.length();
     int degree = length / 2;
-    if (length % 2 == 0 && control.length() == degree + 1)
+    if (length % 2 == 0 && //
+        control.length() == degree + 1)
       return new DeBoor(Objects.requireNonNull(binaryAverage), degree, VectorQ.require(knots), control);
     throw TensorRuntimeException.of(knots, control);
   }
@@ -49,12 +49,10 @@ public class DeBoor implements ScalarTensorFunction {
     for (int r = 1; r < degree + 1; ++r)
       for (int j = degree; j >= r; --j) {
         Scalar kj1 = knots.Get(j - 1); // knots max index = degree - 1
-        Scalar num = x.subtract(kj1);
         Scalar den = knots.Get(j + degree - r).subtract(kj1); // knots max index = degree + degree - 1
-        Scalar alpha = Scalars.isZero(den) //
-            ? RealScalar.ZERO
-            : num.divide(den);
-        d[j] = binaryAverage.split(d[j - 1], d[j], alpha); // control max index = degree - 1
+        d[j] = Scalars.isZero(den) //
+            ? d[j - 1]
+            : binaryAverage.split(d[j - 1], d[j], x.subtract(kj1).divide(den)); // control max index = degree - 1
       }
     return d[degree]; // control max index = degree
   }

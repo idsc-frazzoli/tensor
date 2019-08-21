@@ -12,13 +12,13 @@ public class AnimatedGifWriterTest extends TestCase {
   public void testColor() throws IOException {
     File file = TestFile.withExtension("gif");
     try (AnimatedGifWriter animatedGifWriter = AnimatedGifWriter.of(file, 100)) {
-      animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
-      animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
+      animatedGifWriter.write(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
+      animatedGifWriter.write(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
     }
     assertTrue(file.isFile());
     try (AnimatedGifWriter animatedGifWriter = AnimatedGifWriter.of(file, 120)) {
-      animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
-      animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
+      animatedGifWriter.write(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
+      animatedGifWriter.write(new BufferedImage(2, 3, BufferedImage.TYPE_INT_ARGB));
     }
     assertTrue(file.delete());
   }
@@ -26,8 +26,8 @@ public class AnimatedGifWriterTest extends TestCase {
   public void testGray() throws IOException {
     File file = TestFile.withExtension("gif");
     try (AnimatedGifWriter animatedGifWriter = AnimatedGifWriter.of(file, 100)) {
-      animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
-      animatedGifWriter.append(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
+      animatedGifWriter.write(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
+      animatedGifWriter.write(new BufferedImage(2, 3, BufferedImage.TYPE_BYTE_GRAY));
     }
     assertTrue(file.delete());
   }

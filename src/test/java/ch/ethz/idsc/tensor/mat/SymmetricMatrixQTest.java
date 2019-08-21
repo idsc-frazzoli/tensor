@@ -30,6 +30,10 @@ public class SymmetricMatrixQTest extends TestCase {
     assertFalse(SymmetricMatrixQ.of(RealScalar.ONE));
   }
 
+  public void testEmpty() {
+    assertFalse(SymmetricMatrixQ.of(Tensors.empty()));
+  }
+
   public void testFailNull() {
     try {
       SymmetricMatrixQ.of(null);

@@ -63,7 +63,7 @@ public class VectorNormTest extends TestCase {
 
   public void testNormPFail() {
     try {
-      VectorNorm.with(0.99).ofVector(Tensors.vector(1, 2, 3));
+      VectorNorm.with(0.99);
       fail();
     } catch (Exception exception) {
       // ---
@@ -71,9 +71,9 @@ public class VectorNormTest extends TestCase {
   }
 
   public void testMatrixFail() {
-    VectorNormInterface vni = VectorNorm.with(2.6);
+    VectorNormInterface vectorNormInterface = VectorNorm.with(2.6);
     try {
-      vni.ofVector(IdentityMatrix.of(2));
+      vectorNormInterface.ofVector(IdentityMatrix.of(2));
       fail();
     } catch (Exception exception) {
       // ---
@@ -81,9 +81,9 @@ public class VectorNormTest extends TestCase {
   }
 
   public void testScalarFail() {
-    VectorNormInterface vni = VectorNorm.with(2.6);
+    VectorNormInterface vectorNormInterface = VectorNorm.with(2.6);
     try {
-      vni.ofVector(RealScalar.of(12));
+      vectorNormInterface.ofVector(RealScalar.of(12));
       fail();
     } catch (Exception exception) {
       // ---

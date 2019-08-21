@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
@@ -22,16 +23,15 @@ public enum VectorQ {
    * @param length non-negative
    * @return true if tensor is a vector with given length */
   public static boolean ofLength(Tensor tensor, int length) {
-    if (length < 0)
-      throw new IllegalArgumentException(Integer.toString(length));
-    return tensor.length() == length //
+    return tensor.length() == Integers.requirePositiveOrZero(length) //
         && of(tensor);
   }
 
   /** @param tensor
    * @throws Exception if given tensor is not a vector */
   public static Tensor require(Tensor tensor) {
-    if (tensor.length() == 0 || Unprotect.dimension1(tensor) == Scalar.LENGTH)
+    if (tensor.length() == 0 || //
+        Unprotect.dimension1(tensor) == Scalar.LENGTH)
       return tensor;
     throw TensorRuntimeException.of(tensor);
   }
@@ -41,7 +41,8 @@ public enum VectorQ {
    * @return given tensor
    * @throws Exception if given tensor is not a vector of length */
   public static Tensor requireLength(Tensor tensor, int length) {
-    if (tensor.length() == length && tensor.stream().allMatch(ScalarQ::of))
+    if (tensor.length() == length && //
+        tensor.stream().allMatch(ScalarQ::of))
       return tensor;
     throw TensorRuntimeException.of(tensor);
   }

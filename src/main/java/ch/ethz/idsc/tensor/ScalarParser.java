@@ -55,18 +55,19 @@ import java.util.regex.Pattern;
     }
     if (!plusMinus.isEmpty()) {
       int first = plusMinus.get(0);
-      Scalar sum = first == 0 ? RealScalar.ZERO : of(string.substring(0, first));
+      Scalar sum = first == 0 //
+          ? RealScalar.ZERO
+          : of(string.substring(0, first));
       for (int index = 0; index < plusMinus.size(); ++index) {
         int curr = plusMinus.get(index);
         char c = chars[curr];
         int next = index + 1 < plusMinus.size() //
             ? plusMinus.get(index + 1)
             : string.length();
-        if (c == ADD)
-          sum = sum.add(of(string.substring(curr + 1, next)));
-        else //
-        if (c == SUBTRACT)
-          sum = sum.subtract(of(string.substring(curr + 1, next)));
+        Scalar rhs = of(string.substring(curr + 1, next));
+        sum = c == ADD //
+            ? sum.add(rhs)
+            : sum.subtract(rhs);
       }
       return sum;
     }

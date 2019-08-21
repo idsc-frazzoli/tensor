@@ -58,7 +58,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
 
   // suggestion of wikipedia
   private Tensor reflect(final int k) {
-    Tensor x = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.Get(i, k), n);
+    Tensor x = Tensors.vector(i -> i < k ? RealScalar.ZERO : R.get(i, k), n);
     Scalar xn = Norm._2.ofVector(x);
     if (Scalars.isZero(xn))
       return eye; // reflection reduces to identity, hopefully => det == 0

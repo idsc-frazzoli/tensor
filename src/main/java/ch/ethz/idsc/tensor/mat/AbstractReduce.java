@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
 
-/** base class for {@link Determinant}, {@link GaussianElimination} and {@link RowReduce} */
+/** base class of {@link Determinant}, {@link GaussianElimination} and {@link RowReduce} */
 /* package */ class AbstractReduce {
   /** access the unpermuted lhs via function lhs() */
   final Tensor[] lhs;
@@ -13,7 +13,6 @@ import ch.ethz.idsc.tensor.Tensor;
   final int[] ind;
   private int transpositions = 0;
 
-  /** constructor only to be called from {@link GaussianElimination} */
   AbstractReduce(Tensor matrix, Pivot pivot) {
     lhs = matrix.stream().map(Tensor::copy).toArray(Tensor[]::new);
     this.pivot = pivot;

@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.num;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -37,6 +38,14 @@ public class GaussScalarTest extends TestCase {
       assertEquals(num.multiply(inv), GaussScalar.of(1, prime));
       assertEquals(inv.multiply(num), GaussScalar.of(1, prime));
     }
+  }
+
+  public void testDivideUnder() {
+    GaussScalar num = GaussScalar.of(132, 193);
+    GaussScalar den = GaussScalar.of(37, 193);
+    GaussScalar div1 = num.divide(den);
+    GaussScalar div2 = den.under(num);
+    assertEquals(div1, div2);
   }
 
   public void testGetter() {
@@ -137,10 +146,20 @@ public class GaussScalarTest extends TestCase {
     }
   }
 
+  public void testPowerNegative() {
+    int prime = 677;
+    Scalar scalar = GaussScalar.of(432, prime);
+    Scalar now = GaussScalar.of(1, prime);
+    for (int index = 0; index < prime; ++index) {
+      assertEquals(Power.of(scalar, -index), now);
+      now = now.divide(scalar);
+    }
+  }
+
   public void testPower2() {
     long prime = 59;
     BinaryPower<GaussScalar> binaryPower = Scalars.binaryPower(GaussScalar.of(1, prime));
-    Random random = new Random();
+    Random random = new SecureRandom();
     for (int index = 0; index < prime; ++index) {
       GaussScalar gaussScalar = GaussScalar.of(random.nextInt(), prime);
       if (!gaussScalar.number().equals(BigInteger.ZERO))

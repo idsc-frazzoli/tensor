@@ -71,16 +71,16 @@ public class GeometricDistribution extends AbstractDiscreteDistribution implemen
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    return Scalars.lessEquals(x, RealScalar.ZERO) //
-        ? RealScalar.ZERO
-        : RealScalar.ONE.subtract(Power.of(_1_p, Ceiling.FUNCTION.apply(x)));
+    return Scalars.lessThan(RealScalar.ZERO, x) //
+        ? RealScalar.ONE.subtract(Power.of(_1_p, Ceiling.FUNCTION.apply(x)))
+        : RealScalar.ZERO;
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
-    return Scalars.lessThan(x, RealScalar.ZERO) //
-        ? RealScalar.ZERO
-        : RealScalar.ONE.subtract(Power.of(_1_p, RealScalar.ONE.add(Floor.FUNCTION.apply(x))));
+    return Scalars.lessEquals(RealScalar.ZERO, x) //
+        ? RealScalar.ONE.subtract(Power.of(_1_p, RealScalar.ONE.add(Floor.FUNCTION.apply(x))))
+        : RealScalar.ZERO;
   }
 
   @Override // from Object

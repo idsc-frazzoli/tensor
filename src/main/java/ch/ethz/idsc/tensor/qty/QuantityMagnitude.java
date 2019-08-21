@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.qty;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -9,14 +10,19 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
-/** inspired by
+/** Quote from Mathematica::QuantityMagnitude
+ * "gives the amount of the specified quantity"
+ * "gives the magnitude value of a Quantity"
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/QuantityMagnitude.html">QuantityMagnitude</a> */
-public class QuantityMagnitude {
+public class QuantityMagnitude implements Serializable {
+  private static final QuantityMagnitude SI = new QuantityMagnitude(UnitSystem.SI());
   private static final QuantityMagnitude EMPTY = new QuantityMagnitude(SimpleUnitSystem.from(new Properties()));
 
   /** @return instance of QuantityMagnitude that uses the built-in SI convention */
   public static QuantityMagnitude SI() {
-    return BuiltIn.SI.quantityMagnitude;
+    return SI;
   }
 
   /** @param unit

@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
@@ -109,6 +110,25 @@ public class QuaternionImplTest extends TestCase {
     }
   }
 
+  public void testMultiplyFail() {
+    Quaternion quaternion = Quaternion.of(1, 3, -2, 2);
+    GaussScalar gaussScalar = GaussScalar.of(3, 11);
+    assertFalse(quaternion.equals(gaussScalar));
+    assertFalse(gaussScalar.equals(quaternion));
+    try {
+      quaternion.multiply(gaussScalar);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      gaussScalar.multiply(quaternion);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testAbsSquared() {
     Scalar scalar = AbsSquared.FUNCTION.apply(Quaternion.of(1, 2, 3, 4));
     assertTrue(scalar instanceof Quaternion);
@@ -123,6 +143,14 @@ public class QuaternionImplTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testEquals() {
+    Quaternion q0 = Quaternion.of(1, 3, -2, 2);
+    Quaternion q1 = Quaternion.of(1, 3, -2, 2);
+    Quaternion q2 = Quaternion.of(1, 3, -2, 4);
+    assertTrue(q0.equals(q1));
+    assertFalse(q1.equals(q2));
   }
 
   public void testHashcode() {

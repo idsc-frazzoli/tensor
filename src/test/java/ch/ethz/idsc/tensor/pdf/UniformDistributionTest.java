@@ -79,8 +79,18 @@ public class UniformDistributionTest extends TestCase {
   }
 
   public void testClipPointFail() {
+    UniformDistribution.of(Clips.interval(3, 5));
     try {
       UniformDistribution.of(Clips.interval(3, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testClipNullFail() {
+    try {
+      UniformDistribution.of(null);
       fail();
     } catch (Exception exception) {
       // ---

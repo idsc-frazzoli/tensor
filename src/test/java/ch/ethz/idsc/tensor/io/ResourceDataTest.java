@@ -116,4 +116,9 @@ public class ResourceDataTest extends TestCase {
     List<String> lines = ResourceData.lines("/io/basic.mathematica");
     assertEquals(lines.size(), 7);
   }
+
+  public void testLinesNull() {
+    List<String> lines = ResourceData.lines("/io/doesnotexist");
+    assertNull(lines);
+  }
 }

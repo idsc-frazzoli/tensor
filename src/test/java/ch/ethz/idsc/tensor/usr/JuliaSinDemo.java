@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.Sin;
 /** inspired by document by Paul Bourke */
 /* package */ class JuliaSinDemo extends BivariateEvaluation {
   private static final Scalar MAX = RealScalar.of(50);
-  private static final int MAX_ITER = 10;
+  private static final int MAX_ITERATIONS = 10;
   // ---
   private final Scalar c;
 
@@ -31,7 +31,7 @@ import ch.ethz.idsc.tensor.sca.Sin;
   @Override
   protected Scalar function(Scalar re, Scalar im) {
     Scalar z = ComplexScalar.of(re, im);
-    for (int count = 0; count < MAX_ITER; ++count) {
+    for (int count = 0; count < MAX_ITERATIONS; ++count) {
       z = Sin.FUNCTION.apply(z).multiply(c);
       if (Scalars.lessThan(MAX, Imag.FUNCTION.apply(z).abs()))
         return DoubleScalar.INDETERMINATE;

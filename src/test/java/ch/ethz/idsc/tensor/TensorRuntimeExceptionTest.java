@@ -1,13 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.io.Serialization;
 import junit.framework.TestCase;
 
 public class TensorRuntimeExceptionTest extends TestCase {
-  public void testFull() {
-    Exception exception = TensorRuntimeException.of(Tensors.vector(1, 2), Tensors.vector(9, 3));
+  public void testFull() throws ClassNotFoundException, IOException {
+    Exception exception = Serialization.copy(TensorRuntimeException.of(Tensors.vector(1, 2), Tensors.vector(9, 3)));
     assertEquals(exception.getMessage(), "{1, 2}; {9, 3}");
   }
 

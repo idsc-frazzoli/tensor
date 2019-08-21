@@ -9,9 +9,8 @@ public enum UserName {
     try {
       return System.getProperty("user.name");
     } catch (Exception exception) { // security exception, null pointer
-      // ---
+      return null;
     }
-    return null;
   }
 
   private static final String USER_NAME = user_name();

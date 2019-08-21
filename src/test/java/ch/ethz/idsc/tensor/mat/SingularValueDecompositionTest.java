@@ -100,7 +100,7 @@ public class SingularValueDecompositionTest extends TestCase {
     int n = 11;
     Tensor mat = Tensors.matrix((r, c) -> DoubleScalar.of(random.nextGaussian()), n, n);
     SingularValueDecomposition svd = specialOps(mat);
-    Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop._09);
+    Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop._08);
     assertEquals(dif, Array.zeros(Dimensions.of(dif)));
     assertEquals(MatrixRank.of(svd), n);
     Tensor res = Chop._11.of(PseudoInverse.of(svd).dot(mat).subtract(IdentityMatrix.of(n)));

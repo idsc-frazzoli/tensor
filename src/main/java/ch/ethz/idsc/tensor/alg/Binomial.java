@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.IntegerQ;
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -32,9 +33,7 @@ public class Binomial implements Serializable {
   /** @param n non-negative integer
    * @return binomial function that computes n choose k */
   public static Binomial of(int n) {
-    if (n < 0)
-      throw new IllegalArgumentException(Integer.toString(n));
-    return binomial(n);
+    return binomial(Integers.requirePositiveOrZero(n));
   }
 
   /** <code>Mathematica::Binomial[n, m]</code>

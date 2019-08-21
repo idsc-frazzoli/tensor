@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.sca.N;
  * 
  * @see {@link MatrixExp} */
 /* package */ class MatrixExpSeries {
-  private static final int MAXITER = 500;
+  private static final int MAX_ITERATIONS = 500;
 
   /** @param matrix
    * @return */
@@ -27,7 +27,7 @@ import ch.ethz.idsc.tensor.sca.N;
         return sum;
     }
     sum = N.DOUBLE.of(sum); // switch to numeric precision
-    for (int k = n + 1; k < MAXITER; ++k) {
+    for (int k = n + 1; k < MAX_ITERATIONS; ++k) {
       nxt = nxt.dot(matrix).divide(RationalScalar.of(k, 1));
       Tensor prv = sum;
       sum = sum.add(nxt);

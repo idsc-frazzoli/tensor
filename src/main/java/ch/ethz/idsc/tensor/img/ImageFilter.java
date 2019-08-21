@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
+import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
@@ -24,7 +25,7 @@ public class ImageFilter extends AbstractExtract {
    * @see MedianFilter */
   public static Tensor of(Tensor tensor, int radius, Function<Tensor, ? extends Tensor> function) {
     Objects.requireNonNull(function);
-    ImageFilter imageFilter = new ImageFilter(tensor, StaticHelper.requirePositiveOrZero(radius));
+    ImageFilter imageFilter = new ImageFilter(tensor, Integers.requirePositiveOrZero(radius));
     return Array.of(index -> function.apply(imageFilter.block(index)), Dimensions.of(tensor));
   }
 

@@ -12,14 +12,14 @@ public class EigensystemTest extends TestCase {
     Tensor matrix = Tensors.fromString("{{10[m], -2[m]}, {-2[m], 4[m]}}");
     assertTrue(SymmetricMatrixQ.of(matrix));
     {
-      Eigensystem eig = Eigensystem.ofSymmetric(matrix);
-      assertTrue(eig.values().Get(0) instanceof Quantity);
-      assertTrue(eig.values().Get(1) instanceof Quantity);
+      Eigensystem eigensystem = Eigensystem.ofSymmetric(matrix);
+      assertTrue(eigensystem.values().Get(0) instanceof Quantity);
+      assertTrue(eigensystem.values().Get(1) instanceof Quantity);
     }
     {
-      Eigensystem eig = Eigensystem.ofSymmetric(N.DOUBLE.of(matrix));
-      assertTrue(eig.values().Get(0) instanceof Quantity);
-      assertTrue(eig.values().Get(1) instanceof Quantity);
+      Eigensystem eigensystem = Eigensystem.ofSymmetric(N.DOUBLE.of(matrix));
+      assertTrue(eigensystem.values().Get(0) instanceof Quantity);
+      assertTrue(eigensystem.values().Get(1) instanceof Quantity);
     }
   }
 
@@ -28,6 +28,15 @@ public class EigensystemTest extends TestCase {
     assertTrue(SymmetricMatrixQ.of(matrix));
     try {
       Eigensystem.ofSymmetric(matrix);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testEmptyFail() {
+    try {
+      Eigensystem.ofSymmetric(Tensors.empty());
       fail();
     } catch (Exception exception) {
       // ---

@@ -55,6 +55,14 @@ public class BSplineInterpolationTest extends TestCase {
       } catch (Exception exception) {
         // ---
       }
+      interpolation.get(Tensors.vector(1));
+      interpolation.get(Tensors.vector(1, 2));
+      try {
+        interpolation.get(Tensors.vector(1, 1.8));
+        fail();
+      } catch (Exception exception) {
+        // ---
+      }
     }
   }
 
