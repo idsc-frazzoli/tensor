@@ -5,7 +5,10 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Chop;
 
-/** inspired by
+/** consistent with mathematica:
+ * SymmetricMatrixQ[ {} ] == false
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/SymmetricMatrixQ.html">SymmetricMatrixQ</a> */
 public enum SymmetricMatrixQ {
   ;

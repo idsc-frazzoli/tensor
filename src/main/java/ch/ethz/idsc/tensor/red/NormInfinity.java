@@ -18,6 +18,8 @@ import ch.ethz.idsc.tensor.Tensor;
 
   @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
-    return ofVector(Tensor.of(matrix.stream().map(Norm1.INSTANCE::ofVector)));
+    return matrix.stream() //
+        .map(Norm1.INSTANCE::ofVector) //
+        .reduce(Max::of).get();
   }
 }

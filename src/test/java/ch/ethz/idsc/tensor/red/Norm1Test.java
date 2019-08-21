@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
+import java.util.stream.Stream;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -27,9 +29,18 @@ public class Norm1Test extends TestCase {
     assertEquals(Norm._1.ofVector(vec), Quantity.of(7, "m"));
   }
 
-  public void testFail() {
+  public void testScalarFail() {
     try {
       Norm._1.ofVector(RealScalar.ONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testEmptyStreamFail() {
+    try {
+      Norm1.ofVector(Stream.of());
       fail();
     } catch (Exception exception) {
       // ---

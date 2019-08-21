@@ -87,6 +87,7 @@ public enum LinearProgramming {
    * @return true if all entries in vector are non-negative */
   /* package */ static boolean isNonNegative(Tensor vector) {
     return vector.stream() // all vector_i >= 0
-        .map(Scalar.class::cast).allMatch(Sign::isPositiveOrZero);
+        .map(Scalar.class::cast) //
+        .allMatch(Sign::isPositiveOrZero);
   }
 }

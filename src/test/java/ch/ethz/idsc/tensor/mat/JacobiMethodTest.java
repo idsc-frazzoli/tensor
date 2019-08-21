@@ -84,6 +84,13 @@ public class JacobiMethodTest extends TestCase {
     }
   }
 
+  public void testHilbert1() {
+    Tensor matrix = HilbertMatrix.of(1);
+    Eigensystem eigensystem = Eigensystem.ofSymmetric(matrix);
+    Tensor expected = Tensors.vector(1);
+    Chop._12.requireClose(expected.subtract(eigensystem.values()), Array.zeros(matrix.length()));
+  }
+
   public void testHilbert2() {
     Tensor matrix = HilbertMatrix.of(2);
     Eigensystem eigensystem = Eigensystem.ofSymmetric(matrix);

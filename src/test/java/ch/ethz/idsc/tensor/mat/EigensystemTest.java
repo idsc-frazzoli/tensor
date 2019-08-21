@@ -34,6 +34,15 @@ public class EigensystemTest extends TestCase {
     }
   }
 
+  public void testEmptyFail() {
+    try {
+      Eigensystem.ofSymmetric(Tensors.empty());
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testNonSymmetricFail() {
     try {
       Eigensystem.ofSymmetric(Tensors.fromString("{{1, 2}, {3, 4}}"));

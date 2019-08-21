@@ -21,7 +21,7 @@ public enum FoldList {
    * @return see description above */
   public static Tensor of(BinaryOperator<Tensor> binaryOperator, Tensor tensor) {
     int length = tensor.length();
-    Tensor result = Tensors.reserve(length);
+    Tensor result = Tensors.reserve(length); // throws an exception if tensor is a scalar
     if (0 < length) {
       Tensor entry = tensor.get(0);
       result.append(entry);

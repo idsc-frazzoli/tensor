@@ -5,7 +5,6 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.alg.Accumulate;
 import ch.ethz.idsc.tensor.alg.Last;
 import ch.ethz.idsc.tensor.alg.Range;
@@ -36,7 +35,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
 public class EmpiricalDistribution extends EvaluatedDiscreteDistribution implements CDF {
   /** @param unscaledPDF vector of non-negative weights over the numbers
    * [0, 1, 2, ..., unscaledPDF.length() - 1]
-   * @return */
+   * @return
+   * @throws Exception if any entry in given unscaledPDF is negative */
   public static Distribution fromUnscaledPDF(Tensor unscaledPDF) {
     return new EmpiricalDistribution(unscaledPDF);
   }
@@ -46,8 +46,9 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
   private final Tensor cdf;
 
   private EmpiricalDistribution(Tensor unscaledPDF) {
-    if (unscaledPDF.stream().map(Scalar.class::cast).anyMatch(Sign::isNegative))
-      throw TensorRuntimeException.of(unscaledPDF);
+    unscaledPDF.stream() //
+        .map(Scalar.class::cast) //
+        .forEach(Sign::requirePositiveOrZero);
     Tensor accumulate = Accumulate.of(unscaledPDF);
     Scalar scale = Last.of(accumulate).Get();
     pdf = unscaledPDF.divide(scale);

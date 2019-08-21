@@ -1,11 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Range;
 import ch.ethz.idsc.tensor.alg.Transpose;
@@ -47,12 +47,11 @@ public class BSplineInterpolation extends AbstractInterpolation {
 
   @Override // from Interpolation
   public Tensor get(Tensor index) {
-    List<Integer> list = index.stream() //
+    return at(index.Get(0)).get(index.stream() //
         .skip(1) //
         .map(Scalar.class::cast) //
-        .map(scalar -> scalar.number().intValue()) //
-        .collect(Collectors.toList());
-    return at(index.Get(0)).get(list);
+        .map(Scalars::intValueExact) //
+        .collect(Collectors.toList()));
   }
 
   @Override // from Interpolation

@@ -26,10 +26,10 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from NormInterface
   public Scalar ofMatrix(Tensor matrix) {
-    return SingularValueDecomposition.of(Unprotect.dimension1(matrix) <= matrix.length() //
-        ? matrix
-        : Transpose.of(matrix)) //
-        .values().stream() // values are non-negative
+    Tensor normal = matrix.length() < Unprotect.dimension1(matrix) //
+        ? Transpose.of(matrix)
+        : matrix;
+    return SingularValueDecomposition.of(normal).values().stream() // values are non-negative
         .map(Scalar.class::cast) //
         .reduce(Max::of).get();
   }
