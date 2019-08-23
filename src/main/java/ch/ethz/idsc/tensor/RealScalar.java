@@ -4,17 +4,6 @@ package ch.ethz.idsc.tensor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import ch.ethz.idsc.tensor.sca.ArcTanInterface;
-import ch.ethz.idsc.tensor.sca.ArgInterface;
-import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
-import ch.ethz.idsc.tensor.sca.ExpInterface;
-import ch.ethz.idsc.tensor.sca.LogInterface;
-import ch.ethz.idsc.tensor.sca.PowerInterface;
-import ch.ethz.idsc.tensor.sca.RoundingInterface;
-import ch.ethz.idsc.tensor.sca.SignInterface;
-import ch.ethz.idsc.tensor.sca.SqrtInterface;
-import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
-
 /** RealScalar encodes a real number
  * 
  * <p>encodings provided by the tensor library are
@@ -23,10 +12,7 @@ import ch.ethz.idsc.tensor.sca.TrigonometryInterface;
  * <li>decimal with double precision {@link DoubleScalar}
  * <li>decimal with extra precision {@link DecimalScalar}
  * </ul> */
-public interface RealScalar extends Scalar, //
-    ArcTanInterface, ArgInterface, Comparable<Scalar>, ComplexEmbedding, //
-    ExpInterface, LogInterface, PowerInterface, RoundingInterface, SignInterface, //
-    SqrtInterface, TrigonometryInterface {
+public interface RealScalar extends Scalar {
   /** real scalar 0 as a {@link RationalScalar} */
   static final Scalar ZERO = RationalScalar.of(0, 1);
   /** real scalar 1 as a {@link RationalScalar} */

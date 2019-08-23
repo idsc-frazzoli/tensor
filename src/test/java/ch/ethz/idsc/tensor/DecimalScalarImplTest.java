@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class DecimalScalarImplTest extends TestCase {
@@ -84,7 +85,7 @@ public class DecimalScalarImplTest extends TestCase {
     String expected = "1.414213562373095048801688724209698";
     Scalar sc1 = DecimalScalar.of(BigDecimal.ONE);
     DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1);
-    Scalar root2 = sc2.sqrt();
+    Scalar root2 = Sqrt.FUNCTION.apply(sc2);
     assertTrue(root2.toString().startsWith(expected));
   }
 
@@ -94,7 +95,7 @@ public class DecimalScalarImplTest extends TestCase {
     String expected = "1.414213562373095048801688724209698";
     Scalar sc1 = DecimalScalar.of(BigDecimal.ONE);
     DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1).negate();
-    Scalar root2 = sc2.sqrt();
+    Scalar root2 = Sqrt.FUNCTION.apply(sc2);
     assertEquals(Real.of(root2), RealScalar.ZERO);
     assertTrue(Imag.of(root2).toString().startsWith(expected));
   }

@@ -113,7 +113,7 @@ public class GaussScalarFailTest extends TestCase {
 
   public void testComparableFail() {
     try {
-      DoubleScalar.of(3.14).compareTo(GaussScalar.of(1, 7));
+      Scalars.compare(DoubleScalar.of(3.14), GaussScalar.of(1, 7));
       fail();
     } catch (Exception exception) {
       // ---
