@@ -8,11 +8,12 @@ import ch.ethz.idsc.tensor.Tensor;
  * <a href="https://reference.wolfram.com/language/ref/Last.html">Last</a> */
 public enum Last {
   ;
-  /** @param tensor
+  /** @param tensor of rank at least 1, non-empty
    * @return last entry of tensor
    * @throws Exception if tensor is empty
    * @throws Exception if tensor is a {@link Scalar} */
-  public static Tensor of(Tensor tensor) {
-    return tensor.get(tensor.length() - 1);
+  @SuppressWarnings("unchecked")
+  public static <T extends Tensor> T of(Tensor tensor) {
+    return (T) tensor.get(tensor.length() - 1);
   }
 }

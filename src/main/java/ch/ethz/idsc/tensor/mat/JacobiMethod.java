@@ -80,7 +80,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
               if (Sign.isNegative(theta))
                 t = t.negate();
             }
-            Scalar c = Hypot.of(t, RealScalar.ONE).Get().reciprocal();
+            Scalar c = Hypot.of(t, RealScalar.ONE).reciprocal();
             Scalar s = t.multiply(c);
             Scalar tau = s.divide(c.add(RealScalar.ONE));
             final Scalar fh = t.multiply(A.Get(ip, iq));

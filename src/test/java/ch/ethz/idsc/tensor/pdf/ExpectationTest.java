@@ -57,7 +57,7 @@ public class ExpectationTest extends TestCase {
     ScalarUnaryOperator suo = clip;
     Scalar expect = Expectation.of(suo, distribution);
     Tensor accumulate = Accumulate.of(unscaledPDF);
-    Scalar scale = Last.of(accumulate).Get();
+    Scalar scale = Last.of(accumulate);
     Tensor pdf = unscaledPDF.divide(scale);
     Scalar result = pdf.dot(Range.of(0, upper).map(suo)).Get();
     assertEquals(expect, result);
