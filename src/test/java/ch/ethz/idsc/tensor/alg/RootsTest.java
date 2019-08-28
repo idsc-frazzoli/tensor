@@ -50,7 +50,7 @@ public class RootsTest extends TestCase {
         Tensor roots = Roots.of(coeffs);
         VectorQ.requireLength(roots, 1);
         Tensor check = roots.map(Series.of(coeffs));
-        assertTrue(Chop._12.allZero(check));
+        Chop._12.requireAllZero(check);
       } else
         System.out.println("skip " + coeffs);
     }
@@ -64,7 +64,7 @@ public class RootsTest extends TestCase {
         Tensor roots = Roots.of(coeffs);
         VectorQ.requireLength(roots, 2);
         Tensor check = roots.map(Series.of(coeffs));
-        assertTrue(Chop._10.allZero(check));
+        Chop._10.requireAllZero(check);
       } else
         System.out.println("skip " + coeffs);
     }
@@ -76,7 +76,7 @@ public class RootsTest extends TestCase {
       Tensor coeffs = RandomVariate.of(distribution, 3);
       Tensor roots = Roots.of(coeffs);
       Tensor check = roots.map(Series.of(coeffs));
-      assertTrue(Chop._11.allZero(check));
+      Chop._11.requireAllZero(check);
     }
   }
 

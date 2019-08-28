@@ -107,4 +107,15 @@ public class ChopTest extends TestCase {
       // ---
     }
   }
+
+  public void testRequireAllZero() {
+    Tensor tensor = Tensors.vector(0, 0, 0, 1e-5);
+    Chop._04.requireAllZero(tensor);
+    try {
+      Chop._06.requireAllZero(tensor);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

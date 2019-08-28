@@ -127,6 +127,13 @@ public class Chop implements ScalarUnaryOperator {
   }
 
   /** @param tensor
+   * @throws Exception if {@link #allZero(Tensor)} evaluates to false */
+  public void requireAllZero(Tensor tensor) {
+    if (!allZero(tensor))
+      throw TensorRuntimeException.of(tensor);
+  }
+
+  /** @param tensor
    * @return */
   @SuppressWarnings("unchecked")
   public <T extends Tensor> T of(T tensor) {

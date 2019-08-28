@@ -76,6 +76,12 @@ public class ExpectationTest extends TestCase {
     _check(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(3, .2, 1, .4)));
   }
 
+  public void testExpectationDistribution() {
+    Distribution distribution = new SingletonDistribution(13);
+    assertEquals(Expectation.mean(distribution), RealScalar.of(13));
+    assertEquals(Expectation.variance(distribution), RealScalar.of(0));
+  }
+
   public void testFail() {
     try {
       Expectation.of(s -> s, NormalDistribution.standard());

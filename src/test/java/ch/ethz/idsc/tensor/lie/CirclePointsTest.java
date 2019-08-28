@@ -52,7 +52,7 @@ public class CirclePointsTest extends TestCase {
     Tensor tensor = CirclePoints.of(n);
     assertEquals(Dimensions.of(tensor), Arrays.asList(n, 2));
     assertTrue(Chop._14.close(Tensor.of(tensor.stream().map(Norm2Squared::ofVector)), Array.of(l -> RealScalar.ONE, n)));
-    assertTrue(Chop._14.allZero(Tensor.of(tensor.stream().map(Norm2Squared::ofVector).map(Decrement.ONE))));
+    Chop._14.requireAllZero(Tensor.of(tensor.stream().map(Norm2Squared::ofVector).map(Decrement.ONE)));
   }
 
   public void testFirst() {

@@ -107,7 +107,9 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
   @Override // from Scalar
   public Scalar reciprocal() {
-    return new QuantityImpl(value.reciprocal(), unit.negate());
+    return new QuantityImpl( //
+        value.reciprocal(), //
+        unit.negate());
   }
 
   @Override // from Scalar
@@ -177,7 +179,9 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
-    return of(Sqrt.FUNCTION.apply(value), unit.multiply(RationalScalar.HALF));
+    return new QuantityImpl( //
+        Sqrt.FUNCTION.apply(value), //
+        unit.multiply(RationalScalar.HALF));
   }
 
   @Override // from RoundingInterface

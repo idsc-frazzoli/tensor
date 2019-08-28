@@ -29,9 +29,9 @@ public class ColorDataGradientsTest extends TestCase {
 
   public void testQuantity() {
     Scalar scalar = Quantity.of(Double.POSITIVE_INFINITY, "s");
-    assertTrue(Chop.NONE.allZero(ColorDataGradients.COPPER.apply(scalar)));
-    assertTrue(Chop.NONE.allZero(ColorDataGradients.HUE.apply(scalar)));
-    assertTrue(Chop.NONE.allZero(ColorDataGradients.GRAYSCALE.apply(scalar)));
+    Chop.NONE.requireAllZero(ColorDataGradients.COPPER.apply(scalar));
+    Chop.NONE.requireAllZero(ColorDataGradients.HUE.apply(scalar));
+    Chop.NONE.requireAllZero(ColorDataGradients.GRAYSCALE.apply(scalar));
   }
 
   public void testUnmodified() {
@@ -39,7 +39,7 @@ public class ColorDataGradientsTest extends TestCase {
     Tensor copy = ColorDataGradients.CLASSIC.apply(nan);
     ColorDataGradients.CLASSIC.apply(nan).set(Increment.ONE, 1);
     assertEquals(copy, ColorDataGradients.CLASSIC.apply(nan));
-    assertTrue(Chop.NONE.allZero(ColorDataGradients.CLASSIC.apply(nan)));
+    Chop.NONE.requireAllZero(ColorDataGradients.CLASSIC.apply(nan));
   }
 
   public void testDeriveWithOpacity() {

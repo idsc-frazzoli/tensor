@@ -192,6 +192,7 @@ public class GaussScalar extends AbstractScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    return "{\"value\": " + value + ", \"prime\": " + prime + "}";
+    return "(" + value + " mod " + prime + ")";
+    // return "{\"value\": " + value + ", \"prime\": " + prime + "}";
   }
 }

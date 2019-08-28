@@ -2,18 +2,23 @@
 package ch.ethz.idsc.tensor.mat;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
+import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import ch.ethz.idsc.tensor.red.Norm;
@@ -184,6 +189,20 @@ public class NullSpaceTest extends TestCase {
 
   public void testQuantityNumeric() {
     // currently not supported
+  }
+
+  public void testGaussScalar() {
+    Random random = new Random();
+    int prime = 7741;
+    int dim1 = 6;
+    Tensor matrix = Array.fill(() -> GaussScalar.of(random.nextInt(), prime), dim1 - 2, dim1);
+    Tensor identi = IdentityMatrix.of(Unprotect.dimension1(matrix), GaussScalar.of(1, prime));
+    List<Integer> list = Dimensions.of(identi);
+    assertEquals(list, Arrays.asList(dim1, dim1));
+    Tensor nullsp = NullSpace.usingRowReduce(matrix, identi);
+    Scalar det = Det.of(matrix);
+    assertEquals(det, GaussScalar.of(0, prime));
+    assertEquals(Dimensions.of(nullsp), Arrays.asList(2, 6));
   }
 
   public void testFail() {
