@@ -9,6 +9,7 @@ import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
@@ -17,6 +18,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Normalize;
 import ch.ethz.idsc.tensor.alg.Reverse;
 import ch.ethz.idsc.tensor.alg.Transpose;
+import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
 import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -24,6 +26,7 @@ import ch.ethz.idsc.tensor.qty.QuantityTensor;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class NullSpaceTest extends TestCase {
@@ -205,19 +208,80 @@ public class NullSpaceTest extends TestCase {
     assertEquals(Dimensions.of(nullsp), Arrays.asList(2, 6));
   }
 
-  public void testFail() {
+  public void testRectangle2x3() {
+    Tensor matrix = Tensors.fromString("{{1, 0, 0}, {0, 0, 0}}");
+    Tensor tensor = NullSpace.of(matrix);
+    assertEquals(tensor.get(0), UnitVector.of(3, 1));
+    assertEquals(tensor.get(1), UnitVector.of(3, 2));
+    assertTrue(Scalars.isZero(Det.of(matrix)));
+  }
+
+  public void testRectangle3x2() {
+    Tensor matrix = Tensors.fromString("{{1, 0}, {0, 0}, {0, 0}}");
+    Tensor tensor = NullSpace.of(matrix);
+    assertEquals(tensor.get(0), UnitVector.of(2, 1));
+    assertTrue(Scalars.isZero(Det.of(matrix)));
+  }
+
+  public void testRectangle2x3G() {
+    ScalarUnaryOperator suo = scalar -> GaussScalar.of(scalar.number().longValue(), 7);
+    Tensor matrix = Tensors.fromString("{{1, 0, 0}, {0, 0, 0}}").map(suo);
+    Tensor tensor = NullSpace.usingRowReduce(matrix, IdentityMatrix.of(3, GaussScalar.of(1, 7)));
+    assertEquals(tensor.get(0), UnitVector.of(3, 1).map(suo));
+    assertEquals(tensor.get(1), UnitVector.of(3, 2).map(suo));
+    assertTrue(Scalars.isZero(Det.of(matrix)));
+  }
+
+  public void testRectangle3x2G() {
+    ScalarUnaryOperator suo = scalar -> GaussScalar.of(scalar.number().longValue(), 7);
+    Tensor matrix = Tensors.fromString("{{1, 0}, {0, 0}, {0, 0}}").map(suo);
+    Tensor tensor = NullSpace.usingRowReduce(matrix, IdentityMatrix.of(2, GaussScalar.of(1, 7)));
+    assertEquals(tensor.get(0), UnitVector.of(2, 1).map(suo));
+    assertTrue(Scalars.isZero(Det.of(matrix)));
+  }
+
+  public void testRectangle3x2GVectorFail() {
+    ScalarUnaryOperator suo = scalar -> GaussScalar.of(scalar.number().longValue(), 7);
+    Tensor matrix = Tensors.fromString("{{1, 0}, {0, 0}, {0, 0}}").map(suo);
+    try {
+      NullSpace.usingRowReduce(matrix, IdentityMatrix.of(2, GaussScalar.of(1, 7)).get(0));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRectangle3x2GRectFail() {
+    ScalarUnaryOperator suo = scalar -> GaussScalar.of(scalar.number().longValue(), 7);
+    Tensor matrix = Tensors.fromString("{{1, 0}, {0, 0}, {0, 0}}").map(suo);
+    Tensor identity = IdentityMatrix.of(3, GaussScalar.of(1, 7)).extract(0, 2);
+    try {
+      NullSpace.usingRowReduce(matrix, identity);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailScalar() {
     try {
       NullSpace.of(RealScalar.ONE);
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testFailVector() {
     try {
       NullSpace.of(Tensors.vector(1, 2, 3, 1));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testFailRank3() {
     try {
       NullSpace.of(LieAlgebras.sl2());
       fail();

@@ -51,15 +51,21 @@ public enum NullSpace {
   /** @param matrix with exact precision entries
    * @return tensor of vectors that span the kernel of given matrix */
   public static Tensor usingRowReduce(Tensor matrix) {
-    return usingRowReduce(matrix, IdentityMatrix.of(Unprotect.dimension1(matrix)));
+    return _usingRowReduce(matrix, IdentityMatrix.of(Unprotect.dimension1(matrix)));
   }
 
-  /** @param matrix with exact precision entries
-   * @param identity contains the unit vector for the scalar type of each column
+  /** @param matrix of dimensions n x m with exact precision entries
+   * @param identity matrix of dimensions m x m that contains the unit vector
+   * for the scalar type of each column
    * @return tensor of vectors that span the kernel of given matrix */
   public static Tensor usingRowReduce(Tensor matrix, Tensor identity) {
+    return _usingRowReduce(matrix, SquareMatrixQ.require(identity));
+  }
+
+  // helper function
+  private static Tensor _usingRowReduce(Tensor matrix, Tensor identity) {
     final int n = matrix.length();
-    final int m = Unprotect.dimension1(matrix);
+    final int m = identity.length();
     Tensor lhs = RowReduce.of(Join.of(1, Transpose.of(matrix), identity));
     int j = 0;
     int c0 = 0;

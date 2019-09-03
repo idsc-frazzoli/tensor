@@ -194,6 +194,17 @@ public class DetTest extends TestCase {
     }
   }
 
+  public void testFailNonArray() {
+    Tensor matrix = HilbertMatrix.of(4);
+    matrix.set(Tensors.vector(1, 2, 3), 1, 2);
+    try {
+      Det.of(matrix);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailRank3() {
     try {
       Det.of(LieAlgebras.sl2());
