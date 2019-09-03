@@ -78,7 +78,7 @@ public class BinCountsTest extends TestCase {
       // ---
     }
     try {
-      BinCounts.of(Tensors.vector(1, 2), RealScalar.of(-.2)); // negative
+      BinCounts.of(Tensors.vector(1, 2), RealScalar.of(-0.2)); // negative
       fail();
     } catch (Exception exception) {
       // ---

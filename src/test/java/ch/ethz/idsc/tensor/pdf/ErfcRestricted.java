@@ -30,7 +30,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
   @Override
   public Scalar apply(Scalar scalar) {
-    if (Scalars.lessThan(scalar.abs(), DoubleScalar.of(.7))) // error < 10^-9
+    if (Scalars.lessThan(scalar.abs(), DoubleScalar.of(0.7))) // error < 10^-9
       return SERIES.apply(scalar);
     throw TensorRuntimeException.of(scalar);
   }

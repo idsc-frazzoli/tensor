@@ -35,7 +35,7 @@ public class PoissonDistributionTest extends TestCase {
     PDF pdf = PDF.of(distribution);
     Tensor prob = values(pdf, 16);
     Scalar scalar = Total.of(prob).Get();
-    assertTrue(Scalars.lessThan(RealScalar.of(.9999), scalar));
+    assertTrue(Scalars.lessThan(RealScalar.of(0.9999), scalar));
     assertTrue(Scalars.lessThan(scalar, RealScalar.ONE));
   }
 
@@ -64,9 +64,9 @@ public class PoissonDistributionTest extends TestCase {
 
   public void testInverseCDF() {
     InverseCDF inverseCDF = InverseCDF.of(PoissonDistribution.of(RealScalar.of(5.5)));
-    Scalar x0 = inverseCDF.quantile(RealScalar.of(.0));
-    Scalar x1 = inverseCDF.quantile(RealScalar.of(.1));
-    Scalar x2 = inverseCDF.quantile(RealScalar.of(.5));
+    Scalar x0 = inverseCDF.quantile(RealScalar.of(0.0));
+    Scalar x1 = inverseCDF.quantile(RealScalar.of(0.1));
+    Scalar x2 = inverseCDF.quantile(RealScalar.of(0.5));
     assertEquals(x0, RealScalar.ZERO);
     assertTrue(Scalars.lessThan(x1, x2));
   }

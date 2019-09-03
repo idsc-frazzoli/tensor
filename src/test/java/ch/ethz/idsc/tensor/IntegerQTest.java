@@ -28,7 +28,7 @@ public class IntegerQTest extends TestCase {
 
   public void testRequireFail() {
     try {
-      IntegerQ.require(RealScalar.of(.2));
+      IntegerQ.require(RealScalar.of(0.2));
       fail();
     } catch (Exception exception) {
       // ---

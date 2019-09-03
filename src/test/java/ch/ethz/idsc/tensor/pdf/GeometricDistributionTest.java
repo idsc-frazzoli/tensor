@@ -31,8 +31,8 @@ public class GeometricDistributionTest extends TestCase {
     CDF cdf = CDF.of(distribution);
     assertEquals(cdf.p_lessThan(RealScalar.ZERO), RealScalar.ZERO);
     assertEquals(cdf.p_lessEquals(RealScalar.ZERO), p);
-    assertEquals(cdf.p_lessThan(RealScalar.of(.1)), p);
-    assertEquals(cdf.p_lessEquals(RealScalar.of(.1)), p);
+    assertEquals(cdf.p_lessThan(RealScalar.of(0.1)), p);
+    assertEquals(cdf.p_lessEquals(RealScalar.of(0.1)), p);
     assertEquals(cdf.p_lessThan(RealScalar.ONE), p);
     assertEquals(cdf.p_lessThan(RealScalar.of(1.1)), plt2);
     assertEquals(cdf.p_lessEquals(RealScalar.ONE), plt2);
@@ -66,7 +66,7 @@ public class GeometricDistributionTest extends TestCase {
   }
 
   public void testNumerics() {
-    Distribution distribution = GeometricDistribution.of(RealScalar.of(.002));
+    Distribution distribution = GeometricDistribution.of(RealScalar.of(0.002));
     CDF cdf = CDF.of(distribution);
     Scalar s = cdf.p_lessEquals(RealScalar.of(1000000000));
     assertEquals(s, RealScalar.ONE);
@@ -108,10 +108,10 @@ public class GeometricDistributionTest extends TestCase {
   }
 
   public void testFailQuantile() {
-    Distribution distribution = GeometricDistribution.of(RealScalar.of(.2));
+    Distribution distribution = GeometricDistribution.of(RealScalar.of(0.2));
     InverseCDF inverseCDF = InverseCDF.of(distribution);
     try {
-      inverseCDF.quantile(RealScalar.of(-.1));
+      inverseCDF.quantile(RealScalar.of(-0.1));
       fail();
     } catch (Exception exception) {
       // ---

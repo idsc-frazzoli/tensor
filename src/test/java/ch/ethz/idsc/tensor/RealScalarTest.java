@@ -42,14 +42,14 @@ public class RealScalarTest extends TestCase {
       assertEquals(a.compareTo(b), Scalars.compare(RealScalar.ZERO, RealScalar.of(b)));
     }
     {
-      assertEquals(Double.compare(.3, .4), Scalars.compare(DoubleScalar.of(.3), DoubleScalar.of(.4)));
-      assertEquals(Double.compare(.3, -4e10), Scalars.compare(DoubleScalar.of(.3), DoubleScalar.of(-4e10)));
+      assertEquals(Double.compare(0.3, 0.4), Scalars.compare(DoubleScalar.of(0.3), DoubleScalar.of(0.4)));
+      assertEquals(Double.compare(0.3, -4e10), Scalars.compare(DoubleScalar.of(0.3), DoubleScalar.of(-4e10)));
     }
   }
 
   public void testCompareDouble() {
-    assertEquals(Double.compare(.3, .4), Scalars.compare(DoubleScalar.of(.3), DoubleScalar.of(.4)));
-    assertEquals(Double.compare(.3, -4e10), Scalars.compare(DoubleScalar.of(.3), DoubleScalar.of(-4e10)));
+    assertEquals(Double.compare(0.3, 0.4), Scalars.compare(DoubleScalar.of(0.3), DoubleScalar.of(0.4)));
+    assertEquals(Double.compare(0.3, -4e10), Scalars.compare(DoubleScalar.of(0.3), DoubleScalar.of(-4e10)));
   }
 
   public void testCompareRational() {
@@ -64,8 +64,8 @@ public class RealScalarTest extends TestCase {
   public void testNumber() {
     assertEquals(RealScalar.ZERO, RealScalar.of(0));
     assertEquals(RealScalar.ZERO, RealScalar.of(0.));
-    assertEquals(DoubleScalar.of(3.), RealScalar.of(3.));
-    assertEquals(DoubleScalar.of(3.), RealScalar.of(3.f));
+    assertEquals(DoubleScalar.of(3.0), RealScalar.of(3.));
+    assertEquals(DoubleScalar.of(3.0), RealScalar.of(3.f));
     assertEquals(IntegerScalar.of(3), RealScalar.of(3));
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3));
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3L));

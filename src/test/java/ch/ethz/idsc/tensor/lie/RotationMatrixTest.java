@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 
 public class RotationMatrixTest extends TestCase {
   public void testPointThree() {
-    Tensor matrix = RotationMatrix.of(RealScalar.of(.3));
+    Tensor matrix = RotationMatrix.of(RealScalar.of(0.3));
     Tensor eye = matrix.dot(Transpose.of(matrix));
     assertEquals(eye, IdentityMatrix.of(2));
     assertTrue(OrthogonalMatrixQ.of(matrix));
@@ -29,9 +29,9 @@ public class RotationMatrixTest extends TestCase {
   }
 
   public void testNumber() {
-    Tensor matrix = RotationMatrix.of(.2);
+    Tensor matrix = RotationMatrix.of(0.2);
     assertFalse(Chop._12.close(matrix, IdentityMatrix.of(2)));
-    assertTrue(Chop._12.close(matrix.dot(RotationMatrix.of(-.2)), IdentityMatrix.of(2)));
+    assertTrue(Chop._12.close(matrix.dot(RotationMatrix.of(-0.2)), IdentityMatrix.of(2)));
   }
 
   public void testFail() {

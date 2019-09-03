@@ -32,7 +32,7 @@ public class NestTest extends TestCase {
 
   public void testGamma() {
     Scalar expected = ComplexScalar.of(0.024484718696096586, -0.3838080212320521);
-    Scalar actual = Nest.of(Gamma.FUNCTION, ComplexScalar.of(.3, .9), 3);
+    Scalar actual = Nest.of(Gamma.FUNCTION, ComplexScalar.of(0.3, 0.9), 3);
     assertTrue(Chop._08.close(expected, actual));
   }
 
@@ -46,7 +46,7 @@ public class NestTest extends TestCase {
 
   public void testFail() {
     try {
-      Nest.of(Cos.FUNCTION, RealScalar.of(.3), -1);
+      Nest.of(Cos.FUNCTION, RealScalar.of(0.3), -1);
       fail();
     } catch (Exception exception) {
       // ---

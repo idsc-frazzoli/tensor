@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 
 public class HammingWindowTest extends TestCase {
   public void testSimple() {
-    Scalar result = HammingWindow.FUNCTION.apply(RealScalar.of(.2));
+    Scalar result = HammingWindow.FUNCTION.apply(RealScalar.of(0.2));
     Scalar expect = RealScalar.of(0.68455123656247599796); // checked with Mathematica
     Chop._12.requireClose(result, expect);
   }

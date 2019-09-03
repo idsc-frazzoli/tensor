@@ -88,7 +88,7 @@ public class BinomialDistributionTest extends TestCase {
       assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
     }
     {
-      Distribution distribution = BinomialDistribution.of(0, RealScalar.of(.3));
+      Distribution distribution = BinomialDistribution.of(0, RealScalar.of(0.3));
       assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
     }
   }
@@ -120,22 +120,22 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testBlub() {
-    BinomialDistribution.of(1200, RealScalar.of(.1));
-    BinomialDistribution.of(1200, RealScalar.of(.9));
+    BinomialDistribution.of(1200, RealScalar.of(0.1));
+    BinomialDistribution.of(1200, RealScalar.of(0.9));
   }
 
   public void testInRange() {
-    assertEquals(BinomialDistribution.of(1000, DoubleScalar.of(.5)).getClass(), BinomialDistribution.class);
-    assertEquals(BinomialDistribution.of(2000, DoubleScalar.of(.1)).getClass(), BinomialDistribution.class);
-    assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.01)).getClass(), BinomialDistribution.class);
-    assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(.99)).getClass(), BinomialDistribution.class);
-    assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(.0)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(1000, DoubleScalar.of(0.5)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(2000, DoubleScalar.of(0.1)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(0.01)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(5000, DoubleScalar.of(0.99)).getClass(), BinomialDistribution.class);
+    assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(0.0)).getClass(), BinomialDistribution.class);
     assertEquals(BinomialDistribution.of(10000, DoubleScalar.of(1.0)).getClass(), BinomialDistribution.class);
   }
 
   public void testNextDownOne() {
     AbstractDiscreteDistribution distribution = //
-        (AbstractDiscreteDistribution) BinomialDistribution.of(1000, DoubleScalar.of(.5));
+        (AbstractDiscreteDistribution) BinomialDistribution.of(1000, DoubleScalar.of(0.5));
     distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
   }
 
@@ -150,8 +150,8 @@ public class BinomialDistributionTest extends TestCase {
   public void testInverseCDF() {
     InverseCDF inv = InverseCDF.of(BinomialDistribution.of(100, RationalScalar.of(2, 3)));
     Scalar x0 = inv.quantile(RealScalar.ZERO);
-    Scalar x1 = inv.quantile(RealScalar.of(.5));
-    Scalar x2 = inv.quantile(RealScalar.of(.8));
+    Scalar x1 = inv.quantile(RealScalar.of(0.5));
+    Scalar x2 = inv.quantile(RealScalar.of(0.8));
     Scalar x3 = inv.quantile(RealScalar.of(Math.nextDown(1.0)));
     assertEquals(x0, RealScalar.ZERO);
     assertEquals(x1, RealScalar.of(67));
@@ -162,9 +162,9 @@ public class BinomialDistributionTest extends TestCase {
   public void testInverseCDF2() {
     InverseCDF inv = InverseCDF.of(BinomialDistribution.of(10, RationalScalar.of(1, 2)));
     Scalar x0 = inv.quantile(RealScalar.ZERO);
-    Scalar x1 = inv.quantile(RealScalar.of(.5));
-    Scalar x2 = inv.quantile(RealScalar.of(.8));
-    Scalar x9 = inv.quantile(RealScalar.of(.9));
+    Scalar x1 = inv.quantile(RealScalar.of(0.5));
+    Scalar x2 = inv.quantile(RealScalar.of(0.8));
+    Scalar x9 = inv.quantile(RealScalar.of(0.9));
     Scalar x3 = inv.quantile(RealScalar.of(Math.nextDown(1.0)));
     assertEquals(x0, RealScalar.ZERO);
     assertEquals(x1, RealScalar.of(5));
@@ -232,7 +232,7 @@ public class BinomialDistributionTest extends TestCase {
       // ---
     }
     try {
-      BinomialDistribution.of(10, Quantity.of(.2, "s"));
+      BinomialDistribution.of(10, Quantity.of(0.2, "s"));
       fail();
     } catch (Exception exception) {
       // ---

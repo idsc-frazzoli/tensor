@@ -53,10 +53,10 @@ public class DiscreteCDFTest extends TestCase {
   }
 
   public void testNumericsPoisson() {
-    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(.1)));
-    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(1.)));
+    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(0.1)));
+    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(1.0)));
     _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(70)));
-    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(700.)));
+    _checkDiscreteCDFNumerics(PoissonDistribution.of(RealScalar.of(700.0)));
   }
 
   private static void _checkCDFNumerics(Distribution distribution) {
@@ -69,10 +69,10 @@ public class DiscreteCDFTest extends TestCase {
   }
 
   public void testNumericsGeometric() {
-    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(.01)));
-    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(.1)));
-    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(.9)));
-    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(.99)));
+    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(0.01)));
+    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(0.1)));
+    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(0.9)));
+    _checkCDFNumerics(GeometricDistribution.of(RealScalar.of(0.99)));
   }
 
   public void testFailPoisson() {

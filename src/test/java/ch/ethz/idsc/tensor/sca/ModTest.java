@@ -93,7 +93,7 @@ public class ModTest extends TestCase {
     }
     {
       Scalar r = Mod.function(n, d).apply(N.DOUBLE.of(m));
-      assertEquals(Chop.below(.01).apply(r.subtract(expected)), RealScalar.ZERO);
+      assertEquals(Chop.below(0.01).apply(r.subtract(expected)), RealScalar.ZERO);
     }
   }
 

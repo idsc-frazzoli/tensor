@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 public class CDFTest extends TestCase {
   public void testCDFFail() {
-    Distribution distribution = ErlangDistribution.of(3, RealScalar.of(.3));
+    Distribution distribution = ErlangDistribution.of(3, RealScalar.of(0.3));
     try {
       CDF.of(distribution);
       fail();

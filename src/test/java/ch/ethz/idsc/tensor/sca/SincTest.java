@@ -24,25 +24,25 @@ public class SincTest extends TestCase {
   }
 
   public void testReal() {
-    checkBoth(RealScalar.of(.5));
-    checkBoth(RealScalar.of(.1));
-    checkBoth(RealScalar.of(.05));
-    checkBoth(RealScalar.of(.01));
-    checkBoth(RealScalar.of(.005));
-    checkBoth(RealScalar.of(.001));
-    checkBoth(RealScalar.of(.0005));
-    checkBoth(RealScalar.of(.0001));
+    checkBoth(RealScalar.of(0.5));
+    checkBoth(RealScalar.of(0.1));
+    checkBoth(RealScalar.of(0.05));
+    checkBoth(RealScalar.of(0.01));
+    checkBoth(RealScalar.of(0.005));
+    checkBoth(RealScalar.of(0.001));
+    checkBoth(RealScalar.of(0.0005));
+    checkBoth(RealScalar.of(0.0001));
   }
 
   public void testReal2() {
-    checkBoth(RealScalar.of(-.5));
-    checkBoth(RealScalar.of(-.1));
-    checkBoth(RealScalar.of(-.05));
-    checkBoth(RealScalar.of(-.01));
-    checkBoth(RealScalar.of(-.005));
-    checkBoth(RealScalar.of(-.001));
-    checkBoth(RealScalar.of(-.0005));
-    checkBoth(RealScalar.of(-.0001));
+    checkBoth(RealScalar.of(-0.5));
+    checkBoth(RealScalar.of(-0.1));
+    checkBoth(RealScalar.of(-0.05));
+    checkBoth(RealScalar.of(-0.01));
+    checkBoth(RealScalar.of(-0.005));
+    checkBoth(RealScalar.of(-0.001));
+    checkBoth(RealScalar.of(-0.0005));
+    checkBoth(RealScalar.of(-0.0001));
   }
 
   public void testZero() {
@@ -50,10 +50,10 @@ public class SincTest extends TestCase {
   }
 
   public void testComplex() {
-    checkBoth(Sinc.of(ComplexScalar.of(2, 3.)));
-    checkBoth(Sinc.of(ComplexScalar.of(-.002, 0.03)));
-    checkBoth(Sinc.of(ComplexScalar.of(.002, -0.003)));
-    checkBoth(Sinc.of(ComplexScalar.of(-.002, -0.003)));
+    checkBoth(Sinc.of(ComplexScalar.of(2, 3.0)));
+    checkBoth(Sinc.of(ComplexScalar.of(-0.002, 0.03)));
+    checkBoth(Sinc.of(ComplexScalar.of(0.002, -0.003)));
+    checkBoth(Sinc.of(ComplexScalar.of(-0.002, -0.003)));
   }
 
   public void testThreshold() {

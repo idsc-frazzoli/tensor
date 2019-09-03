@@ -25,7 +25,7 @@ public class QuantileTest extends TestCase {
 
   public void testScalar() {
     Tensor vector = Tensors.vector(0, 2, 1, 4, 3);
-    Tensor q = Quantile.of(vector, RealScalar.of(.71233));
+    Tensor q = Quantile.of(vector, RealScalar.of(0.71233));
     assertEquals(q, RealScalar.of(3));
   }
 
@@ -64,7 +64,7 @@ public class QuantileTest extends TestCase {
   public void testLimitTheorem() {
     Random random = new SecureRandom();
     Tensor tensor = Array.of(l -> RealScalar.of(random.nextDouble()), 5000);
-    Tensor weight = Tensors.vector(.76, .1, .25, .5, .05, .95, 0, .5, .99, 1);
+    Tensor weight = Tensors.vector(0.76, 0.1, 0.25, 0.5, 0.05, 0.95, 0, 0.5, 0.99, 1);
     Tensor quantile = Quantile.of(tensor, weight);
     Tensor deviation = quantile.subtract(weight);
     Scalar maxError = Norm.INFINITY.of(deviation);

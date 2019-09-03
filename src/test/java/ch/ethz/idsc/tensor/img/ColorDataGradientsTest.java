@@ -45,8 +45,8 @@ public class ColorDataGradientsTest extends TestCase {
   public void testDeriveWithOpacity() {
     ColorDataGradient colorDataGradient1 = ColorDataGradients.CLASSIC.deriveWithOpacity(RealScalar.ONE);
     ColorDataGradient colorDataGradient2 = ColorDataGradients.CLASSIC.deriveWithOpacity(RationalScalar.HALF);
-    Tensor rgba1 = colorDataGradient1.apply(RealScalar.of(.5));
-    Tensor rgba2 = colorDataGradient2.apply(RealScalar.of(.5));
+    Tensor rgba1 = colorDataGradient1.apply(RealScalar.of(0.5));
+    Tensor rgba2 = colorDataGradient2.apply(RealScalar.of(0.5));
     assertEquals(rgba1, Tensors.vector(47.5, 195, 33.5, 255));
     assertEquals(rgba1.get(3), RealScalar.of(255));
     assertEquals(rgba2.get(3), RealScalar.of(127.5));

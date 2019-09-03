@@ -18,10 +18,10 @@ public class SortTest extends TestCase {
   public void testSort() {
     assertEquals(Sort.of(Tensors.vector(0, 4, 5, 2, -3)), Tensors.vector(-3, 0, 2, 4, 5));
     assertEquals(Sort.of(Tensors.vector(4, 5, 0, 2, -3)), Tensors.vector(-3, 0, 2, 4, 5));
-    final Tensor m = Tensors.vectorDouble(.4, 0, .5, .2, -.3);
-    assertEquals(Sort.of(m), Tensors.vectorDouble(-.3, 0, .2, .4, .5));
-    assertEquals(Sort.of(m, Collections.reverseOrder()), Tensors.vectorDouble(.5, .4, .2, 0, -.3));
-    assertEquals(Sort.ofTensor(m.unmodifiable(), Collections.reverseOrder()), Tensors.vectorDouble(.5, .4, .2, 0, -.3));
+    final Tensor m = Tensors.vectorDouble(0.4, 0, 0.5, 0.2, -0.3);
+    assertEquals(Sort.of(m), Tensors.vectorDouble(-0.3, 0, 0.2, 0.4, 0.5));
+    assertEquals(Sort.of(m, Collections.reverseOrder()), Tensors.vectorDouble(0.5, 0.4, 0.2, 0, -0.3));
+    assertEquals(Sort.ofTensor(m.unmodifiable(), Collections.reverseOrder()), Tensors.vectorDouble(0.5, 0.4, 0.2, 0, -0.3));
     assertEquals(Sort.of(m), Sort.of(m));
     assertEquals(Sort.of(m.unmodifiable()), Sort.of(m));
   }

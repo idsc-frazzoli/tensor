@@ -90,6 +90,16 @@ public class ChopTest extends TestCase {
     assertFalse(Chop._10.allZero(scalar));
   }
 
+  public void testCloseNaNFail() {
+    Chop.below(Double.POSITIVE_INFINITY);
+    try {
+      Chop.below(Double.NaN);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testCloseFail() {
     try {
       Chop._05.close(Tensors.vector(1), Tensors.vector(1, 1));

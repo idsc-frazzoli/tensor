@@ -24,7 +24,7 @@ public class EmpiricalDistributionTest extends TestCase {
   public void testCDF() {
     Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 9, 1));
     CDF pdf = CDF.of(distribution);
-    assertEquals(pdf.p_lessEquals(RealScalar.of(-.1)), RealScalar.ZERO);
+    assertEquals(pdf.p_lessEquals(RealScalar.of(-0.1)), RealScalar.ZERO);
     assertEquals(pdf.p_lessEquals(RealScalar.of(0)), RealScalar.ZERO);
     assertEquals(pdf.p_lessEquals(RealScalar.of(0.1)), RealScalar.ZERO);
     assertEquals(pdf.p_lessEquals(RealScalar.of(1)), RationalScalar.of(9, 10));
@@ -36,7 +36,7 @@ public class EmpiricalDistributionTest extends TestCase {
   public void testCDF2() {
     Distribution distribution = EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 9, 1));
     CDF pdf = CDF.of(distribution);
-    assertEquals(pdf.p_lessThan(RealScalar.of(-.1)), RealScalar.ZERO);
+    assertEquals(pdf.p_lessThan(RealScalar.of(-0.1)), RealScalar.ZERO);
     assertEquals(pdf.p_lessThan(RealScalar.of(0)), RealScalar.ZERO);
     assertEquals(pdf.p_lessThan(RealScalar.of(0.1)), RealScalar.ZERO);
     assertEquals(pdf.p_lessThan(RealScalar.of(1)), RationalScalar.of(0, 10));
@@ -67,14 +67,14 @@ public class EmpiricalDistributionTest extends TestCase {
     AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
     EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 2, 1, 0, 3, 0));
     assertEquals(distribution.quantile(RealScalar.of(0)), RealScalar.ONE);
-    assertEquals(distribution.quantile(RealScalar.of(.99999999999)), RealScalar.of(4));
+    assertEquals(distribution.quantile(RealScalar.of(0.99999999999)), RealScalar.of(4));
   }
 
   public void testRandomVariateNeedle2() {
     AbstractDiscreteDistribution distribution = (AbstractDiscreteDistribution) //
     EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 1, 0, 1, 0));
     assertEquals(distribution.quantile(RealScalar.of(0)), RealScalar.of(2));
-    assertEquals(distribution.quantile(RealScalar.of(Math.nextDown(.5))), RealScalar.of(2));
+    assertEquals(distribution.quantile(RealScalar.of(Math.nextDown(0.5))), RealScalar.of(2));
     assertEquals(distribution.quantile(RationalScalar.of(1, 2)), RealScalar.of(4));
     assertEquals(distribution.quantile(RealScalar.of(Math.nextDown(1.0))), RealScalar.of(4));
   }
@@ -88,8 +88,8 @@ public class EmpiricalDistributionTest extends TestCase {
   public void testInverseCDF() {
     InverseCDF inv = InverseCDF.of(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(0, 3, 1)));
     Scalar x0 = inv.quantile(RealScalar.ZERO);
-    Scalar x1 = inv.quantile(RealScalar.of(.5));
-    Scalar x2 = inv.quantile(RealScalar.of(.8));
+    Scalar x1 = inv.quantile(RealScalar.of(0.5));
+    Scalar x2 = inv.quantile(RealScalar.of(0.8));
     // Scalar x3 = inv.quantile(RealScalar.of(1)); // at the moment: forbidden
     assertEquals(x0, RealScalar.ONE);
     assertEquals(x0, x1);

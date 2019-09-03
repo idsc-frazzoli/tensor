@@ -45,19 +45,20 @@ public class GompertzMakehamDistribution extends AbstractContinuousDistribution 
 
   @Override // from PDF
   public Scalar at(Scalar x) {
-    if (Sign.isNegative(x))
-      return lambda.zero();
     Scalar x_lambda = x.multiply(lambda);
-    Scalar exp = RealScalar.ONE.subtract(Exp.FUNCTION.apply(x_lambda)).multiply(xi).add(x_lambda);
-    return Exp.FUNCTION.apply(exp).multiply(lambda_xi);
+    Scalar exp = Exp.FUNCTION.apply(x_lambda);
+    return Sign.isPositiveOrZero(x) //
+        ? Exp.FUNCTION.apply(RealScalar.ONE.subtract(exp).multiply(xi).add(x_lambda)).multiply(lambda_xi)
+        : lambda.zero();
   }
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    if (Sign.isNegativeOrZero(x))
-      return RealScalar.ZERO;
-    Scalar exp = RealScalar.ONE.subtract(Exp.FUNCTION.apply(x.multiply(lambda))).multiply(xi);
-    return RealScalar.ONE.subtract(Exp.FUNCTION.apply(exp));
+    Scalar x_lambda = x.multiply(lambda);
+    Scalar exp = Exp.FUNCTION.apply(x_lambda);
+    return Sign.isPositive(x) //
+        ? RealScalar.ONE.subtract(Exp.FUNCTION.apply(RealScalar.ONE.subtract(exp).multiply(xi)))
+        : RealScalar.ZERO;
   }
 
   @Override // from Object

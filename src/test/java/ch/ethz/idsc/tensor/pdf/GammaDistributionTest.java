@@ -17,7 +17,7 @@ public class GammaDistributionTest extends TestCase {
       assertTrue(Chop._08.close(prob, DoubleScalar.of(0.28770929331586703)));
     }
     {
-      assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-.3))));
+      assertTrue(Scalars.isZero(pdf.at(RealScalar.of(-0.3))));
     }
   }
 

@@ -14,7 +14,7 @@ import ch.ethz.idsc.tensor.io.HomeDirectory;
 enum GaborMatrixDemo {
   ;
   public static void main(String[] args) throws IOException {
-    Tensor tensor = GaborMatrix.of(255, Tensors.vector(.1, .2), RealScalar.of(.3));
+    Tensor tensor = GaborMatrix.of(255, Tensors.vector(0.1, 0.2), RealScalar.of(0.3));
     Export.of(HomeDirectory.Pictures(GaborMatrix.class.getSimpleName() + ".png"), //
         ArrayPlot.of(tensor, ColorDataGradients.CLASSIC));
   }

@@ -19,7 +19,7 @@ public class ArrayQTest extends TestCase {
   }
 
   public void testIsArray() {
-    Tensor d = DoubleScalar.of(.12);
+    Tensor d = DoubleScalar.of(0.12);
     assertTrue(ArrayQ.of(d));
     assertTrue(ArrayQ.of(Tensors.empty()));
     Tensor a = Tensors.vectorLong(3, 2, 3);

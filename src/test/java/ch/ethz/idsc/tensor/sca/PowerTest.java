@@ -101,8 +101,8 @@ public class PowerTest extends TestCase {
   }
 
   public void testFunction() {
-    assertEquals(RealScalar.of(7).map(Power.function(.5)), Sqrt.of(RealScalar.of(7)));
-    assertEquals(Power.function(.5).apply(RealScalar.of(7)), Sqrt.of(RealScalar.of(7)));
+    assertEquals(RealScalar.of(7).map(Power.function(0.5)), Sqrt.of(RealScalar.of(7)));
+    assertEquals(Power.function(0.5).apply(RealScalar.of(7)), Sqrt.of(RealScalar.of(7)));
   }
 
   public void testTypeFail() {

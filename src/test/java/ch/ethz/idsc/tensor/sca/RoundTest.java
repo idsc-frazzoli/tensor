@@ -69,7 +69,7 @@ public class RoundTest extends TestCase {
 
   public void testToMultipleOf1() {
     Scalar s = DoubleScalar.of(3.37151617);
-    Scalar sr = Round.toMultipleOf(DecimalScalar.of(.1)).apply(s);
+    Scalar sr = Round.toMultipleOf(DecimalScalar.of(0.1)).apply(s);
     assertEquals(sr.toString(), "3.4");
   }
 

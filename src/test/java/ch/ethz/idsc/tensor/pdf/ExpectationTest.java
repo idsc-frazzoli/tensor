@@ -72,8 +72,8 @@ public class ExpectationTest extends TestCase {
 
   public void testNumeric() {
     _check(PoissonDistribution.of(RationalScalar.of(4, 3)));
-    _check(GeometricDistribution.of(RealScalar.of(.3)));
-    _check(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(3, .2, 1, .4)));
+    _check(GeometricDistribution.of(RealScalar.of(0.3)));
+    _check(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(3, 0.2, 1, 0.4)));
   }
 
   public void testExpectationDistribution() {

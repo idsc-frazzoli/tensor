@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 
 public class GaborMatrixTest extends TestCase {
   public void testMatrix() {
-    Tensor matrix = GaborMatrix.of(2, Tensors.vector(.2, .1), RealScalar.of(.2));
+    Tensor matrix = GaborMatrix.of(2, Tensors.vector(0.2, 0.1), RealScalar.of(0.2));
     assertEquals(Dimensions.of(matrix), Arrays.asList(5, 5));
   }
 

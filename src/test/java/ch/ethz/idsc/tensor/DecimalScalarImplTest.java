@@ -124,21 +124,21 @@ public class DecimalScalarImplTest extends TestCase {
   }
 
   public void testCompare0() {
-    Scalar a = DecimalScalar.of(.1);
-    Scalar b = DecimalScalar.of(.2);
+    Scalar a = DecimalScalar.of(0.1);
+    Scalar b = DecimalScalar.of(0.2);
     assertTrue(Scalars.lessThan(a, b));
     assertFalse(Scalars.lessThan(b, a));
   }
 
   public void testCompare1() {
-    Scalar dec = DecimalScalar.of(.1);
-    Scalar alt = DoubleScalar.of(.01);
+    Scalar dec = DecimalScalar.of(0.1);
+    Scalar alt = DoubleScalar.of(0.01);
     assertTrue(Scalars.lessThan(alt, dec));
     assertFalse(Scalars.lessThan(dec, alt));
   }
 
   public void testCompare2() {
-    Scalar dec = DecimalScalar.of(.1);
+    Scalar dec = DecimalScalar.of(0.1);
     Scalar alt = RationalScalar.of(1, 100);
     assertTrue(Scalars.lessThan(alt, dec));
     assertFalse(Scalars.lessThan(dec, alt));

@@ -20,7 +20,7 @@ public class TensorSetTest extends TestCase {
     Tensor eye = IdentityMatrix.of(5);
     Tensor cpy = eye.copy();
     assertEquals(eye, cpy);
-    cpy.set(DoubleScalar.of(.3), 1, 2);
+    cpy.set(DoubleScalar.of(0.3), 1, 2);
     assertFalse(eye.equals(cpy));
     cpy.set(s -> (Scalar) s.negate(), 2, 2);
   }

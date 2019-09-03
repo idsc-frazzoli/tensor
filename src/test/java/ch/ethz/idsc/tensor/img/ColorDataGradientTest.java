@@ -40,7 +40,7 @@ public class ColorDataGradientTest extends TestCase {
       rgba.set(RealScalar.of(128), 3);
       return rgba;
     };
-    Tensor rgba = custom.apply(RealScalar.of(.1));
+    Tensor rgba = custom.apply(RealScalar.of(0.1));
     assertEquals(rgba.length(), 4);
     assertEquals(rgba.get(3), RealScalar.of(128));
   }
