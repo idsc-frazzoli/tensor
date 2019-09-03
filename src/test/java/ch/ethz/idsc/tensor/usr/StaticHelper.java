@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.io.HomeDirectory;
 /* package */ enum StaticHelper {
   ;
   private static final int GALLERY_RES = 720; // 128 + 64;
-  private static final File DIRECTORY = HomeDirectory.Documents("latex", "images", "tensor");
+  private static final File DIRECTORY = HomeDirectory.file("Projects", "latex", "images", "tensor");
   static {
     DIRECTORY.mkdirs();
   }

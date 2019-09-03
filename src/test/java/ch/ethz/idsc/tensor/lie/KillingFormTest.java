@@ -30,4 +30,13 @@ public class KillingFormTest extends TestCase {
     Tensor kil = KillingForm.of(ad);
     assertTrue(Scalars.isZero(Det.of(kil)));
   }
+
+  public void testRank4Fail() {
+    try {
+      KillingForm.of(Array.zeros(3, 3, 3, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

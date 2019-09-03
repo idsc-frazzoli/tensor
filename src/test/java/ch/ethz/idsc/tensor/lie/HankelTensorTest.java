@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.lie;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.mat.SymmetricMatrixQ;
 import junit.framework.TestCase;
 
@@ -21,6 +22,13 @@ public class HankelTensorTest extends TestCase {
   public void testRank3b() {
     Tensor tensor = HankelTensor.of(Tensors.vector(0, 1, 2, 3, 4, 5, 6), 3);
     tensor.stream().forEach(matrix -> assertTrue(SymmetricMatrixQ.of(matrix)));
+  }
+
+  public void testRank4() {
+    Tensor tensor = HankelTensor.of(Tensors.vector(1, 2, 3, 4, 5), 4);
+    Dimensions dimensions = new Dimensions(tensor);
+    assertTrue(dimensions.isArray());
+    assertEquals(dimensions.list().size(), 4);
   }
 
   public void testFailVector() {
