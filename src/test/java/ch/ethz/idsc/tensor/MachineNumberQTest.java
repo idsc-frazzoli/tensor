@@ -12,12 +12,12 @@ public class MachineNumberQTest extends TestCase {
   }
 
   public void testComplex() {
-    assertTrue(MachineNumberQ.of(ComplexScalar.of(0., .3)));
+    assertTrue(MachineNumberQ.of(ComplexScalar.of(0., 0.3)));
     assertFalse(MachineNumberQ.of(ComplexScalar.of(0., 2)));
   }
 
   public void testComplexCorner() {
-    assertFalse(MachineNumberQ.of(ComplexScalar.of(Double.POSITIVE_INFINITY, .3)));
+    assertFalse(MachineNumberQ.of(ComplexScalar.of(Double.POSITIVE_INFINITY, 0.3)));
     assertFalse(MachineNumberQ.of(ComplexScalar.of(0., Double.NaN)));
   }
 

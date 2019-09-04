@@ -36,8 +36,8 @@ public class PowerTest extends TestCase {
   }
 
   public void testSqrt() {
-    assertEquals(Power.of(2, .5), Sqrt.of(RealScalar.of(2)));
-    assertEquals(Power.of(14, .5), Sqrt.of(RealScalar.of(14)));
+    assertEquals(Power.of(2, 0.5), Sqrt.of(RealScalar.of(2)));
+    assertEquals(Power.of(14, 0.5), Sqrt.of(RealScalar.of(14)));
   }
 
   public void testZero() {

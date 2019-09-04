@@ -20,18 +20,18 @@ public class ArgMinTest extends TestCase {
   }
 
   public void testMin() {
-    assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100)));
-    assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8)));
+    assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., 0.6, 8, 0.6, 100)));
+    assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., 0.6, 8, 0.6, 8)));
   }
 
   public void testMinComparatorIncr() {
-    assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100)));
-    assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8)));
+    assertEquals(1, ArgMin.of(Tensors.vectorDouble(3., 0.6, 8, 0.6, 100)));
+    assertEquals(2, ArgMin.of(Tensors.vectorDouble(3, 3., 0.6, 8, 0.6, 8)));
   }
 
   public void testMinComparatorDecr() {
-    assertEquals(4, ArgMin.of(Tensors.vectorDouble(3., .6, 8, .6, 100), Collections.reverseOrder()));
-    assertEquals(3, ArgMin.of(Tensors.vectorDouble(3, 3., .6, 8, .6, 8), Collections.reverseOrder()));
+    assertEquals(4, ArgMin.of(Tensors.vectorDouble(3., 0.6, 8, 0.6, 100), Collections.reverseOrder()));
+    assertEquals(3, ArgMin.of(Tensors.vectorDouble(3, 3., 0.6, 8, 0.6, 8), Collections.reverseOrder()));
   }
 
   public void testScalar() {

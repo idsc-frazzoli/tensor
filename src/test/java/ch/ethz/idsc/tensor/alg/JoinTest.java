@@ -57,10 +57,10 @@ public class JoinTest extends TestCase {
     Tensor m1 = Tensors.matrixInt(new int[][] { //
         { 1, 2 }, { 0, 5 }, { 9, 8 } });
     Tensor v2 = Tensors.vector(0, -3);
-    Tensor j1 = Tensors.fromString("{{1, 2}, {0, 5}, {9, 8}, 0,-3}");
+    Tensor j1 = Tensors.fromString("{{1, 2}, {0, 5}, {9, 8}, 0, -3}");
     assertEquals(Join.of(m1, v2), j1);
     Tensor m2 = Tensors.matrixDouble(new double[][] { //
-        { .5, .25 } });
+        { 0.5, 0.25 } });
     Tensor j2 = Join.of(m1, m2, m1, m2);
     assertEquals(Dimensions.of(j2), Arrays.asList(8, 2));
     Tensor c2 = Tensors.fromString( //

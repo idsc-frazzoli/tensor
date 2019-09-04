@@ -9,7 +9,11 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Times;
+import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.sca.Real;
+import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ enum RootsCubic {
@@ -20,6 +24,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private static final Scalar _4 = RealScalar.of(4);
   private static final Scalar _6 = RealScalar.of(6);
   private static final Scalar _9 = RealScalar.of(9);
+  private static final Scalar _18 = RealScalar.of(18);
   private static final Scalar _27 = RealScalar.of(27);
   private static final Scalar P1_3 = Power.of(2, _1_3);
   private static final Scalar R1_2 = P1_3.negate();
@@ -29,33 +34,78 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private static final Scalar R3_2 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3).negate()).divide(Power.of(2, _2_3));
   private static final Scalar R3_3 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3)).divide(_6).negate();
 
+  static Scalar discriminant(Scalar d, Scalar c, Scalar b, Scalar a) {
+    Scalar c1 = Times.of(_18, a, b, c, d);
+    Scalar c2 = Times.of(_4, b, b, b, d);
+    Scalar c3 = Times.of(b, b, c, c);
+    Scalar c4 = Times.of(_4, a, c, c, c);
+    Scalar c5 = Times.of(_27, a, a, d, d);
+    return c1.subtract(c2).add(c3).subtract(c4).subtract(c5);
+  }
+
   /** @param coeffs vector of length 4
    * @return vector of length 3 */
   static Tensor of(Tensor coeffs) {
-    Scalar a = coeffs.Get(0);
-    Scalar b = coeffs.Get(1);
-    Scalar c = coeffs.Get(2);
-    Scalar d = coeffs.Get(3);
+    // naming convention according to wikipedia
+    Scalar d = coeffs.Get(0);
+    Scalar c = coeffs.Get(1);
+    Scalar b = coeffs.Get(2);
+    Scalar a = coeffs.Get(3); // non-zero
+    Scalar D = discriminant(d, c, b, a);
     //
-    Scalar d3 = d.multiply(_3);
-    Scalar s1 = c.divide(d3).negate();
+    Scalar _3a = a.multiply(_3);
+    Scalar b_3a = b.divide(_3a).negate();
     //
-    Scalar c2 = c.multiply(c);
-    Scalar bd3_c2 = Times.of(b, d3).subtract(c2);
+    Scalar b2 = b.multiply(b);
+    Scalar D0 = Times.of(_3a, c).subtract(b2); // wikipedia up to sign
     //
-    Scalar c3 = c2.multiply(c);
-    Scalar c3s = Times.of(b, c, d, _9).subtract(c3.add(c3)).subtract(Times.of(a, d, d, _27));
+    Scalar b3 = b2.multiply(b);
+    Scalar D1 = Times.of(_9, a, b, c).subtract(b3.add(b3)).subtract(Times.of(_27, a, a, d)); // wikipedia up to sign
     //
-    Scalar det = Power.of( //
-        c3s.add(Sqrt.FUNCTION.apply(_4.multiply(Power.of(bd3_c2, _3)).add(Times.of(c3s, c3s)))), _1_3);
+    Scalar C = Power.of(D1.add(Sqrt.FUNCTION.apply(Times.of(_4, D0, D0, D0).add(Times.of(D1, D1)))), _1_3);
+    // System.out.println("D =" + D);
+    // System.out.println("D0=" + D0);
+    if (Chop._10.allZero(D)) {
+      if (Chop._10.allZero(D0))
+        return Tensors.of(b_3a, b_3a, b_3a);
+      Scalar dr = Times.of(_9, a, d).subtract(b.multiply(c)).divide(D0.add(D0)).negate();
+      Scalar srn = Times.of(_4, a, b, c).subtract(Times.of(_3a, _3a, d)).subtract(b3);
+      Scalar srd = Times.of(a, D0.negate());
+      return Tensors.of(dr, dr, srn.divide(srd));
+    }
     //
-    Scalar s2_den = d3.multiply(det);
+    Scalar s2_den = _3a.multiply(C);
     //
-    Scalar s2 = Scalars.isZero(bd3_c2) ? bd3_c2.zero() : bd3_c2.divide(s2_den);
-    Scalar s3 = det.divide(Times.of(P1_3, d));
-    return Tensors.of( //
-        s1.add(R1_2.multiply(s2)).add(R1_3.multiply(s3)), //
-        s1.add(R2_2.multiply(s2)).add(R2_3.multiply(s3)), //
-        s1.add(R3_2.multiply(s2)).add(R3_3.multiply(s3)));
+    Scalar s3 = C.divide(Times.of(P1_3, a));
+    if (Scalars.isZero(s2_den)) {
+      if (Scalars.nonZero(D0)) {
+        // System.out.println("---");
+        // System.out.println(s2_den);
+        // System.out.println(D0);
+        // System.out.println(coeffs);
+      }
+    }
+    Scalar s2 = Scalars.isZero(s2_den) //
+        ? D0 // .zero()
+        : D0.divide(s2_den);
+    // System.out.println("s2 = " + s2);
+    // System.out.println("s3 ="+s3);
+    Tensor roots = Tensors.of( //
+        b_3a.add(R1_2.multiply(s2)).add(R1_3.multiply(s3)), //
+        b_3a.add(R2_2.multiply(s2)).add(R2_3.multiply(s3)), //
+        b_3a.add(R3_2.multiply(s2)).add(R3_3.multiply(s3)));
+    boolean isReal = coeffs.stream() //
+        .map(Scalar.class::cast) //
+        .map(Imag.FUNCTION) //
+        .allMatch(Scalars::isZero);
+    if (isReal) {
+      if (Sign.isPositiveOrZero(D)) {
+        // positive: the equation has three distinct real roots
+        // zero: the equation has a multiple root and all of its roots are real
+        return Sort.of(Real.of(roots));
+      }
+      // the equation has one real root and two non-real complex conjugate roots
+    }
+    return roots;
   }
 }

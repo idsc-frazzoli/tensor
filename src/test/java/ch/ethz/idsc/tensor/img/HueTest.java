@@ -14,12 +14,12 @@ public class HueTest extends TestCase {
 
   public void testAlpha() {
     assertEquals(Hue.of(0.2, 1, 1, 1).getAlpha(), 255);
-    assertEquals(Hue.of(0.1, 1, 1, .5).getAlpha(), 128);
+    assertEquals(Hue.of(0.1, 1, 1, 0.5).getAlpha(), 128);
     assertEquals(Hue.of(0.1, 1, 1, 0).getAlpha(), 0);
   }
 
   public void testSaturationEps() {
-    assertEquals(Hue.of(0.1, Math.nextUp(0.0), .2, 0), Hue.of(0.1, 0.0, .2, 0));
+    assertEquals(Hue.of(0.1, Math.nextUp(0.0), 0.2, 0), Hue.of(0.1, 0.0, 0.2, 0));
     assertEquals(Hue.of(0.1, Math.nextUp(0.0), 1, 1), Color.WHITE);
   }
 

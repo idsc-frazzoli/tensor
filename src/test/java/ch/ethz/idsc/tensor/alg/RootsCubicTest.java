@@ -1,6 +1,9 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.Map;
+
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -9,11 +12,15 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.NormalDistribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class RootsCubicTest extends TestCase {
+  private static final int LIMIT = 20;
+
   public void testCubic() {
     Tensor coeffs = Tensors.vector(2, 3, 4, 5);
     Tensor roots = Roots.of(coeffs);
@@ -23,7 +30,7 @@ public class RootsCubicTest extends TestCase {
   }
 
   public void testMonomial() {
-    Tensor coeffs = Tensors.vector(0, 0, 0, 1);
+    Tensor coeffs = Tensors.vector(0, 0, 0, 10);
     Tensor roots = Roots.of(coeffs);
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
@@ -51,7 +58,9 @@ public class RootsCubicTest extends TestCase {
   public void testMonomialQuadShift() {
     Tensor coeffs = Tensors.vector(1, 1, -1, -1);
     Tensor roots = Roots.of(coeffs);
-    assertTrue(Chop._12.close(roots, Tensors.vector(-1, 1, -1)));
+    Map<Tensor, Long> map = Tally.of(roots);
+    assertEquals((long) map.get(RealScalar.ONE), 1);
+    assertEquals((long) map.get(RealScalar.ONE.negate()), 2);
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertTrue(Chop._07.allZero(tensor));
@@ -73,9 +82,9 @@ public class RootsCubicTest extends TestCase {
     assertTrue(Chop._05.allZero(tensor));
   }
 
-  public void testCubicRandom() {
+  public void testCubicRandomReal() {
     Distribution distribution = NormalDistribution.standard();
-    for (int index = 0; index < 20; ++index) {
+    for (int index = 0; index < LIMIT; ++index) {
       Tensor coeffs = RandomVariate.of(distribution, 4);
       Tensor roots = Roots.of(coeffs);
       ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
@@ -89,6 +98,100 @@ public class RootsCubicTest extends TestCase {
     }
   }
 
+  public void testCubicRandomRealQuantity() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < LIMIT; ++index) {
+      Tensor coeffs = Array.of(list -> Quantity.of(RandomVariate.of(distribution), "m^-" + list.get(0)), 4);
+      Tensor roots = Roots.of(coeffs);
+      ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
+      Tensor tensor = roots.map(scalarUnaryOperator);
+      boolean allZero = Chop._04.allZero(tensor);
+      if (!allZero) {
+        System.out.println(coeffs);
+        System.out.println(tensor);
+      }
+      assertTrue(allZero);
+    }
+  }
+
+  public void testCubicRandomComplex() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < LIMIT; ++index) {
+      Tensor coeffs_re = RandomVariate.of(distribution, 4);
+      Tensor coeffs_im = RandomVariate.of(distribution, 4);
+      Tensor coeffs = coeffs_re.add(coeffs_im.multiply(ComplexScalar.I));
+      Tensor roots = Roots.of(coeffs);
+      ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
+      Tensor tensor = roots.map(scalarUnaryOperator);
+      boolean allZero = Chop._04.allZero(tensor);
+      if (!allZero) {
+        System.out.println(coeffs);
+        System.out.println(tensor);
+      }
+      assertTrue(allZero);
+    }
+  }
+
+  public void testCubicRandomComplexQuantity() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < LIMIT; ++index) {
+      Tensor coeffs = Array.of(list -> Quantity.of(ComplexScalar.of( //
+          RandomVariate.of(distribution), RandomVariate.of(distribution)), "m^-" + list.get(0)), 4);
+      Tensor roots = Roots.of(coeffs);
+      ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
+      Tensor tensor = roots.map(scalarUnaryOperator);
+      boolean allZero = Chop._04.allZero(tensor);
+      if (!allZero) {
+        System.out.println(coeffs);
+        System.out.println(tensor);
+      }
+      assertTrue(allZero);
+    }
+  }
+
+  public void testRealUniqueRoots() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < LIMIT; ++index) {
+      Tensor zeros = Sort.of(RandomVariate.of(distribution, 3));
+      Tensor roots = Roots.of(TestHelper.polynomial(zeros));
+      if (!Chop._08.close(zeros, roots)) {
+        System.err.println(zeros);
+        fail();
+      }
+    }
+  }
+
+  public void testRealTripleRoot() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < LIMIT; ++index) {
+      Tensor zeros = ConstantArray.of(RandomVariate.of(distribution), 3);
+      Tensor roots = Roots.of(TestHelper.polynomial(zeros));
+      if (!Chop._08.close(zeros, roots)) {
+        System.err.println(zeros);
+        fail();
+      }
+    }
+  }
+
+  public void testComplexTripleRoot() {
+    Distribution distribution = NormalDistribution.standard();
+    for (int index = 0; index < LIMIT; ++index) {
+      Tensor zeros = ConstantArray.of(ComplexScalar.of( //
+          RandomVariate.of(distribution), //
+          RandomVariate.of(distribution)), 3);
+      Tensor roots = Roots.of(TestHelper.polynomial(zeros));
+      for (int count = 0; count < 3; ++count) {
+        boolean anyZero = roots.map(zeros.Get(count)::subtract).stream() //
+            .anyMatch(Chop._03::allZero);
+        if (!anyZero) {
+          System.out.println(zeros);
+          System.out.println(roots);
+          fail();
+        }
+      }
+    }
+  }
+
   public void testCubicChallenge() {
     Tensor coeffs = Tensors.vector(1.8850384838238452, -0.07845356111460325, -0.6128180724984655, -1.5845220466594934);
     Tensor roots = Roots.of(coeffs);
@@ -98,5 +201,14 @@ public class RootsCubicTest extends TestCase {
     assertTrue(roots.stream().map(scalar -> scalar.subtract(m0)).anyMatch(Chop._05::allZero));
     assertTrue(roots.stream().map(scalar -> scalar.subtract(m1)).anyMatch(Chop._05::allZero));
     assertTrue(roots.stream().map(scalar -> scalar.subtract(m2)).anyMatch(Chop._05::allZero));
+  }
+
+  public void testCubicChallenge2() {
+    Tensor coeffs = Tensors.vector(1.5583019232667707, 0.08338030361650195, 0.5438230916311243, 1.1822223716596811);
+    Tensor roots = RootsCubic.of(coeffs);
+    ScalarUnaryOperator series = Series.of(coeffs);
+    // Tensor zeros =
+    roots.map(series);
+    // System.out.println(zeros);
   }
 }

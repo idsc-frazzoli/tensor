@@ -71,7 +71,7 @@ public class RootsTest extends TestCase {
   }
 
   public void testQuadraticNormal() {
-    Distribution distribution = NormalDistribution.of(0, .3);
+    Distribution distribution = NormalDistribution.of(0, 0.3);
     for (int index = 0; index < 200; ++index) {
       Tensor coeffs = RandomVariate.of(distribution, 3);
       Tensor roots = Roots.of(coeffs);

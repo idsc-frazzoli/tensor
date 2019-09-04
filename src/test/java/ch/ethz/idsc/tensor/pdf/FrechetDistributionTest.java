@@ -31,7 +31,7 @@ public class FrechetDistributionTest extends TestCase {
   }
 
   public void testRandomVariate() {
-    FrechetDistribution gmd = (FrechetDistribution) FrechetDistribution.of(3, .2);
+    FrechetDistribution gmd = (FrechetDistribution) FrechetDistribution.of(3, 0.2);
     assertTrue(Scalars.lessThan(gmd.randomVariate(0), RealScalar.of(0.1)));
     assertTrue(Scalars.lessThan(gmd.randomVariate(Math.nextDown(1.0)), RealScalar.of(42000)));
   }

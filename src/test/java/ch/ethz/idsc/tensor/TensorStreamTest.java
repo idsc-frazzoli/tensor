@@ -12,7 +12,7 @@ public class TensorStreamTest extends TestCase {
   }
 
   public void testReduction() {
-    Tensor a = Tensors.vectorDouble(2., 1.123, .3123);
+    Tensor a = Tensors.vectorDouble(2., 1.123, 0.3123);
     boolean value = a.flatten(-1) //
         .map(Scalar.class::cast) //
         .map(Scalar::number) //

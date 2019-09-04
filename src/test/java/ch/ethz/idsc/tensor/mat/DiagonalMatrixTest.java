@@ -22,8 +22,8 @@ public class DiagonalMatrixTest extends TestCase {
   }
 
   public void testDiagonalMatrix() {
-    Tensor m1 = DiagonalMatrix.with(Tensors.vectorDouble(12, 3.2, .32));
-    Tensor m2 = DiagonalMatrix.of(12, 3.2, .32);
+    Tensor m1 = DiagonalMatrix.with(Tensors.vectorDouble(12, 3.2, 0.32));
+    Tensor m2 = DiagonalMatrix.of(12, 3.2, 0.32);
     assertEquals(m1, m2);
   }
 

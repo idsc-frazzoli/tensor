@@ -42,7 +42,7 @@ public class TruncatedDistributionTest extends TestCase {
 
   public void testNullFail() {
     try {
-      TruncatedDistribution.of(NormalDistribution.of(-100, .2), null);
+      TruncatedDistribution.of(NormalDistribution.of(-100, 0.2), null);
       fail();
     } catch (Exception exception) {
       // ---
