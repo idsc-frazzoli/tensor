@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/* package */ enum RootsCubic {
+/* package */ enum RootsDegree3 {
   ;
   private static final Scalar _3 = RealScalar.of(3);
   private static final Scalar _1_3 = RationalScalar.of(1, 3);
@@ -63,8 +63,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar D1 = Times.of(_9, a, b, c).subtract(b3.add(b3)).subtract(Times.of(_27, a, a, d)); // wikipedia up to sign
     //
     Scalar C = Power.of(D1.add(Sqrt.FUNCTION.apply(Times.of(_4, D0, D0, D0).add(Times.of(D1, D1)))), _1_3);
-    // System.out.println("D =" + D);
-    // System.out.println("D0=" + D0);
     if (Chop._10.allZero(D)) {
       if (Chop._10.allZero(D0))
         return Tensors.of(b_3a, b_3a, b_3a);
@@ -88,8 +86,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar s2 = Scalars.isZero(s2_den) //
         ? D0 // .zero()
         : D0.divide(s2_den);
-    // System.out.println("s2 = " + s2);
-    // System.out.println("s3 ="+s3);
     Tensor roots = Tensors.of( //
         b_3a.add(R1_2.multiply(s2)).add(R1_3.multiply(s3)), //
         b_3a.add(R2_2.multiply(s2)).add(R2_3.multiply(s3)), //

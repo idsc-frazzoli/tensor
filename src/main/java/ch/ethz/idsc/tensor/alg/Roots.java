@@ -1,13 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import ch.ethz.idsc.tensor.RationalScalar;
-import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /** Not entirely consistent with Mathematica for the case
  * Mathematica::Roots[a == 0, x] == false
@@ -17,8 +14,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * <a href="https://reference.wolfram.com/language/ref/Roots.html">Roots</a> */
 public enum Roots {
   ;
-  private static final Scalar N1_2 = RationalScalar.HALF.negate();
-
   /** attempts to find all roots of a polynomial
    * 
    * <pre>
@@ -47,9 +42,9 @@ public enum Roots {
     }
     switch (degree) {
     case 2: // a + b*x + c*x^2 == 0
-      return quadratic(coeffs);
+      return RootsDegree2.of(coeffs);
     case 3: // a + b*x + c*x^2 + d*x^3 == 0
-      return RootsCubic.of(coeffs);
+      return RootsDegree3.of(coeffs);
     }
     throw TensorRuntimeException.of(coeffs);
   }
@@ -58,17 +53,5 @@ public enum Roots {
    * @return vector of length 1 */
   private static Tensor linear(Tensor coeffs) {
     return Tensors.of(coeffs.Get(0).divide(coeffs.Get(1)).negate());
-  }
-
-  /** @param coeffs {a, b, c} representing a + b*x + c*x^2 == 0
-   * @return vector of length 2 with the roots as entries
-   * if the two roots are real, then the smaller root is the first entry */
-  private static Tensor quadratic(Tensor coeffs) {
-    Scalar c = coeffs.Get(2);
-    Scalar p = coeffs.Get(1).divide(c).multiply(N1_2);
-    Scalar p2 = p.multiply(p);
-    Scalar q = coeffs.Get(0).divide(c);
-    Scalar discr = Sqrt.FUNCTION.apply(p2.subtract(q));
-    return Tensors.of(p.subtract(discr), p.add(discr));
   }
 }
