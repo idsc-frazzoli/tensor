@@ -60,13 +60,16 @@ public class PowerTest extends TestCase {
     assertEquals(Power.of(RealScalar.ZERO, Scalars.fromString("0.1-3*I/2")), RealScalar.ZERO);
   }
 
-  public void testZeroComplexFail() {
+  public void testZeroComplex1Fail() {
     try {
       Power.of(RealScalar.ZERO, ComplexScalar.I);
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testZeroComplex2Fail() {
     try {
       Power.of(RealScalar.ZERO, Scalars.fromString("-0.1+3*I"));
       fail();

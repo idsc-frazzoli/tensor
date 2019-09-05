@@ -26,13 +26,16 @@ public class SinTest extends TestCase {
     assertEquals(c, s);
   }
 
-  public void testTypeFail() {
+  public void testQuantityFail() {
     try {
       Sin.of(Quantity.of(1, "deg"));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testStringScalarFail() {
     try {
       Sin.of(StringScalar.of("some"));
       fail();

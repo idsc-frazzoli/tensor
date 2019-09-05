@@ -48,13 +48,16 @@ public class InterquartileRangeTest extends TestCase {
     assertTrue(Clips.interval(4, 6).isInside(test));
   }
 
-  public void testFail() {
+  public void testEmptyFail() {
     try {
       InterquartileRange.of(Tensors.empty());
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testMatrixFail() {
     try {
       InterquartileRange.of(HilbertMatrix.of(3, 4));
       fail();

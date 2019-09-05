@@ -27,9 +27,9 @@ public enum Roots {
    * @throws Exception if roots cannot be determined
    * @see Series */
   public static Tensor of(Tensor coeffs) {
+    while (Scalars.isZero(Last.of(coeffs)))
+      coeffs = coeffs.extract(0, coeffs.length() - 1);
     int degree = coeffs.length() - 1;
-    if (Scalars.isZero(coeffs.Get(degree)))
-      return of(coeffs.extract(0, degree));
     switch (degree) {
     case 0:
       return Tensors.empty();

@@ -24,13 +24,16 @@ public class CosTest extends TestCase {
     assertEquals(c, s);
   }
 
-  public void testTypeFail() {
+  public void testQuantityFail() {
     try {
       Cos.of(Quantity.of(1, "deg"));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testStringFail() {
     Scalar scalar = StringScalar.of("string");
     try {
       Cos.of(scalar);

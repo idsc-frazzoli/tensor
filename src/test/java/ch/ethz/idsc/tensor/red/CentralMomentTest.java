@@ -34,7 +34,7 @@ public class CentralMomentTest extends TestCase {
     assertEquals(result, Scalars.fromString("1/4[kg^2]"));
   }
 
-  public void testFailEmpty() {
+  public void testEmptyFail() {
     try {
       CentralMoment.of(Tensors.empty(), 2);
       fail();
@@ -43,7 +43,7 @@ public class CentralMomentTest extends TestCase {
     }
   }
 
-  public void testFailmatrix() {
+  public void testMatrixFail() {
     try {
       CentralMoment.of(HilbertMatrix.of(2, 3), RealScalar.of(2));
       fail();

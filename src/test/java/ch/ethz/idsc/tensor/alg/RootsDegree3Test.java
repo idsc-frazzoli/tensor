@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.alg;
 
 import java.util.Map;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -65,6 +66,8 @@ public class RootsDegree3Test extends TestCase {
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertTrue(Chop._13.allZero(tensor));
+    Tensor depres = RootsDegree3.depress(coeffs);
+    Chop._10.requireClose(depres, roots);
   }
 
   public void testCubicNumerics() {
@@ -73,6 +76,8 @@ public class RootsDegree3Test extends TestCase {
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertTrue(Chop._05.allZero(tensor));
+    Tensor depres = RootsDegree3.depress(coeffs);
+    Chop._10.requireClose(depres, roots);
   }
 
   public void testCubicChallenge() {
@@ -89,10 +94,18 @@ public class RootsDegree3Test extends TestCase {
 
   public void testCubicChallenge2() {
     Tensor coeffs = Tensors.vector(1.5583019232667707, 0.08338030361650195, 0.5438230916311243, 1.1822223716596811);
-    Tensor roots = RootsDegree3.of(coeffs);
-    ScalarUnaryOperator series = Series.of(coeffs);
-    // Tensor zeros =
-    roots.map(series);
-    // System.out.println(zeros);
+    ScalarUnaryOperator polynomial = Series.of(coeffs);
+    // roots obtained by Mathematica:
+    Chop._12.requireAllZero(polynomial.apply(RealScalar.of(-1.2487729899770943)));
+    Scalar cP = ComplexScalar.of(0.3943861563603456, +0.9486756887529066);
+    Scalar cN = ComplexScalar.of(0.3943861563603456, -0.9486756887529066);
+    Chop._12.requireAllZero(polynomial.apply(cP));
+    Chop._12.requireAllZero(polynomial.apply(cN));
+    try {
+      Roots.of(coeffs);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }

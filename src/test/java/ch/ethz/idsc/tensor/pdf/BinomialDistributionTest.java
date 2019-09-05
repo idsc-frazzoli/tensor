@@ -79,18 +79,9 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testCornerCase() {
-    {
-      Distribution distribution = BinomialDistribution.of(0, RationalScalar.ONE);
-      assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
-    }
-    {
-      Distribution distribution = BinomialDistribution.of(0, RationalScalar.ZERO);
-      assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
-    }
-    {
-      Distribution distribution = BinomialDistribution.of(0, RealScalar.of(0.3));
-      assertEquals(RandomVariate.of(distribution), RealScalar.ZERO);
-    }
+    assertEquals(RandomVariate.of(BinomialDistribution.of(0, RationalScalar.ONE)), RealScalar.ZERO);
+    assertEquals(RandomVariate.of(BinomialDistribution.of(0, RationalScalar.ZERO)), RealScalar.ZERO);
+    assertEquals(RandomVariate.of(BinomialDistribution.of(0, RealScalar.of(0.3))), RealScalar.ZERO);
   }
 
   public void testBug1() {
@@ -196,8 +187,8 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testToString() {
-    Distribution d1 = BinomialDistribution.of(3, RationalScalar.of(1, 2));
-    String string = d1.toString();
+    Distribution distribution = BinomialDistribution.of(3, RationalScalar.of(1, 2));
+    String string = distribution.toString();
     assertEquals(string, "BinomialDistribution[3, 1/2]");
   }
 

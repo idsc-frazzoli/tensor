@@ -1,12 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.stream.Stream;
+
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Times;
 import ch.ethz.idsc.tensor.sca.Chop;
@@ -18,6 +21,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
 /* package */ enum RootsDegree3 {
   ;
+  private static final Scalar _2 = RealScalar.of(2);
   private static final Scalar _3 = RealScalar.of(3);
   private static final Scalar _1_3 = RationalScalar.of(1, 3);
   private static final Scalar _2_3 = RationalScalar.of(2, 3);
@@ -34,7 +38,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private static final Scalar R3_2 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3).negate()).divide(Power.of(2, _2_3));
   private static final Scalar R3_3 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3)).divide(_6).negate();
 
-  static Scalar discriminant(Scalar d, Scalar c, Scalar b, Scalar a) {
+  private static Scalar discriminant(Scalar d, Scalar c, Scalar b, Scalar a) {
     Scalar c1 = Times.of(_18, a, b, c, d);
     Scalar c2 = Times.of(_4, b, b, b, d);
     Scalar c3 = Times.of(b, b, c, c);
@@ -46,11 +50,29 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   /** @param coeffs vector of length 4
    * @return vector of length 3 */
   static Tensor of(Tensor coeffs) {
-    // naming convention according to wikipedia
+    return of(coeffs.Get(0), coeffs.Get(1), coeffs.Get(2), coeffs.Get(3));
+  }
+
+  static Tensor depress(Tensor coeffs) {
     Scalar d = coeffs.Get(0);
     Scalar c = coeffs.Get(1);
     Scalar b = coeffs.Get(2);
-    Scalar a = coeffs.Get(3); // non-zero
+    Scalar a = coeffs.Get(3);
+    Scalar fac = b.divide(Times.of(_3, a)).negate();
+    return of( //
+        d.add(Times.of(_2, b, fac, fac).divide(_3)).add(c.multiply(fac)), //
+        c.add(b.multiply(fac)), //
+        RealScalar.ZERO, a).map(fac::add);
+  }
+
+  /** naming convention of wikipedia
+   * 
+   * @param d
+   * @param c
+   * @param b
+   * @param a
+   * @return vector of length 3 */
+  static Tensor of(Scalar d, Scalar c, Scalar b, Scalar a) {
     Scalar D = discriminant(d, c, b, a);
     //
     Scalar _3a = a.multiply(_3);
@@ -75,22 +97,17 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     Scalar s2_den = _3a.multiply(C);
     //
     Scalar s3 = C.divide(Times.of(P1_3, a));
-    if (Scalars.isZero(s2_den)) {
-      if (Scalars.nonZero(D0)) {
-        // System.out.println("---");
-        // System.out.println(s2_den);
-        // System.out.println(D0);
-        // System.out.println(coeffs);
-      }
-    }
-    Scalar s2 = Scalars.isZero(s2_den) //
-        ? D0 // .zero()
+    boolean s2_den_zero = Scalars.isZero(s2_den);
+    if (s2_den_zero && Scalars.nonZero(D0))
+      throw TensorRuntimeException.of(d, c, b, a);
+    Scalar s2 = s2_den_zero //
+        ? D0 //
         : D0.divide(s2_den);
     Tensor roots = Tensors.of( //
         b_3a.add(R1_2.multiply(s2)).add(R1_3.multiply(s3)), //
         b_3a.add(R2_2.multiply(s2)).add(R2_3.multiply(s3)), //
         b_3a.add(R3_2.multiply(s2)).add(R3_3.multiply(s3)));
-    boolean isReal = coeffs.stream() //
+    boolean isReal = Stream.of(d, c, b, a) //
         .map(Scalar.class::cast) //
         .map(Imag.FUNCTION) //
         .allMatch(Scalars::isZero);

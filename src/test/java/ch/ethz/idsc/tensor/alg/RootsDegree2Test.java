@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class RootsDegree2Test extends TestCase {
@@ -43,8 +44,7 @@ public class RootsDegree2Test extends TestCase {
   public void testChallenge() {
     Tensor coeffs = Tensors.vector(-0.45461391407082863, -0.44401256484994056, -0.43798541191338114);
     Tensor roots = Roots.of(coeffs);
-    System.out.println(roots);
     Tensor zeros = roots.map(Series.of(coeffs));
-    System.out.println(zeros);
+    Chop._12.requireAllZero(zeros);
   }
 }

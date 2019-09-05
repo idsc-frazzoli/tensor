@@ -115,18 +115,17 @@ public class RoundTest extends TestCase {
   }
 
   public void testRoundOptions3() {
-    {
-      Scalar pi = (Scalar) Scalars.fromString("1234.100000000000008").map(Round._2);
-      DecimalScalar ds = (DecimalScalar) pi;
-      BigDecimal bd = (BigDecimal) ds.number();
-      assertEquals(bd.precision(), 4 + 2);
-    }
-    {
-      Scalar pi = DecimalScalar.of("1234.10");
-      DecimalScalar ds = (DecimalScalar) pi;
-      BigDecimal bd = (BigDecimal) ds.number();
-      assertEquals(bd.precision(), 4 + 2);
-    }
+    Scalar pi = (Scalar) Scalars.fromString("1234.100000000000008").map(Round._2);
+    DecimalScalar ds = (DecimalScalar) pi;
+    BigDecimal bd = (BigDecimal) ds.number();
+    assertEquals(bd.precision(), 4 + 2);
+  }
+
+  public void testPrecision() {
+    Scalar pi = DecimalScalar.of("1234.10");
+    DecimalScalar ds = (DecimalScalar) pi;
+    BigDecimal bd = (BigDecimal) ds.number();
+    assertEquals(bd.precision(), 4 + 2);
   }
 
   public void testQuantity() {
@@ -135,15 +134,14 @@ public class RoundTest extends TestCase {
     assertEquals(Round.of(qs1), qs2);
   }
 
-  public void testNonFailInf() {
-    {
-      Scalar scalar = DoubleScalar.POSITIVE_INFINITY;
-      assertEquals(Round.of(scalar), scalar);
-    }
-    {
-      Scalar scalar = DoubleScalar.NEGATIVE_INFINITY;
-      assertEquals(Round.of(scalar), scalar);
-    }
+  public void testNonFailInfPos() {
+    Scalar scalar = DoubleScalar.POSITIVE_INFINITY;
+    assertEquals(Round.of(scalar), scalar);
+  }
+
+  public void testNonFailInfNeg() {
+    Scalar scalar = DoubleScalar.NEGATIVE_INFINITY;
+    assertEquals(Round.of(scalar), scalar);
   }
 
   public void testNonFailNaN() {

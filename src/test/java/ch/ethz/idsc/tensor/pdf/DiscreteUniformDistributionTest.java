@@ -113,13 +113,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
   public void testRandomVariate() {
     AbstractDiscreteDistribution distribution = //
         (AbstractDiscreteDistribution) DiscreteUniformDistribution.of(10, 100);
-    {
-      Scalar s = distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
-      assertEquals(s, RealScalar.of(99));
-    }
-    {
-      Scalar s = distribution.quantile(RealScalar.of(0));
-      assertEquals(s, RealScalar.of(10));
-    }
+    assertEquals(distribution.quantile(RealScalar.of(Math.nextDown(1.0))), RealScalar.of(99));
+    assertEquals(distribution.quantile(RealScalar.of(0)), RealScalar.of(10));
   }
 }

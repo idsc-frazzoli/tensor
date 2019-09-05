@@ -88,9 +88,7 @@ public class ModTest extends TestCase {
         new BigInteger("230817253875123123"));
     String mathem = "-4365252651220514098051928821648538890491086296970254009125271304896855/291758856173288907624108202447331994414076589308384576368761716";
     Scalar expected = Scalars.fromString(mathem);
-    {
-      assertEquals(Mod.function(n, d).apply(m), expected);
-    }
+    assertEquals(Mod.function(n, d).apply(m), expected);
     {
       Scalar r = Mod.function(n, d).apply(N.DOUBLE.of(m));
       assertEquals(Chop.below(0.01).apply(r.subtract(expected)), RealScalar.ZERO);
@@ -172,13 +170,16 @@ public class ModTest extends TestCase {
     }
   }
 
-  public void testNullFail() {
+  public void testNull1Fail() {
     try {
       Mod.function(RealScalar.ONE, null);
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testNull2Fail() {
     try {
       Mod.function(null, RealScalar.ONE);
       fail();
@@ -187,13 +188,16 @@ public class ModTest extends TestCase {
     }
   }
 
-  public void testFail() {
+  public void testZeroAFail() {
     try {
       Mod.function(RealScalar.ZERO);
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testZeroBFail() {
     try {
       Mod.function(RealScalar.ZERO, RealScalar.ONE);
       fail();

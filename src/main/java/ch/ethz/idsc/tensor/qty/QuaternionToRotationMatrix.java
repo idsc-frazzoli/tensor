@@ -1,6 +1,4 @@
-// code by jph
-// adapted from
-// http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+// adapted by jph
 package ch.ethz.idsc.tensor.qty;
 
 import ch.ethz.idsc.tensor.Scalar;
@@ -9,10 +7,13 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 
+/** Reference:
+ * http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm */
 public enum QuaternionToRotationMatrix {
   ;
-  /** @param quaternion
-   * @return orthogonal 3x3 matrix */
+  /** @param quaternion non-zero
+   * @return orthogonal 3x3 matrix
+   * @throws Exception if quaternion cannot be normalized */
   public static Tensor of(Quaternion quaternion) {
     Scalar abs = quaternion.abs();
     if (Scalars.isZero(abs))
