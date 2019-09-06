@@ -21,7 +21,7 @@ public class RescaleTest extends TestCase {
   }
 
   public void testVector() {
-    Tensor res = Rescale.of(Tensors.vector(-.7, .5, 1.2, 5.6, 1.8));
+    Tensor res = Rescale.of(Tensors.vector(-0.7, 0.5, 1.2, 5.6, 1.8));
     Tensor sol = Tensors.vector(0., 0.190476, 0.301587, 1., 0.396825);
     assertEquals(res.subtract(sol).map(Chop._05), Array.zeros(5));
   }
@@ -35,7 +35,7 @@ public class RescaleTest extends TestCase {
   }
 
   public void testInfty() {
-    Tensor vec = Tensors.vector(-.7, .5, 1.2, Double.POSITIVE_INFINITY, 1.8);
+    Tensor vec = Tensors.vector(-0.7, 0.5, 1.2, Double.POSITIVE_INFINITY, 1.8);
     Tensor res = Rescale.of(vec);
     assertTrue(2 < Tally.of(res).size());
   }

@@ -12,24 +12,33 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ArcTan;
+import ch.ethz.idsc.tensor.sca.ArcTanInterface;
 import ch.ethz.idsc.tensor.sca.Arg;
+import ch.ethz.idsc.tensor.sca.ArgInterface;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ChopInterface;
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
+import ch.ethz.idsc.tensor.sca.ConjugateInterface;
 import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;
 import ch.ethz.idsc.tensor.sca.NInterface;
 import ch.ethz.idsc.tensor.sca.Power;
+import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
+import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;
 import ch.ethz.idsc.tensor.sca.Sqrt;
+import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /* package */ class QuantityImpl extends AbstractScalar implements Quantity, //
-    ChopInterface, ExactScalarQInterface, NInterface, Serializable {
+    ArcTanInterface, ArgInterface, ChopInterface, ComplexEmbedding, ConjugateInterface, //
+    ExactScalarQInterface, NInterface, PowerInterface, RoundingInterface, SignInterface, //
+    SqrtInterface, Comparable<Scalar>, Serializable {
   /** @param value is assumed to be not instance of {@link Quantity}
    * @param unit
    * @return */
@@ -98,7 +107,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from Scalar
   public Scalar reciprocal() {
-    return new QuantityImpl(value.reciprocal(), unit.negate());
+    return new QuantityImpl( //
+        value.reciprocal(), //
+        unit.negate());
   }
 
   @Override // from Scalar
@@ -168,7 +179,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
 
   @Override // from SqrtInterface
   public Scalar sqrt() {
-    return of(Sqrt.FUNCTION.apply(value), unit.multiply(RationalScalar.HALF));
+    return new QuantityImpl( //
+        Sqrt.FUNCTION.apply(value), //
+        unit.multiply(RationalScalar.HALF));
   }
 
   @Override // from RoundingInterface

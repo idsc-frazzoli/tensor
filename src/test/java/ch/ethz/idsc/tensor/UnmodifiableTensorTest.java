@@ -17,11 +17,11 @@ public class UnmodifiableTensorTest extends TestCase {
 
   public void testUnmodifiable() {
     Tensor tensor = Tensors.vector(3, 4, 5, 6, -2);
-    tensor.set(DoubleScalar.of(.3), 2);
+    tensor.set(DoubleScalar.of(0.3), 2);
     Tensor unmodi = tensor.unmodifiable();
     assertEquals(tensor, unmodi);
     try {
-      unmodi.set(DoubleScalar.of(.3), 2);
+      unmodi.set(DoubleScalar.of(0.3), 2);
       fail();
     } catch (Exception exception) {
       // ---

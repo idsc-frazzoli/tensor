@@ -19,7 +19,7 @@ public class ArgTest extends TestCase {
     Scalar scalar = ComplexScalar.of(RationalScalar.of(-2, 3), RationalScalar.of(-5, 100));
     assertEquals(Arg.of(scalar).toString(), "-3.066732805879026");
     assertEquals(Arg.of(RealScalar.ZERO), RealScalar.ZERO);
-    assertEquals(Arg.of(DoubleScalar.of(.2)), RealScalar.ZERO);
+    assertEquals(Arg.of(DoubleScalar.of(0.2)), RealScalar.ZERO);
     assertEquals(Arg.of(DoubleScalar.of(-1)), DoubleScalar.of(Math.PI));
     assertEquals(Arg.of(RationalScalar.of(-1, 3)), DoubleScalar.of(Math.PI));
   }

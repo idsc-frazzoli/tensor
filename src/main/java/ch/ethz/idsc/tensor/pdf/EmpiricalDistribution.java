@@ -50,7 +50,7 @@ public class EmpiricalDistribution extends EvaluatedDiscreteDistribution impleme
         .map(Scalar.class::cast) //
         .forEach(Sign::requirePositiveOrZero);
     Tensor accumulate = Accumulate.of(unscaledPDF);
-    Scalar scale = Last.of(accumulate).Get();
+    Scalar scale = Last.of(accumulate);
     pdf = unscaledPDF.divide(scale);
     cdf = accumulate.divide(scale);
     inverse_cdf_build(cdf.length() - 1);

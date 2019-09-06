@@ -77,7 +77,7 @@ public class ExponentialDistributionTest extends TestCase {
       // ---
     }
     try {
-      ExponentialDistribution.of(RealScalar.of(-.1));
+      ExponentialDistribution.of(RealScalar.of(-0.1));
       fail();
     } catch (Exception exception) {
       // ---
@@ -103,8 +103,8 @@ public class ExponentialDistributionTest extends TestCase {
   }
 
   public void testCornerCase() {
-    _checkCorner(RealScalar.of(.00001));
-    _checkCorner(RealScalar.of(.1));
+    _checkCorner(RealScalar.of(0.00001));
+    _checkCorner(RealScalar.of(0.1));
     _checkCorner(RealScalar.of(1));
     _checkCorner(RealScalar.of(2));
     _checkCorner(RealScalar.of(700));
@@ -122,9 +122,9 @@ public class ExponentialDistributionTest extends TestCase {
 
   public void testInverseCDF() {
     InverseCDF inverseCDF = InverseCDF.of(ExponentialDistribution.of(Quantity.of(3, "")));
-    Scalar x0 = inverseCDF.quantile(RealScalar.of(.0));
-    Scalar x1 = inverseCDF.quantile(RealScalar.of(.2));
-    Scalar x2 = inverseCDF.quantile(RealScalar.of(.5));
+    Scalar x0 = inverseCDF.quantile(RealScalar.of(0.0));
+    Scalar x1 = inverseCDF.quantile(RealScalar.of(0.2));
+    Scalar x2 = inverseCDF.quantile(RealScalar.of(0.5));
     assertEquals(x0, RealScalar.ZERO);
     assertTrue(Scalars.lessThan(x1, x2));
   }

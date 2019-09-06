@@ -54,7 +54,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
     InverseCDF inverseCDF = InverseCDF.of(DiscreteUniformDistribution.of(0, 10));
     Scalar s = inverseCDF.quantile(RationalScalar.of(1, 2));
     assertTrue(Clips.interval(4, 5).isInside(s));
-    assertEquals(inverseCDF.quantile(RealScalar.of(.9999999)), RealScalar.of(9));
+    assertEquals(inverseCDF.quantile(RealScalar.of(0.9999999)), RealScalar.of(9));
     assertEquals(inverseCDF.quantile(RealScalar.of(1)), RealScalar.of(9));
   }
 
@@ -67,7 +67,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
     Distribution distribution = DiscreteUniformDistribution.of(3, 10);
     InverseCDF inverseCDF = InverseCDF.of(distribution);
     try {
-      inverseCDF.quantile(RealScalar.of(-.1));
+      inverseCDF.quantile(RealScalar.of(-0.1));
       fail();
     } catch (Exception exception) {
       // ---
@@ -113,13 +113,7 @@ public class DiscreteUniformDistributionTest extends TestCase {
   public void testRandomVariate() {
     AbstractDiscreteDistribution distribution = //
         (AbstractDiscreteDistribution) DiscreteUniformDistribution.of(10, 100);
-    {
-      Scalar s = distribution.quantile(RealScalar.of(Math.nextDown(1.0)));
-      assertEquals(s, RealScalar.of(99));
-    }
-    {
-      Scalar s = distribution.quantile(RealScalar.of(0));
-      assertEquals(s, RealScalar.of(10));
-    }
+    assertEquals(distribution.quantile(RealScalar.of(Math.nextDown(1.0))), RealScalar.of(99));
+    assertEquals(distribution.quantile(RealScalar.of(0)), RealScalar.of(10));
   }
 }

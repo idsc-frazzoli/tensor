@@ -15,7 +15,7 @@ public class ExactTensorQTest extends TestCase {
   public void testRequireAll() {
     ExactTensorQ.require(Tensors.fromString("{{9/8, 3/2[s]}, 1/2+3/4*I}"));
     try {
-      ExactTensorQ.require(Tensors.vector(1, 2, 3, .7));
+      ExactTensorQ.require(Tensors.vector(1, 2, 3, 0.7));
       fail();
     } catch (Exception exception) {
       // ---

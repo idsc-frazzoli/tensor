@@ -11,6 +11,6 @@ public enum NearestInterpolation {
    * @return
    * @throws Exception if tensor == null */
   public static Interpolation of(Tensor tensor) {
-    return new MappedInterpolation(tensor, Round::of);
+    return new MappedInterpolation(tensor, Round.FUNCTION);
   }
 }

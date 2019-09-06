@@ -63,18 +63,19 @@ public class Chop implements ScalarUnaryOperator {
    * Chop.NONE.allZero(tensor) */
   public static final Chop NONE = below(0);
 
-  /** @param threshold
-   * @return function that performs the chop operation at given threshold */
+  /** @param threshold non-negative
+   * @return function that performs the chop operation at given threshold
+   * @throws Exception if threshold is negative */
   public static Chop below(double threshold) {
-    return new Chop(threshold);
+    if (0 <= threshold)
+      return new Chop(threshold);
+    throw new IllegalArgumentException(Double.toString(threshold));
   }
 
   // ---
   private final double threshold;
 
   private Chop(double threshold) {
-    if (threshold < 0)
-      throw new IllegalArgumentException(Double.toString(threshold));
     this.threshold = threshold;
   }
 
@@ -124,6 +125,13 @@ public class Chop implements ScalarUnaryOperator {
         .map(Scalar.class::cast) //
         .map(this) //
         .allMatch(Scalars::isZero);
+  }
+
+  /** @param tensor
+   * @throws Exception if {@link #allZero(Tensor)} evaluates to false */
+  public void requireAllZero(Tensor tensor) {
+    if (!allZero(tensor))
+      throw TensorRuntimeException.of(tensor);
   }
 
   /** @param tensor

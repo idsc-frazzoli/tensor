@@ -56,11 +56,14 @@ public class GammaTest extends TestCase {
 
   public void testLargeNegativeInteger() {
     try {
-      Gamma.of(RealScalar.of(-100000000000l));
+      Gamma.of(RealScalar.of(-100000000000L));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testLargeNegativeIntegerDouble() {
     try {
       Gamma.of(DecimalScalar.of("-100000000000.0"));
       fail();
@@ -104,13 +107,16 @@ public class GammaTest extends TestCase {
     assertFalse(NumberQ.of(seed));
   }
 
-  public void testFail() {
+  public void testInt0Fail() {
     try {
       Gamma.of(RealScalar.of(0));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testIntN1Fail() {
     try {
       Gamma.of(RealScalar.of(-1));
       fail();
@@ -119,13 +125,16 @@ public class GammaTest extends TestCase {
     }
   }
 
-  public void testFailNumeric() {
+  public void testDouble0Fail() {
     try {
       Gamma.of(RealScalar.of(0.0));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testDoubleN1Fail() {
     try {
       Gamma.of(RealScalar.of(-1.0));
       fail();
@@ -134,7 +143,7 @@ public class GammaTest extends TestCase {
     }
   }
 
-  public void testGammaFail() {
+  public void testQuantityFail() {
     try {
       Gamma.of(Quantity.of(3, "m*s"));
       fail();

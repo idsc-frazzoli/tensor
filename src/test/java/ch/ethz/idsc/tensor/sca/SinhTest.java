@@ -36,13 +36,16 @@ public class SinhTest extends TestCase {
     Chop._11.requireClose(scalar, DoubleScalar.of(Math.sinh(1.2356)));
   }
 
-  public void testFail() {
+  public void testQuantityFail() {
     try {
       Sinh.of(Quantity.of(1, "deg"));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testGaussScalarFail() {
     try {
       Sinh.of(GaussScalar.of(6, 7));
       fail();

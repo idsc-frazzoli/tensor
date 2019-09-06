@@ -65,12 +65,12 @@ public class ScalarUnaryOperatorTest extends TestCase {
     LogisticSigmoid.of(tensor);
     N.DOUBLE.of(tensor);
     try {
-      Power.of(tensor, RealScalar.of(.3));
+      Power.of(tensor, RealScalar.of(0.3));
     } catch (Exception exception) {
       // ---
     }
     try {
-      Power.of(tensor, RealScalar.of(-.3));
+      Power.of(tensor, RealScalar.of(-0.3));
     } catch (Exception exception) {
       // ---
     }

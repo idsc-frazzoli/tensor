@@ -90,6 +90,16 @@ public class ChopTest extends TestCase {
     assertFalse(Chop._10.allZero(scalar));
   }
 
+  public void testCloseNaNFail() {
+    Chop.below(Double.POSITIVE_INFINITY);
+    try {
+      Chop.below(Double.NaN);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testCloseFail() {
     try {
       Chop._05.close(Tensors.vector(1), Tensors.vector(1, 1));
@@ -102,6 +112,17 @@ public class ChopTest extends TestCase {
   public void testRequireClose() {
     try {
       Chop._06.requireClose(RealScalar.of(2), RealScalar.of(2.1));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testRequireAllZero() {
+    Tensor tensor = Tensors.vector(0, 0, 0, 1e-5);
+    Chop._04.requireAllZero(tensor);
+    try {
+      Chop._06.requireAllZero(tensor);
       fail();
     } catch (Exception exception) {
       // ---

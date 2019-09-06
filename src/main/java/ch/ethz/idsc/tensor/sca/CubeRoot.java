@@ -13,13 +13,13 @@ import ch.ethz.idsc.tensor.Tensor;
 public enum CubeRoot implements ScalarUnaryOperator {
   FUNCTION;
   // ---
-  private static final Scalar _1_3 = RationalScalar.of(1, 3);
+  private static final ScalarUnaryOperator POWER = Power.function(RationalScalar.of(1, 3));
 
   @Override
   public Scalar apply(Scalar scalar) {
     return Sign.isPositiveOrZero(scalar) //
-        ? Power.of(scalar, _1_3)
-        : Power.of(scalar.negate(), _1_3).negate();
+        ? POWER.apply(scalar)
+        : POWER.apply(scalar.negate()).negate();
   }
 
   /** @param tensor

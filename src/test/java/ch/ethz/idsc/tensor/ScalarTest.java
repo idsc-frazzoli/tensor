@@ -66,7 +66,7 @@ public class ScalarTest extends TestCase {
   public void testEquals() {
     assertFalse(Tensors.empty().equals(null));
     assertFalse(RealScalar.ZERO.equals(null));
-    assertFalse(DoubleScalar.of(.3).equals(null));
+    assertFalse(DoubleScalar.of(0.3).equals(null));
     assertFalse(RationalScalar.of(5, 3).equals(null));
     assertFalse(ComplexScalar.of(RationalScalar.of(5, 3), RationalScalar.of(5, 3)).equals(null));
     assertFalse(Integer.valueOf(1233).equals(null));

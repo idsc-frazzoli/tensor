@@ -1,33 +1,37 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.util.Map;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.pdf.Distribution;
-import ch.ethz.idsc.tensor.pdf.NormalDistribution;
-import ch.ethz.idsc.tensor.pdf.RandomVariate;
+import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
-public class RootsCubicTest extends TestCase {
+public class RootsDegree3FullTest extends TestCase {
   public void testCubic() {
     Tensor coeffs = Tensors.vector(2, 3, 4, 5);
     Tensor roots = Roots.of(coeffs);
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertTrue(Chop._13.allZero(tensor));
+    Tensor depres = new RootsDegree3(coeffs).roots();
+    Chop._10.requireClose(depres, roots);
   }
 
   public void testMonomial() {
-    Tensor coeffs = Tensors.vector(0, 0, 0, 1);
+    Tensor coeffs = Tensors.vector(0, 0, 0, 10);
     Tensor roots = Roots.of(coeffs);
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertEquals(tensor, Array.zeros(3));
+    Tensor depres = new RootsDegree3(coeffs).roots();
+    Chop._10.requireClose(depres, roots);
   }
 
   public void testMonomialShiftedP() {
@@ -37,6 +41,8 @@ public class RootsCubicTest extends TestCase {
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertEquals(tensor, Array.zeros(3));
+    Tensor depres = new RootsDegree3(coeffs).roots();
+    Chop._10.requireClose(depres, roots);
   }
 
   public void testMonomialShiftedN() {
@@ -46,15 +52,21 @@ public class RootsCubicTest extends TestCase {
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertEquals(tensor, Array.zeros(3));
+    Tensor depres = new RootsDegree3(coeffs).roots();
+    Chop._10.requireClose(depres, roots);
   }
 
   public void testMonomialQuadShift() {
     Tensor coeffs = Tensors.vector(1, 1, -1, -1);
     Tensor roots = Roots.of(coeffs);
-    assertTrue(Chop._12.close(roots, Tensors.vector(-1, 1, -1)));
+    Map<Tensor, Long> map = Tally.of(roots);
+    assertEquals((long) map.get(RealScalar.ONE), 1);
+    assertEquals((long) map.get(RealScalar.ONE.negate()), 2);
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertTrue(Chop._07.allZero(tensor));
+    Tensor depres = new RootsDegree3(coeffs).roots();
+    Chop._10.requireClose(depres, roots);
   }
 
   public void testCubicQuantity() {
@@ -63,6 +75,8 @@ public class RootsCubicTest extends TestCase {
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertTrue(Chop._13.allZero(tensor));
+    Tensor depres = new RootsDegree3(coeffs).roots();
+    Chop._10.requireClose(depres, roots);
   }
 
   public void testCubicNumerics() {
@@ -71,21 +85,11 @@ public class RootsCubicTest extends TestCase {
     ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
     Tensor tensor = roots.map(scalarUnaryOperator);
     assertTrue(Chop._05.allZero(tensor));
-  }
-
-  public void testCubicRandom() {
-    Distribution distribution = NormalDistribution.standard();
-    for (int index = 0; index < 20; ++index) {
-      Tensor coeffs = RandomVariate.of(distribution, 4);
-      Tensor roots = Roots.of(coeffs);
-      ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
-      Tensor tensor = roots.map(scalarUnaryOperator);
-      boolean allZero = Chop._04.allZero(tensor);
-      if (!allZero) {
-        System.out.println(coeffs);
-        System.out.println(tensor);
-      }
-      assertTrue(allZero);
+    Tensor depres = new RootsDegree3(coeffs).roots();
+    if (!Chop._10.close(depres, roots)) {
+      System.out.println(depres);
+      System.out.println(roots);
+      fail();
     }
   }
 
@@ -99,4 +103,5 @@ public class RootsCubicTest extends TestCase {
     assertTrue(roots.stream().map(scalar -> scalar.subtract(m1)).anyMatch(Chop._05::allZero));
     assertTrue(roots.stream().map(scalar -> scalar.subtract(m2)).anyMatch(Chop._05::allZero));
   }
+  // {4.403491745360149, -3.6065243114260417, -4.588031155616683, -4.8648946627594114E-4}
 }

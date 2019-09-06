@@ -66,7 +66,7 @@ public class PascalDistributionTest extends TestCase {
     Scalar p = RationalScalar.of(1, 5);
     PascalDistribution distribution = (PascalDistribution) PascalDistribution.of(5, p);
     InverseCDF inverseCDF = InverseCDF.of(distribution);
-    Scalar quantile = inverseCDF.quantile(RealScalar.of(.999));
+    Scalar quantile = inverseCDF.quantile(RealScalar.of(0.999));
     assertTrue(Scalars.lessThan(quantile, distribution.inverse_cdf().lastEntry().getValue()));
     assertTrue(Scalars.isZero(distribution.p_equals(3)));
     assertTrue(Scalars.isZero(distribution.p_equals(4)));
@@ -75,13 +75,13 @@ public class PascalDistributionTest extends TestCase {
 
   public void testFailN() {
     try {
-      PascalDistribution.of(0, RealScalar.of(.2));
+      PascalDistribution.of(0, RealScalar.of(0.2));
       fail();
     } catch (Exception exception) {
       // ---
     }
     try {
-      PascalDistribution.of(-3, RealScalar.of(.2));
+      PascalDistribution.of(-3, RealScalar.of(0.2));
       fail();
     } catch (Exception exception) {
       // ---
@@ -90,7 +90,7 @@ public class PascalDistributionTest extends TestCase {
 
   public void testFailP() {
     try {
-      PascalDistribution.of(3, RealScalar.of(-.2));
+      PascalDistribution.of(3, RealScalar.of(-0.2));
       fail();
     } catch (Exception exception) {
       // ---

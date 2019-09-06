@@ -62,9 +62,9 @@ public class LinearSolveTest extends TestCase {
 
   public void testGauss() {
     Tensor vec1 = Tensors.vectorDouble(0, 2, 5.3);
-    Tensor vec2 = Tensors.vectorDouble(-1.0, 3.1, .3);
-    Tensor vec3 = Tensors.vectorDouble(2.0, 0.4, .3);
-    Tensor b = Tensors.vectorDouble(.3, .5, .7);
+    Tensor vec2 = Tensors.vectorDouble(-1.0, 3.1, 0.3);
+    Tensor vec3 = Tensors.vectorDouble(2.0, 0.4, 0.3);
+    Tensor b = Tensors.vectorDouble(0.3, 0.5, 0.7);
     Tensor A = Tensors.of(vec1, vec2, vec3);
     {
       Tensor x = LinearSolve.of(A, b);

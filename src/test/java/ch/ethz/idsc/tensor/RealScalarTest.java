@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.sca.SignInterface;
 import junit.framework.TestCase;
 
 public class RealScalarTest extends TestCase {
@@ -17,13 +18,13 @@ public class RealScalarTest extends TestCase {
   }
 
   public void testSign() {
-    assertEquals(((RealScalar) RealScalar.ZERO).signInt(), 0);
-    assertEquals(((RealScalar) RealScalar.of(+5)).signInt(), 1);
-    assertEquals(((RealScalar) RealScalar.of(-5)).signInt(), -1);
+    assertEquals(((SignInterface) RealScalar.ZERO).signInt(), 0);
+    assertEquals(((SignInterface) RealScalar.of(+5)).signInt(), 1);
+    assertEquals(((SignInterface) RealScalar.of(-5)).signInt(), -1);
     RealScalar r1 = (RealScalar) RationalScalar.of(1927365481254298736L, 1927365481254298737L);
     RealScalar r2 = (RealScalar) RationalScalar.of(1927365481254298741L, -1927365481254298739L);
-    assertEquals(r1.signInt(), 1);
-    assertEquals(r2.signInt(), -1);
+    assertEquals(((SignInterface) r1).signInt(), 1);
+    assertEquals(((SignInterface) r2).signInt(), -1);
   }
 
   public void testCompare() {
@@ -41,14 +42,14 @@ public class RealScalarTest extends TestCase {
       assertEquals(a.compareTo(b), Scalars.compare(RealScalar.ZERO, RealScalar.of(b)));
     }
     {
-      assertEquals(Double.compare(.3, .4), DoubleScalar.of(.3).compareTo(DoubleScalar.of(.4)));
-      assertEquals(Double.compare(.3, -4e10), DoubleScalar.of(.3).compareTo(DoubleScalar.of(-4e10)));
+      assertEquals(Double.compare(0.3, 0.4), Scalars.compare(DoubleScalar.of(0.3), DoubleScalar.of(0.4)));
+      assertEquals(Double.compare(0.3, -4e10), Scalars.compare(DoubleScalar.of(0.3), DoubleScalar.of(-4e10)));
     }
   }
 
   public void testCompareDouble() {
-    assertEquals(Double.compare(.3, .4), DoubleScalar.of(.3).compareTo(DoubleScalar.of(.4)));
-    assertEquals(Double.compare(.3, -4e10), DoubleScalar.of(.3).compareTo(DoubleScalar.of(-4e10)));
+    assertEquals(Double.compare(0.3, 0.4), Scalars.compare(DoubleScalar.of(0.3), DoubleScalar.of(0.4)));
+    assertEquals(Double.compare(0.3, -4e10), Scalars.compare(DoubleScalar.of(0.3), DoubleScalar.of(-4e10)));
   }
 
   public void testCompareRational() {
@@ -57,14 +58,14 @@ public class RealScalarTest extends TestCase {
     assertEquals(Scalars.compare(r1, r2), -1);
     RealScalar d1 = DoubleScalar.of(r1.number().doubleValue());
     RealScalar d2 = DoubleScalar.of(r2.number().doubleValue());
-    assertEquals(d1.compareTo(d2), 0);
+    assertEquals(Scalars.compare(d1, d2), 0);
   }
 
   public void testNumber() {
     assertEquals(RealScalar.ZERO, RealScalar.of(0));
     assertEquals(RealScalar.ZERO, RealScalar.of(0.));
-    assertEquals(DoubleScalar.of(3.), RealScalar.of(3.));
-    assertEquals(DoubleScalar.of(3.), RealScalar.of(3.f));
+    assertEquals(DoubleScalar.of(3.0), RealScalar.of(3.));
+    assertEquals(DoubleScalar.of(3.0), RealScalar.of(3.f));
     assertEquals(IntegerScalar.of(3), RealScalar.of(3));
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3));
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3L));

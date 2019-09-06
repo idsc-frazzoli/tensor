@@ -31,7 +31,7 @@ public class FrechetDistributionTest extends TestCase {
   }
 
   public void testRandomVariate() {
-    FrechetDistribution gmd = (FrechetDistribution) FrechetDistribution.of(3, .2);
+    FrechetDistribution gmd = (FrechetDistribution) FrechetDistribution.of(3, 0.2);
     assertTrue(Scalars.lessThan(gmd.randomVariate(0), RealScalar.of(0.1)));
     assertTrue(Scalars.lessThan(gmd.randomVariate(Math.nextDown(1.0)), RealScalar.of(42000)));
   }
@@ -85,10 +85,10 @@ public class FrechetDistributionTest extends TestCase {
 
   public void testInverseCDF() {
     InverseCDF inverseCDF = InverseCDF.of(FrechetDistribution.of(1.5, 1.3));
-    Scalar x0 = inverseCDF.quantile(RealScalar.of(.0));
-    Scalar x1 = inverseCDF.quantile(RealScalar.of(.1));
-    Scalar x2 = inverseCDF.quantile(RealScalar.of(.2));
-    Scalar x3 = inverseCDF.quantile(RealScalar.of(.5));
+    Scalar x0 = inverseCDF.quantile(RealScalar.of(0.0));
+    Scalar x1 = inverseCDF.quantile(RealScalar.of(0.1));
+    Scalar x2 = inverseCDF.quantile(RealScalar.of(0.2));
+    Scalar x3 = inverseCDF.quantile(RealScalar.of(0.5));
     assertEquals(x0, RealScalar.ZERO);
     assertTrue(Scalars.lessThan(x0, x1));
     assertTrue(Scalars.lessThan(x1, x2));

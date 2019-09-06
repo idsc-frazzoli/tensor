@@ -18,7 +18,7 @@ import junit.framework.TestCase;
 public class BSplineFunctionCyclicTest extends TestCase {
   public void testDegree0() {
     ScalarTensorFunction scalarTensorFunction = BSplineFunction.cyclic(0, Tensors.vector(1, 2, 3));
-    assertEquals(scalarTensorFunction.apply(RealScalar.of(-.1)), RealScalar.of(1));
+    assertEquals(scalarTensorFunction.apply(RealScalar.of(-0.1)), RealScalar.of(1));
     assertEquals(scalarTensorFunction.apply(RealScalar.of(0.0)), RealScalar.of(1));
     assertEquals(scalarTensorFunction.apply(RealScalar.of(0.1)), RealScalar.of(1));
     assertEquals(scalarTensorFunction.apply(RealScalar.of(0.9)), RealScalar.of(2));
@@ -34,7 +34,7 @@ public class BSplineFunctionCyclicTest extends TestCase {
 
   public void testDegree1() {
     ScalarTensorFunction scalarTensorFunction = BSplineFunction.cyclic(1, Tensors.vector(3, 4, 5));
-    assertEquals(scalarTensorFunction.apply(RealScalar.of(-.5)), RealScalar.of(4.0));
+    assertEquals(scalarTensorFunction.apply(RealScalar.of(-0.5)), RealScalar.of(4.0));
     assertEquals(scalarTensorFunction.apply(RealScalar.of(0.0)), RealScalar.of(3));
     assertEquals(scalarTensorFunction.apply(RealScalar.of(0.5)), RealScalar.of(3.5));
     assertEquals(scalarTensorFunction.apply(RealScalar.of(1.0)), RealScalar.of(4));

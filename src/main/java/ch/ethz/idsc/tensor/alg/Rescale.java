@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 /** Rescale so that all the list elements run from 0 to 1
  * 
  * <code>
- * Rescale[{-.7, .5, 1.2, 5.6, 1.8}] == {0., 0.190476, 0.301587, 1., 0.396825}
+ * Rescale[{-0.7, 0.5, 1.2, 5.6, 1.8}] == {0., 0.190476, 0.301587, 1., 0.396825}
  * </code>
  * 
  * <p>Mathematica handles Infinity in a non-trivial way.

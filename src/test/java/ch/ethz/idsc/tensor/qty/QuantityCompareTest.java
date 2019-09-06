@@ -94,7 +94,7 @@ public class QuantityCompareTest extends TestCase {
 
   public void testCompareFail2() {
     try {
-      DoubleScalar.of(3.14).compareTo(Quantity.of(0, "m*s"));
+      Scalars.compare(DoubleScalar.of(3.14), Quantity.of(0, "m*s"));
       fail();
     } catch (Exception exception) {
       // ---

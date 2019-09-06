@@ -17,14 +17,14 @@ public class FloorTest extends TestCase {
     assertEquals(Floor.of(RealScalar.ZERO), RealScalar.ZERO);
     assertEquals(Floor.of(RationalScalar.of(-5, 2)), RationalScalar.of(-3, 1));
     assertEquals(Floor.of(RationalScalar.of(5, 2)), RationalScalar.of(2, 1));
-    assertEquals(Floor.of(DoubleScalar.of(.123)), RealScalar.ZERO);
+    assertEquals(Floor.of(DoubleScalar.of(0.123)), RealScalar.ZERO);
     assertEquals(Floor.of(RealScalar.ONE), RealScalar.ONE);
-    assertEquals(Floor.of(DoubleScalar.of(-.123)), RationalScalar.of(-1, 1));
+    assertEquals(Floor.of(DoubleScalar.of(-0.123)), RationalScalar.of(-1, 1));
   }
 
   public void testHash() {
     Tensor a = Tensors.of( //
-        DoubleScalar.of(.123), DoubleScalar.of(3.343), DoubleScalar.of(-.123));
+        DoubleScalar.of(0.123), DoubleScalar.of(3.343), DoubleScalar.of(-0.123));
     Tensor b = a.map(Floor.FUNCTION);
     Tensor c = a.map(Floor.FUNCTION);
     assertEquals(b, c);

@@ -60,7 +60,7 @@ public enum ArcTan implements ScalarUnaryOperator {
       ArcTanInterface arcTanInterface = (ArcTanInterface) y;
       return arcTanInterface.arcTan(x);
     }
-    return ArcTan.FUNCTION.apply(y.divide(x));
+    return FUNCTION.apply(y.divide(x));
   }
 
   /** @param x

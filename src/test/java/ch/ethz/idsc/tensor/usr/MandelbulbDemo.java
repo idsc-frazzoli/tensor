@@ -21,7 +21,7 @@ import ch.ethz.idsc.tensor.sca.Clips;
       Clips.positive(1.0)) {
     @Override
     protected Scalar function(Scalar re, Scalar im) {
-      Tensor c = Tensors.of(re, im, RealScalar.of(.505));
+      Tensor c = Tensors.of(re, im, RealScalar.of(0.505));
       Tensor x = Tensors.vector(0.0, 0.0, 0.0);
       Scalar nrm = null;
       for (int index = 0; index < DEPTH; ++index) {

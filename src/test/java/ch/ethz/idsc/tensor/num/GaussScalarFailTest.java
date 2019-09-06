@@ -64,7 +64,7 @@ public class GaussScalarFailTest extends TestCase {
 
   public void testMultiplyFail() {
     try {
-      GaussScalar.of(2, 7).multiply(RealScalar.of(.3));
+      GaussScalar.of(2, 7).multiply(RealScalar.of(0.3));
       fail();
     } catch (Exception exception) {
       // ---
@@ -98,13 +98,13 @@ public class GaussScalarFailTest extends TestCase {
 
   public void testCompareTypeFail() {
     try {
-      Scalars.compare(GaussScalar.of(2, 7), RealScalar.of(.3));
+      Scalars.compare(GaussScalar.of(2, 7), RealScalar.of(0.3));
       fail();
     } catch (Exception exception) {
       // ---
     }
     try {
-      Scalars.compare(RealScalar.of(.3), GaussScalar.of(2, 7));
+      Scalars.compare(RealScalar.of(0.3), GaussScalar.of(2, 7));
       fail();
     } catch (Exception exception) {
       // ---
@@ -113,7 +113,7 @@ public class GaussScalarFailTest extends TestCase {
 
   public void testComparableFail() {
     try {
-      DoubleScalar.of(3.14).compareTo(GaussScalar.of(1, 7));
+      Scalars.compare(DoubleScalar.of(3.14), GaussScalar.of(1, 7));
       fail();
     } catch (Exception exception) {
       // ---

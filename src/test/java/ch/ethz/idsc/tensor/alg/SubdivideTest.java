@@ -92,7 +92,7 @@ public class SubdivideTest extends TestCase {
   }
 
   public void testNumeric() {
-    Scalar beg = RealScalar.of(-.1);
+    Scalar beg = RealScalar.of(-0.1);
     Scalar end = RealScalar.of(0.3);
     Tensor tensor = Subdivide.of(beg, end, 5);
     Tensor result = compare(beg, end, 5);

@@ -38,12 +38,12 @@ public class EqualizingDistributionTest extends TestCase {
   }
 
   public void testResample() {
-    Tensor p = Tensors.vector(-3, 6, 10, 20, 22, 30);
-    Distribution distribution = EqualizingDistribution.fromUnscaledPDF(Differences.of(p));
+    Tensor vector = Tensors.vector(-3, 6, 10, 20, 22, 30);
+    Distribution distribution = EqualizingDistribution.fromUnscaledPDF(Differences.of(vector));
     Tensor domain = Subdivide.of(0, 1, 10);
     InverseCDF inverseCDF = InverseCDF.of(distribution);
     Tensor tensor = domain.map(inverseCDF::quantile);
-    Tensor linear = tensor.map(LinearInterpolation.of(p)::At);
+    Tensor linear = tensor.map(LinearInterpolation.of(vector)::At);
     assertEquals(linear.Get(0), RealScalar.of(-3));
     assertEquals(Last.of(linear), RealScalar.of(30));
     Tensor uniform = Differences.of(linear);
@@ -51,19 +51,25 @@ public class EqualizingDistributionTest extends TestCase {
     assertEquals(Tally.of(uniform), Collections.singletonMap(RationalScalar.of(33, 10), 10L));
   }
 
-  public void testFail() {
+  public void testNegativeFail() {
     try {
       EqualizingDistribution.fromUnscaledPDF(Tensors.vector(0, -9, 1));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testZeroFail() {
     try {
       EqualizingDistribution.fromUnscaledPDF(Tensors.vector(0, 0, 0));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testEmptyFail() {
     try {
       EqualizingDistribution.fromUnscaledPDF(Tensors.empty());
       fail();
@@ -72,13 +78,16 @@ public class EqualizingDistributionTest extends TestCase {
     }
   }
 
-  public void testFail2() {
+  public void testScalarFail() {
     try {
       EqualizingDistribution.fromUnscaledPDF(RealScalar.ONE);
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testMatrixFail() {
     try {
       EqualizingDistribution.fromUnscaledPDF(HilbertMatrix.of(10));
       fail();

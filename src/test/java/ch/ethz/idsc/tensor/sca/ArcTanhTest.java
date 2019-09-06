@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 public class ArcTanhTest extends TestCase {
   public void testReal() {
-    Scalar scalar = ArcTanh.of(RealScalar.of(.5));
+    Scalar scalar = ArcTanh.of(RealScalar.of(0.5));
     assertEquals(scalar, RealScalar.of(0.5493061443340548));
   }
 

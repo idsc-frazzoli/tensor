@@ -36,13 +36,16 @@ public class CoshTest extends TestCase {
     assertEquals(scalar, DoubleScalar.of(Math.cosh(1.2356)));
   }
 
-  public void testFail() {
+  public void testQuantityFail() {
     try {
       Cosh.of(Quantity.of(1, "deg"));
       fail();
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testGaussScalarFail() {
     try {
       Cosh.of(GaussScalar.of(6, 7));
       fail();

@@ -179,7 +179,7 @@ public class QuaternionTest extends TestCase {
   }
 
   public void testExpLog() {
-    Quaternion quaternion = Quaternion.of(.1, .3, .2, -.3);
+    Quaternion quaternion = Quaternion.of(0.1, 0.3, 0.2, -0.3);
     Quaternion exp = quaternion.exp();
     Quaternion log = exp.log();
     Chop._14.requireClose(quaternion, log);

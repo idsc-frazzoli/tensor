@@ -62,7 +62,7 @@ public class DecimalScalarTest extends TestCase {
 
   public void testTrig() {
     Scalar s = DecimalScalar.of(new BigDecimal(PI100, MathContext.DECIMAL32));
-    assertTrue(Chop._06.allZero(Sin.of(s)));
+    Chop._06.requireAllZero(Sin.of(s));
     Chop._06.requireClose(Cos.of(s), RealScalar.ONE.negate());
   }
 

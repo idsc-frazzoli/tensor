@@ -7,6 +7,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.UnitSystem;
 import junit.framework.TestCase;
@@ -20,7 +21,7 @@ public class TrigonometryInterfaceTest extends TestCase {
   }
 
   public void testQuantity() {
-    for (Tensor _value : Tensors.vector(-2.323, -1, -.3, 0, .2, 1.2, 3., 4.456)) {
+    for (Tensor _value : Tensors.vector(-2.323, -1, -0.3, 0, 0.2, 1.2, 3., 4.456)) {
       Scalar value = _value.Get();
       _check(value, Sin::of, Math::sin);
       _check(value, Cos::of, Math::cos);
@@ -37,6 +38,16 @@ public class TrigonometryInterfaceTest extends TestCase {
 
   public void testQuantityFail() {
     Scalar scalar = Quantity.of(1.2, "m");
+    try {
+      Sin.of(scalar);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testGaussScalarFail() {
+    Scalar scalar = GaussScalar.of(2, 7);
     try {
       Sin.of(scalar);
       fail();

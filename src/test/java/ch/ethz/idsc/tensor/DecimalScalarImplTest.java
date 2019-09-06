@@ -11,6 +11,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Round;
+import ch.ethz.idsc.tensor.sca.Sqrt;
 import junit.framework.TestCase;
 
 public class DecimalScalarImplTest extends TestCase {
@@ -84,7 +85,7 @@ public class DecimalScalarImplTest extends TestCase {
     String expected = "1.414213562373095048801688724209698";
     Scalar sc1 = DecimalScalar.of(BigDecimal.ONE);
     DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1);
-    Scalar root2 = sc2.sqrt();
+    Scalar root2 = Sqrt.FUNCTION.apply(sc2);
     assertTrue(root2.toString().startsWith(expected));
   }
 
@@ -94,7 +95,7 @@ public class DecimalScalarImplTest extends TestCase {
     String expected = "1.414213562373095048801688724209698";
     Scalar sc1 = DecimalScalar.of(BigDecimal.ONE);
     DecimalScalar sc2 = (DecimalScalar) sc1.add(sc1).negate();
-    Scalar root2 = sc2.sqrt();
+    Scalar root2 = Sqrt.FUNCTION.apply(sc2);
     assertEquals(Real.of(root2), RealScalar.ZERO);
     assertTrue(Imag.of(root2).toString().startsWith(expected));
   }
@@ -123,21 +124,21 @@ public class DecimalScalarImplTest extends TestCase {
   }
 
   public void testCompare0() {
-    Scalar a = DecimalScalar.of(.1);
-    Scalar b = DecimalScalar.of(.2);
+    Scalar a = DecimalScalar.of(0.1);
+    Scalar b = DecimalScalar.of(0.2);
     assertTrue(Scalars.lessThan(a, b));
     assertFalse(Scalars.lessThan(b, a));
   }
 
   public void testCompare1() {
-    Scalar dec = DecimalScalar.of(.1);
-    Scalar alt = DoubleScalar.of(.01);
+    Scalar dec = DecimalScalar.of(0.1);
+    Scalar alt = DoubleScalar.of(0.01);
     assertTrue(Scalars.lessThan(alt, dec));
     assertFalse(Scalars.lessThan(dec, alt));
   }
 
   public void testCompare2() {
-    Scalar dec = DecimalScalar.of(.1);
+    Scalar dec = DecimalScalar.of(0.1);
     Scalar alt = RationalScalar.of(1, 100);
     assertTrue(Scalars.lessThan(alt, dec));
     assertFalse(Scalars.lessThan(dec, alt));

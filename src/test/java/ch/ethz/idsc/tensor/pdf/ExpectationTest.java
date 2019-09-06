@@ -57,7 +57,7 @@ public class ExpectationTest extends TestCase {
     ScalarUnaryOperator suo = clip;
     Scalar expect = Expectation.of(suo, distribution);
     Tensor accumulate = Accumulate.of(unscaledPDF);
-    Scalar scale = Last.of(accumulate).Get();
+    Scalar scale = Last.of(accumulate);
     Tensor pdf = unscaledPDF.divide(scale);
     Scalar result = pdf.dot(Range.of(0, upper).map(suo)).Get();
     assertEquals(expect, result);
@@ -72,8 +72,14 @@ public class ExpectationTest extends TestCase {
 
   public void testNumeric() {
     _check(PoissonDistribution.of(RationalScalar.of(4, 3)));
-    _check(GeometricDistribution.of(RealScalar.of(.3)));
-    _check(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(3, .2, 1, .4)));
+    _check(GeometricDistribution.of(RealScalar.of(0.3)));
+    _check(EmpiricalDistribution.fromUnscaledPDF(Tensors.vector(3, 0.2, 1, 0.4)));
+  }
+
+  public void testExpectationDistribution() {
+    Distribution distribution = new SingletonDistribution(13);
+    assertEquals(Expectation.mean(distribution), RealScalar.of(13));
+    assertEquals(Expectation.variance(distribution), RealScalar.of(0));
   }
 
   public void testFail() {

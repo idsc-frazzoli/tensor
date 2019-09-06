@@ -51,7 +51,7 @@ public class BernoulliDistributionTest extends TestCase {
     long v1 = map.get(RealScalar.ONE);
     Scalar ratio = RationalScalar.of(v1, v0 + v1);
     Scalar dev = N.DOUBLE.of(ratio.subtract(p).abs());
-    assertTrue(Scalars.lessThan(dev, RealScalar.of(.07)));
+    assertTrue(Scalars.lessThan(dev, RealScalar.of(0.07)));
   }
 
   public void testInverseCdf() {

@@ -31,6 +31,9 @@ public class FrechetDistribution extends AbstractAlphaBetaDistribution implement
     return new FrechetDistribution(alpha, Sign.requirePositive(beta));
   }
 
+  /** @param alpha positive
+   * @param beta positive
+   * @return */
   public static Distribution of(Number alpha, Number beta) {
     return of(RealScalar.of(alpha), RealScalar.of(beta));
   }

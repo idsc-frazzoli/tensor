@@ -35,7 +35,7 @@ public enum Factorial implements ScalarUnaryOperator {
   public static Scalar of(int index) {
     if (MEMO.length() <= Integers.requirePositiveOrZero(index))
       synchronized (FUNCTION) {
-        Scalar x = (Scalar) Last.of(MEMO);
+        Scalar x = Last.of(MEMO);
         while (MEMO.length() <= index)
           MEMO.append(x = x.multiply(RationalScalar.of(MEMO.length(), 1)));
       }

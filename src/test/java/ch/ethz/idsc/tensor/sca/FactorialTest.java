@@ -37,13 +37,16 @@ public class FactorialTest extends TestCase {
     Factorial.of(RealScalar.of(1000));
   }
 
-  public void testFail() {
+  public void testNegativeOneFail() {
     try {
       Factorial.of(RealScalar.of(-1));
       fail();
     } catch (Exception exception) {
       assertEquals(exception.getMessage(), "-1");
     }
+  }
+
+  public void testNumericFail() {
     try {
       Factorial.of(RealScalar.of(1.2));
       fail();

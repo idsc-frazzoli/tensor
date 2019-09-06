@@ -29,7 +29,8 @@ public enum ToeplitzMatrix {
     VectorQ.require(vector);
     if (vector.length() % 2 == 0)
       throw TensorRuntimeException.of(vector);
-    final int n = (vector.length() + 1) / 2;
-    return Tensors.matrix((i, j) -> vector.get(n - i + j - 1), n, n);
+    int n = (vector.length() + 1) / 2;
+    int semi = n - 1;
+    return Tensors.matrix((i, j) -> vector.get(semi - i + j), n, n);
   }
 }

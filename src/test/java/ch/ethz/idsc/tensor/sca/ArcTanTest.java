@@ -150,7 +150,7 @@ public class ArcTanTest extends TestCase {
     }
   }
 
-  public void testFail() {
+  public void testGaussScalarFail() {
     try {
       ArcTan.of(RealScalar.of(5), GaussScalar.of(1, 7));
       fail();

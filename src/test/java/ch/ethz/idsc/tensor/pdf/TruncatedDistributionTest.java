@@ -21,7 +21,7 @@ public class TruncatedDistributionTest extends TestCase {
 
   public void testSerializable() throws ClassNotFoundException, IOException {
     Clip clip = Clips.interval(10, 11);
-    Distribution distribution = TruncatedDistribution.of(BinomialDistribution.of(20, DoubleScalar.of(.5)), clip);
+    Distribution distribution = TruncatedDistribution.of(BinomialDistribution.of(20, DoubleScalar.of(0.5)), clip);
     Scalar scalar = RandomVariate.of(distribution);
     assertTrue(ExactScalarQ.of(scalar));
     assertTrue(clip.isInside(scalar));
@@ -31,7 +31,7 @@ public class TruncatedDistributionTest extends TestCase {
 
   public void testFail() {
     Clip clip = Clips.interval(10, 11);
-    Distribution distribution = TruncatedDistribution.of(NormalDistribution.of(-100, .2), clip);
+    Distribution distribution = TruncatedDistribution.of(NormalDistribution.of(-100, 0.2), clip);
     try {
       RandomVariate.of(distribution);
       fail();
@@ -42,7 +42,7 @@ public class TruncatedDistributionTest extends TestCase {
 
   public void testNullFail() {
     try {
-      TruncatedDistribution.of(NormalDistribution.of(-100, .2), null);
+      TruncatedDistribution.of(NormalDistribution.of(-100, 0.2), null);
       fail();
     } catch (Exception exception) {
       // ---

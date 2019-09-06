@@ -13,15 +13,15 @@ import junit.framework.TestCase;
 
 public class BinomialRandomVariateTest extends TestCase {
   public void testDivert() {
-    assertEquals(BinomialDistribution.of(1200, DoubleScalar.of(.5)).getClass(), BinomialRandomVariate.class);
+    assertEquals(BinomialDistribution.of(1200, DoubleScalar.of(0.5)).getClass(), BinomialRandomVariate.class);
     assertEquals(BinomialDistribution.of(1200, RationalScalar.of(1, 2)).getClass(), BinomialDistribution.class);
-    assertEquals(BinomialDistribution.of(12000, DoubleScalar.of(.1)).getClass(), BinomialRandomVariate.class);
-    assertEquals(BinomialDistribution.of(120000, DoubleScalar.of(.0001)).getClass(), BinomialRandomVariate.class);
+    assertEquals(BinomialDistribution.of(12000, DoubleScalar.of(0.1)).getClass(), BinomialRandomVariate.class);
+    assertEquals(BinomialDistribution.of(120000, DoubleScalar.of(0.0001)).getClass(), BinomialRandomVariate.class);
   }
 
   public void testRandom() {
     int n = 200;
-    Distribution distribution = new BinomialRandomVariate(n, RealScalar.of(.4));
+    Distribution distribution = new BinomialRandomVariate(n, RealScalar.of(0.4));
     Scalar value = RandomVariate.of(distribution);
     assertTrue(Sign.isPositive(value));
     assertTrue(Scalars.lessThan(value, RealScalar.of(n)));
@@ -33,7 +33,7 @@ public class BinomialRandomVariateTest extends TestCase {
 
   public void testRandomVector() {
     int n = 200;
-    Distribution distribution = new BinomialRandomVariate(n, RealScalar.of(.4));
+    Distribution distribution = new BinomialRandomVariate(n, RealScalar.of(0.4));
     Tensor tensor = RandomVariate.of(distribution, 100);
     Tensor unique = DeleteDuplicates.of(tensor);
     assertTrue(5 < unique.length());
@@ -50,7 +50,7 @@ public class BinomialRandomVariateTest extends TestCase {
 
   public void testPDFFail() {
     try {
-      PDF.of(BinomialDistribution.of(1200, DoubleScalar.of(.5)));
+      PDF.of(BinomialDistribution.of(1200, DoubleScalar.of(0.5)));
       fail();
     } catch (Exception exception) {
       // ---
@@ -59,7 +59,7 @@ public class BinomialRandomVariateTest extends TestCase {
 
   public void testCDFFail() {
     try {
-      CDF.of(BinomialDistribution.of(1200, DoubleScalar.of(.5)));
+      CDF.of(BinomialDistribution.of(1200, DoubleScalar.of(0.5)));
       fail();
     } catch (Exception exception) {
       // ---

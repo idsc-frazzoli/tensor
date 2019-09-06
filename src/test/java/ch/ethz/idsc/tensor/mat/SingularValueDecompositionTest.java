@@ -16,6 +16,8 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
 import ch.ethz.idsc.tensor.alg.Sort;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.lie.LieAlgebras;
+import ch.ethz.idsc.tensor.pdf.NormalDistribution;
+import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Sign;
 import junit.framework.TestCase;
@@ -98,12 +100,12 @@ public class SingularValueDecompositionTest extends TestCase {
   // test may occasionally fail, depends on the numerical precision using in Chop
   public void testSvd4() {
     int n = 11;
-    Tensor mat = Tensors.matrix((r, c) -> DoubleScalar.of(random.nextGaussian()), n, n);
+    Tensor mat = RandomVariate.of(NormalDistribution.standard(), n, n);
     SingularValueDecomposition svd = specialOps(mat);
     Tensor dif = PseudoInverse.of(svd).subtract(Inverse.of(mat)).map(Chop._08);
     assertEquals(dif, Array.zeros(Dimensions.of(dif)));
     assertEquals(MatrixRank.of(svd), n);
-    Tensor res = Chop._11.of(PseudoInverse.of(svd).dot(mat).subtract(IdentityMatrix.of(n)));
+    Tensor res = Chop._06.of(PseudoInverse.of(svd).dot(mat).subtract(IdentityMatrix.of(n)));
     assertEquals(res, Array.zeros(n, n));
   }
 

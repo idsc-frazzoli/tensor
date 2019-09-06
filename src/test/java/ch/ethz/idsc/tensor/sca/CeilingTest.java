@@ -19,14 +19,14 @@ public class CeilingTest extends TestCase {
     assertEquals(Ceiling.of(RealScalar.ZERO), RealScalar.ZERO);
     assertEquals(Ceiling.of(RationalScalar.of(-5, 2)), RationalScalar.of(-2, 1));
     assertEquals(Ceiling.of(RationalScalar.of(5, 2)), RationalScalar.of(3, 1));
-    assertEquals(Ceiling.of(DoubleScalar.of(.123)), RealScalar.ONE);
+    assertEquals(Ceiling.of(DoubleScalar.of(0.123)), RealScalar.ONE);
     assertEquals(Ceiling.of(RealScalar.ONE), RealScalar.ONE);
-    assertEquals(Ceiling.of(DoubleScalar.of(-.123)), RationalScalar.of(0, 1));
+    assertEquals(Ceiling.of(DoubleScalar.of(-0.123)), RationalScalar.of(0, 1));
   }
 
   public void testHash() {
     Tensor a = Tensors.of( //
-        DoubleScalar.of(.123), DoubleScalar.of(3.343), DoubleScalar.of(-.123));
+        DoubleScalar.of(0.123), DoubleScalar.of(3.343), DoubleScalar.of(-0.123));
     Tensor b = a.map(Ceiling.FUNCTION);
     Tensor c = a.map(Ceiling.FUNCTION);
     assertEquals(b, c);

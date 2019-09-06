@@ -32,7 +32,7 @@ public class ClipTest extends TestCase {
   }
 
   public void testUnit() {
-    assertEquals(Clips.unit().apply(RealScalar.of(-.1)), RealScalar.ZERO);
+    assertEquals(Clips.unit().apply(RealScalar.of(-0.1)), RealScalar.ZERO);
     assertEquals(Clips.unit().apply(RealScalar.of(0.1)), RealScalar.of(0.1));
     assertEquals(Clips.unit().apply(RealScalar.of(1.1)), RealScalar.ONE);
   }

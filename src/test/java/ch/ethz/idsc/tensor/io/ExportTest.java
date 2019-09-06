@@ -40,7 +40,7 @@ public class ExportTest extends TestCase {
 
   public void testCsvGzLarge() throws IOException {
     File file = TestFile.withExtension("csv.gz");
-    Distribution distribution = BinomialDistribution.of(10, RealScalar.of(.3));
+    Distribution distribution = BinomialDistribution.of(10, RealScalar.of(0.3));
     Tensor tensor = RandomVariate.of(distribution, 60, 30);
     Export.of(file, tensor);
     Tensor imported = Import.of(file);

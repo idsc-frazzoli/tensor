@@ -55,8 +55,8 @@ public class SqrtTest extends TestCase {
   }
 
   public void testReal() {
-    assertEquals(((RealScalar) RealScalar.of(16 / 25.)).sqrt(), Scalars.fromString("4/5"));
-    assertEquals(((RealScalar) RealScalar.of(-16 / 25.)).sqrt(), Scalars.fromString("4/5*I"));
+    assertEquals(Sqrt.FUNCTION.apply(RealScalar.of(16 / 25.)), Scalars.fromString("4/5"));
+    assertEquals(Sqrt.FUNCTION.apply(RealScalar.of(-16 / 25.)), Scalars.fromString("4/5*I"));
   }
 
   public void testTensor() {

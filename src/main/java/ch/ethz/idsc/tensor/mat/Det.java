@@ -1,12 +1,13 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import ch.ethz.idsc.tensor.RealScalar;
+import java.util.List;
+
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
-import ch.ethz.idsc.tensor.Unprotect;
-import ch.ethz.idsc.tensor.alg.MatrixQ;
+import ch.ethz.idsc.tensor.alg.Dimensions;
+import ch.ethz.idsc.tensor.red.Diagonal;
 
 /** implementation is consistent with Mathematica
  * 
@@ -31,13 +32,19 @@ public enum Det {
 
   // helper function
   private static Scalar of(Tensor matrix, Pivot pivot) {
-    final int n = matrix.length();
-    final int m = Unprotect.dimension1(matrix);
-    if (m == 0)
+    Dimensions dimensions = new Dimensions(matrix);
+    List<Integer> list = dimensions.list();
+    final int n = list.get(0);
+    final int m = list.get(1);
+    if (m == 0 || //
+        !dimensions.isArray() || //
+        dimensions.maxDepth() != 2)
       throw TensorRuntimeException.of(matrix);
     if (n == m) // square
       return Determinant.of(matrix, pivot);
-    MatrixQ.require(matrix);
-    return RealScalar.ZERO;
+    return Diagonal.of(matrix).stream() //
+        .map(Scalar.class::cast) //
+        .map(Scalar::zero) //
+        .reduce(Scalar::add).get();
   }
 }

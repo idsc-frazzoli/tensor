@@ -59,7 +59,7 @@ public class LanczosInterpolation extends AbstractInterpolation {
   }
 
   private Tensor at(Tensor tensor, Scalar index) {
-    int center = Floor.FUNCTION.apply(index).Get().number().intValue();
+    int center = Floor.FUNCTION.apply(index).number().intValue();
     return IntStream.range(center - lanczosKernel.semi + 1, center + lanczosKernel.semi) //
         .mapToObj(count -> flow(tensor, count, index)) //
         .reduce(Tensor::add).get();

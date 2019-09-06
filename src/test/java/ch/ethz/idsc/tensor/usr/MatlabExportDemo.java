@@ -18,7 +18,7 @@ import ch.ethz.idsc.tensor.io.StringScalar;
 /* package */ enum MatlabExportDemo {
   ;
   static void vector1() throws IOException {
-    Tensor tensor = Tensors.vectorDouble(3.2, -3, .234, 3, 3e-20, 0);
+    Tensor tensor = Tensors.vectorDouble(3.2, -3, 0.234, 3, 3e-20, 0);
     Export.of(HomeDirectory.file("me_vector1.m"), tensor);
   }
 
