@@ -10,6 +10,7 @@ import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
@@ -19,8 +20,8 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
 /** scalars from finite field with prime number of elements and values
  * 0, 1, 2, ..., prime - 1 */
 public class GaussScalar extends AbstractScalar implements //
-    Comparable<Scalar>, ExactScalarQInterface, PowerInterface, RoundingInterface, //
-    Serializable, SignInterface, SqrtInterface {
+    Comparable<Scalar>, ComplexEmbedding, ExactScalarQInterface, PowerInterface, //
+    RoundingInterface, Serializable, SignInterface, SqrtInterface {
   /** @param value
    * @param prime number
    * @return value in finite field with prime number of elements
@@ -123,6 +124,16 @@ public class GaussScalar extends AbstractScalar implements //
   private void assertCommonBase(GaussScalar gaussScalar) {
     if (!prime.equals(gaussScalar.prime))
       throw TensorRuntimeException.of(this, gaussScalar);
+  }
+
+  @Override // from ComplexEmbedding
+  public Scalar real() {
+    return this;
+  }
+
+  @Override // from ComplexEmbedding
+  public Scalar imag() {
+    return zero();
   }
 
   @Override // from ExactScalarQInterface

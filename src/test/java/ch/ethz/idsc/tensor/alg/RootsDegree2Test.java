@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.alg;
 import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.num.GaussScalar;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
@@ -46,5 +47,13 @@ public class RootsDegree2Test extends TestCase {
     Tensor roots = Roots.of(coeffs);
     Tensor zeros = roots.map(Series.of(coeffs));
     Chop._12.requireAllZero(zeros);
+  }
+
+  public void testGaussScalar() {
+    Tensor coeffs = Tensors.of(GaussScalar.of(3, 7), GaussScalar.of(2, 7), GaussScalar.of(2, 7));
+    Tensor roots = Roots.of(coeffs);
+    Tensor zeros = roots.map(Series.of(coeffs));
+    Chop.NONE.requireAllZero(zeros);
+    assertEquals(roots, Tensors.of(GaussScalar.of(1, 7), GaussScalar.of(5, 7)));
   }
 }

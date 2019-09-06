@@ -182,7 +182,7 @@ public class RootsTest extends TestCase {
       for (int index = 0; index < LIMIT; ++index) {
         Tensor zeros = ConstantArray.of(RandomVariate.of(distribution), length);
         Tensor roots = Roots.of(CoefficientList.of(zeros));
-        if (!Chop._08.close(zeros, roots)) {
+        if (!Chop._01.close(zeros, roots)) {
           System.err.println(zeros);
           fail();
         }
@@ -199,7 +199,7 @@ public class RootsTest extends TestCase {
         Tensor roots = Roots.of(CoefficientList.of(zeros));
         for (int count = 0; count < length; ++count) {
           boolean anyZero = roots.map(zeros.Get(count)::subtract).stream() //
-              .anyMatch(Chop._03::allZero);
+              .anyMatch(Chop._01::allZero);
           if (!anyZero) {
             System.err.println(zeros);
             System.err.println(roots);

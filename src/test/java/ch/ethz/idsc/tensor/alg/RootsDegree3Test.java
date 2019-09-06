@@ -1,111 +1,71 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import java.util.Map;
-
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
-import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
-import ch.ethz.idsc.tensor.red.Tally;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class RootsDegree3Test extends TestCase {
-  public void testCubic() {
-    Tensor coeffs = Tensors.vector(2, 3, 4, 5);
-    Tensor roots = Roots.of(coeffs);
-    ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
-    Tensor tensor = roots.map(scalarUnaryOperator);
-    assertTrue(Chop._13.allZero(tensor));
+  public void testSteer() {
+    Scalar c = RealScalar.of(+0.8284521034333863);
+    Scalar a = RealScalar.of(-0.33633373640449604);
+    Tensor coeffs = Tensors.of(RealScalar.ZERO, c, RealScalar.ZERO, a);
+    ScalarUnaryOperator cubic = Series.of(coeffs);
+    Tensor roots = Roots.of(Tensors.of(RealScalar.ZERO, c, RealScalar.ZERO, a));
+    Chop.NONE.requireAllZero(Imag.of(roots));
+    Chop._13.requireAllZero(roots.get(1));
+    Chop._13.requireAllZero(roots.map(cubic));
   }
-
-  public void testMonomial() {
-    Tensor coeffs = Tensors.vector(0, 0, 0, 10);
-    Tensor roots = Roots.of(coeffs);
-    ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
-    Tensor tensor = roots.map(scalarUnaryOperator);
-    assertEquals(tensor, Array.zeros(3));
-  }
-
-  public void testMonomialShiftedP() {
-    Tensor coeffs = Tensors.vector(1, 3, 3, 1);
-    Tensor roots = Roots.of(coeffs);
-    assertEquals(roots, Tensors.vector(-1, -1, -1));
-    ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
-    Tensor tensor = roots.map(scalarUnaryOperator);
-    assertEquals(tensor, Array.zeros(3));
-  }
-
-  public void testMonomialShiftedN() {
-    Tensor coeffs = Tensors.vector(1, -3, 3, -1);
-    Tensor roots = Roots.of(coeffs);
-    assertEquals(roots, Tensors.vector(1, 1, 1));
-    ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
-    Tensor tensor = roots.map(scalarUnaryOperator);
-    assertEquals(tensor, Array.zeros(3));
-  }
-
-  public void testMonomialQuadShift() {
-    Tensor coeffs = Tensors.vector(1, 1, -1, -1);
-    Tensor roots = Roots.of(coeffs);
-    Map<Tensor, Long> map = Tally.of(roots);
-    assertEquals((long) map.get(RealScalar.ONE), 1);
-    assertEquals((long) map.get(RealScalar.ONE.negate()), 2);
-    ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
-    Tensor tensor = roots.map(scalarUnaryOperator);
-    assertTrue(Chop._07.allZero(tensor));
-  }
-
-  public void testCubicQuantity() {
-    Tensor coeffs = Tensors.fromString("{2[m^-5], 3[m^-4], 4[m^-3], 5[m^-2]}");
-    Tensor roots = Roots.of(coeffs);
-    ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
-    Tensor tensor = roots.map(scalarUnaryOperator);
-    assertTrue(Chop._13.allZero(tensor));
-    Tensor depres = RootsDegree3.depress(coeffs);
-    Chop._10.requireClose(depres, roots);
-  }
-
-  public void testCubicNumerics() {
-    Tensor coeffs = Tensors.vector(0.7480756509468256, -0.11264914570345713, 0.5215628590156208, -0.8016542468533115);
-    Tensor roots = Roots.of(coeffs);
-    ScalarUnaryOperator scalarUnaryOperator = Series.of(coeffs);
-    Tensor tensor = roots.map(scalarUnaryOperator);
-    assertTrue(Chop._05.allZero(tensor));
-    Tensor depres = RootsDegree3.depress(coeffs);
-    Chop._10.requireClose(depres, roots);
-  }
-
-  public void testCubicChallenge() {
-    Tensor coeffs = Tensors.vector(1.8850384838238452, -0.07845356111460325, -0.6128180724984655, -1.5845220466594934);
-    Tensor roots = Roots.of(coeffs);
-    Scalar m0 = Scalars.fromString("-0.6590816994450482 - 0.9180824258012533 * I");
-    Scalar m1 = Scalars.fromString("-0.6590816994450482 + 0.9180824258012533 * I");
-    Scalar m2 = RealScalar.of(0.9314107665802999);
-    assertTrue(roots.stream().map(scalar -> scalar.subtract(m0)).anyMatch(Chop._05::allZero));
-    assertTrue(roots.stream().map(scalar -> scalar.subtract(m1)).anyMatch(Chop._05::allZero));
-    assertTrue(roots.stream().map(scalar -> scalar.subtract(m2)).anyMatch(Chop._05::allZero));
-  }
-  // {4.403491745360149, -3.6065243114260417, -4.588031155616683, -4.8648946627594114E-4}
 
   public void testCubicChallenge2() {
     Tensor coeffs = Tensors.vector(1.5583019232667707, 0.08338030361650195, 0.5438230916311243, 1.1822223716596811);
     ScalarUnaryOperator polynomial = Series.of(coeffs);
     // roots obtained by Mathematica:
-    Chop._12.requireAllZero(polynomial.apply(RealScalar.of(-1.2487729899770943)));
+    Scalar cR = RealScalar.of(-1.2487729899770943);
+    Chop._12.requireAllZero(polynomial.apply(cR));
     Scalar cP = ComplexScalar.of(0.3943861563603456, +0.9486756887529066);
     Scalar cN = ComplexScalar.of(0.3943861563603456, -0.9486756887529066);
     Chop._12.requireAllZero(polynomial.apply(cP));
     Chop._12.requireAllZero(polynomial.apply(cN));
-    try {
-      Roots.of(coeffs);
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
+    Tensor roots = Roots.of(coeffs);
+    assertTrue(roots.stream().map(root -> root.subtract(cR)).anyMatch(Chop._12::allZero));
+    assertTrue(roots.stream().map(root -> root.subtract(cP)).anyMatch(Chop._12::allZero));
+    assertTrue(roots.stream().map(root -> root.subtract(cN)).anyMatch(Chop._12::allZero));
+    Tensor rootz = RootsDegree3Full.of(coeffs);
+    assertTrue(rootz.stream().map(root -> root.subtract(cR)).anyMatch(Chop._07::allZero));
+    assertTrue(rootz.stream().map(root -> root.subtract(cP)).anyMatch(Chop._07::allZero));
+    assertTrue(rootz.stream().map(root -> root.subtract(cN)).anyMatch(Chop._07::allZero));
+  }
+
+  public void testRoots3() {
+    Tensor roots = Tensors.vector(0.27349919995262256, 0.28215588800565544, 0.3056009752969802);
+    Tensor coeffs = CoefficientList.of(roots);
+    Chop._09.requireClose(roots, Sort.of(RootsDegree3Full.of(coeffs)));
+    Chop._12.requireClose(roots, Sort.of(RootsDegree3.of(coeffs)));
+  }
+
+  public void testTriple1() {
+    // {0.22765732048577852, 0.22765732048577852, 0.22765732048577852}
+    Tensor roots = Tensors.vector(2.146361758590232, 2.146361758590232, 2.146361758590232);
+    Tensor coeffs = CoefficientList.of(roots);
+    Tensor r1 = RootsDegree3Full.of(coeffs);
+    Tensor r2 = RootsDegree3.of(coeffs);
+    Chop._12.requireClose(roots, r1);
+    Chop._12.requireClose(roots, r2);
+  }
+
+  public void testTriple2() {
+    Tensor roots = Tensors.vector(0.22765732048577852, 0.22765732048577852, 0.22765732048577852);
+    Tensor coeffs = CoefficientList.of(roots);
+    Tensor r1 = RootsDegree3Full.of(coeffs);
+    Tensor r2 = RootsDegree3.of(coeffs);
+    Chop._12.requireClose(roots, r1);
+    Chop._12.requireClose(roots, r2);
   }
 }

@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.io.Serializable;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
@@ -9,113 +10,106 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.red.Times;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Real;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
-/* package */ enum RootsDegree3 {
-  ;
-  private static final Scalar _2 = RealScalar.of(2);
+/** converts general cubic polynomial to depressed form, i.e.
+ * the quadratic term vanishes.
+ * 
+ * numerical tests suggest that the zero check tolerance is
+ * lower when using the depressed form.
+ * 
+ * therefore the implementation below is chosen as default when
+ * computing roots of cubic polynomials. */
+/* package */ class RootsDegree3 implements Serializable {
   private static final Scalar _3 = RealScalar.of(3);
+  private static final Scalar N1_2 = RationalScalar.of(-1, 2);
   private static final Scalar _1_3 = RationalScalar.of(1, 3);
   private static final Scalar _2_3 = RationalScalar.of(2, 3);
   private static final Scalar _4 = RealScalar.of(4);
   private static final Scalar _6 = RealScalar.of(6);
-  private static final Scalar _9 = RealScalar.of(9);
-  private static final Scalar _18 = RealScalar.of(18);
   private static final Scalar _27 = RealScalar.of(27);
   private static final Scalar P1_3 = Power.of(2, _1_3);
   private static final Scalar R1_2 = P1_3.negate();
-  private static final Scalar R1_3 = _3.reciprocal();
   private static final Scalar R2_2 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3)).divide(Power.of(2, _2_3));
   private static final Scalar R2_3 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3).negate()).divide(_6).negate();
   private static final Scalar R3_2 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3).negate()).divide(Power.of(2, _2_3));
   private static final Scalar R3_3 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3)).divide(_6).negate();
+  private static final ScalarUnaryOperator POWER_1_3 = Power.function(_1_3);
+  private static final Tensor ZEROS = Array.zeros(3);
 
-  private static Scalar discriminant(Scalar d, Scalar c, Scalar b, Scalar a) {
-    Scalar c1 = Times.of(_18, a, b, c, d);
-    Scalar c2 = Times.of(_4, b, b, b, d);
-    Scalar c3 = Times.of(b, b, c, c);
-    Scalar c4 = Times.of(_4, a, c, c, c);
-    Scalar c5 = Times.of(_27, a, a, d, d);
-    return c1.subtract(c2).add(c3).subtract(c4).subtract(c5);
+  public static Tensor of(Tensor coeffs) {
+    return new RootsDegree3(coeffs).roots();
+  }
+
+  // ---
+  private final Scalar d;
+  private final Scalar c;
+  private final Scalar a;
+  private final Scalar shift;
+
+  public RootsDegree3(Tensor _coeffs) {
+    Scalar _d = _coeffs.Get(0);
+    Scalar _c = _coeffs.Get(1);
+    Scalar _b = _coeffs.Get(2);
+    Scalar _a = _coeffs.Get(3);
+    shift = _b.divide(_a).multiply(_1_3).negate();
+    Scalar bs = _b.multiply(shift);
+    Scalar bs2 = bs.multiply(shift);
+    d = _d.add(bs2.multiply(_2_3)).add(_c.multiply(shift));
+    c = _c.add(bs);
+    a = _a;
+  }
+
+  public Tensor roots() {
+    return _roots().map(shift::add);
   }
 
   /** @param coeffs vector of length 4
    * @return vector of length 3 */
-  static Tensor of(Tensor coeffs) {
-    return of(coeffs.Get(0), coeffs.Get(1), coeffs.Get(2), coeffs.Get(3));
-  }
-
-  static Tensor depress(Tensor coeffs) {
-    Scalar d = coeffs.Get(0);
-    Scalar c = coeffs.Get(1);
-    Scalar b = coeffs.Get(2);
-    Scalar a = coeffs.Get(3);
-    Scalar fac = b.divide(Times.of(_3, a)).negate();
-    return of( //
-        d.add(Times.of(_2, b, fac, fac).divide(_3)).add(c.multiply(fac)), //
-        c.add(b.multiply(fac)), //
-        RealScalar.ZERO, a).map(fac::add);
-  }
-
-  /** naming convention of wikipedia
-   * 
-   * @param d
-   * @param c
-   * @param b
-   * @param a
-   * @return vector of length 3 */
-  static Tensor of(Scalar d, Scalar c, Scalar b, Scalar a) {
-    Scalar D = discriminant(d, c, b, a);
+  private Tensor _roots() {
+    Scalar _27aa = _27.multiply(a).multiply(a);
+    Scalar D1 = _27aa.multiply(d); // wikipedia up to sign
+    Scalar Dn = Times.of(_4, a, c, c, c).add(D1.multiply(d));
     //
-    Scalar _3a = a.multiply(_3);
-    Scalar b_3a = b.divide(_3a).negate();
+    Scalar _3a = _3.multiply(a);
+    Scalar _3ac = _3a.multiply(c); // D0 wikipedia up to sign
     //
-    Scalar b2 = b.multiply(b);
-    Scalar D0 = Times.of(_3a, c).subtract(b2); // wikipedia up to sign
-    //
-    Scalar b3 = b2.multiply(b);
-    Scalar D1 = Times.of(_9, a, b, c).subtract(b3.add(b3)).subtract(Times.of(_27, a, a, d)); // wikipedia up to sign
-    //
-    Scalar C = Power.of(D1.add(Sqrt.FUNCTION.apply(Times.of(_4, D0, D0, D0).add(Times.of(D1, D1)))), _1_3);
-    if (Chop._10.allZero(D)) {
-      if (Chop._10.allZero(D0))
-        return Tensors.of(b_3a, b_3a, b_3a);
-      Scalar dr = Times.of(_9, a, d).subtract(b.multiply(c)).divide(D0.add(D0)).negate();
-      Scalar srn = Times.of(_4, a, b, c).subtract(Times.of(_3a, _3a, d)).subtract(b3);
-      Scalar srd = Times.of(a, D0.negate());
-      return Tensors.of(dr, dr, srn.divide(srd));
+    if (Chop._13.allZero(Dn)) {
+      if (Chop._13.allZero(_3ac))
+        return ZEROS;
+      Scalar _3d_c = d.divide(c).multiply(_3);
+      Scalar dr = _3d_c.multiply(N1_2);
+      return Tensors.of(dr, dr, _3d_c);
     }
     //
-    Scalar s2_den = _3a.multiply(C);
+    Scalar res = Sqrt.FUNCTION.apply(_27aa.multiply(Dn));
+    Scalar D1n = D1.negate();
+    // either sign in front of the square root may be chosen unless D0 = 0 in which case
+    // the sign must be chosen so that the two terms inside the cube root do not cancel.
+    Scalar cp = D1n.add(res);
+    Scalar cn = D1n.subtract(res);
+    Scalar C = POWER_1_3.apply(Scalars.lessThan(cn.abs(), cp.abs()) ? cp : cn);
     //
-    Scalar s3 = C.divide(Times.of(P1_3, a));
-    boolean s2_den_zero = Scalars.isZero(s2_den);
-    if (s2_den_zero && Scalars.nonZero(D0))
-      throw TensorRuntimeException.of(d, c, b, a);
-    Scalar s2 = s2_den_zero //
-        ? D0 //
-        : D0.divide(s2_den);
+    Scalar s2 = c.divide(C);
+    Scalar s3 = C.divide(a).divide(P1_3);
     Tensor roots = Tensors.of( //
-        b_3a.add(R1_2.multiply(s2)).add(R1_3.multiply(s3)), //
-        b_3a.add(R2_2.multiply(s2)).add(R2_3.multiply(s3)), //
-        b_3a.add(R3_2.multiply(s2)).add(R3_3.multiply(s3)));
-    boolean isReal = Stream.of(d, c, b, a) //
-        .map(Scalar.class::cast) //
-        .map(Imag.FUNCTION) //
-        .allMatch(Scalars::isZero);
+        R1_2.multiply(s2).add(_1_3.multiply(s3)), //
+        R2_2.multiply(s2).add(R2_3.multiply(s3)), //
+        R3_2.multiply(s2).add(R3_3.multiply(s3)));
+    boolean isReal = Stream.of(d, c, a).map(Imag.FUNCTION).allMatch(Scalars::isZero);
     if (isReal) {
-      if (Sign.isPositiveOrZero(D)) {
+      if (Sign.isNegativeOrZero(Dn)) { // discriminant
         // positive: the equation has three distinct real roots
         // zero: the equation has a multiple root and all of its roots are real
-        return Sort.of(Real.of(roots));
+        return Real.of(roots);
       }
       // the equation has one real root and two non-real complex conjugate roots
     }
