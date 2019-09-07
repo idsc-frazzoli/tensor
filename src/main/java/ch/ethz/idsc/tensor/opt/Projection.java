@@ -41,6 +41,6 @@ public class Projection implements TensorUnaryOperator {
 
   @Override // from TensorUnaryOperator
   public Tensor apply(Tensor u) {
-    return vs.multiply(vc.dot(u).Get());
+    return vc.dot(u).pmul(vs);
   }
 }

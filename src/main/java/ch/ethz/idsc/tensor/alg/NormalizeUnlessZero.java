@@ -8,7 +8,7 @@ import ch.ethz.idsc.tensor.opt.TensorScalarFunction;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 import ch.ethz.idsc.tensor.red.Norm;
 
-/** @throws Exception if input is not a vector
+/** @throws Exception if input is not a vector, or is empty
  * @throws Exception if vector contains Infinity, or NaN */
 public class NormalizeUnlessZero extends Normalize {
   /** @param norm

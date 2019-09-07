@@ -18,6 +18,7 @@ import ch.ethz.idsc.tensor.sca.Real;
 import ch.ethz.idsc.tensor.sca.Sign;
 import ch.ethz.idsc.tensor.sca.Sqrt;
 
+/** class exists only for testing */
 /* package */ enum RootsDegree3Full {
   ;
   private static final Scalar _3 = RealScalar.of(3);
@@ -30,7 +31,6 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private static final Scalar _27 = RealScalar.of(27);
   private static final Scalar P1_3 = Power.of(2, _1_3);
   private static final Scalar R1_2 = P1_3.negate();
-//  private static final Scalar R1_3 = _3.reciprocal();
   private static final Scalar R2_2 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3)).divide(Power.of(2, _2_3));
   private static final Scalar R2_3 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3).negate()).divide(_6).negate();
   private static final Scalar R3_2 = ComplexScalar.of(RealScalar.ONE, Sqrt.of(_3).negate()).divide(Power.of(2, _2_3));
