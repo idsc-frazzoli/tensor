@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 
 public class ImageResizeTest extends TestCase {
   public void testImage1() throws Exception {
-    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    File file = new File(getClass().getResource("/io/image/rgba15x33.png").getFile());
     Tensor tensor = Import.of(file);
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
     Tensor image = ImageResize.nearest(tensor, 2);
@@ -22,7 +22,7 @@ public class ImageResizeTest extends TestCase {
   }
 
   public void testImage2() throws Exception {
-    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    File file = new File(getClass().getResource("/io/image/rgba15x33.png").getFile());
     Tensor tensor = Import.of(file);
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
     Tensor image = ImageResize.nearest(tensor, 2, 3);

@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 
 public class ImportHelperTest extends TestCase {
   public void testGif() throws Exception {
-    String string = "/io/rgba7x3.gif"; // file consist of a single line break character
+    String string = "/io/image/rgba7x3.gif"; // file consist of a single line break character
     File file = new File(getClass().getResource(string).getFile());
     Tensor tensor = Import.of(file);
     assertEquals(Dimensions.of(tensor), Arrays.asList(3, 7, 4));

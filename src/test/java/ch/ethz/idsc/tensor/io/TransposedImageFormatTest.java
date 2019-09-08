@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 
 public class TransposedImageFormatTest extends TestCase {
   static Tensor _readRGBA() throws IOException {
-    File file = new File(TransposedImageFormatTest.class.getResource("/io/rgba15x33.png").getFile());
+    File file = new File(TransposedImageFormatTest.class.getResource("/io/image/rgba15x33.png").getFile());
     assertTrue(file.isFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     return TransposedImageFormat.from(bufferedImage);
@@ -42,7 +42,7 @@ public class TransposedImageFormatTest extends TestCase {
   }
 
   public void testGrayFile() throws Exception {
-    File file = new File(getClass().getResource("/io/gray15x9.png").getFile());
+    File file = new File(getClass().getResource("/io/image/gray15x9.png").getFile());
     assertTrue(file.isFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor tensor = TransposedImageFormat.from(bufferedImage);
@@ -54,7 +54,7 @@ public class TransposedImageFormatTest extends TestCase {
   }
 
   public void testGrayJpg() throws Exception {
-    File file = new File(getClass().getResource("/io/gray15x9.jpg").getFile());
+    File file = new File(getClass().getResource("/io/image/gray15x9.jpg").getFile());
     assertTrue(file.isFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor tensor = TransposedImageFormat.from(bufferedImage);
@@ -79,14 +79,14 @@ public class TransposedImageFormatTest extends TestCase {
   }
 
   public void testRGBAConvert() throws Exception {
-    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    File file = new File(getClass().getResource("/io/image/rgba15x33.png").getFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor tensor = TransposedImageFormat.from(bufferedImage);
     assertEquals(tensor, TransposedImageFormat.from(TransposedImageFormat.of(tensor)));
   }
 
   public void testRGBASmooth() throws Exception {
-    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    File file = new File(getClass().getResource("/io/image/rgba15x33.png").getFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor tensor = TransposedImageFormat.from(bufferedImage);
     Tensor kernel = Array.of(l -> RationalScalar.of(1, 6), 3, 2, 1);
@@ -95,7 +95,7 @@ public class TransposedImageFormatTest extends TestCase {
   }
 
   public void testRGBAInvalid() throws Exception {
-    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    File file = new File(getClass().getResource("/io/image/rgba15x33.png").getFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor tensor = TransposedImageFormat.from(bufferedImage);
     Tensor kernel = Array.of(l -> RationalScalar.of(1, 1), 3, 5, 1);

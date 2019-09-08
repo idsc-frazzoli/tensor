@@ -39,7 +39,7 @@ public class LanczosInterpolationTest extends TestCase {
   }
 
   public void testImage() {
-    String string = "/io/gray15x9.png";
+    String string = "/io/image/gray15x9.png";
     Tensor tensor = ResourceData.of(string);
     assertEquals(Dimensions.of(tensor), Arrays.asList(9, 15));
     Interpolation interpolation = LanczosInterpolation.of(tensor, 2);
@@ -50,7 +50,7 @@ public class LanczosInterpolationTest extends TestCase {
   }
 
   public void testImage3() {
-    String string = "/io/gray15x9.png";
+    String string = "/io/image/gray15x9.png";
     Tensor tensor = ResourceData.of(string);
     assertEquals(Dimensions.of(tensor), Arrays.asList(9, 15));
     Interpolation interpolation = LanczosInterpolation.of(tensor);

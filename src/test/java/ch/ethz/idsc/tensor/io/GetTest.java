@@ -20,7 +20,7 @@ public class GetTest extends TestCase {
   }
 
   public void testBinary() throws IOException { // this use is not as intended
-    File file = new File(getClass().getResource("/io/rgb7x11.bmp").getFile());
+    File file = new File(getClass().getResource("/io/image/rgb7x11.bmp").getFile());
     Tensor tensor = Get.of(file);
     assertTrue(tensor instanceof StringScalar);
   }

@@ -56,26 +56,26 @@ public class ResourceDataTest extends TestCase {
   }
 
   public void testBufferedImagePng() {
-    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/rgba15x33.png");
+    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/image/rgba15x33.png");
     assertEquals(bufferedImage.getWidth(), 15);
     assertEquals(bufferedImage.getHeight(), 33);
     assertEquals(bufferedImage.getType(), BufferedImage.TYPE_4BYTE_ABGR);
   }
 
   public void testBufferedImageJpg() {
-    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/rgb15x33.jpg");
+    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/image/rgb15x33.jpg");
     assertEquals(bufferedImage.getWidth(), 15);
     assertEquals(bufferedImage.getHeight(), 33);
     assertEquals(bufferedImage.getType(), BufferedImage.TYPE_3BYTE_BGR);
   }
 
   public void testJpg() {
-    Tensor image = ResourceData.of("/io/rgb15x33.jpg");
+    Tensor image = ResourceData.of("/io/image/rgb15x33.jpg");
     assertEquals(Dimensions.of(image), Arrays.asList(33, 15, 4));
   }
 
   public void testBufferedImageBmp() {
-    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/rgb7x11.bmp");
+    BufferedImage bufferedImage = ResourceData.bufferedImage("/io/image/rgb7x11.bmp");
     assertEquals(bufferedImage.getWidth(), 7);
     assertEquals(bufferedImage.getHeight(), 11);
     assertEquals(bufferedImage.getType(), BufferedImage.TYPE_3BYTE_BGR);
@@ -86,7 +86,7 @@ public class ResourceDataTest extends TestCase {
   }
 
   public void testBmp() {
-    Tensor image = ResourceData.of("/io/rgb7x11.bmp");
+    Tensor image = ResourceData.of("/io/image/rgb7x11.bmp");
     assertEquals(Dimensions.of(image), Arrays.asList(11, 7, 4));
     assertEquals(image.get(10, 4), Tensors.vector(0, 7, 95, 255));
   }
