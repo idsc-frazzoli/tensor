@@ -15,7 +15,8 @@ import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Power;
 import ch.ethz.idsc.tensor.sca.Sign;
 
-/** <p>The InverseCDF at p == 1 is not defined.
+/** Hint:
+ * The InverseCDF of a FrechetDistribution at p == 1 is not defined.
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/FrechetDistribution.html">FrechetDistribution</a> */

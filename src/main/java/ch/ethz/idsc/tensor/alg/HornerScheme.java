@@ -17,7 +17,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 /* package */ class HornerScheme implements ScalarUnaryOperator {
   private final Tensor reversed;
 
-  /* package */ HornerScheme(Tensor coeffs) {
+  public HornerScheme(Tensor coeffs) {
     reversed = Reverse.of(coeffs);
   }
 

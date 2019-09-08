@@ -25,20 +25,6 @@ public class SeriesTest extends TestCase {
     assertTrue(ExactScalarQ.of(scalar));
   }
 
-  public void testHorner1() {
-    Tensor coeffs = Tensors.vector(-3, 4);
-    Scalar actual = Series.of(coeffs).apply(RealScalar.of(2));
-    Scalar expected = RealScalar.of(-3 + 2 * 4);
-    assertEquals(expected, actual);
-  }
-
-  public void testHorner2() {
-    Tensor coeffs = Tensors.vector(-3, 4, -5);
-    Scalar actual = Series.of(coeffs).apply(RealScalar.of(2));
-    Scalar expected = RealScalar.of(-3 + 4 * (2) - 5 * (2 * 2));
-    assertEquals(expected, actual);
-  }
-
   public void testGauss() {
     Scalar scalar1 = Series.of(Tensors.of( //
         GaussScalar.of(2, 7), GaussScalar.of(4, 7), GaussScalar.of(5, 7))) //

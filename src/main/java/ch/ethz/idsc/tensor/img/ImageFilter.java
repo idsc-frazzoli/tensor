@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.alg.Dimensions;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ImageFilter.html">ImageFilter</a> */
-public class ImageFilter extends AbstractExtract {
+public class ImageFilter {
   /** @param tensor not a scalar
    * @param radius non-negative
    * @param function non-null
@@ -30,10 +30,13 @@ public class ImageFilter extends AbstractExtract {
   }
 
   // ---
+  private final Tensor tensor;
+  private final int radius;
   private final List<Integer> dimensions;
 
   private ImageFilter(Tensor tensor, int radius) {
-    super(tensor, radius);
+    this.tensor = tensor;
+    this.radius = radius;
     dimensions = Dimensions.of(tensor);
   }
 

@@ -48,6 +48,7 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
 
   /** precomputes a lookup map and determines numeric upper bound
    * 
+   * @param chop
    * @see PascalDistribution */
   protected void inverse_cdf_build(Chop chop) {
     int upperBound = lowerBound();
@@ -76,6 +77,9 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
     return inverse_cdf.higherEntry(p).getValue();
   }
 
+  /** function for testing
+   * 
+   * @return */
   /* package */ final NavigableMap<Scalar, Scalar> inverse_cdf() {
     return Collections.unmodifiableNavigableMap(inverse_cdf);
   }

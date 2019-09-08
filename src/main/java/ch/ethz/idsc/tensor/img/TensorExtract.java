@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.TensorMap;
 import ch.ethz.idsc.tensor.alg.TensorRank;
 
-/* package */ class TensorExtract extends AbstractExtract {
+/* package */ class TensorExtract {
   /** @param tensor not a scalar
    * @param radius non-negative
    * @param function
@@ -33,10 +33,13 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
   }
 
   // ---
+  private final Tensor tensor;
+  private final int radius;
   private final int length;
 
   private TensorExtract(Tensor tensor, int radius) {
-    super(tensor, radius);
+    this.tensor = tensor;
+    this.radius = radius;
     length = tensor.length();
   }
 
