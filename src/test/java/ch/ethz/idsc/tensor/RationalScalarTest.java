@@ -39,9 +39,9 @@ public class RationalScalarTest extends TestCase {
   }
 
   public void testNegate() {
-    Scalar scalar = RationalScalar.of(3, 17);
-    assertEquals(scalar.negate(), RationalScalar.of(3, -17));
-    assertEquals(scalar.negate().toString(), "-3/17");
+    Scalar scalar = RationalScalar.of(3, 17).negate();
+    assertEquals(scalar, RationalScalar.of(3, -17));
+    assertEquals(scalar.toString(), "-3/17");
   }
 
   public void testTensor() {

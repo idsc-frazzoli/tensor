@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor;
 
 import java.util.Iterator;
 
+import ch.ethz.idsc.tensor.alg.UnitVector;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import junit.framework.TestCase;
 
@@ -76,7 +77,10 @@ public class TensorImplTest extends TestCase {
     Tensor eye = IdentityMatrix.of(4).unmodifiable().copy();
     for (Tensor unit : eye)
       unit.set(RealScalar.of(4), 2);
+    assertEquals(eye.get(Tensor.ALL, 0), UnitVector.of(4, 0));
+    assertEquals(eye.get(Tensor.ALL, 1), UnitVector.of(4, 1));
     assertEquals(eye.get(Tensor.ALL, 2), Tensors.vector(4, 4, 4, 4));
+    assertEquals(eye.get(Tensor.ALL, 3), UnitVector.of(4, 3));
   }
 
   public void testExtract() {

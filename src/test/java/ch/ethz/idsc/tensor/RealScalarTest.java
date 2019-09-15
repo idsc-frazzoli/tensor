@@ -94,7 +94,8 @@ public class RealScalarTest extends TestCase {
 
   public void testCreateFail() {
     Number number = new AtomicInteger(123);
-    RealScalar.of(number.intValue());
+    Scalar scalar = RealScalar.of(number.intValue());
+    assertEquals(scalar, RealScalar.of(123));
     try {
       RealScalar.of(number);
       fail();

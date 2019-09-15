@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.opt.Pi;
 import junit.framework.TestCase;
 
 public class TensorRuntimeExceptionTest extends TestCase {
@@ -34,8 +35,8 @@ public class TensorRuntimeExceptionTest extends TestCase {
   }
 
   public void testMessage() {
-    Exception exception = TensorRuntimeException.of();
-    assertEquals(exception.getMessage(), "");
+    Exception exception = TensorRuntimeException.of(Pi.VALUE);
+    assertEquals(exception.getMessage(), "3.141592653589793");
   }
 
   public void testNull() {
