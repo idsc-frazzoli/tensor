@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.DoubleScalar;
+import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -63,6 +64,15 @@ public class LogTest extends TestCase {
     // Mathematica ................. -0.1667368328837891, -0.22749179210112070I
     Scalar result = ComplexScalar.of(-0.1667368328837892, -0.22749179210112075);
     Chop._12.requireClose(scalar, result);
+  }
+
+  public void testBaseZero() {
+    ScalarUnaryOperator scalarUnaryOperator = Log.base(0);
+    assertEquals(scalarUnaryOperator.apply(RealScalar.of(+4)), RealScalar.ZERO);
+    assertEquals(scalarUnaryOperator.apply(RealScalar.of(-4)), RealScalar.ZERO);
+    Scalar scalar = scalarUnaryOperator.apply(RealScalar.of(0));
+    assertTrue(Double.isNaN(scalar.number().doubleValue()));
+    assertFalse(NumberQ.of(scalar));
   }
 
   public void testBaseOneFail() {

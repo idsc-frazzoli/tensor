@@ -39,7 +39,7 @@ public enum Partition {
    * @return tensor of rank one higher than input tensor
    * @throws Exception if given tensor is a scalar */
   public static Tensor of(Tensor tensor, int size, int offset) {
-    return Tensor.of(stream(tensor, size, offset)); //
+    return Tensor.of(stream(tensor, size, offset));
   }
 
   /** Partition.stream[{a, b, c, d, e, f, g}, 3, 2] == stream {a, b, c}, {c, d, e}, {e, f, g}
