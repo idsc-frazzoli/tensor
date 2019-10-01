@@ -176,6 +176,24 @@ public class RationalScalarTest extends TestCase {
     assertFalse(((RationalScalar) RationalScalar.of(-5, 2)).isInteger());
   }
 
+  public void testDivideZeroFail() {
+    try {
+      RealScalar.ONE.divide(RealScalar.ZERO);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testZeroUnderFail() {
+    try {
+      RealScalar.ZERO.under(RealScalar.ONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testNullFail() {
     try {
       RationalScalar.of(null, BigInteger.ONE);

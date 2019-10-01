@@ -7,16 +7,22 @@ import java.util.Objects;
 
 /** immutable integer fraction in normal form, i.e. denominator is strictly positive */
 /* package */ final class BigFraction implements Serializable {
+  private static final String DIVIDE = "/";
+
   /** @param value
    * @return big fraction that represents the integer value */
   public static BigFraction integer(long value) {
-    return new BigFraction(BigInteger.valueOf(value), BigInteger.ONE);
+    return new BigFraction( //
+        BigInteger.valueOf(value), //
+        BigInteger.ONE);
   }
 
   /** @param value
    * @return big fraction that represents the integer value */
   public static BigFraction integer(BigInteger value) {
-    return new BigFraction(value, BigInteger.ONE);
+    return new BigFraction( //
+        value, //
+        BigInteger.ONE);
   }
 
   /** @param num numerator
@@ -24,7 +30,9 @@ import java.util.Objects;
    * @return
    * @throws {@link ArithmeticException} if den is zero */
   public static BigFraction of(long num, long den) {
-    return of(BigInteger.valueOf(num), BigInteger.valueOf(den));
+    return of( //
+        BigInteger.valueOf(num), //
+        BigInteger.valueOf(den));
   }
 
   /** @param num numerator
@@ -33,7 +41,7 @@ import java.util.Objects;
    * @throws {@link ArithmeticException} if den is zero */
   public static BigFraction of(BigInteger num, BigInteger den) {
     if (den.signum() == 0)
-      throw new ArithmeticException(num + "/" + den);
+      throw new ArithmeticException(num + DIVIDE + den);
     return create(num, den);
   }
 
@@ -70,7 +78,7 @@ import java.util.Objects;
   public BigFraction add(BigFraction bigFraction) {
     return create( //
         num.multiply(bigFraction.den).add(bigFraction.num.multiply(den)), //
-        den.multiply(bigFraction.den));
+        den.multiply(bigFraction.den)); // denominators are non-zero
   }
 
   /** multiplication, applies gcd 1x
@@ -78,22 +86,29 @@ import java.util.Objects;
    * @param bigFraction
    * @return */
   public BigFraction multiply(BigFraction bigFraction) {
-    return create(num.multiply(bigFraction.num), den.multiply(bigFraction.den));
+    return create( //
+        num.multiply(bigFraction.num), //
+        den.multiply(bigFraction.den)); // denominators are non-zero
   }
 
   /** division, applies gcd 1x
    * 
    * @param bigFraction
-   * @return */
+   * @return this / bigFraction
+   * @throws Exception if given bigFraction is zero */
   public BigFraction divide(BigFraction bigFraction) {
-    return create(num.multiply(bigFraction.den), den.multiply(bigFraction.num));
+    if (bigFraction.signum() == 0)
+      throw new ArithmeticException(bigFraction.den + DIVIDE + bigFraction.num);
+    return create( //
+        num.multiply(bigFraction.den), //
+        den.multiply(bigFraction.num));
   }
 
   /** @return reciprocal == den/num */
   public BigFraction reciprocal() {
     int signum = signum();
     if (signum == 0)
-      throw new ArithmeticException(den + "/" + num);
+      throw new ArithmeticException(den + DIVIDE + num);
     return signum == 1 //
         ? new BigFraction(den, num) //
         : new BigFraction(den.negate(), num.negate()); //
@@ -102,7 +117,7 @@ import java.util.Objects;
   public String toCompactString() {
     StringBuilder stringBuilder = new StringBuilder(num.toString());
     if (!isInteger())
-      stringBuilder.append("/" + den.toString());
+      stringBuilder.append(DIVIDE + den.toString());
     return stringBuilder.toString();
   }
 
@@ -111,14 +126,17 @@ import java.util.Objects;
     return den.equals(BigInteger.ONE);
   }
 
+  /** @return -1, 0 or 1 as the value of this BigFraction is negative, zero or positive */
   public int signum() {
     return num.signum();
   }
 
+  /** @return numerator of this BigFraction */
   public BigInteger numerator() {
     return num;
   }
 
+  /** @return denominator of this BigFraction */
   public BigInteger denominator() {
     return den;
   }

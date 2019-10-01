@@ -11,6 +11,17 @@ public class BigFractionTest extends TestCase {
     assertEquals(BigFraction.of(24, -7).toCompactString(), "-24/7");
   }
 
+  public void testDivide() {
+    BigFraction num = BigFraction.of(1, 1);
+    BigFraction den = BigFraction.of(0, 1);
+    try {
+      num.divide(den);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testHash() {
     assertEquals(BigFraction.of(7, 3).hashCode(), 1181);
     assertEquals(BigFraction.of(3, 7).hashCode(), 1061);
