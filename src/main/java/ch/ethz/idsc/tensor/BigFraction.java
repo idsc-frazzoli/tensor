@@ -114,13 +114,6 @@ import java.util.Objects;
         : new BigFraction(den.negate(), num.negate()); //
   }
 
-  public String toCompactString() {
-    StringBuilder stringBuilder = new StringBuilder(num.toString());
-    if (!isInteger())
-      stringBuilder.append(DIVIDE + den.toString());
-    return stringBuilder.toString();
-  }
-
   /** @return true if the fraction encodes an integer, i.e. if the denominator equals 1 */
   public boolean isInteger() {
     return den.equals(BigInteger.ONE);
@@ -150,8 +143,15 @@ import java.util.Objects;
 
   /***************************************************/
   @Override // from Object
+  public String toString() {
+    return isInteger() //
+        ? num.toString()
+        : num.toString() + DIVIDE + den.toString();
+  }
+
+  @Override // from Object
   public int hashCode() {
     return Objects.hash(num, den);
   }
-  // intentional: no override of Object::equals
+  // intentional: no override of Object::equals(Object)
 }

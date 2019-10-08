@@ -259,6 +259,6 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    return bigFraction.toCompactString();
+    return bigFraction.toString();
   }
 }

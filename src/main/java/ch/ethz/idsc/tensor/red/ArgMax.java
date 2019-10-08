@@ -16,7 +16,8 @@ public enum ArgMax {
   /** @param tensor
    * @param comparator
    * @return index of maximum entry in tensor according to comparator,
-   * or -1 if tensor is empty */
+   * or -1 if tensor is empty
+   * @throws Exception if given tensor is a scalar */
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> int of(Tensor tensor, Comparator<T> comparator) {
     if (Tensors.isEmpty(tensor))
@@ -40,7 +41,8 @@ public enum ArgMax {
    * </pre>
    * 
    * @param tensor
-   * @return index of maximum entry in tensor, or -1 if tensor is empty */
+   * @return index of maximum entry in tensor, or -1 if tensor is empty
+   * @throws Exception if given tensor is a scalar */
   @SuppressWarnings("unchecked")
   public static <T extends Comparable<T>> int of(Tensor tensor) {
     if (Tensors.isEmpty(tensor))
