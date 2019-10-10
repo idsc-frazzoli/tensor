@@ -1,11 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.NumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
 import ch.ethz.idsc.tensor.qty.Unit;
@@ -14,9 +17,9 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class GompertzMakehamDistributionTest extends TestCase {
-  public void testPDF() {
+  public void testPDF() throws ClassNotFoundException, IOException {
     Distribution distribution = //
-        GompertzMakehamDistribution.of(RealScalar.of(3), RealScalar.of(0.2));
+        Serialization.copy(GompertzMakehamDistribution.of(RealScalar.of(3), RealScalar.of(0.2)));
     PDF pdf = PDF.of(distribution);
     Scalar prob = pdf.at(RealScalar.of(0.35));
     assertTrue(Chop._13.close(prob, RealScalar.of(1.182515740643019)));

@@ -47,7 +47,7 @@ public class FrechetDistribution extends AbstractAlphaBetaDistribution implement
   @Override
   protected Scalar randomVariate(double reference) {
     // avoid result -Infinity when reference is close to 1.0
-    double uniform = reference == NEXTDOWNONE //
+    double uniform = reference == NEXT_DOWN_ONE //
         ? reference
         : Math.nextUp(reference);
     return quantile_unit(DoubleScalar.of(uniform));

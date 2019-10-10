@@ -1,6 +1,8 @@
 // code by clruch
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -19,7 +21,8 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * <p>inspired by
  * <a href="https://en.wikipedia.org/wiki/Trapezoidal_distribution">TrapezoidalDistribution</a> */
-public class TrapezoidalDistribution extends AbstractContinuousDistribution implements InverseCDF, MeanInterface {
+public class TrapezoidalDistribution extends AbstractContinuousDistribution implements //
+    InverseCDF, MeanInterface, Serializable {
   private static final Scalar _1_3 = RationalScalar.of(1, 3);
 
   /** @param a

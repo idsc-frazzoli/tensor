@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -16,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
 public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements //
-    CDF, VarianceInterface {
+    CDF, VarianceInterface, Serializable {
   /** Example:
    * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/10 for 0 <= x < 10 and x integer
    * 

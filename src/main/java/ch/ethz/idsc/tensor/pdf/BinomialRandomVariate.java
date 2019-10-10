@@ -10,7 +10,7 @@ import ch.ethz.idsc.tensor.Scalar;
 
 /** fallback option to robustly generate random variates from a
  * {@link BinomialDistribution} for any parameters n and p.
- * The complexity of the generation is O(n).
+ * The complexity of a single random variate generation is O(n).
  * 
  * For large n, and p away from 0, or 1, the option to approximate the
  * distribution as a {@link NormalDistribution} should be considered.

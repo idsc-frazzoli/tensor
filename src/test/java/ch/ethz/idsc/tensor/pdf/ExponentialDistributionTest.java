@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.MachineNumberQ;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -8,6 +10,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.Unit;
 import ch.ethz.idsc.tensor.qty.UnitConvert;
@@ -17,8 +20,8 @@ import ch.ethz.idsc.tensor.sca.Sign;
 import junit.framework.TestCase;
 
 public class ExponentialDistributionTest extends TestCase {
-  public void testPositive() {
-    Distribution distribution = ExponentialDistribution.of(RealScalar.ONE);
+  public void testPositive() throws ClassNotFoundException, IOException {
+    Distribution distribution = Serialization.copy(ExponentialDistribution.of(RealScalar.ONE));
     for (int count = 0; count < 10; ++count) {
       Scalar scalar = RandomVariate.of(distribution);
       assertTrue(Scalars.lessEquals(RealScalar.ZERO, scalar));

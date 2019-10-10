@@ -1,6 +1,7 @@
 // code by clruch
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.IOException;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.ExactScalarQ;
@@ -10,6 +11,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
 import ch.ethz.idsc.tensor.red.Mean;
@@ -30,12 +32,12 @@ public class TrapezoidalDistributionTest extends TestCase {
     }
   }
 
-  public void testPDF() {
+  public void testPDF() throws ClassNotFoundException, IOException {
     Scalar a = RationalScalar.of(1, 1);
     Scalar b = RationalScalar.of(2, 1);
     Scalar c = RationalScalar.of(3, 1);
     Scalar d = RationalScalar.of(4, 1);
-    Distribution distribution = TrapezoidalDistribution.of(a, b, c, d);
+    Distribution distribution = Serialization.copy(TrapezoidalDistribution.of(a, b, c, d));
     {
       Scalar actual = PDF.of(distribution).at(RealScalar.of(3));
       Scalar expected = RealScalar.of(2).divide(d.add(c).subtract(a).subtract(b));

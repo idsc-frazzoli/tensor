@@ -2,7 +2,6 @@
 // implementation adapted from Ruby code of https://en.wikipedia.org/wiki/Exponentiation_by_squaring
 package ch.ethz.idsc.tensor.alg;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 
 /** exponentiation with integer exponents
@@ -12,7 +11,7 @@ import java.math.BigInteger;
  * interface used by MatrixPower, RationalScalar, ComplexScalar, and GaussScalar
  * 
  * @param <T> may also be Integer etc. */
-public abstract class BinaryPower<T> implements Serializable {
+public abstract class BinaryPower<T> {
   /** @return value when exponent equals zero */
   protected abstract T zeroth();
 

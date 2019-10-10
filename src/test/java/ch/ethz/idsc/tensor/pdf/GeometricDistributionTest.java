@@ -1,12 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
@@ -20,9 +23,10 @@ public class GeometricDistributionTest extends TestCase {
     assertEquals(pdf.at(RealScalar.of(2)), RationalScalar.of(1, 3).multiply(RationalScalar.of(4, 9)));
   }
 
-  public void testNarrow() {
+  public void testNarrow() throws ClassNotFoundException, IOException {
     final Scalar p = RationalScalar.of(1, 19);
-    GeometricDistribution distribution = (GeometricDistribution) GeometricDistribution.of(p);
+    GeometricDistribution distribution = //
+        (GeometricDistribution) Serialization.copy(GeometricDistribution.of(p));
     PDF pdf = PDF.of(distribution);
     Scalar peq0 = pdf.at(RealScalar.ZERO);
     Scalar peq1 = pdf.at(RealScalar.ONE);

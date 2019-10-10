@@ -1,13 +1,15 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.Scalar;
 
 /** @see FrechetDistribution
  * @see GumbelDistribution */
 /* package */ abstract class AbstractAlphaBetaDistribution extends AbstractContinuousDistribution implements //
-    MeanInterface, VarianceInterface {
-  static final double NEXTDOWNONE = Math.nextDown(1.0);
+    MeanInterface, VarianceInterface, Serializable {
+  static final double NEXT_DOWN_ONE = Math.nextDown(1.0);
   // ---
   final Scalar alpha;
   final Scalar beta;

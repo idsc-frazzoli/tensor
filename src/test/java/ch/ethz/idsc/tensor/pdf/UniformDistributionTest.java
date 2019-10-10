@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.IOException;
 import java.util.Random;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
@@ -9,6 +10,7 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.qty.QuantityMagnitude;
 import ch.ethz.idsc.tensor.qty.Unit;
@@ -35,8 +37,9 @@ public class UniformDistributionTest extends TestCase {
     assertEquals(pdf.at(DoubleScalar.POSITIVE_INFINITY), RealScalar.ZERO);
   }
 
-  public void testUnit() {
-    UniformDistribution distribution = (UniformDistribution) UniformDistribution.unit();
+  public void testUnit() throws ClassNotFoundException, IOException {
+    UniformDistribution distribution = //
+        (UniformDistribution) Serialization.copy(UniformDistribution.unit());
     assertEquals(distribution.mean(), RationalScalar.of(1, 2));
     assertEquals(distribution.variance(), RationalScalar.of(1, 12));
   }

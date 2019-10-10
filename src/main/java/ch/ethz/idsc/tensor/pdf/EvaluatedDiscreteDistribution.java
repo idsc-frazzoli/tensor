@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -18,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * <p>implementing classes are required to invoke
  * {@link #inverse_cdf_build(int)}, or
  * {@link #inverse_cdf_build(Chop)} in the constructor */
-public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDistribution {
+public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDistribution implements Serializable {
   private static final Scalar _0 = DoubleScalar.of(0);
   private static final Scalar _1 = DoubleScalar.of(1);
   // ---
