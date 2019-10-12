@@ -25,8 +25,8 @@ public class SphereFitTest extends TestCase {
     Optional<SphereFit> optional = SphereFit.of(points);
     SphereFit sphereFit = optional.get();
     String string = sphereFit.toString();
-    assertTrue(string.startsWith("{\"center\": {1/2, 1/2}, \"radius\": 0.7071067811"));
-    assertTrue(string.endsWith("}"));
+    assertTrue(string.startsWith("SphereFit[center={1/2, 1/2}, radius=0.7071067811"));
+    assertTrue(string.endsWith("]"));
   }
 
   public void testLinearSolve() {

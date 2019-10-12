@@ -142,16 +142,16 @@ import java.util.Objects;
   }
 
   /***************************************************/
+  // intentional: no override of Object::equals(Object)
+  @Override // from Object
+  public int hashCode() {
+    return Objects.hash(num, den);
+  }
+
   @Override // from Object
   public String toString() {
     return isInteger() //
         ? num.toString()
         : num.toString() + DIVIDE + den.toString();
   }
-
-  @Override // from Object
-  public int hashCode() {
-    return Objects.hash(num, den);
-  }
-  // intentional: no override of Object::equals(Object)
 }

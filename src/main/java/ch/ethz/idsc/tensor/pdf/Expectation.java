@@ -48,7 +48,7 @@ public enum Expectation {
       return varianceInterface.variance();
     }
     Scalar mean = mean(distribution);
-    ScalarUnaryOperator scalarUnaryOperator = scalar -> AbsSquared.FUNCTION.apply(scalar.subtract(mean));
+    ScalarUnaryOperator scalarUnaryOperator = scalar -> AbsSquared.between(scalar, mean);
     return of(scalarUnaryOperator, distribution);
   }
 

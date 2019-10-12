@@ -90,6 +90,6 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 
   @Override // from Object
   public final String toString() {
-    return "{\"min\": " + min() + ", \"max\": " + max() + "}";
+    return String.format("%s[%s, %s]", Clip.class.getSimpleName(), min(), max());
   }
 }

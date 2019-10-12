@@ -134,7 +134,7 @@ public abstract class AbstractScalar implements Scalar {
 
   /***************************************************/
   /** @param scalar
-   * @return this plus input scalar */
+   * @return this plus given scalar */
   protected abstract Scalar plus(Scalar scalar);
 
   /***************************************************/

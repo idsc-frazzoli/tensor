@@ -9,7 +9,7 @@ import ch.ethz.idsc.tensor.Tensor;
  * Since {@link ComplexScalar}::abs involves a sqrt the square of abs is better computed using
  * <code>z * conjugate(z)</code>.
  * 
- * if a {@link Scalar} does not implement {@link ComplexEmbedding}
+ * <p>If a {@link Scalar} does not implement {@link ComplexEmbedding}
  * the function AbsSquared is computed simply as
  * <code>abs(x) ^ 2</code> */
 public enum AbsSquared implements ScalarUnaryOperator {
@@ -28,5 +28,12 @@ public enum AbsSquared implements ScalarUnaryOperator {
   @SuppressWarnings("unchecked")
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(FUNCTION);
+  }
+
+  /** @param a
+   * @param b
+   * @return |a - b| ^ 2 */
+  public static Scalar between(Scalar a, Scalar b) {
+    return FUNCTION.apply(a.subtract(b));
   }
 }

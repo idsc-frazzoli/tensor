@@ -64,6 +64,6 @@ public class SphereFit implements Serializable {
 
   @Override // from Object
   public String toString() {
-    return "{\"center\": " + center() + ", \"radius\": " + radius() + "}";
+    return String.format("%s[center=%s, radius=%s]", getClass().getSimpleName(), center(), radius());
   }
 }

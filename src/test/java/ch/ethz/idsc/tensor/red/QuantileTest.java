@@ -12,7 +12,10 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
 import ch.ethz.idsc.tensor.alg.Sort;
+import ch.ethz.idsc.tensor.mat.HilbertMatrix;
+import ch.ethz.idsc.tensor.opt.Pi;
 import ch.ethz.idsc.tensor.qty.Quantity;
+import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 import junit.framework.TestCase;
 
 public class QuantileTest extends TestCase {
@@ -27,18 +30,31 @@ public class QuantileTest extends TestCase {
     Tensor vector = Tensors.vector(0, 2, 1, 4, 3);
     Tensor q = Quantile.of(vector, RealScalar.of(0.71233));
     assertEquals(q, RealScalar.of(3));
+    ScalarUnaryOperator scalarUnaryOperator = Quantile.of(vector);
+    Scalar p = scalarUnaryOperator.apply(RealScalar.of(0.71233));
+    assertEquals(p, RealScalar.of(3));
   }
 
   public void testBounds() {
     Tensor vector = Tensors.vector(0, 2, 1, 4, 3);
     try {
-      Quantile.ofSorted(vector, RealScalar.of(1.01));
+      Quantile.of(vector, RealScalar.of(1.01));
       fail();
     } catch (Exception exception) {
       // ---
     }
     try {
-      Quantile.ofSorted(vector, RealScalar.of(-0.01));
+      Quantile.of(vector, RealScalar.of(-0.01));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailSorted() {
+    Tensor vector = Tensors.vector(0, 2, 1, 4, 3);
+    try {
+      Quantile.ofSorted(vector, Tensors.vector(0.3));
       fail();
     } catch (Exception exception) {
       // ---
@@ -82,11 +98,49 @@ public class QuantileTest extends TestCase {
     }
   }
 
-  public void testFailQuantity() {
+  public void testFailQuantity0() {
+    Tensor tensor = Tensors.vector(-3, 2, 1, 100);
+    Tensor weight = Tensors.of(Quantity.of(0, "m"));
+    try {
+      Quantile.of(tensor, weight);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailQuantity1() {
     Tensor tensor = Tensors.vector(-3, 2, 1, 100);
     Tensor weight = Tensors.of(Quantity.of(0.2, "m"));
     try {
       Quantile.of(tensor, weight);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailScalar() {
+    try {
+      Quantile.of(Pi.VALUE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailMatrix() {
+    try {
+      Quantile.of(HilbertMatrix.of(3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testFailNull() {
+    try {
+      Quantile.of(null);
       fail();
     } catch (Exception exception) {
       // ---

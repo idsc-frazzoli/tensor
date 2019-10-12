@@ -34,6 +34,6 @@ public class ClipIntervalTest extends TestCase {
 
   public void testToString() {
     String string = Clips.interval(3, 7).toString();
-    assertEquals(string, "{\"min\": 3, \"max\": 7}");
+    assertEquals(string, "Clip[3, 7]");
   }
 }
