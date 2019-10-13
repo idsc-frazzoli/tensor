@@ -10,22 +10,25 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <a href="https://reference.wolfram.com/language/ref/OrderedQ.html">OrderedQ</a> */
 public enum OrderedQ {
   ;
-  /** @param tensor
-   * @return whether entries in tensor are non-decreasing */
+  /** Hint:
+   * OrderedQ[{3[s], 1[s], 2[m]}] throws an Exception
+   * 
+   * @param tensor
+   * @return whether entries in tensor are non-decreasing
+   * @throws Exception if entries of given tensor cannot be compared */
   public static boolean of(Tensor tensor) {
     Iterator<Tensor> iterator = tensor.iterator();
+    boolean status = true;
     if (iterator.hasNext()) {
       Tensor prev = iterator.next();
       while (iterator.hasNext()) {
-        Tensor next = iterator.next();
         @SuppressWarnings("unchecked")
         Comparable<Tensor> comparable = (Comparable<Tensor>) prev;
-        if (0 < comparable.compareTo(next))
-          return false;
-        prev = next;
+        if (0 < comparable.compareTo(prev = iterator.next()))
+          status = false;
       }
     }
-    return true;
+    return status;
   }
 
   /** @param tensor

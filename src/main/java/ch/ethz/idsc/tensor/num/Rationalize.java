@@ -8,6 +8,7 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.red.Max;
+import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Round;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
@@ -98,8 +99,8 @@ public class Rationalize implements ScalarUnaryOperator {
     RationalScalar rs = (RationalScalar) sol1;
     if (Scalars.lessThan(max, RealScalar.of(rs.denominator())))
       return sol0;
-    Scalar err0 = sol0.subtract(scalar).abs();
-    Scalar err1 = sol1.subtract(scalar).abs();
+    Scalar err0 = Abs.between(sol0, scalar);
+    Scalar err1 = Abs.between(sol1, scalar);
     if (err0.equals(err1))
       return Max.of(sol0, sol1); // ties rounding to positive infinity
     return Scalars.lessThan(err0, err1) // choose the one with less error

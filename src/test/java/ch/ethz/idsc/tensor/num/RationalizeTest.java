@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.pdf.Distribution;
 import ch.ethz.idsc.tensor.pdf.RandomVariate;
 import ch.ethz.idsc.tensor.pdf.UniformDistribution;
+import ch.ethz.idsc.tensor.sca.Abs;
 import ch.ethz.idsc.tensor.sca.Ceiling;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.Floor;
@@ -43,9 +44,9 @@ public class RationalizeTest extends TestCase {
     Scalar lo = Floor.toMultipleOf(eps).apply(value);
     ScalarUnaryOperator suo = Rationalize.withDenominatorLessEquals(100);
     Scalar me = suo.apply(value);
-    Scalar e1 = value.subtract(lo).abs();
-    Scalar e2 = value.subtract(hi).abs();
-    Scalar be = value.subtract(me).abs();
+    Scalar e1 = Abs.between(value, lo);
+    Scalar e2 = Abs.between(value, hi);
+    Scalar be = Abs.between(value, me);
     assertTrue(Scalars.lessEquals(be, e1));
     assertTrue(Scalars.lessEquals(be, e2));
   }

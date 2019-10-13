@@ -87,7 +87,7 @@ public enum NullSpace {
   public static Tensor of(SingularValueDecomposition svd, Chop chop) {
     Tensor vt = Transpose.of(svd.getV());
     return Tensor.of(IntStream.range(0, svd.values().length()) //
-        .filter(index -> Scalars.isZero(chop.apply(svd.values().Get(index).abs()))) //
+        .filter(index -> Scalars.isZero(chop.apply(svd.values().Get(index)))) //
         .mapToObj(vt::get));
   }
 
