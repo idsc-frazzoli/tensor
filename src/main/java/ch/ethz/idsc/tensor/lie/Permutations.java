@@ -3,6 +3,7 @@ package ch.ethz.idsc.tensor.lie;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -31,20 +32,20 @@ public class Permutations {
    * @throws Exception if given tensor is a scalar */
   public static Tensor of(Tensor tensor) {
     ScalarQ.thenThrow(tensor);
-    return new Permutations(tensor).tensor;
+    return Unprotect.using(new Permutations(tensor).list);
   }
 
   // ---
+  private final List<Tensor> list = new LinkedList<>();
+
   private Permutations(Tensor tensor) {
     recur(Tensors.empty(), tensor);
   }
 
-  private final Tensor tensor = Unprotect.using(new LinkedList<>());
-
   private void recur(Tensor ante, Tensor post) {
     int length = post.length();
     if (length == 0)
-      tensor.append(ante);
+      list.add(ante);
     else {
       Set<Tensor> set = new HashSet<>();
       for (int index = 0; index < length; ++index) {

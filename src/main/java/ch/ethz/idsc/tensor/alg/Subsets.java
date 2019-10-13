@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.alg;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
@@ -17,11 +18,11 @@ public class Subsets {
    * @throws Exception if k is negative */
   public static Tensor of(Tensor tensor, int k) {
     ScalarQ.thenThrow(tensor);
-    return new Subsets(tensor, k).list;
+    return Unprotect.using(new Subsets(tensor, k).list);
   }
 
   // ---
-  private final Tensor list = Unprotect.using(new LinkedList<>());
+  private final List<Tensor> list = new LinkedList<>();
 
   private Subsets(Tensor tensor, int k) {
     recur(Tensors.empty(), tensor, k);
@@ -29,7 +30,7 @@ public class Subsets {
 
   private void recur(Tensor ante, Tensor tensor, int k) {
     if (k == 0)
-      list.append(ante);
+      list.add(ante);
     else {
       --k;
       int limit = tensor.length() - k;

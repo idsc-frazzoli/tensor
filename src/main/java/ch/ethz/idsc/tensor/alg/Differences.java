@@ -36,10 +36,11 @@ public enum Differences {
    * @return the successive differences of elements in tensor
    * @throws Exception if given tensor is a scalar */
   public static Tensor of(Tensor tensor) {
-    ScalarQ.thenThrow(tensor);
     int length = tensor.length();
-    if (length <= 1)
+    if (length <= 1) {
+      ScalarQ.thenThrow(tensor);
       return Tensors.empty();
+    }
     List<Tensor> list = new ArrayList<>(length - 1);
     Iterator<Tensor> iterator = tensor.iterator();
     Tensor prev = iterator.next();
