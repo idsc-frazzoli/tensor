@@ -2,6 +2,7 @@
 package ch.ethz.idsc.tensor.lie;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -9,6 +10,7 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
+import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Sort;
 
 /** implementation is consistent with Mathematica
@@ -23,36 +25,34 @@ import ch.ethz.idsc.tensor.alg.Sort;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Permutations.html">Permutations</a> */
-public enum Permutations {
-  ;
+public class Permutations {
   /** @param tensor that is not a {@link Scalar}
-   * @return */
+   * @return
+   * @throws Exception if given tensor is a scalar */
   public static Tensor of(Tensor tensor) {
     ScalarQ.thenThrow(tensor);
-    return Build.permutations(tensor);
+    return new Permutations(tensor).tensor;
   }
 
-  // helper class
-  private static class Build {
-    static Tensor permutations(Tensor tensor) {
-      Build builder = new Build();
-      builder.recur(Tensors.empty(), tensor);
-      return builder.build;
-    }
+  // ---
+  private Permutations(Tensor tensor) {
+    recur(Tensors.empty(), tensor);
+  }
 
-    private final Tensor build = Tensors.empty();
+  private final Tensor tensor = Unprotect.using(new LinkedList<>());
 
-    private void recur(Tensor ante, Tensor post) {
-      int length = post.length();
-      if (length == 0)
-        build.append(ante);
-      else {
-        Set<Tensor> set = new HashSet<>();
-        for (int index = 0; index < length; ++index) {
-          Tensor key = Tensor.of(Stream.concat(post.stream().limit(index), post.stream().skip(index + 1)));
-          if (set.add(Sort.of(key)))
-            recur(ante.copy().append(post.get(index)), key);
-        }
+  private void recur(Tensor ante, Tensor post) {
+    int length = post.length();
+    if (length == 0)
+      tensor.append(ante);
+    else {
+      Set<Tensor> set = new HashSet<>();
+      for (int index = 0; index < length; ++index) {
+        Tensor key = Tensor.of(Stream.concat( //
+            post.stream().limit(index), //
+            post.stream().skip(index + 1)));
+        if (set.add(Sort.of(key)))
+          recur(ante.copy().append(post.get(index)), key);
       }
     }
   }
