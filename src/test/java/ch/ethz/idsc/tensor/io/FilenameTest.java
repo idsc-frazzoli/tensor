@@ -1,13 +1,11 @@
 // code by jph
 package ch.ethz.idsc.tensor.io;
 
-import java.io.File;
-
 import junit.framework.TestCase;
 
 public class FilenameTest extends TestCase {
   public void testFailSpacing() {
-    Filename filename = new Filename(new File("dir/title.bmp "));
+    Filename filename = new Filename("dir/title.bmp ");
     try {
       filename.extension();
       fail();
@@ -17,7 +15,7 @@ public class FilenameTest extends TestCase {
   }
 
   public void testFailExtension() {
-    Filename filename = new Filename(new File("dir/title.ext"));
+    Filename filename = new Filename("dir/title.ext");
     try {
       filename.extension();
       fail();
@@ -27,7 +25,7 @@ public class FilenameTest extends TestCase {
   }
 
   public void testFailNoExt() {
-    Filename filename = new Filename(new File("dir/mybmp"));
+    Filename filename = new Filename("dir/mybmp");
     try {
       filename.extension();
       fail();
@@ -37,7 +35,7 @@ public class FilenameTest extends TestCase {
   }
 
   public void testFailTruncate() {
-    Filename filename = new Filename(new File("dir/mybmp"));
+    Filename filename = new Filename("dir/mybmp");
     try {
       filename.truncate();
       fail();

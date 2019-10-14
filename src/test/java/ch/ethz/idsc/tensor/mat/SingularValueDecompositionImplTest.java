@@ -21,7 +21,7 @@ public class SingularValueDecompositionImplTest extends TestCase {
 
   public void testResource() throws Exception {
     String string = getClass().getResource("/mat/svd0.mathematica").getPath();
-    _check(Get.of(Paths.get(string)));
+    _check(Get.of(Paths.get(string).toFile()));
   }
 
   public void testEps() {

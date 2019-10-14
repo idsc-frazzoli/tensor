@@ -29,6 +29,9 @@ import ch.ethz.idsc.tensor.Tensor;
     case M:
       lines(MatlabExport.of(tensor), outputStream);
       break;
+    case MATHEMATICA:
+      lines(MathematicaFormat.of(tensor), outputStream);
+      break;
     case GIF:
     case PNG:
       ImageIO.write(ImageFormat.of(tensor), extension.name(), outputStream);
@@ -43,7 +46,7 @@ import ch.ethz.idsc.tensor.Tensor;
 
   // the use of BufferedOutputStream is motivated by
   // http://www.oracle.com/technetwork/articles/javase/perftuning-137844.html
-  private static void lines(Stream<String> stream, OutputStream outputStream) {
+  static void lines(Stream<String> stream, OutputStream outputStream) {
     try (PrintWriter printWriter = new PrintWriter(new BufferedOutputStream(outputStream))) {
       stream.sequential().forEach(printWriter::println);
     }

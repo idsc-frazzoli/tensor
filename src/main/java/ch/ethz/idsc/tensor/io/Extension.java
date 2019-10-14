@@ -7,23 +7,34 @@ package ch.ethz.idsc.tensor.io;
  * @see ExportHelper */
 /* package */ enum Extension {
   /** uncompressed loss-less image format, no alpha channel */
-  BMP, //
-  /** table */
-  CSV, //
+  BMP,
+  /** table with comma-separated values */
+  CSV,
   /** image and animation format
    * when exporting a tensor to an image, any alpha value != 255
    * results in the pixel to be transparent */
-  GIF, //
+  GIF,
   /** compressed version of another format, for instance csv.gz */
-  GZ, //
+  GZ,
   /** compressed, lossy image format */
-  JPG, //
+  JPG,
   /** MATLAB m file, export only */
-  M, //
+  M,
+  /** {@link Get} and {@link Put} operate on any file extension.
+   * In particular, mathematica is <em>not</em> the official extension.
+   * However, we choose the extension for import/export because of
+   * the characteristic {@link MathematicaFormat}. */
+  MATHEMATICA,
   /** compressed image format with alpha channel */
-  PNG, //
+  PNG,
   /** ".vector" is an extension specific to the tensor library
    * @see VectorFormat */
   VECTOR, //
   ;
+  /** @param string
+   * @return
+   * @throws Exception if given string does not match */
+  public static Extension of(String string) {
+    return valueOf(string.toUpperCase());
+  }
 }

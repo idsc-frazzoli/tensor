@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.io;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.Objects;
@@ -30,16 +31,16 @@ public enum Export {
    * @param tensor non-null
    * @throws IOException */
   public static void of(File file, Tensor tensor) throws IOException {
-    Filename filename = new Filename(file);
+    Filename filename = new Filename(file.getName());
     Extension extension = filename.extension();
     Objects.requireNonNull(tensor);
-    try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+    try (OutputStream outputStream = new FileOutputStream(file)) {
       if (extension.equals(Extension.GZ))
-        try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(fileOutputStream)) {
+        try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(outputStream)) {
           ExportHelper.of(filename.truncate().extension(), tensor, gzipOutputStream);
         }
       else
-        ExportHelper.of(extension, tensor, fileOutputStream);
+        ExportHelper.of(extension, tensor, outputStream);
     }
   }
 

@@ -32,6 +32,8 @@ import ch.ethz.idsc.tensor.Tensor;
     case CSV:
       // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
       return CsvFormat.parse(ReadLine.of(inputStream));
+    case MATHEMATICA:
+      return Get.of(inputStream);
     case BMP:
     case GIF:
     case JPG:

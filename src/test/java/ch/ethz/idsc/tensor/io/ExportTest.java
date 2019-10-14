@@ -21,6 +21,24 @@ import ch.ethz.idsc.tensor.usr.TestFile;
 import junit.framework.TestCase;
 
 public class ExportTest extends TestCase {
+  public void testMathematica() throws IOException {
+    File file = TestFile.withExtension("mathematica");
+    Tensor tensor = Tensors.fromString("{{2[m*s^-3], {3.123+3*I[V], {}}}, {{34.1231`32, 556}, 3/456, -323/2}}");
+    assertFalse(StringScalarQ.any(tensor));
+    Export.of(file, tensor);
+    assertEquals(tensor, Import.of(file));
+    assertTrue(file.delete());
+  }
+
+  public void testMathematicaGz() throws IOException {
+    File file = TestFile.withExtension("mathematica.gz");
+    Tensor tensor = Tensors.fromString("{{2[m*s^-3], {3.123+3*I[V], {}}}, {{34.1231`32, 556}, 3/456, -323/2}}");
+    assertFalse(StringScalarQ.any(tensor));
+    Export.of(file, tensor);
+    assertEquals(tensor, Import.of(file));
+    assertTrue(file.delete());
+  }
+
   public void testCsv() throws IOException {
     File file = TestFile.withExtension("csv");
     Tensor tensor = Tensors.fromString("{{2, 3.123+3*I[V]}, {34.1231`32, 556, 3/456, -323/2}}");

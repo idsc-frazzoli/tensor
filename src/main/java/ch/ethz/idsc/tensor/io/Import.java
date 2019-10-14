@@ -43,7 +43,7 @@ public enum Import {
    * @see Get */
   public static Tensor of(File file) throws IOException {
     try (InputStream inputStream = new FileInputStream(file)) {
-      return ImportHelper.of(new Filename(file), inputStream);
+      return ImportHelper.of(new Filename(file.getName()), inputStream);
     }
   }
 
