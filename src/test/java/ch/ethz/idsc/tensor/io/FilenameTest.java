@@ -6,6 +6,16 @@ import java.io.File;
 import junit.framework.TestCase;
 
 public class FilenameTest extends TestCase {
+  public void testFailSpacing() {
+    Filename filename = new Filename(new File("dir/title.bmp "));
+    try {
+      filename.extension();
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
   public void testFailExtension() {
     Filename filename = new Filename(new File("dir/title.ext"));
     try {

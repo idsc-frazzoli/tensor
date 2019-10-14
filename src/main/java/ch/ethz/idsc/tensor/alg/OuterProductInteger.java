@@ -7,19 +7,6 @@ import java.util.List;
 
 /** utility class for {@link Transpose} */
 /* package */ class OuterProductInteger implements Iterator<List<Integer>>, Iterable<List<Integer>> {
-  public static OuterProductInteger forward(Integer... dimensions) {
-    return forward(Arrays.asList(dimensions));
-  }
-
-  public static OuterProductInteger forward(List<Integer> dimensions) {
-    return new OuterProductInteger(dimensions.stream().mapToInt(Integer::intValue).toArray(), true);
-  }
-
-  public static OuterProductInteger of(int[] size, boolean forward) {
-    return new OuterProductInteger(Arrays.copyOf(size, size.length), forward);
-  }
-
-  // ---
   private final Integer[] index;
   private final int[] size;
   private final int[] direction;
