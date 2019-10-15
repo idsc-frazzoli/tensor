@@ -5,7 +5,9 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/RotateRight.html">RotateRight</a> */
+ * <a href="https://reference.wolfram.com/language/ref/RotateRight.html">RotateRight</a>
+ * 
+ * @see RotateLeft */
 public enum RotateRight {
   ;
   /** RotateRight[{a, b, c, d, e}, 2] == {d, e, a, b, c}

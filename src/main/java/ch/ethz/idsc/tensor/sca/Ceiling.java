@@ -13,7 +13,11 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * </pre>
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Ceiling.html">Ceiling</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Ceiling.html">Ceiling</a>
+ * 
+ * @see RoundingInterface
+ * @see Floor
+ * @see Round */
 public enum Ceiling implements ScalarUnaryOperator {
   FUNCTION;
   // ---

@@ -9,7 +9,9 @@ import ch.ethz.idsc.tensor.Tensor;
 /** ArcTanh[z] == 1/2 (log(1+z)-log(1-z))
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/ArcTanh.html">ArcTanh</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ArcTanh.html">ArcTanh</a>
+ * 
+ * @see Tanh */
 public enum ArcTanh implements ScalarUnaryOperator {
   FUNCTION;
   // ---

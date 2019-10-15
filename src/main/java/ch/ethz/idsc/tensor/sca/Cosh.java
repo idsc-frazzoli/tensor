@@ -5,10 +5,13 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** http://www.milefoot.com/math/complex/functionsofi.htm
- *
+/** Reference:
+ * <a href="http://www.milefoot.com/math/complex/functionsofi.htm">functions of i</a>
+ * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Cosh.html">Cosh</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Cosh.html">Cosh</a>
+ * 
+ * @see ArcCosh */
 public enum Cosh implements ScalarUnaryOperator {
   FUNCTION;
   // ---

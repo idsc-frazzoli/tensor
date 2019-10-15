@@ -5,12 +5,17 @@ import java.util.Arrays;
 
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.mat.HermitianMatrixQ;
+import ch.ethz.idsc.tensor.mat.PositiveDefiniteMatrixQ;
 
 /** The implementation is consistent with Mathematica::MatrixQ, in particular
  * MatrixQ[ {} ] == false
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/MatrixQ.html">MatrixQ</a> */
+ * <a href="https://reference.wolfram.com/language/ref/MatrixQ.html">MatrixQ</a>
+ * 
+ * @see HermitianMatrixQ
+ * @see PositiveDefiniteMatrixQ */
 public enum MatrixQ {
   ;
   /** @param tensor

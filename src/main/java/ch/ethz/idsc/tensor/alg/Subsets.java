@@ -10,7 +10,10 @@ import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Subsets.html">Subsets</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Subsets.html">Subsets</a>
+ * 
+ * @see Tuples
+ * @see Binomial */
 public class Subsets {
   /** @param tensor of length n, not a scalar
    * @param k non-negative

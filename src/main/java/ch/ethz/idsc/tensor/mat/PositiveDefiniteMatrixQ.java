@@ -6,7 +6,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.Sign;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/PositiveDefiniteMatrixQ.html">PositiveDefiniteMatrixQ</a> */
+ * <a href="https://reference.wolfram.com/language/ref/PositiveDefiniteMatrixQ.html">PositiveDefiniteMatrixQ</a>
+ * 
+ * @see NegativeDefiniteMatrixQ */
 public enum PositiveDefiniteMatrixQ {
   ;
   /** @param tensor

@@ -21,7 +21,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * <p>formula for addition of velocities in special relativity (with the speed of light equal to 1)
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Tanh.html">Tanh</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Tanh.html">Tanh</a>
+ * 
+ * @see ArcTanh */
 public enum Tanh implements ScalarUnaryOperator {
   FUNCTION;
   // ---

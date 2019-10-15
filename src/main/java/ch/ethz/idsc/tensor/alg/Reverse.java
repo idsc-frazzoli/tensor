@@ -7,7 +7,11 @@ import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Reverse.html">Reverse</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Reverse.html">Reverse</a>
+ * 
+ * @see Transpose
+ * @see RotateLeft
+ * @see RotateRight */
 public enum Reverse {
   ;
   /** Reverse[{a, b, c}] == {c, b, a}

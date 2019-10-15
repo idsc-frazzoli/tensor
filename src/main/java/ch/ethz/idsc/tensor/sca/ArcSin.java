@@ -9,10 +9,13 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** For real input in the interval [-1, 1] the returned angle is in the range -pi/2 through pi/2.
  * 
- * http://www.milefoot.com/math/complex/functionsofi.htm
+ * <p>Reference:
+ * <a href="http://www.milefoot.com/math/complex/functionsofi.htm">functions of i</a>
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/ArcCos.html">ArcCos</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ArcCos.html">ArcCos</a>
+ * 
+ * @see Sin */
 public enum ArcSin implements ScalarUnaryOperator {
   FUNCTION;
   // ---

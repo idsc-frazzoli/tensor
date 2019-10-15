@@ -13,6 +13,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.alg.Sort;
+import ch.ethz.idsc.tensor.alg.Tuples;
 
 /** implementation is consistent with Mathematica
  * 
@@ -25,7 +26,11 @@ import ch.ethz.idsc.tensor.alg.Sort;
  * Permutations.of(5) // throws an exception
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Permutations.html">Permutations</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Permutations.html">Permutations</a>
+ * 
+ * @see Signature
+ * @see Sort
+ * @see Tuples */
 public class Permutations {
   /** @param tensor that is not a {@link Scalar}
    * @return

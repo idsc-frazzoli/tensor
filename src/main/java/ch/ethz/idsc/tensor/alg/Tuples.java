@@ -4,13 +4,18 @@ package ch.ethz.idsc.tensor.alg;
 import java.util.stream.IntStream;
 
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.lie.Permutations;
 
 /** implementation consistent with Mathematica except in special case n == 0
  * Tensor-Lib.::Tuples[{a, b, c}, 0] == {}
  * Mathematica::Tuples[{a, b, c}, 0] == {{}}
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Tuples.html">Tuples</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Tuples.html">Tuples</a>
+ * 
+ * @see Array
+ * @see Permutations
+ * @see Subsets */
 public enum Tuples {
   ;
   /** Example:

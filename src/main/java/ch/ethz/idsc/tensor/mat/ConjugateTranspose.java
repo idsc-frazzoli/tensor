@@ -10,7 +10,8 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/ConjugateTranspose.html">ConjugateTranspose</a>
  * 
- * @see Conjugate */
+ * @see Conjugate
+ * @see Transpose */
 public enum ConjugateTranspose {
   ;
   /** @param tensor of rank at least 2

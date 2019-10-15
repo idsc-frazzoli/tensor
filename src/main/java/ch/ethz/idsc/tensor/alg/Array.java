@@ -23,7 +23,10 @@ import ch.ethz.idsc.tensor.Tensor;
  * </pre>
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Array.html">Array</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Array.html">Array</a>
+ * 
+ * @see ConstantArray
+ * @see Tuples */
 public enum Array {
   ;
   /** @param function maps given index to {@link Tensor}, or {@link Scalar}

@@ -14,7 +14,9 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * and is therefore more accurate than {@link Log#base(Scalar)}.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Log10.html">Log10</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Log10.html">Log10</a>
+ * 
+ * @see Log */
 public enum Log10 implements ScalarUnaryOperator {
   FUNCTION;
   // ---
