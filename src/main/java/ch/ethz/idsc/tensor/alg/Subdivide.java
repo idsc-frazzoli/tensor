@@ -13,7 +13,9 @@ import ch.ethz.idsc.tensor.sca.Clip;
 /** Subdivide is consistent with Mathematica.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Subdivide.html">Subdivide</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Subdivide.html">Subdivide</a>
+ * 
+ * @see Range */
 public enum Subdivide {
   ;
   /** Subdivides interpolates between given start and end with n-1 intermediate points.
@@ -47,8 +49,7 @@ public enum Subdivide {
    * @param n > 0
    * @return tensor with n+1 entries obtained by subdividing the range
    * startInclusive to endInclusive into n equal parts.
-   * @throws Exception if n is negative or zero
-   * @see Range */
+   * @throws Exception if n is negative or zero */
   public static Tensor of(Tensor startInclusive, Tensor endInclusive, int n) {
     Integers.requirePositive(n);
     // implementation deliberately uses two multiplications instead of one

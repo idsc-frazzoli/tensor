@@ -18,7 +18,11 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * 
  * <p>implementing classes are required to invoke
  * {@link #inverse_cdf_build(int)}, or
- * {@link #inverse_cdf_build(Chop)} in the constructor */
+ * {@link #inverse_cdf_build(Chop)} in the constructor
+ * 
+ * @see BinomialDistribution
+ * @see PoissonDistribution
+ * @see PascalDistribution */
 public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDistribution implements Serializable {
   private static final Scalar _0 = DoubleScalar.of(0);
   private static final Scalar _1 = DoubleScalar.of(1);
@@ -28,11 +32,9 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();
 
   /** precomputes a lookup map for random variate generation via {@link #quantile(Scalar)}
+   * safeguard when computing CDF for probabilities with machine precision
    * 
-   * @param upperBound greatest integer n for which 0 < p(n), i.e. upper bound is inclusive
-   * @see BinomialDistribution
-   * @see PoissonDistribution */
-  /** safeguard when computing CDF for probabilities with machine precision */
+   * @param upperBound greatest integer n for which 0 < p(n), i.e. upper bound is inclusive */
   protected void inverse_cdf_build(final int upperBound) {
     Scalar cumprob = RealScalar.ZERO;
     for (int sample = lowerBound(); sample < upperBound; ++sample) {
@@ -49,8 +51,7 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
 
   /** precomputes a lookup map and determines numeric upper bound
    * 
-   * @param chop
-   * @see PascalDistribution */
+   * @param chop */
   protected void inverse_cdf_build(Chop chop) {
     int upperBound = lowerBound();
     Scalar cumprob = _0;

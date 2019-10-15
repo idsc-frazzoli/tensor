@@ -7,10 +7,10 @@ import ch.ethz.idsc.tensor.sca.Chop;
 /** Quote from Wikipedia: A Hermitian matrix (or self-adjoint matrix) is
  * a complex square matrix that is equal to its own conjugate transpose.
  * 
- * @see AntisymmetricMatrixQ
- * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/HermitianMatrixQ.html">HermitianMatrixQ</a> */
+ * <a href="https://reference.wolfram.com/language/ref/HermitianMatrixQ.html">HermitianMatrixQ</a>
+ * 
+ * @see AntisymmetricMatrixQ */
 public enum HermitianMatrixQ {
   ;
   /** @param tensor

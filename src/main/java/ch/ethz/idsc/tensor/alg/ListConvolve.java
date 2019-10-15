@@ -8,7 +8,9 @@ import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
  * of the product of two polynomials.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/ListConvolve.html">ListConvolve</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ListConvolve.html">ListConvolve</a>
+ * 
+ * @see ListCorrelate */
 public enum ListConvolve {
   ;
   /** <pre>
@@ -18,8 +20,7 @@ public enum ListConvolve {
    * 
    * @param kernel
    * @param tensor of the same rank as kernel
-   * @return convolution of kernel with tensor
-   * @see ListCorrelate */
+   * @return convolution of kernel with tensor */
   public static Tensor of(Tensor kernel, Tensor tensor) {
     return with(kernel).apply(tensor);
   }

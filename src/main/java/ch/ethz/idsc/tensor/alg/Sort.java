@@ -7,13 +7,14 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Sort.html">Sort</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Sort.html">Sort</a>
+ * 
+ * @see Ordering */
 public enum Sort {
   ;
   /** @param vector
    * @return vector with entries sorted according to canonic ordering
-   * @throws Exception if input is a scalar
-   * @see Ordering */
+   * @throws Exception if input is a scalar */
   public static Tensor of(Tensor vector) {
     if (vector.length() == 1)
       return vector.copy();

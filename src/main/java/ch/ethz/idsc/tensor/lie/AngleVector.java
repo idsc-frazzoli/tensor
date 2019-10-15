@@ -9,10 +9,10 @@ import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Mod;
 import ch.ethz.idsc.tensor.sca.Sin;
 
-/** @see CirclePoints
+/** <p>inspired by
+ * <a href="https://reference.wolfram.com/language/ref/AngleVector.html">AngleVector</a>
  * 
- * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/AngleVector.html">AngleVector</a> */
+ * @see CirclePoints */
 public enum AngleVector {
   ;
   private static final Mod MOD = Mod.function(1);

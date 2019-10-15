@@ -131,6 +131,14 @@ public class ExportTest extends TestCase {
     assertTrue(file.delete());
   }
 
+  public void testBmpGzGzGray() throws IOException {
+    File file = TestFile.withExtension("bmp.gz.gz");
+    Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11);
+    Export.of(file, image);
+    assertEquals(image, Import.of(file));
+    assertTrue(file.delete());
+  }
+
   public void testMatlabM() throws IOException {
     File file = TestFile.withExtension("m");
     Tensor tensor = Tensors.fromString("{{2, 3.123+3*I, 34.1231}, {556, 3/456, -323/2}}");
@@ -148,6 +156,18 @@ public class ExportTest extends TestCase {
       // ---
     }
     assertFalse(file.exists());
+  }
+
+  public void testGzOnlyFail() throws IOException {
+    File file = TestFile.withExtension("gz");
+    Tensor tensor = Tensors.vector(1, 2, 3, 4);
+    try {
+      Export.of(file, tensor);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    assertTrue(file.delete());
   }
 
   public void testFailExtension() {

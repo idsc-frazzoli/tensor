@@ -22,7 +22,7 @@ import ch.ethz.idsc.tensor.Tensor;
     Extension extension = filename.extension();
     if (extension.equals(Extension.GZ))
       try (GZIPInputStream gzipInputStream = new GZIPInputStream(inputStream)) {
-        return of(filename.truncate().extension(), gzipInputStream);
+        return of(filename.truncate(), gzipInputStream);
       }
     return of(extension, inputStream);
   }
@@ -30,7 +30,6 @@ import ch.ethz.idsc.tensor.Tensor;
   private static Tensor of(Extension extension, InputStream inputStream) throws IOException {
     switch (extension) {
     case CSV:
-      // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
       return CsvFormat.parse(ReadLine.of(inputStream));
     case MATHEMATICA:
       return Get.of(inputStream);

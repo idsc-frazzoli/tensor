@@ -35,7 +35,6 @@ public enum Get {
    * @return
    * @throws IOException */
   public static Tensor of(File file) throws IOException {
-    // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
     try (InputStream inputStream = new FileInputStream(file)) {
       return of(inputStream);
     }

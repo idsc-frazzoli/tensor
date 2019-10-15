@@ -6,10 +6,10 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** the purpose of AbsSquared is to preserve the precision when working with complex numbers.
- * Since {@link ComplexScalar}::abs involves a sqrt the square of abs is better computed using
- * <code>z * conjugate(z)</code>.
+ * Since {@link ComplexScalar}::abs involves a square root the square of the absolute value
+ * is better computed using <code>z * conjugate(z)</code>.
  * 
- * <p>If a {@link Scalar} does not implement {@link ComplexEmbedding}
+ * <p>If a {@link Scalar} does not implement {@link ComplexEmbedding}, then
  * the function AbsSquared is computed simply as
  * <code>abs(x) ^ 2</code> */
 public enum AbsSquared implements ScalarUnaryOperator {

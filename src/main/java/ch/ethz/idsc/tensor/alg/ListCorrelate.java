@@ -6,7 +6,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.opt.TensorUnaryOperator;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/ListCorrelate.html">ListCorrelate</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ListCorrelate.html">ListCorrelate</a>
+ * 
+ * @see ListConvolve */
 public enum ListCorrelate {
   ;
   /** <pre>
@@ -18,8 +20,7 @@ public enum ListCorrelate {
    * @param tensor of the same rank as kernel
    * @return correlation of kernel with tensor
    * @throws Exception if dimensions of kernel and tensor are unsuitable for correlation,
-   * for instance if tensor is a {@link Scalar}
-   * @see ListConvolve */
+   * for instance if tensor is a {@link Scalar} */
   public static Tensor of(Tensor kernel, Tensor tensor) {
     return with(kernel).apply(tensor);
   }

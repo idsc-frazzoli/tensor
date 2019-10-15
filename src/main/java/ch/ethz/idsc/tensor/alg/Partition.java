@@ -44,12 +44,13 @@ public enum Partition {
 
   /** Partition.stream[{a, b, c, d, e, f, g}, 3, 2] == stream {a, b, c}, {c, d, e}, {e, f, g}
    * 
+   * <p>Hint: function is used in {@link SpectrogramArray}
+   * 
    * @param tensor
    * @param size not smaller than offset
    * @param offset positive
    * @return stream of tensors
-   * @throws Exception if given tensor is a scalar
-   * @see SpectrogramArray */
+   * @throws Exception if given tensor is a scalar */
   public static Stream<Tensor> stream(Tensor tensor, int size, int offset) {
     if (offset <= 0 || size < offset || ScalarQ.of(tensor))
       throw new IllegalArgumentException("size=" + size + " offset=" + offset);

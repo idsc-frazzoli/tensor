@@ -7,13 +7,14 @@ import ch.ethz.idsc.tensor.Unprotect;
 import ch.ethz.idsc.tensor.lie.QRDecomposition;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Orthogonalize.html">Orthogonalize</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Orthogonalize.html">Orthogonalize</a>
+ * 
+ * @see OrthogonalMatrixQ
+ * @see UnitaryMatrixQ */
 public enum Orthogonalize {
   ;
   /** @param matrix with rows <= cols
-   * @return matrix with pairwise orthogonal row vectors with the same span as input vectors
-   * @see OrthogonalMatrixQ
-   * @see UnitaryMatrixQ */
+   * @return matrix with pairwise orthogonal row vectors with the same span as input vectors */
   public static Tensor of(Tensor matrix) {
     int dim0 = matrix.length();
     int dim1 = Unprotect.dimension1(matrix);

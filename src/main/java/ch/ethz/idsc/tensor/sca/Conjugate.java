@@ -13,6 +13,7 @@ import ch.ethz.idsc.tensor.mat.ConjugateTranspose;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Conjugate.html">Conjugate</a>
  * 
+ * @see ConjugateInterface
  * @see ConjugateTranspose */
 public enum Conjugate implements ScalarUnaryOperator {
   FUNCTION;

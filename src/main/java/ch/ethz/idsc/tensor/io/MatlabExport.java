@@ -31,7 +31,9 @@ import ch.ethz.idsc.tensor.qty.Quantity;
  * The tests contains an example.
  * 
  * <p>Hint:
- * for the export of vectors and matrices, {@link Pretty} may also be a solution. */
+ * for the export of vectors and matrices, {@link Pretty} may also be a solution.
+ * 
+ * @see Export */
 public enum MatlabExport {
   ;
   /** @param tensor with array structure
@@ -70,8 +72,7 @@ public enum MatlabExport {
    * 
    * @param tensor with array structure
    * @return lines of MATLAB function that returns tensor
-   * @throws Exception if given tensor does not satisfy {@link ArrayQ}
-   * @see Export */
+   * @throws Exception if given tensor does not satisfy {@link ArrayQ} */
   public static Stream<String> of(Tensor tensor) {
     return of(tensor, Object::toString);
   }

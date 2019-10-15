@@ -10,7 +10,9 @@ import ch.ethz.idsc.tensor.sca.Chop;
  * "A matrix m is orthogonal if m.Transpose[m] is the identity matrix."
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/OrthogonalMatrixQ.html">OrthogonalMatrixQ</a> */
+ * <a href="https://reference.wolfram.com/language/ref/OrthogonalMatrixQ.html">OrthogonalMatrixQ</a>
+ * 
+ * @see UnitaryMatrixQ */
 public enum OrthogonalMatrixQ {
   ;
   /** @param tensor
@@ -21,8 +23,7 @@ public enum OrthogonalMatrixQ {
   }
 
   /** @param tensor
-   * @return true, if given tensor is a matrix and tensor.Transpose[tensor] is the identity matrix
-   * @see UnitaryMatrixQ */
+   * @return true, if given tensor is a matrix and tensor.Transpose[tensor] is the identity matrix */
   public static boolean of(Tensor tensor) {
     return of(tensor, Tolerance.CHOP);
   }

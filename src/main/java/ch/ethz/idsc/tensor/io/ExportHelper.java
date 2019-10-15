@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.stream.Stream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.imageio.ImageIO;
 
@@ -13,6 +14,20 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /* package */ enum ExportHelper {
   ;
+  /** @param filename
+   * @param tensor
+   * @param outputStream
+   * @throws IOException */
+  static void of(Filename filename, Tensor tensor, OutputStream outputStream) throws IOException {
+    Extension extension = filename.extension();
+    if (extension.equals(Extension.GZ))
+      try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(outputStream)) {
+        of(filename.truncate(), tensor, gzipOutputStream);
+      }
+    else
+      of(extension, tensor, outputStream);
+  }
+
   /** @param extension
    * @param tensor
    * @param outputStream
@@ -30,7 +45,7 @@ import ch.ethz.idsc.tensor.Tensor;
       lines(MatlabExport.of(tensor), outputStream);
       break;
     case MATHEMATICA:
-      lines(MathematicaFormat.of(tensor), outputStream);
+      Put.of(outputStream, tensor);
       break;
     case GIF:
     case PNG:

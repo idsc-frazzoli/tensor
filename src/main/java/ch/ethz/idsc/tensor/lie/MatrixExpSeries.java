@@ -8,9 +8,7 @@ import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
 
-/** matrix exponential via power series
- * 
- * @see {@link MatrixExp} */
+/** matrix exponential via power series */
 /* package */ class MatrixExpSeries {
   private static final int MAX_ITERATIONS = 500;
 

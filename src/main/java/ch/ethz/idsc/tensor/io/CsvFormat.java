@@ -49,7 +49,9 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * expressions prior to export.
  * 
  * <p>Within the realm of Java, use {@link ObjectFormat}
- * to store and reload tensors, and do not use csv format. */
+ * to store and reload tensors, and do not use csv format.
+ * 
+ * @see Export */
 public enum CsvFormat {
   ;
   private static final Collector<CharSequence, ?, String> COLLECTOR = Collectors.joining(",");
@@ -61,8 +63,7 @@ public enum CsvFormat {
    * A=load('filename.csv');
    * 
    * @param tensor that may also be a {@link Scalar}
-   * @return stream of lines that make up the csv format
-   * @see Export */
+   * @return stream of lines that make up the csv format */
   public static Stream<String> of(Tensor tensor) {
     // flatten(0) handles scalars as opposed to stream()
     return tensor.flatten(0).map(CsvFormat::row);
