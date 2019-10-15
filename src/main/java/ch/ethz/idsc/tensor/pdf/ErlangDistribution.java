@@ -2,7 +2,6 @@
 package ch.ethz.idsc.tensor.pdf;
 
 import ch.ethz.idsc.tensor.Integers;
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.qty.Quantity;
@@ -33,7 +32,7 @@ public class ErlangDistribution implements Distribution, MeanInterface, PDF, Var
   private final Scalar factor;
 
   private ErlangDistribution(int k, Scalar lambda) {
-    this.k = RationalScalar.of(k, 1);
+    this.k = RealScalar.of(k);
     this.lambda = lambda;
     factor = Power.of(lambda, k).divide(Factorial.of(k - 1));
   }

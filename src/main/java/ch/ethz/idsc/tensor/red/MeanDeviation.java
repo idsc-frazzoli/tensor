@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -15,6 +15,6 @@ public enum MeanDeviation {
   public static Scalar ofVector(Tensor vector) {
     Scalar mean = Mean.of(vector).Get();
     return Norm1.ofVector(vector.stream().map(scalar -> mean.subtract(scalar))) //
-        .divide(RationalScalar.of(vector.length(), 1));
+        .divide(RealScalar.of(vector.length()));
   }
 }

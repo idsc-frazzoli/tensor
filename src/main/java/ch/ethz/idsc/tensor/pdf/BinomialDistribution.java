@@ -15,7 +15,9 @@ import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Power;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/BinomialDistribution.html">BinomialDistribution</a> */
+ * <a href="https://reference.wolfram.com/language/ref/BinomialDistribution.html">BinomialDistribution</a>
+ * 
+ * @see BinomialRandomVariate */
 public class BinomialDistribution extends EvaluatedDiscreteDistribution implements VarianceInterface {
   /** Example:
    * PDF[BinomialDistribution[10, 1/3], 1] == 5120/59049
@@ -29,7 +31,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
    * @param p in the interval [0, 1]
    * @return an instance of {@link BinomialDistribution} if the CDF could be computed correctly,
    * otherwise an instance of {@link BinomialRandomVariate}, which has the capability to
-   * generate random variates, but is not available to PDF, or CDF. */
+   * generate random variates, but is neither PDF, or CDF. */
   public static Distribution of(int n, Scalar p) {
     Integers.requirePositiveOrZero(n);
     Clips.unit().requireInside(p);
@@ -76,7 +78,7 @@ public class BinomialDistribution extends EvaluatedDiscreteDistribution implemen
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return RationalScalar.of(n, 1).multiply(p);
+    return RealScalar.of(n).multiply(p);
   }
 
   @Override // from VarianceInterface

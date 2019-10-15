@@ -106,7 +106,7 @@ public class RealScalarTest extends TestCase {
 
   public void testNullFail() {
     try {
-      RealScalar.of(null);
+      RealScalar.of((Number) null);
       fail();
     } catch (Exception exception) {
       // ---

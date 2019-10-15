@@ -14,9 +14,33 @@ import java.math.BigInteger;
  * </ul> */
 public interface RealScalar extends Scalar {
   /** real scalar 0 as a {@link RationalScalar} */
-  static final Scalar ZERO = RationalScalar.of(0, 1);
+  static final Scalar ZERO = RationalScalar.integer(0);
   /** real scalar 1 as a {@link RationalScalar} */
-  static final Scalar ONE = RationalScalar.of(1, 1);
+  static final Scalar ONE = RationalScalar.integer(1);
+
+  /** @param value
+   * @return real scalar of given integer value */
+  static Scalar of(long value) {
+    return RationalScalar.integer(value);
+  }
+
+  /** @param value
+   * @return real scalar of given decimal value */
+  static Scalar of(double value) {
+    return DoubleScalar.of(value);
+  }
+
+  /** @param bigInteger
+   * @return real scalar of given integer value */
+  static Scalar of(BigInteger bigInteger) {
+    return RationalScalar.integer(bigInteger);
+  }
+
+  /** @param bigDecimal
+   * @return real scalar of given decimal value */
+  static Scalar of(BigDecimal bigDecimal) {
+    return DecimalScalar.of(bigDecimal);
+  }
 
   /** depending on the derived class of the given {@link Number},
    * the value is encoded as {@link RationalScalar},

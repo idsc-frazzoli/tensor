@@ -7,7 +7,6 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -41,12 +40,12 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
       Scalar prob = p_equals(sample);
       if (Scalars.nonZero(prob)) {
         cumprob = cumprob.add(prob);
-        inverse_cdf.put(cumprob, RationalScalar.of(sample, 1));
+        inverse_cdf.put(cumprob, RealScalar.of(sample));
         if (Scalars.lessEquals(RealScalar.ONE, cumprob))
           return;
       }
     }
-    inverse_cdf.put(RealScalar.ONE, RationalScalar.of(upperBound, 1));
+    inverse_cdf.put(RealScalar.ONE, RealScalar.of(upperBound));
   }
 
   /** precomputes a lookup map and determines numeric upper bound
@@ -59,7 +58,7 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
       Scalar prob = p_equals(upperBound);
       if (Scalars.nonZero(prob)) {
         cumprob = cumprob.add(prob);
-        inverse_cdf.put(cumprob, RationalScalar.of(upperBound, 1));
+        inverse_cdf.put(cumprob, RealScalar.of(upperBound));
         if (chop.close(_1, cumprob))
           break;
       }

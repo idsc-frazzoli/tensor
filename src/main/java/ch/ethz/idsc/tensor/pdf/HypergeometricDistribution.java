@@ -48,7 +48,7 @@ public class HypergeometricDistribution extends EvaluatedDiscreteDistribution im
 
   @Override // from MeanInterface
   public Scalar mean() {
-    return RationalScalar.of(N, 1).multiply(RationalScalar.of(n, m_n));
+    return RealScalar.of(N).multiply(RationalScalar.of(n, m_n));
   }
 
   @Override // from VarianceInterface

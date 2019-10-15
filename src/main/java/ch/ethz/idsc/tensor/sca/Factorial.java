@@ -2,7 +2,7 @@
 package ch.ethz.idsc.tensor.sca;
 
 import ch.ethz.idsc.tensor.Integers;
-import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
@@ -37,7 +37,7 @@ public enum Factorial implements ScalarUnaryOperator {
       synchronized (FUNCTION) {
         Scalar x = Last.of(MEMO);
         while (MEMO.length() <= index)
-          MEMO.append(x = x.multiply(RationalScalar.of(MEMO.length(), 1)));
+          MEMO.append(x = x.multiply(RealScalar.of(MEMO.length())));
       }
     return MEMO.Get(index);
   }

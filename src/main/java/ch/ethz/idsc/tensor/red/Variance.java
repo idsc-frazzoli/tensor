@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.TensorMap;
@@ -30,7 +30,7 @@ public enum Variance {
   public static Scalar ofVector(Tensor vector) {
     Tensor mean = Mean.of(vector);
     return Norm2Squared.ofVector(TensorMap.of(scalar -> scalar.subtract(mean), vector, 1)) //
-        .divide(RationalScalar.of(vector.length() - 1, 1));
+        .divide(RealScalar.of(vector.length() - 1));
   }
 
   /** @param distribution
