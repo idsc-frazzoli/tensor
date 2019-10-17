@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
@@ -18,7 +20,7 @@ import ch.ethz.idsc.tensor.sca.Clips;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/UniformDistribution.html">UniformDistribution</a> */
 public class UniformDistribution extends AbstractContinuousDistribution implements //
-    InverseCDF, MeanInterface, VarianceInterface {
+    InverseCDF, MeanInterface, VarianceInterface, Serializable {
   private static final Scalar _12 = RealScalar.of(12);
   private static final Distribution UNIT = new UniformDistribution(Clips.unit()) {
     @Override // from AbstractContinuousDistribution

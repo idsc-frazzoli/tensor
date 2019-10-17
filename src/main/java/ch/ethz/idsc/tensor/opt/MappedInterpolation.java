@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
  * {@link Round#of(Tensor)}
  * {@link Floor#of(Tensor)}
  * {@link Ceiling#of(Tensor)} */
-public class MappedInterpolation extends AbstractInterpolation {
+public class MappedInterpolation extends AbstractInterpolation implements Serializable {
   /** @param tensor non-null
    * @param function non-null
    * @return

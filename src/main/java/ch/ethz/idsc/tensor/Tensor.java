@@ -165,10 +165,10 @@ public interface Tensor extends Iterable<Tensor> {
   /** For instance, if this tensor is the vector {0, 8, 1}, the function
    * stream() provides the three scalars 0, 8, 1 in a {@link Stream}.
    * 
-   * If this tensor is a matrix, the stream provides the references
+   * <p>If this tensor is a matrix, the stream provides the references
    * to the rows of the matrix.
    * 
-   * If this tensor has been marked as unmodifiable, the elements of
+   * <p>If this tensor has been marked as unmodifiable, the elements of
    * the stream are unmodifiable as well.
    * 
    * @return stream over tensors contained in the list of this instance
@@ -179,13 +179,13 @@ public interface Tensor extends Iterable<Tensor> {
   /** stream access to the entries at given level of this tensor.
    * entries at given level can be tensors or scalars.
    * 
-   * For the input <code>level == -1</code>, the return stream consists
+   * <p>For the input <code>level == -1</code>, the return stream consists
    * of all {@link Scalar}s in this tensor.
    * 
-   * If this tensor has been marked as unmodifiable, the elements of
+   * <p>If this tensor has been marked as unmodifiable, the elements of
    * the stream are unmodifiable as well.
    * 
-   * Unlike {@link #stream()}, function {@link #flatten(int)} may be
+   * <p>Unlike {@link #stream()}, function {@link #flatten(int)} may be
    * invoked on a {@link Scalar}. In that case the return value is the
    * stream with the scalar as single element.
    * 
@@ -280,7 +280,7 @@ public interface Tensor extends Iterable<Tensor> {
   /** iterator of list of entries.
    * The operation remove() is supported.
    * 
-   * If this tensor is unmodifiable, then
+   * <p>If this tensor is unmodifiable, then
    * <ul>
    * <li>an entry provided by next() is unmodifiable, and
    * <li>remove() throws an Exception.

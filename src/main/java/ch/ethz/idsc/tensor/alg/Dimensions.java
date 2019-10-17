@@ -64,7 +64,6 @@ public class Dimensions {
 
   /** @return true if tensor structure is identical at all levels, else false.
    * true for {@link Scalar}s
-   * 
    * @see ArrayQ */
   public boolean isArray() {
     return lengths.stream().mapToInt(Set::size).allMatch(size -> size == 1);

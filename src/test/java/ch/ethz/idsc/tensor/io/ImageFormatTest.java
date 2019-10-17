@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 public class ImageFormatTest extends TestCase {
   public void testRGBAFile() throws Exception {
     Tensor tensor = TransposedImageFormatTest._readRGBA();
-    String string = "/io/rgba15x33.png";
+    String string = "/io/image/rgba15x33.png";
     File file = new File(getClass().getResource(string).getFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor image = ImageFormat.from(bufferedImage);
@@ -49,7 +49,7 @@ public class ImageFormatTest extends TestCase {
   }
 
   public void testGrayFile() throws Exception {
-    String string = "/io/gray15x9.png";
+    String string = "/io/image/gray15x9.png";
     File file = new File(getClass().getResource(string).getFile());
     BufferedImage bufferedImage = ImageIO.read(file);
     Tensor tensor = ImageFormat.from(bufferedImage);

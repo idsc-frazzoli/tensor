@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.Serializable;
 import java.util.List;
 
 import ch.ethz.idsc.tensor.RealScalar;
@@ -22,7 +23,7 @@ import ch.ethz.idsc.tensor.sca.Increment;
  * <code>[0, Dimensions.of(tensor).get(d) - 1]</code>
  * 
  * <p>Remark: for scalar inverse linear interpolation use {@link Clip#rescale(Scalar)} */
-public class LinearInterpolation extends AbstractInterpolation {
+public class LinearInterpolation extends AbstractInterpolation implements Serializable {
   /** @param tensor not instance of {@link Scalar}
    * @return
    * @throws Exception if tensor == null */

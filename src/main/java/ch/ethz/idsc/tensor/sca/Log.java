@@ -7,10 +7,14 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** logarithm
+/** gives the logarithm of a {@link Scalar} that implements {@link LogInterface}
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Log.html">Log</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Log.html">Log</a>
+ * 
+ * @see LogInterface
+ * @see Log10
+ * @see Exp */
 public enum Log implements ScalarUnaryOperator {
   FUNCTION;
   // ---

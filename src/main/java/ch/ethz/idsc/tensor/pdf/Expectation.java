@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor.pdf;
 import java.util.Objects;
 import java.util.function.Function;
 
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -48,7 +47,7 @@ public enum Expectation {
       return varianceInterface.variance();
     }
     Scalar mean = mean(distribution);
-    ScalarUnaryOperator scalarUnaryOperator = scalar -> AbsSquared.FUNCTION.apply(scalar.subtract(mean));
+    ScalarUnaryOperator scalarUnaryOperator = scalar -> AbsSquared.between(scalar, mean);
     return of(scalarUnaryOperator, distribution);
   }
 
@@ -59,7 +58,7 @@ public enum Expectation {
     Scalar cumprob = RealScalar.ZERO;
     int sample = discreteDistribution.lowerBound();
     while (!DiscreteCDF.isFinished(p_equals, cumprob)) {
-      Scalar x = RationalScalar.of(sample, 1);
+      Scalar x = RealScalar.of(sample);
       p_equals = discreteDistribution.p_equals(sample);
       cumprob = cumprob.add(p_equals);
       T delta = (T) function.apply(x).multiply(p_equals);

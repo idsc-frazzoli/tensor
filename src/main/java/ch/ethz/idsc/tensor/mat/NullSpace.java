@@ -34,11 +34,11 @@ public enum NullSpace {
    * the nullspace is computed using {@link SingularValueDecomposition}.
    * In that case the vectors in the return value are normalized.
    * 
-   * If all entries of the given matrix are in exact precision,
+   * <p>If all entries of the given matrix are in exact precision,
    * the nullspace is computed using {@link RowReduce}.
    * In that case the vectors in the return value are <em>not</em> normalized.
    * 
-   * Function is consistent with Mathematica.
+   * <p>Function is consistent with Mathematica.
    * 
    * @param matrix
    * @return vectors that span the nullspace */
@@ -87,7 +87,7 @@ public enum NullSpace {
   public static Tensor of(SingularValueDecomposition svd, Chop chop) {
     Tensor vt = Transpose.of(svd.getV());
     return Tensor.of(IntStream.range(0, svd.values().length()) //
-        .filter(index -> Scalars.isZero(chop.apply(svd.values().Get(index).abs()))) //
+        .filter(index -> Scalars.isZero(chop.apply(svd.values().Get(index)))) //
         .mapToObj(vt::get));
   }
 

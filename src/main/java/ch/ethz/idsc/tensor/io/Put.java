@@ -2,9 +2,10 @@
 package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.OutputStream;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import ch.ethz.idsc.tensor.Tensor;
@@ -30,14 +31,17 @@ public enum Put {
    * @param tensor
    * @throws IOException */
   public static void of(File file, Tensor tensor) throws IOException {
-    of(file.toPath(), tensor);
+    Objects.requireNonNull(tensor);
+    try (OutputStream outputStream = new FileOutputStream(file)) {
+      of(outputStream, tensor);
+    }
   }
 
-  /** @param path destination of write
+  /** @param outputStream
    * @param tensor
    * @throws IOException */
-  public static void of(Path path, Tensor tensor) throws IOException {
-    Files.write(path, (Iterable<String>) MathematicaFormat.of(tensor)::iterator);
+  public static void of(OutputStream outputStream, Tensor tensor) throws IOException {
+    ExportHelper.lines(MathematicaFormat.of(tensor), outputStream);
   }
 
   /** @param tensor

@@ -20,4 +20,11 @@ public enum Abs implements ScalarUnaryOperator {
   public static <T extends Tensor> T of(T tensor) {
     return (T) tensor.map(FUNCTION);
   }
+
+  /** @param a
+   * @param b
+   * @return |a - b| */
+  public static Scalar between(Scalar a, Scalar b) {
+    return a.subtract(b).abs();
+  }
 }

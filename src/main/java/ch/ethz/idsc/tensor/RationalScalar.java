@@ -9,7 +9,6 @@ import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Optional;
 
-import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.NInterface;
 
 /** a RationalScalar corresponds to an element from the field of rational numbers.
@@ -259,6 +258,6 @@ public final class RationalScalar extends AbstractRealScalar implements //
 
   @Override // from AbstractScalar
   public String toString() {
-    return bigFraction.toCompactString();
+    return bigFraction.toString();
   }
 }

@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.pdf;
 
 import java.util.NavigableMap;
 
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -30,9 +29,9 @@ public enum BinCounts {
     Sign.requirePositiveOrZero(navigableMap.firstKey().Get());
     int length = Scalars.intValueExact(navigableMap.lastKey().Get()) + 1;
     return Tensors.vector(index -> {
-      Scalar key = RationalScalar.of(index, 1);
+      Scalar key = RealScalar.of(index);
       return navigableMap.containsKey(key) //
-          ? RationalScalar.of(navigableMap.get(key), 1)
+          ? RealScalar.of(navigableMap.get(key))
           : RealScalar.ZERO;
     }, length);
   }

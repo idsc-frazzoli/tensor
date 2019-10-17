@@ -16,11 +16,11 @@ public class GetTest extends TestCase {
     assertTrue(Objects.nonNull(tensor));
     assertFalse(ScalarQ.of(tensor));
     assertEquals(tensor.length(), 13);
-    assertEquals(tensor, Get.of(file.toPath()));
+    assertEquals(tensor, Get.of(file));
   }
 
   public void testBinary() throws IOException { // this use is not as intended
-    File file = new File(getClass().getResource("/io/rgb7x11.bmp").getFile());
+    File file = new File(getClass().getResource("/io/image/rgb7x11.bmp").getFile());
     Tensor tensor = Get.of(file);
     assertTrue(tensor instanceof StringScalar);
   }

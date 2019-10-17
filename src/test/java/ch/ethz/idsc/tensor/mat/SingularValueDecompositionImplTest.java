@@ -11,7 +11,7 @@ import ch.ethz.idsc.tensor.io.Get;
 import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
-public class SingularValueDecompositionExtTest extends TestCase {
+public class SingularValueDecompositionImplTest extends TestCase {
   private static void _check(Tensor matrix) {
     assertTrue(SquareMatrixQ.of(matrix));
     SingularValueDecompositionTest.specialOps(matrix);
@@ -21,7 +21,7 @@ public class SingularValueDecompositionExtTest extends TestCase {
 
   public void testResource() throws Exception {
     String string = getClass().getResource("/mat/svd0.mathematica").getPath();
-    _check(Get.of(Paths.get(string)));
+    _check(Get.of(Paths.get(string).toFile()));
   }
 
   public void testEps() {

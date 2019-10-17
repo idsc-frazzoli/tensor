@@ -139,11 +139,11 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testInverseCDF() {
-    InverseCDF inv = InverseCDF.of(BinomialDistribution.of(100, RationalScalar.of(2, 3)));
-    Scalar x0 = inv.quantile(RealScalar.ZERO);
-    Scalar x1 = inv.quantile(RealScalar.of(0.5));
-    Scalar x2 = inv.quantile(RealScalar.of(0.8));
-    Scalar x3 = inv.quantile(RealScalar.of(Math.nextDown(1.0)));
+    InverseCDF inverseCDF = InverseCDF.of(BinomialDistribution.of(100, RationalScalar.of(2, 3)));
+    Scalar x0 = inverseCDF.quantile(RealScalar.ZERO);
+    Scalar x1 = inverseCDF.quantile(RealScalar.of(0.5));
+    Scalar x2 = inverseCDF.quantile(RealScalar.of(0.8));
+    Scalar x3 = inverseCDF.quantile(RealScalar.of(Math.nextDown(1.0)));
     assertEquals(x0, RealScalar.ZERO);
     assertEquals(x1, RealScalar.of(67));
     assertEquals(x2, RealScalar.of(71));
@@ -151,12 +151,12 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testInverseCDF2() {
-    InverseCDF inv = InverseCDF.of(BinomialDistribution.of(10, RationalScalar.of(1, 2)));
-    Scalar x0 = inv.quantile(RealScalar.ZERO);
-    Scalar x1 = inv.quantile(RealScalar.of(0.5));
-    Scalar x2 = inv.quantile(RealScalar.of(0.8));
-    Scalar x9 = inv.quantile(RealScalar.of(0.9));
-    Scalar x3 = inv.quantile(RealScalar.of(Math.nextDown(1.0)));
+    InverseCDF inverseCDF = InverseCDF.of(BinomialDistribution.of(10, RationalScalar.of(1, 2)));
+    Scalar x0 = inverseCDF.quantile(RealScalar.ZERO);
+    Scalar x1 = inverseCDF.quantile(RealScalar.of(0.5));
+    Scalar x2 = inverseCDF.quantile(RealScalar.of(0.8));
+    Scalar x9 = inverseCDF.quantile(RealScalar.of(0.9));
+    Scalar x3 = inverseCDF.quantile(RealScalar.of(Math.nextDown(1.0)));
     assertEquals(x0, RealScalar.ZERO);
     assertEquals(x1, RealScalar.of(5));
     assertEquals(x2, RealScalar.of(6));
@@ -165,8 +165,8 @@ public class BinomialDistributionTest extends TestCase {
   }
 
   public void testInverseCDFOne() {
-    InverseCDF inv = InverseCDF.of(BinomialDistribution.of(10, RationalScalar.of(2, 3)));
-    Scalar last = inv.quantile(RealScalar.ONE);
+    InverseCDF inverseCDF = InverseCDF.of(BinomialDistribution.of(10, RationalScalar.of(2, 3)));
+    Scalar last = inverseCDF.quantile(RealScalar.ONE);
     assertEquals(last, RealScalar.of(10)); // consistent with Mathematica
   }
 

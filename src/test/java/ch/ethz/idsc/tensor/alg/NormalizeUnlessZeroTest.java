@@ -20,6 +20,23 @@ public class NormalizeUnlessZeroTest extends TestCase {
       assertEquals(v, NormalizeUnlessZero.with(n::ofVector).apply(v));
   }
 
+  public void testEmpty() {
+    for (Norm norm : Norm.values()) {
+      TensorUnaryOperator tensorUnaryOperator = NormalizeUnlessZero.with(norm);
+      Tensor tensor = Tensors.empty();
+      try {
+        tensorUnaryOperator.apply(tensor);
+        fail();
+        // System.out.println(norm);
+        // assertEquals(normal, Tensors.empty());
+        // normal.append(Pi.VALUE);
+        // assertEquals(tensor, Tensors.empty());
+      } catch (Exception exception) {
+        // ---
+      }
+    }
+  }
+
   public void testNormalizeNaN() {
     Tensor vector = Tensors.of(RealScalar.ONE, DoubleScalar.INDETERMINATE, RealScalar.ONE);
     try {

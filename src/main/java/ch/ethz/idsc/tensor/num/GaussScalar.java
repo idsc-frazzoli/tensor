@@ -6,12 +6,12 @@ import java.math.BigInteger;
 import java.util.Objects;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
+import ch.ethz.idsc.tensor.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.IntegerQ;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
-import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.PowerInterface;
 import ch.ethz.idsc.tensor.sca.RoundingInterface;
 import ch.ethz.idsc.tensor.sca.SignInterface;

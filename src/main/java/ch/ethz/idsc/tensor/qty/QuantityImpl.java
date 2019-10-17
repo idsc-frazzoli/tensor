@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import ch.ethz.idsc.tensor.AbstractScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
+import ch.ethz.idsc.tensor.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -21,7 +22,6 @@ import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Conjugate;
 import ch.ethz.idsc.tensor.sca.ConjugateInterface;
-import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Imag;
 import ch.ethz.idsc.tensor.sca.N;

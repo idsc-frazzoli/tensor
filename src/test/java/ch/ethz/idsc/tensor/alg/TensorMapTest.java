@@ -59,7 +59,7 @@ public class TensorMapTest extends TestCase {
         return Tensors.vector(255, 248, 198, 255);
       return rgba;
     };
-    Tensor tensor = ResourceData.of("/io/rgba15x33.png");
+    Tensor tensor = ResourceData.of("/io/image/rgba15x33.png");
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
     Tensor result = TensorMap.of(tensorUnaryOperator, tensor, 2);
     assertEquals(Dimensions.of(result), Arrays.asList(33, 15, 4));
@@ -71,7 +71,7 @@ public class TensorMapTest extends TestCase {
         return RealScalar.ONE;
       return RealScalar.ZERO;
     };
-    Tensor tensor = ResourceData.of("/io/rgba15x33.png");
+    Tensor tensor = ResourceData.of("/io/image/rgba15x33.png");
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
     Tensor result = TensorMap.of(tensorScalarFunction, tensor, 2);
     assertEquals(Dimensions.of(result), Arrays.asList(33, 15));

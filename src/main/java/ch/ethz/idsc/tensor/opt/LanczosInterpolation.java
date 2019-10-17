@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -17,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * A constant signal should not be interpolated using the filter.
  * 
  * https://en.wikipedia.org/wiki/Lanczos_resampling */
-public class LanczosInterpolation extends AbstractInterpolation {
+public class LanczosInterpolation extends AbstractInterpolation implements Serializable {
   /** @param tensor non-null
    * @param semi positive, typically greater than 1
    * @return

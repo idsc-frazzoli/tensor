@@ -4,7 +4,7 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.qty.Quantity;
 import junit.framework.TestCase;
 
-public class ComplexQuantityTest extends TestCase {
+public class ComplexHelperTest extends TestCase {
   public void testAdd() {
     Scalar a = Scalars.fromString("-13*I[m]");
     Scalar b = Scalars.fromString("-3/7[m]");

@@ -11,7 +11,10 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * Supported types include {@link RealScalar}, and {@link ComplexScalar}.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Exp.html">Exp</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Exp.html">Exp</a>
+ * 
+ * @see ExpInterface
+ * @see Log */
 public enum Exp implements ScalarUnaryOperator {
   FUNCTION;
   // ---

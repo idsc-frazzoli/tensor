@@ -101,7 +101,7 @@ import java.util.regex.Pattern;
    * 
    * @param im
    * @return */
-  static String imagToString(Scalar im) {
+  /* package */ static String imagToString(Scalar im) {
     if (im instanceof RationalScalar) {
       RationalScalar rationalScalar = (RationalScalar) im;
       BigInteger num = rationalScalar.numerator();

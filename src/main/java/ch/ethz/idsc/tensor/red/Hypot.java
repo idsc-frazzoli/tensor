@@ -17,6 +17,9 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * <p>Hypot is inspired by {@link Math#hypot(double, double)} */
 public enum Hypot {
   ;
+  /** @param a
+   * @param b
+   * @return Sqrt[a * a + b * b] */
   public static Scalar of(Scalar a, Scalar b) {
     Scalar ax = a.abs();
     Scalar ay = b.abs();

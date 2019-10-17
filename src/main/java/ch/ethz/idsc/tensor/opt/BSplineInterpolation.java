@@ -1,6 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
+import java.io.Serializable;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -14,7 +15,7 @@ import ch.ethz.idsc.tensor.mat.LinearSolve;
 
 /** BSplineInterpolation defines a parametric curve that interpolates
  * the given control points at integer values. */
-public class BSplineInterpolation extends AbstractInterpolation {
+public class BSplineInterpolation extends AbstractInterpolation implements Serializable {
   /** @param degree of b-spline basis functions: 1 for linear, 2 for quadratic, etc.
    * @param control points with at least one element
    * @return */

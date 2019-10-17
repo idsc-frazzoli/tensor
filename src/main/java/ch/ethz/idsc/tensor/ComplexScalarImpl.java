@@ -14,7 +14,6 @@ import ch.ethz.idsc.tensor.sca.ChopInterface;
 import ch.ethz.idsc.tensor.sca.ComplexEmbedding;
 import ch.ethz.idsc.tensor.sca.Cos;
 import ch.ethz.idsc.tensor.sca.Cosh;
-import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Floor;
 import ch.ethz.idsc.tensor.sca.Log;

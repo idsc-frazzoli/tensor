@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor;
 
 import java.io.Serializable;
 
-import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 import ch.ethz.idsc.tensor.sca.SqrtInterface;
 
 /** arithmetic of BooleanScalar is as for an element of the finite field F with cardinality |F|=2

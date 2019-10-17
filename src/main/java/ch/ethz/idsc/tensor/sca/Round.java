@@ -17,7 +17,11 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * not consistent with java.lang.Math::round which rounds -11.5 to -11.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Round.html">Round</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Round.html">Round</a>
+ * 
+ * @see RoundingInterface
+ * @see Ceiling
+ * @see Floor */
 public enum Round implements ScalarUnaryOperator {
   FUNCTION;
   // ---

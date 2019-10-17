@@ -84,4 +84,22 @@ public class SpatialMedianTest extends TestCase {
     }
     assertTrue(5 < present);
   }
+
+  public void testNegativeFail() {
+    try {
+      SpatialMedian.with(RealScalar.of(-0.1));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testNullFail() {
+    try {
+      SpatialMedian.with(null);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

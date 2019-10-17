@@ -13,8 +13,8 @@ public class InverseErfcTest extends TestCase {
   public static final Chop CHOP_04 = Chop.below(1.4e-04);
 
   public void testInverseCDFAtMean() {
-    InverseCDF icdf = (InverseCDF) NormalDistribution.of(2, 8);
-    Scalar phi = icdf.quantile(RealScalar.of(0.5));
+    InverseCDF inverseCDF = (InverseCDF) NormalDistribution.of(2, 8);
+    Scalar phi = inverseCDF.quantile(RealScalar.of(0.5));
     assertEquals(phi, RealScalar.of(2));
   }
 
@@ -31,9 +31,9 @@ public class InverseErfcTest extends TestCase {
   }
 
   public void testFail() {
-    InverseCDF icdf = (InverseCDF) NormalDistribution.of(2, 8);
+    InverseCDF inverseCDF = (InverseCDF) NormalDistribution.of(2, 8);
     try {
-      icdf.quantile(RealScalar.of(1.5));
+      inverseCDF.quantile(RealScalar.of(1.5));
       fail();
     } catch (Exception exception) {
       // ---

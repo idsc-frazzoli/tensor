@@ -9,7 +9,9 @@ import ch.ethz.idsc.tensor.Tensors;
 
 /** utility class for {@link Transpose} */
 /* package */ class Size implements Iterable<MultiIndex> {
-  public static Size of(int... dims) {
+  /** @param dims
+   * @throws Exception if dims.length == 0 */
+  public static Size of(int[] dims) {
     return new Size(Arrays.copyOf(dims, dims.length));
   }
   // ---
@@ -19,7 +21,7 @@ import ch.ethz.idsc.tensor.Tensors;
 
   /** @param dims
    * @throws Exception if dims.length == 0 */
-  private Size(int... dims) {
+  private Size(int[] dims) {
     size = dims;
     prod = new int[dims.length];
     final int dmo = dims.length - 1;
@@ -28,11 +30,11 @@ import ch.ethz.idsc.tensor.Tensors;
       prod[dmo - (index + 1)] = prod[dmo - index] * size[dmo - index];
   }
 
-  public Size permute(int... sigma) {
-    return new Size(StaticHelper.static_permute(size, sigma));
+  public Size permute(int[] sigma) {
+    return new Size(StaticHelper.permute(size, sigma));
   }
 
-  public Size permute(Integer... sigma) {
+  public Size permute(Integer[] sigma) {
     return permute(Stream.of(sigma).mapToInt(Integer::intValue).toArray());
   }
 

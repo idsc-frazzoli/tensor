@@ -19,10 +19,10 @@ import ch.ethz.idsc.tensor.alg.TensorRank;
  * <p>While Mathematica also defines the norm for Scalars, for instance Norm[-3 + 4 I] == 5,
  * the tensor library insists that Scalar::abs is used for that purpose.
  * 
- * @see Frobenius#NORM
- * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Norm.html">Norm</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Norm.html">Norm</a>
+ * 
+ * @see Frobenius#NORM */
 public enum Norm implements NormInterface {
   /** 1-norm, for vectors |a_1| + ... + |a_n| also known as ManhattanDistance */
   _1(Norm1.INSTANCE), //

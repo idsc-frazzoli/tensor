@@ -1,15 +1,19 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.IOException;
+
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.io.Serialization;
 import ch.ethz.idsc.tensor.sca.Clips;
 import junit.framework.TestCase;
 
 public class DiscreteUniformDistributionTest extends TestCase {
-  public void testPdf() {
-    Distribution distribution = DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(11));
+  public void testPdf() throws ClassNotFoundException, IOException {
+    Distribution distribution = //
+        Serialization.copy(DiscreteUniformDistribution.of(RealScalar.of(3), RealScalar.of(11)));
     PDF pdf = PDF.of(distribution);
     Scalar prob = pdf.at(RealScalar.of(4));
     assertEquals(prob, RationalScalar.of(1, 10 - 3 + 1));

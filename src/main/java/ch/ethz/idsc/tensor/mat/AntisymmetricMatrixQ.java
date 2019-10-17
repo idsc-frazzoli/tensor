@@ -5,10 +5,10 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Chop;
 
-/** @see HermitianMatrixQ
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/AntisymmetricMatrixQ.html">AntisymmetricMatrixQ</a>
  * 
- * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/AntisymmetricMatrixQ.html">AntisymmetricMatrixQ</a> */
+ * @see HermitianMatrixQ */
 public enum AntisymmetricMatrixQ {
   ;
   /** @param tensor

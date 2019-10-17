@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.TensorMap;
@@ -17,10 +17,10 @@ import ch.ethz.idsc.tensor.pdf.Expectation;
  * drawn from the same distribution. This can occur even when the width of the peak
  * looks, by eye, perfectly finite.
  * 
- * @see MeanDeviation
- * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Variance.html">Variance</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Variance.html">Variance</a>
+ * 
+ * @see MeanDeviation */
 public enum Variance {
   ;
   /** @param vector with at least 2 entries
@@ -30,7 +30,7 @@ public enum Variance {
   public static Scalar ofVector(Tensor vector) {
     Tensor mean = Mean.of(vector);
     return Norm2Squared.ofVector(TensorMap.of(scalar -> scalar.subtract(mean), vector, 1)) //
-        .divide(RationalScalar.of(vector.length() - 1, 1));
+        .divide(RealScalar.of(vector.length() - 1));
   }
 
   /** @param distribution

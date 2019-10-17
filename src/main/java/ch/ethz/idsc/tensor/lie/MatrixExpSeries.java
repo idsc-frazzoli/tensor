@@ -1,16 +1,14 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 import ch.ethz.idsc.tensor.mat.IdentityMatrix;
 import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.N;
 
-/** matrix exponential via power series
- * 
- * @see {@link MatrixExp} */
+/** matrix exponential via power series */
 /* package */ class MatrixExpSeries {
   private static final int MAX_ITERATIONS = 500;
 
@@ -21,14 +19,14 @@ import ch.ethz.idsc.tensor.sca.N;
     Tensor sum = IdentityMatrix.of(n);
     Tensor nxt = IdentityMatrix.of(n);
     for (int k = 1; k <= n; ++k) {
-      nxt = nxt.dot(matrix).divide(RationalScalar.of(k, 1));
+      nxt = nxt.dot(matrix).divide(RealScalar.of(k));
       sum = sum.add(nxt);
       if (Chop.NONE.allZero(nxt))
         return sum;
     }
     sum = N.DOUBLE.of(sum); // switch to numeric precision
     for (int k = n + 1; k < MAX_ITERATIONS; ++k) {
-      nxt = nxt.dot(matrix).divide(RationalScalar.of(k, 1));
+      nxt = nxt.dot(matrix).divide(RealScalar.of(k));
       Tensor prv = sum;
       sum = sum.add(nxt);
       if (Chop.NONE.close(sum, prv))

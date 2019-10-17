@@ -24,13 +24,13 @@ public interface SpatialMedian {
     return WeiszfeldMethod.DEFAULT.uniform(points);
   }
 
-  /** @param tolerance
+  /** @param tolerance non-negative
    * @return */
   static SpatialMedian with(Scalar tolerance) {
     return new WeiszfeldMethod(tolerance);
   }
 
-  /** @param tolerance
+  /** @param tolerance non-negative
    * @return */
   static SpatialMedian with(double tolerance) {
     return with(RealScalar.of(tolerance));

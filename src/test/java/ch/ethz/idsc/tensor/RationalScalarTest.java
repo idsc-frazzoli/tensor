@@ -39,9 +39,9 @@ public class RationalScalarTest extends TestCase {
   }
 
   public void testNegate() {
-    Scalar scalar = RationalScalar.of(3, 17);
-    assertEquals(scalar.negate(), RationalScalar.of(3, -17));
-    assertEquals(scalar.negate().toString(), "-3/17");
+    Scalar scalar = RationalScalar.of(3, 17).negate();
+    assertEquals(scalar, RationalScalar.of(3, -17));
+    assertEquals(scalar.toString(), "-3/17");
   }
 
   public void testTensor() {
@@ -174,6 +174,24 @@ public class RationalScalarTest extends TestCase {
     assertTrue(((RationalScalar) RationalScalar.of(-5, 1)).isInteger());
     assertFalse(((RationalScalar) RationalScalar.of(-1, 5)).isInteger());
     assertFalse(((RationalScalar) RationalScalar.of(-5, 2)).isInteger());
+  }
+
+  public void testDivideZeroFail() {
+    try {
+      RealScalar.ONE.divide(RealScalar.ZERO);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testZeroUnderFail() {
+    try {
+      RealScalar.ZERO.under(RealScalar.ONE);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 
   public void testNullFail() {

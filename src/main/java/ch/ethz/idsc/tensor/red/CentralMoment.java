@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -22,7 +21,7 @@ public enum CentralMoment {
         .map(Power.function(order)) //
         .reduce(Scalar::add) //
         .get() //
-        .divide(RationalScalar.of(vector.length(), 1));
+        .divide(RealScalar.of(vector.length()));
   }
 
   /** @param vector

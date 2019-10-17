@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
-import java.io.Serializable;
 import java.util.stream.Stream;
 
 import ch.ethz.idsc.tensor.ComplexScalar;
@@ -28,7 +27,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
  * 
  * therefore the implementation below is chosen as default when
  * computing roots of cubic polynomials. */
-/* package */ class RootsDegree3 implements Serializable {
+/* package */ class RootsDegree3 {
   private static final Scalar _3 = RealScalar.of(3);
   private static final Scalar N1_2 = RationalScalar.of(-1, 2);
   private static final Scalar _1_3 = RationalScalar.of(1, 3);
@@ -45,6 +44,13 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private static final ScalarUnaryOperator POWER_1_3 = Power.function(_1_3);
   private static final Tensor ZEROS = Array.zeros(3);
 
+  /** finds the roots of the polynomial
+   * <pre>
+   * d + c*x + b*x^2 + a*x^3 == 0
+   * </pre>
+   * 
+   * @param coeffs vector of the form {d, c, b, a} with last entry non-zero
+   * @return vector of length 3 containing the roots of the polynomial */
   public static Tensor of(Tensor coeffs) {
     return new RootsDegree3(coeffs).roots();
   }
@@ -68,12 +74,11 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
     a = _a;
   }
 
-  public Tensor roots() {
+  private Tensor roots() {
     return _roots().map(shift::add);
   }
 
-  /** @param coeffs vector of length 4
-   * @return vector of length 3 */
+  /** @return vector of length 3 */
   private Tensor _roots() {
     Scalar _27aa = _27.multiply(a).multiply(a);
     Scalar D1 = _27aa.multiply(d); // wikipedia up to sign

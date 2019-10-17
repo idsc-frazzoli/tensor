@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -18,7 +18,7 @@ public enum HarmonicMean {
    * @return harmonic mean of entries in given vector
    * @throws ArithmeticException if any entry of vector is zero, or vector is empty */
   public static Scalar ofVector(Tensor vector) {
-    return RationalScalar.of(vector.length(), 1) //
+    return RealScalar.of(vector.length()) //
         .divide(Total.ofVector(vector.map(Scalar::reciprocal)));
   }
 }

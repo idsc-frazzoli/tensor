@@ -72,13 +72,4 @@ public class ListConvolveTest extends TestCase {
       // ---
     }
   }
-
-  public void testNullFail() {
-    try {
-      ListConvolve.with(null);
-      fail();
-    } catch (Exception exception) {
-      // ---
-    }
-  }
 }

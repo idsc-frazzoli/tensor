@@ -32,7 +32,7 @@ public class GumbelDistribution extends AbstractAlphaBetaDistribution {
   @Override
   protected Scalar randomVariate(double reference) {
     // avoid result -Infinity when reference is close to 1.0
-    double uniform = reference == NEXTDOWNONE //
+    double uniform = reference == NEXT_DOWN_ONE //
         ? reference
         : Math.nextUp(reference);
     return alpha.add(beta.multiply(Log.FUNCTION.apply(Log.FUNCTION.apply(DoubleScalar.of(uniform)).negate())));

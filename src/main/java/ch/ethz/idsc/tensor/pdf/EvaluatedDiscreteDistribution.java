@@ -1,12 +1,12 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -17,8 +17,12 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * 
  * <p>implementing classes are required to invoke
  * {@link #inverse_cdf_build(int)}, or
- * {@link #inverse_cdf_build(Chop)} in the constructor */
-public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDistribution {
+ * {@link #inverse_cdf_build(Chop)} in the constructor
+ * 
+ * @see BinomialDistribution
+ * @see PoissonDistribution
+ * @see PascalDistribution */
+public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDistribution implements Serializable {
   private static final Scalar _0 = DoubleScalar.of(0);
   private static final Scalar _1 = DoubleScalar.of(1);
   // ---
@@ -27,28 +31,26 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
   private final NavigableMap<Scalar, Scalar> inverse_cdf = new TreeMap<>();
 
   /** precomputes a lookup map for random variate generation via {@link #quantile(Scalar)}
+   * safeguard when computing CDF for probabilities with machine precision
    * 
-   * @param upperBound greatest integer n for which 0 < p(n), i.e. upper bound is inclusive
-   * @see BinomialDistribution
-   * @see PoissonDistribution */
-  /** safeguard when computing CDF for probabilities with machine precision */
+   * @param upperBound greatest integer n for which 0 < p(n), i.e. upper bound is inclusive */
   protected void inverse_cdf_build(final int upperBound) {
     Scalar cumprob = RealScalar.ZERO;
     for (int sample = lowerBound(); sample < upperBound; ++sample) {
       Scalar prob = p_equals(sample);
       if (Scalars.nonZero(prob)) {
         cumprob = cumprob.add(prob);
-        inverse_cdf.put(cumprob, RationalScalar.of(sample, 1));
+        inverse_cdf.put(cumprob, RealScalar.of(sample));
         if (Scalars.lessEquals(RealScalar.ONE, cumprob))
           return;
       }
     }
-    inverse_cdf.put(RealScalar.ONE, RationalScalar.of(upperBound, 1));
+    inverse_cdf.put(RealScalar.ONE, RealScalar.of(upperBound));
   }
 
   /** precomputes a lookup map and determines numeric upper bound
    * 
-   * @see PascalDistribution */
+   * @param chop */
   protected void inverse_cdf_build(Chop chop) {
     int upperBound = lowerBound();
     Scalar cumprob = _0;
@@ -56,7 +58,7 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
       Scalar prob = p_equals(upperBound);
       if (Scalars.nonZero(prob)) {
         cumprob = cumprob.add(prob);
-        inverse_cdf.put(cumprob, RationalScalar.of(upperBound, 1));
+        inverse_cdf.put(cumprob, RealScalar.of(upperBound));
         if (chop.close(_1, cumprob))
           break;
       }
@@ -76,6 +78,9 @@ public abstract class EvaluatedDiscreteDistribution extends AbstractDiscreteDist
     return inverse_cdf.higherEntry(p).getValue();
   }
 
+  /** function for testing
+   * 
+   * @return */
   /* package */ final NavigableMap<Scalar, Scalar> inverse_cdf() {
     return Collections.unmodifiableNavigableMap(inverse_cdf);
   }

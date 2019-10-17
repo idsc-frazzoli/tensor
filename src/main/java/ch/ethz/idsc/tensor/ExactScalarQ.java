@@ -4,7 +4,6 @@ package ch.ethz.idsc.tensor;
 import ch.ethz.idsc.tensor.mat.RowReduce;
 import ch.ethz.idsc.tensor.mat.SingularValueDecomposition;
 import ch.ethz.idsc.tensor.qty.Quantity;
-import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
 
 /** predicate to test if scalar is encoded in exact precision.
  * result is determined by implementation of {@link ExactScalarQInterface}.
@@ -29,6 +28,7 @@ import ch.ethz.idsc.tensor.sca.ExactScalarQInterface;
  * 
  * <p>Identical to Mathematica::Exact"Number"Q except for input of type {@link Quantity}.
  * 
+ * @see ExactScalarQInterface
  * @see IntegerQ
  * @see MachineNumberQ */
 public enum ExactScalarQ {

@@ -27,6 +27,12 @@ public class ParallelizeTest extends TestCase {
     assertEquals(m1, m2);
   }
 
+  public void testMatrix() {
+    Tensor a = Parallelize.matrix((i, j) -> RationalScalar.of(i, j + 1), 30, 30);
+    Tensor b = Tensors.matrix((i, j) -> RationalScalar.of(i, j + 1), 30, 30);
+    assertEquals(a, b);
+  }
+
   public void testDotFail() {
     try {
       Parallelize.dot(RealScalar.ONE, RealScalar.ZERO);
@@ -40,11 +46,5 @@ public class ParallelizeTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
-  }
-
-  public void testMatrix() {
-    Tensor a = Parallelize.matrix((i, j) -> RationalScalar.of(i, j + 1), 30, 30);
-    Tensor b = Tensors.matrix((i, j) -> RationalScalar.of(i, j + 1), 30, 30);
-    assertEquals(a, b);
   }
 }

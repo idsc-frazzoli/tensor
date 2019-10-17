@@ -35,14 +35,14 @@ public class ImageCropTest extends TestCase {
 
   public void testNoCropGrayscale() {
     TensorUnaryOperator imagecrop = ImageCrop.color(RealScalar.of(123));
-    Tensor tensor = ResourceData.of("/io/gray15x9.png");
+    Tensor tensor = ResourceData.of("/io/image/gray15x9.png");
     Tensor result = imagecrop.apply(tensor);
     assertEquals(tensor, result);
   }
 
   public void testNoCropRgba() {
     TensorUnaryOperator imagecrop = ImageCrop.color(Tensors.vector(1, 2, 3, 4));
-    Tensor tensor = ResourceData.of("/io/rgba15x33.png");
+    Tensor tensor = ResourceData.of("/io/image/rgba15x33.png");
     Tensor result = imagecrop.apply(tensor);
     assertEquals(tensor, result);
   }

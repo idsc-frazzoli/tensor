@@ -9,7 +9,6 @@ import java.util.function.Function;
 
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.ExactScalarQ;
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -43,7 +42,7 @@ import ch.ethz.idsc.tensor.Scalars;
   private Scalar p_function(Scalar x, Function<Scalar, Entry<Scalar, Scalar>> function) {
     if (cdf.isEmpty()) {
       int first = discreteDistribution.lowerBound();
-      cdf.put(RationalScalar.of(first, 1), discreteDistribution.p_equals(first));
+      cdf.put(RealScalar.of(first), discreteDistribution.p_equals(first));
     }
     Entry<Scalar, Scalar> ceiling = cdf.ceilingEntry(x);
     if (cdf_finished || Objects.nonNull(ceiling)) {
@@ -56,11 +55,11 @@ import ch.ethz.idsc.tensor.Scalars;
     Entry<Scalar, Scalar> last = cdf.lastEntry();
     int k = Scalars.intValueExact(last.getKey());
     Scalar cumprob = last.getValue();
-    while (Scalars.lessEquals(RationalScalar.of(k, 1), x) && !cdf_finished) {
+    while (Scalars.lessEquals(RealScalar.of(k), x) && !cdf_finished) {
       ++k;
       Scalar p_equals = discreteDistribution.p_equals(k);
       cumprob = cumprob.add(p_equals);
-      cdf.put(RationalScalar.of(k, 1), cumprob);
+      cdf.put(RealScalar.of(k), cumprob);
       cdf_finished |= isFinished(p_equals, cumprob);
     }
     return p_function(x, function);

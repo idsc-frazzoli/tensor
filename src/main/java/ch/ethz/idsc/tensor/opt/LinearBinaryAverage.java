@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.opt;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -14,6 +13,6 @@ import ch.ethz.idsc.tensor.Tensor;
   // ---
   @Override // from BinaryAverage
   public Tensor split(Tensor p, Tensor q, Scalar scalar) {
-    return p.multiply(RealScalar.ONE.subtract(scalar)).add(q.multiply(scalar));
+    return q.subtract(p).multiply(scalar).add(p);
   }
 }

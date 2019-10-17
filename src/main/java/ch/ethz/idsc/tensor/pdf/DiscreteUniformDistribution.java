@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -16,7 +18,7 @@ import ch.ethz.idsc.tensor.sca.Floor;
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/DiscreteUniformDistribution.html">DiscreteUniformDistribution</a> */
 public class DiscreteUniformDistribution extends AbstractDiscreteDistribution implements //
-    CDF, VarianceInterface {
+    CDF, VarianceInterface, Serializable {
   /** Example:
    * PDF[DiscreteUniformDistribution[{0, 10}], x] == 1/10 for 0 <= x < 10 and x integer
    * 
@@ -40,11 +42,13 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
   private static final Scalar _12 = RealScalar.of(12);
   // ---
   private final int min; // inclusive
+  private final Scalar _min;
   private final int max; // exclusive
   private final Scalar p; // precomputed
 
   private DiscreteUniformDistribution(int min, int max) {
     this.min = min;
+    this._min = RealScalar.of(min);
     this.max = max;
     p = RationalScalar.of(1, max - min);
   }
@@ -74,7 +78,7 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from InverseCDF
   protected Scalar protected_quantile(Scalar q) {
-    return RationalScalar.of(min, 1).add(Floor.FUNCTION.apply(q.multiply(p.reciprocal())));
+    return _min.add(Floor.FUNCTION.apply(q.multiply(p.reciprocal())));
   }
 
   @Override // from AbstractDiscreteDistribution
@@ -86,13 +90,13 @@ public class DiscreteUniformDistribution extends AbstractDiscreteDistribution im
 
   @Override // from CDF
   public Scalar p_lessThan(Scalar x) {
-    Scalar num = Ceiling.FUNCTION.apply(x).subtract(RationalScalar.of(min, 1));
+    Scalar num = Ceiling.FUNCTION.apply(x).subtract(_min);
     return Clips.unit().apply(num.multiply(p));
   }
 
   @Override // from CDF
   public Scalar p_lessEquals(Scalar x) {
-    Scalar num = RealScalar.ONE.add(Floor.FUNCTION.apply(x)).subtract(RationalScalar.of(min, 1));
+    Scalar num = RealScalar.ONE.add(Floor.FUNCTION.apply(x)).subtract(_min);
     return Clips.unit().apply(num.multiply(p));
   }
 

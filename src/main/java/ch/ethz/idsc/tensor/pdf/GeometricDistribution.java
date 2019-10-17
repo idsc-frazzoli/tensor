@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
+import java.io.Serializable;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -17,7 +19,7 @@ import ch.ethz.idsc.tensor.sca.Power;
  * 
  * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/GeometricDistribution.html">GeometricDistribution</a> */
-public class GeometricDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface {
+public class GeometricDistribution extends AbstractDiscreteDistribution implements CDF, VarianceInterface, Serializable {
   /** @param p with 0 < p <= 1 denotes probability P(X==0) == p */
   public static Distribution of(Scalar p) {
     if (p.equals(RealScalar.ONE))

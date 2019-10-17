@@ -14,7 +14,7 @@ public enum ReadLine {
    * the given {@link InputStream} is not necessarily closed. Therefore, use
    * try-with-resources statement on input stream.
    * 
-   * Example:
+   * <p>Example:
    * <pre>
    * try (InputStream inputStream = new FileInputStream(file)) {
    * . ReadLine.of(inputStream).map(...).forEach(...)
@@ -24,6 +24,7 @@ public enum ReadLine {
    * @param inputStream
    * @return lines in given inputStream as stream of strings */
   public static Stream<String> of(InputStream inputStream) {
+    // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
     return new BufferedReader(new InputStreamReader(inputStream)).lines();
   }
 }

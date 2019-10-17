@@ -9,7 +9,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Tan.html">Tan</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Tan.html">Tan</a>
+ * 
+ * @see ArcTan */
 public enum Tan implements ScalarUnaryOperator {
   FUNCTION;
   // ---

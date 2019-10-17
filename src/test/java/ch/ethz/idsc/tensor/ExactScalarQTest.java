@@ -34,6 +34,7 @@ public class ExactScalarQTest extends TestCase {
   public void testTensor() {
     assertFalse(ExactScalarQ.of(Tensors.empty()));
     assertFalse(ExactScalarQ.of(Tensors.vector(1)));
+    assertFalse(ExactScalarQ.of(Tensors.vector(1, 2, 3)));
   }
 
   public void testQuantity() {
@@ -58,9 +59,5 @@ public class ExactScalarQTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
-  }
-
-  public void testTensor2() {
-    assertFalse(ExactScalarQ.of(Tensors.vector(1, 2, 3)));
   }
 }

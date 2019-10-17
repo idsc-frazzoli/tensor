@@ -26,7 +26,9 @@ import ch.ethz.idsc.tensor.Tensor;
  * </pre>
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/ResourceData.html">ResourceData</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ResourceData.html">ResourceData</a>
+ * 
+ * @see Import */
 public enum ResourceData {
   ;
   /** Example use:

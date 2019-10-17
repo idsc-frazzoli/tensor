@@ -7,12 +7,32 @@ import java.util.Objects;
 
 /** immutable integer fraction in normal form, i.e. denominator is strictly positive */
 /* package */ final class BigFraction implements Serializable {
+  private static final String DIVIDE = "/";
+
+  /** @param value
+   * @return big fraction that represents the integer value */
+  public static BigFraction integer(long value) {
+    return new BigFraction( //
+        BigInteger.valueOf(value), //
+        BigInteger.ONE);
+  }
+
+  /** @param value
+   * @return big fraction that represents the integer value */
+  public static BigFraction integer(BigInteger value) {
+    return new BigFraction( //
+        value, //
+        BigInteger.ONE);
+  }
+
   /** @param num numerator
    * @param den denominator non-zero
    * @return
    * @throws {@link ArithmeticException} if den is zero */
   public static BigFraction of(long num, long den) {
-    return of(BigInteger.valueOf(num), BigInteger.valueOf(den));
+    return of( //
+        BigInteger.valueOf(num), //
+        BigInteger.valueOf(den));
   }
 
   /** @param num numerator
@@ -20,26 +40,20 @@ import java.util.Objects;
    * @return
    * @throws {@link ArithmeticException} if den is zero */
   public static BigFraction of(BigInteger num, BigInteger den) {
-    // LONGTERM "if" is obsolete in some function invocations
     if (den.signum() == 0)
-      throw new ArithmeticException(num + "/" + den);
+      throw new ArithmeticException(num + DIVIDE + den);
+    return create(num, den);
+  }
+
+  /** @param num numerator
+   * @param den denominator guaranteed to be non-zero
+   * @return */
+  private static BigFraction create(BigInteger num, BigInteger den) {
     BigInteger gcd = num.gcd(den);
     BigInteger res = den.divide(gcd);
     return res.signum() == 1 //
         ? new BigFraction(num.divide(gcd), res) //
         : new BigFraction(num.divide(gcd).negate(), res.negate());
-  }
-
-  /** @param num
-   * @return */
-  public static BigFraction integer(long num) {
-    return new BigFraction(BigInteger.valueOf(num), BigInteger.ONE);
-  }
-
-  /** @param num
-   * @return */
-  public static BigFraction integer(BigInteger num) {
-    return new BigFraction(num, BigInteger.ONE);
   }
 
   // ---
@@ -62,9 +76,9 @@ import java.util.Objects;
    * @param bigFraction
    * @return */
   public BigFraction add(BigFraction bigFraction) {
-    return of( //
+    return create( //
         num.multiply(bigFraction.den).add(bigFraction.num.multiply(den)), //
-        den.multiply(bigFraction.den));
+        den.multiply(bigFraction.den)); // denominators are non-zero
   }
 
   /** multiplication, applies gcd 1x
@@ -72,32 +86,32 @@ import java.util.Objects;
    * @param bigFraction
    * @return */
   public BigFraction multiply(BigFraction bigFraction) {
-    return of(num.multiply(bigFraction.num), den.multiply(bigFraction.den));
+    return create( //
+        num.multiply(bigFraction.num), //
+        den.multiply(bigFraction.den)); // denominators are non-zero
   }
 
   /** division, applies gcd 1x
    * 
    * @param bigFraction
-   * @return */
+   * @return this / bigFraction
+   * @throws Exception if given bigFraction is zero */
   public BigFraction divide(BigFraction bigFraction) {
-    return of(num.multiply(bigFraction.den), den.multiply(bigFraction.num));
+    if (bigFraction.signum() == 0)
+      throw new ArithmeticException(bigFraction.den + DIVIDE + bigFraction.num);
+    return create( //
+        num.multiply(bigFraction.den), //
+        den.multiply(bigFraction.num));
   }
 
   /** @return reciprocal == den/num */
   public BigFraction reciprocal() {
     int signum = signum();
     if (signum == 0)
-      throw new ArithmeticException(den + "/" + num);
+      throw new ArithmeticException(den + DIVIDE + num);
     return signum == 1 //
         ? new BigFraction(den, num) //
         : new BigFraction(den.negate(), num.negate()); //
-  }
-
-  public String toCompactString() {
-    StringBuilder stringBuilder = new StringBuilder(num.toString());
-    if (!isInteger())
-      stringBuilder.append("/" + den.toString());
-    return stringBuilder.toString();
   }
 
   /** @return true if the fraction encodes an integer, i.e. if the denominator equals 1 */
@@ -105,14 +119,17 @@ import java.util.Objects;
     return den.equals(BigInteger.ONE);
   }
 
+  /** @return -1, 0 or 1 as the value of this BigFraction is negative, zero or positive */
   public int signum() {
     return num.signum();
   }
 
+  /** @return numerator of this BigFraction */
   public BigInteger numerator() {
     return num;
   }
 
+  /** @return denominator of this BigFraction */
   public BigInteger denominator() {
     return den;
   }
@@ -125,9 +142,16 @@ import java.util.Objects;
   }
 
   /***************************************************/
+  // intentional: no override of Object::equals(Object)
   @Override // from Object
   public int hashCode() {
     return Objects.hash(num, den);
   }
-  // intentional: no override of Object::equals
+
+  @Override // from Object
+  public String toString() {
+    return isInteger() //
+        ? num.toString()
+        : num.toString() + DIVIDE + den.toString();
+  }
 }

@@ -19,7 +19,9 @@ import ch.ethz.idsc.tensor.opt.ScalarTensorFunction;
  * </pre>
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/IntegerDigits.html">IntegerDigits</a> */
+ * <a href="https://reference.wolfram.com/language/ref/IntegerDigits.html">IntegerDigits</a>
+ * 
+ * @see IntegerQ */
 public enum IntegerDigits {
   ;
   private static final ScalarTensorFunction BASE_10 = base(BigInteger.TEN);
@@ -31,8 +33,7 @@ public enum IntegerDigits {
    * 
    * @param scalar
    * @return vector with integer digits of given scalar
-   * @throws Exception if given scalar is not an integer
-   * @see IntegerQ */
+   * @throws Exception if given scalar is not an integer */
   public static Tensor of(Scalar scalar) {
     return BASE_10.apply(scalar);
   }

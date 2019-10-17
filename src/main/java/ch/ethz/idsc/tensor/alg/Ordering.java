@@ -7,13 +7,16 @@ import java.util.stream.Stream;
 import ch.ethz.idsc.tensor.ScalarQ;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.lie.Signature;
 import ch.ethz.idsc.tensor.mat.Eigensystem;
 
 /** an application of Ordering is to arrange the eigenvalues in {@link Eigensystem}
  * in descending order.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Ordering.html">Ordering</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Ordering.html">Ordering</a>
+ * 
+ * @see Signature */
 public enum Ordering {
   INCREASING(vector -> IntStream.range(0, vector.length()) //
       .boxed().sorted((i, j) -> Scalars.compare(vector.Get(i), vector.Get(j)))), //

@@ -10,6 +10,7 @@ public enum Dot {
   /** @param tensor
    * @param v's
    * @return ( ... ( ( m . v[0] ) . v[1] ). ... ) . v[end-1] */
+  // LONGTERM choose association of dot with minimal multiplications
   public static Tensor of(Tensor tensor, Tensor... v) {
     if (v.length == 0)
       return tensor.copy();

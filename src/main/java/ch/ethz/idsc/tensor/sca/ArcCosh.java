@@ -5,10 +5,13 @@ import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** http://www.milefoot.com/math/complex/functionsofi.htm
+/** Reference:
+ * <a href="http://www.milefoot.com/math/complex/functionsofi.htm">functions of i</a>
  * 
- * inspired by
- * <a href="https://reference.wolfram.com/language/ref/ArcCosh.html">ArcCosh</a> */
+ * <p>inspired by
+ * <a href="https://reference.wolfram.com/language/ref/ArcCosh.html">ArcCosh</a>
+ * 
+ * @see Cosh */
 public enum ArcCosh implements ScalarUnaryOperator {
   FUNCTION;
   // ---

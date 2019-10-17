@@ -39,17 +39,18 @@ public enum Partition {
    * @return tensor of rank one higher than input tensor
    * @throws Exception if given tensor is a scalar */
   public static Tensor of(Tensor tensor, int size, int offset) {
-    return Tensor.of(stream(tensor, size, offset)); //
+    return Tensor.of(stream(tensor, size, offset));
   }
 
   /** Partition.stream[{a, b, c, d, e, f, g}, 3, 2] == stream {a, b, c}, {c, d, e}, {e, f, g}
+   * 
+   * <p>Hint: function is used in {@link SpectrogramArray}
    * 
    * @param tensor
    * @param size not smaller than offset
    * @param offset positive
    * @return stream of tensors
-   * @throws Exception if given tensor is a scalar
-   * @see SpectrogramArray */
+   * @throws Exception if given tensor is a scalar */
   public static Stream<Tensor> stream(Tensor tensor, int size, int offset) {
     if (offset <= 0 || size < offset || ScalarQ.of(tensor))
       throw new IllegalArgumentException("size=" + size + " offset=" + offset);

@@ -11,8 +11,7 @@ import ch.ethz.idsc.tensor.Tensor;
 /** inspired by
  * <a href="https://reference.wolfram.com/language/ref/RowReduce.html">RowReduce</a>
  * 
- * @see LinearSolve
- * @see GaussianElimination */
+ * @see LinearSolve */
 public class RowReduce extends AbstractReduce {
   /** @param matrix
    * @return reduced row echelon form (also called row canonical form) of matrix */

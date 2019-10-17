@@ -1,7 +1,7 @@
 // code by jph
 package ch.ethz.idsc.tensor.red;
 
-import ch.ethz.idsc.tensor.RationalScalar;
+import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -30,7 +30,7 @@ public enum Mean {
    * @throws ArithmeticException if tensor is empty
    * @throws TensorRuntimeException if tensor is a {@link Scalar} */
   public static Tensor of(Tensor tensor) {
-    return Total.of(tensor).divide(RationalScalar.of(tensor.length(), 1));
+    return Total.of(tensor).divide(RealScalar.of(tensor.length()));
   }
 
   /** @param distribution

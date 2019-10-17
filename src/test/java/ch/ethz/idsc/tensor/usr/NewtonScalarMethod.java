@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.usr;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
+import ch.ethz.idsc.tensor.alg.Derive;
 import ch.ethz.idsc.tensor.alg.Series;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
@@ -12,7 +13,7 @@ import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
   public static NewtonScalarMethod polynomial(Tensor coeffs) {
     return new NewtonScalarMethod( //
         Series.of(coeffs), //
-        Series.of(Multinomial.derivative(coeffs)));
+        Series.of(Derive.of(coeffs)));
   }
 
   // ---

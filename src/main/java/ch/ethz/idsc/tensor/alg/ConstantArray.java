@@ -10,8 +10,13 @@ import ch.ethz.idsc.tensor.Unprotect;
 
 /** MATLAB::repmat
  * 
+ * <p>Implementation produces an unmodifiable tensor of array structure with all
+ * entries identical. The representation has low memory footprint, i.e. O(rank).
+ * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/ConstantArray.html">ConstantArray</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ConstantArray.html">ConstantArray</a>
+ * 
+ * @see Array */
 public enum ConstantArray {
   ;
   /** @param entry non-null

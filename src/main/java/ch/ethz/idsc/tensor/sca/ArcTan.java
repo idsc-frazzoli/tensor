@@ -10,8 +10,6 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** For real input, the returned angle is in the range -pi/2 through pi/2.
  * 
- * http://www.milefoot.com/math/complex/functionsofi.htm
- *
  * <p>Special cases are
  * <pre>
  * Mathematica:ArcTan[0, 0] == Indeterminate
@@ -25,8 +23,13 @@ import ch.ethz.idsc.tensor.Tensor;
  * ArcTan[x, y] == ArcTan[ y / x ]
  * </pre>
  *
+ * <p>Reference:
+ * <a href="http://www.milefoot.com/math/complex/functionsofi.htm">functions of i</a>
+ * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/ArcTan.html">ArcTan</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ArcTan.html">ArcTan</a>
+ * 
+ * @see Tan */
 public enum ArcTan implements ScalarUnaryOperator {
   FUNCTION;
   // ---

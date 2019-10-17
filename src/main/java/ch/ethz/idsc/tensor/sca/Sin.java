@@ -5,10 +5,13 @@ import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** http://www.milefoot.com/math/complex/functionsofi.htm
- *
+/** Reference:
+ * <a href="http://www.milefoot.com/math/complex/functionsofi.htm">functions of i</a>
+ * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Sin.html">Sin</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Sin.html">Sin</a>
+ * 
+ * @see ArcSin */
 public enum Sin implements ScalarUnaryOperator {
   FUNCTION;
   // ---

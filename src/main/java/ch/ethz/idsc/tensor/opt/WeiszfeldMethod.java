@@ -14,6 +14,7 @@ import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.red.Norm;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.N;
+import ch.ethz.idsc.tensor.sca.Sign;
 
 /** iterative method to find solution to Fermat-Weber Problem
  * iteration based on Endre Vaszonyi Weiszfeld
@@ -27,9 +28,9 @@ import ch.ethz.idsc.tensor.sca.N;
   // ---
   private final Scalar tolerance;
 
-  /** @param tensor of anchor points */
+  /** @param tolerance non-negative */
   public WeiszfeldMethod(Scalar tolerance) {
-    this.tolerance = tolerance;
+    this.tolerance = Sign.requirePositiveOrZero(tolerance);
   }
 
   @Override // from FermatWeberProblem

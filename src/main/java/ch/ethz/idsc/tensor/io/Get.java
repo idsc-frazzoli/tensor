@@ -3,10 +3,8 @@ package ch.ethz.idsc.tensor.io;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 
 import ch.ethz.idsc.tensor.Tensor;
 
@@ -35,20 +33,16 @@ public enum Get {
   ;
   /** @param file source
    * @return
-   * @throws FileNotFoundException
    * @throws IOException */
   public static Tensor of(File file) throws IOException {
-    // gjoel found that {@link Files#lines(Path)} was unsuitable on Windows
     try (InputStream inputStream = new FileInputStream(file)) {
-      return MathematicaFormat.parse(ReadLine.of(inputStream));
+      return of(inputStream);
     }
   }
 
-  /** @param path source
-   * @return
-   * @throws FileNotFoundException
-   * @throws IOException */
-  public static Tensor of(Path path) throws IOException {
-    return of(path.toFile());
+  /** @param inputStream source
+   * @return */
+  public static Tensor of(InputStream inputStream) {
+    return MathematicaFormat.parse(ReadLine.of(inputStream));
   }
 }

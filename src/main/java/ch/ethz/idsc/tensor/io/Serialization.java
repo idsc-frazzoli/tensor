@@ -8,6 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/** @see ObjectFormat
+ * @see Export
+ * @see Import */
 public enum Serialization {
   ;
   /** encodes {@link Serializable} input {@link Object} as array of bytes.
@@ -17,9 +20,7 @@ public enum Serialization {
    * 
    * @param object
    * @return serialization of object
-   * @throws IOException
-   * @see ObjectFormat
-   * @see Export */
+   * @throws IOException */
   public static byte[] of(Object object) throws IOException {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
@@ -38,9 +39,7 @@ public enum Serialization {
    * @param bytes
    * @return {@link Serializable} object encoded in input bytes
    * @throws ClassNotFoundException
-   * @throws IOException
-   * @see ObjectFormat
-   * @see Import */
+   * @throws IOException */
   @SuppressWarnings("unchecked")
   public static <T> T parse(byte[] bytes) throws ClassNotFoundException, IOException {
     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);

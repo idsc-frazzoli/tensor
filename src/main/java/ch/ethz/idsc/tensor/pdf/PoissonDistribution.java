@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.pdf;
 
-import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
@@ -70,7 +69,7 @@ public class PoissonDistribution extends EvaluatedDiscreteDistribution implement
     if (values.length() <= n) {
       Scalar x = Last.of(values);
       while (values.length() <= n) {
-        Scalar factor = lambda.divide(RationalScalar.of(values.length(), 1));
+        Scalar factor = lambda.divide(RealScalar.of(values.length()));
         values.append(x = x.multiply(factor));
       }
     }

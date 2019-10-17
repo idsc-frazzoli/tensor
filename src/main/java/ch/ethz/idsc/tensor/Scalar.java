@@ -24,7 +24,7 @@ public interface Scalar extends Tensor {
 
   /** scalar addition
    * 
-   * addition is commutative: a.add(b) equals b.add(a)
+   * <p>addition is commutative: a.add(b) equals b.add(a)
    * 
    * @param tensor must be {@link Scalar}
    * @return this plus input */

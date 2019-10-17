@@ -17,12 +17,13 @@ import ch.ethz.idsc.tensor.TensorRuntimeException;
  * An example that fails (also in Mathematica) is <code>{{0, 1}, {1, 0}}</code>.
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/CholeskyDecomposition.html">CholeskyDecomposition</a> */
+ * <a href="https://reference.wolfram.com/language/ref/CholeskyDecomposition.html">CholeskyDecomposition</a>
+ * 
+ * @see HermitianMatrixQ */
 public interface CholeskyDecomposition {
   /** @param matrix hermitian and positive semi-definite matrix
    * @return Cholesky decomposition of matrix
-   * @throws TensorRuntimeException if matrix is not hermitian, or decomposition failed
-   * @see HermitianMatrixQ */
+   * @throws TensorRuntimeException if matrix is not hermitian, or decomposition failed */
   static CholeskyDecomposition of(Tensor matrix) {
     if (!HermitianMatrixQ.of(matrix))
       throw TensorRuntimeException.of(matrix);

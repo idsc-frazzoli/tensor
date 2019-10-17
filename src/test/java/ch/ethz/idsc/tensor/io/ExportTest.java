@@ -21,6 +21,24 @@ import ch.ethz.idsc.tensor.usr.TestFile;
 import junit.framework.TestCase;
 
 public class ExportTest extends TestCase {
+  public void testMathematica() throws IOException {
+    File file = TestFile.withExtension("mathematica");
+    Tensor tensor = Tensors.fromString("{{2[m*s^-3], {3.123+3*I[V], {}}}, {{34.1231`32, 556}, 3/456, -323/2}}");
+    assertFalse(StringScalarQ.any(tensor));
+    Export.of(file, tensor);
+    assertEquals(tensor, Import.of(file));
+    assertTrue(file.delete());
+  }
+
+  public void testMathematicaGz() throws IOException {
+    File file = TestFile.withExtension("mathematica.gz");
+    Tensor tensor = Tensors.fromString("{{2[m*s^-3], {3.123+3*I[V], {}}}, {{34.1231`32, 556}, 3/456, -323/2}}");
+    assertFalse(StringScalarQ.any(tensor));
+    Export.of(file, tensor);
+    assertEquals(tensor, Import.of(file));
+    assertTrue(file.delete());
+  }
+
   public void testCsv() throws IOException {
     File file = TestFile.withExtension("csv");
     Tensor tensor = Tensors.fromString("{{2, 3.123+3*I[V]}, {34.1231`32, 556, 3/456, -323/2}}");
@@ -113,6 +131,14 @@ public class ExportTest extends TestCase {
     assertTrue(file.delete());
   }
 
+  public void testBmpGzGzGray() throws IOException {
+    File file = TestFile.withExtension("bmp.gz.gz");
+    Tensor image = RandomVariate.of(DiscreteUniformDistribution.of(0, 256), 7, 11);
+    Export.of(file, image);
+    assertEquals(image, Import.of(file));
+    assertTrue(file.delete());
+  }
+
   public void testMatlabM() throws IOException {
     File file = TestFile.withExtension("m");
     Tensor tensor = Tensors.fromString("{{2, 3.123+3*I, 34.1231}, {556, 3/456, -323/2}}");
@@ -130,6 +156,18 @@ public class ExportTest extends TestCase {
       // ---
     }
     assertFalse(file.exists());
+  }
+
+  public void testGzOnlyFail() throws IOException {
+    File file = TestFile.withExtension("gz");
+    Tensor tensor = Tensors.vector(1, 2, 3, 4);
+    try {
+      Export.of(file, tensor);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    assertTrue(file.delete());
   }
 
   public void testFailExtension() {

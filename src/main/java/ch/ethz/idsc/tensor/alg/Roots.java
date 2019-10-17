@@ -13,7 +13,9 @@ import ch.ethz.idsc.tensor.sca.Imag;
  * Tensor::Roots[a == 0, x] == {}
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Roots.html">Roots</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Roots.html">Roots</a>
+ * 
+ * @see Series */
 public enum Roots {
   ;
   /** attempts to find all roots of a polynomial
@@ -27,8 +29,7 @@ public enum Roots {
    * @return roots of polynomial as vector with length of that of coeffs minus one.
    * if the roots do not have imaginary part, the roots vector is sorted.
    * @throws Exception given coeffs vector is empty
-   * @throws Exception if roots cannot be determined
-   * @see Series */
+   * @throws Exception if roots cannot be determined */
   public static Tensor of(Tensor coeffs) {
     Tensor roots = unsorted(coeffs);
     boolean isReal = roots.stream() //

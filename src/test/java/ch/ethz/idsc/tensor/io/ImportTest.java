@@ -98,13 +98,13 @@ public class ImportTest extends TestCase {
   }
 
   public void testPng() throws Exception {
-    File file = new File(getClass().getResource("/io/rgba15x33.png").getFile());
+    File file = new File(getClass().getResource("/io/image/rgba15x33.png").getFile());
     Tensor tensor = Import.of(file);
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
   }
 
   public void testPngClose() throws Exception {
-    Tensor tensor = ResourceData.of("/io/rgba15x33.png");
+    Tensor tensor = ResourceData.of("/io/image/rgba15x33.png");
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
     File file = TestFile.withExtension("png");
     Export.of(file, tensor);
@@ -114,7 +114,7 @@ public class ImportTest extends TestCase {
   }
 
   public void testJpg() throws Exception {
-    File file = new File(getClass().getResource("/io/rgb15x33.jpg").getFile());
+    File file = new File(getClass().getResource("/io/image/rgb15x33.jpg").getFile());
     Tensor tensor = Import.of(file);
     assertEquals(Dimensions.of(tensor), Arrays.asList(33, 15, 4));
     assertEquals(Tensors.vector(180, 46, 47, 255), tensor.get(21, 3)); // verified with gimp

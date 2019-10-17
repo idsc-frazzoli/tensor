@@ -6,13 +6,15 @@ import java.util.Comparator;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 
-/** <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Sort.html">Sort</a> */
+/** inspired by
+ * <a href="https://reference.wolfram.com/language/ref/Sort.html">Sort</a>
+ * 
+ * @see Ordering */
 public enum Sort {
   ;
   /** @param vector
    * @return vector with entries sorted according to canonic ordering
-   * @see Ordering */
+   * @throws Exception if input is a scalar */
   public static Tensor of(Tensor vector) {
     if (vector.length() == 1)
       return vector.copy();

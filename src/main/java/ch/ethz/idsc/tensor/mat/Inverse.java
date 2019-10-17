@@ -4,7 +4,9 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.Tensor;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/Inverse.html">Inverse</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Inverse.html">Inverse</a>
+ * 
+ * @see PseudoInverse */
 public enum Inverse {
   ;
   /** @param matrix with square dimensions

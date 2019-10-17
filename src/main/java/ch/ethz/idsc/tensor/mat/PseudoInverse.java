@@ -8,7 +8,9 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import ch.ethz.idsc.tensor.sca.InvertUnlessZero;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/PseudoInverse.html">PseudoInverse</a> */
+ * <a href="https://reference.wolfram.com/language/ref/PseudoInverse.html">PseudoInverse</a>
+ * 
+ * @see Inverse */
 public enum PseudoInverse {
   ;
   /** @param matrix

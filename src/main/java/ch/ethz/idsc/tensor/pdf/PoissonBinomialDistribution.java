@@ -11,10 +11,17 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.red.Total;
 import ch.ethz.idsc.tensor.sca.Clips;
 
-/** <a href="https://en.wikipedia.org/wiki/Poisson_binomial_distribution">wikipedia</a> */
+/** <a href="https://en.wikipedia.org/wiki/Poisson_binomial_distribution">wikipedia</a>
+ * 
+ * @see BinomialDistribution
+ * @see BinomialRandomVariate */
 public class PoissonBinomialDistribution implements Distribution, //
     MeanInterface, RandomVariateInterface, VarianceInterface {
-  /** @param p_vector with scalar entries in the interval [0, 1]
+  /** Hint:
+   * if p_vector consists of identical entries, the {@link BinomialDistribution}
+   * or {@link BinomialRandomVariate} should be used instead.
+   * 
+   * @param p_vector with scalar entries in the interval [0, 1]
    * @return
    * @throws Exception if any entry in given p_vector is outside the unit interval */
   public static Distribution of(Tensor p_vector) {
