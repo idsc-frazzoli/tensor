@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.lang.reflect.Modifier;
+
 import ch.ethz.idsc.tensor.ExactScalarQ;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
@@ -25,5 +27,10 @@ public class HornerSchemeTest extends TestCase {
     Scalar expected = RealScalar.of(-3 + 4 * (2) - 5 * (2 * 2));
     assertEquals(expected, actual);
     assertEquals(expected, new HornerScheme(coeffs).apply(x));
+  }
+
+  public void testPackageVisibility() {
+    assertTrue(Modifier.isPublic(Series.class.getModifiers()));
+    assertFalse(Modifier.isPublic(HornerScheme.class.getModifiers()));
   }
 }

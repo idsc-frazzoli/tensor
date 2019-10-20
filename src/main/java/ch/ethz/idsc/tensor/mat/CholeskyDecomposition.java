@@ -25,9 +25,9 @@ public interface CholeskyDecomposition {
    * @return Cholesky decomposition of matrix
    * @throws TensorRuntimeException if matrix is not hermitian, or decomposition failed */
   static CholeskyDecomposition of(Tensor matrix) {
-    if (!HermitianMatrixQ.of(matrix))
-      throw TensorRuntimeException.of(matrix);
-    return new CholeskyDecompositionImpl(matrix);
+    if (HermitianMatrixQ.of(matrix))
+      return new CholeskyDecompositionImpl(matrix);
+    throw TensorRuntimeException.of(matrix);
   }
 
   /** @return lower triangular matrix L */

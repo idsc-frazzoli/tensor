@@ -1,6 +1,8 @@
 // code by guedelmi
 package ch.ethz.idsc.tensor.mat;
 
+import java.lang.reflect.Modifier;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -103,5 +105,10 @@ public class JacobiMethodTest extends TestCase {
     Eigensystem eigensystem = Eigensystem.ofSymmetric(matrix);
     Tensor expected = Tensors.vector(1.4083189271236539575, 0.12232706585390584656, 0.0026873403557735292310);
     Chop._12.requireClose(expected.subtract(eigensystem.values()), Array.zeros(matrix.length()));
+  }
+
+  public void testPackageVisibility() {
+    assertTrue(Modifier.isPublic(Eigensystem.class.getModifiers()));
+    assertFalse(Modifier.isPublic(JacobiMethod.class.getModifiers()));
   }
 }

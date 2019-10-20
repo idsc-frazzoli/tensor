@@ -12,7 +12,7 @@ import ch.ethz.idsc.tensor.Tensor;
   final int[] ind;
   private int transpositions = 0;
 
-  AbstractReduce(Tensor matrix, Pivot pivot) {
+  public AbstractReduce(Tensor matrix, Pivot pivot) {
     lhs = matrix.stream().map(Tensor::copy).toArray(Tensor[]::new);
     this.pivot = pivot;
     ind = IntStream.range(0, lhs.length).toArray();
