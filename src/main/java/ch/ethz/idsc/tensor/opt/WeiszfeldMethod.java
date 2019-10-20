@@ -19,9 +19,9 @@ import ch.ethz.idsc.tensor.sca.Sign;
 /** iterative method to find solution to Fermat-Weber Problem
  * iteration based on Endre Vaszonyi Weiszfeld
  * 
- * implementation based on
+ * <p>implementation based on
  * "Weiszfeld’s Method: Old and New Results"
- * by [Amir Beck, Shoham Sabach] */
+ * by Amir Beck, Shoham Sabach */
 /* package */ class WeiszfeldMethod implements SpatialMedian, Serializable {
   private static final int MAX_ITERATIONS = 512;
   static final SpatialMedian DEFAULT = new WeiszfeldMethod(RealScalar.ZERO);

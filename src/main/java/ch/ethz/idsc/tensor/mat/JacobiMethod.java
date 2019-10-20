@@ -42,7 +42,7 @@ import ch.ethz.idsc.tensor.sca.Sign;
   private Tensor d;
 
   /** @param matrix symmetric, non-empty, and real valued */
-  JacobiMethod(Tensor matrix) {
+  public JacobiMethod(Tensor matrix) {
     Tensor A = matrix.copy();
     n = A.length();
     V = IdentityMatrix.of(n);

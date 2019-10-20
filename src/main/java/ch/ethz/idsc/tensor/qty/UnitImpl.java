@@ -14,9 +14,12 @@ import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
 /* package */ class UnitImpl implements Unit, Serializable {
+  /** Example:
+   * map from {"kg"=1, "m"=1, "s"=-2}
+   * scalar value is never zero */
   private final NavigableMap<String, Scalar> navigableMap;
 
-  UnitImpl(NavigableMap<String, Scalar> navigableMap) {
+  public UnitImpl(NavigableMap<String, Scalar> navigableMap) {
     this.navigableMap = Collections.unmodifiableNavigableMap(navigableMap);
   }
 

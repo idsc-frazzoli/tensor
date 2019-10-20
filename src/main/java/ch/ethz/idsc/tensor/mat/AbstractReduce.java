@@ -7,7 +7,6 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** base class of {@link Determinant}, {@link GaussianElimination} and {@link RowReduce} */
 /* package */ class AbstractReduce {
-  /** access the unpermuted lhs via function lhs() */
   final Tensor[] lhs;
   final Pivot pivot;
   final int[] ind;

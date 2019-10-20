@@ -16,7 +16,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   private final Tensor d;
 
   /** @param A hermitian matrix */
-  CholeskyDecompositionImpl(Tensor A) {
+  public CholeskyDecompositionImpl(Tensor A) {
     final int n = A.length();
     l = IdentityMatrix.of(n);
     d = Array.zeros(n);

@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.img;
 import java.io.File;
 import java.util.Arrays;
 
+import ch.ethz.idsc.tensor.ExactTensorQ;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.alg.Array;
@@ -48,6 +49,13 @@ public class ImageResizeTest extends TestCase {
     assertEquals(resize.get(Tensor.ALL, 3), Tensors.vector(1, 1, 0, 0));
     assertEquals(resize.get(Tensor.ALL, 4), Tensors.vector(1, 1, 0, 0));
     assertEquals(resize.get(Tensor.ALL, 5), Tensors.vector(1, 1, 0, 0));
+  }
+
+  public void testRank4() {
+    Tensor image = Array.zeros(2, 3, 2, 3);
+    Tensor tensor = ImageResize.nearest(image, 2);
+    assertEquals(tensor, Array.zeros(4, 6, 2, 3));
+    ExactTensorQ.require(tensor);
   }
 
   public void testFail() {

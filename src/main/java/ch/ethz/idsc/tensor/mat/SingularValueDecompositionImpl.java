@@ -35,7 +35,7 @@ import ch.ethz.idsc.tensor.sca.Sqrt;
   private final Tensor v;
 
   /** @param A with cols <= rows */
-  /* package */ SingularValueDecompositionImpl(Tensor A) {
+  public SingularValueDecompositionImpl(Tensor A) {
     rows = A.length();
     cols = Unprotect.dimension1(A);
     if (rows < cols)
