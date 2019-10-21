@@ -1,12 +1,10 @@
 // code by jph
 package ch.ethz.idsc.tensor.mat;
 
-import java.util.stream.IntStream;
-
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.red.ArgMax;
+import ch.ethz.idsc.tensor.qty.Quantity;
 
 /** selects entry with largest absolute value
  * 
@@ -17,13 +15,22 @@ import ch.ethz.idsc.tensor.red.ArgMax;
   INSTANCE;
   // ---
   @Override // from Pivot
-  public int get(int c0, int j, int[] ind, Tensor[] lhs) {
-    return c0 + ArgMax.of( //
-        Tensor.of(IntStream.range(c0, ind.length) //
-            .mapToObj(c1 -> lhs[ind[c1]].Get(j)) //
-            .map(Scalar::abs) // distance away from zero
-            .map(Scalar::number) // projection to Number is required for scalars with units
-            .map(RealScalar::of) // wrap as RealScalar for use in ArgMax
-        ));
+  public int get(int row, int col, int[] ind, Tensor[] lhs) {
+    Scalar max = value(lhs[ind[row]].Get(col).abs());
+    int arg = row;
+    for (int i = row + 1; i < ind.length; ++i) {
+      Scalar cmp = value(lhs[ind[i]].Get(col).abs());
+      if (Scalars.lessThan(max, cmp)) {
+        max = cmp;
+        arg = i;
+      }
+    }
+    return arg;
+  }
+
+  private static Scalar value(Scalar scalar) {
+    return scalar instanceof Quantity //
+        ? ((Quantity) scalar).value()
+        : scalar;
   }
 }

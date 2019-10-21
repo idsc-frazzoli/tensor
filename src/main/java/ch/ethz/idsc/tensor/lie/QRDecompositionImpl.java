@@ -37,7 +37,7 @@ import ch.ethz.idsc.tensor.sca.Conjugate;
   /** @param A
    * @param qrSignOperator
    * @throws Exception if input is not a matrix */
-  QRDecompositionImpl(Tensor A, QRSignOperator qrSignOperator) {
+  public QRDecompositionImpl(Tensor A, QRSignOperator qrSignOperator) {
     n = A.length();
     m = Unprotect.dimension1(A);
     eye = IdentityMatrix.of(n);
