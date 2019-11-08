@@ -4,11 +4,16 @@ package ch.ethz.idsc.tensor.mat;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
 
-/** inspired by
+/** <pre>
+ * LinearSolve.of(vectors, values.pmul(vectors)) == matrix
+ * Transpose.of(vectors).dot(values.pmul(vectors))
+ * </pre>
+ * 
+ * <p>inspired by
  * <a href="https://reference.wolfram.com/language/ref/Eigensystem.html">Eigensystem</a> */
 public interface Eigensystem {
   /** @param matrix symmetric, non-empty, and real valued
-   * @return
+   * @return eigensystem with vectors scaled to unit length
    * @throws Exception if input is not a symmetric matrix */
   static Eigensystem ofSymmetric(Tensor matrix) {
     if (SymmetricMatrixQ.of(matrix))

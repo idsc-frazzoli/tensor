@@ -3,7 +3,6 @@ package ch.ethz.idsc.tensor.lie;
 
 import java.util.stream.IntStream;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Range;
@@ -12,22 +11,15 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Factorial;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/TensorWedge.html">TensorWedge</a>
+ * <a href="https://reference.wolfram.com/language/ref/Symmetrize.html">Symmetrize</a>
  * 
  * @see Permutations
  * @see Transpose
  * @see Signature */
-public enum TensorWedge {
+public enum Symmetrize {
   ;
-  /** @param a of any rank with dimensions [n, n, ..., n]
-   * @param b of any rank with dimensions [n, n, ..., n]
-   * @return alternating tensor product of a and b */
-  public static Tensor of(Tensor a, Tensor b) {
-    return of(TensorProduct.of(a, b));
-  }
-
   /** @param tensor of any rank with dimensions [n, n, ..., n]
-   * @return alternating tensor
+   * @return symmetric tensor, i.e. invariant under transpose
    * @throws Exception if given tensor does not have regular dimensions */
   public static Tensor of(Tensor tensor) {
     Tensor sum = tensor.map(Scalar::zero);
@@ -37,9 +29,7 @@ public enum TensorWedge {
           .mapToObj(index -> permutation.Get(index).number()) //
           .toArray(Integer[]::new);
       Tensor transpose = Transpose.of(tensor, sigma);
-      sum = Signature.of(sigma).equals(RealScalar.ONE) //
-          ? sum.add(transpose)
-          : sum.subtract(transpose);
+      sum = sum.add(transpose);
     }
     return sum.divide(Factorial.of(rank));
   }

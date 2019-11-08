@@ -118,7 +118,7 @@ public class TensorPropertiesTest extends TestCase {
           exception.printStackTrace();
         }
     assertTrue(paramContainer.maxTor instanceof Quantity);
-    assertFalse(paramContainer.shape.stream().anyMatch(scalar -> scalar instanceof StringScalar));
+    assertTrue(paramContainer.shape.stream().noneMatch(scalar -> scalar instanceof StringScalar));
     assertEquals(paramContainer.shape.length(), 2);
   }
 

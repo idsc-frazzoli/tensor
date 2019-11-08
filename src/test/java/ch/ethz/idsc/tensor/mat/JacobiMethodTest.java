@@ -17,27 +17,38 @@ import ch.ethz.idsc.tensor.sca.Chop;
 import junit.framework.TestCase;
 
 public class JacobiMethodTest extends TestCase {
-  private static void checkEquation(Tensor matrix, Eigensystem eigensys) {
-    Tensor Vi = Inverse.of(eigensys.vectors());
-    Tensor res = Vi.dot(DiagonalMatrix.with(eigensys.values())).dot(eigensys.vectors());
+  private static void checkEquation(Tensor matrix, Eigensystem eigensystem) {
+    Tensor vectors = eigensystem.vectors();
+    Tensor values = eigensystem.values();
+    {
+      Tensor sol = LinearSolve.of(vectors, values.pmul(vectors));
+      Chop._10.requireClose(sol, matrix);
+    }
+    {
+      Tensor sol = Transpose.of(vectors).dot(values.pmul(vectors));
+      Chop._10.requireClose(sol, matrix);
+    }
+    Tensor Vi = Inverse.of(eigensystem.vectors());
+    Tensor res = Vi.dot(DiagonalMatrix.with(eigensystem.values())).dot(eigensystem.vectors());
+    Chop._08.requireClose(res, matrix);
     assertEquals(res.subtract(matrix).map(Chop._08), matrix.multiply(RealScalar.ZERO));
     // ---
     // testing determinant
     Scalar det = Det.of(matrix);
-    Tensor prd = Times.pmul(eigensys.values());
+    Tensor prd = Times.pmul(eigensystem.values());
     Chop._12.requireClose(det, prd);
-    Tensor norm = Tensor.of(eigensys.vectors().stream().map(Norm._2::ofVector));
+    Tensor norm = Tensor.of(eigensystem.vectors().stream().map(Norm._2::ofVector));
     Chop._12.requireClose(norm, Tensors.vector(i -> RealScalar.ONE, norm.length()));
     // testing orthogonality
-    final Tensor Vt = Transpose.of(eigensys.vectors());
-    final int n = eigensys.values().length();
+    final Tensor Vt = Transpose.of(eigensystem.vectors());
+    final int n = eigensystem.values().length();
     Tensor id = IdentityMatrix.of(n);
-    Chop._12.requireClose(Vt.dot(eigensys.vectors()), id);
-    Chop._12.requireClose(eigensys.vectors().dot(Vt), id);
-    assertTrue(OrthogonalMatrixQ.of(eigensys.vectors()));
+    Chop._12.requireClose(Vt.dot(eigensystem.vectors()), id);
+    Chop._12.requireClose(eigensystem.vectors().dot(Vt), id);
+    assertTrue(OrthogonalMatrixQ.of(eigensystem.vectors()));
     assertTrue(OrthogonalMatrixQ.of(Vt));
     // assert that values are sorted from max to min
-    assertEquals(eigensys.values(), Reverse.of(Sort.of(eigensys.values())));
+    assertEquals(eigensystem.values(), Reverse.of(Sort.of(eigensystem.values())));
   }
 
   public void testJacobiWithTensor1() {
