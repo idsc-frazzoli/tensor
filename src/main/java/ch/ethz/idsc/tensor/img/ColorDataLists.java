@@ -25,7 +25,7 @@ public enum ColorDataLists {
   _094,
   /** 16 colors */
   _096,
-  /** mathematica default */
+  /** Mathematica default */
   _097,
   /** 16 colors */
   _098,

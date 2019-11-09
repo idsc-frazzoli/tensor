@@ -33,7 +33,7 @@ import ch.ethz.idsc.tensor.Scalar;
   }
 
   /***************************************************/
-  // LONGTERM function does not result in mathematica standard for all input
+  // LONGTERM function does not result in Mathematica standard for all input
   public static Scalar normalForm(Scalar scalar) {
     if (scalar instanceof RealScalar)
       return scalar.abs();

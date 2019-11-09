@@ -110,9 +110,9 @@ public class SingularValueDecompositionTest extends TestCase {
   }
 
   public void testSvdR1() {
-    Tensor matrix = Tensors.matrix((r, c) -> RationalScalar.of(random.nextInt(100) - 50, random.nextInt(100) + 1), 15, 15);
+    Tensor matrix = Tensors.matrix((r, c) -> RationalScalar.of(random.nextInt(1000) - 500, random.nextInt(1000) + 1), 15, 15);
     SingularValueDecomposition svd = specialOps(matrix);
-    Chop._07.requireClose(PseudoInverse.of(svd), Inverse.of(matrix));
+    Chop._05.requireClose(PseudoInverse.of(svd), Inverse.of(matrix));
   }
 
   public void testSvdR2() {

@@ -61,7 +61,7 @@ public enum ColorDataGradients implements ColorDataGradient {
   MINT,
   /** matlab default */
   PARULA,
-  /** mathematica default */
+  /** Mathematica default */
   DENSITY,
   /** red, orange, yellow */
   SOLAR,
