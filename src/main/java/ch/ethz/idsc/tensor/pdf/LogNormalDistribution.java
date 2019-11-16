@@ -7,6 +7,8 @@ import java.util.Random;
 import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
+import ch.ethz.idsc.tensor.TensorRuntimeException;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Log;
 import ch.ethz.idsc.tensor.sca.Sign;
@@ -17,11 +19,16 @@ import ch.ethz.idsc.tensor.sca.Sign;
  * <a href="https://reference.wolfram.com/language/ref/LogNormalDistribution.html">LogNormalDistribution</a> */
 public class LogNormalDistribution implements //
     ContinuousDistribution, InverseCDF, MeanInterface, VarianceInterface, Serializable {
-  /** @param mu
-   * @param sigma
-   * @return instance of LogNormalDistribution */
+  /** @param mu any real number
+   * @param sigma any positive real number
+   * @return instance of LogNormalDistribution
+   * @throws Exception if sigma is zero or negative
+   * @throws Exception if either parameter is of type {@link Quantity} */
   public static Distribution of(Scalar mu, Scalar sigma) {
-    return new LogNormalDistribution(mu, sigma);
+    if (mu instanceof RealScalar && //
+        sigma instanceof RealScalar)
+      return new LogNormalDistribution(mu, sigma);
+    throw TensorRuntimeException.of(mu, sigma);
   }
 
   // ---
@@ -73,5 +80,10 @@ public class LogNormalDistribution implements //
   @Override // from InverseCDF
   public Scalar quantile(Scalar p) {
     return Exp.FUNCTION.apply(normalDistribution.quantile(p));
+  }
+
+  @Override // from Object
+  public String toString() {
+    return "Log" + normalDistribution.toString();
   }
 }

@@ -8,9 +8,11 @@ import ch.ethz.idsc.tensor.RationalScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.io.Serialization;
+import ch.ethz.idsc.tensor.qty.Quantity;
 import ch.ethz.idsc.tensor.red.Mean;
 import ch.ethz.idsc.tensor.red.Variance;
 import ch.ethz.idsc.tensor.sca.Chop;
+import ch.ethz.idsc.tensor.sca.Clips;
 import ch.ethz.idsc.tensor.sca.Exp;
 import ch.ethz.idsc.tensor.sca.Sign;
 import junit.framework.TestCase;
@@ -46,5 +48,44 @@ public class LogNormalDistributionTest extends TestCase {
     Random random = new Random();
     Scalar variate = distribution.randomVariate(random);
     Sign.requirePositive(variate);
+    assertEquals(distribution.toString(), distribution.getClass().getSimpleName() + "[1/2, 2/3]");
+  }
+
+  public void testMean() {
+    Distribution distribution = LogNormalDistribution.of(RationalScalar.of(4, 5), RationalScalar.of(2, 3));
+    Scalar value = Mean.of(RandomVariate.of(distribution, 200)).Get();
+    Clips.interval(2.4, 3.5).requireInside(value);
+    Chop._10.requireClose(Mean.of(distribution), Exp.FUNCTION.apply(RationalScalar.of(46, 45)));
+    Chop._08.requireClose(Variance.of(distribution), RealScalar.of(4.323016391513655));
+  }
+
+  public void testSigmaNonPositiveFail() {
+    try {
+      LogNormalDistribution.of(RationalScalar.HALF, RealScalar.ZERO);
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      LogNormalDistribution.of(RationalScalar.HALF, RationalScalar.of(-2, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
+
+  public void testQuantityFail() {
+    try {
+      LogNormalDistribution.of(Quantity.of(RationalScalar.HALF, "m"), RationalScalar.of(2, 3));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+    try {
+      LogNormalDistribution.of(RationalScalar.of(2, 3), Quantity.of(RationalScalar.HALF, "m"));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
   }
 }
