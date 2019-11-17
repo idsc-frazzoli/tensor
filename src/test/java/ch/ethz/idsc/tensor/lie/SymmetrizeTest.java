@@ -33,6 +33,10 @@ public class SymmetrizeTest extends TestCase {
     assertEquals(tensor, RealScalar.ONE);
   }
 
+  public void testEmpty() {
+    assertEquals(Symmetrize.of(Tensors.empty()), Tensors.empty());
+  }
+
   public void testVector() {
     Tensor vector = Tensors.vector(1, 2, 3, 4);
     Tensor tensor = Symmetrize.of(vector);

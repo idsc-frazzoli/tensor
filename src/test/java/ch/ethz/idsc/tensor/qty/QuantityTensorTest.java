@@ -4,6 +4,7 @@ package ch.ethz.idsc.tensor.qty;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.ethz.idsc.tensor.ComplexScalar;
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
@@ -55,9 +56,17 @@ public class QuantityTensorTest extends TestCase {
     }
   }
 
-  public void testSymAssociativity() {
+  public void testZeroAssociativity() {
     _checkAssociativity(Tensors.fromString("{0[A], 0[B], 0[C], 0}"));
     _checkAssociativity(Tensors.fromString("{0.0[A], 0[B], 0.0[C], 0, 0.0}"));
+  }
+
+  public void testComplexAssociativity() {
+    _checkAssociativity(Tensors.of( //
+        Quantity.of(ComplexScalar.of(2, 7), "m"), //
+        Quantity.of(ComplexScalar.of(3, 1), "m"), //
+        RealScalar.of(0), //
+        RealScalar.of(0.0)));
   }
 
   private static void _checkAssociativity(Scalar prep, Tensor tensor) {
@@ -86,6 +95,7 @@ public class QuantityTensorTest extends TestCase {
   public void testMixAssociativity() {
     _checkAssociativity(Quantity.of(3, "m"), Tensors.fromString("{0[A], 0[B], 0[C], 0}"));
     _checkAssociativity(Quantity.of(3, "m"), Tensors.fromString("{0.0[A], 0[B], 0, 0.0}"));
+    _checkAssociativity(Quantity.of(ComplexScalar.of(3, 1), "m"), Tensors.fromString("{0.0[A], 0[B], 0, 0.0}"));
   }
 
   public void testFail() {

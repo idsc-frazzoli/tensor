@@ -1,7 +1,6 @@
 // code by jph
 package ch.ethz.idsc.tensor.lie;
 
-import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.TensorRuntimeException;
@@ -70,8 +69,8 @@ public enum Cross {
     Scalar a1 = vector.Get(1);
     Scalar a2 = vector.Get(2);
     return Tensors.matrix(new Scalar[][] { //
-        { RealScalar.ZERO, a2.negate(), a1 }, //
-        { a2, RealScalar.ZERO, a0.negate() }, //
-        { a1.negate(), a0, RealScalar.ZERO } });
+        { a0.zero(), a2.negate(), a1 }, //
+        { a2, a1.zero(), a0.negate() }, //
+        { a1.negate(), a0, a2.zero() } });
   }
 }
