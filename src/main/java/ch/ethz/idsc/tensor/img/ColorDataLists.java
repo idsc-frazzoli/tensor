@@ -5,7 +5,9 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.io.ResourceData;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ColorData.html">ColorData</a>
+ * 
+ * @see ColorDataGradients */
 public enum ColorDataLists {
   /** 16 colors */
   _001,
@@ -23,8 +25,8 @@ public enum ColorDataLists {
   _094,
   /** 16 colors */
   _096,
-  /** mathematica default */
-  _097, //
+  /** Mathematica default */
+  _097,
   /** 16 colors */
   _098,
   /** 16 colors */
@@ -44,7 +46,7 @@ public enum ColorDataLists {
   /** 16 colors */
   _110,
   /** 16 colors */
-  _112, //
+  _112,
   /** hue palette with 13 colors normalized according to brightness
    * tensor library default */
   _250, // luma

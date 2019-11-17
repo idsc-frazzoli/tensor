@@ -12,11 +12,15 @@ import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Factorial;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/TensorWedge.html">TensorWedge</a> */
+ * <a href="https://reference.wolfram.com/language/ref/TensorWedge.html">TensorWedge</a>
+ * 
+ * @see Permutations
+ * @see Transpose
+ * @see Signature */
 public enum TensorWedge {
   ;
-  /** @param a
-   * @param b
+  /** @param a of any rank with dimensions [n, n, ..., n]
+   * @param b of any rank with dimensions [n, n, ..., n]
    * @return alternating tensor product of a and b */
   public static Tensor of(Tensor a, Tensor b) {
     return of(TensorProduct.of(a, b));

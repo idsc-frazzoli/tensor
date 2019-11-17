@@ -70,4 +70,14 @@ public class TensorWedgeTest extends TestCase {
       // ---
     }
   }
+
+  public void testFailLength() {
+    TensorWedge.of(Array.zeros(3), Array.zeros(3));
+    try {
+      TensorWedge.of(Array.zeros(3), Array.zeros(4));
+      fail();
+    } catch (Exception exception) {
+      // ---
+    }
+  }
 }

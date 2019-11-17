@@ -20,7 +20,9 @@ import ch.ethz.idsc.tensor.Tensor;
  * </pre>
  * 
  * <p>inspired by
- * <a href="https://reference.wolfram.com/language/ref/Range.html">Range</a> */
+ * <a href="https://reference.wolfram.com/language/ref/Range.html">Range</a>
+ * 
+ * @see Subdivide */
 public enum Range {
   ;
   /** <pre>

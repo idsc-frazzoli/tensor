@@ -28,7 +28,7 @@ public enum PowerIteration {
 
   /** @param matrix square
    * @param vector seed
-   * @return Eigenvector to the largest eigenvalue if x is not already Eigenvector */
+   * @return Eigenvector to the largest eigenvalue normalized to unit length */
   public static Optional<Tensor> of(Tensor matrix, Tensor vector) {
     int max = matrix.length() * FACTOR;
     for (int iteration = 0; iteration < max; ++iteration) {

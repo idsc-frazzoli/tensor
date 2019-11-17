@@ -130,26 +130,15 @@ import ch.ethz.idsc.tensor.sca.SqrtInterface;
   /***************************************************/
   @Override // from AbstractScalar
   protected Scalar plus(Scalar scalar) {
-    boolean azero = Scalars.isZero(value);
-    boolean bzero = Scalars.isZero(scalar);
-    if (azero && !bzero)
-      return scalar; // 0[m] + X(X!=0) gives X(X!=0)
-    if (!azero && bzero)
-      return this; // X(X!=0) + 0[m] gives X(X!=0)
-    /** at this point the implication holds: azero == bzero */
     if (scalar instanceof Quantity) {
       Quantity quantity = (Quantity) scalar;
       if (unit.equals(quantity.unit()))
-        return ofUnit(value.add(quantity.value())); // 0[m] + 0[m] gives 0[m]
-      else if (azero)
-        // explicit addition of zeros to ensure symmetry
-        // for instance when numeric precision is different
-        return value.add(quantity.value()); // 0[m] + 0[s] gives 0
-    } else // <- scalar is not an instance of Quantity
-    if (azero)
-      // return of value.add(scalar) is not required for symmetry
-      // precision of this.value prevails over given scalar
-      return this; // 0[kg] + 0 gives 0[kg]
+        return ofUnit(value.add(quantity.value()));
+    }
+    if (Scalars.isZero(value))
+      return scalar.add(value);
+    if (Scalars.isZero(scalar))
+      return ofUnit(scalar.add(value));
     throw TensorRuntimeException.of(this, scalar);
   }
 

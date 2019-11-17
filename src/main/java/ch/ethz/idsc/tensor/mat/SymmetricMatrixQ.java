@@ -5,7 +5,7 @@ import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.alg.Transpose;
 import ch.ethz.idsc.tensor.sca.Chop;
 
-/** consistent with mathematica:
+/** consistent with Mathematica:
  * SymmetricMatrixQ[ {} ] == false
  * 
  * <p>inspired by

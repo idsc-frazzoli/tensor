@@ -68,13 +68,13 @@ public enum Tensors {
   /** @param values
    * @return tensor of {@link RationalScalar} with given values */
   public static Tensor vectorInt(int... values) {
-    return Tensor.of(IntStream.of(values).mapToObj(IntegerScalar::of));
+    return Tensor.of(IntStream.of(values).mapToObj(RealScalar::of));
   }
 
   /** @param values
    * @return tensor of {@link RationalScalar} with given values */
   public static Tensor vectorLong(long... values) {
-    return Tensor.of(LongStream.of(values).mapToObj(IntegerScalar::of));
+    return Tensor.of(LongStream.of(values).mapToObj(RealScalar::of));
   }
 
   /** @param values

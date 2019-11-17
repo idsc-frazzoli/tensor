@@ -66,7 +66,7 @@ public class RealScalarTest extends TestCase {
     assertEquals(RealScalar.ZERO, RealScalar.of(0.));
     assertEquals(DoubleScalar.of(3.0), RealScalar.of(3.));
     assertEquals(DoubleScalar.of(3.0), RealScalar.of(3.f));
-    assertEquals(IntegerScalar.of(3), RealScalar.of(3));
+    assertEquals(RealScalar.of(3), RealScalar.of(3));
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3));
     assertEquals(RationalScalar.of(3, 1), RealScalar.of(3L));
     assertEquals(RationalScalar.of(1, 1), RealScalar.of(BigInteger.ONE));
@@ -90,6 +90,12 @@ public class RealScalarTest extends TestCase {
   public void testInvertInfinity() {
     assertEquals(DoubleScalar.POSITIVE_INFINITY.reciprocal(), RealScalar.ZERO);
     assertEquals(DoubleScalar.NEGATIVE_INFINITY.reciprocal(), RealScalar.ZERO);
+  }
+
+  public void testBigInteger() {
+    Scalar scalar = RealScalar.of(new BigInteger("123"));
+    assertTrue(scalar instanceof RationalScalar);
+    assertEquals(scalar, RealScalar.of(123));
   }
 
   public void testCreateFail() {

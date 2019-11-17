@@ -22,7 +22,8 @@ public class GammaDistribution implements Distribution, MeanInterface, PDF, Vari
    * @param beta positive
    * @return */
   public static Distribution of(Scalar alpha, Scalar beta) {
-    if (Scalars.lessEquals(alpha, RealScalar.ZERO) || Scalars.lessEquals(beta, RealScalar.ZERO))
+    if (Scalars.lessEquals(alpha, RealScalar.ZERO) || //
+        Scalars.lessEquals(beta, RealScalar.ZERO))
       throw TensorRuntimeException.of(alpha, beta);
     if (alpha.equals(RealScalar.ONE))
       return ExponentialDistribution.of(beta.reciprocal());

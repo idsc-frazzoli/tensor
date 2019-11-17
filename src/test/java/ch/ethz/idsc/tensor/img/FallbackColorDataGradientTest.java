@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.img;
 
+import java.lang.reflect.Modifier;
+
 import ch.ethz.idsc.tensor.DoubleScalar;
 import ch.ethz.idsc.tensor.alg.Array;
 import junit.framework.TestCase;
@@ -30,5 +32,10 @@ public class FallbackColorDataGradientTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testPackageVisibility() {
+    assertTrue(Modifier.isPublic(LinearColorDataGradient.class.getModifiers()));
+    assertFalse(Modifier.isPublic(FallbackColorDataGradient.class.getModifiers()));
   }
 }

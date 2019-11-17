@@ -42,7 +42,7 @@ public class SingularValueDecompositionTest extends TestCase {
     assertEquals(UWVt, Array.zeros(Dimensions.of(UWVt)));
     Tensor UW_AV = Chop._12.of(U.dot(W).subtract(A.dot(V)));
     assertEquals(UW_AV, Array.zeros(Dimensions.of(UW_AV)));
-    assertFalse(w.stream().map(Scalar.class::cast).anyMatch(Sign::isNegative));
+    assertTrue(w.stream().map(Scalar.class::cast).noneMatch(Sign::isNegative));
     if (MatrixRank.of(svd) < N) {
       Tensor nul = NullSpace.of(svd);
       Tensor res = A.dot(Transpose.of(nul));
@@ -110,9 +110,9 @@ public class SingularValueDecompositionTest extends TestCase {
   }
 
   public void testSvdR1() {
-    Tensor matrix = Tensors.matrix((r, c) -> RationalScalar.of(random.nextInt(100) - 50, random.nextInt(100) + 1), 15, 15);
+    Tensor matrix = Tensors.matrix((r, c) -> RationalScalar.of(random.nextInt(1000) - 500, random.nextInt(1000) + 1), 15, 15);
     SingularValueDecomposition svd = specialOps(matrix);
-    Chop._07.requireClose(PseudoInverse.of(svd), Inverse.of(matrix));
+    Chop._05.requireClose(PseudoInverse.of(svd), Inverse.of(matrix));
   }
 
   public void testSvdR2() {

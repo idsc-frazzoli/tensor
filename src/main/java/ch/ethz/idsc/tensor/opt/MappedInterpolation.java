@@ -8,17 +8,12 @@ import java.util.stream.Collectors;
 import ch.ethz.idsc.tensor.Scalar;
 import ch.ethz.idsc.tensor.Scalars;
 import ch.ethz.idsc.tensor.Tensor;
-import ch.ethz.idsc.tensor.sca.Ceiling;
-import ch.ethz.idsc.tensor.sca.Floor;
-import ch.ethz.idsc.tensor.sca.Round;
+import ch.ethz.idsc.tensor.img.ImageResize;
 import ch.ethz.idsc.tensor.sca.ScalarUnaryOperator;
 
 /** interpolation maps a given tensor to an integer index via a user specified function.
  * 
- * common usage examples are:
- * {@link Round#of(Tensor)}
- * {@link Floor#of(Tensor)}
- * {@link Ceiling#of(Tensor)} */
+ * @see ImageResize */
 public class MappedInterpolation extends AbstractInterpolation implements Serializable {
   /** @param tensor non-null
    * @param function non-null

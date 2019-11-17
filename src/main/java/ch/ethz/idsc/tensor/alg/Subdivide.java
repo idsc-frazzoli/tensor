@@ -46,7 +46,7 @@ public enum Subdivide {
    * 
    * @param startInclusive
    * @param endInclusive
-   * @param n > 0
+   * @param n strictly positive
    * @return tensor with n+1 entries obtained by subdividing the range
    * startInclusive to endInclusive into n equal parts.
    * @throws Exception if n is negative or zero */
@@ -62,7 +62,7 @@ public enum Subdivide {
    * 
    * @param startInclusive
    * @param endInclusive
-   * @param n > 0
+   * @param n strictly positive
    * @return tensor with n+1 entries obtained by subdividing the range */
   public static Tensor of(Number startInclusive, Number endInclusive, int n) {
     return of(RealScalar.of(startInclusive), RealScalar.of(endInclusive), n);
@@ -75,7 +75,7 @@ public enum Subdivide {
    * </pre>
    * 
    * @param clip
-   * @param n
+   * @param n strictly positive
    * @return Subdivide.increasing(clip.min(), clip.max(), n) */
   public static Tensor increasing(Clip clip, int n) {
     return of(clip.min(), clip.max(), n);
@@ -88,7 +88,7 @@ public enum Subdivide {
    * </pre>
    * 
    * @param clip
-   * @param n
+   * @param n strictly positive
    * @return Subdivide.of(clip.max(), clip.min(), n) */
   public static Tensor decreasing(Clip clip, int n) {
     return of(clip.max(), clip.min(), n);

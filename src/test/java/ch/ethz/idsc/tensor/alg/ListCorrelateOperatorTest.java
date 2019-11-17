@@ -1,6 +1,8 @@
 // code by jph
 package ch.ethz.idsc.tensor.alg;
 
+import java.lang.reflect.Modifier;
+
 import ch.ethz.idsc.tensor.RealScalar;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
@@ -81,5 +83,10 @@ public class ListCorrelateOperatorTest extends TestCase {
     } catch (Exception exception) {
       // ---
     }
+  }
+
+  public void testPackageVisibility() {
+    assertTrue(Modifier.isPublic(ListCorrelate.class.getModifiers()));
+    assertFalse(Modifier.isPublic(ListCorrelateOperator.class.getModifiers()));
   }
 }

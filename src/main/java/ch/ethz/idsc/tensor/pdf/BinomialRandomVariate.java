@@ -29,7 +29,10 @@ import ch.ethz.idsc.tensor.Scalar;
   @Override // from RandomVariateInterface
   public Scalar randomVariate(Random random) {
     double p_success = p.number().doubleValue();
-    return RealScalar.of(DoubleStream.generate(random::nextDouble).limit(n).filter(value -> value < p_success).count());
+    return RealScalar.of(DoubleStream.generate(random::nextDouble) //
+        .limit(n) //
+        .filter(value -> value < p_success) //
+        .count());
   }
 
   @Override // from MeanInterface

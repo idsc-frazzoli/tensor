@@ -7,9 +7,12 @@ import ch.ethz.idsc.tensor.Integers;
 import ch.ethz.idsc.tensor.Tensor;
 import ch.ethz.idsc.tensor.Tensors;
 import ch.ethz.idsc.tensor.Unprotect;
+import ch.ethz.idsc.tensor.opt.MappedInterpolation;
 
 /** inspired by
- * <a href="https://reference.wolfram.com/language/ref/ImageResize.html">ImageResize</a> */
+ * <a href="https://reference.wolfram.com/language/ref/ImageResize.html">ImageResize</a>
+ * 
+ * @see MappedInterpolation */
 public enum ImageResize {
   ;
   /** function uses nearest neighbor interpolation

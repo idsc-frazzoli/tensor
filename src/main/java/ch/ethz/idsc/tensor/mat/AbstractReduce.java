@@ -7,13 +7,12 @@ import ch.ethz.idsc.tensor.Tensor;
 
 /** base class of {@link Determinant}, {@link GaussianElimination} and {@link RowReduce} */
 /* package */ class AbstractReduce {
-  /** access the unpermuted lhs via function lhs() */
   final Tensor[] lhs;
   final Pivot pivot;
   final int[] ind;
   private int transpositions = 0;
 
-  AbstractReduce(Tensor matrix, Pivot pivot) {
+  public AbstractReduce(Tensor matrix, Pivot pivot) {
     lhs = matrix.stream().map(Tensor::copy).toArray(Tensor[]::new);
     this.pivot = pivot;
     ind = IntStream.range(0, lhs.length).toArray();
