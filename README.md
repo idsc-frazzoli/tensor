@@ -1,6 +1,6 @@
 # ch.ethz.idsc.tensor <a href="https://travis-ci.org/idsc-frazzoli/tensor"><img src="https://travis-ci.org/idsc-frazzoli/tensor.svg?branch=master" alt="Build Status"></a>
 
-Library for tensor computations in Java, version `0.8.1`
+Library for tensor computations in Java, version `0.8.2`
 
 The tensor library was developed with the following objectives in mind
 * support for exact precision using integer fractions
@@ -304,7 +304,7 @@ Specify `repository` and `dependency` of the tensor library in the `pom.xml` fil
   <dependency>
     <groupId>ch.ethz.idsc</groupId>
     <artifactId>tensor</artifactId>
-    <version>0.8.1</version>
+    <version>0.8.2</version>
   </dependency>
 </dependencies>
 ```
